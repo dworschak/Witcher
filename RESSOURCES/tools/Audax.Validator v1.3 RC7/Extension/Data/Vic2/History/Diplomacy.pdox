@@ -1,0 +1,24 @@
+(Validator Diplomacy) = {
+	Type = Default
+	FriendlyName = "Diplomacy"
+	(FileGroup "history\diplomacy" "*.txt" True)
+	ValidatorName = DipFile
+}
+
+# TODO: No date conflicts
+# TODO: avoid duplications (even over multiple files)
+# TODO: Vassals can't have vassals
+
+(Type DipFile) = {
+	(Ch N Y) = { Left = "vassal" Right = DipClause }
+	(Ch N Y) = { Left = "union" Right = DipClause }
+	(Ch N Y) = { Left = "alliance" Right = DipClause }
+	(Ch N Y If = Vic2Ahd) = { Left = "substate" Right = DipClause }
+}
+
+(Type DipClause) = {
+	Single = { Left = "first" Right = Tag }
+	Single = { Left = "second" Right = Tag }
+	Single = { Left = "start_date" Right = Date }
+	Single = { Left = "end_date" Right = Date }
+}

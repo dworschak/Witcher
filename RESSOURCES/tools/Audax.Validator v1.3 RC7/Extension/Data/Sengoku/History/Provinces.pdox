@@ -1,0 +1,24 @@
+(AddFlag NoMissingProvinceCheck)
+
+Includes = {
+	"..\..\_Common\ProvinceHistory"
+}
+
+(Type.Or ProvinceHistoryTag) = { Type.Enum = LandProvince Type.Enum = SeaProvince }
+
+(Type ProvinceHistory) = {
+	Inherits = Common
+	Inherits = ProvinceHistoryBase
+	
+	Single = { Left = "title" Right = CountTitle }
+}
+
+(Type Common) = {
+	(Ch N Y) = { Left = "building" Right = Improvement }
+}
+
+(Type DateClause) = {
+	Inherits = Common
+	
+	Optional = { Left = "effect" Right = ProvCommand }
+}

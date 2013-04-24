@@ -1,0 +1,39 @@
+﻿(AddFlag NoMissingProvinceCheck)
+
+Includes = {
+	"..\..\_Common\ProvinceHistory"
+}
+
+(Type.Or ProvinceHistoryTag) = { Type.Enum = Province }
+(Type ProvinceHistory) = {
+	(SkipIfEmpty) # For impassable provinces, for example
+
+	Inherits = ProvinceHistoryBase
+	Inherits = ProvinceBase
+	
+	Optional = { Left = "owner" Right = Tag }
+	Optional = { Left = "controller" Right = Tag }
+	Optional = { Left = "culture" Right = Culture }
+	AllOrNone = { owner controller culture } # sea provinces
+	
+	(Ch N Y) = { Left = "add_core" Right = Tag }
+	Single = { Left = "victory_value" Right = NnInt }
+	Single = { Left = "port_income" Right = NnInt }
+	Optional = { Left = "base_tax" Right = Double }
+	Optional = { Left = "manpower" Right = Double }
+	Optional = { Left = "city" Right = Bool }
+	Optional = { Left = "capital" Right = Tag UniqueId = Right }
+	
+}
+
+(Type DateClause) = {
+	Inherits = ProvinceBase
+	Optional = { Left = "revolt_risk" Right = NnDouble }
+	
+}
+
+(Type ProvinceBase) = {
+	(Ch Y N) = { Left = { Type = Building } Right = Bool }
+
+
+}

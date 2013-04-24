@@ -1,0 +1,235 @@
+# FromStatus[None | Country | Province]
+# Call[FromStatus; Location pointer; int id]
+
+Includes = {
+	Scopes
+	Core
+	
+	Government
+	Status
+	Traits
+	Image
+	Economy
+	Occupation
+	Expansion
+	War
+	Relations
+	Diplomacy
+	Ownership
+	Unrest
+	Religion
+	Cultures
+}
+
+ContextValidatorInfo = {
+	IdSearch = {
+		(FileGroup "events" "*.txt") = {
+			Province = "province_event\id"
+			Country = "country_event\id"
+			Char = "character_event\id"
+		}
+		
+		EventTypes = { Country Province Char }
+	}
+	
+	CallSearch = {
+		(FileGroup "events" "*.txt") = {
+			Province = "province_event\option"
+			Country = "country_event\option"
+			Char = "character_event\option"
+		}
+		
+		(FileGroup "decisions" "*.txt" True If = Vv) = {
+			None = "country_decisions\effect"
+			None = "laws\effect"
+		}
+		
+		(FileGroup "missions" "*.txt" True If = Vv) = {
+			None = "*\effect"
+			None = "*\fail_effect"
+		}
+		
+		(FileGroup "common\technologies" "*_inventions.txt") = {
+			None = "*\effect"
+		}
+		
+		(FileGroup "common\on_actions.txt" If = Rv) = {
+			None = "*"
+			
+			SearchMethod = 1
+		}
+		
+		(FileGroup "common\on_actions.txt" If = Vv) = {
+			None = "*\events\*"
+			None = "*\random_events\*"
+			
+			SearchMethod = 1
+		}
+		
+		Search = {
+			province_event
+			country_event
+			character_event
+		}
+	}
+}
+
+(ContextValidator Country) = { }
+(ContextValidator Province) = { }
+(ContextValidator Char) = { }
+
+(ContextValidator Trigger) = {
+	Abstract = True
+	
+	Set = {
+		CountryTrigger = CountryTrigger
+		ProvinceTrigger = ProvinceTrigger
+		CharTrigger = CharTrigger
+		
+		Country = Country
+		Province = Province
+		Char = Char
+	}
+}
+
+Global = {
+(Type ProvinceTrigger) = {
+	ContextValidator = ProvinceTrigger
+}
+}
+
+(ContextValidator ProvinceTrigger) = {
+	#Inherits = Trigger
+	Inherits = CountryTrigger
+	
+	ThisTarget = ProvinceTrigger
+	Conditional = ProvinceTrigger
+}
+
+Global = {
+(Type CountryTrigger) = {
+	ContextValidator = CountryTrigger
+}
+}
+
+(ContextValidator CountryTrigger) = {
+	Inherits = Trigger
+	ThisTarget = CountryTrigger
+	Conditional = CountryTrigger
+}
+
+Global = {
+(Type CharTrigger) = {
+	ContextValidator = CharTrigger
+}
+}
+
+(ContextValidator CharTrigger) = {
+	#(Inherits IfNot = Debug) = Trigger
+	#(Inherits If = Debug) = CountryTrigger
+	Inherits = CountryTrigger
+	
+	ThisTarget = CharTrigger
+	Conditional = CharTrigger
+}
+
+(ContextValidator Command) = {
+	Abstract = True
+	
+	Set = {
+		CountryCommand = CountryCommand
+		ProvinceCommand = ProvinceCommand
+		CharCommand = CharCommand
+		CountryTrigger = CountryTrigger
+		ProvinceTrigger = ProvinceTrigger
+		CharTrigger = CharTrigger
+		
+		Country = Country
+		Province = Province
+		Char = Char
+	}
+}
+
+Global = {
+(Type ProvinceCommand) = {
+	ContextValidator = ProvinceCommand
+}
+}
+
+(ContextValidator ProvinceCommand) = {
+	#Inherits = Command
+	Inherits = CountryCommand
+	
+	ThisTarget = ProvinceCommand
+}
+
+Global = {
+(Type CountryCommand) = {
+	ContextValidator = CountryCommand
+}
+}
+
+(ContextValidator CountryCommand) = {
+	Inherits = Command
+	ThisTarget = CountryCommand
+}
+
+Global = {
+(Type CharCommand) = {
+	ContextValidator = CharCommand
+}
+}
+
+(ContextValidator CharCommand) = {
+	#Inherits = Command
+	Inherits = CountryCommand
+	ThisTarget = CharCommand
+}
+
+Global = {
+(Type.Enum Random) = { Values = { "RANDOM" "random" } }
+(Type.Enum Owner) = { Values = { "OWNER" "owner" } }
+#(Type.Enum All) = { Values = { "ALL" "all" } }
+#(Type.Enum Current) = { Values = { "CURRENT" "current" } }
+#(Type.Enum Emperor) = { Values = { "EMPEROR" "emperor" } }
+#(Type.Enum Xxx) = { Values = { "XXX" "xxx" } }
+#(Type.Enum Heretic) = { Values = { "HERETIC" "heretic" } }
+}
+
+
+		# ([Left Uniqueness] [Right Uniqueness])
+		# N = never has to be unique
+		# A = has to be unique only in an And clause
+		# 		Only valid in conditionals
+		#		Hence, can have duplicates in Or, Not clauses
+		# Y = always has to be unique
+		# Right can be left out only if left is Y - always must be unique
+		# Hence, it is implied that Right is also Y.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+Global = {
+(Type.Enum CbType) = { Import = { (FileGroup "common\cb_types.txt") SelectPath = "*\[L]" Remove = { "peace_order" } } }
+}
+
+(Validator CbTypeFile) = {
+	Type = Default
+	FriendlyName = "CB types"
+	(FileGroup "common\cb_types.txt")
+	ValidatorName = CbTypeFile
+}
+
+(Type CbTypeFile) = {
+	Single = { Left = "peace_order" Right = { (PdoList Y) = { Type = CbType } } }
+	(Ch Y N) = { Left = { Type = String } Right = CbTypeDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type CbTypeDef) = {
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	Optional = { Left = "is_civil_war" Right = Bool }
+	Optional = { Left = "mutual" Right = Bool }
+	Optional = { Left = "always" Right = Bool }
+	Optional = { Left = "handles_peace" Right = Bool }
+	Single = { Left = "sprite_index" Right = NonNegInt }
+	Optional = { Left = "war_name" Right = String }
+	
+	Single = { Left = "is_valid" Right = CountryTrigger }
+	Optional = { Left = "on_add" Right = CbCountryCommand }
+	Optional = { Left = "on_completion" Right = CbCountryCommand }
+	
+	Optional = { Left = "po_demand_region" Right = Bool }
+	Optional = { Left = "po_annex" Right = Bool }
+	Optional = { Left = "po_puppet" Right = Bool }
+	Optional = { Left = "po_install_government" Right = Bool }
+	Optional = { Left = "po_change_government" Right = Bool }
+	Optional = { Left = "po_demand_provinces" Right = Bool }
+	
+	(If If = Hoi3Ftm) = {
+		Optional = { Left = "allowed_province" Right = CbAllowedProvinceDef }
+		Optional = { Left = "threat" Right = NonNegInt }
+		Optional = { Left = "allowed_regions" Right = CbAllowedProvinceDef }
+	}
+}
+
+# You can only have either a region list or a trigger
+# but the Validation engine currently doesn't do that happily
+# so we have this
+(Type CbAllowedProvinceDef) = {
+	(PdoList Y) = { Type = Region }
+	ContextValidator = CbAllowedProvinceDef
+}
+(ContextValidator CbAllowedProvinceDef) = {
+	Inherits = ProvinceTrigger
+	ThisTarget = Country
+	FromTarget = Country
+}
+
+(Type CbCountryCommand) = {
+	ContextValidator = CbCountryCommand
+}
+(ContextValidator CbCountryCommand) = {
+	Inherits = CountryCommand
+	ThisTarget = Country
+	FromTarget = Country
+}
+
+
+
+
+

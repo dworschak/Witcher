@@ -1,0 +1,66 @@
+(ContextValidator ProvTrigger) = { Scopes = {
+	TitleTrigger = "duchy"
+	TitleTrigger = "county"
+	TitleTrigger = "kingdom"
+	TitleTrigger = "empire"
+
+} }
+
+(ContextValidator TitleTrigger) = { Scopes = {
+	TitleTrigger = "duchy"
+	TitleTrigger = "county"
+	TitleTrigger = "kingdom"
+	TitleTrigger = "empire"
+
+} }
+
+(ContextValidator ProvCommand) = { Scopes = {
+	TitleCommand = "county"
+	TitleCommand = "duchy"
+	TitleCommand = "kingdom"
+	TitleCommand = "empire"
+
+} }
+
+(ContextValidator TitleCommand) = { Scopes = {
+	TitleCommand = "county"
+	TitleCommand = "duchy"
+	TitleCommand = "kingdom"
+	TitleCommand = "empire"
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "higher_tier_than" Right = { Tier ThisTitle ThisChar } }
+	(N Y) = { Left = "lower_tier_than" Right = { Tier ThisTitle ThisChar } }
+	(A Y) = { Left = "tier" Right = { ThisChar ThisTitle Tier } }
+
+} }
+
+(ContextValidator TitleTrigger) = { Members = {
+	(A Y) = { Left = "tier" Right = { ThisTitle ThisChar Tier } }
+	(Y  ) = { Left = "higher_tier_than" Right = { Tier ThisTitle ThisChar } }
+	(Y  ) = { Left = "lower_tier_than" Right = { Tier ThisTitle ThisChar } }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

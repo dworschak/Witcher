@@ -1,0 +1,31 @@
+﻿(Validator DiplomacyFile) = {
+	Type = Default
+	FriendlyName = "Diplomacy"
+	(FileGroup "history\diplomacy" "*.txt")
+	ValidatorName = DiplomacyFile
+}
+	
+(Type DiplomacyFile) = {
+	Child = { Left = "alliance" Right = Relation }
+	Child = { Left = "vassal" Right = Relation }
+	Child = { Left = "union" Right = Relation }
+	Child = { Left = "royal_marriage" Right = Relation }
+	(Child If = Eu3Ht) = { Left = "guarantee" Right = Relation }
+	(Child If = Eu3Ht) = { Left = "sphere" Right = Relation }
+	(Child If = Eu3Ht) = { Left = "trade_agreement" Right = Relation }
+	(Child If = Eu3Ht) = { Left = "union" Right = Relation }
+	
+	(Ch N Y) = { Left = "nomad_tribute" Right = NomadTribute }
+}
+		
+(Type Relation) = {
+	Single = { Left = "first" Right = Tag }
+	Single = { Left = "second" Right = Tag }
+	Single = { Left = "start_date" Right = Date }
+	Single = { Left = "end_date" Right = Date }
+}
+
+(Type NomadTribute) = {
+	Inherits = Relation
+	Single = { Left = "amount" Right = NnDblP }
+}

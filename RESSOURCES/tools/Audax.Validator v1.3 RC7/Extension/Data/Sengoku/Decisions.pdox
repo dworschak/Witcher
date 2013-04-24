@@ -1,0 +1,45 @@
+(Validator Decisions) = {
+	Type = Default
+	(FileGroup "decisions" "*.txt")
+	FriendlyName = "Decisions"
+	ValidatorName = DecisionFile
+}
+
+(Type DecisionFile) = {
+	(Local ID Uid) = Left
+
+	Optional = { Left = "decisions" Right = DecisionGroup }
+	Optional = { Left = "plot" Right = DecisionGroup }
+	Optional = { Left = "succession_laws" Right = Untyped }
+	Optional = { Left = "religion" Right = Empty }
+
+}
+
+(Type DecisionGroup) = {
+	Child = { Left = { Type = String } Right = DecisionDef (LocalOp Validate ID) (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type DecisionDef) = {
+	Optional = { Left = "potential" Right = CharTrigger }
+	Optional = { Left = "allow" Right = CharTrigger }
+	Optional = { Left = "effect" Right = CharCommand }
+	Optional = { Left = "revoke_allowed" Right = CharTrigger }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+	Optional = { Left = "ai_will_revoke" Right = AiWillDo }
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = AiWillDoModifier }
+}
+
+(Type AiWillDoModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	Inherits = CharTrigger
+	
+}
+
+
+
+

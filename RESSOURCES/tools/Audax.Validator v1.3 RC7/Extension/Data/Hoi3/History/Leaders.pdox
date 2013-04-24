@@ -1,0 +1,35 @@
+﻿(Validator "Leaders") = {
+	Type = Default
+	FriendlyName = "Leaders"
+	(FileGroup "history\leaders" "*.txt")
+	ValidatorName = LeaderFile
+}
+
+Global = {
+(Type.Enum LeaderId) = { Import = { (FileGroup "history\leaders" "*.txt") SelectPath = "*\[L]" } }
+
+}
+
+(Type LeaderFile) = {
+	Child = { Left = { Type = PInt } Right = Leader UniqueId = Left }
+}
+
+(Type Leader) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "country" Right = Tag }
+	Single = { Left = "type" Right = { Literal = "land" Literal = "sea" Literal = "air" } }
+	Single = { Left = "skill" Right = NonNegativeInt }
+	Single = { Left = "max_skill" Right = NonNegativeInt }
+	Single = { Left = "loyalty" Right = Double }
+	Optional = { Left = "picture" Right = String }
+	Single = { Left = "history" Right = LeaderHistory }
+	Child = { Left = "add_trait" Right = Trait }
+}
+
+(Type LeaderHistory) = {
+	Child = { Left = { Type = Date } 
+		Right = {
+			Single = { Left = "rank" Right = NonNegativeInt }
+		}
+	}
+}

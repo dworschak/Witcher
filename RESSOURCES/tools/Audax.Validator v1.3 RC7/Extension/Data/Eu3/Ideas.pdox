@@ -1,0 +1,53 @@
+(Validator IdeasValidator) = {
+	Type = Default
+	FriendlyName = "Ideas"
+	ValidatorName = IdeaFile
+	(FileGroup "common\ideas.txt")
+}
+
+(Type IdeaFile) = {
+	Single = { Left = "naval_ideas" Right = IdeaGroup }
+	Single = { Left = "land_ideas" Right = IdeaGroup }
+	Single = { Left = "exploration_ideas" Right = IdeaGroup }
+	Single = { Left = "state_business_ideas" Right = IdeaGroup }
+	Single = { Left = "culture_ideas" Right = IdeaGroup }
+}
+
+(Type IdeaGroup) = {
+	Child = { Left = { Type = String } Right = IdeaDef UniqueId = Left }
+}
+
+(Type IdeaDef) = {
+	Inherits = ModifierCommand
+	
+	Optional = { Left = "trigger" Right = CountryTrigger }
+	
+	Optional = { Left = "sea_repair" Right = Bool }
+	Optional = { Left = "may_explore" Right = Bool }
+	Optional = { Left = "cb_on_government_enemies" Right = Bool }
+	Optional = { Left = "cb_on_religious_enemies" Right = Bool }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

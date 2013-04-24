@@ -1,0 +1,211 @@
+(Validator HistoryTitles) = {
+	Type = GroupValidator
+	FriendlyName = "Titles"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\job_titles.txt")
+		ValidatorName = JobTitles
+	}
+	Validator = {
+		Type = Default
+		(FileGroup "common\minor_titles" "*.txt")
+		ValidatorName = MinorTitles
+	}
+	Validator = {
+		Type = Default
+		(FileGroup "common\landed_titles" "*.txt")
+		ValidatorName = LandedTitles
+	}
+}
+
+Global = {
+	(Type.Enum MinorTitle) = { Import = { (FileGroup "common\minor_titles" "*.txt") SelectPath = "*\[L]" } }
+}
+
+(Type JobTitles) = {
+	(Ch Y N) = { Left = { Type = String } Right = JobTitleDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type JobTitleDef) = {
+	Inherits = NonLandTitleBase
+	
+	Optional = { Left = "is_chancellor" Right = Bool }
+	Optional = { Left = "is_marshal" Right = Bool }
+	Optional = { Left = "is_treasurer" Right = Bool }
+	Optional = { Left = "is_spymaster" Right = Bool }
+	Optional = { Left = "is_spiritual" Right = Bool }
+	Optional = { Left = "dismiss_trigger" Right = TitleCharTrigger }
+
+	Single = { Left = "attribute" Right = Attribute }
+	(Ch N Y) = { Left = "action" Right = JobAction }
+	
+	Optional = { Left = "lift_fow" Right = Bool }
+	Optional = { Left = "lift_neighbor_fow" Right = Bool }
+}
+
+(Type NonLandTitleBase) = {
+	Optional = { Left = "dignity" Right = Double }
+	Optional = { Left = "opinion_effect" Right = Double }
+	Optional = { Left = "monthly_salary" Right = Double }
+	Optional = { Left = "monthly_prestige" Right = Double }
+	Optional = { Left = "monthly_piety" Right = Double }
+	
+	Optional = { Left = "allow" Right = TitleCharTrigger }
+	Optional = { Left = "gain_effect" Right = NonLandTitleBaseCommand }
+	Optional = { Left = "lose_effect" Right = NonLandTitleBaseCommand }
+}
+
+(Type NonLandTitleBaseCommand) = { ContextValidator = NonLandTitleBaseCommand }
+(ContextValidator NonLandTitleBaseCommand) = {
+	Inherits = CharCommand
+	FromTarget = Char
+}
+
+(Type LandedTitles) = {
+	(Ch Y N) = { Left = { Type = EmpireTitle } Right = EmpireTitleDef }
+	(Ch Y N) = { Left = { Type = KingTitle } Right = KingTitleDef }
+	(Ch Y N) = { Left = { Type = DukeTitle } Right = DukeTitleDef }
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+	(Ch Y N) = { Left = { Type = BaronTitle } Right = BaronTitleDef }
+}
+
+(Type MinorTitles) = {
+	(Ch Y N) = { Left = { Type = String } Right = MinorTitleDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type MinorTitleDef) = {
+	Inherits = NonLandTitleBase
+	
+	Optional = { Left = "counts_as_purple_born" Right = Bool }
+	Optional = { Left = "realm_in_name" Right = Bool }
+	Optional = { Left = "spouse_context" Right = Bool }
+	Optional = { Left = "show_as_title" Right = Bool }
+	Optional = { Left = "patrician_heir" Right = Bool }
+	Optional = { Left = "message" Right = Bool }
+	Optional = { Left = "grant_limit" Right = NnDbl }
+	
+}
+
+(Type LandedTitleBase) = {
+	Inherits = TitleBase
+	
+	FileExists = {
+		Target = "[L]"
+		Path = "gfx\flags\*.tga"
+	}
+
+	(If IfNot = NoTitleAdjCheckKey) = {
+		(CheckKey "*_adj" Left IfNot = NoCheckKey)
+	}
+
+	Single = { Left = "color" Right = Color }
+	Optional = { Left = "color2" Right = Color }
+	Optional = { Left = "culture" Right = Culture }
+	Optional = { Left = "capital" Right = LandProvince }
+	Optional = { Left = "creation_requires_capital" Right = Bool }
+	Optional = { Left = "duchy_revokation" Right = Bool }
+	Optional = { Left = "tribe" Right = Bool }
+	Optional = { Left = "allow" Right = LandedCharTrigger }
+	Optional = { Left = "dignity" Right = Int }
+	Optional = { Left = "controls_religion" Right = Religion }
+	(Ch Y N) = { Left = { Type = Religion } Right = NnDbl }
+	(Ch Y N) = { Left = { Type = ReligionGroup } Right = NnDbl }
+}
+
+(Type LandedCharTrigger) = { ContextValidator = LandedCharTrigger }
+(ContextValidator LandedCharTrigger) = {
+	Inherits = CharTrigger
+	FromTarget = Char
+}
+
+(Type EmpireTitleDef) = {
+	Inherits = LandedTitleBase
+	
+	(Ch Y N) = { Left = { Type = KingTitle } Right = KingTitleDef }
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+
+	Optional = { Left = "caliphate" Right = Bool }
+	Optional = { Left = "pirate" Right = Bool }
+	Optional = { Left = "rebel" Right = Bool }
+}
+
+(Type TitleBase) = {
+	(Ck2TitleCheckKey IfNot = NoCheckKey)
+	Optional = { Left = "male_names" Right = { (PdoList Y) = { Type = String } } }
+	Optional = { Left = "female_names" Right = { (PdoList Y) = { Type = String } } }
+	Optional = { Left = "primary" Right = Bool }
+	Optional = { Left = "landless" Right = Bool }
+	Optional = { Left = "foa" Right = Key }
+	Optional = { Left = "title" Right = Key }
+	Optional = { Left = "title_female" Right = Key }
+	Optional = { Left = "location_ruler_title" Right = Bool }
+	Optional = { Left = "dynasty_title_names" Right = Bool }
+	Optional = { Left = "name_tier" Right = Tier }
+	Optional = { Left = "short_name" Right = Bool }
+	
+	Optional = { Left = "holy_order" Right = Bool }
+	Optional = { Left = "religion" Right = Religion }
+	Optional = { Left = "independent" Right = Bool }
+	Optional = { Left = "mercenary" Right = Bool }
+	Optional = { Left = "modifier" Right = NormalModifier }
+	Optional = { Left = "title_prefix" Right = Key }
+	Optional = { Left = "strength_growth_per_century" Right = Double }
+	Optional = { Left = "pentarchy" Right = Bool }
+	Optional = { Left = "has_top_de_jure_capital" Right = Bool }
+	Optional = { Left = "top_de_jure_capital" Right = Bool }
+	Optional = { Left = "purple_born_heirs" Right = Bool }
+	(Optional If = V110) = { Left = "assimilate" Right = Bool }
+	
+	Optional = { Left = "gain_effect" Right = TitledCharCommand }
+	(Ch Y N) = { Left = { Type = Culture } Right = String }
+	
+	(If If = V110) = {
+		Optional = { Left = "pagan_coa" Right = Untyped }
+		Optional = { Left = "used_for_dynasty_names" Right = Bool }
+	}
+}
+
+(Type TitledCharCommand) = { ContextValidator = TitledCharCommand }
+(ContextValidator TitledCharCommand) = {
+	Inherits = CharCommand
+	FromTarget = Char
+}
+
+(Type KingTitleDef) = {
+	Inherits = LandedTitleBase
+
+	(Ch Y N) = { Left = { Type = DukeTitle } Right = DukeTitleDef }
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+}
+
+(Type DukeTitleDef) = {
+	Inherits = LandedTitleBase
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+	Optional = { Left = "caliphate" Right = Bool } # Only on duchies now (?)
+
+}
+
+(Type CountTitleDef) = {
+	Inherits = LandedTitleBase
+	(Ch Y N) = { Left = { Type = BaronTitle } Right = BaronTitleDef }
+
+}
+
+(Type BaronTitleDef) = {
+	Inherits = TitleBase
+	
+	Optional = { Left = "culture" Right = Culture }
+	Optional = { Left = "religion" Right = Religion }
+	(Ch N Y If = V110) = { Left = "holy_site" Right = Religion }
+}
+
+(Type TitleCharTrigger) = { ContextValidator = TitleCharTrigger }
+(ContextValidator TitleCharTrigger) = {
+	Inherits = CharTrigger
+	FromTarget = Char
+}
+
+
+
+

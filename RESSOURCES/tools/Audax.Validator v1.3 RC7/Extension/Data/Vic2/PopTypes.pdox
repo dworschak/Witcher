@@ -1,0 +1,259 @@
+(Validator PopTypes) = {
+	Type = GroupValidator
+	FriendlyName = "Pop types"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\pop_types.txt")
+		ValidatorName = CommonPopTypeFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "poptypes" "*.txt")
+		ValidatorName = PopTypeFile
+	}
+}
+
+(Type CommonPopTypeFile) = {
+	Single = { Left = "promotion_chance" Right = ChanceClause }
+	Single = { Left = "demotion_chance" Right = ChanceClause }
+	Single = { Left = "migration_chance" Right = ChanceClause }
+	Single = { Left = "colonialmigration_chance" Right = ChanceClause }
+	Single = { Left = "emigration_chance" Right = ChanceClause }
+	Single = { Left = "assimilation_chance" Right = ChanceClause }
+	Single = { Left = "conversion_chance" Right = ChanceClause }
+}
+
+#region Chance clause
+
+(Type ChanceClause) = {
+	Single = { Left = "factor" Right = Double }
+	
+	(Ch N Y) = { Left = "modifier" Right = ChanceModifier }
+	
+	(Ch N Y) = { Left = "group" Right = ChanceGroup }
+}
+
+(Type ChanceGroup) = {
+	(Ch N Y) = { Left = "modifier" Right = ChanceModifier }
+}
+
+(Type ChanceModifier) = {
+	Inherits = FactorModifier
+	ContextValidator = ChanceModifier
+	
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator ChanceModifier) = {
+	Inherits = PopTrigger
+	ThisTarget = Country
+	
+	Set = {
+		PopTrigger = ChanceModifier
+	}
+}
+
+#endregion
+
+(Type PopTypeFile) = {
+	Single = { Left = "sprite" Right = PInt }
+	Single = { Left = "color" Right = Color }
+	Single = { Left = "strata" Right = Strata }
+	Optional = { Left = "state_capital_only" Right = Bool }
+	Optional = { Left = "unemployment" Right = Bool }
+	Optional = { Left = "is_artisan" Right = Bool }
+	Optional = { Left = "allowed_to_vote" Right = Bool }
+	Optional = { Left = "is_slave" Right = Bool }
+	Optional = { Left = "demote_migrant" Right = Bool }
+	Optional = { Left = "can_be_recruited" Right = Bool }
+	Optional = { Left = "leadership" Right = Double }
+	Optional = { Left = "research_optimum" Right = Double }
+	Optional = { Left = "tax_eff" Right = Double }
+	Optional = { Left = "research_points" Right = Double }
+	Optional = { Left = "starter_share" Right = Double }
+	Optional = { Left = "workplace_output" Right = Double }
+	Optional = { Left = "workplace_input" Right = Double }
+	Optional = { Left = "can_work_factory" Right = Bool }
+	Optional = { Left = "can_reduce_consciousness" Right = Bool }
+	Optional = { Left = "factory" Right = Bool }
+	Optional = { Left = "administrative_efficiency" Right = Bool }
+	Optional = { Left = "can_build" Right = Bool }
+	Optional = { Left = "equivalent" Right = PopType }
+	
+	Optional = { Left = "everyday_needs" Right = NeedsList }
+	Optional = { Left = "life_needs" Right = NeedsList }
+	Optional = { Left = "luxury_needs" Right = NeedsList }
+	
+	Optional = { Left = "everyday_needs_income" Right = NeedsIncome }
+	Optional = { Left = "life_needs_income" Right = NeedsIncome }
+	Optional = { Left = "luxury_needs_income" Right = NeedsIncome }
+	
+	Optional = { Left = "rebel" Right = RebelClause }
+	
+	Optional = { Left = "country_migration_target" Right = CMTClause }
+	Optional = { Left = "migration_target" Right = MTClause }
+	Optional = { Left = "promote_to" Right = PromotionClause }
+	Optional = { Left = "ideologies" Right = IdeologyClause }
+	Optional = { Left = "issues" Right = IssueClause }
+}
+
+#region CMTClause
+
+(Type CMTClause) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = CMTModifier }
+	(Ch N Y) = { Left = "group" Right = CMTGroup }
+}
+
+(Type CMTGroup) = {
+	(Ch N Y) = { Left = "modifier" Right = CMTModifier }
+}
+
+(Type CMTModifier) = {
+	Inherits = FactorModifier
+	ContextValidator = CMTModifier
+	
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator CMTModifier) = {
+	Inherits = CountryTrigger
+	ThisTarget = PopTrigger
+	
+	Set = {
+		CountryTrigger = CMTModifier
+	}
+}
+
+#endregion CMTClause
+
+#region MTClause
+
+(Type MTClause) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = MTModifier }
+	(Ch N Y) = { Left = "group" Right = MTGroup }
+}
+
+(Type MTGroup) = {
+	(Ch N Y) = { Left = "modifier" Right = MTModifier }
+}
+
+(Type MTModifier) = {
+	Inherits = FactorModifier
+	ContextValidator = MTModifier
+	
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator MTModifier) = {
+	Inherits = ProvinceTrigger
+	ThisTarget = PopTrigger
+	
+	Set = {
+		ProvinceTrigger = MTModifier
+	}
+}
+
+#endregion MTClause
+
+(Type NeedsList) = {
+	OptionList = { Left = { Type = Goods } Right = NnDbl }
+}
+
+(Type RebelClause) = {
+	OptionList = { Left = { Type = Unit } Right = NonNegDblPercent }
+}
+
+(Type PromotionClause) = {
+	OptionList = { Left = { Type = PopType } Right = PClause }
+}
+
+(Type IdeologyClause) = {
+	OptionList = { Left = { Type = Ideology } Right = IDClause }
+}
+
+#region PClause
+
+(Type PClause) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = PModifier }
+	(Ch N Y) = { Left = "group" Right = PGroup }
+}
+
+(Type PGroup) = {
+	(Ch N Y) = { Left = "modifier" Right = PModifier }
+}
+
+(Type PModifier) = {
+	#Inherits = FactorModifier
+	ContextValidator = PModifier
+	
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator PModifier) = {
+	Inherits = ProvinceTrigger
+	InheritsWeak = PopTrigger
+	ThisTarget = PopTrigger
+	Conditional = PModifier
+
+	Set = {
+		PModifier = PModifier
+	}
+}
+
+#endregion PClause
+
+#region IDClause
+
+(Type IDClause) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = IDModifier }
+	(Ch N Y) = { Left = "group" Right = IDGroup }
+}
+
+(Type IDGroup) = {
+	(Ch N Y) = { Left = "modifier" Right = IDModifier }
+}
+
+(Type IDModifier) = {
+	#Inherits = FactorModifier
+	ContextValidator = IDModifier
+	
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator IDModifier) = {
+	Inherits = CountryTrigger
+	InheritsWeak = ProvinceTrigger
+	InheritsWeak = PopTrigger
+	ThisTarget = PopTrigger
+	Conditional = IDModifier
+	
+	Set = {
+		IDModifier = IDModifier
+	}
+}
+
+#endregion IDClause
+
+(Type IssueClause) = {
+	OptionList = { Left = { Type = PartyIssueValue } Right = IDClause }
+	OptionList = { Left = { Type = SocialReformValue } Right = IDClause }
+	OptionList = { Left = { Type = PoliticalReformValue } Right = IDClause }
+}
+
+(Type NeedsIncome) = {
+	Single = { Left = "type" Right = { Literal = "military" Literal = "administration" Literal = "education" Literal = "reforms" } }
+	Single = { Left = "weight" Right = NnDbl }
+}
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+(Validator Music) = {
+	Type = Default
+	FriendlyName = "Music"
+	(FileGroup "music\songs.txt")
+	ValidatorName = SongFile
+}
+
+(Type SongFile) = {
+	(Ch N Y) = { Left = "song" Right = SongDef }
+}
+
+(Type SongDef) = {
+	Single = {
+		Left = "name"
+		Right = String
+		UniqueId = Right
+		FileExists = {
+			Target = "[R]"
+			Path = "music\*"
+		}
+	}
+	
+	Single = { Left = "chance" Right = SongChance }
+}
+
+(Type SongChance) = {
+	Optional = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = Modifier }
+}
+
+(Type Modifier) = {
+	#Inherits = FactorModifier
+	Optional = { Left = "factor" Right = NnDbl }
+	
+	Inherits = CharTrigger
+	
+}
+
+
+
+
+
+
+
+

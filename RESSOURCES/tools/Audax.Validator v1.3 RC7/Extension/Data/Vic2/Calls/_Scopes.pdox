@@ -1,0 +1,140 @@
+(ContextValidator Trigger) = { Scopes = {
+	CountryTrigger = { Type = ThisCountry }
+	ProvinceTrigger = { Type = ThisProvince }
+	ProvinceTrigger = { Type = Province }
+	CountryTrigger = { Type = Tag }
+	RegionTrigger = { Type = Region }
+} }
+
+(ContextValidator ProvinceTrigger) = { Scopes = {
+	ProvinceTrigger = any_neighbor_province
+	PopTrigger = any_pop
+	CountryTrigger = controller
+	CountryTrigger = owner
+	CountryTrigger = any_greater_power # TODO: Check if it is real
+	ProvinceTrigger = capital_scope
+	
+	RegionTrigger = state_scope
+	CountryTrigger = country # TODO: Real?
+	CountryTrigger = any_core
+} }
+
+(ContextValidator CountryTrigger) = { Scopes = {
+	CountryTrigger = any_neighbor_country
+	ProvinceTrigger = any_owned_province
+	ProvinceTrigger = capital_scope
+	PopTrigger = any_pop
+	(CountryTrigger If = Vic2Ahd) = any_substate
+	
+	ProvinceTrigger = all_core # TODO: Check if it is real
+	RegionTrigger = any_state
+	CountryTrigger = cultural_union # TODO: Check if it is real
+	CountryTrigger = any_greater_power # TODO: Check if it is real
+	CountryTrigger = sphere_owner # TODO: Real?
+	CountryTrigger = overlord # TODO: Real?
+	CountryTrigger = any_owned # TODO: Real?
+	ProvinceTrigger = any_core
+	CountryTrigger = war_countries
+} }
+
+(ContextValidator RegionTrigger) = { Scopes = {
+	ProvinceTrigger = any_owned_province
+	CountryTrigger = owner
+	CountryTrigger = country
+} }
+
+(ContextValidator PopTrigger) = { Scopes = {
+	ProvinceTrigger = location # TODO: Check if it is real
+	CountryTrigger = country # TODO: Real?
+	CountryTrigger = cultural_union
+	RegionTrigger = state_scope
+} }
+
+(ContextValidator Command) = { Scopes = {
+	CountryCommand = { Type = ThisCountry }
+	ProvinceCommand = { Type = ThisProvince }
+	ProvinceCommand = { Type = Province }
+	CountryCommand = { Type = Tag }
+	RegionCommand = { Type = Region }
+} }
+
+(ContextValidator ProvinceCommand) = { Scopes = {
+	ProvinceTrigger = limit
+	
+	ProvinceCommand = any_neighbor_province
+	ProvinceCommand = random_neighbor_province
+	ProvinceCommand = random_empty_neighbor_province
+	PopCommand = { Type = PopType }
+	PopCommand = any_pop
+	RegionCommand = state_scope
+	
+	ProvinceCommand = capital_scope
+	PopCommand = random_pop # TODO: Check if it is real
+	CountryCommand = owner # TODO: Check if it is real
+	CountryCommand = controller # TODO: Check if it is real
+	PopCommand = poor_strata # TODO: Check if it is real.
+	CountryCommand = any_greater_power # TODO: Check if it is real.
+	PopCommand = middle_strata # TODO: Check if it is real.
+	PopCommand = rich_strata # TODO: Check if it is real.
+	CountryCommand = random_country # TODO: Real?
+	CountryCommand = any_country # TODO: Real?
+} }
+
+(ContextValidator CountryCommand) = { Scopes = {
+	CountryTrigger = limit
+	
+	CountryCommand = any_country
+	ProvinceCommand = any_owned
+	CountryCommand = any_neighbor_country
+	ProvinceCommand = capital_scope
+	ProvinceCommand = random_owned
+	(CountryCommand If = Vic2Ahd) = any_substate
+	PopCommand = any_pop
+	PopCommand = { Type = PopType }
+	
+	RegionCommand = any_state # TODO: Check if it is real
+	PopCommand = random_pop # TODO: Check if it is real
+	CountryCommand = any_greater_power # TODO: Check if it is real.
+	RegionCommand = random_state # TODO: Check if it is real.
+	CountryCommand = random_country # TODO: Check if it is real.
+	CountryCommand = sphere_owner # TODO: Real?
+	CountryCommand = overlord # TODO: Real?
+	ProvinceCommand = random_province # TODO: Real?
+	ProvinceCommand = all_core # TODO: real?
+	
+	PopCommand = poor_strata # TODO: Check if it is real.
+	PopCommand = middle_strata # TODO: Check if it is real.
+	PopCommand = rich_strata # TODO: Check if it is real.
+} }
+
+(ContextValidator PopCommand) = { Scopes = {
+	PopTrigger = limit
+} }
+
+(ContextValidator RegionCommand) = { Scopes = {
+	RegionTrigger = limit
+	
+	ProvinceCommand = any_owned # TODO: Check if it is real.
+	ProvinceCommand = random_province # TODO: Check if it is real.
+	ProvinceCommand = random_owned # TODO: Real?
+	
+	CountryCommand = country
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,113 @@
+(ContextValidator Trigger) = { Scopes = {
+	ProvTrigger = { Type = Province }
+
+} }
+
+(ContextValidator ProvTrigger) = { Scopes = {
+	ProvTrigger = "any_neighbor_province"
+	CharTrigger = "any_province_lord"
+	CharTrigger = "any_province_character"
+	CharTrigger = "owner"
+
+} }
+
+(ContextValidator CharTrigger) = { Scopes = {
+	ProvTrigger = "capital_scope"
+	ProvTrigger = "location"
+
+} }
+
+(ContextValidator TitleTrigger) = { Scopes = {
+	ProvTrigger = "location"
+
+} }
+
+(ContextValidator TitleCommand) = { Scopes = {
+	ProvCommand = "location"
+
+} }
+
+(ContextValidator Command) = { Scopes = {
+	ProvCommand = { Type = Province }
+
+} }
+
+(ContextValidator ProvCommand) = { Scopes = {
+	CharCommand = "owner"
+	CharCommand = "random_province_lord"
+	ProvCommand = "any_neighbor_province"
+	ProvCommand = "random_neighbor_province"
+	CharCommand = "any_province_lord"
+	CharCommand = "random_province_character"
+	CharCommand = "any_province_character"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = "random_province_lord"
+	ProvCommand = "capital_scope"
+	ProvCommand = "location"
+
+} }
+
+(ContextValidator ProvTrigger) = { Members = {
+	(A Y) = { Left = "province_id" Right = { Province ThisProv } }
+	(Y  ) = { Left = "port" Right = Bool }
+	(Y  ) = { Left = "is_capital" Right = Bool }
+	(A Y) = { Left = "title" Right = AnyTitle }
+	(Y  ) = { Left = "num_of_settlements" Right = PInt }
+	(Y  ) = { Left = "revolt_risk" Right = NnDbl }
+	(A Y) = { Left = "controlled_by" Right = AnyTitle }
+	(Y  ) = { Left = "is_land" Right = Bool }
+	(A Y) = { Left = "terrain" Right = Terrain }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(A Y) = { Left = "province_id" Right = Province }
+	(Y  ) = { Left = "port" Right = Bool }
+	(N Y) = { Left = "at_location" Right = { ThisProv ThisChar Province } }
+	(N Y) = { Left = "owns" Right = ThisProv }
+	(N Y) = { Left = "completely_controls" Right = AnyTitle }
+
+} }
+
+(ContextValidator TitleTrigger) = { Members = {
+	(A Y) = { Left = "is_located_in" Right = { ThisChar ThisTitle } }
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(Y  ) = { Left = "clear_revolt" Right = Yes }
+
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(Y  ) = { Left = "rebel_defection" Right = Yes }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

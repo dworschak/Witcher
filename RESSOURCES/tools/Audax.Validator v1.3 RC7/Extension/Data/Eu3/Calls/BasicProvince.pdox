@@ -1,0 +1,66 @@
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "is_capital" Right = Bool }
+	(Y Y) = { Left = "port" Right = Bool }
+	(Y Y) = { Left = "cot" Right = Bool }
+	(A Y) = { Left = "religion" Right = { Religion ThisCountry } }
+	(Y Y) = { Left = "is_colony" Right = Bool }
+	(A Y) = { Left = "continent" Right = { Continent ThisProvince ThisCountry } }
+	(Y Y) = { Left = "citysize" Right = Int }
+	# It is allowed to have region = A region = B since provinces can have multiple regions
+	(N Y) = { Left = "region" Right = Region }
+	(A Y) = { Left = "province_id" Right = { LandProvince SeaProvince } }
+	(Y Y) = { Left = "capital" Right = Bool }
+	(Y Y) = { Left = "nationalism" Right = Double }				# To be checked if shouldn't be Bool
+	(Y  ) = { Left = "trade_range" Right = Bool }
+	(Y  ) = { Left = "defection" Right = NnInt }
+
+	(If If = "Eu3Ht") = {
+		(Y  ) = { Left = "has_national_focus" Right = Bool }
+		(Y  ) = { Left = "national_focus" Right = { ThisProvince ThisCountry } }
+	}
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(If If = Eu3Ht) = {
+		(A Y) = { Left = "continent" Right = { Continent ThisProvince ThisCountry } }
+		(Y  ) = { Left = "national_focus" Right = LandProvince }
+	}
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "change_province_name" Right = String }
+	(Y Y) = { Left = "nationalism" Right = Double }
+	(Y Y) = { Left = "secede_province" Right = { Tag ThisCountry ThisProvince Scope } }
+	
+	(If If = Eu3Ht) = {
+		# This refers to the capital city of the province, not the capital province of the country
+		(Y Y) = { Left = "rename_capital" Right = String }
+	}
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+
+	(If If = Eu3Ht) = {
+		(Y Y) = { Left = "national_focus" Right = { LandProvince ThisProvince } }
+	}
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

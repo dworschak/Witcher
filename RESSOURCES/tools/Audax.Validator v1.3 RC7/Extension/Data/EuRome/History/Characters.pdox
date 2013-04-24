@@ -1,0 +1,61 @@
+﻿(Validator CharacterFile) = {
+	Type = Default
+	FriendlyName = "Characters"
+	(FileGroup "history\characters" "*.txt")
+	ValidatorName = CharacterFile
+}
+
+(Type CharacterFile) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "military" Right = NonNegativeInt }
+	Single = { Left = "charisma" Right = NonNegativeInt }
+	Single = { Left = "finesse" Right = NonNegativeInt }
+	Single = { Left = "birth_province" Right = LandProvince }
+	(Ch N Y) = { Left = "add_trait" Right = Trait }
+	Single = { Left = "wealth_change" Right = Int }
+	Single = { Left = "loyalty_change" Right = Int }
+	Single = { Left = "popularity_change" Right = Int }
+	Single = { Left = "culture" Right = Culture }
+	Single = { Left = "religion" Right = Religion }
+	Single = { Left = "employer_country" Right = Tag }
+	Optional = { Left = "family_name" Right = String }
+	Optional = { Left = "father" Right = Relation }
+	Optional = { Left = "mother" Right = Relation }
+	(Ch N Y) = { Left = "sibling" Right = Relation }
+	Optional = { Left = "female" Right = Bool }
+	Optional = { Left = "dna" Right = String }
+	
+	(Ch N N) = { Left = { Type = Date } Right = DateClause }
+}
+
+(Type Relation) = {
+	Single = { Left = "id" Right = Int }
+	Single = { Left = "idtype" Right = { Literal = "44" } }
+}
+
+(Type DateClause) = {
+	Optional = { Left = "birth" Right = Date }
+	Optional = { Left = "death" Right = Date }
+	
+	Optional = { Left = "military" Right = NonNegativeInt }
+	Optional = { Left = "charisma" Right = NonNegativeInt }
+	Optional = { Left = "finesse" Right = NonNegativeInt }
+	Optional = { Left = "employer_country" Right = Tag }			
+	Optional = { Left = "wealth_change" Right = Int }
+	Optional = { Left = "loyalty_change" Right = Int }
+	Optional = { Left = "popularity_change" Right = Int }
+	Optional = { Left = "name" Right = String }
+	(Ch N Y) = { Left = "add_trait" Right = Trait }
+	(Ch N Y) = { Left = "remove_trait" Right = Trait }
+	
+	Optional = { Left = "add_spouse" Right = Relation }
+	Optional = { Left = "remove_spouse" Right = Relation }
+	(Ch N Y) = { Left = "add_friend" Right = Relation }
+	(Ch N Y) = { Left = "remove_friend" Right = Relation }
+	(Ch N Y) = { Left = "add_rival" Right = Relation }
+	(Ch N Y) = { Left = "remove_rival" Right = Relation }
+	
+	# See http://forum.paradoxplaza.com/forum/showthread.php?t=455554
+	(Ch N Y) = { Left = "give_title" Right = Title }
+	(Ch N Y) = { Left = "remove_title" Right = Title }
+}

@@ -1,0 +1,75 @@
+decisions = {
+	
+	convert_to_liege_religion = {
+		potential = {
+			is_playable = yes
+			liege = {
+				NOT = { character = ROOT }
+				NOT = { religion = ROOT }
+				religion_group = ROOT
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+		}
+		effect = {
+			piety = -500
+			liege = {
+				reverse_religion = ROOT
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	convert_to_liege_culture = {
+		potential = {
+			is_playable = yes
+			liege = {
+				NOT = { character = ROOT }
+				NOT = { culture = ROOT }
+			}
+		}
+		allow = {
+			prestige = 50
+		}
+		effect = {
+			prestige = -50
+			liege = {
+				reverse_culture = ROOT
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	convert_to_parent_religion = {
+		potential = {
+			is_playable = yes
+			independent = yes
+			is_heretic = yes
+		}
+		allow = {
+			NOT = { trait = zealous }
+		}
+		effect = {
+			piety = -500
+			abandon_heresy = yes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+}

@@ -1,0 +1,57 @@
+(Validator Prices) = {
+	Type = Default
+	(FileGroup "common\prices.txt")
+	FriendlyName = "Price Calculations"
+	ValidatorName = Prices
+}
+
+(Type Prices) = {
+	RequiredList = { Left = { Type = TradeGood } Right = PriceClause }
+}
+
+(Type PriceClause) = {
+	Optional = { Left = "base_price" Right = Double }
+	Optional = { Left = "min_demand" Right = Double }
+	Optional = { Left = "max_demand" Right = Double }
+	Optional = { Left = "goldtype" Right = Bool }
+	
+	Optional = { Left = "supply" Right = ModifierGroup }
+	Optional = { Left = "demand" Right = ModifierGroup }
+}
+
+(Type ModifierGroup) = {
+	Child = { Left = "modifier" Right = ModifierClause }
+}
+
+(Type ModifierClause) = {
+	Inherits = ProvinceTrigger
+	Single = { Left = "factor" Right = Double }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

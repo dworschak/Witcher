@@ -1,0 +1,88 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(N Y) = { Left = "has_province_flag" Right = String }
+	(N Y) = { Left = "has_province_modifier" Right = { ValidModifier TriggeredModifier } }
+
+	# BAD - Must switch to country clause
+	(Y Y) = { Left = "stability" Right = Int }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(N Y) = { Left = "has_country_modifier" Right = { ValidModifier TriggeredModifier } }
+	(Y Y) = { Left = "stability" Right = Int }
+	(N Y) = { Left = "has_country_flag" Right = String }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "has_character_flag" Right = String }
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N Y) = { Left = "add_province_modifier" Right = ModifierClause }
+
+	(N Y) = { Left = "set_province_flag" Right = String }
+	(N Y) = { Left = "clr_province_flag" Right = String }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "add_country_modifier" Right = ModifierClause }
+	(Y Y) = { Left = "stability" Right = Int }
+	
+	(N Y) = { Left = "set_country_flag" Right = String }
+	(N Y) = { Left = "clr_country_flag" Right = String }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N Y) = { Left = "set_character_flag" Right = String }
+	(N Y) = { Left = "clr_character_flag" Right = String }
+
+} }
+
+
+
+(Type ModifierClause) = {
+	Single = { Left = "name" Right = ValidModifier }
+	Single = { Left = "duration" Right = Int }
+}
+
+(Type.Or ValidModifier) = {
+	Type = StaticModifier
+	Type = EventModifier
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,65 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "has_governor" Right = Bool }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(A Y) = { Left = "government" Right = Government }
+	(N Y) = { Left = "idea" Right = Idea }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+
+
+	# BAD - Switch to country scope
+	(A Y) = { Left = "government" Right = Government }
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "governor" Right = { ThisChar } }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "government" Right = Government }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y Y) = { Left = "remove_governor" Right = Yes }
+	(Y Y) = { Left = "set_ruler" Right = Yes }
+
+
+	# BAD - Switch to country scope
+	(N Y) = { Left = "government" Right = Government }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

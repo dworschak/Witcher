@@ -1,0 +1,79 @@
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "opinion" Right = OpinionClause }
+	(N Y) = { Left = "reverse_opinion" Right = OpinionClause }
+	(N Y) = { Left = "their_opinion" Right = OpinionClause }
+	(N Y) = { Left = "has_opinion_modifier" Right = OpinionModifierClause }
+	(N Y) = { Left = "reverse_has_opinion_modifier" Right = OpinionModifierClause }
+	(Y  ) = { Left = "opinion_levy_raised_days" Right = {
+		Single = { Left = "who" Right = { ThisChar OpinionClauseDefinedTypes ThisTitle } }
+		Single = { Left = "days" Right = NnInt }
+	} }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N Y) = { Left = "opinion" Right = OpinionCommand }
+	(N Y) = { Left = "reverse_opinion" Right = OpinionCommand }
+	(N Y) = { Left = "remove_opinion" Right = RemoveOpinionCommand }
+	(N Y) = { Left = "reverse_remove_opinion" Right = RemoveOpinionCommand }
+	(N Y) = { Left = "vassal_opinion" Right = VassalOpinionCommand }
+	(Y  ) = { Left = "set_opinion_levy_raised_days" Right = {
+		Single = { Left = "who" Right = ThisChar }
+		Single = { Left = "days" Right = NnInt }
+	} }
+
+} }
+
+(Type OpinionClause) = {
+	Single = { Left = "who" Right = { ThisChar OpinionClauseDefinedTypes ThisTitle } }
+	Single = { Left = "value" Right = Double }
+
+}
+
+(Type OpinionModifierClause) = {
+	Single = { Left = "who" Right = { ThisChar OpinionClauseDefinedTypes ThisTitle } }
+	Single = { Left = "modifier" Right = OpinionModifier }
+}
+
+(Type OpinionCommand) = {
+	Single = { Left = "modifier" Right = OpinionModifier }
+	Single = { Left = "who" Right = { ThisChar OpinionClauseDefinedTypes ThisProv ThisTitle } }
+	Optional = { Left = "months" Right = PInt }
+	Optional = { Left = "years" Right = PInt }
+	Optional = { Left = "multiplier" Right = NnDbl }
+	
+	AtMostOne = { "months" "year" }
+}
+
+(Type VassalOpinionCommand) = {
+	Single = { Left = "modifier" Right = OpinionModifier }
+	Optional = { Left = "months" Right = PInt }
+	Optional = { Left = "years" Right = PInt }
+	Optional = { Left = "multiplier" Right = NnDbl }
+	
+	AtMostOne = { "months" "year" }
+}
+
+(Type RemoveOpinionCommand) = {
+	Single = { Left = "modifier" Right = OpinionModifier }
+	Single = { Left = "who" Right = { ThisChar OpinionClauseDefinedTypes ThisProv ThisTitle } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

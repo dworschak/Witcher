@@ -1,0 +1,59 @@
+(ContextValidator Trigger) = { Members = {
+	(A Y If = Eu3Dw) = { Left = "start_date" Right = Date }
+
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "province_event" Right = ProvinceEventId }
+	(N Y) = { Left = "country_event" Right = CountryEventId }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "possible_province_event" Right = { ProvinceEventId ThisProvince } }
+		(N Y) = { Left = "possible_country_event " Right = { CountryEventId ThisCountry } }
+		(Y Y) = { Left = "refresh_events" Right = Bool }
+	}
+	
+	# Helius 197
+	# using XXX with set_revolution_target (presumably also
+	# with set_crusade_target) works to unset the present target.
+	(Y Y) = { Left = "set_revolution_target" Right = { Tag ThisCountry Xxx } }
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomProvinceCommand }
+	(N N) = { Left = "random_list" Right = RandomProvinceList }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "random" Right = RandomCountryCommand }
+	(N Y) = { Left = "random_list" Right = RandomCountryList }
+	
+	# As pointed out by Helius 197
+	# Valid from IN on
+	# http://forum.paradoxplaza.com/forum/showthread.php?t=358508
+	# AI event commands
+	(Y  ) = { Left = "fixed_ai_strategy" Right = Bool }
+	(N Y) = { Left = "add_ai_strategy" Right = StrategyClause }
+} }
+
+
+
+
+
+(Type RandomCountryCommand) = {
+	Inherits = CountryCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomCountryList) = {
+	(Ch N N) = { Left = { Type = Int } Right = CountryCommand }
+}
+
+(Type RandomProvinceCommand) = {
+	Inherits = ProvinceCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomProvinceList) = {
+	(Ch N N) = { Left = { Type = Int } Right = ProvinceCommand }
+}

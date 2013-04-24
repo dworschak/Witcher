@@ -1,0 +1,148 @@
+(ContextValidator ProvinceTrigger) = { Members = {
+	(N Y If = Eu3Ht) = { Left = "idea" Right = Idea }
+	(A Y) = { Left = "government" Right = { Type = Government Literal = "monarchy" Literal = "theocracy" Literal = "republic" } }
+
+	(If If = Debug) = {
+		(N Y) = { Left = "idea" Right = Idea }
+		(A Y) = { Left = "advisor" Right = AdvisorType }
+	}
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "stability" Right = Int }
+	
+	(Y Y) = { Left = { "ADM" "adm" } Right = TraitNumber }
+	(Y Y) = { Left = { "DIP" "dip" } Right = TraitNumber }
+	(Y Y) = { Left = { "MIL" "mil" } Right = TraitNumber }
+	(Y Y) = { Left = "general" Right = Int }
+	(Y Y) = { Left = "admiral" Right = Int }
+	(Y Y) = { Left = "conquistador" Right = Int }
+	(Y Y) = { Left = "explorer" Right = Int }
+	(Y Y) = { Left = "is_monarch_leader" Right = Bool }
+	(N Y) = { Left = "advisor" Right = AdvisorType }
+	(Y Y) = { Left = "regency" Right = Bool }
+	(A Y) = { Left = "has_ruler" Right = String }
+	(A Y) = { Left = "has_leader" Right = String }
+	(Y Y) = { Left = "female" Right = Bool }
+	(A Y) = { Left = "government" Right = { Type = Government Literal = "monarchy" Literal = "theocracy" Literal = "republic" } }
+	(Y N) = { Left = { Type = AdvisorType } Right = Int }
+	(Y Y) = { Left = "has_advisor" Right = Bool }
+	
+	(N Y) = { Left = "idea" Right = Idea }
+	(Y Y) = { Left = "total_ideas" Right = Int }
+	(Y Y) = { Left = "free_ideas" Right = Int }
+	
+	(If If = Eu3Ht) = {
+		(A Y) = { Left = "dynasty" Right = String }
+		(Y Y) = { Left = "has_heir" Right = Bool }
+		(Y Y) = { Left = "heir_age" Right = Double }
+		(Y Y) = { Left = "heir_claim" Right = Double }
+		(Y Y) = { Left = "officials" Right = Double }
+		(N Y) = { Left = "succession_claim" Right = { Type = Tag Type = ThisCountry Type = ThisProvince } }
+		(Y Y) = { Left = "heir_claim" Right = Double }
+	}
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N Y) = { Left = "define_advisor" Right = DefineAdvisor }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "define_advisor" Right = DefineAdvisor }
+	(N Y) = { Left = "define_admiral" Right = LeaderClause }
+	(N Y) = { Left = "define_explorer" Right = LeaderClause }
+	(N Y) = { Left = "define_conquistador" Right = LeaderClause }
+	(N Y) = { Left = "define_general" Right = LeaderClause }
+	(N Y) = { Left = "define_ruler" Right = RulerClause }
+	(N Y) = { Left = "kill_ruler" Right = { ThisCountry ThisProvince Yes } }
+	(N Y) = { Left = "kill_leader" Right = String }
+	(N N) = { Left = "create_admiral" Right = Double }
+	(N N) = { Left = "create_explorer" Right = Double }
+	(N N) = { Left = "create_conquistador" Right = Double }
+	(N N) = { Left = "create_general" Right = Double }
+	
+	(Y Y) = { Left = "government" Right = Government }
+	
+	(N Y) = { Left = "add_idea" Right = Idea }
+	(N Y) = { Left = "remove_idea" Right = Idea }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "kill_ruler" Right = { Tag Yes } }
+		(N Y) = { Left = "kill_heir" Right = { Tag ThisCountry ThisProvince Yes } }
+		(Y Y) = { Left = "define_heir" Right = HeirClause }
+		(Y Y) = { Left = "heir_claim" Right = Double }
+	}
+} }
+
+
+
+(Type DefineAdvisor) = {
+	Single = { Left = "type" Right = AdvisorType }
+	Optional = { Left = "skill" Right = Int }
+	Optional = { Left = "name" Right = String }
+}
+
+Global = {
+# Used by RebelTypes.pdox, which requires that all be optional.
+(Type RulerClause) = {
+	# Helius 197: As a parameter in define_ruler, regency = no
+	# or regency = yes may be used (even just by itself, i.e. 
+	# w/o specifying stats or gender).
+	Optional = { Left = "regency" Right = Bool }
+	Optional = { Left = "name" Right = String }
+	Optional = { Left = "regent" Right = Bool }
+	Optional = { Left = "female" Right = Bool }
+	Optional = { Left = { "dip" "DIP" } Right = TraitNumber }
+	Optional = { Left = { "adm" "ADM" } Right = TraitNumber }
+	Optional = { Left = { "mil" "MIL" } Right = TraitNumber }
+	Optional = { Left = "leader" Right = RulerLeaderClause }
+	#Optional = { Left = "dynasty" Right = { Type = Tag Literal = "THIS" Literal = "FROM" } }
+	(Optional If = "Eu3Ht") = { Left = "dynasty" Right = String } # Dynasty name, tag, literal, from
+}
+}
+
+(Type RulerLeaderClause) = {
+	Inherits = LeaderClause
+	Optional = { Left = "type" Right = { Literal = "general"  } }
+}
+
+(Type LeaderClause) = {
+	Optional = { Left = "name" Right = String }
+	Optional = { Left = "shock" Right = Int }
+	Optional = { Left = "fire" Right = Int }
+	Optional = { Left = "siege" Right = Int }
+	Optional = { Left = "manuever" Right = Int }
+}
+
+(If If = Eu3Ht) = {
+	(Type HeirClause) = {
+		Optional = { Left = "name" Right = String }
+		Optional = { Left = "monarch_name" Right = String }
+		Optional = { Left = "dynasty" Right = String }
+		Optional = { Left = { Literal = "birth_date"  Literal = "birth_Date"}  Right = Date }
+		Optional = { Left = { Literal = "death_date"  Literal = "death_Date"}  Right = Date }
+		Optional = { Left = "claim " Right = Int }
+		Optional = { Left = { Literal = "dip"  Literal = "DIP"} Right = TraitNumber }
+		Optional = { Left = { Literal = "adm"  Literal = "ADM"} Right = TraitNumber }
+		Optional = { Left = { Literal = "mil"  Literal = "MIL"} Right = TraitNumber }
+		Optional = { Left = "female" Right = Bool }
+		Optional = { Left = "leader" Right = LeaderClause }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

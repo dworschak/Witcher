@@ -1,0 +1,58 @@
+(ContextValidator CharTrigger) = { Scopes = {
+	CharTrigger = { Type = JobTitle }
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = { Type = JobTitle }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y  ) = { Left = "banish" Right = Bool }
+	(Y  ) = { Left = "num_of_prisoners" Right = NnInt }
+	(Y  ) = { Left = "prisoner" Right = Bool }
+	(Y  ) = { Left = "imprisoned_days" Right = NnInt }
+	
+	(A Y) = { Left = "has_objective" Right = { Bool Objective } }
+	(A Y) = { Left = "has_job_action" Right = { Bool JobAction } }
+	(N Y) = { Left = "has_job_title" Right = JobTitle }
+	(N Y) = { Left = "has_minor_title" Right = MinorTitle }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y  ) = { Left = "banish" Right = { Yes ThisChar } }
+	(Y  ) = { Left = "reverse_banish" Right = ThisChar }
+	(Y  ) = { Left = "prisoner" Right = { ThisChar Bool } } # yes=imprisoned by current liege
+	(N Y) = { Left = "imprison" Right = { Bool ThisChar } }
+	(N Y) = { Left = "reverse_imprison" Right = { Yes ThisChar } }
+	(Y  ) = { Left = "add_objective" Right = Objective }
+	(Y  ) = { Left = "cancel_objective" Right = { Bool Objective } }
+	(Y  ) = { Left = "give_job_title" Right = JobTitle }
+	(N Y) = { Left = "remove_title" Right = { JobTitle MinorTitle } }
+	(Y  ) = { Left = "send_assassin" Right = ThisChar }
+	(N Y) = { Left = "impregnate" Right = ThisChar }
+	(N Y) = { Left = "impregnate_cuckoo" Right = ThisChar }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

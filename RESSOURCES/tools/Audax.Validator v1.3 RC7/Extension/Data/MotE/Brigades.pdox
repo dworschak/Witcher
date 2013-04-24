@@ -1,0 +1,43 @@
+(Validator Brigades) = {
+	Type = GroupValidator
+	FriendlyName = "Brigades"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\brigades" "*.txt")
+		ValidatorName = BrigadeFile
+	}
+	
+}
+
+(Type BrigadeFile) = {
+	(Ch Y N) = { Left = { Type = Tag } Right = CountryBrigadeList UniqueId = Left }
+}
+
+(Type BrigadeTypeBase) = {
+	Single = { Left = "name" Right = Key UniqueId = Right }
+	Single = { Left = "count" Right = PInt }
+	Single = {
+		Left = "picture"
+		Right = String
+		#UniqueId = Right
+		FileExists = {
+			Target = "[R]"
+			Path = "gfx\brigade\*.tga"
+		}
+	}
+
+}
+
+(Type CountryBrigadeList) = {
+	(Ch N N) = { Left = "brigade" Right = {
+		Inherits = BrigadeTypeBase
+		Single = { Left = "type" Right = BrigadeType }
+	} }
+	
+	(Ch N N) = { Left = "squadron" Right = {
+		Inherits = BrigadeTypeBase
+		Single = { Left = "type" Right = SquadronType }
+	} }
+}
+

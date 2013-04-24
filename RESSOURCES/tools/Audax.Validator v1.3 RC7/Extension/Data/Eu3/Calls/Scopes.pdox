@@ -1,0 +1,152 @@
+(ContextValidator Trigger) = { Scopes = {
+	CountryTrigger = { Type = ThisCountry }
+	ProvinceTrigger = { Type = ThisProvince }
+
+	(CountryTrigger If = Eu3Ht) = hre_majority
+	CountryTrigger = { Type = Tag }
+	CountryTrigger = any_country
+	CountryTrigger = random_country
+	CountryTrigger = emperor
+	CountryTrigger = revolution_target
+	CountryTrigger = any_neighbor_country
+	CountryTrigger = any_elector
+	CountryTrigger = crusade_target
+	
+	ProvinceTrigger = { Type = LandProvince Type = SeaProvince }
+	ProvinceTrigger = { Type = Region }
+	ProvinceTrigger = { Type = Continent }
+	ProvinceTrigger = any_neighbor_province
+	
+	ProvinceTrigger = any_center_of_trade
+} }
+
+(ContextValidator ProvinceTrigger) = { Scopes = {
+	CountryTrigger = local_enemy
+	CountryTrigger = owner
+	CountryTrigger = controller
+	CountryTrigger = any_core # This switches to any countries that have a core on the province
+	CountryTrigger = any_known_country
+	
+	ProvinceTrigger = sea_zone
+	ProvinceTrigger = capital_scope
+} }
+
+(ContextValidator CountryTrigger) = { Scopes = {
+	(If If = Eu3Ht) = {
+		CountryTrigger = any_sphere
+		CountryTrigger = league_leader
+	}
+	
+	CountryTrigger = ally
+	CountryTrigger = any_ally
+	CountryTrigger = any_known_country
+	CountryTrigger = league_leader
+	CountryTrigger = rival_countries
+	CountryTrigger = threat_countries
+	CountryTrigger = overlord
+	
+	#ProvinceTrigger = any_province
+	ProvinceTrigger = any_owned_province
+	ProvinceTrigger = capital_scope
+	ProvinceTrigger = any_core_province
+	ProvinceTrigger = any_core
+	
+	# Probably not
+	(CountryTrigger If = Debug) = owner
+} }
+
+(ContextValidator Command) = { Scopes = {
+	CountryCommand = { Type = ThisCountry }
+	ProvinceCommand = { Type = ThisProvince }
+
+	(CountryCommand If = Eu3Ht) = "hre_majority"
+	
+	CountryCommand = { Type = Tag }
+	CountryCommand = any_country	
+	CountryCommand = random_country
+	CountryCommand = emperor
+	CountryCommand = revolution_target
+	CountryCommand = crusade_target
+	CountryCommand = any_elector
+	CountryCommand = any_neighbor_country
+	
+	ProvinceCommand = { Type = LandProvince Type = SeaProvince }
+	ProvinceCommand = { Type = Region }
+	ProvinceCommand = { Type = Continent }
+	ProvinceCommand = any_neighbor_province
+	ProvinceCommand = random_neighbor_province
+	ProvinceCommand = random_empty_neighbor_province
+	
+	ProvinceCommand = random_center_of_trade
+	ProvinceCommand = any_center_of_trade
+} }
+
+(ContextValidator ProvinceCommand) = { Scopes = {
+	ProvinceTrigger = limit
+	
+	CountryCommand = owner
+	CountryCommand = controller
+	CountryCommand = local_enemy
+	CountryCommand = any_known_country
+	
+	ProvinceCommand = random_enemy_neighbor_province
+	ProvinceCommand = sea_zone
+	ProvinceCommand = any_province
+	ProvinceCommand = capital_scope
+	
+	(If If = Eu3Ht) = {
+		CountryCommand = any_core # switches to any countries that have cores on this province
+	}
+	
+	(ProvinceCommand If = Debug) = random_owned
+} }
+
+(ContextValidator CountryCommand) = { Scopes = {
+	CountryTrigger = limit
+	
+	CountryCommand = ally
+	CountryCommand = any_known_country
+	CountryCommand = overlord
+	
+	ProvinceCommand = capital_scope
+	ProvinceCommand = random_owned
+	ProvinceCommand = any_owned
+	ProvinceCommand = any_core_province
+	ProvinceCommand = any_core
+	
+	(If If = Eu3Ht) = {
+		CountryCommand = any_sphere
+		CountryCommand = random_sphere
+		CountryCommand = league_leader
+		CountryCommand = rival_countries
+		CountryCommand = threat_countries
+		
+		ProvinceCommand = heretic
+		ProvinceCommand = any_province
+		ProvinceCommand = any_owned_province
+	}
+	
+	(CountryCommand If = Debug) = owner
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

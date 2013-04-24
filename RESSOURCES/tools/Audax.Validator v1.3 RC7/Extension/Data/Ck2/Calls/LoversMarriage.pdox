@@ -1,0 +1,61 @@
+(ContextValidator CharTrigger) = { Scopes = {
+	CharTrigger = "lover"
+	CharTrigger = "spouse"
+	CharTrigger = "spouse_even_if_dead"
+	CharTrigger = "any_spouse"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = "lover"
+	CharCommand = "spouse"
+	CharCommand = "random_spouse"
+	CharCommand = "any_spouse"
+	CharCommand = "spouse_even_if_dead"
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y  ) = { Left = "is_married" Right = Bool }
+	(Y  ) = { Left = "is_main_spouse" Right = Bool }
+	(Y  ) = { Left = "is_betrothed" Right = Bool }
+	(Y  ) = { Left = "has_lover" Right = Bool }
+	(N Y) = { Left = "can_marry" Right = { ThisChar Bool } }
+	(N Y) = { Left = "is_valid_attraction" Right = ThisChar }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N Y) = { Left = "add_lover" Right = { ThisChar CharacterId } }
+	(Y  ) = { Left = "remove_lover" Right = Bool }
+	(Y  ) = { Left = "make_primary_spouse" Right = Yes }
+	(Y  ) = { Left = "add_spouse" Right = ThisChar }
+	(Y  ) = { Left = "add_spouse_matrilineal" Right = ThisChar }
+	(Y  ) = { Left = "remove_spouse" Right = { Literal = "spouse" Type = ThisChar } }
+	
+	(N Y) = { Left = "add_betrothal" Right = ThisChar }
+	(N Y) = { Left = "break_betrothal" Right = ThisChar }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

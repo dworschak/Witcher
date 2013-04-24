@@ -1,0 +1,55 @@
+﻿#(Validator ProvinceFile) = {
+#	Type = Default
+#	FriendlyName = "Province History"
+#	(FileGroup "history\provinces" "*.txt")
+#	ValidatorName = ProvinceFile
+#}
+
+(Type.Enum Xxx) = { Values = { "XXX" } }
+(Type.Or SpecialTag) = {
+	Type = Tag
+	Type = Xxx
+}
+	
+Includes = {
+	"..\..\_Common\ProvinceHistory"
+}
+
+(Type.Or ProvinceHistoryTag) = { Type.Enum = LandProvince }
+(Type ProvinceHistory) = {
+	Inherits = ProvinceHistoryBase
+
+	Optional = { Left = "owner" Right = SpecialTag }
+	Optional = { Left = "controller" Right = SpecialTag }
+	(Ch N Y) = { Left = "add_core" Right = Tag }
+	
+	Single = { Left = "capital" Right = String }
+	Single = { Left = "culture" Right = Culture }
+	Single = { Left = "religion" Right = Religion }
+	Single = { Left = "trade_goods" Right = TradeGood }
+	Optional = { Left = "population" Right = PositiveInt }
+	Single = { Left = "civilization_value" Right = PositiveInt }
+	Single = { Left = "barbarian_power" Right = Int }
+	Single = { Left = "split" Right = String }
+	OptionList = { Left = { Type = Building } Right = Bool }
+}
+
+(Type DateClause) = {
+	Optional = { Left = "population" Right = NonNegativeInt }
+	
+	Optional = { Left = "owner" Right = SpecialTag }
+	Optional = { Left = "controller" Right = SpecialTag }
+	(Ch N Y) = { Left = "add_core" Right = Tag }
+	(Ch N Y) = { Left = "remove_core" Right = Tag }
+	
+	(Ch Y N) = { Left = { Type = Building } Right = Bool }
+
+	Optional = { Left = "civilization_value" Right = PositiveInt }
+	Optional = { Left = "revolt_risk" Right = NonNegativeInt }
+	Optional = { Left = "culture" Right = Culture }
+	Optional = { Left = "religion" Right = Religion }
+	Optional = { Left = "barbarian_power" Right = Int }
+	Optional = { Left = "capital" Right = String }
+	Optional = { Left = "split" Right = String }
+	(Optional If = Rv) = { Left = "governor" Right = NonNegativeInt }
+}

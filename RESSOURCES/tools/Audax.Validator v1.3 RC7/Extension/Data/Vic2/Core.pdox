@@ -1,0 +1,183 @@
+Packages = {
+	Core
+	Vic2
+}
+
+Includes = {
+	# MUST be at the very top, before any translation is needed.
+	"Translation\Header"
+	
+	Options
+	
+	Bookmarks
+	Crimes
+	Localization
+	CountryColors
+	Religion
+	Countries
+	Traits
+	Cultures
+	Modifiers
+	Goods
+	Units
+	RebelTypes
+	CbTypes
+	NationalValues
+	Sound
+	Technology
+	Issues
+	NationalFocuses
+	PopTypes
+	OnActions
+	Inventions
+	
+	"History\_"
+	
+	Events
+	Decisions
+	Map
+	
+	"Calls\_Main"
+	
+	# Common
+	"..\_Common\FactorModifier"
+}
+
+# TODO
+# common
+#	buildings
+#	governments
+#	ideologies
+#	pop_types
+#	production_types
+# map
+# inventions
+
+
+Global = {
+
+(Type Year) = PInt
+
+(Type.Enum Tag) = { Import = { (FileGroup "common\countries.txt") SelectPath = "*\[L]" } }
+(Type.Enum Ideology) = { Import = { (FileGroup "common\ideologies.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum Government) = { Import = { (FileGroup "common\governments.txt") SelectPath = "*\[L]" } }
+(Type.Enum EventModifier) = {	 	Import = { (FileGroup "common\event_modifiers.txt")		SelectPath = "*\[L]" } }
+(Type.Enum StaticModifier) = {	 	Import = { (FileGroup "common\static_modifiers.txt")	SelectPath = "*\[L]" } }
+(Type.Enum TriggeredModifier) = {	Import = { (FileGroup "common\triggered_modifiers.txt")	SelectPath = "*\[L]" } }
+(Type.Enum Invention) = {	Import = { (FileGroup "inventions" "*.txt")	SelectPath = "*\[L]" } }
+(Type.Enum Goods) = {	Import = { (FileGroup "common\goods.txt")	SelectPath = "*\*\[L]" } }
+(Type.Enum Tech) = { Import = { (FileGroup "technologies" "*_tech.txt") SelectPath = "*\[L]" } }
+(Type.Enum CultureGroup) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\[L]" } }
+(Type.Enum Culture) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\*\[L]" Remove = { "union" "leader" "unit" } } }
+(Type.Enum NationalValue) = { Import = { (FileGroup "common\nationalvalues.txt") SelectPath = "*\[L]" } }
+(Type.Enum Crime) = { Import = { (FileGroup "common\crime.txt") SelectPath = "*\[L]" } }
+(Type.Enum Continent) = { Import = { (FileGroup Ref = ContinentPath) SelectPath = "*\[L]" } }
+(Type.Enum Religion) = { Import = { (FileGroup "common\religion.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum LeaderPersonality) = { Import = { (FileGroup "common\traits.txt") SelectPath = "personality\*\[L]" } }
+(Type.Enum LeaderBackground) = { Import = { (FileGroup "common\traits.txt") SelectPath = "background\*\[L]" } }
+(Type.Enum Building) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "*\[L]" } }
+(Type.Enum RebelType) = { Import = { (FileGroup "common\rebel_types.txt") SelectPath = "*\[L]" } }
+(Type.Enum Sound) = { Import = { (FileGroup "interface\sound.sfx") SelectPath = "*\[L]" } }
+(Type.Enum Factory) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "* { (type\[R]) == 'factory' } \[L]" } }
+(Type.Enum GraphicalCultureType) = { Import = { (DataSource LineFile) = { (FileGroup "common\graphicalculturetype.txt") } SelectPath = ".\[L]" } }
+(Type.Enum NationalFocus) = { Import = { (FileGroup "common\national_focus.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum Strata) = { Values = { "poor" "middle" "rich" } }
+
+(Type.Enum PopType) = {
+	Import = {
+		(DataSource PathListing) = {
+			(FileGroup "poptypes" "*.txt")
+			JustFileName = True
+			DropExtension = True
+			ForceLower = True
+		}
+		
+		SelectPath = "*\[L]"
+	}
+	
+}
+
+
+(Literal Yes) = "yes"
+(Literal Random) = "random"
+
+Script = {
+	(DataSource Pdo) = { Path = "common\issues.txt" }
+	MakeDicEnum = {
+		KeyName = PartyIssue
+		ElementPath = "party_issues\*\*"
+		KeyPath = "^\[L]"
+		ValuePath = "[L]"
+	}
+	
+	MakeDicEnum = {
+		KeyName = PoliticalReform
+		ElementPath = "political_reforms\*\*"
+		KeyPath = "^\[L]"
+		ValuePath = "[L]"
+	}
+	
+	MakeDicEnum = {
+		KeyName = SocialReform
+		ElementPath = "social_reforms\*\*"
+		KeyPath = "^\[L]"
+		ValuePath = "[L]"
+	}
+	
+	MakeDicEnum = {
+		KeyName = MilitaryReform
+		ElementPath = "military_reforms\*\*"
+		KeyPath = "^\[L]"
+		ValuePath = "[L]"
+	}
+
+	MakeDicEnum = {
+		KeyName = EconomicReform
+		ElementPath = "economic_reforms\*\*"
+		KeyPath = "^\[L]"
+		ValuePath = "[L]"
+	}
+
+}
+
+Script = {
+	(DataSource Pdo) = {
+		Path = {
+			(DataSource Pdo) = {
+				Path = "map\default.map"
+			}
+			
+			(Return "map\") = "terrain_definition\[R]"
+		}
+	}
+	
+	(MakeEnumValidator Terrain) = "categories\*\[L]"
+}
+
+Script = {
+	(DataSource Csv) = {
+		Columns = 5
+		AllowExtraColumns = True
+		Path = {
+			(DataSource Pdo) = {
+				Path = "map\default.map"
+			}
+			
+			(Return "map\") = "adjacencies\[R]"
+		}
+	}
+	
+	(MakeEnumValidator Canal) = ". { (2\[R]) == 'canal' } \4\[R]"
+}
+
+Script = {
+	(DataSource Pdo) = {
+		(FileGroup "units" "*.txt")
+	}
+	
+	(MakeEnumValidator Unit) = "*\[L]"
+	(MakeEnumValidator LandUnit) = "*{(type\[R]) == 'land'}\[L]"
+	(MakeEnumValidator NavalUnit) = "*{(type\[R]) == 'naval'}\[L]"
+}
+
+}

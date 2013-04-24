@@ -1,0 +1,301 @@
+(AddFlag MapCommon.ContinentFile)
+
+(Type.Enum AdjacencyType) = { Values = { "sea" } }
+
+Includes = { "..\_Common\MapCommon" }
+
+(Validator Maps) = {
+	FriendlyName = "@Map.FriendlyName"
+	Description = "@Map.Desc"
+	Type = GroupValidator
+	
+	Validator = {
+		Type = Default
+		(FileGroup Ref = RegionPath)
+		ValidatorName = RegionFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "map\climate.txt")
+		ValidatorName = ClimateFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\natives.txt")
+		ValidatorName = NativeFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "map\positions.txt")
+		ValidatorName = PositionsFile
+	}
+	
+	Validator = {
+		Type = Default
+		(DataSource Csv) = {
+			(FileGroup Ref = AdjacencyPath)
+			Columns = 5
+			AllowExtraColumns = True
+		}
+		ValidatorName = AdjacencyFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup Ref = ContinentPath)
+		ValidatorName = ContinentFile
+	}
+
+}
+
+(Type AdjacencyFile) = {
+	NodeSwitcher = {
+		Node = "2"
+		
+		Switch = {
+			"sea" = RealAdjRow
+			"normal" = NormalRow
+			"" = FakeAdjRow
+		}
+	}
+}
+
+(Type RealAdjRow) = {
+	Single = { Left = "0" Right = LandProvince }
+	Single = { Left = "1" Right = LandProvince }
+	Single = { Left = "3" Right = SeaProvince }
+	Single = { Left = "4" Right = String }
+}
+
+(Type NormalRow) = {
+	Single = { Left = "0" Right = LandProvince }
+	Single = { Left = "1" Right = LandProvince }
+	Single = { Left = "3" Right = 0 }
+	Single = { Left = "4" Right = String }
+}
+
+(Type FakeAdjRow) = {
+	Single = { Left = "0" Right = String }
+	Single = { Left = "1" Right = String }
+	Single = { Left = "3" Right = String }
+	Single = { Left = "4" Right = String }
+}
+
+
+# Check that wasteland provinces are not included in region files
+(If If = Eu3Ht) = {
+Global = {
+(Type.Enum WastelandProvince) = {
+	Import = {
+		(FileGroup "map\climate.txt")
+		SelectPath = "impassable\Item\[R]"
+	}
+}
+}
+
+Script = {
+	(DataSource Enum) = {
+		Key = "LandProvince"
+	}
+	
+	(MakeEnumValidator NonWastelandProvince) = "* { ([L]) !< WastelandProvince }\[L]"
+	
+	(DataSource Enum) = {
+		Key = "Province"
+	}
+	
+	(MakeEnumValidator RegionProvince) = "* { ([L]) !< WastelandProvince }\[L]"
+}
+}
+
+(Type RegionFile) = {
+	(If If = Eu3Ht) = {
+		(Ch Y N) = {
+			Left = { Type = String }
+			Right = {
+				(PdoList Y IfNot = Map.AllowWastelandInRegion) = { Type = RegionProvince }
+				(PdoList Y If = Map.AllowWastelandInRegion) = { Type = Province }
+			}
+		}
+			
+		(Catch TypeMismatchError ExpectedType = RegionProvince) = {
+			PrependError = "@Map.WastelandInRegionSuppress"
+			SuppressCatch
+		}
+		
+		(Catch TypeMismatchError ExpectedType = Province) = {
+			ReplaceMessage = "@Map.NotValidProvinceInRegion"
+		}
+
+		(Catch TypeMismatchError ExpectedType = RegionProvince) = {
+			ReplaceMessage = "@Map.WastelandInRegion"
+		}
+	}
+	
+	(If If = Eu3In) = {
+		(Ch Y N) = { Left = { Type = String } Right = { (PdoList Y) = { Type = Province } } }
+		(Catch TypeMismatchError ExpectedType = Province) = {
+			ReplaceMessage = "@Map.NotValidProvinceInRegion"
+		}
+	}
+}
+
+(Type ClimateFile) = {
+	(Ch Y N If = Eu3Ht) = { Left = "impassable" Right = WastelandProvinceList }
+	(Ch Y N) = { Left = { Type = String } Right = ClimateProvinceList }
+	
+	(If If = Map.StrictClimate) = {
+		AllOf = { Target = "*\*\[R]" Source = LandProvince }
+	}
+	
+	(Local ClimateId Uid) = Right
+	
+	(Catch PureNodeStructureError) = {
+		ReplaceMessage = "The province $Missing$ does not appear. All land provinces must be included somewhere within the climate file."
+	}
+	(Catch DuplicateIdError) = {
+		ReplaceMessage = "[map\climate.txt]: The province $Id$ appears twice within the climate file, at sections '$Parent1$' and '$Parent2$'. Each land province may be listed only once."
+	}
+}
+
+(Type ClimateProvinceList) = {
+	(PdoList N) = { Type = LandProvince (LocalOp Validate ClimateId) }
+}
+
+(Type WastelandProvinceList If = Eu3Ht) = {
+	(PdoList Y) = {
+		(Type IfNot = Map.AllowSeaInWasteland) = LandProvince
+		(Type If = Map.AllowSeaInWasteland) = Province
+		(LocalOp Validate ClimateId IfNot = Map.AllowDupForWasteland)
+	}
+	
+	(Catch TypeMismatchError ExpectedType = LandProvince) = {
+		PrependError = "Normally, wasteland provinces should all be land provinces. However, if you are attempting to make some sea provinces impassable, it is permissible to have sea provinces listed. In order to disable this warning, and any that follow, open the file SettingsFiles\Eu3.txt and follow the instructions."
+		SuppressCatch
+	}
+}
+
+(Type NativeFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = NativeDefinition }
+	(If IfNot = Map.NoStrictNatives) = {
+		(AllOf If = Eu3Ht) = { Target = "*\provinces\*\[R]" Source = NonWastelandProvince }
+		(AllOf IfNot = Eu3Ht) = { Target = "*\provinces\*\[R]" Source = LandProvince }
+	}
+	
+	(Catch TypeMismatchError ExpectedType = NonWastelandProvince) = {
+		PrependError = "Normally, wasteland provinces should not be in natives.txt, as it can cause problems. However, if you know what you are doing, you may disable this warning. In order to disable this warning, and any that follow, open the file SettingsFiles\Eu3.txt and follow the instructions."
+		SuppressCatch
+	}
+
+	(Catch PureNodeStructureError) = {
+		ReplaceMessage = "The province $Missing$ does not appear. All non-wasteland land provinces must be included somewhere within the natives file."
+	}
+	(Catch DuplicateIdError) = {
+		ReplaceMessage = "[common\natives.txt]: The province $Id$ appears twice in the natives file, at sections '$Parent1.$' and '$Parent2.$'. Each non-wasteland land province may be listed only once."
+	}
+}
+
+(Type NativeDefinition) = {
+	Single = { Left = "graphics" Right = GraphicalCultureType }
+	Single = { Left = "unit" Right = SpecificUnit }
+	Single = { Left = "provinces" Right = NativeProvinceList }
+}
+
+(Type NativeProvinceList) = {
+	(If If = Eu3Ht) = {
+		(PdoList N IfNot = Map.AllowWastelandInNatives) = { Type = NonWastelandProvince UniqueId = Right }
+		(PdoList N If = Map.AllowWastelandInNatives) = { Type = LandProvince UniqueId = Right }
+	}
+	(PdoList N If = Eu3In) = { Type = LandProvince UniqueId = Right }
+}
+
+(Type PositionsFile) = {
+	OptionList = { Left = { Type = LandProvince } Right = LandProvincePosition }
+	OptionList = { Left = { Type = SeaProvince } Right = SeaProvincePosition }
+}
+
+(Type Point) = {
+	Single = { Left = "x" Right = Double }
+	Single = { Left = "y" Right = Double }
+}
+
+(Type PositionBase) = {
+	Optional = { Left = "text_position" Right = Point }
+	Optional = { Left = "text_rotation" Right = Double }
+	Optional = { Left = "text_scale" Right = Double }
+	
+	Optional = { Left = "unit" Right = Point }
+}
+
+(Type LandProvincePosition) = {
+	Inherits = PositionBase
+	
+	Optional = { Left = "city" Right = Point }
+	Optional = { Left = "city_nudge" Right = Double }
+	Optional = { Left = "city_rotation" Right = Double }
+	
+	Optional = { Left = "unit" Right = Point }
+	
+	Optional = { Left = "port" Right = Point }
+	Optional = { Left = "port_rotation" Right = Double }
+	
+	Optional = { Left = "manufactory" Right = Point }
+	Optional = { Left = "manufactory_nudge" Right = Double }
+	Optional = { Left = "manufactory_rotation" Right = Double }
+	
+	Optional = { Left = "trade" Right = Point }
+	Optional = { Left = "trade_nudge" Right = Double }
+	
+	
+}
+
+(Type SeaProvincePosition) = {
+	Inherits = PositionBase
+
+	Optional = { Left = "trade_wind_direction" Right = Double }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

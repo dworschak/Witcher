@@ -1,0 +1,44 @@
+﻿Global = {
+Type = { Key = "CountryTrigger"
+	Inherits = TriggerBase
+	
+	# Scope changes
+	Child = { Left = "civil_war_faction" Right = CountryTrigger }
+	Child = { Left = "ally" Right = CountryTrigger }
+}
+
+Type = { Key = "CharTrigger"
+	Inherits = TriggerBase
+		
+	# Scope Changes
+	Optional = { Left = "country" Right = CountryTrigger }
+
+	Optional = { Left = "employer" Right = CharTrigger }
+	Optional = { Left = "spouse" Right = CharTrigger }
+	Optional = { Left = "ruler" Right = CharTrigger }
+	
+	Optional = { Left = "is_married" Right = Bool }
+	Optional = { Left = "is_envoy" Right = Bool }
+	Optional = { Left = "from_ruler_family" Right = Bool }
+	Optional = { Left = "is_pretender" Right = Bool }
+	Optional = { Left = "is_primary_heir" Right = Bool }
+	Optional = { Left = "is_state_religion" Right = Bool }
+	Optional = { Left = "is_clan_chief" Right = { Type = Bool Type = This } }
+	
+	Child = { Left = "has_objective" Right = Objective }
+	Child = { Left = "has_title" Right = Title }
+	Child = { Left = "can_hold_title" Right = Title }
+
+	
+	Optional = { Left = "fertility" Right = Int }
+	Optional = { Left = "health" Right = Double }
+	
+	Child = { Left = "party" Right = { Type = Party Literal = "ruler" } }
+}
+
+Type = { Key = "TriggerBase"
+	Optional = { Left = "check_variable" Right = CheckVariable }
+	Child = { Left = "exists" Right = Tag }
+	Optional = { Left = "is_religion_enabled" Right = Bool }			
+}
+}

@@ -1,0 +1,26 @@
+(Type "CountryDecision" If = "c") = {
+	(Ch N N) = { Left = { Type = String } Right = Decision UniqueId = Left }
+}
+
+(Type "ProvinceDecision" If = "p") = {
+	(Ch N N) = { Left = { Type = String } Right = Decision UniqueId = Left }
+}
+
+(Type Decision) = {
+	Single = { Left = "potential" (Right If = "c") = CountryTrigger (Right If = "p") = ProvinceTrigger }
+	Single = { Left = "allow" (Right If = "c") = CountryTrigger (Right If = "p") = ProvinceTrigger }
+	Single = { Left = "effect" (Right If = "c") = CountryCommand (Right If = "p") = ProvinceCommand }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+	(Optional If = Eu3Dw) = { Left = "ai_importance" Right = Int }
+}
+
+(Type "AiWillDo") = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N N) = { Left = "modifier" Right = Modifier }
+}
+
+(Type "Modifier") = {
+	Single = { Left = "factor" Right = Double }
+	(Inherits If = "c") = CountryTrigger
+	(Inherits If = "p") = ProvinceTrigger
+}

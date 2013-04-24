@@ -1,0 +1,111 @@
+(ContextValidator Trigger) = { Members = {
+	(N Y) = { Left = "religion_years" Right = ReligionYear }
+	(N Y) = { Left = "is_religion_enabled" Right = Religion }
+	# 0.8.9 added ThisCountry
+	# 0.8.9 moved from CountryTrigger to Trigger according to 500 Trin Tragula
+	(A Y) = { Left = "dominant_religion" Right = { Religion Capital ThisCountry ThisProvince } }
+	
+	(If If = Eu3Ht) = {
+		(Y  ) = { Left = "papacy_active" Right = Bool }
+	}
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "has_owner_religion" Right = Bool }
+	(Y Y) = { Left = "has_missionary" Right = Bool }
+	(Y Y) = { Left = "tolerance_to_this" Right = Double 	 }			# To be checked too if could be bool
+	
+	# Helius is unsure whether both cases of THIS are valid. Same with culture, etc.
+	# Apparently religion_group might be invalid in province scope. (17blue17, jdrou, gigau 596-598)
+	#(A Y) = { Left = "religion_group" Right = { ThisCountry ThisProvince ReligionGroup Capital } }
+	# Update: On posts 639-644, Keinwyn, jdrou, 17blue17 argue that now in DW, religion_group will work in province scope.
+	# copx claims that in IN, this worked as well. Might as well let it be
+	(A Y If = Eu3In) = { Left = "religion_group" Right = { ThisCountry ThisProvince ReligionGroup Capital } }
+	
+	(A Y) = { Left = "religion" Right = { ThisCountry ThisProvince Religion Capital } }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(A Y) = { Left = "religion_group" Right = ReligionGroup }
+	(Y Y) = { Left = "religion_group" Right = Capital }
+	(Y Y) = { Left = "religion_group" Right = { ThisCountry ThisProvince } }
+	(A Y) = { Left = "religion" Right = Religion }
+	(Y Y) = { Left = "religion" Right = Capital }
+	(Y Y) = { Left = "religion" Right = { ThisCountry ThisProvince } }
+	
+	(N Y) = { Left = "num_of_religion" Right = ReligionClause }
+	(N N) = { Left = { Type = Religion } Right = { Double Bool } }
+	(Y Y) = { Left = "defender_of_faith" Right = Bool }
+	(Y Y) = { Left = "missionaries" Right = Int }
+	(Y Y) = { Left = "is_papal_controller" Right = Bool }
+	(Y Y) = { Left = "excommunicated" Right = Bool }
+	(Y Y) = { Left = "force_converted" Right = Bool }
+	
+	(If If = Eu3Ht) = {
+		(Y A) = { Left = "religion_group_claim" Right = { ThisCountry Tag } }
+		(Y Y) = { Left = "papal_influence" Right = Double }
+	}
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "religion" Right = { Religion Capital ThisCountry ThisProvince Heretic } }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "enable_religion" Right = Religion }
+	(Y Y) = { Left = "religion" Right = { Religion ThisProvince Heretic } }
+	(Y Y) = { Left = "missionaries" Right = Double }
+	(Y Y) = { Left = "force_converted" Right = Yes }
+	
+	(If If = Eu3Ht) = {
+		(Y Y) = { Left = "add_papal_influence" Right = Double }
+		(Y Y) = { Left = "papacy_active" Right = Bool  }
+	}
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Type ReligionClause) = {
+	Single = { Left = "religion" Right = Religion }
+	Single = { Left = "value" Right = Double }
+}
+
+(Type ReligionYear) = {
+	Single = { Left = { Type = Religion } Right = Int }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

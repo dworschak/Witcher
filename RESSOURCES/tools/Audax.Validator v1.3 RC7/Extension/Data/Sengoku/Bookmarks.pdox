@@ -1,0 +1,22 @@
+(Validator Bookmarks) = {
+	Type = Default
+	FriendlyName = "Bookmarks"
+	(FileGroup "common\bookmarks.txt")
+	ValidatorName = BookmarkFile
+}
+
+(Type BookmarkFile) = {
+	(Ch N Y) = { Left = "bookmark" Right = Bookmark }
+}
+
+(Type Bookmark) = {
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "desc" Right = Key }
+	Single = { Left = "date" Right = Date }
+	Optional = { Left = "end_date" Right = Date }
+	
+	(Ch N Y) = { Left = "character" Right = {
+		Single = { Left = "type" Right = { Literal = "45" } }
+		Single = { Left = "id" Right = CharId }
+	} }
+}

@@ -1,0 +1,28 @@
+(Validator FactionValidator) = {
+	Type = Default
+	FriendlyName = "Factions"
+	ValidatorName = FactionFile
+	(FileGroup "common\faction.txt")
+}
+
+(Type FactionFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = Faction }
+}
+
+(Type Faction) = {
+	Single = { Left = "rule" Right = Rules }
+	Single = { Left = "modifier" Right = ModifierCommand }
+}
+
+(Type Rules) = {
+	Optional = { Left = "can_not_build_buildings" Right = Bool }
+	Optional = { Left = "can_not_build_colonies" Right = Bool }
+	Optional = { Left = "can_not_send_merchants" Right = Bool }
+	Optional = { Left = "capped_by_forcelimit" Right = Bool }
+	Optional = { Left = "can_not_build_missionaries" Right = Bool }
+	Optional = { Left = "can_not_declare_war" Right = Bool }	
+}
+
+Global = {
+(Type.Enum Faction) = { Import = { (FileGroup "common\faction.txt") SelectPath = "*\[L]" } }
+}

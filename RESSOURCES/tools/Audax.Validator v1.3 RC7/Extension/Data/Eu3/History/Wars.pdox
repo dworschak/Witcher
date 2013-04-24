@@ -1,0 +1,43 @@
+﻿(Validator "WarFile") = {
+	Type = Default
+	FriendlyName = "Wars"
+	(FileGroup "history\wars" "*.txt")
+	ValidatorName = WarFile
+}
+	
+(Type "WarFile") = {
+	Single = { Left = "name" Right = String }
+	Optional = { Left = "succession" Right = Tag }
+	Child = { Left = { Type = Date } Right = WarEvents }
+	
+	(Optional If = "Eu3Ht") = { Left = "casus_belli" Right = CasusBelli }
+}
+		
+(Type "WarEvents") = {
+	Child = { Left = "add_attacker" Right = Tag }
+	Child = { Left = "add_defender" Right = Tag }
+	Child = { Left = "rem_attacker" Right = Tag }
+	Child = { Left = "rem_defender" Right = Tag }
+	Child = { Left = "battle" Right = Battle }
+}
+		
+(Type "Battle") = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "location" Right = Province }
+	Single = { Left = "attacker" Right = Side }
+	Single = { Left = "defender" Right = Side }
+	Single = { Left = "result" Right = { Literal = "win" Literal = "loss" } }
+}
+		
+(Type "Side") = {
+	Optional = { Left = "infantry" Right = Int }
+	Optional = { Left = "cavalry" Right = Int }
+	Optional = { Left = "artillery" Right = Int }
+	Optional = { Left = "big_ship" Right = Int }
+	Optional = { Left = "light_ship" Right = Int }
+	Optional = { Left = "galley" Right = Int }
+	Single = { Left = "losses" Right = Percent }
+	
+	(Single If = "Eu3Ht") = { Left = "commander" Right = String }
+	(Single If = "Eu3Ht") = { Left = "country" Right = Tag }
+}

@@ -1,0 +1,78 @@
+# stuff for transferring titles, including creation and destruction
+
+(ContextValidator TitleTrigger) = { Members = {
+	(Y  ) = { Left = "can_be_given_away" Right = Bool }
+
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "activate_title" Right = {
+		Single = { Left = "title" Right = AnyTitle }
+		Single = { Left = "status" Right = Bool }
+	} }
+	(N Y) = { Left = "destroy_landed_title" Right = ThisTitle }
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N Y) = { Left = "build_holding" Right = {
+		Single = { Left = "title" Right = BaronTitle }
+		Single = { Left = "type" Right = Building }
+		Single = { Left = "holder" Right = ThisChar }
+	} }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N Y) = { Left = "give_minor_title" Right = MinorTitle }
+	(N Y) = { Left = "usurp_title" Right = ThisTitle }
+	(N Y) = { Left = "gain_all_occupied_titles" Right = ThisChar }
+	(N Y) = { Left = "occupy_minors_of_occupied_settlements" Right = ThisChar }
+	
+	(N Y) = { Left = "grant_title" Right = ThisTitle }
+	(N Y) = { Left = "grant_title_no_opinion" Right = ThisTitle }
+	(Y  ) = { Left = "troops" Right = Double }
+	(Y  ) = { Left = "morale" Right = Double }
+	(N Y) = { Left = "gain_settlements_under_title" Right = {
+		Single = { Left = "title" Right = ThisTitle }
+		Single = { Left = "enemy" Right = ThisChar }
+		Optional = { Left = "is_crusade" Right = Bool }
+	} }
+	(N Y) = { Left = "inherit" Right = ThisChar }
+
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(N Y) = { Left = "press_claim" Right = ThisChar }
+	(N Y) = { Left = "usurp_title" Right = ThisChar }
+	(N Y) = { Left = "usurp_title_only" Right = ThisChar }
+	(N Y) = { Left = "destroy_landed_title" Right = Yes }
+	(N Y) = { Left = "grant_title" Right = ThisChar }
+	(N Y) = { Left = "grant_title_no_opinion" Right = ThisChar }
+	(N Y) = { Left = "gain_title" Right = { ThisChar AnyTitle } }
+	(N Y) = { Left = "usurp_title_plus_barony_if_unlanded" Right = ThisChar }
+	(N Y) = { Left = "usurp_title_plus_barony_if_unlanded_and_vassals" Right = ThisChar }
+	(N Y) = { Left = "grant_kingdom_w_adjudication" Right = ThisChar }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

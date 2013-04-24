@@ -1,0 +1,183 @@
+# FromStatus[None | Country | Province]
+# Call[FromStatus; Location pointer; int id]
+
+Includes = {
+	Scopes
+	Core
+	Unrest
+	Ownership
+	Diplomacy
+	Status
+	Government
+	Politics
+	Resources
+	War
+	(CoreTfh If = Hoi3Tfh)
+}
+
+ContextValidatorInfo = {
+	IdSearch = {
+		(FileGroup "events" "*.txt") = {
+			Province = "province_event\id"
+			Country = "country_event\id"
+		}
+		
+		EventTypes = { Country Province }
+	}
+	
+	CallSearch = {
+		(FileGroup "events" "*.txt") = {
+			Province = "province_event\option"
+			Country = "country_event\option"
+		}
+		
+		# Will search for Search here, and when found will make
+		# Call[None; [location]; [value]]
+		(FileGroup "decisions" "*.txt") = {
+			Country = "diplomatic_decisions\*\effect"
+		}
+		
+		# Searching in cb_types as events can be called from here also
+		(FileGroup "common\cb_types.txt") = {
+			Country = "*\on_completion"
+		}
+		
+		(FileGroup "common\on_actions.txt") = {
+			Country = "*\*"
+			
+			SearchMethod = 1
+		}
+		
+		Search = {
+			province_event
+			country_event
+		}
+	}
+}
+
+(ContextValidator Country) = { }
+(ContextValidator Province) = { }
+
+(ContextValidator Trigger) = {
+	Abstract = True
+	
+	Set = {
+		CountryTrigger = CountryTrigger
+		ProvinceTrigger = ProvinceTrigger
+		
+		Country = Country
+		Province = Province
+	}
+}
+
+Global = {
+(Type ProvinceTrigger) = {
+	ContextValidator = ProvinceTrigger
+}
+}
+
+(ContextValidator ProvinceTrigger) = {
+	(Inherits If = "Hoi3Sf.UnsafeValidation;Hoi3.UnsafeValidation") = CountryTrigger
+	(Inherits IfNot = "Hoi3Sf.UnsafeValidation;Hoi3.UnsafeValidation") = Trigger
+	
+	ThisTarget = ProvinceTrigger
+	Conditional = ProvinceTrigger
+}
+
+Global = {
+(Type CountryTrigger) = {
+	ContextValidator = CountryTrigger
+}
+}
+
+(ContextValidator CountryTrigger) = {
+	Inherits = Trigger
+	ThisTarget = CountryTrigger
+	Conditional = CountryTrigger
+}
+
+(ContextValidator Command) = {
+	Abstract = True
+	
+	Set = {
+		CountryCommand = CountryCommand
+		ProvinceCommand = ProvinceCommand
+		CountryTrigger = CountryTrigger
+		ProvinceTrigger = ProvinceTrigger
+		
+		Country = Country
+		Province = Province
+	}
+}
+
+Global = {
+(Type ProvinceCommand) = {
+	ContextValidator = ProvinceCommand
+}
+}
+
+(ContextValidator ProvinceCommand) = {
+	(Inherits If = "Hoi3Sf.UnsafeValidation;Hoi3.UnsafeValidation") = CountryCommand
+	(Inherits IfNot = "Hoi3Sf.UnsafeValidation;Hoi3.UnsafeValidation") = Command
+	
+	ThisTarget = ProvinceCommand
+}
+
+Global = {
+(Type CountryCommand) = {
+	ContextValidator = CountryCommand
+}
+}
+
+(ContextValidator CountryCommand) = {
+	Inherits = Command
+	ThisTarget = CountryCommand
+}
+
+Global = {
+(Type.Enum All) = { Values = { "ALL" "all" } }
+#(Type.Enum Current) = { Values = { "CURRENT" "current" } }
+#(Type.Enum Owner) = { Values = { "OWNER" "owner" } }
+#(Type.Enum Emperor) = { Values = { "EMPEROR" "emperor" } }
+#(Type.Enum Xxx) = { Values = { "XXX" "xxx" } }
+#(Type.Enum Heretic) = { Values = { "HERETIC" "heretic" } }
+#(Type.Enum Random) = { Values = { "RANDOM" "random" } }
+}
+
+
+		# ([Left Uniqueness] [Right Uniqueness])
+		# N = never has to be unique
+		# A = has to be unique only in an And clause
+		# 		Only valid in conditionals
+		#		Hence, can have duplicates in Or, Not clauses
+		# Y = always has to be unique
+		# Right can be left out only if left is Y - always must be unique
+		# Hence, it is implied that Right is also Y.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

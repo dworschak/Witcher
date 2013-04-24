@@ -1,0 +1,112 @@
+(Type NormalDecisionGroup If = normal) = { Inherits = DecisionGroup }
+(Type DeJureDecisionGroup If = dejure) = { Inherits = DecisionGroup }
+(Type DynastyDecisionGroup If = dynasty) = { Inherits = DecisionGroup }
+(Type SuccessionLawsDecisionGroup If = succ) = { Inherits = DecisionGroup }
+(Type VassalDecisionGroup If = v) = { Inherits = DecisionGroup }
+
+(Type DecisionGroup) = {
+	Child = { Left = { Type = String } Right = DecisionDef (LocalOp Validate ID) (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type DecisionDef) = {
+	Optional = { Left = "is_high_prio" Right = Bool }
+	Optional = { Left = "from_potential" Right = DecisionTrigger }
+	Optional = { Left = "potential" Right = DecisionTrigger }
+	Optional = { Left = "allow" Right = DecisionTrigger }
+	Optional = { Left = "effect" Right = DecisionCommand }
+	Optional = { Left = "revoke_allowed" Right = DecisionTrigger }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+	Optional = { Left = "ai_will_revoke" Right = AiWillDo }
+	Optional = { Left = "pass_effect" Right = DecisionCommand }
+	
+	(If If = "dejure;succ") = {
+		Optional = { Left = "group" Right = String (CheckKey "*" Right IfNot = NoCheckKey) }
+			#{ Literal = "centralization" Literal = "temple_tax" 
+			#Literal = "investiture_law" Literal = "feudal_tax" Literal = "temple_contract"
+			#Literal = "city_tax" Literal = "city_contract" Literal = "feudal_contract" } }
+			
+		Optional = { Left = "default" Right = Bool }
+		Optional = { Left = "show_as_title" Right = Bool }
+		
+		Inherits = CharModifier
+	}
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = AiWillDoModifier }
+}
+
+(Type AiWillDoModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	Inherits = DecisionTrigger
+	
+}
+
+(Type DecisionTrigger) = {
+	(ContextValidator If = normal) = NormalDecisionTrigger
+	(ContextValidator If = dejure) = DeJureDecisionTrigger
+	(ContextValidator If = dynasty) = DynastyDecisionTrigger
+	(ContextValidator If = succ) = SuccDecisionTrigger
+	(ContextValidator If = v) = VassalDecisionTrigger
+}
+
+(ContextValidator NormalDecisionTrigger If = normal) = {
+	Inherits = CharTrigger
+}
+
+(ContextValidator DeJureDecisionTrigger If = dejure) = {
+	Inherits = TitleTrigger
+}
+
+(ContextValidator DynastyDecisionTrigger If = dynasty) = {
+	Inherits = CharTrigger
+	FromTarget = Char
+}
+
+(ContextValidator SuccDecisionTrigger If = succ) = {
+		Inherits = TitleTrigger
+}
+
+(ContextValidator VassalDecisionTrigger If = v) = {
+	Inherits = CharTrigger
+	FromTarget = Char
+}
+
+(Type DecisionCommand) = {
+	(ContextValidator If = normal) = NormalDecisionCommand
+	(ContextValidator If = dejure) = DeJureDecisionCommand
+	(ContextValidator If = dynasty) = DynastyDecisionCommand
+	(ContextValidator If = succ) = SuccDecisionCommand
+	(ContextValidator If = v) = VassalDecisionCommand
+}
+
+(ContextValidator NormalDecisionCommand If = normal) = {
+	Inherits = CharCommand
+}
+
+(ContextValidator DeJureDecisionCommand If = dejure) = {
+	Inherits = TitleCommand
+}
+
+(ContextValidator DynastyDecisionCommand If = dynasty) = {
+	Inherits = CharCommand
+	FromTarget = Char
+}
+
+(ContextValidator SuccDecisionCommand If = succ) = {
+		Inherits = TitleCommand
+}
+
+(ContextValidator VassalDecisionCommand If = succ) = {
+		Inherits = CharCommand
+		FromTarget = Char
+}
+
+
+
+
+
+
+

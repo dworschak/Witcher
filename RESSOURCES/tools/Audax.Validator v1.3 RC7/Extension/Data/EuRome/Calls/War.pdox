@@ -1,0 +1,73 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "units_in_province" Right = Int }
+	(Y Y) = { Left = "infantry_in_province" Right = Int }
+	
+	(Y Y) = { Left = "has_siege" Right = Bool }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "war" Right = Bool }
+	(Y Y) = { Left = "land_maintenance" Right = Double }
+	(Y Y) = { Left = "war_exhaustion" Right = Double }
+	
+	(Y Y) = { Left = "army_size_percentage" Right = Double }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y Y) = { Left = "in_command" Right = Bool }
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "war_exhaustion" Right = Double }
+	(N N) = { Left = { Type = UnitType } Right = { Province ThisProvince } }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N N) = { Left = { Type = UnitType } Right = { ThisCountry } }
+	(Y Y) = { Left = "remove_from_unit" Right = Yes }
+	(Y Y) = { Left = "assign_to_unit" Right = ThisChar }
+	
+	# Add units
+	(N N) = { Left = "merc_warelephant" Right = ThisChar }
+	(N N) = { Left = "merc_archers" Right = ThisChar }
+	(N N) = { Left = "merc_horse_archers" Right = ThisChar }
+	(N N) = { Left = "merc_heavy_infantry" Right = ThisChar }
+	(N N) = { Left = "merc_militia" Right = ThisChar }
+	(N N) = { Left = "merc_cavalry" Right = ThisChar }
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

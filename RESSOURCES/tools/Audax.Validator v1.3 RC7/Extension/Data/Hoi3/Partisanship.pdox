@@ -1,0 +1,108 @@
+(Validator Partisanship) = {
+	Type = GroupValidator
+	FriendlyName = "Partisanship"
+	Description = "Includes rebel types and occupation policies."
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\occupation_policies.txt")
+		ValidatorName = OccupationPoliciesFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\rebel_types.txt")
+		ValidatorName = RebelTypesFile
+	}
+	
+}
+
+(Type OccupationPoliciesFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = OccupationPolicyDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type OccupationPolicyDef) = {
+	Inherits = LocalModifierCommand
+	
+	Optional = { Left = "allow" Right = OccCountryTrigger }
+}
+
+(ContextValidator OccCountryTrigger) = {
+	Inherits = CountryTrigger
+	ThisTarget = Country
+	FromTarget = Country
+	
+	Set = {
+		CountryTrigger = OccCountryTrigger
+	}
+	
+	Members = {
+	}
+}
+
+(Type OccCountryTrigger) = {
+	ContextValidator = OccCountryTrigger
+}
+
+(Type RebelTypesFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = RebelTypeDef
+		(CheckKey "*_title" Left IfNot = NoCheckKey)
+		(CheckKey "*_name" Left IfNot = NoCheckKey)
+		(CheckKey "*_desc" Left IfNot = NoCheckKey)
+		(CheckKey "*_army" Left IfNot = NoCheckKey)
+	}
+}
+
+(Type RebelTypeDef) = {
+	Optional = { Left = "ideology" Right = { Type = Ideology Literal = "any" } }
+	Optional = { Left = "area" Right = { Literal = "nation" } }
+	Optional = { Left = "defection" Right = { Literal = "none" Literal = "any" } }
+	Optional = { Left = "independence" Right = { Literal = "none" Literal = "any" } }
+	Optional = { Left = "unit" Right = LandBrigade }
+	
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	Optional = { Left = "resilient" Right = Bool }
+	Optional = { Left = "reinforcing" Right = Bool }
+	Optional = { Left = "smart" Right = Bool }
+	Optional = { Left = "auto_convert" Right = Bool }
+	Optional = { Left = "unit_transfer" Right = Bool }
+	Optional = { Left = "defect_delay" Right = PInt }
+	
+	Optional = { Left = "spawn_chance" Right = SpawnChance }
+	Optional = { Left = "movement_evaluation" Right = SpawnChance }
+	Optional = { Left = "siege_won_trigger" Right = ProvinceTrigger }
+	Optional = { Left = "can_enforce_trigger" Right = CountryTrigger }
+	Optional = { Left = "demands_enforced_effect" Right = CountryCommand }
+	Optional = { Left = "siege_won_effect" Right = ProvinceCommand }
+
+}
+
+(Type SpawnChance) = {
+	Single = { Left = "factor" Right = Double }
+	Child = { Left = "modifier" Right = Modifier }
+}
+
+(Type Modifier) = {
+	Inherits = RebelProvinceTrigger
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator RebelProvinceTrigger) = {
+	Inherits = ProvinceTrigger
+	
+	Set = {
+		ProvinceTrigger = RebelProvinceTrigger
+	}
+	
+	Members = {
+	}
+}
+
+(Type RebelProvinceTrigger) = {
+	ContextValidator = RebelProvinceTrigger
+}
+
+
+
+
+

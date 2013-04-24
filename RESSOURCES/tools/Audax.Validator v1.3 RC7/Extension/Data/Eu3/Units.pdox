@@ -1,0 +1,39 @@
+(Validator UnitValidator) = {
+	Type = Default
+	FriendlyName = "Units"
+	ValidatorName = UnitDef
+	(FileGroup "common\units" "*.txt")
+}
+
+(Type UnitDef) = {
+	NodeSwitcher = {
+		Node = "type"
+		Switch = {
+			"cavalry" = LandUnitDef
+			"infantry" = LandUnitDef
+			"artillery" = LandUnitDef
+			"big_ship" = SeaUnitDef
+			"light_ship" = SeaUnitDef
+			"transport" = SeaUnitDef
+			"galley" = SeaUnitDef
+		}
+	}
+}
+
+(Type LandUnitDef) = {
+	Optional = { Left = "unit_type" Right = TechGroup }
+	Single = { Left = "maneuver" Right = Int }
+	Single = { Left = "offensive_morale" Right = Int }
+	Single = { Left = "defensive_morale" Right = Int }
+	Single = { Left = "offensive_fire" Right = Int }
+	Single = { Left = "defensive_fire" Right = Int }
+	Single = { Left = "offensive_shock" Right = Int }
+	Single = { Left = "defensive_shock" Right = Int }
+}
+
+(Type SeaUnitDef) = {
+	Optional = { Left = "unit_type" Right = TechGroup }
+	Single = { Left = "hull_size" Right = Int }
+	Single = { Left = "base_cannons" Right = Int }
+	Single = { Left = "sail_speed" Right = Int }
+}

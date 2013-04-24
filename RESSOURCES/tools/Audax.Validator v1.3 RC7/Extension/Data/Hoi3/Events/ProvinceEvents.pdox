@@ -1,0 +1,47 @@
+Shared = {
+(Type ProvinceEvent) = {
+	Inherits = EventBase
+	
+	Optional = { Left = "major" Right = Bool }
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	
+	Required = { Left = "option" Right = Option }
+	Optional = { Left = "trigger" Right = ProvinceTrigger }
+	Optional = { Left = "mean_time_to_happen" Right = Mtth }
+	
+	(Optional If = Hoi3Sf) = { Left = "fire_only_once" Right = Bool }
+	(Optional If = Hoi3Sf) = { Left = "subtitle" Right = String }
+}
+}
+
+(Type Option) = {
+	Inherits = ProvinceCommand
+
+	Single = { Left = "name" Right = String }
+	Optional = { Left = "ai_chance" Right = AiChance }
+	Optional = { Left = "trigger" Right = ProvinceTrigger }
+	Child = { Left = "random" Right = RandomClause }
+}
+
+(Type AiChance) = {
+	Single = { Left = "factor" Right = Int }
+	
+	(Ch N N) = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type RandomClause) = {
+	Inherits = ProvinceCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type Mtth) = {
+	Optional = { Left = "days" Right = NonNegativeInt }
+	Optional = { Left = "months" Right = NonNegativeInt }
+	Child = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type MtthModifier) = {
+	Inherits = FactorModifier
+	Inherits = ProvinceTrigger
+	Single = { Left = "factor" Right = Double }
+}

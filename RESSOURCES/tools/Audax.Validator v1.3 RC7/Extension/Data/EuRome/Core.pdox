@@ -1,0 +1,81 @@
+(If If = "Rv") = {
+	Name = "EU Rome"
+	Key = "EuRome"
+}
+
+(If If = "Vv") = {
+	Name = "EU Rome: VV"
+	Key = "EuRomeVv"
+}
+
+System = "Clausewitz"
+
+Packages = { "Rome" }
+Includes = {
+	Calls\_Main
+	Options
+	"..\_Common\FactorModifier"
+	
+	Modifiers
+	
+	Localization
+	MapPositions
+	Events
+	Technology
+	
+	(Decisions If = Vv)
+	(Missions If = Vv)
+	(Titles If = Vv)
+	
+	History\Characters
+	History\Wars
+	History\Provinces
+	History\Countries
+	History\Diplomacy
+	
+	Traits
+}
+
+Global = {
+(Literal Yes) = "yes"
+
+(Type.Enum Building) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "*\[L]" } }
+(Type.Enum Culture) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\culture\Item\[R]" } }
+(Type.Enum CultureGroup) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\[L]" } }
+(Type.Enum Decision If = Vv) = { Import = { (FileGroup "decisions" "*.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum Government) = { Import = { (FileGroup "common\governments.txt") SelectPath = "*\[L]" } }
+(Type.Enum Idea) = { Import = { (FileGroup "common\ideas.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum Office) = { Values = { "land" "naval" "civic" "construction" "religious"
+	"land_tech" "naval_tech" "civic_tech" "construction_tech" "religious_tech" } }
+(Type.Enum Omen) = { Import = { (FileGroup "common\omens.txt") SelectPath = "*\[L]" } }
+(Type.Enum Religion) = { Import = { (FileGroup "common\religion.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum ReligionGroup) = { Import = { (FileGroup "common\religion.txt") SelectPath = "*\[L]" } }
+(Type.Enum Tag) = { Import = { (FileGroup "common\countries.txt") SelectPath = "*\[L]" } }
+(Type.Enum TechCategory) = { Values = { "land" "naval" "civic" "construction" "religious"
+	"land_tech" "naval_tech" "civic_tech" "construction_tech" "religious_tech" } }
+(Type.Enum TechGroup) = { Import = { (FileGroup "common\technology.txt") SelectPath = "groups\*\[L]" } }
+(Type.Enum TechInvention) = { Import = { (FileGroup "common\technologies" "*_inventions.txt") SelectPath = "*\[L]" } }
+(Type.Enum Title) = { Import = { (FileGroup "common\titles.txt") SelectPath = "*\[L]" } }
+(Type.Enum TradeGood) = { Import = { (FileGroup "common\tradegoods.txt") SelectPath = "*\[L]" } }
+(Type.Enum UnitType) = { Import = { (FileGroup "common\units" "*.txt") SelectPath = "type\[R]" } }
+
+(Type.Enum EventModifier) = {	 	Import = { (FileGroup "common\event_modifiers.txt")		SelectPath = "*\[L]" } }
+(Type.Enum StaticModifier) = {	 	Import = { (FileGroup "common\static_modifiers.txt")	SelectPath = "*\[L]" } }
+(Type.Enum TriggeredModifier) = {	Import = { (FileGroup "common\triggered_modifiers.txt")	SelectPath = "*\[L]" } }
+(Type.Enum Law) = { Import = { (FileGroup "decisions" "*.txt") SelectPath = "laws\*\[L]" } }
+
+Script = {
+	(DataSource Pdo) = {
+		Path = {
+			(DataSource Pdo) = {
+				Path = "map\default.map"
+			}
+			
+			(MakeFileGroup RegionPath "map\") = "region\[R]"
+			(Return "map\") = "region\[R]"
+		}
+	}
+	
+	(MakeEnumValidator Region) = "*\[L]"
+}
+}

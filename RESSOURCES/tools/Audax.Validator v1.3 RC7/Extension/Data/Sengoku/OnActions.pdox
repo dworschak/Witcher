@@ -1,0 +1,52 @@
+(Validator OnActions) = {
+	Type = Default
+	FriendlyName = "On Actions"
+	(FileGroup "common\on_actions.txt")
+	ValidatorName = OnActionsFile
+}
+
+(Type OnActionsFile) = {
+	Single = { Left = "on_siege_won_commander" Right = ProvPulse }
+	Single = { Left = "on_siege_lost_commander" Right = ProvPulse }
+	Single = { Left = "on_siege_won" Right = ProvPulse }
+	Single = { Left = "on_siege_lost" Right = ProvPulse }
+	Single = { Left = "on_assault_won" Right = ProvPulse }
+	Single = { Left = "on_destroyed_christian_church" Right = ProvPulse }
+	Single = { Left = "on_destroyed_buddhist_temple" Right = ProvPulse }
+	Single = { Left = "on_destroyed_shinto_shrine" Right = ProvPulse }
+	(Ch Y N) = { Left = { Type = String } Right = Pulse }
+}
+
+(Type Pulse) = {
+	Optional = { Left = "random_events" Right = RandomEventGroup }
+	Optional = { Left = "events" Right = EventGroup }
+}
+
+(Type RandomEventGroup) = {
+	(Ch N Y) = { Left = { Type = PInt } Right = { CharEventId LetterEventId NarrativeEventId 0 } }
+}
+
+(Type EventGroup) = {
+	(PdoList Y) = { Type = { CharEventId LetterEventId NarrativeEventId } }
+}
+
+(Type ProvPulse) = {
+	Optional = { Left = "random_events" Right = ProvRandomEventGroup }
+	Optional = { Left = "events" Right = ProvEventGroup }
+}
+
+(Type ProvRandomEventGroup) = {
+	(Ch N Y) = { Left = { Type = PInt } Right = { ProvEventId 0 } }
+}
+
+(Type ProvEventGroup) = {
+	(PdoList Y) = { Type = ProvEventId }
+}
+
+
+
+
+
+
+
+

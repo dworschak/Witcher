@@ -1,0 +1,107 @@
+(Validator Issues) = {
+	Type = Default
+	FriendlyName = "Issues"
+	(FileGroup "common\issues.txt")
+	ValidatorName = IssueFile
+}
+
+(Type IssueFile) = {
+	Single = { Left = "party_issues" Right = { (Ch Y N) = { Left = { Type = String } Right = IssueGroup } } }
+	Single = { Left = "political_reforms" Right = { (Ch Y N) = { Left = { Type = String } Right = ReformGroup } } }
+	Single = { Left = "social_reforms" Right = { (Ch Y N) = { Left = { Type = String } Right = ReformGroup } } }
+	
+	(If If = Vic2Ahd) = {
+		Single = { Left = "military_reforms" Right = { (Ch Y N) = { Left = { Type = String } Right = UncivReformGroup } } }
+		Single = { Left = "economic_reforms" Right = { (Ch Y N) = { Left = { Type = String } Right = UncivReformGroup } } }
+	}
+}
+
+(Type IssueGroup) = {
+	(Ch Y N) = { Left = { Type = String } Right = Issue }
+}
+
+(Type ReformGroup) = {
+	(Ch Y N) = { Left = { Type = String } Right = Reform }
+}
+
+(Type IssueReformEffect) = {
+	Inherits = CountryModifier
+	
+	Optional = { Left = "rules" Right = Rules }
+	
+	Optional = { Left = "max_tariff" Right = DblPercent }
+	Optional = { Left = "min_tariff" Right = DblPercent }
+	Optional = { Left = "max_tax" Right = DblPercent }
+	Optional = { Left = "min_tax" Right = DblPercent }
+	Optional = { Left = "is_jingoism" Right = Bool }
+	
+	Optional = { Left = "minimum_wage" Right = DblPercent }
+	Optional = { Left = "administrative_multiplier" Right = NonNegDbl }
+	Optional = { Left = "factory_maintenance" Right = NzDbl }
+	Optional = { Left = "pension_level" Right = NonNegDbl }
+	Optional = { Left = "unemployment_benefit" Right = NonNegDbl }
+
+}
+
+(Type Issue) = {
+	Inherits = IssueReformEffect
+}
+
+(Type Reform) = {
+	Inherits = IssueReformEffect
+	
+	Optional = { Left = "allow" Right = CountryTrigger }
+}
+
+(Type UncivReformGroup) = {
+	(Ch Y N) = { Left = { Type = String } Right = UncivReform }
+
+}
+
+(Type UncivReform) = {
+	Inherits = Reform
+	
+	Optional = { Left = "civilization_progress_modifier" Right = NzDbl }
+	Optional = { Left = "on_execute" Right = { 
+		Single = { Left = "effect" Right = CountryCommand }
+		Optional = { Left = "trigger" Right = CountryTrigger }
+		} }
+	Optional = { Left = "technology_cost" Right = NzDbl }
+}
+
+(Type Rules) = {
+	Optional = { Left = "slavery_allowed" Right = Bool }
+	Optional = { Left = "build_factory" Right = Bool }
+	Optional = { Left = "expand_factory" Right = Bool }
+	Optional = { Left = "open_factory" Right = Bool }
+	Optional = { Left = "destroy_factory" Right = Bool }
+	Optional = { Left = "build_railway" Right = Bool }
+	Optional = { Left = "factory_priority" Right = Bool }
+	Optional = { Left = "can_subsidise" Right = Bool }
+	Optional = { Left = "pop_build_factory" Right = Bool }
+	Optional = { Left = "pop_expand_factory" Right = Bool }
+	Optional = { Left = "pop_open_factory" Right = Bool }
+	Optional = { Left = "delete_factory_if_no_input" Right = Bool }
+	Optional = { Left = "all_voting" Right = Bool }
+	Optional = { Left = "culture_voting" Right = Bool }
+	Optional = { Left = "primary_culture_voting" Right = Bool }
+	Optional = { Left = "population_vote" Right = Bool }
+	Optional = { Left = "state_vote" Right = Bool }
+	Optional = { Left = "rich_only" Right = Bool }
+	Optional = { Left = "same_as_ruling_party" Right = Bool }
+	Optional = { Left = "sainte_laque" Right = Bool }
+	Optional = { Left = "dhont" Right = Bool }
+	Optional = { Left = "largest_share" Right = Bool }
+	
+	(If If = Vic2Ahd) = {
+		Optional = { Left = "can_invest_in_pop_projects" Right = Bool }
+		Optional = { Left = "build_railway_invest" Right = Bool }
+		Optional = { Left = "expand_factory_invest" Right = Bool }
+		Optional = { Left = "build_factory_invest" Right = Bool }
+		Optional = { Left = "allow_foreign_investment" Right = Bool }
+		Optional = { Left = "open_factory_invest" Right = Bool }
+		Optional = { Left = "pop_expand_factory_invest" Right = Bool }
+		Optional = { Left = "pop_build_factory_invest" Right = Bool }
+	}
+	
+}

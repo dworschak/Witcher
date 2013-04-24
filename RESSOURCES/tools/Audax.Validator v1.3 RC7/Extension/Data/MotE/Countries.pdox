@@ -1,0 +1,54 @@
+(Validator Countries) = {
+	Type = GroupValidator
+	FriendlyName = "Countries"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\countries.txt")
+		ValidatorName = CountryListFile
+	}
+	
+}
+
+(Type CountryListFile) = {
+	(Ch Y N) = {
+		Left = { Type = String }
+		Right = String
+		(ValidateFile "[R]" CountryDefFile Format = "common/{0}")
+		(CheckKey "*_SHORT" Left IfNot = NoCheckKey)
+		(CheckKey "*_ADJ" Left IfNot = NoCheckKey)
+		(CheckKey "*_TXT" Left IfNot = NoCheckKey)
+		(CheckKey "*_POP" Left IfNot = NoCheckKey)
+	}
+	
+}
+
+(Type CountryDefFile) = {
+	Single = { Left = "color" Right = Color }
+	Single = { Left = "graphical_culture" Right = GraphicalCultureType }
+	#Single = { Left = "government" Right = GovernmentType }
+	(Ch N Y) = { Left = "land_dominance" Right = LandProvince }
+	(Ch N Y) = { Left = "naval_dominance" Right = LandProvince }
+	Optional = { Left = "full_name" Right = String }
+	
+	(If If = Debug) = {
+		#Optional = { Left = "monarch_names" Right = { (Ch Y N) = { Left = { Type = String } Right = PInt } } }
+		#Optional = { Left = "leader_names" Right = { (PdoList N) = { Type = String } } }
+		Optional = { Left = "ship_names" Right = { (PdoList N) = { Type = String } } }
+		Optional = { Left = "army_names" Right = { (PdoList N) = { Type = String } } }
+		Optional = { Left = "fleet_names" Right = { (PdoList N) = { Type = String } } }
+	}
+	(If IfNot = Debug) = {
+		#Single = { Left = "monarch_names" Right = { (Ch Y N) = { Left = { Type = String } Right = PInt } } }
+		#Single = { Left = "leader_names" Right = { (PdoList Y) = { Type = String } } }
+		Single = { Left = "ship_names" Right = { (PdoList Y) = { Type = String } } }
+		Single = { Left = "army_names" Right = { (PdoList Y) = { Type = String } } }
+		Single = { Left = "fleet_names" Right = { (PdoList Y) = { Type = String } } }
+	}
+}
+
+
+
+
+
+

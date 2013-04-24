@@ -1,0 +1,21 @@
+(Validator Bookmarks) = {
+	Type = Default
+	FriendlyName = "@Bookmarks"
+	(FileGroup "common\bookmarks.txt")
+	ValidatorName = Bookmarks
+}
+
+(Type Bookmarks) = {
+	Child = { Left = "bookmark" Right = Bookmark }
+}
+
+(Type Bookmark) = {
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "desc" Right = Key }
+	Single = { Left = "date" Right = Date }
+	
+	(If If = Vic2Ahd) = {
+		Optional = { Left = "cameraX" Right = NonNegInt }
+		Optional = { Left = "cameraY" Right = NonNegInt }
+	}
+}

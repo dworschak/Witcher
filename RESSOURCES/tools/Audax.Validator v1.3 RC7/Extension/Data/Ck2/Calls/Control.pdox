@@ -1,0 +1,192 @@
+# This file contains flags, if statements,
+# limits, random, THIS-stuff, variables, etc
+
+(ContextValidator Trigger) = { Scopes = {
+	CharTrigger = { Type = ThisChar }
+	ProvTrigger = { Type = ThisProv }
+	TitleTrigger = { Type = ThisTitle }
+
+} }
+
+(ContextValidator Command) = { Scopes = {
+	CharCommand = { Type = ThisChar }
+	ProvCommand = { Type = ThisProv }
+	TitleCommand = { Type = ThisTitle }
+
+} }
+
+(ContextValidator ProvCommand) = { Scopes = {
+	ProvTrigger = "limit"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharTrigger = "limit"
+
+} }
+
+(ContextValidator TitleCommand) = { Scopes = {
+	TitleTrigger = "limit"
+
+} }
+
+(ContextValidator Trigger) = { Members = {
+	(Y  ) = { Left = "always" Right = Bool }
+	(Y  ) = { Left = "difficulty" Right = NnInt }
+
+	(Y  ) = { Left = "year" Right = NnInt }
+	(Y  ) = { Left = "month" Right = NnInt }
+	(Y  ) = { Left = "random" Right = Double }
+	
+	(N Y) = { Left = "has_global_flag" Right = String (LocalOp "chk" "[R]" AddChecker GlobalFlag If = TraceFlags) }
+	(N Y) = { Left = "had_global_flag" Right = GlobalFlagClause }
+
+} }
+
+(ContextValidator ProvTrigger) = { Members = {
+	(N Y) = { Left = "has_province_flag" Right = String (LocalOp "chk" "[R]" AddChecker ProvinceFlag If = TraceFlags) }
+	(N Y) = { Left = "had_province_flag" Right = ProvFlagClause }
+	
+	(N Y) = { Left = "check_variable" Right = {
+		Single = { Left = "which" Right = String (LocalOp "chk" "[R]" AddChecker ProvVars If = TraceFlags) }
+		Single = { Left = "value" Right = Double }
+	} }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "has_dynasty_flag" Right = String (LocalOp "chk" "[R]" AddChecker DynastyFlag If = TraceFlags) }
+	(N Y) = { Left = "had_dynasty_flag" Right = DynastyFlagClause }
+
+	(N Y) = { Left = "has_character_flag" Right = String (LocalOp "chk" "[R]" AddChecker CharFlag If = TraceFlags) }
+	(N Y) = { Left = "had_character_flag" Right = CharFlagClause }
+	
+	(N Y) = { Left = "check_variable" Right = {
+		Single = { Left = "which" Right = String (LocalOp "chk" "[R]" AddChecker CharVars If = TraceFlags) }
+		Single = { Left = "value" Right = Double }
+	} }
+
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "set_global_flag" Right = String (LocalOp "set" "[R]" AddSetter GlobalFlag If = TraceFlags) }
+	(N Y) = { Left = "clr_global_flag" Right = String (LocalOp "clr" "[R]" AddSetter GlobalFlag If = TraceFlags) }
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N N) = { Left = { "if" "IF" } Right = ProvIfClause }
+	
+	(N N) = { Left = "random" Right = {
+		Inherits = ProvCommand
+		Single = { Left = "chance" Right = Int }
+	} }
+	(N N) = { Left = "random_list" Right = {
+		(Ch N N) = { Left = { Type = Int } Right = ProvCommand }
+	} }
+	
+	(N Y) = { Left = "set_province_flag" Right = String (LocalOp "set" "[R]" AddSetter ProvinceFlag If = TraceFlags) }
+	(N Y) = { Left = "clr_province_flag" Right = String (LocalOp "clr" "[R]" AddSetter ProvinceFlag If = TraceFlags) }
+	
+	(N Y) = { Left = "change_variable" Right = {
+		Single = { Left = "which" Right = String (LocalOp "set" "[R]" AddSetter ProvVars If = TraceFlags) }
+		Single = { Left = "value" Right = Double }
+	} }
+	(N Y) = { Left = "set_variable" Right = {
+		Single = { Left = "which" Right = String (LocalOp "set" "[R]" AddSetter ProvVars If = TraceFlags) }
+		Single = { Left = "value" Right = Double }
+	} }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N N) = { Left = { "if" "IF" } Right = CharIfClause }
+
+	(N N) = { Left = "random" Right = {
+		Inherits = CharCommand
+		Single = { Left = "chance" Right = Int }
+	} }
+	(N N) = { Left = "random_list" Right = {
+		(Ch N N) = { Left = { Type = Int } Right = CharCommand }
+	} }
+
+	(N Y) = { Left = "set_dynasty_flag" Right = String (LocalOp "set" "[R]" AddSetter DynastyFlag If = TraceFlags) }
+	(N Y) = { Left = "clr_dynasty_flag" Right = String (LocalOp "clr" "[R]" AddSetter DynastyFlag If = TraceFlags) }
+
+	(N Y) = { Left = "set_character_flag" Right = String (LocalOp "set" "[R]" AddSetter CharFlag If = TraceFlags) }
+	(N Y) = { Left = "clr_character_flag" Right = String (LocalOp "clr" "[R]" AddSetter CharFlag If = TraceFlags) }
+
+	(N Y) = { Left = "change_variable" Right = {
+		Single = { Left = "which" Right = String (LocalOp "set" "[R]" AddSetter CharVars If = TraceFlags) }
+		Single = { Left = "value" Right = Double }
+	} }
+	(N Y) = { Left = "set_variable" Right = {
+		Single = { Left = "which" Right = String (LocalOp "set" "[R]" AddSetter CharVars If = TraceFlags) }
+		Single = { Left = "value" Right = Double }
+	} }
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(N N) = { Left = { "if" "IF" } Right = TitleIfClause }
+
+	(N N) = { Left = "random" Right = {
+		Inherits = TitleCommand
+		Single = { Left = "chance" Right = Int }
+	} }
+	(N N) = { Left = "random_list" Right = {
+		(Ch N N) = { Left = { Type = Int } Right = TitleCommand }
+	} }
+
+} }
+
+(Type ProvIfClause) = {
+	Inherits = ProvCommand
+	
+	Optional = { Left = "limit" Right = ProvTrigger }
+}
+
+(Type CharIfClause) = {
+	Inherits = CharCommand
+	
+	Optional = { Left = "limit" Right = CharTrigger }
+}
+
+(Type TitleIfClause) = {
+	Inherits = TitleCommand
+	
+	Optional = { Left = "limit" Right = TitleTrigger }
+}
+
+(Type ProvFlagClause) = {
+	Single = { Left = "flag" Right = String (LocalOp "chk" "[R]" AddChecker ProvinceFlag If = TraceFlags) }
+	Single = { Left = "days" Right = NnInt }
+}
+
+(Type DynastyFlagClause) = {
+	Single = { Left = "flag" Right = String (LocalOp "chk" "[R]" AddChecker DynastyFlag If = TraceFlags) }
+	Single = { Left = "days" Right = NnInt }
+}
+
+(Type CharFlagClause) = {
+	Single = { Left = "flag" Right = String (LocalOp "chk" "[R]" AddChecker CharFlag If = TraceFlags) }
+	Single = { Left = "days" Right = NnInt }
+}
+
+(Type GlobalFlagClause) = {
+	Single = { Left = "flag" Right = String (LocalOp "chk" "[R]" AddChecker GlobalFlag If = TraceFlags) }
+	Single = { Left = "days" Right = NnInt }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

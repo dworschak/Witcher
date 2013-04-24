@@ -1,0 +1,67 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(A Y) = { Left = "owned_by" Right = { Tag ThisCountry ThisChar ThisProvince } }
+	(A Y) = { Left = "controlled_by" Right = { Tag ThisCountry ThisChar ThisProvince Owner } }
+	(A Y) = { Left = "is_core" Right = { Tag ThisCountry ThisChar ThisProvince } }
+	
+	(Y Y) = { Left = "last_control_change" Right = Double }
+
+	# BAD - Switch to owner scope first
+	(Y Y) = { Left = "num_of_cities" Right = Int }
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "num_of_cities" Right = Int }
+	(Y Y) = { Left = "num_of_ports" Right = Int }
+	
+	(N Y) = { Left = "owns" Right = LandProvince }
+	(N Y) = { Left = "controls" Right = LandProvince }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N Y) = { Left = "add_core" Right = { Tag ThisCountry } }
+	(Y  ) = { Left = "change_controller" Right = { Tag ThisCountry } }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "add_core" Right = { LandProvince ThisProvince } }
+	(N Y) = { Left = "remove_core" Right = { LandProvince ThisProvince } }
+} }
+
+(ContextValidator CharCommand) = { Members = {
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

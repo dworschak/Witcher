@@ -1,0 +1,95 @@
+(ContextValidator CharTrigger) = { Scopes = {
+	CharTrigger = "religion_head"
+	CharTrigger = "rightful_religious_head_scope"
+	TitleTrigger = "crusade_target"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = "religion_head"
+	CharCommand = "rightful_religious_head_scope"
+
+} }
+
+(ContextValidator ProvTrigger) = { Members = {
+	(A Y) = { Left = "religion" Right = Religion }
+	(N Y) = { Left = "religion" Right = { ThisChar ThisProv ThisTitle } }
+	(A Y) = { Left = "religion_group" Right = ReligionGroup }
+	(N Y) = { Left = "religion_group" Right = { ThisChar ThisProv ThisTitle } }
+	(Y  ) = { Left = "religion_authority" Right = NnDbl }
+	(N Y) = { Left = "is_heresy_of" Right = { ThisProv ThisChar ThisTitle Religion } }
+	(Y  ) = { Left = "is_heretic" Right = Bool }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(A Y) = { Left = "religion" Right = Religion }
+	(N Y) = { Left = "religion" Right = { ThisChar ThisProv ThisTitle } }
+	(A Y) = { Left = "religion_group" Right = ReligionGroup }
+	(N Y) = { Left = "religion_group" Right = { ThisChar ThisProv ThisTitle } }
+
+	(N Y) = { Left = "excommunicated_for" Right = ThisChar }
+	(N Y) = { Left = "is_heresy_of" Right = { Religion ThisChar ThisProv ThisTitle } }
+	(N Y) = { Left = "is_parent_religion" Right = { ThisChar ThisProv ThisTitle } }
+	(N Y) = { Left = "rightful_religious_head" Right = ThisChar }
+	(Y  ) = { Left = "religion_authority" Right = NnDblP }
+	
+	(Y  ) = { Left = "can_call_crusade" Right = Bool }
+	(Y  ) = { Left = "controls_religion" Right = Bool }
+	(Y  ) = { Left = "has_called_crusade" Right = Bool }
+	(Y  ) = { Left = "is_heretic" Right = Bool }
+	(Y  ) = { Left = "can_change_religion" Right = Bool }
+
+} }
+
+(ContextValidator TitleTrigger) = { Members = {
+	(Y  ) = { Left = "controls_religion" Right = Bool }
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(Y  ) = { Left = "religion" Right = { Religion ThisProv ThisChar ThisTitle } }
+	(Y  ) = { Left = "reverse_religion" Right = { ThisProv ThisChar ThisTitle } }
+	(Y  ) = { Left = "become_heretic" Right = Yes }
+	(Y   IfNot = V110) = { Left = "religion_authority" Right = Double }
+	(N Y If = V110) = { Left = "religion_authority" Right = { Double ComplexRA } }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y  ) = { Left = "religion" Right = { Religion ThisChar ThisProv ThisTitle } }
+	(Y   IfNot = V110) = { Left = "religion_authority" Right = Double }
+	(N Y If = V110) = { Left = "religion_authority" Right = { Double ComplexRA } }
+	(Y  ) = { Left = "reverse_religion" Right = { ThisProv ThisChar } }
+	(Y  ) = { Left = "abandon_heresy" Right = Yes }
+	(Y  ) = { Left = "excommunicate" Right = Bool }
+	(Y  ) = { Left = "become_heretic" Right = Bool }
+
+} }
+
+(Type ComplexRA) = {
+	Single = { Left = "modifier" Right = ReligionModifier }
+	Optional = { Left = "years" Right = PInt }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

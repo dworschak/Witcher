@@ -1,0 +1,24 @@
+﻿(Validator DecisionFile) = {
+	Type = Default
+	FriendlyName = "Decisions"
+	(FileGroup "decisions" "*.txt")
+	ValidatorName = DecisionFile
+}
+
+(Type DecisionFile) = {
+	Optional = { Left = "country_decisions" Right = CountryDecision }
+	Optional = { Left = "religion_decisions" Right = CountryDecision }
+	Optional = { Left = "province_decisions" Right = ProvinceDecision }
+	
+	(If If = Eu3Ht) = {
+		Optional = { Left = "cultural_decisions" Right = CountryDecision }
+		Optional = { Left = "hre_decisions" Right = CountryDecision }
+	}
+	
+	(If If = Eu3Dw) = {
+		Optional = { Left = "shogunate_decisions" Right = CountryDecision }
+	}
+}
+
+(Import "CountryDecision" From "DecisionsHelper" WithFlag "c")
+(Import "ProvinceDecision" From "DecisionsHelper" WithFlag "p")

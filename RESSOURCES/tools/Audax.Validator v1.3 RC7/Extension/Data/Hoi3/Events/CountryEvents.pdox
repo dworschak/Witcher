@@ -1,0 +1,48 @@
+Shared = {
+(Type CountryEvent) = {
+	Inherits = EventBase
+
+	(Optional If = Hoi3Sf) = { Left = "triggered_only_once" Right = Bool }
+	
+	Optional = { Left = "major" Right = Bool }
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	
+	Required = { Left = "option" Right = Option }
+	Optional = { Left = "trigger" Right = CountryTrigger }
+	Optional = { Left = "mean_time_to_happen" Right = Mtth }
+	
+	(Optional If = Hoi3Ftm) = { Left = "fire_only_once" Right = Bool }
+}
+}
+
+(Type Option) = {
+	Inherits = CountryCommand
+
+	Single = { Left = "name" Right = String }
+	Optional = { Left = "trigger" Right = ProvinceTrigger }
+	Optional = { Left = "ai_chance" Right = AiChance }
+	Child = { Left = "random" Right = RandomClause }
+}
+
+(Type AiChance) = {
+	Single = { Left = "factor" Right = Int }
+	
+	(Ch N N) = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type RandomClause) = {
+	Inherits = CountryCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type Mtth) = {
+	Optional = { Left = "days" Right = NonNegativeInt }
+	Optional = { Left = "months" Right = NonNegativeInt }
+	Child = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type MtthModifier) = {
+	Inherits = FactorModifier
+	Inherits = CountryTrigger
+	Single = { Left = "factor" Right = Double }
+}

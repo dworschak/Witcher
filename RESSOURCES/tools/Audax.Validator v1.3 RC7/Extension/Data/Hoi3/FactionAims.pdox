@@ -1,0 +1,45 @@
+(Validator FactionAims) = {
+	Type = Default
+	FriendlyName = "Faction Aims"
+	(FileGroup "common\faction_aims.txt")
+	ValidatorName = FactionAimsFile
+}
+
+(Type FactionAimsFile) = {
+	Single = { Left = "axis" Right = FactionAimList }
+	Single = { Left = "allies" Right = FactionAimList }
+	Single = { Left = "comintern" Right = FactionAimList }
+}
+
+Global = {
+(Type ScenarioFactionAimsFile If = Hoi3Ftm) = {
+	Optional = { Left = "axis" Right = ScenarioFactionAimList }
+	Optional = { Left = "allies" Right = ScenarioFactionAimList }
+	Optional = { Left = "comintern" Right = ScenarioFactionAimList }
+}
+}
+
+(Type ScenarioFactionAimList) = {
+	(Ch Y N) = { Left = { Type = String } Right = ScenarioFactionAim (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type ScenarioFactionAim) = {
+	Single = { Left = "trigger" Right = CountryTrigger }
+	Optional = { Left = "primary" Right = Yes }
+}
+
+(Type FactionAimList) = {
+	(Local PrimaryAimCount Int)
+	(Ch Y N) = { Left = { Type = String } Right = FactionAim }
+	
+	(LocalOp ValidateWith PrimaryAimCount) = {
+		Type = Int
+		Eq = 15
+		Message = "There must be exactly 15 faction aims marked as primary, but there are {0}."
+	}
+}
+
+(Type FactionAim) = {
+	Single = { Left = "trigger" Right = CountryTrigger }
+	Optional = { Left = "primary" Right = Yes (LocalOp Increment PrimaryAimCount) }
+}

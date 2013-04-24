@@ -1,0 +1,60 @@
+(Validator Tech) = {
+	Type = Default
+	FriendlyName = "Technology"
+	(FileGroup "common\technology.txt")
+	ValidatorName = TechFile
+}
+
+(Type TechFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = TechGroupDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+Global = {
+(Type.Enum Tech) = { Import = { (FileGroup "common\technology.txt") SelectPath = "*\*\[L]" } }
+}
+
+(Type TechGroupDef) = {
+	Child = { Left = { Type = String } Right = TechDef UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type TechDef) = {
+	(Optional If = V110) = { Left = "modifier" Right = { JunkModifiers } }
+	(Ch Y N) = { Left = { Type = PosInt } Right = TechLevelDef }
+}
+
+(Type TechLevelDef) = {
+	Optional = { Left = "modifier" Right = { JunkModifiers } }
+	
+	(Ch N Y) = { Left = "add_building" Right = {
+		Type = ImprovementValue
+		(If If = V110) = {
+			Literal = "<CULTURE>0"
+			Literal = "<CULTURE>1"
+			Literal = "<CULTURE>2"
+			Literal = "<CULTURE>3"
+			Literal = "<CULTURE>4"
+			Literal = "<CULTURE>5"
+			Literal = "<CULTURE>6"
+		}
+	} }
+}
+
+# Most of these are just normal modifiers
+# but some idiot decided to make them all
+# in caps for no good reason, hence this.
+(Type JunkModifiers) = {
+	Inherits = Modifier
+	(Ch Y N) = { Left = {
+			HORSE_ARCHERS_OFFENSIVE ARCHERS_OFFENSIVE LIGHT_INFANTRY_DEFENSIVE LIGHT_CAVALRY_DEFENSIVE
+			ARCHERS_DEFENSIVE HORSE_ARCHERS_DEFENSIVE HEAVY_INFANTRY_DEFENSIVE PIKEMEN_DEFENSIVE
+			KNIGHTS_DEFENSIVE SHORT_REIGN_LENGTH RELIGION_FLEX CULTURE_FLEX ADD_PIETY_MODIFIER
+			ADD_PRESTIGE_MODIFIER CHURCH_OPINION TOWN_OPINION CASTLE_OPINION LOCAL_BUILD_TIME_MODIFIER
+			TEMPLE_TAX_MODIFIER CITY_TAX_MODIFIER CASTLE_TAX_MODIFIER LAND_MORALE SIEGE_DEFENCE
+			SIEGE_SPEED KNIGHTS_OFFENSIVE LIGHT_INFANTRY_OFFENSIVE HEAVY_INFANTRY_OFFENSIVE
+			LIGHT_CAVALRY_OFFENSIVE PIKEMEN_OFFENSIVE GLOBAL_SUPPLY_LIMIT
+			(If If = V110) = {
+				LOCAL_BUILD_COST_MODIFIER	GALLEYS_PERC	TRADEVALUE_MULT
+			}
+		}
+		Right = Double }
+}

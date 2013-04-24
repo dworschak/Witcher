@@ -1,0 +1,67 @@
+(ContextValidator CharTrigger) = { Scopes = {
+	TitleTrigger = "plot_target_title"
+	CharTrigger = "plot_target_char"
+	ProvTrigger = "plot_target_province"
+	CharTrigger = "any_plot_backer"
+	CharTrigger = "any_backed_character"
+	TitleTrigger = "supported_claimant_title"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = "any_plot_backer"
+	CharCommand = "plot_target_char"
+	TitleCommand = "plot_target_title"
+	ProvCommand = "plot_target_province"
+	CharCommand = "random_backed_character"
+	CharCommand = "any_backed_character"
+	CharCommand = "supported_claimant"
+	TitleCommand = "supported_claimant_title"
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y  ) = { Left = "num_of_plot_backers" Right = NnInt }
+	(Y  ) = { Left = "is_plot_target_of" Right = ThisChar }
+	(Y  ) = { Left = "is_plot_active" Right = Bool }
+	(Y  ) = { Left = "plot_power" Right = NnDbl }
+	(N Y) = { Left = "plot_power_contribution" Right = {
+		Single = { Left = "plotter" Right = ThisChar }
+		Single = { Left = "power" Right = NnDbl }
+	} }
+	
+	(A Y) = { Left = "has_plot" Right = Plot }
+	(A Y) = { Left = "has_ambition" Right = { Objective Bool } }
+	
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y  ) = { Left = "activate_plot" Right = Bool }
+	(N Y) = { Left = "back_plot" Right = ThisChar }
+	(Y  ) = { Left = "reveal_plot" Right = Yes }
+	(Y  ) = { Left = "leave_plot" Right = ThisChar }
+	(Y  ) = { Left = "reveal_plot_w_message" Right = Yes }
+	
+	(Y  ) = { Left = "cancel_plot" Right = Plot }
+	(Y  ) = { Left = "plot_succeeds" Right = Yes }
+	(Y  ) = { Left = "ambition_succeeds" Right = Yes }
+	(Y  ) = { Left = "cancel_ambition" Right = Yes }
+	(Y  ) = { Left = "add_ambition" Right = Objective }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

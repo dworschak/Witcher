@@ -1,0 +1,30 @@
+﻿#(Validator Countries) = {
+#	Type = Default
+#	FriendlyName = "Country Histories"
+#	(FileGroup "history\countries" "*.txt")
+#	ValidatorName = CountryFile
+#}
+
+Includes = {
+	"..\..\_Common\CountryHistory"
+}
+
+(Type.Enum CountryHistorySkip) = { Values = { "reb" } } # Needed for CountryHistoryBase
+(Type CountryHistory) = {
+	Inherits = CountryHistoryBase
+
+	Single = { Left = "government" Right = Government }
+	Single = { Left = "technology_group" Right = TechGroup }
+	Single = { Left = "primary_culture" Right = Culture }
+	Single = { Left = "religion" Right = Religion }
+	Optional = { Left = "capital" Right = LandProvince }
+}
+
+(Type DateClause) = {
+	Optional = { Left = "ruler" Right = Int }
+	Optional = { Left = "government" Right = Government }
+	Optional = { Left = "capital" Right = LandProvince }
+	(Ch N Y If = Vv) = { Left = "decision" Right = Decision }
+	(Ch Y Y If = Vv) = { Left = { Type = Region } Right = NonNegInt }
+	(Ch N Y If = Vv) = { Left = "law" Right = Law }
+}

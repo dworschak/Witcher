@@ -1,0 +1,126 @@
+(Type CountryEvent If = c) = {
+	Inherits = Event
+	
+}
+
+(Type RegionEvent If = s) = {
+	Inherits = Event
+	
+	(Optional If = Vic2Ahd) = { Left = "issue_group" Right = PartyIssueKey }	
+}
+
+(Type ProvinceEvent If = p) = {
+	Inherits = Event
+}
+
+(Type Event) = {
+	Single = { Left = "id" Right = NonNegativeInt UniqueId = Right }
+	Single = { Left = "title" Right = String }
+	Single = { Left = "desc" Right = String }
+	
+	(LocalOp AddInfo EventInfo) = {
+		ID = ".\id\[R]"
+		# TitleKey -> will be --- if not resolved
+		# Title -> will either have resolved or original
+		(Lookup TitleKey Title Localization) = ".\title\[R]"
+		(Tag If = c) = {
+			".\trigger\tag\[R]"
+			".\trigger\* { ([L]) << Tag } \[L]"
+			".\trigger\exists { ([R]) << Tag }\[R]"
+			".\trigger\*\exists { ([R]) << Tag }\[R]"
+		}
+		(Tag If = "p;s") = {
+			".\trigger\owner\tag\[R]"
+			".\trigger\* { ([L]) << Tag } \[L]"
+			".\trigger\owned_by { ([R]) << Tag }\[R]"
+			".\trigger\is_core { ([R]) << Tag }\[R]"
+			".\trigger\exists { ([R]) << Tag }\[R]"
+			".\trigger\*\owned_by { ([R]) << Tag }\[R]"
+			".\trigger\*\is_core { ([R]) << Tag }\[R]"
+			".\trigger\*\exists { ([R]) << Tag }\[R]"
+		}
+	}
+		
+	Optional = { Left = "fire_only_once" Right = Bool }
+	Optional = { Left = "allow_multiple_instances" Right = Bool }
+	Optional = { Left = "picture" Right = String }
+	
+	Optional = { Left = "major" Right = Bool }
+	Optional = { Left = "is_triggered_only" Right = Bool }
+		
+	(If If = c) = {
+		Optional = { Left = "trigger" Right = CountryTrigger }
+		Optional = { Left = "immediate" Right = CountryCommand }
+	}
+	
+	(If If = p) = {
+		Optional = { Left = "trigger" Right = ProvinceTrigger }
+		Optional = { Left = "immediate" Right = ProvinceCommand }
+	}
+	
+	(If If = s) = {
+		Optional = { Left = "trigger" Right = RegionTrigger }
+		Optional = { Left = "election" Right = Bool }
+		Optional = { Left = "immediate" Right = RegionCommand }
+	}
+
+	Required = { Left = "option" Right = Option }
+	Optional = { Left = "mean_time_to_happen" Right = Mtth }
+}
+
+(Type Mtth) = {
+	Optional = { Left = "months" Right = NnInt }
+	Optional = { Left = "years" Right = NnInt }
+	Optional = { Left = "days" Right = NnInt }
+	OneOf = { "days" "months" "years" }
+	AtMostOne = { "days" "months" "years" }
+	(Ch N Y) = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type MtthModifier) = {
+	Inherits = FactorModifier
+	(Inherits If = p) = ProvinceTrigger
+	(Inherits If = c) = CountryTrigger
+	(Inherits If = s) = RegionTrigger
+
+	Single = { Left = "factor" Right = NonNegDbl }
+}
+
+(Type Option) = {
+	Single = { Left = "name" Right = String }
+	Optional = { Left = "ai_chance" Right = AiChance }
+	
+	(Inherits If = c) = CountryCommand
+	(Inherits If = p) = ProvinceCommand
+	(Inherits If = s) = RegionCommand
+}
+
+(Type AiChance) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = Modifier }
+}
+
+(Type Modifier) = {
+	Inherits = FactorModifier
+	(Inherits If = c) = CountryTrigger
+	(Inherits If = p) = ProvinceTrigger
+	(Inherits If = s) = RegionTrigger
+	
+	Single = { Left = "factor" Right = NnDbl }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

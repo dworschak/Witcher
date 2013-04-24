@@ -1,0 +1,106 @@
+(ContextValidator Trigger) = { Members = {
+	# Devildread 184: Works in province as well as country
+	(N Y) = { Left = "war_with" Right = { Tag ThisCountry } }
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(N Y) = { Left = "alliance_with" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "can_create_vassals" Right = Bool }
+	(N Y) = { Left = "guarantee" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "is_in_any_faction" Right = Bool }
+	(Y Y) = { Left = "is_possible_vassal" Right = { Tag Bool } }
+	(N Y) = { Left = "non_aggression_pact" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "threat" Right = Relation }
+	(N Y) = { Left = "vassal_of" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "war" Right = Bool }
+	(Y Y) = { Left = "is_subject" Right = Bool }
+	(Y Y) = { Left = "is_threatend" Right = PDbl }
+	(N Y) = { Left = "military_access" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "relation" Right = Relation }
+	(N Y) = { Left = "truce_with" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "neighbour" Right = { Tag ThisCountry } }
+	(A Y) = { Left = "faction" Right = { ThisCountry Faction } }
+	(Y Y) = { Left = "faction_progress" Right = PositivePercent }
+
+	(If If = Hoi3Ftm) = { 
+		(N Y) = { Left = "has_wargoal" Right = Tag }
+	}
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "create_alliance" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "create_vassal" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "end_guarantee" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "end_military_access" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "end_non_aggression_pact" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "end_war" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "guarantee" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "inherit" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "join_faction" Right = Faction }
+	(N Y) = { Left = "leave_alliance" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "leave_faction" Right = Faction }
+	(N Y) = { Left = "military_access" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "non_aggression_pact" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "relation" Right = Relation }
+	(N Y) = { Left = "release" Right = Tag }
+	(N Y) = { Left = "release_vassal" Right = Tag }
+	(N Y) = { Left = "threat" Right = Relation }
+	(N Y IfNot = Hoi3Ftm) = { Left = "war" Right = { Tag ThisCountry } }
+	
+	(N Y If = Hoi3Sf) = { Left = "surrender_inherit" Right = { Tag ThisCountry } }
+
+	(If If = Hoi3Ftm) = {
+		(Y N) = { Left = "coup_by" Right = { FromCountry Tag } }
+		(N Y) = { Left = "add_wargoal" Right = { Single = { Left = "target" Right = Tag } Single = { Left = "war_goal" Right = { Single = { Left = "casus_belli" Right = CbType } Optional = { Left = "region" Right = Region } } } } }
+		
+		(N Y) = { Left = "war" Right = {
+			Single = { Left = "target" Right = Tag }
+			Optional = { Left = "attacker_goal" Right = GoalClause }
+			Optional = { Left = "defender_goal" Right = GoalClause }
+		} }
+		(N Y) = { Left = "undeclared_war" Right = {
+			Single = { Left = "target" Right = Tag }
+			Single = { Left = "region" Right = Region }
+		} }
+	}
+} }
+
+(Type GoalClause If = Hoi3Ftm) = {
+	Single = { Left = "casus_belli" Right = CbType }
+	Optional = { Left = "region" Right = Region }
+}
+
+
+(Type Relation) = {
+	Single = { Left = { "which" "who" } Right = { Tag ThisCountry All } }
+	Single = { Left = "value" Right = Int }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

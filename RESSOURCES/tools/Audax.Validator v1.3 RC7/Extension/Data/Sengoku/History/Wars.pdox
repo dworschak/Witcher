@@ -1,0 +1,19 @@
+﻿(Validator Wars) = {
+	Type = Default
+	FriendlyName = "Wars"
+	(FileGroup "history\wars" "*.txt")
+	ValidatorName = WarFile
+}
+
+(Type WarFile) = {
+	(Ch N N) = { Left = "war" Right = War }
+}
+
+(Type War) = {
+	(Ch N N) = { Left = { Type = Date } Right = WarEvents }
+}
+
+(Type WarEvents) = {
+	(Ch N Y) = { Left = "add_attacker" Right = CharId }
+	(Ch N Y) = { Left = "add_defender" Right = CharId }
+}

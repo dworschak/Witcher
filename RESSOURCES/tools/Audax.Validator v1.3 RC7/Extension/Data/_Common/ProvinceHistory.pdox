@@ -1,0 +1,67 @@
+Shared = {
+
+# Checks for tag duplications and missing tags
+(Local ProvIdDb ExistenceDatabase IfNot = NoMissingProvinceCheck) = {
+	Target = ProvinceHistoryTag
+	CaseSensitive = False
+	Title = "Missing Province Definition"
+	Message = "Missing Province History Definition for $Left$"
+}
+
+(Validator ProvinceHistory) = {
+	Type = Default
+	FriendlyName = "Province History"
+	(FileGroup "history\provinces" "*.txt" True)
+	ValidatorName = ProvinceHistory
+}
+
+	
+(Type ProvinceHistoryBase) = {
+	# Warns about anything not matching the specified format.
+	# Also warns if anything is not actually a province
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				Or = {
+					Not = { (Match "^(?<prov>\d+)\D?.*$") = { } }
+					(Match "^(?<prov>\d+)\D?.*$") = {
+						(Capture prov) = { Not = { IsInstanceOf = ProvinceHistoryTag } }
+					}
+				}
+			}
+		}
+		
+		Then = {
+			(Warn "Invalid province history file (name in wrong format or ID does not exist): $File$" "Invalid file")
+			Skip
+		}
+	}
+	
+	# Checking for duplicate IDs
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				(Match "^(?<prov>\d+)\D?.*$") = {
+					(Capture prov) = {
+						ReturnTrue = {
+							MessageIfNotUnique = "Duplicate IDs in file names: $Path1$ and $Path2$"
+							(LocalOp AddToExistenceDatabase ProvIdDb IfNot = NoMissingProvinceCheck)
+						}
+					}
+				}
+			}
+		}
+		
+		Then = { }
+	}
+	
+	(If IfNot = ProvinceHistory.NoComplexDateChecks) = {
+		CheckDatesOrdered
+		CheckDupsInDates
+	}
+	
+	(Ch N N) = { Left = "! INJECTED" Right = DateClause }
+	(Ch N N) = { Left = { Type = Date } Right = DateClause }
+}
+
+}

@@ -1,0 +1,33 @@
+﻿Includes = {
+	"..\..\_Common\ProvinceHistory"
+}
+
+(Type.Or ProvinceHistoryTag) = { Type.Enum = LandProvince }
+(Type ProvinceHistory) = {
+	Inherits = ModifierBase
+	Inherits = ProvinceHistoryBase
+	
+	Single = { Left = "owner" Right = Tag }
+	Single = { Left = "controller" Right = Tag }
+	Child = { Left = "add_core" Right = Tag }
+	Optional = { Left = "terrain" Right = Terrain }
+}
+
+(Type ModifierBase) = {
+	Optional = { Left = "manpower" Right = Double }
+	Optional = { Left = "leadership" Right = Double }
+	Optional = { Left = "points" Right = PositiveInt }
+	Optional = { Left = "strategic_resource" Right = StratResources }
+	
+	Child = { Left = { Type = Building } Right = Double }
+	Child = { Left = { Type = Resource } Right = Double }
+}
+
+(Type DateClause) = {
+	Inherits = ModifierBase
+	
+	Optional = { Left = "controller" Right = Tag }
+	Optional = { Left = "owner" Right = Tag }
+	Child = { Left = "add_core" Right = Tag }
+	Child = { Left = "remove_core" Right = Tag }
+}

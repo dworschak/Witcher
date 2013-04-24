@@ -1,0 +1,45 @@
+﻿(Validator CountryFile) = {
+	Type = Default
+	FriendlyName = "Countries"
+	(FileGroup "common\countries" "*.txt")
+	ValidatorName = CountryFile
+}
+
+Global = {
+(Type.Enum MinisterId) = { Import = { (FileGroup "common\countries" "*.txt") SelectPath = "ministers\*\[L]" } }
+
+}
+	
+(Type CountryFile) = {
+	Single = { Left = "graphical_culture" Right = String }
+	Optional = { Left = "default_templates" Right = Untyped }
+	Optional = { Left = "major" Right = Bool }
+	Single = { Left = "color" Right = Color }
+	Optional = { Left = "unit_names" Right = UnitNamesList }
+	Optional = { Left = "ministers" Right = MinisterList }
+	
+	(If If = Hoi3Ftm) = {
+		Optional = { Left = "duration" Right = NonNegInt }
+		Optional = { Left = "last_election" Right = Date }
+		AllOrNone = { "duration" "last_election" }
+	}
+}
+
+(Type UnitNamesList) = {
+	OptionList = { Left = { Type = Brigade } Right = List }
+}
+
+(Type MinisterList) = {
+	Child = { Left = { Type = NonNegativeInt } Right = Minister UniqueId = Left }
+}
+		
+(Type Minister) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "ideology" Right = Ideology }
+	Single = { Left = "loyalty" Right = Double }
+	Single = { Left = "picture" Right = String }
+	Single = { Left = "start_date" Right = Date }
+	Optional = { Left = "death_date" Right = Date }
+	
+	OptionList = { Left = { Type = MinisterPosition } Right = MinisterTrait }
+}

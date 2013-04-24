@@ -1,0 +1,38 @@
+﻿(Validator "MissionFile") = {
+	Type = Default
+	FriendlyName = "Missions"
+	(FileGroup "missions" "*.txt")
+	ValidatorName = MissionFile
+}
+
+# Mission File
+(Type "MissionFile") = {
+	Child = {
+		Left = { Type = String }
+		Right = {
+			NodeSwitcher = {
+				Node = "type"
+				Switch = {
+					"country" = CountryMission
+					"rival_countries" = CountryMission
+					"war_countries" = CountryMission
+					"neighbor_countries" = CountryMission
+					"elector_countries" = CountryMission
+					"threat_countries" = CountryMission
+					
+					"empty_provinces" = ProvinceMission
+					"sea_zones" = ProvinceMission
+					"neighbor_provinces" = ProvinceMission
+					"our_provinces" = ProvinceMission
+					"all_cots" = ProvinceMission
+					"enemy_provinces" = ProvinceMission
+				}
+			}
+		}
+		
+		UniqueId = Left
+	}
+}
+
+(Import "CountryMission" From "MissionsHelper" WithFlag "c")
+(Import "ProvinceMission" From "MissionsHelper" WithFlag "p")

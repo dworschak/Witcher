@@ -1,0 +1,87 @@
+
+(FileGroup GovernmentsPath 	"common\governments.txt")
+
+Global = {
+(Type.Enum MinisterPosition) = { Import = { (FileGroup "common\government_positions.txt") SelectPath = "*\[L]" } }
+(Type.Enum MinisterTrait) = { Import = { (FileGroup "common\minister_types.txt") SelectPath = "*\[L]" } }
+(Type.Enum Government) = { Import = { (FileGroup Ref = GovernmentsPath) SelectPath = "*\[L]" } }
+}
+
+(Validator Government) = {
+	Type = GroupValidator
+	FriendlyName = "Government"
+	Description = "Includes government types, laws, minister traits, and government positions."
+	
+	(Validator MinisterTraits) = {
+		Type = Default
+		FriendlyName = "Minister Traits"
+		(FileGroup "common\minister_types.txt")
+		ValidatorName = MinisterTraitFile
+	}
+	
+	(Validator GovernmentPositions) = {
+		Type = Default
+		(FileGroup "common\government_positions.txt")
+		ValidatorName = GovernmentPositionsFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\governments.txt")
+		ValidatorName = GovernmentFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\laws.txt")
+		ValidatorName = LawsFile
+	}
+
+}
+
+(Type MinisterTraitFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = MinisterTrait (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type MinisterTrait) = {
+	Inherits = ModifierCommand
+}
+
+(Type GovernmentPositionsFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = GovPosition (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type GovPosition) = {
+	Optional = { Left = "changeable" Right = Bool }
+}
+
+(Type GovernmentFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = GovDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type GovDef) = {
+	Optional = { Left = "election" Right = Bool }
+	Optional = { Left = "duration" Right = PInt }
+
+	OptionList = { Left = { Type = Ideology } Right = Bool }
+	RequiredList = { Left = { Type = MinisterPosition } Right = Bool }
+}
+
+
+
+(Type LawsFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = LawGroup (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type LawGroup) = {
+	Child = { Left = { Type = String } Right = Law UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type Law) = {
+	Inherits = ModifierCommand
+	(Single If = Hoi3Sf) = { Left = "cost" Right = Double }
+	Single = { Left = "allow" Right = CountryTrigger }
+}
+
+
+

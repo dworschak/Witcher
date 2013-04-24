@@ -1,0 +1,28 @@
+(Validator JobActions) = {
+	Type = Default
+	FriendlyName = "Job actions"
+	(FileGroup "common\job_actions.txt")
+	ValidatorName = JobActions
+}
+
+(Type JobActions) = {
+	(Ch Y N) = { Left = { Type = String } Right = JobActionDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type JobActionDef) = {
+	Single = { Left = "attribute" Right = Attribute }
+	Single = { Left = "trigger" Right = JobActionTrigger }
+	Optional = { Left = "potential" Right = JobActionTrigger }
+	Single = { Left = "events" Right = { (PdoList Y) = { Type = CharEventId } } }
+	
+	Inherits = ProvModifier
+}
+
+(Type JobActionTrigger) = { ContextValidator = JobActionTrigger }
+(ContextValidator JobActionTrigger) = {
+	FromTarget = Char
+	
+	Inherits = ProvTrigger
+}
+
+

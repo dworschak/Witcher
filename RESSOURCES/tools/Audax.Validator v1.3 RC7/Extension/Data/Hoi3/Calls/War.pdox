@@ -1,0 +1,107 @@
+(ContextValidator Trigger) = { Members = {
+	# Devildread 184: Works in province as well as country
+	(Y Y) = { Left = "num_of_revolts" Right = PositiveInt }
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "is_blockaded" Right = Bool }
+	(Y Y) = { Left = "units_in_province" Right = NonNegInt }
+
+	(If If = Hoi3Sf) = {
+		(Y Y) = { Left = "last_battle_winner_losses" Right = NonNegInt }
+		(Y Y) = { Left = "last_battle_loser_losses" Right = NonNegInt }
+		(Y Y) = { Left = "land_fort" Right = NonNegInt }	
+	}
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "blockade" Right = PositivePercent }
+	(Y Y) = { Left = "lost_IC" Right = PositiveInt }
+	(Y Y) = { Left = "lost_national" Right = PosDbl } # Devildread 184: is percentages
+	(Y Y) = { Left = "num_in_faction" Right = PositiveInt }
+	(Y Y) = { Left = "num_of_allies" Right = PositiveInt }
+	(Y Y) = { Left = "num_of_cities" Right = PositiveInt }
+	(Y Y) = { Left = "num_of_convoys" Right = PositiveInt }
+	(Y Y) = { Left = "num_of_ports" Right = PositiveInt }
+	(Y Y) = { Left = "num_of_vassals" Right = PositiveInt }
+	(Y Y) = { Left = "total_amount_of_brigades" Right = PositiveInt }
+	(Y Y) = { Left = "total_amount_of_divisions" Right = PositiveInt }
+	(Y Y) = { Left = "total_amount_of_planes" Right = PositiveInt }
+	(Y Y) = { Left = "total_amount_of_ships" Right = PositiveInt }
+	(Y Y) = { Left = "total_defensives" Right = PositiveInt }
+	(Y Y) = { Left = "total_ic" Right = PositiveInt }
+	(Y Y) = { Left = "total_num_of_ports" Right = PositiveInt }
+	(Y Y) = { Left = "total_offensives" Right = PositiveInt }
+	(Y Y) = { Left = "total_of_ours_sunk" Right = PositiveInt }
+	(Y Y) = { Left = "total_sea_battles" Right = PositiveInt }
+	(Y Y) = { Left = "total_sunk_by_us" Right = PositiveInt }
+	(Y Y) = { Left = "total_we_bomb" Right = PositiveInt }
+	(Y Y) = { Left = "unit_has_leader" Right = Bool }
+	(Y Y) = { Left = "unit_in_battle" Right = Bool }
+	(N Y) = { Left = "brigade_exists" Right = String }
+	# Devildread 189: unit_type_brigade = x is a valid node, it 
+	#count how many of the type of brigade is on the map and 
+	# report yes/no. We can do that for any brigade provided it 
+	# exists in \units folder. 
+	(Y N) = { Left = { Type = Brigade } Right = PosInt }
+	
+	(If If = Hoi3Sf) = {
+		(Y Y) = { Left = "air_battles_fought" Right = NonNegInt }
+		(Y Y) = { Left = "land_battles_fought" Right = NonNegInt }
+		(Y Y) = { Left = "naval_battles_fought" Right = NonNegInt }
+		
+	}
+	
+	(If If = Hoi3Ftm) = {
+		(N Y) = { Left = "brigade_in_combat" Right = String }
+		(Y  ) = { Left = "surrender_progress" Right = NnP }
+	}
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N N) = { Left = { Type = Brigade } Right = { Literal = "current" } }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "split_troops" Right = Double }
+	# Discovered by Devildread who states:
+	# + About the activation of a unit on the map via event :
+	# "name_of_the_unit" (from a list in \units folder)
+	# "name_of_the_unit" = #PROVID# is valid
+	(N N) = { Left = { Type = Brigade } Right = Province }
+	(N N) = { Left = "load_oob" Right = String }
+	
+	(If If = Hoi3Ftm) = {
+		(N Y) = { Left = "remove_brigade" Right = String }
+		(Y  ) = { Left = "officer_pool" Right = Double }
+	}
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

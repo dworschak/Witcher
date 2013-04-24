@@ -1,0 +1,171 @@
+﻿(Validator Modifiers) = {
+	FriendlyName = "Modifiers"
+	Type = GroupValidator
+	
+	(Validator EventModifierFile) = {
+		Type = Default
+		FriendlyName = "Event Modifiers"
+		(FileGroup "common\event_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+
+	(Validator StaticModifierFile) = {
+		Type = Default
+		FriendlyName = "Static Modifiers"
+		(FileGroup "common\static_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+	
+	(Validator TriggeredModifierFile If = Hoi3Sf) = {
+		Type = Default
+		FriendlyName = "Achievements"
+		(FileGroup "common\triggered_modifiers.txt")
+		ValidatorName = AchievementFile
+	}
+}
+
+(If If = Hoi3Sf) = {
+(Type AchievementFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = Achievement (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type Achievement) = {
+	Inherits = ModifierCommand
+	
+	Optional = { Left = "potential" Right = CountryTrigger }
+	Optional = { Left = "trigger" Right = CountryTrigger }
+	OneOf = { "potential" "trigger" }
+	Optional = { Left = "icon" Right = { IconRef = GFX_modifier_strip } }
+}
+}
+
+(Type ModifierFile) = {
+	Child = { 
+		Left = { Type = String }
+		Right = {
+			Inherits = ModifierCommand
+			Optional = { Left = "icon" Right = Int }
+		}
+		(CheckKey "*" Left IfNot = NoCheckKey)
+		
+		UniqueId = Left
+	}
+}
+
+Global = {
+(Type ModifierCommand) = {
+	Inherits = LocalModifierCommand
+	
+	Optional = { Left = "counter_intelligence" Right = Double }
+	Optional = { Left = "war_consumer_goods_demand" Right = Double }
+	Optional = { Left = "partisan_efficiency" Right = Int }
+	Optional = { Left = "ruling_party_support" Right = Double }
+	Optional = { Left = "reserves_penalty_size" Right = Double }
+	Optional = { Left = "global_manpower" Right = Double }
+	Optional = { Left = "global_manpower_modifier" Right = Double }
+	Optional = { Left = "peacetime_manpower_rotation" Right = Double }
+	Optional = { Left = "officer_recruitment" Right = Double }
+	Optional = { Left = "unit_recruitment_time" Right = Double }
+	Optional = { Left = "unit_start_experience" Right = Double }
+	Optional = { Left = "drift_speed" Right = Double }
+	Optional = { Left = "counter_espionage" Right = Double }
+	Optional = { Left = "national_unity_effect" Right = Double }
+	Optional = { Left = "supply_throughput" Right = Double }
+	Optional = { Left = "peace_consumer_goods_demand" Right = Double }
+	Optional = { Left = "dissent" Right = Double }
+	Optional = { Left = "industrial_efficiency" Right = Double }
+	Optional = { Left = "global_leadership_modifier" Right = Double }
+	Optional = { Left = "global_money" Right = Double }
+	Optional = { Left = "global_metal" Right = Double }
+	Optional = { Left = "global_ic" Right = Double }
+	Optional = { Left = "global_rare_materials" Right = Double }
+	Optional = { Left = "global_energy" Right = Double }
+	Optional = { Left = "global_resources" Right = Double }
+	Optional = { Left = "espionage_bonus" Right = Double }
+	Optional = { Left = "global_revolt_risk" Right = Double }
+	Optional = { Left = "naval_base_efficiency" Right = Double }
+	Optional = { Left = "national_unity" Right = Double }
+	Optional = { Left = "align_towards" Right = Double }
+	Optional = { Left = "unit_repair" Right = Double }
+	Optional = { Left = "neutrality_change" Right = Double }
+	Optional = { Left = "research_efficiency" Right = Double }
+	Optional = { Left = "war_exhaustion" Right = Double }
+	Optional = { Left = "max_war_exhaustion" Right = Double }
+	Optional = { Left = "minimum_revolt_risk" Right = Double }
+	Optional = { Left = "attrition" Right = Double }
+	Optional = { Left = "global_leadership" Right = Double }
+	Optional = { Left = "ic" Right = Double }
+	Optional = { Left = "reinforcement_bonus" Right = Double }
+	Optional = { Left = "global_supplies" Right = Double }
+	Optional = { Left = "repair_rate" Right = Double }
+	Optional = { Left = "combat_movement_speed" Right = Double }
+	Optional = { Left = "global_crude_oil" Right = Double }
+	Optional = { Left = "supply_consumption" Right = Double }
+	Optional = { Left = "org_regain" Right = Double }
+	Optional = { Left = "land_organisation" Right = Double }
+	Optional = { Left = "naval_organisation" Right = Double }
+	Optional = { Left = "air_organisation" Right = Double }
+	Optional = { Left = "offmap_land_intel" Right = Double }
+	Optional = { Left = "offmap_naval_intel" Right = Double }
+	Optional = { Left = "offmap_industry_intel" Right = Double }
+	Optional = { Left = "offmap_political_intel" Right = Double }
+	Optional = { Left = "peace_offmap_intel" Right = Double }
+	Optional = { Left = "threat_impact" Right = Double }
+	Optional = { Left = "suseptibility" Right = Double }
+	Optional = { Left = "suseptibility_allies" Right = Double }
+	Optional = { Left = "suseptibility_axis" Right = Double }
+	Optional = { Left = "suseptibility_comintern" Right = Double }
+	(Ch N Y) = { Left = "decay" Right = { Single = { Left = { Type = TechCategory } Right = Double } } }
+	Optional = { Left = "defend_reinforce_chance" Right = Double }
+	Optional = { Left = "attack_reinforce_chance" Right = Double }
+	Optional = { Left = "territorial_pride" Right = Double }
+	Optional = { Left = "naval_capacity" Right = Double }
+	
+	(If If = Hoi3Ftm) = {
+		Optional = { Left = "threat_resistance" Right = Double }
+		Optional = { Left = "winter_effects" Right = Double }
+		Optional = { Left = "jungle_effects" Right = Double }
+		Optional = { Left = "amm_movement_speed" Right = Double }
+		Optional = { Left = "nuke_research" Right = Double }
+		Optional = { Left = "fuel_conversion" Right = Double }
+		
+		Optional = { Left = "naval_build_speed" Right = Double }
+		Optional = { Left = "land_build_speed" Right = Double }
+		Optional = { Left = "air_build_speed" Right = Double }
+
+		Optional = { Left = "sw_national_unity_effect" Right = Double }
+
+		Optional = { Left = "rocket_build_speed" Right = Double }
+		Optional = { Left = "tank_build_speed" Right = Double }
+		Optional = { Left = "casualty_trickleback" Right = Double }
+		
+		Optional = { Left = "soft_attack" Right = Double }
+		Optional = { Left = "hard_attack" Right = Double }
+		Optional = { Left = "leader_defence" Right = Double }
+		
+		(Ch Y N) = { Left = { Type = AirMission } Right = Double }
+
+	}
+}
+
+(Type LocalModifierCommand) = {
+	Optional = { Left = "local_manpower" Right = Double }
+	Optional = { Left = "local_leadership" Right = Double }
+	Optional = { Left = "local_manpower_modifier" Right = Double }
+	Optional = { Left = "local_leadership_modifier" Right = Double }
+	Optional = { Left = "local_partisan_support" Right = Double }
+	Optional = { Left = "local_ic" Right = Double }
+	Optional = { Left = "local_revolt_risk" Right = Double }
+	Optional = { Left = "local_resources" Right = Double }
+	
+	(If If = Hoi3Tfh) = {
+		Optional = { Left = "local_unit_speed" Right = Double }
+		Optional = { Left = "strategic_resource_efficiency" Right = Double }
+	
+	}
+}
+}
+
+
+
+

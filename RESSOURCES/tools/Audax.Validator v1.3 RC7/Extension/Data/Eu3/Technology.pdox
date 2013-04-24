@@ -1,0 +1,77 @@
+(Validator TechValidator) = {
+	Type = Default
+	FriendlyName = "Technology"
+	ValidatorName = TechFile
+	(FileGroup "common\technologies" "*.txt")
+}
+
+(Type TechFile) = {
+	(Local ID Uid) = Right
+	(Ch N Y) = { Left = "technology" Right = TechLevel }
+}
+
+(Type TechLevel) = {
+	Single = { Left = "id" Right = NonNegInt (LocalOp Validate ID) }
+	Single = { Left = "average_year" Right = PInt }
+	
+	(Ch Y N) = { Left = { Type = Government } Right = Yes }
+	(Ch Y N) = { Left = { Type = Building } Right = Yes }
+	Optional = { Left = "allowed_ideas" Right = PInt }
+	Optional = { Left = "sprite_level" Right = PInt }
+	
+	(Optional If = Eu3Dw) = { Left = "trade_range" Right = Int }
+	(Optional If = Eu3Dw) = { Left = "naval_maintenance" Right = Double }
+	Optional = { Left = "trade_efficiency" Right = Double }
+	Optional = { Left = "production_efficiency" Right = Double }
+	Optional = { Left = "supply_limit" Right = Double }
+	Optional = { Left = "merchants" Right = Yes }
+	Optional = { Left = "monopoly" Right = Yes }
+	
+	(Optional If = Eu3Ht) = { Left = "military_tactics" Right = Double }
+	
+	(Ch N Y) = { Left = "enable" Right = SpecificUnit }
+	Optional = { Left = "land_morale" Right = Double }
+	Optional = { Left = "artillery_shock" Right = Double }
+	Optional = { Left = "cavalry_shock" Right = Double }
+	Optional = { Left = "infantry_shock" Right = Double }
+	Optional = { Left = "artillery_fire" Right = Double }
+	Optional = { Left = "cavalry_fire" Right = Double }
+	Optional = { Left = "infantry_fire" Right = Double }
+	
+	Optional = { Left = "blockade" Right = Yes }
+	Optional = { Left = "reduced_naval_attrition" Right = Yes }
+	Optional = { Left = "naval_morale" Right = Double }
+	Optional = { Left = "range" Right = Double }
+	Optional = { Left = "bigship_fire" Right = Double }
+	Optional = { Left = "lightship_fire" Right = Double }
+	Optional = { Left = "transport_fire" Right = Double }
+	Optional = { Left = "galley_fire" Right = Double }
+	Optional = { Left = "lightship_shock" Right = Double }
+	Optional = { Left = "bigship_shock" Right = Double }
+	Optional = { Left = "transport_shock" Right = Double }
+	Optional = { Left = "galley_shock" Right = Double }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

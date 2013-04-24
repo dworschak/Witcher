@@ -1,0 +1,41 @@
+(Validator Titles) = {
+	Type = Default
+	FriendlyName = "Title History"
+	(FileGroup "history\titles" "*.txt")
+	ValidatorName = TitleFile
+}
+
+(Type TitleFile) = {
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				Or = {
+					Not = { (Match "^(?<title>\w+)") = { } }
+					(Match "^(?<title>\w+)$") = {
+						(Capture title) = { Not = { IsInstanceOf = AnyTitle } }
+					}
+				}
+			}
+		}
+		
+		Then = {
+			(Warn "Invalid title file (name in wrong format or title does not exist): $File$" "Invalid file")
+			Skip
+		}
+	}
+	
+	(If IfNot = TitleHistory.NoComplexDateChecks) = {
+		CheckDatesOrdered
+		CheckDupsInDates
+	}
+	
+	(Ch N N) = { Left = { Type = Date } Right = DateClause }
+	(Ch N N) = { Left = "! INJECTED" Right = DateClause }
+}
+
+(Type DateClause) = {
+	Optional = { Left = "liege" Right = AnyTitle }
+	Optional = { Left = "holder" Right = CharId }
+	
+}
+

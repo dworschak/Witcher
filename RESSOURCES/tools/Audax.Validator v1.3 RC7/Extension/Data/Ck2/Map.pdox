@@ -1,0 +1,48 @@
+(Validator Maps) = {
+	FriendlyName = "Map"
+	Type = GroupValidator
+		
+	Validator = {
+		Type = Default
+		(FileGroup "map\positions.txt")
+		ValidatorName = PositionsFile
+	}
+}
+
+(Type PositionsFile) = {
+	OptionList = { Left = { Type = LandProvince } Right = LandProvincePosition }
+	OptionList = { Left = { Type = SeaProvince } Right = SeaProvincePosition }
+}
+
+(Type PositionBase) = {
+	Optional = { Left = "position" Right = { (PdoList N) = { Type = Double } } }
+	Optional = { Left = "rotation" Right = { (PdoList N) = { Type = Double } } }
+	Optional = { Left = "height" Right = { (PdoList N) = { Type = Double } } }
+}
+
+(Type LandProvincePosition) = {
+	Inherits = PositionBase
+	
+	
+}
+
+(Type SeaProvincePosition) = {
+	Inherits = PositionBase
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,162 @@
+(ContextValidator Trigger) = { Members = {
+	(N Y) = { Left = "has_global_flag" Right = String (LocalOp "chk" "[R]" AddChecker GlobalFlag) }
+	(N Y) = { Left = "had_global_flag" Right = HadGlobalFlagClause }
+	
+	(Y  ) = { Left = "western_active" Right = Bool }
+	(Y  ) = { Left = "western_complete" Right = Bool }
+	
+	(Y  ) = { Left = "year" Right = Int }
+	(Y  ) = { Left = "month" Right = Int }
+	(N Y) = { Left = "check_variable" Right = {
+		(LocalOp "chk" "which\[R]" AddChecker Variable)
+		Single = { Left = "which" Right = String }
+		Single = { Left = "value" Right = String }
+	} }
+	(Y  ) = { Left = "always" Right = Bool }
+
+} }
+
+(ContextValidator ProvTrigger) = { Members = {
+	(Y  ) = { Left = "western" Right = Bool }
+	(Y  ) = { Left = "port" Right = Bool }
+	(Y  ) = { Left = "has_siege" Right = Bool }
+	(Y  ) = { Left = "revolt_risk" Right = Double }
+	(A Y) = { Left = "province_id" Right = Province }
+	(A Y) = { Left = "owned_by" Right = { ThisChar ThisProv } }
+	(A Y) = { Left = "owned_by_rebels" Right = RebelType }
+	(N Y) = { Left = "has_province_flag" Right = String (LocalOp "chk" "[R]" AddChecker ProvinceFlag) }
+	(N Y) = { Left = "has_province_modifier" Right = Modifier }
+	(N Y) = { Left = "has_building" Right = { Building Improvement } }
+	
+	(Y  ) = { Left = "arquebus" Right = Int }
+	(Y  ) = { Left = "construction" Right = Bool }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(A Y) = { Left = "tier" Right = Tier }
+	(Y  ) = { Left = "is_primary_type_title" Right = Bool }
+	(Y  ) = { Left = "first_son" Right = Bool }
+	(Y  ) = { Left = "is_alive" Right = Bool }
+	(Y  ) = { Left = "is_landed" Right = Bool }
+	(Y  ) = { Left = "is_councillor" Right = Bool }
+	(Y  ) = { Left = "war" Right = Bool }
+	(A Y) = { Left = "has_objective" Right = Objective }
+	(Y  ) = { Left = "monthly_income" Right = Double }
+	
+	(N Y) = { Left = "character" Right = { ThisChar ThisProv } }
+	(N Y) = { Left = "opinion" Right = OpinionClause }
+	(N Y) = { Left = "their_opinion" Right = OpinionClause }
+	(N Y) = { Left = "has_character_flag" Right = String (LocalOp "chk" "[R]" AddChecker CharFlag) }
+	(N Y) = { Left = "has_character_modifier" Right = Modifier }
+	(N Y) = { Left = "war_with" Right = ThisChar }
+	(N Y) = { Left = "at_location" Right = { ThisChar ThisProv } }
+	(N Y) = { Left = "trait" Right = Trait }
+	(Y  ) = { Left = "ruled_years" Right = Int }
+	(Y  ) = { Left = "num_of_children" Right = Int }
+	(Y  ) = { Left = "personality_traits" Right = Int }
+	(Y  ) = { Left = "congenital_traits" Right = Int }
+	(Y  ) = { Left = "lifestyle_traits" Right = Int }
+	(Y  ) = { Left = "number_of_vassals" Right = Int }
+	(Y  ) = { Left = "education_traits" Right = Int }
+	(Y  ) = { Left = "health_traits" Right = Int }
+	(Y  ) = { Left = "num_traits" Right = Int }
+	(Y  ) = { Left = "num_of_traits" Right = Int }
+	(Y  ) = { Left = "martial" Right = Int }
+	(Y  ) = { Left = "diplomacy" Right = Int }
+	(Y  ) = { Left = "intrigue" Right = Int }
+	(Y  ) = { Left = "age" Right = Int }
+	(Y  ) = { Left = "sibling" Right = { Bool ThisChar ThisProv } }
+	(Y  ) = { Left = "is_mother" Right = { Bool ThisChar ThisProv } }
+	(Y  ) = { Left = "is_father" Right = { Bool ThisChar ThisProv } }
+	(Y  ) = { Left = "is_liege" Right = { Bool ThisChar ThisProv } }
+	(A Y) = { Left = "holder" Right = { ThisChar ThisProv } }
+	(Y  ) = { Left = "is_female" Right = Bool }
+	(Y  ) = { Left = "family" Right = Bool }
+	(Y  ) = { Left = "prisoner" Right = Bool }
+	(Y  ) = { Left = "female" Right = Bool }
+	(Y  ) = { Left = "is_rebel" Right = Bool }
+	(Y  ) = { Left = "in_command" Right = Bool }
+	(Y  ) = { Left = "is_ruler" Right = Bool }
+	(Y  ) = { Left = "is_playable" Right = Bool }
+	(Y  ) = { Left = "independent" Right = Bool }
+	(Y  ) = { Left = "is_pretender" Right = Bool }
+	(Y  ) = { Left = "civil_war" Right = Bool }
+	(Y  ) = { Left = "has_more_wealth_than_ruler" Right = Bool }
+	(Y  ) = { Left = "from_ruler_dynasty" Right = Bool }
+	(A Y) = { Left = "has_job_title" Right = JobTitle }
+	(A Y) = { Left = "has_job_action" Right = JobAction }
+	(Y  ) = { Left = "is_primary_heir" Right = Bool }
+	(Y  ) = { Left = "is_married" Right = Bool }
+	(Y  ) = { Left = "ai" Right = Bool }
+	(Y  ) = { Left = "wealth" Right = Double }
+	(Y  ) = { Left = "health" Right = Double }
+	(Y  ) = { Left = "fertility" Right = Double }
+	(Y  ) = { Left = "honor" Right = Double }
+	(Y  ) = { Left = "treasury" Right = Double }
+	(N Y) = { Left = "dynasty" Right = ThisChar }
+	(Y  ) = { Left = "num_of_plot_backers" Right = PInt }
+	(Y  ) = { Left = "plot_power" Right = NnDblP }
+	(N Y) = { Left = "is_plot_target_of" Right = ThisChar }
+	(N Y) = { Left = "has_opinion_modifier" Right = OpinionModifierClause }
+	
+	(Y  ) = { Left = "shinto_relation" Right = Double }
+	(Y  ) = { Left = "christian_relation" Right = Double }
+	(Y  ) = { Left = "buddhist_relation" Right = Double }
+	(A Y) = { Left = "has_sided_with_faction" Right = { Faction Yes } }
+	(Y  ) = { Left = "is_faction_leader" Right = Bool }
+	(Y  ) = { Left = "num_demesne_provinces" Right = PInt }
+	(Y  ) = { Left = "civil_war_power" Right = Double }
+	(N Y) = { Left = "relative_power" Right = {
+		Single = { Left = "who" Right = ThisChar }
+		Single = { Left = "value" Right = Double }
+	} }
+	
+	(Y  ) = { Left = "arquebus" Right = Double }
+	(Y  ) = { Left = "is_hostage" Right = Bool }
+	(Y  ) = { Left = "owned_provinces_over_max" Right = Int }
+	(Y  ) = { Left = "civil_war_pretender" Right = Bool }
+	(Y  ) = { Left = "ai_want_civil_war" Right = Bool }
+	(Y  ) = { Left = "spendable_money" Right = Double }
+	
+	
+	# Really province scope...
+	(N Y) = { Left = "has_province_flag" Right = String (LocalOp "chk" "[R]" AddChecker ProvinceFlag) }
+	(N Y) = { Left = "has_province_modifier" Right = Modifier }
+
+} }
+
+(Type HadGlobalFlagClause) = {
+	Single = { Left = "flag" Right = String (LocalOp "chk" "[R]" AddChecker GlobalFlag) }
+	Single = { Left = "days" Right = PInt }
+}
+
+(Type OpinionClause) = {
+	Single = { Left = "who" Right = { ThisChar ThisProv } }
+	Single = { Left = "value" Right = Double }
+}
+
+(Type OpinionModifierClause) = {
+	Single = { Left = "who" Right = { ThisChar ThisProv } }
+	Single = { Left = "modifier" Right = OpinionModifier }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

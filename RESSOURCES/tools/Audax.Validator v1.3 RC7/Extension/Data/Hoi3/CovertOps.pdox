@@ -1,0 +1,19 @@
+(Validator "CovertOps") = {
+	Type = Default
+	FriendlyName = "Covert Ops"
+	(FileGroup "common\covert_ops.txt")
+	ValidatorName = CovertOpsFile
+}
+
+(Type CovertOpsFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = CovertOpsDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type CovertOpsDef) = {
+	Single = { Left = "cost" Right = NnDbl }
+	Optional = { Left = "is_valid" Right = ProvinceTrigger }
+	Optional = { Left = "is_selectable" Right = ProvinceTrigger }
+	Optional = { Left = "effect" Right = ProvinceCommand }
+
+}
+

@@ -1,0 +1,41 @@
+(Validator OnActions) = {
+	Type = Default
+	FriendlyName = "On Actions"
+	(FileGroup "common\on_actions.txt")
+	ValidatorName = OnActionsFile
+}
+
+Script = {
+	(DataSource Pdo) = { Path = "common\on_actions.txt" }
+	(MakeEnumValidator Region1) = "on_election_tick\*\[R]"
+	(MakeEnumValidator Region2) = "on_colony_to_state\*\[R]"
+	(MakeEnumValidator Region3) = "on_state_conquest\*\[R]"
+	(MakeEnumValidator Region4) = "on_colony_to_state_free_slaves\*\[R]"
+}
+Global = {
+	(Type.Or RegionEventId2) = { Type.Enum = Region1 Type.Enum = Region2 Type.Enum = Region3 Type.Enum = Region4 }
+}
+
+(Type OnActionsFile) = {
+	Single = { Left = "on_election_tick" Right = RegionPulse }
+	Single = { Left = "on_colony_to_state" Right = RegionPulse }
+	Single = { Left = "on_state_conquest" Right = RegionPulse }
+	Single = { Left = "on_colony_to_state_free_slaves" Right = RegionPulse }
+	(Ch Y N) = { Left = { Type = String } Right = Pulse }
+}
+
+(Type Pulse) = {
+	(Ch N Y) = { Left = { Type = PInt } Right = CountryEventId }
+}
+
+(Type RegionPulse) = {
+	(Ch N Y) = { Left = { Type = PInt } Right = RegionEventId }
+}
+
+
+
+
+
+
+
+

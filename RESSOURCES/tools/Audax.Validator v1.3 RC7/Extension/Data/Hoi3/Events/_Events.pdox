@@ -1,0 +1,55 @@
+﻿(Validator EventFile) = {
+	Type = Default
+	FriendlyName = "Events"
+	(FileGroup "events" "*.txt")
+	ValidatorName = EventFile
+}
+
+Global = {
+(Type EventFile) = {
+	Child = { Left = "country_event" Right = CountryEvent }
+	(Child If = Hoi3Sf) = { Left = "province_event" Right = ProvinceEvent }
+}
+
+(Type EventFileId) = {
+	Single = { Left = "id" Right = NonNegativeInt UniqueId = Right }
+}
+}
+
+(Type EventBase) = {
+	Inherits = EventFileId
+	
+	(LocalOp AddInfo EventInfo) = {
+		ID = ".\id\[R]"
+		# TitleKey -> will be --- if not resolved
+		# Title -> will either have resolved or original
+		(Lookup TitleKey Title Localization) = ".\title\[R]"
+		Tag = {
+			".\trigger\tag\[R]"
+			".\trigger\owner\tag\[R]"
+			
+			".\trigger\* { ([L]) << Tag } \[L]"
+			".\trigger\* { ([L]) << Tag } \[L]"
+			
+			".\trigger\exists { ([R]) << Tag }\[R]"
+			".\trigger\*\exists { ([R]) << Tag }\[R]"
+			
+			".\trigger\owned_by { ([R]) << Tag }\[R]"
+			".\trigger\is_core { ([R]) << Tag }\[R]"
+			".\trigger\exists { ([R]) << Tag }\[R]"
+			".\trigger\*\owned_by { ([R]) << Tag }\[R]"
+			".\trigger\*\is_core { ([R]) << Tag }\[R]"
+			".\trigger\*\exists { ([R]) << Tag }\[R]"
+		}
+	}
+	
+	Single = { Left = "title" Right = String }
+	Single = { Left = "desc" Right = String }
+	Optional = { Left = "picture" Right = String }
+
+}
+
+Includes = {
+	CountryEvents
+	(ProvinceEvents If = Hoi3Sf)
+}

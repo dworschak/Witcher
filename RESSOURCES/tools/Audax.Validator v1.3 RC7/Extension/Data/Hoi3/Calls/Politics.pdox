@@ -1,0 +1,60 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "neutrality" Right = PositivePercent }
+	(Y Y) = { Left = "organisation" Right = PositivePercent }
+	(Y Y) = { Left = "popularity" Right = PositivePercent }
+	(N N) = { Left = { Type = Ideology } Right = Party }
+	(N N) = { Left = { Type = Law } Right = LawOption }
+
+	(If If = Hoi3Ftm) = {
+		(Y Y) = { Left = "base_neutrality" Right = PositivePercent }
+	}
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y N) = { Left = { Type = Ideology } Right = Party }
+	(Y Y) = { Left = "neutrality" Right = Double }
+	(Y Y) = { Left = "organisation" Right = Double }
+	(Y Y) = { Left = "popularity" Right = Double }
+
+} }
+
+
+
+
+
+
+
+
+
+
+(Type Party) = {
+	Optional = { Left = "organisation" Right = Percent }
+	Optional = { Left = "popularity" Right = Percent }
+}
+
+
+
+
+
+
+
+
+
+
+

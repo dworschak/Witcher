@@ -1,0 +1,23 @@
+(Validator Goods) = {
+	Type = Default
+	FriendlyName = "@Goods"
+	(FileGroup "common\goods.txt")
+	ValidatorName = GoodsFile
+}
+
+(Type GoodsFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = GoodsGroup }
+}
+
+(Type GoodsGroup) = {
+	Child = { Left = { Type = String } Right = Goods UniqueId = Left }
+}
+
+(Type Goods) = {
+	Single = { Left = "color" Right = Color }
+	Single = { Left = "cost" Right = NonNegDbl }
+	Optional = { Left = "available_from_start" Right = Bool }
+	Optional = { Left = "overseas_penalty" Right = Bool }
+	Optional = { Left = "tradeable" Right = Bool }
+	Optional = { Left = "money" Right = Bool }
+}

@@ -1,0 +1,118 @@
+(Validator Cultures) = {
+	Type = GroupValidator
+	FriendlyName = "@Cultures"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\cultures" "*.txt")
+		ValidatorName = CultureFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\graphicalculturetypes" "*.txt")
+		ValidatorName = GfxCultureFile
+	}
+	
+}
+
+(Type CultureFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = CultureGroupDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type CultureGroupDef) = {
+	Optional = { Left = "graphical_culture" Right = GraphicalCultureType }
+	Optional = { Left = "second_graphical_culture" Right = GraphicalCultureType }
+
+	Child = { Left = { Type = String } Right = CultureDef UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type CultureDef) = {
+	Optional = { Left = "graphical_culture" Right = GraphicalCultureType }
+	Optional = { Left = "second_graphical_culture" Right = GraphicalCultureType }
+	Optional = { Left = "graphical_unit_culture" Right = String }
+	Single = { Left = "color" Right = FloatColor }
+	Single = { Left = "male_names" Right = NameList }
+	Single = { Left = "female_names" Right = NameList }
+	Optional = { Left = "horde" Right = Bool }
+	Optional = { Left = "used_for_random" Right = Bool }
+	Optional = { Left = "dukes_called_kings" Right = Bool }
+	Optional = { Left = "baron_titles_hidden" Right = Bool }
+	Optional = { Left = "count_titles_hidden" Right = Bool }
+	Optional = { Left = "parent" Right = Culture }
+	Single = { Left = "modifier" Right = StaticModifier }
+	
+	Optional = { Left = "from_dynasty_prefix" Right = String }
+	Optional = { Left = "from_dynasty_suffix" Right = String }
+	Optional = { Left = "bastard_dynasty_prefix" Right = String }
+	Optional = { Left = "grammar_transform" Right = { Literal = "french" Literal = "spanish" } }
+	Optional = { Left = "male_patronym" Right = String }
+	Optional = { Left = "female_patronym" Right = String }
+	Optional = { Left = "prefix" Right = Bool }
+	Optional = { Left = "dynasty_title_names" Right = Bool }
+	Optional = { Left = "founder_named_dynasties" Right = Bool }
+	Optional = { Left = "disinherit_from_blinding" Right = Bool }
+	
+	Optional = { Left = "pat_grf_name_chance" Right = NnDbl }
+	Optional = { Left = "mat_grf_name_chance" Right = NnDbl }
+	Optional = { Left = "father_name_chance" Right = NnDbl }
+
+	Optional = { Left = "pat_grm_name_chance" Right = NnDbl }
+	Optional = { Left = "mat_grm_name_chance" Right = NnDbl }
+	Optional = { Left = "mother_name_chance" Right = NnDbl }
+	
+	Ensure = {
+		Description = "The sum of probabilities for the male child being named after a relative must be less than or equal to 100."
+		Select = {
+			Condition = {
+				Or = {
+					Left = { Literal = "pat_grf_name_chance" }
+					Left = { Literal = "mat_grf_name_chance" }
+					Left = { Literal = "father_name_chance" }
+				}
+			}
+			Target = Right
+		}
+		
+		Operation = Sum
+		
+		TrueForResult = {
+			LessThanOrEquals = 100
+		}
+	}
+	
+	Ensure = {
+		Description = "The sum of probabilities for the female child being named after a relative must be less than or equal to 100."
+		Select = {
+			Condition = {
+				Or = {
+					Left = { Literal = "pat_grm_name_chance" }
+					Left = { Literal = "mat_grm_name_chance" }
+					Left = { Literal = "mother_name_chance" }
+				}
+			}
+			Target = Right
+		}
+		
+		Operation = Sum
+		
+		TrueForResult = {
+			LessThanOrEquals = 100
+		}
+	}
+}
+
+(Type NameList) = {
+	(PdoList Y IfNot = Debug) = { Type = String }
+	(PdoList N If = Debug) = { Type = String }
+}
+
+
+(Type GfxCultureFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = GfxCultureType }
+}
+
+(Type GfxCultureType) = {
+	Single = { Left = "skin_tone" Right = { Literal = "0" Literal = "1" Literal = "2" Literal = "3" } }
+	Optional = { Left = "christian_portraits" Right = Bool }
+}

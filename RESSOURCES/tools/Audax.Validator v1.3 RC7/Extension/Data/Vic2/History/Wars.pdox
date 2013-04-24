@@ -1,0 +1,31 @@
+(Validator Wars) = {
+	Type = Default
+	FriendlyName = "Wars"
+	(FileGroup "history\wars" "*.txt" True)
+	ValidatorName = WarFile
+}
+
+# TODO: make sure that an attacker/defender is added before they are chronologically removed
+# TODO: and not more than once, etc
+# TODO: and that casus-belli, etc, operate on existent people
+
+(Type WarFile) = {
+	Optional = { Left = "name" Right = String }
+	(Ch Y N) = { Left = { Type = Date } Right = DateClause }
+}
+
+(Type DateClause) = {
+	(Ch N Y) = { Left = "add_attacker" Right = Tag }
+	(Ch N Y) = { Left = "add_defender" Right = Tag }
+	(Ch N Y) = { Left = "rem_attacker" Right = Tag }
+	(Ch N Y) = { Left = "rem_defender" Right = Tag }
+	
+	(Ch N Y) = { Left = "war_goal" Right = WarGoal }
+}
+
+(Type WarGoal) = {
+	Single = { Left = "casus_belli" Right = CasusBelliType }
+	Single = { Left = "actor" Right = Tag }
+	Single = { Left = "receiver" Right = Tag }
+	
+}

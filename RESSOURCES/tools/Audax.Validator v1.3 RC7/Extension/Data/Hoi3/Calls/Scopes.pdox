@@ -1,0 +1,90 @@
+(ContextValidator Trigger) = { Scopes = {
+	CountryTrigger = { Type = ThisCountry }
+	ProvinceTrigger = { Type = ThisProvince }
+	CountryTrigger = { Type = Tag }
+	
+	ProvinceTrigger = { Type = Province }
+	ProvinceTrigger = { Type = Region }
+	ProvinceTrigger = { Type = Continent }
+
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Scopes = {
+	ProvinceTrigger = any_neighbor_province
+	
+	CountryTrigger = controller
+	CountryTrigger = owner
+} }
+
+(ContextValidator CountryTrigger) = { Scopes = {
+	CountryTrigger = any_neighbor_country
+	
+	ProvinceTrigger = any_owned_province
+	ProvinceTrigger = any_core
+	ProvinceTrigger = capital_scope
+	ProvinceTrigger = any_neighbor_province
+	
+	CountryTrigger = { Type = Tag }
+	CountryTrigger = controller
+	
+} }
+
+(ContextValidator Command) = { Scopes = {
+	CountryCommand = { Type = ThisCountry }
+	ProvinceCommand = { Type = ThisProvince }
+	
+	CountryCommand = any_country
+	CountryCommand = { Type = Tag }
+	CountryCommand = random_country
+	
+	ProvinceCommand = { Type = Province }
+	ProvinceCommand = { Type = Region }
+	ProvinceCommand = { Type = Continent }
+
+} }
+
+(ContextValidator ProvinceCommand) = { Scopes = {
+	ProvinceTrigger = limit
+	
+	CountryCommand = controller
+	CountryCommand = owner
+	
+	ProvinceCommand = random_empty_neighbor_province
+	ProvinceCommand = random_neighbor_province
+} }
+
+(ContextValidator CountryCommand) = { Scopes = {
+	CountryTrigger = limit
+	
+	CountryCommand = any_neighbor_country
+	
+	ProvinceCommand = any_neighbor_province
+	ProvinceCommand = any_owned
+	(ProvinceCommand If = Hoi3Tfh) = any_controlled
+	ProvinceCommand = capital_scope
+	ProvinceCommand = random_owned
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,192 @@
+(Validator Combat) = {
+	Type = GroupValidator
+	FriendlyName = "Combat"
+	Description = "Includes leader traits, combat tactics, and gainable traits."
+	
+	(Validator IfNot = Hoi3Tfh) = {
+		Type = Default
+		(FileGroup "common\combat_events.txt")
+		ValidatorName = CombatEventFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\traits.txt")
+		ValidatorName = TraitsFile
+	}
+	
+	(Validator If = Hoi3Tfh) = {
+		Type = Default
+		(FileGroup "common\combat_tactics.txt")
+		ValidatorName = CombatTacticsFile
+	}
+	
+	(Validator If = Hoi3Tfh) = {
+		Type = Default
+		(FileGroup "common\gainable_traits.txt")
+		ValidatorName = GainableTraitsFile
+	}
+}
+
+Global = {
+(If If = Hoi3Tfh) = {
+	(Type.Enum CombatTactic) = { Import = { (FileGroup "common\combat_tactics.txt") SelectPath = "*\[L]" } }
+}
+}
+
+(If IfNot = Hoi3Tfh) = {
+	Global = {
+	(Type.Enum CombatEvent) = { Import = { (FileGroup "common\combat_events.txt") SelectPath = "*\[L]" } }
+	}
+
+	(Type CombatEventFile) = {
+		(Ch Y N) = { Left = { Type = String } Right = CombatEvent (CheckKey "*" Left IfNot = NoCheckKey) }
+	}
+
+	(Type CombatEvent) = {
+		Single = { Left = "is_attacker" Right = Bool }
+		
+		Optional = { Left = "movement_speed" Right = Double }
+		Optional = { Left = "attacker" Right = Double }
+		Optional = { Left = "defender" Right = Double }
+		Optional = { Left = "combat_width" Right = Int }
+	}
+}
+
+(Type TraitsFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = TraitDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type TraitDef) = {
+	Optional = { Left = "xp_gain" Right = Double }
+	Optional = { Left = "surprise_chance" Right = Double }
+	Optional = { Left = "supply_consumption" Right = Double }
+	Optional = { Left = "defence_modifier" Right = Double }
+	Optional = { Left = "offence_modifier" Right = Double }
+	Optional = { Left = "combat_move_speed" Right = Double }
+	Optional = { Left = "winter_attrition" Right = Double }
+	Optional = { Left = "river_attack" Right = Double }
+	Optional = { Left = "fort_attack" Right = Double }
+	Optional = { Left = "combined_arms_bonus" Right = Double }
+	Optional = { Left = "out_of_supply_modifier" Right = Double }
+	Optional = { Left = "submarine_attack" Right = Double }
+	Optional = { Left = "disengage_timer" Right = Double }
+	Optional = { Left = "spread_out" Right = Double }
+	Optional = { Left = "spotting_chance" Right = Double }
+	Optional = { Left = "defender_softness" Right = Double }
+	Optional = { Left = "strategic_attack" Right = Double }
+	Optional = { Left = "naval_attack" Right = Double }
+	Optional = { Left = "night_attack" Right = Double }
+	Optional = { Left = "tactical_attack" Right = Double }
+	Optional = { Left = "dissent_impact" Right = Double }
+	Optional = { Left = "encirclement_bonus" Right = Double }
+	Optional = { Left = "envelopment_bonus" Right = Double }
+	Optional = { Left = "experience_bonus" Right = Double }
+	Optional = { Left = "fort_defence" Right = Double }
+	Optional = { Left = "amph_attack" Right = Double }
+	Optional = { Left = "digin_bonus" Right = Double }
+	Optional = { Left = "paradrop_mission" Right = Double }
+
+	(If If = Hoi3Tfh) = {
+		Single = { Left = "allowed_leader" Right = { (Ch N Y) = { Left = "Item" Right = { Literal = "air" Literal = "land" Literal = "sea" } } } }
+
+	(Ch N Y) = { Left = "terrain_speed" Right = TerrainMod }
+		(Ch N Y) = { Left = "terrain_attack" Right = TerrainMod }
+		(Ch N Y) = { Left = "terrain_defence" Right = TerrainMod }
+	}
+}
+
+(Type TerrainMod) = {
+	Single = { Left = "type" Right = Terrain }
+	Single = { Left = "value" Right = Double }
+}
+
+
+(If If = Hoi3Tfh) = {
+	(Type CombatTacticsFile) = {
+		(Ch Y N) = { Left = { Type = String } Right = CombatTacticDef (CheckKey "*" Left IfNot = NoCheckKey) }
+	}
+
+	(Type CombatTacticDef) = {
+		Single = { Left = "trigger" Right = CombatTacticTrigger }
+		Single = { Left = "base" Right = Double }
+		Single = { Left = "picture" Right = String }
+		Optional = { Left = "countered_by" Right = CombatTactic }
+		
+		Optional = { Left = "attacker" Right = Double }
+		Optional = { Left = "defender" Right = Double }
+		Optional = { Left = "movement_speed" Right = Double }
+		Optional = { Left = "combat_width" Right = Double }
+		Optional = { Left = "aggressiveness" Right = Double }
+	}
+
+	(Type CombatTacticTrigger) = {
+		ContextValidator = CombatTacticTrigger
+	}
+	
+	(ContextValidator CombatTacticTrigger) = {
+		Conditional = CombatTacticTrigger
+		
+		Set = {
+			CombatTacticTrigger = CombatTacticTrigger
+		}
+		
+		Members = {
+			(Y  ) = { Left = "is_attacker" Right = Bool }
+			(Y  ) = { Left = "frontage_full" Right = Bool }
+			(Y  ) = { Left = "reserves" Right = Bool }
+			(Y  ) = { Left = "has_armour_unit" Right = Bool }
+			(Y  ) = { Left = "skill_advantage" Right = Int }
+			(Y  ) = { Left = "skill" Right = PInt }
+			(Y  ) = { Left = "armour" Right = PInt }
+			(N Y) = { Left = "trait" Right = Trait }
+		}
+	}
+	
+	
+	(Type GainableTraitsFile) = {
+		Child = { Left = "gainable_trait" Right = GainableTrait }
+	}
+	
+	(Type GainableTrait) = {
+		#Single = { Left = "allowed_leader" Right = { Literal = "land" Literal = "sea" Literal = "air" } }
+		Single = { Left = "combat" Right = { Literal = "land_combat" Literal = "naval_combat" Literal = "air_combat" Literal = "ground_bombing" Literal = "naval_bombing" Literal = "land_bombing" } }
+		Single = { Left = "hours_required" Right = PInt }
+		Single = { Left = "trait" Right = Trait }
+		Optional = { Left = "trigger" Right = TraitTrigger }
+	}
+	
+	(Type TraitTrigger) = {
+		ContextValidator = TraitTrigger
+	}
+	
+	(Type.Enum CombatModifier) = { Values = { BM_DISSENT BM_LEADER_BONUS BM_DIFFICULTY BM_ENCIRCLEMENT_PENALTY BM_ENVELOPMENT_PENALTY BM_DIVISION_PENALTY BM_EXPERIENCE BM_MISSION_EFFICIENCY BM_DUGIN_MODIFIER BM_AMPH_PENALTY BM_FORT_MODIFIER BM_PARATROOP_PENALTY BM_RIVER_PENALTY BM_SHORE_BOMBARD BM_LACK_OF_SUPPLIES BM_MULTIPLE BM_COMBINED_ARMS BM_BASE_PROXIMITY BM_RADAR_STATION BM_INTERCEPT BM_AIRCOMBAT BM_TERRAIN BM_WEATHER BM_NIGHT_MODIFIER BM_SURPRISE_PENALTY BM_SURPRISE_BONUS BM_POOR_SCREEN_PENALTY BM_TERRITORIAL_PRIDE BM_RADIO } }
+	
+	(ContextValidator TraitTrigger) = {
+		Conditional = TraitTrigger
+		
+		Set = {
+			TraitTrigger = TraitTrigger
+		}
+		
+		Members = {
+			(Y  ) = { Left = "is_attacker" Right = Bool }
+			(A Y) = { Left = "terrain" Right = Terrain }
+			(Y  ) = { Left = "province_temperature" Right = Int }
+			(Y  ) = { Left = "is_winner" Right = Bool }
+			(Y  ) = { Left = "is_convoy" Right = Bool }
+			(A Y) = { Left = "has_combat_modifier" Right = CombatModifier }
+			(Y  ) = { Left = "has_combined_arms" Right = Bool }
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+

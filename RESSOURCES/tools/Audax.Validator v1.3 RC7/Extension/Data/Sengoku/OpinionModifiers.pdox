@@ -1,0 +1,20 @@
+(Validator OpinionModifiers) = {
+	Type = Default
+	FriendlyName = "Opinion modifiers"
+	(FileGroup "common\opinion_modifiers.txt")
+	ValidatorName = OpinionModifiersFile
+}
+
+Global = {
+(Type.Enum OpinionModifier) = { Import = { (FileGroup "common\opinion_modifiers.txt") SelectPath = "*\[L]" } }
+}
+
+(Type OpinionModifiersFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = OpinionModifierDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type OpinionModifierDef) = {
+	Single = { Left = "opinion" Right = Double }
+	Optional = { Left = "months" Right = NonNegInt }
+	
+}

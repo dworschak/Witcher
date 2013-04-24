@@ -1,0 +1,99 @@
+(ContextValidator Trigger) = { Members = {
+	(Y Y) = { Left = "year" Right = Int }
+	(Y Y) = { Left = "month" Right = Int }
+	(Y Y) = { Left = "date" Right = Date }
+	(Y Y) = { Left = "always" Right = Bool }
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(A Y) = { Left = "continent" Right = Continent }
+	(Y Y) = { Left = "empty" Right = Bool }
+	(Y Y) = { Left = "revolt_risk" Right = PDbl }
+	(N Y) = { Left = "has_province_modifier" Right = Modifier }
+	(Y Y) = { Left = "is_capital" Right = Bool }
+	(Y Y) = { Left = "port" Right = Bool }
+	(A Y If = Hoi3Sf) = { Left = "province_id" Right = Province }
+	(A Y) = { Left = "region" Right = Region }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "ai" Right = Bool }
+	(A Y) = { Left = "capital" Right = LandProvince }
+
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "country_event" Right = CountryEventId }
+	(N Y) = { Left = "province_event" Right = ProvinceEventId }
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomProvinceCommand }
+	(N N) = { Left = "random_list" Right = RandomProvinceList }
+	(Y Y) = { Left = "change_province_name" Right = String }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomCountryCommand }
+	(N N) = { Left = "random_list" Right = RandomCountryList }
+	
+	(Y Y) = { Left = "capital" Right = LandProvince }
+} }
+
+
+
+
+(Type RandomCountryCommand) = {
+	Inherits = CountryCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomList) = {
+	Ensure = {
+		Description = "The sum of probabilities must be equal to 100."
+		Select = {
+			Condition = { Left = { Type = Int } }
+			Target = Left
+		}
+		
+		Operation = Sum
+		
+		TrueForResult = {
+			Equals = 100
+		}
+	}
+}
+
+(Type RandomCountryList) = {
+	Inherits = RandomList
+	Child = { Left = { Type = Int } Right = CountryCommand }
+}
+
+(Type RandomProvinceCommand) = {
+	Inherits = ProvinceCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomProvinceList) = {
+	Inherits = RandomList
+	Child = { Left = { Type = Int } Right = ProvinceCommand }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

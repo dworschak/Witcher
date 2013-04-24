@@ -1,0 +1,110 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(N Y) = { Left = "has_global_flag" Right = { Right = String (LocalOp "chk" "[R]" AddChecker GlobalFlag) } } # TODO: Check if it is real
+	(N Y) = { Left = "has_country_flag" Right = { Right = String (LocalOp "chk" "[R]" AddChecker CountryFlag) } } # TODO: Check if it is real
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(N Y) = { Left = "has_global_flag" Right = { Right = String (LocalOp "chk" "[R]" AddChecker GlobalFlag) } }
+	(N Y) = { Left = "has_country_flag" Right = { Right = String (LocalOp "chk" "[R]" AddChecker CountryFlag) } }
+	
+	(N Y) = { Left = "has_country_modifier" Right = { StaticModifier TriggeredModifier EventModifier } }
+	
+	(N Y) = { Left = "check_variable" Right = CheckVar }
+} }
+
+(ContextValidator PopTrigger) = { Members = {
+
+} }
+
+(ContextValidator RegionTrigger) = { Members = {
+
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "set_global_flag" Right = { Right = String (LocalOp "set" "[R]" AddSetter GlobalFlag) } }
+	(N Y) = { Left = "clr_global_flag" Right = { Right = String (LocalOp "clr" "[R]" AddSetter GlobalFlag) } }
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N Y) = { Left = "set_country_flag" Right = { Right = String (LocalOp "set" "[R]" AddSetter CountryFlag) } } # TODO: Valid in this scope?
+	(N Y) = { Left = "set_province_flag" Right = { Right = String (LocalOp "set" "[R]" AddSetter ProvinceFlag) } }
+	
+	(N Y) = { Left = "add_province_modifier" Right = AddProvModifier }
+	(N Y) = { Left = "remove_province_modifier" Right = { EventModifier StaticModifier } }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "set_country_flag" Right = { Right = String (LocalOp "set" "[R]" AddSetter CountryFlag) } }
+	(N Y) = { Left = "clr_country_flag" Right = { Right = String (LocalOp "clr" "[R]" AddSetter CountryFlag) } }
+	
+	(N Y) = { Left = "add_country_modifier" Right = AddCountryModifier }
+	(N Y) = { Left = "remove_country_modifier" Right = { EventModifier StaticModifier } }
+	
+	(N Y) = { Left = "set_variable" Right = SetVar }
+	(N Y) = { Left = "change_variable" Right = ChangeVar }
+} }
+
+(ContextValidator PopCommand) = { Members = {
+
+} }
+
+(ContextValidator RegionCommand) = { Members = {
+
+} }
+
+
+
+
+
+
+
+(Type Var) = {
+	Single = { Left = "which" Right = String }
+	Single = { Left = "value" Right = Double }
+}
+
+(Type CheckVar) = {
+	Inherits = Var
+	(LocalOp "chk" "which\[R]" AddChecker Variable)
+}
+
+(Type SetVar) = {
+	Inherits = Var
+	(LocalOp "set" "which\[R]" AddSetter Variable)
+}
+
+(Type ChangeVar) = {
+	Inherits = Var
+	(LocalOp "cng" "which\[R]" AddSetter Variable)
+}
+
+
+
+(Type AddCountryModifier) = {
+	Single = { Left = "name" Right = { EventModifier StaticModifier } }
+	Single = { Left = "duration" Right = NonNegOrNullInt }
+}
+
+(Type AddProvModifier) = {
+	Single = { Left = "name" Right = { EventModifier StaticModifier } }
+	Single = { Left = "duration" Right = NonNegOrNullInt }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

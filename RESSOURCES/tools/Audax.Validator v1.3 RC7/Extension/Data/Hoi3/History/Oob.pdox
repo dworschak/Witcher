@@ -1,0 +1,221 @@
+﻿(Validator OobFile) = {
+	Type = Default
+	FriendlyName = "Orders of Battle"
+	(FileGroup "history\units" "*.txt")
+	ValidatorName = OobFile
+}
+
+# Devildread 189, 191: can_upgrade works for :
+# - division/corps/army/armycorps/theatre
+# - navy
+# - air
+# Basically, anywhere you can put a location or a leader (or is_reserve).
+#
+# It doesn't work in the regiment = {}, ship = {} or wing = {}. Also not working in military_construction. 
+
+(Type OobFile) = {
+	OptionList = { Left = { Type = Tag } Right = { Optional = { Left = "military_access" Right = Bool } } }
+	
+	Child = { Left = "theatre" Right = Theater }
+	Child = { Left = "armygroup" Right = ArmyGroup }
+	Child = { Left = "army" Right = Army }
+	Child = { Left = "corps" Right = Corps }
+	Child = { Left = "division" Right = Division }
+	
+	Child = { Left = "navy" Right = Navy }
+	Child = { Left = "air" Right = Air }
+	
+	Child = { Left = "military_construction" Right = MilitaryConstruction }
+	Child = { Left = "building_construction" Right = BuildingConstruction }
+	
+	(If If = Hoi3Ftm) = {
+		# allows the country to have the actual election date by going 'last_election'+election duration in the government file. 
+		# If no entry, it will start on 1936.1.1
+		Optional = { Left = "last_election" Right = Date }
+		Child = { Left = "convoy_construction" Right = ConvoyConstruction } # Added this for FtM 3.05 - Zerli
+	}
+}
+
+(If If = Hoi3Ftm) = {
+	(Type ConvoyConstruction) = {
+		Single = { Left = "country" Right = Tag }
+		Single = { Left = "size" Right = Int }
+		Single = { Left = "cost" Right = Double }
+		Single = { Left = "progress" Right = Int }
+		Single = { Left = "duration" Right = Int }
+		Single = { Left = "status" Right = Bool }
+	}
+}
+
+(Type MilitaryConstruction) = {
+	(Single IfNot = Hoi3Ftm) = { Left = "country" Right = Tag }
+	(Single If = Hoi3Ftm) = { Left = { "country" "builder" } Right = Tag }
+	
+	Child = { Left = { Type = Brigade } Right = ConstructionUnit }
+	Single = { Left = "cost" Right = Double }
+	Single = { Left = "progress" Right = Int }
+	Single = { Left = "duration" Right = Int }
+	Optional = { Left = "is_reserve" Right = Bool }
+	Optional = { Left = "name" Right = String }
+}
+
+(Type BuildingConstruction) = {
+	Optional = { Left = "id" Right = Untyped }
+	Optional = { Left = "size" Right = Double }
+	Optional = { Left = "cost" Right = Double }
+	Optional = { Left = "progress" Right = Double }
+	Optional = { Left = "duration" Right = Double }
+	Optional = { Left = "location" Right = Province }
+	Optional = { Left = "country" Right = Tag }
+	Optional = { Left = "building" Right = Double }
+}
+
+(Type ConstructionUnit) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "historical_model" Right = Int }
+	Optional = { Left = "experience" Right = NonNegInt }
+	
+	# Note: Organization starts at 0 after a construction anyway so the field "organisation" is not allowed.
+}
+
+# Land
+(Type LandUnitBase) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "location" Right = LandProvince }
+	Optional = { Left = "is_reserve" Right = Bool }
+	Optional = { Left = "leader" Right = LeaderId }
+	Optional = { Left = "expeditionary_owner" Right = Tag }
+	Optional = { Left = "can_upgrade" Right = Bool }
+}
+
+(Type Theater) = {
+	Inherits = LandUnitBase
+	
+	Child = { Left = "armygroup" Right = ArmyGroup }
+	Child = { Left = "army" Right = Army }
+	Child = { Left = "corps" Right = Corps }
+	Child = { Left = "division" Right = Division }
+	Child = { Left = "regiment" Right = Regiment }
+	
+	Child = { Left = "navy" Right = Navy }
+	Child = { Left = "air" Right = Air }
+}
+
+(Type ArmyGroup) = {
+	Inherits = LandUnitBase
+	
+	Child = { Left = "army" Right = Army }
+	Child = { Left = "corps" Right = Corps }
+	Child = { Left = "division" Right = Division }
+	Child = { Left = "regiment" Right = Regiment }
+	
+	Child = { Left = "navy" Right = Navy }
+	Child = { Left = "air" Right = Air }
+}
+
+(Type Army) = {
+	Inherits = LandUnitBase
+	
+	Child = { Left = "corps" Right = Corps }
+	Child = { Left = "division" Right = Division }
+	Child = { Left = "regiment" Right = Regiment }
+	
+	Child = { Left = "navy" Right = Navy }
+	Child = { Left = "air" Right = Air }
+}
+
+(Type Corps) = {
+	Inherits = LandUnitBase
+	
+	Child = { Left = "division" Right = Division }
+	Child = { Left = "regiment" Right = Regiment }
+	
+	Child = { Left = "navy" Right = Navy }
+	Child = { Left = "air" Right = Air }
+}
+
+(Type Division) = {
+	Inherits = LandUnitBase
+	
+	Child = { Left = "regiment" Right = Regiment }
+	Optional = { Left = "dig_in" Right = PositiveInt }
+}
+
+(Type TransportedDivision) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "location" Right = Province }
+	Optional = { Left = "is_reserve" Right = Bool }
+	Optional = { Left = "leader" Right = LeaderId }
+	Optional = { Left = "expeditionary_owner" Right = Tag }
+	Child = { Left = "regiment" Right = Regiment }
+	Optional = { Left = "dig_in" Right = PositiveInt }
+}
+
+(Type Regiment) = {
+	Optional = { Left = "name" Right = String }
+	Single = { Left = "type" Right = LandBrigade }
+	(Optional If = Hoi3Sf) = { Left = "organisation" Right = NonNegInt }
+	Single = { Left = "historical_model" Right = Int }
+	Optional = { Left = "experience" Right = Int }
+	Optional = { Left = "strength" Right = NonNegDbl }
+	Optional = { Left = "builder" Right = Tag }
+	(Optional If = Hoi3Ftm) = { Left = "is_reserve" Right = Bool }
+}
+
+# Navy
+(Type Navy) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "base" Right = Province }
+	Single = { Left = "location" Right = Province }
+	Required = { Left = "ship" Right = Ship }
+	Optional = { Left = "is_reserve" Right = Bool }
+	Optional = { Left = "leader" Right = LeaderId }
+	Optional = { Left = "expeditionary_owner" Right = Tag }
+	Optional = { Left = "can_upgrade" Right = Bool }
+	
+	# On transports
+	Child = { Left = "division" Right = TransportedDivision }
+}
+
+(Type Ship) = {
+	Single = { Left = "type" Right = NavalBrigade }
+	Single = { Left = "name" Right = String }
+	(Optional If = Hoi3Sf) = { Left = "organisation" Right = NonNegInt }
+	Single = { Left = "historical_model" Right = Int }
+	Child = { Left = "air" Right = Cag }
+	Optional = { Left = "experience" Right = Int }
+	Optional = { Left = "strength" Right = NonNegDbl }
+	Optional = { Left = "builder" Right = Tag }
+	(Optional If = Hoi3Sf) = { Left = "pride" Right = Bool }
+}
+
+# Air
+(Type Air) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "base" Right = Province }
+	Single = { Left = "location" Right = Province }
+	Required = { Left = "wing" Right = Wing }
+	Optional = { Left = "is_reserve" Right = Bool }
+	Optional = { Left = "leader" Right = LeaderId }
+	Optional = { Left = "expeditionary_owner" Right = Tag }
+	Optional = { Left = "can_upgrade" Right = Bool }
+	
+	# On transports
+	Child = { Left = "division" Right = TransportedDivision }
+}
+
+(Type Wing) = {
+	Single = { Left = "type" Right = AirBrigade }
+	(Optional If = Hoi3Sf) = { Left = "organisation" Right = NonNegInt }
+	Optional = { Left = "name" Right = String }
+	Single = { Left = "historical_model" Right = Int }
+	Optional = { Left = "experience" Right = Int }
+	Optional = { Left = "strength" Right = NonNegDbl }
+	Optional = { Left = "builder" Right = Tag }
+}
+
+(Type Cag) = {
+	Optional = { Left = "name" Right = String }
+	Single = { Left = "location" Right = Province }
+	Required = { Left = "wing" Right = Wing }
+}

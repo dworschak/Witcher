@@ -1,0 +1,35 @@
+Shared = {
+
+(Type FactorModifier) = {
+	(Ensure IfNot = FactorModifier.DisableNonFactorCheck) = {
+		Description = "There must be at least one non-factor entry within a factor modifier."
+		
+		Select = {
+			Condition = { Not = { Left = "factor" } }
+			Target = Right
+		}
+		
+		Operation = Count
+		
+		TrueForResult = {
+			GreaterThan = 0
+		}
+	}
+	
+	(Ensure IfNot = ContextValidator.NoWarnOnFactorOne ErrorCode = 1003) = {
+		Description = "Having a factor of 1 is useless."
+		
+		Select = {
+			Condition = { Left = "factor" }
+			Target = Right
+		}
+		
+		Operation = Sum
+		
+		TrueForResult = {
+			NotEquals = 1
+		}
+	}
+}
+
+}

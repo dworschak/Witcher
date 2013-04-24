@@ -1,0 +1,191 @@
+(Validator CbTypes) = {
+	Type = Default
+	FriendlyName = "Casus Belli"
+	(FileGroup "common\cb_types.txt")
+	ValidatorName = CbFile
+}
+
+Global = {
+
+Script = {
+	(DataSource Pdo) = { Path = "common\cb_types.txt" }
+
+	(MakeEnumValidator CasusBelliType) = "* { ([L]) != 'peace_order'} \[L]"
+	(MakeEnumValidator DemandCountryCbTypeOne) = "* { ([L]) != 'peace_order'} \ . {(po_release_puppet\[R]) == 'yes'} \[L]"
+	(MakeEnumValidator DemandCountryCbTypeTwo) = "* { ([L]) != 'peace_order'} \ . {(po_add_to_sphere\[R]) == 'yes'} \[L]"
+	(MakeEnumValidator DemandStateCbTypeOne) = "* { ([L]) != 'peace_order'} \ . {(po_demand_state\[R]) == 'yes'} \[L]"
+	(MakeEnumValidator DemandStateCbTypeTwo) = "* { ([L]) != 'peace_order'} \ . {(po_transfer_provinces\[R]) == 'yes'} \[L]"
+
+}
+
+(Type.Or DemandCountryCb) = { Type = DemandCountryCbTypeOne Type = DemandCountryCbTypeTwo }
+(Type.Or DemandStateCb) = { Type = DemandStateCbTypeOne Type = DemandStateCbTypeTwo }
+}
+
+(Type CbFile) = {
+	Single = { Left = "peace_order" Right = { (PdoList Y) = { Type = { Type = CasusBelliType Literal = "annex" } } } }
+
+	(Ch Y N) = { Left = { Type = String } Right = CbType }
+}
+
+# TODO: Make sure stock ones exist
+(Type CbType) = {
+	Single = { Left = "sprite_index" Right = PInt } # TODO: Find max limit
+	
+	(Optional If = Vic2Ahd) = { Left = "constructing_cb" Right = Bool }
+	(Optional If = Vic2Ahd) = { Left = "construction_speed" Right = PDbl }
+	
+	# TODO: How does is_triggered_only limit?
+	NodeSwitcher = {
+		Node = "is_triggered_only"
+		Default = NotIsTriggeredOnly
+		
+		Switch = {
+			"yes" = IsTriggeredOnly
+			"no" = NotIsTriggeredOnly
+		}
+	}
+	
+	NodeSwitcher = {
+		Node = "po_demand_state"
+		Default = Empty
+		Switch = {
+			"yes" = DemandState
+			"no" = Empty
+		}
+	}
+	
+	NodeSwitcher = {
+		Node = "po_transfer_provinces"
+		Default = Empty
+		Switch = {
+			"yes" = DemandState
+			"no" = Empty
+		}
+	}
+	
+	NodeSwitcher = {
+		Node = "po_add_to_sphere"
+		Default = Empty
+		Switch = {
+			"yes" = DemandCountry
+			"no" = Empty
+		}
+	}
+	
+	NodeSwitcher = {
+		Node = "po_release_puppet"
+		Default = Empty
+		Switch = {
+			"yes" = DemandCountry
+			"no" = Empty
+		}
+	}
+	
+	Single = { Left = "badboy_factor" Right = NnDbl }
+	Single = { Left = "prestige_factor" Right = NnDbl }
+	Single = { Left = "peace_cost_factor" Right = NnDbl }
+	OptionList = { Left = { Type = PeaceOption } Right = Bool }
+	Single = { Left = "on_add" Right = OnAddCountryCommand }
+	
+	Single = { Left = "war_name" Right = String } # Ensure exists: NORMAL_<name>, AGGRESSION_<name>
+	Optional = { Left = "always" Right = Bool }
+	
+	Optional = { Left = "is_civil_war" Right = Bool }
+	Optional = { Left = "badboy_factor" Right = NnDbl }
+	Optional = { Left = "penalty_factor" Right = NnDbl }
+	Optional = { Left = "break_truce_prestige_factor" Right = NnDbl }
+	Optional = { Left = "break_truce_infamy_factor" Right = NnDbl }
+	Optional = { Left = "break_truce_militancy_factor" Right = NnDbl }
+	Optional = { Left = "truce_months" Right = NnInt }
+	Optional = { Left = "good_relation_prestige_factor" Right = NnDbl }
+	Optional = { Left = "good_relation_infamy_factor" Right = NnDbl }
+	Optional = { Left = "good_relation_militancy_factor" Right = NnDbl }
+	Optional = { Left = "great_war_obligatory" Right = Bool }
+	
+	Optional = { Left = "on_po_accepted" Right = CountryCommand }
+	
+	Optional = { Left = "is_valid" Right = CbDemandCountryTrigger }
+	
+}
+
+(Type OnAddCountryCommand) = { ContextValidator = OnAddCountryCommand }
+(ContextValidator OnAddCountryCommand) = {
+	Inherits = CountryCommand
+	ThisTarget = Country
+	FromTarget = Country
+	
+	Members = {
+		(N Y) = { Left = "add_war_goal" Right = { Single = { Left = "casus_belli" Right = CasusBelliType } } }
+	}
+}
+
+(Type IsTriggeredOnly) = {
+	Single = { Left = "months" Right = NnInt }
+	Optional = { Left = "can_use" Right = { Inherits = CbCountryTrigger Optional = { Left = "always" Right = Bool } } } # TODO: How does always work?
+}
+
+(Type NotIsTriggeredOnly) = {
+	Single = { Left = "months" Right = NnInt }
+	Optional = { Left = "can_use" Right = CbCountryTrigger }
+}
+
+(Type.Enum PeaceOption) = { Values = { po_annex po_disarmament po_clear_union_sphere
+	po_reparations  po_remove_prestige  po_status_quo
+	po_gunboat
+	(po_uninstall_communist_gov_type If = Vic2Ahd)
+	(po_install_communist_gov_type If = Vic2Ahd)
+	(po_make_puppet If = Vic2Ahd)
+	 # po_demand_state po_add_to_sphere po_release_puppet po_transfer_provinces # handled seperately
+	} }
+
+(Type DemandState) = {
+	Optional = { Left = "allowed_states" Right = DemandStateTrigger }
+	Optional = { Left = "allowed_countries" Right = CbDemandCountryTrigger }
+	
+	(Optional If = Vic2Ahd) = { Left = "allowed_substate_regions" Right = DemandStateTrigger }
+}
+
+(Type DemandCountry) = {
+	Optional = { Left = "allowed_countries" Right = CbDemandCountryTrigger }
+}
+
+(Type CbDemandCountryTrigger) = {
+	ContextValidator = CbDemandCountryTrigger
+}
+
+(ContextValidator CbDemandCountryTrigger) = {
+	Inherits = CbCountryTrigger
+}
+
+(Type DemandStateTrigger) = { ContextValidator = DemandStateTrigger }
+
+(ContextValidator DemandStateTrigger) = {
+	Inherits = RegionTrigger
+	ThisTarget = Country
+	FromTarget = Country
+	
+	Set = {
+		CountryTrigger = CbCountryTrigger
+	}
+}
+
+(Type CbCountryTrigger) = {
+	ContextValidator = CbCountryTrigger
+}
+
+(ContextValidator CbCountryTrigger) = {
+	Inherits = CountryTrigger
+	FromTarget = Country
+	
+	Members = {
+		(N Y) = { Left = "this_culture_union" Right = { Literal = "this_union" Type = ThisCountry } }
+	}
+	
+	Set = {
+		CountryTrigger = CbCountryTrigger
+	}
+}
+
+
+

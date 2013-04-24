@@ -1,0 +1,81 @@
+(Validator Cultures) = {
+	Type = Default
+	FriendlyName = "Cultures"
+	(FileGroup "common\cultures.txt")
+	ValidatorName = CultureFile
+}
+
+(Type CultureFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = CultureGroup (CheckKey "*" Left If = Ck2CheckKey) }
+}
+
+(Type CultureGroup) = {
+	Child = { Left = { Type = String } Right = Culture UniqueId = Left (CheckKey "*" Left If = Ck2CheckKey) }
+}
+
+(Type Culture) = {
+	Optional = { Left = "graphical_culture" Right = String }
+	Optional = { Left = "graphical_unit_culture" Right = String }
+	Single = { Left = "color" Right = FloatColor }
+	Single = { Left = "male_names" Right = NameList }
+	Single = { Left = "female_names" Right = NameList }
+	Optional = { Left = "from_dynasty_prefix" Right = String }
+	Optional = { Left = "prefix" Right = Bool }
+	
+	Optional = { Left = "pat_grf_name_chance" Right = NnDbl }
+	Optional = { Left = "mat_grf_name_chance" Right = NnDbl }
+	Optional = { Left = "father_name_chance" Right = NnDbl }
+
+	Optional = { Left = "pat_grm_name_chance" Right = NnDbl }
+	Optional = { Left = "mat_grm_name_chance" Right = NnDbl }
+	Optional = { Left = "mother_name_chance" Right = NnDbl }
+	
+	
+	Single = { Left = "modifier" Right = { Literal = "default_culture_modifier" } }
+	Single = { Left = "clans" Right = { (PdoList Y) = { Type = String } } }
+	
+	Ensure = {
+		Description = "The sum of probabilities for the male child being named after a relative must be less than or equal to 100."
+		Select = {
+			Condition = {
+				Or = {
+					Left = { Literal = "pat_grf_name_chance" }
+					Left = { Literal = "mat_grf_name_chance" }
+					Left = { Literal = "father_name_chance" }
+				}
+			}
+			Target = Right
+		}
+		
+		Operation = Sum
+		
+		TrueForResult = {
+			LessThanOrEquals = 100
+		}
+	}
+	
+	Ensure = {
+		Description = "The sum of probabilities for the female child being named after a relative must be less than or equal to 100."
+		Select = {
+			Condition = {
+				Or = {
+					Left = { Literal = "pat_grm_name_chance" }
+					Left = { Literal = "mat_grm_name_chance" }
+					Left = { Literal = "mother_name_chance" }
+				}
+			}
+			Target = Right
+		}
+		
+		Operation = Sum
+		
+		TrueForResult = {
+			LessThanOrEquals = 100
+		}
+	}
+}
+
+(Type NameList) = {
+	(PdoList Y IfNot = Debug) = { Type = String }
+	(PdoList N If = Debug) = { Type = String }
+}

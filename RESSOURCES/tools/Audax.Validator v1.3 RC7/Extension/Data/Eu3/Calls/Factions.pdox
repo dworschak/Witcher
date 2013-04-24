@@ -1,0 +1,53 @@
+# This file is only included for Eu3Dw and up so no need for flag checks
+# within the file (e.g. (If If = Eu3Dw) not needed.
+
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y  ) = { Left = "has_factions" Right = Bool }
+	(N Y) = { Left = "has_faction" Right = Faction }
+	(A Y) = { Left = "faction_in_power" Right = Faction }
+	(N Y) = { Left = "faction_influence" Right = FactionInfluence }
+} }
+
+(ContextValidator Command) = { Members = {
+	
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "faction_influence" Right = FactionInfluence }
+	(N Y) = { Left = "add_faction" Right = Faction }
+	(N Y) = { Left = "remove_faction" Right = Faction }
+	(Y  ) = { Left = { Type = FactionInfluenceString } Right = NnDblP }
+} }
+
+(Type FactionInfluence) = {
+	Single = { Left = "faction" Right = Faction } 
+	Single = { Left = "influence" Right= NzDbl }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

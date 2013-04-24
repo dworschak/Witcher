@@ -1,0 +1,58 @@
+(ContextValidator ProvTrigger) = { Members = {
+	(Y  ) = { Left = "has_disease" Right = Bool }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y  ) = { Left = "base_health" Right = NnDbl }
+	(Y  ) = { Left = "health" Right = NnDbl }
+	
+	(Y  ) = { Left = "is_ill" Right = Bool }
+	(Y  ) = { Left = "is_alive" Right = Bool }
+	(Y  ) = { Left = "age" Right = NnInt }
+
+	(Y  ) = { Left = "has_disease" Right = Bool }
+	(Y  ) = { Left = "has_epidemic" Right = Bool }
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(Y  ) = { Left = "reduce_disease" Right = Double }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y  ) = { Left = "health" Right = Double }
+	(Y  ) = { Left = "death" Right = {
+		Type = Yes
+		Type = {
+			Optional = { Left = "death_reason" Right = DeathReason }
+			Optional = { Left = "killer" Right = { ThisChar } }
+			OneOf = { "death_reason" "killer" }
+		}
+	} }
+	(Y  ) = { Left = "cure_illness" Right = Yes }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

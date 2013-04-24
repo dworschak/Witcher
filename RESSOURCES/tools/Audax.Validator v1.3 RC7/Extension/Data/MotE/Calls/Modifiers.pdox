@@ -1,0 +1,34 @@
+(ContextValidator ProvTrigger) = { Members = {
+	(N Y) = { Left = "has_province_modifier" Right = { NormalModifier TriggeredModifier } }
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(N Y) = { Left = "has_country_modifier" Right = { NormalModifier TriggeredModifier } }
+	(N Y) = { Left = "has_province_modifier" Right = { NormalModifier TriggeredModifier } }
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N Y) = { Left = "add_province_modifier" Right = AddModifier }
+	(N Y) = { Left = "remove_province_modifier" Right = NormalModifier }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "add_country_modifier" Right = AddModifier }
+	(N Y) = { Left = "remove_country_modifier" Right = NormalModifier }
+
+} }
+
+(Type AddModifier) = {
+	Single = { Left = "name" Right = NormalModifier }
+	Optional = { Left = "duration" Right = { -1 PInt } }
+	Optional = { Left = "hidden" Right = Bool }
+
+}
+
+
+
+
+

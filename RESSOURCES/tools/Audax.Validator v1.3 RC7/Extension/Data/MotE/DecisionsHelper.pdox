@@ -1,0 +1,52 @@
+(Type NormalDecisionGroup If = normal) = { Inherits = DecisionGroup }
+#(Type DeJureDecisionGroup If = dejure) = { Inherits = DecisionGroup }
+#(Type DynastyDecisionGroup If = dynasty) = { Inherits = DecisionGroup }
+#(Type SuccessionLawsDecisionGroup If = succ) = { Inherits = DecisionGroup }
+#(Type VassalDecisionGroup If = v) = { Inherits = DecisionGroup }
+
+(Type DecisionGroup) = {
+	Child = { Left = { Type = String } Right = DecisionDef (LocalOp Validate ID) (CheckKey "*_title" Left IfNot = NoCheckKey) (CheckKey "*_desc" Left IfNot = NoCheckKey) }
+}
+
+(Type DecisionDef) = {
+	Optional = { Left = "potential" Right = DecisionTrigger }
+	Optional = { Left = "allow" Right = DecisionTrigger }
+	Optional = { Left = "effect" Right = DecisionCommand }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = AiWillDoModifier }
+}
+
+(Type AiWillDoModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	Inherits = DecisionTrigger
+	
+}
+
+(Type DecisionTrigger) = {
+	(ContextValidator If = normal) = NormalDecisionTrigger
+}
+
+(ContextValidator NormalDecisionTrigger If = normal) = {
+	Inherits = CountryTrigger
+}
+
+(Type DecisionCommand) = {
+	(ContextValidator If = normal) = NormalDecisionCommand
+}
+
+(ContextValidator NormalDecisionCommand If = normal) = {
+	Inherits = CountryCommand
+}
+
+
+
+
+
+
+
+

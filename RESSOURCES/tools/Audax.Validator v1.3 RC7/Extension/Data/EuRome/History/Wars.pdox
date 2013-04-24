@@ -1,0 +1,35 @@
+﻿(Validator Wars) = {
+	Type = Default
+	FriendlyName = "Wars"
+	(FileGroup "history\wars" "*.txt")
+	ValidatorName = WarFile
+}
+
+(Type WarFile) = {
+	(Ch N Y) = { Left = "name" Right = String }
+	(Ch N N) = { Left = { Type = Date } Right = WarEvents }
+}
+
+(Type WarEvents) = {
+	(Ch N Y) = { Left = "add_attacker" Right = Tag }
+	(Ch N Y) = { Left = "add_defender" Right = Tag }
+	(Ch N Y) = { Left = "rem_attacker" Right = Tag }
+	(Ch N Y) = { Left = "rem_defender" Right = Tag }
+	(Ch N Y) = { Left = "battle" Right = Battle }
+}
+
+(Type Battle) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "location" Right = Province }
+	Single = { Left = "attacker" Right = Side }
+	Single = { Left = "defender" Right = Side }
+	Single = { Left = "result" Right = { Literal = "win" Literal = "loss" } }
+}
+
+(Type Side) = {
+	Optional = { Left = "leader" Right = Int }
+	Optional = { Left = "militia" Right = Int }
+	Optional = { Left = "cavalry" Right = Int }
+	Optional = { Left = "trireme" Right = Int }
+	Single = { Left = "losses" Right = Percent }
+}

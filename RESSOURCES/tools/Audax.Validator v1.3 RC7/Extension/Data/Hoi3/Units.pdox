@@ -1,0 +1,281 @@
+﻿Global = {
+
+Script = {
+	(DataSource Pdo) = {
+		(FileGroup "units" "*.txt")
+	}
+	
+	(MakeEnumValidator LandBrigade) = "* { (type\[R]) == 'land' }\[L]"
+	(MakeEnumValidator NavalBrigade) = "* { (type\[R]) == 'naval' }\[L]"
+	(MakeEnumValidator AirBrigade) = "* { (type\[R]) == 'air' }\[L]"
+	(MakeEnumValidator Brigade) = "*\[L]"
+}
+
+(Type.Enum CombinedArmsGroup) = { Import = { (FileGroup "common\combined_arms.txt") SelectPath = "*\*\[L]" } }
+
+}
+
+(Validator Units) = {
+	Type = GroupValidator
+	FriendlyName = "Units"
+	Description = "Includes unit definitions, unit models, unit upgrades, and combined arms definitions"
+
+	Validator = {
+		Type = Default
+		(FileGroup "units" "*.txt")
+		ValidatorName = UnitFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "units\models" "*.txt")
+		ValidatorName = UnitModelFile
+	}
+
+	(Validator If = Hoi3Sf) = {
+		Type = Default
+		(FileGroup "common\unit_upgrades.txt")
+		ValidatorName = UnitUpgradeFile
+	}
+	
+	(Validator If = Hoi3Tfh) = {
+		Type = Default
+		(FileGroup "common\combined_arms.txt")
+		ValidatorName = CombinedArmsFile
+	}
+}
+
+(Type UnitFile) = {
+	Optional = { Left = { Type = LandBrigade } Right = LandBrigadeDefinition (CheckKey "*" Left IfNot = NoCheckKey) (CheckKey "*_short" Left IfNot = NoCheckKey) }
+	Optional = { Left = { Type = NavalBrigade } Right = NavalBrigadeDefinition (CheckKey "*" Left IfNot = NoCheckKey) (CheckKey "*_short" Left IfNot = NoCheckKey) }
+	Optional = { Left = { Type = AirBrigade } Right = AirBrigadeDefinition (CheckKey "*" Left IfNot = NoCheckKey) (CheckKey "*_short" Left IfNot = NoCheckKey) }
+}
+
+(Type BrigadeDefinition) = {
+	Optional = { Left = "usable_by" Right = { (PdoList Y) = { Type = Tag } } }
+
+	Child = { Left = "on_completion" Right = TechCategory }
+	Single = { Left = "completion_size" Right = Double }
+	Single = { Left = "priority" Right = Double }
+	Optional = { Left = "sprite" Right = String }
+	Optional = { Left = "active" Right = Bool }
+	Optional = { Left = "is_buildable" Right = Bool }
+	Single = { Left = "radio_strength" Right = Double  }
+	
+	# Misc
+	Single = { Left = "maximum_speed" Right = Double }
+	Single = { Left = "air_defence" Right = Double }
+	Single = { Left = "air_attack" Right = Double }
+	Single = { Left = "supply_consumption" Right = Double }
+	Single = { Left = "fuel_consumption" Right = Double }
+	
+	# Size Definitions
+	Single = { Left = "max_strength" Right = PositiveInt }
+	Single = { Left = "default_organisation" Right = PositiveInt }
+	Single = { Left = "default_morale" Right = Double }
+	Single = { Left = "officers" Right = NonNegativeInt }
+	
+	# Building Costs
+	Single = { Left = "build_cost_ic" Right = Double }
+	Single = { Left = "build_cost_manpower" Right = Double }
+	Single = { Left = "build_time" Right = PositiveInt }
+	
+	(Optional If = Hoi3Ftm) = { Left = "can_upgrade" Right = Bool }
+	
+	(If If = Hoi3Tfh) = {
+		Optional = { Left = "repair_cost_multiplier" Right = Double }
+		Optional = { Left = "minimum_of_type" Right = NnInt }
+		Optional = { Left = "max_percentage_of_type" Right = NnDblP }
+		Optional = { Left = "available_trigger" Right = CountryTrigger }
+		
+
+	}
+}
+
+(Type LandBrigadeDefinition) = {
+	Inherits = BrigadeDefinition
+	
+	Single = { Left = "type" Right = { Literal = "land" } }
+			
+	# Misc Abilities
+	Single = { Left = "transport_weight" Right = Double }
+	
+	# Defensive Abilities
+	Optional = { Left = "defensiveness" Right = Double }
+	Optional = { Left = "toughness" Right = Double }
+	Optional = { Left = "softness" Right = Double }
+
+	# Offensive Abilities
+	Optional = { Left = "suppression" Right = Double }
+	Single = { Left = "soft_attack" Right = Double }
+	Single = { Left = "hard_attack" Right = Double }
+	
+	# Modifiers
+	Child = { Left = { Type = Terrain } Right = LandModifier }			
+	Child = { Left = "amphibious" Right = LandModifier }			
+	Child = { Left = "river" Right = LandModifier }		
+	Child = { Left = "fort" Right = LandModifier }		
+	Child = { Left = "night" Right = LandModifier }		
+		
+	Single = { Left = "combat_width" Right = Double }
+	Optional = { Left = "can_paradrop" Right = Bool }
+	
+	(If If = Hoi3Ftm) = { 
+		Optional = { Left = "is_mobile" Right = Bool }
+		Optional = { Left = "is_armor" Right = Bool }
+	}
+	
+	(If If = Hoi3Tfh) = {
+		Optional = { Left = "unit_group" Right = CombinedArmsGroup }
+		Optional = { Left = "ap_attack" Right = Double }
+		Optional = { Left = "armor_value" Right = Double }
+
+	}
+
+}
+
+(Type NavalBrigadeDefinition) = {
+	Inherits = BrigadeDefinition
+	
+	Single = { Left = "type" Right = { Literal = "naval" } }
+	Optional = { Left = "capital" Right = Bool }
+	Single = { Left = "hull" Right = Double }
+	
+	# Misc Abilities
+	Single = { Left = "transport_capability" Right = Double }
+	Single = { Left = "range" Right = Double }
+	Single = { Left = "distance" Right = Double }
+	
+	Optional = { Left = "carrier_size" Right = Double }
+	Optional = { Left = "is_sub" Right = Bool }
+	Optional = { Left = "transport" Right = Bool }
+	
+	# Detection Abilities
+	Optional = { Left = "surface_detection" Right = Double }
+	Single = { Left = "air_detection" Right = Double }
+	Single = { Left = "sub_detection" Right = Double }
+	Single = { Left = "visibility" Right = Double }
+
+	# Defensive Abilities
+	Single = { Left = "sea_defence" Right = Double }
+	
+	# Offensive Abilities
+	Single = { Left = "convoy_attack" Right = Double }
+	Single = { Left = "sea_attack" Right = Double }
+	Single = { Left = "sub_attack" Right = Double }
+	Single = { Left = "shore_bombardment" Right = Double }
+	
+	Child = { Left = "night" Right = NavalModifier }		
+	
+	(Optional If = Hoi3Sf) = { Left = "can_be_pride" Right = Bool }
+	
+	(If If = Hoi3Tfh) = {
+		Optional = { Left = "amphibious_invasion_defence" Right = Double }
+		Optional = { Left = "amphibious_invasion_speed" Right = Double }
+		Optional = { Left = "extra_amphibious_defence" Right = {
+			(Ch Y N) = { Left = { Type = LandBrigade } Right = NnDblP }
+		} }
+	}
+
+}
+
+(Type AirBrigadeDefinition) = {
+	Inherits = BrigadeDefinition
+	
+	Single = { Left = "type" Right = { Literal = "air" } }
+	
+	Optional = { Left = "is_cag" Right = Bool }
+	Optional = { Left = "is_bomber" Right = Bool }
+	
+	# Misc Abilities
+	Single = { Left = "transport_capability" Right = Double }
+	Single = { Left = "range" Right = Double }
+	
+	# Detection Abilities
+	Single = { Left = "surface_detection" Right = Double }
+	Single = { Left = "air_detection" Right = Double }
+	
+	# Defensive Abilities
+	Single = { Left = "surface_defence" Right = Double }
+	
+	# Offensive Abilities
+	Single = { Left = "soft_attack" Right = Double }
+	Single = { Left = "hard_attack" Right = Double }
+	Single = { Left = "sea_attack" Right = Double }
+	Single = { Left = "strategic_attack" Right = Double }
+	Single = { Left = "sub_attack" Right = Double }
+	
+	Child = { Left = "night" Right = AirModifier }
+	
+	Optional = { Left = "is_rocket" Right = Bool }
+}
+
+(Type UnitUpgradeFile) = {
+	Single = { Left = "unit_upgrades" Right = UnitUpgradeList }
+}
+
+(Type UnitUpgradeList) = {
+	(Ch N Y) = { Left = "upgrade" Right = Upgrade }
+}
+
+(Type Upgrade) = {
+	Single = { Left = "base" Right = Brigade }
+	Single = { Left = "target" Right = Brigade }
+}
+
+
+(Type UnitModelFile) = {	
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				Or = {
+					Not = { (Match "^(?<tag>\w{3}).*$") = { } }
+					(Match "^(?<tag>\w{3}).*$") = {
+						(Capture tag) = { Not = { IsInstanceOf = Tag } }
+					}
+				}
+			}
+		}
+		
+		Then = {
+			(Warn "Invalid unit model file (name in wrong format or tag does not exist): $File$" "Invalid file")
+			Skip
+		}
+	}
+	
+	# For each file, checks that all entries are in a format "TYPE.NUMBER" where TYPE is a unit type. 
+	# Not currently done (but should it?): It makes sure that all entries of the same type are together, and the number goes up from 0 without skipping any.
+	Hoi3UnitModel
+	
+	(Ch Y N) = { Left = { Type = String } Right = UnitModel }
+}
+
+(Type UnitModel) = {
+	(Ch Y N) = { Left = { Type = TechName } Right = NonNegInt }
+}
+
+# Each file begins with a tag. No matter how many file you put under the same tag (you can put all the lists in the same file, it is separated for sanity purpose like the events/decision files).
+# The ID is the codename of the unit and the level (infantry.0). It defines for each set level which set of techs trigger the model upgrade.
+# You can't go backward in the set of techs.
+
+
+# TODO: Implement more checks for the following
+# One shot tech are not counted in.
+# If not specified, the engine will guess that the model upgrades when ALL the leveled tech are +1 (for instance for the ships you have the radar techs level 1 for model 1 1936, this is wrong but this is how the engine works).
+# If you miss a tech, the engine will assume that model 4 needs level 4 of this tech.
+# Also see comment for Hoi3UnitModel in the not currently done part
+
+
+
+(Type CombinedArmsFile If = Hoi3Tfh) = {
+	Single = { Left = "combined_arms" Right = CombinedArmsDef }
+}
+
+(Type CombinedArmsDef If = Hoi3Tfh) = {
+	(Ch Y N) = { Left = { Type = String } Right = CombinedArmsType }
+}
+
+(Type CombinedArmsType) = {
+	Optional = { Left = "base" Right = Bool }
+	Optional = { Left = "value" Right = NnDblP }
+}

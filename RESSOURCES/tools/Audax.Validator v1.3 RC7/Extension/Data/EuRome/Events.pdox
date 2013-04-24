@@ -1,0 +1,143 @@
+﻿(Validator EventFile) = {
+	Type = Default
+	FriendlyName = "Events"
+	(FileGroup "events" "*.txt")
+	ValidatorName = EventFile
+}
+
+# Event File
+(Type EventFile) = {
+	(Ch N N) = { Left = "country_event" Right = CountryEvent }
+	(Ch N N) = { Left = "character_event" Right = CharEvent }
+	(Ch N N) = { Left = "province_event" Right = ProvinceEvent }
+}
+
+(Type EventBase) = {
+	(LocalOp AddInfo EventInfo) = {
+		ID = ".\id\[R]"
+		# TitleKey -> will be --- if not resolved
+		# Title -> will either have resolved or original
+		(Lookup TitleKey Title Localization) = ".\title\[R]"
+	}
+
+	Single = { Left = "id" Right = Int UniqueId = Right }
+	Single = { Left = "title" Right = String }
+	Single = { Left = "desc" Right = String }
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	Optional = { Left = "major" Right = Bool }
+}
+
+(Type CharEvent) = {
+	Inherits = EventBase
+	
+	Optional = { Left = "major_character" Right = Bool }
+	
+	Optional = { Left = "trigger" Right = CharTrigger }
+	Optional = { Left = "immediate" Right = CharCommand }
+	(Ch N N) = { Left = "option" Right = CharOption }
+	Optional = { Left = "mean_time_to_happen" Right = CharMtth }
+}
+
+(Type CountryEvent) = {
+	Inherits = EventBase
+	
+	Optional = { Left = "trigger" Right = CountryTrigger }
+	Optional = { Left = "immediate" Right = CountryCommand }
+	(Ch N N) = { Left = "option" Right = CountryOption }
+	Optional = { Left = "mean_time_to_happen" Right = CountryMtth }
+}
+
+(Type ProvinceEvent) = {
+	Inherits = EventBase
+	
+	Optional = { Left = "trigger" Right = ProvinceTrigger }
+	Optional = { Left = "immediate" Right = ProvinceCommand }
+	(Ch N N) = { Left = "option" Right = ProvinceOption }
+	Optional = { Left = "mean_time_to_happen" Right = ProvinceMtth }
+}
+
+# Options
+(Type CharOption) = {
+	Inherits = CharCommand		
+	
+	Single = { Left = "name" Right = String }
+	Optional = { 
+		Left = "ai_chance" 
+		Right = { 
+			Single = { Left = "factor" Right = Double } 
+			(Ch N N) = { 
+				Left = "modifier" 
+				(Right CharModifier) = { Inherits = CharTrigger Single = { Left = "factor" Right = Double } } 
+			}
+		} 
+	}		
+}
+
+(Type CountryOption) = {
+	Inherits = CountryCommand		
+	
+	Single = { Left = "name" Right = String }
+	Optional = { 
+		Left = "ai_chance" 
+		Right = { 
+			Single = { Left = "factor" Right = Double } 
+			(Ch N N) = { 
+				Left = "modifier" 
+				(Right CountryModifier) = { Inherits = CountryTrigger Single = { Left = "factor" Right = Double } } 
+			}
+		} 
+	}		
+}
+
+(Type ProvinceOption) = {
+	Inherits = ProvinceCommand	
+	
+	Single = { Left = "name" Right = String }
+	Optional = { 
+		Left = "ai_chance" 
+		Right = { 
+			Single = { Left = "factor" Right = Double } 
+			(Ch N N) = { 
+				Left = "modifier" 
+				(Right ProvinceModifier) = { Inherits = ProvinceTrigger Single = { Left = "factor" Right = Double } } 
+			}
+		} 
+	}
+}
+
+# MTTH
+(Type MtthBase) = {
+	Optional = { Left = "years" Right = Int }
+	Optional = { Left = "months" Right = Int }
+	Optional = { Left = "days" Right = Int }
+}
+
+(Type CharMtth) = {
+	Inherits = MtthBase
+	(Ch N N) = { Left = "modifier" (Right CharModifier) = { Inherits = CharTrigger Single = { Left = "factor" Right = Double } } }
+}
+
+(Type CountryMtth) = {
+	Inherits = MtthBase
+	(Ch N N) = { Left = "modifier" (Right CountryModifier) = { Inherits = CountryTrigger Single = { Left = "factor" Right = Double } } }
+}
+
+(Type ProvinceMtth) = {
+	Inherits = MtthBase
+	(Ch N N) = { Left = "modifier" (Right ProvinceModifier) = { Inherits = ProvinceTrigger Single = { Left = "factor" Right = Double } } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+(Validator Cultures) = {
+	Type = Default
+	FriendlyName = "@Cultures"
+	(FileGroup "common\cultures.txt")
+	ValidatorName = CultureFile
+}
+
+(Type CultureFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = CultureGroup }
+}
+
+(Type CultureGroup) = {
+	Optional = { Left = "unit" Right = GraphicalCultureType }
+	Single = { Left = "leader" Right = String }
+	Optional = { Left = "is_overseas" Right = Bool }
+	Optional = { Left = "union" Right = Tag UniqueId = Right }
+	
+	Optional = { Left = "first_names" Right = NameList Throw = "Only a specific culture (not a culture group) can have a list of names." }
+	Optional = { Left = "last_names" Right = NameList Throw = "Only a specific culture (not a culture group) can have a list of names." }
+	
+	Child = { Left = { Type = String } Right = Culture UniqueId = Left }
+}
+
+(Type Culture) = {
+	Single = { Left = "color" Right = Color }
+	Single = { Left = "first_names" Right = NameList }
+	Single = { Left = "last_names" Right = NameList }
+	(Optional If = Vic2Ahd) = { Left = "radicalism" Right = Double }
+	(Optional If = Vic2Ahd) = { Left = "primary" Right = Tag }
+}
+
+(Type NameList) = {
+	(PdoList Y IfNot = Debug) = { Type = String }
+	(PdoList N If = Debug) = { Type = String }
+}

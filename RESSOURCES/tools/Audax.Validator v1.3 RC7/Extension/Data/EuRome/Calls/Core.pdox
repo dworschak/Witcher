@@ -1,0 +1,109 @@
+(ContextValidator Trigger) = { Members = {
+	(Y Y) = { Left = "year" Right = Int }
+	(Y Y) = { Left = "month" Right = Int }
+	(Y Y) = { Left = "difficulty" Right = Int }
+	
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "is_capital" Right = Bool }
+	(Y Y) = { Left = "is_land" Right = Bool }
+	(Y Y) = { Left = "port" Right = Bool }
+	(A Y) = { Left = "province_id" Right = LandProvince }
+	(Y Y) = { Left = "has_empty_adjacent_province" Right = Bool }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(A Y) = { Left = "tag" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "is_civil_war_faction" Right = Bool }
+	(Y Y) = { Left = "exists" Right = Tag }
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "country_event" Right = CountryEventId }
+	(N Y) = { Left = "province_event" Right = ProvinceEventId }
+	(N Y) = { Left = "character_event" Right = CharEventId }
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomProvinceCommand }
+	(N N) = { Left = "random_list" Right = RandomProvinceList }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomCountryCommand }
+	(N N) = { Left = "random_list" Right = RandomCountryList }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomCharCommand }
+	(N N) = { Left = "random_list" Right = RandomCharList }
+
+} }
+
+
+(Type RandomCountryCommand) = {
+	Inherits = CountryCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomList) = {
+	#Ensure = {
+	#	Description = "The sum of probabilities must be equal to 100."
+	#	Select = {
+	#		Condition = { Left = { Type = Int } }
+	#		Target = Left
+	#	}
+	#	
+	#	Operation = Sum
+	#	
+	#	TrueForResult = {
+	#		Equals = 100
+	#	}
+	#}
+}
+
+(Type RandomCountryList) = {
+	Inherits = RandomList
+	(Ch N N) = { Left = { Type = Int } Right = CountryCommand }
+}
+
+(Type RandomProvinceCommand) = {
+	Inherits = ProvinceCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomProvinceList) = {
+	Inherits = RandomList
+	(Ch N N) = { Left = { Type = Int } Right = ProvinceCommand }
+}
+
+(Type RandomCharCommand) = {
+	Inherits = CharCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomCharList) = {
+	Inherits = RandomList
+	(Ch N N) = { Left = { Type = Int } Right = CharCommand }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

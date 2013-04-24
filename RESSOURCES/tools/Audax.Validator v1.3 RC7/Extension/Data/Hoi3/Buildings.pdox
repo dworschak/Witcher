@@ -1,0 +1,44 @@
+Global = {
+(Type.Enum Building) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "*\[L]" } }
+}
+
+(Validator Buildings) = {
+	Type = Default
+	FriendlyName = "Buildings"
+	(FileGroup "common\buildings.txt")
+	ValidatorName = BuildingFile
+}
+
+(Type BuildingFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = Building (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type Building) = {
+	Single = { Left = "on_completion" Right = TechCategory }
+	Single = { Left = "completion_size" Right = NonNegDbl }
+	Single = { Left = "cost" Right = NnDbl }
+	Single = { Left = "time" Right = NonNegInt }
+	Single = { Left = "max_level" Right = NonNegInt }
+	
+	Optional = { Left = "onmap" Right = Bool }
+	Optional = { Left = "capital" Right = Bool }
+	Optional = { Left = "visibility" Right = Bool }
+	Optional = { Left = "port" Right = Bool }
+	Optional = { Left = "orientation" Right = Bool }
+	
+	Optional = { Left = "air_capacity" Right = NonNegDbl }
+	Optional = { Left = "naval_capacity" Right = NonNegDbl }
+	Optional = { Left = "ic" Right = NonNegDbl }
+	Optional = { Left = "coastal_fort_level" Right = NonNegDbl }
+	Optional = { Left = "fort_level" Right = NonNegDbl }
+	Optional = { Left = "local_anti_air" Right = NonNegDbl }
+	Optional = { Left = "infrastructure" Right = NonNegDbl }
+	Optional = { Left = "radar_level" Right = NonNegDbl }
+	
+	(If If = Hoi3Ftm) = {
+		Optional = { Left = "local_underground" Right = NonNegDbl }
+		Optional = { Left = "show_for_province" Right = Bool }
+		Optional = { Left = "repair" Right = Bool }
+		Optional = { Left = "damage_factor" Right = NonNegDblPercent }
+	}
+}
