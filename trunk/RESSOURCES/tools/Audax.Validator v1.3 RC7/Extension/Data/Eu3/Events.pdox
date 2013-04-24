@@ -1,0 +1,32 @@
+﻿(Validator EventFile) = {
+	Type = Default
+	FriendlyName = "Events"
+	(FileGroup "events" "*.txt")
+	ValidatorName = EventFile
+}
+
+(Type EventFile) = {
+	(Ch N N If = Eu3Ht) = { Left = "country_event" Right = ProbablyCountryEvent }
+	(Ch N N If = Eu3In) = { Left = "country_event" Right = CountryEvent }
+	(Ch N N) = { Left = "province_event" Right = ProvinceEvent }
+}
+
+(Type ProbablyCountryEvent If = Eu3Ht) = {
+	NodeSwitcher = {
+		Node = "id"
+		Default = CountryEvent
+		MarkChecked = False
+		
+		Switch = {
+			(OnActionProvinceEvent Enum) = ProvinceEvent
+		}
+	}
+}
+
+(Import "CountryEvent" From "EventsHelper" WithFlag "c")
+(Import "ProvinceEvent" From "EventsHelper" WithFlag "p")
+
+(Script If = Eu3Ht) = {
+	(DataSource Pdo) = { Path = "common\on_actions.txt" }
+	(MakeEnumValidator OnActionProvinceEvent) = "on_hre_province_reconquest\events\*\[R]"
+}

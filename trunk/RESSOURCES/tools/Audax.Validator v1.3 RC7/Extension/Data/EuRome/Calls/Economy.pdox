@@ -1,0 +1,82 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "freedmen" Right = Double }
+	(Y Y) = { Left = "citizens" Right = Double }
+	(Y Y) = { Left = "slaves" Right = Double }
+	(Y Y) = { Left = "population" Right = Double }
+	
+	(N Y) = { Left = "can_build" Right = Building }
+	(N Y) = { Left = "has_building" Right = Building }
+	(N Y) = { Left = "trade_goods" Right = TradeGood }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "treasury" Right = Double }
+	
+	(Y N) = { Left = { Type = TradeGood } Right = Int }
+	(Y Y) = { Left = { Type = TechCategory } Right = Int }
+	(N Y) = { Left = "invention" Right = TechInvention }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y Y) = { Left = "wealth" Right = Double }
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "freedmen" Right = Double }
+	(Y Y) = { Left = "citizens" Right = Double }
+	(Y Y) = { Left = "slaves" Right = Double }
+	
+	(N Y) = { Left = "add_building" Right = Building }
+	(N Y) = { Left = "remove_building" Right = Building }
+	
+	(Y Y) = { Left = "population" Right = Double }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "treasury" Right = Double }
+	
+	(N Y) = { Left = { Type = TechCategory } Right = Int }
+	(N Y) = { Left = "enable" Right = UnitType }
+	(Y N) = { Left = { Type = Building } Right = Bool }
+	
+	(N Y) = { Left = "lose_invention" Right = TechInvention }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y Y) = { Left = "wealth" Right = Double }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

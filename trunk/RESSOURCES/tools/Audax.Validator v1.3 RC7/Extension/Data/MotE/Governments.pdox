@@ -1,0 +1,47 @@
+(Validator Governments) = {
+	Type = GroupValidator
+	FriendlyName = "Governments"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\governments.txt")
+		ValidatorName = GovernmentFile
+	}
+	
+	#Validator = {
+	#	Type = Default
+	#	(FileGroup "common\graphicalculturetype.txt")
+	#	ValidatorName = GfxCultureFile
+	#}
+	
+}
+
+(Type GovernmentFile) = {
+	(Ch Y N) = {
+		Left = { Type = String }
+		Right = GovernmentDef
+		(CheckKey "*" Left IfNot = NoCheckKey)
+		(CheckKey "*_ruler" Left IfNot = NoCheckKey)
+		(CheckKey "*_ruler_female" Left IfNot = NoCheckKey)
+		(CheckKey "*_desc" Left IfNot = NoCheckKey)
+	}
+}
+
+(Type GovernmentDef) = {
+	Single = { Left = { Type = GovernmentCategory } Right = Yes }
+	Optional = { Left = "valid_for_new_country" Right = Bool }
+	Optional = { Left = "republican_name" Right = Bool }
+	
+	Single = { Left = "allowed_conversion" Right = {
+		(Ch Y N) = { Left = { Type = GovernmentType } Right = NnDbl }
+	} }
+	
+	Inherits = CountryModifier
+}
+
+
+
+
+
+
+

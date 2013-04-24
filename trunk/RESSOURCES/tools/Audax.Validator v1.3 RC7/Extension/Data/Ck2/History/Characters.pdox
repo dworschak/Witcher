@@ -1,0 +1,113 @@
+﻿(Validator CharacterFile) = {
+	Type = Default
+	FriendlyName = "Characters"
+	(FileGroup "history\characters" "*.txt")
+	ValidatorName = CharacterFile
+}
+
+(Type CharacterFile) = {
+	(Ch N N) = { Left = { Type = NonNegInt } Right = Character UniqueId = Left }
+}
+
+(Type Character) = {
+	Inherits = CharacterBase
+	
+	Single = { Left = "name" Right = String }
+	Single = { Left = "religion" Right = Religion }
+	Single = { Left = "culture" Right = Culture }
+	
+	Optional = { Left = "female" Right = Bool }
+	Optional = { Left = "occluded" Right = Bool }
+	Optional = { Left = "father" Right = CharacterId FatherConstraint }
+	Optional = { Left = "real_father" Right = CharacterId }
+	Optional = { Left = "mother" Right = CharacterId MotherConstraint }
+	
+	Optional = { Left = "stewardship" Right = NonNegInt }
+	Optional = { Left = "intrigue" Right = NonNegInt }
+	Optional = { Left = "diplomacy" Right = NonNegInt }
+	Optional = { Left = "martial" Right = NonNegInt }
+	Optional = { Left = "learning" Right = NonNegInt }
+	Optional = { Left = "dna" Right = String }
+	Optional = { Left = "properties" Right = String }
+	
+	Optional = { Left = "health" Right = Double }
+
+	(Ch N N) = { Left = { Type = Date } Right = DateClause }
+	(Ch N N) = { Left = "! INJECTED" Right = DateClause }
+	
+	(If IfNot = CharacterHistory.NoBirthDeathCheck) = {
+		CharBirthDeathCheck
+	}
+
+	(If IfNot = CharacterHistory.NoComplexDateChecks) = {
+		CheckDatesOrdered
+		CheckDupsInDates
+	}
+	
+}
+
+(Type CharacterBase) = {
+	Optional = { Left = "guardian" Right = CharacterId GuardianConstraint }
+
+	Optional = { Left = "give_nickname" Right = Nickname }
+	(Ch N Y) = { Left = "add_trait" Right = Trait }
+	(Ch N Y) = { Left = "remove_trait" Right = Trait }
+	Optional = { Left = "dynasty" Right = { 0 DynastyId } }
+	(Ch N Y) = { Left = "add_claim" Right = AnyTitle }
+	Optional = { Left = "employer" Right = { 0 CharacterId } }
+	(Ch N Y) = { Left = "add_lover" Right = CharacterId }
+	
+	Optional = { Left = "prestige" Right = Double }
+	Optional = { Left = "piety" Right = Double }
+	Optional = { Left = "wealth" Right = Double }
+	Optional = { Left = "decadence" Right = Double }
+	Optional = { Left = "raise_levies" Right = RaiseLeviesClause }
+	
+	Optional = { Left = "fertility" Right = NonNegDblPercent }
+}
+
+(Type DateClause) = {
+	Inherits = CharacterBase
+	
+	Optional = {
+		Left = "birth"
+		Right = Date
+		(CheckDateMatchesParent IfNot = Debug)
+		CharMaxAgeCheck
+		(TwinCheck IfNot = CharacterHistory.NoTwinCheck)
+		(BastardCheck IfNot = CharacterHistory.NoBastardCheck)
+	}
+	Optional = { Left = "death" (CheckDateMatchesParent IfNot = Debug) Right = {
+		Type = Date
+		Type = {
+			Optional = { Left = "death_reason" Right = DeathReason }
+			Optional = { Left = "killer" Right = CharacterId }
+			OneOf = { "death_reason" "killer" }
+		}
+	} }
+	
+	Optional = { Left = "name" Right = String }
+	Optional = { Left = "religion" Right = Religion }
+	Optional = { Left = "culture" Right = Culture }
+	Optional = { Left = "add_spouse" Right = CharacterId SpouseConstraint }
+	Optional = { Left = "remove_spouse" Right = CharacterId }
+	Optional = { Left = "give_job_title" Right = JobTitle }
+	Optional = { Left = "capital" Right = AnyTitle }
+	Optional = { Left = "effect" Right = CharHistoryEffect }
+
+	(Ch N Y) = { Left = "remove_claim" Right = AnyTitle }
+}
+
+(Type RaiseLeviesClause) = {
+	Optional = { Left = "dismiss" Right = Bool }
+	Single = { Left = "location" Right = LandProvince }
+	Single = { Left = "force_mult" Right = Double }
+}
+
+(Type CharHistoryEffect) = { ContextValidator = CharHistoryEffect }
+
+(ContextValidator CharHistoryEffect) = {
+	Inherits = CharCommand
+	ThisTarget = Char
+}
+

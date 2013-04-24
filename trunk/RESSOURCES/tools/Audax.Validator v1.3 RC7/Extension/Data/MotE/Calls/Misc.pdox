@@ -1,0 +1,118 @@
+
+
+(ContextValidator Trigger) = { Members = {
+	(N Y) = { Left = "exists" Right = Tag }
+
+} }
+
+
+(ContextValidator ProvTrigger) = { Members = {
+	(A Y) = { Left = "owned_by" Right = Tag }
+	(A Y) = { Left = "controlled_by" Right = Tag }
+	(Y  ) = { Left = "num_of_revolts" Right = NnDbl }
+	(Y  ) = { Left = "revolt_risk" Right = NnDbl }
+	(Y  ) = { Left = "pure_revolt_risk" Right = NnDbl }
+	(Y  ) = { Left = "has_siege" Right = Bool }
+	(Y  ) = { Left = "port" Right = Bool }
+	(Y  ) = { Left = "is_capital" Right = Bool }
+	(A Y) = { Left = "province_id" Right = Province }
+	(N Y) = { Left = "has_building" Right = Building }
+	(A Y) = { Left = "culture" Right = Culture }
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(A Y) = { Left = "tag" Right = Tag }
+	(Y  ) = { Left = "num_of_ports" Right = PInt }
+	(Y  ) = { Left = "total_ideas" Right = PInt }
+	(Y  ) = { Left = "number_of_loans" Right = PInt }
+	(A Y) = { Left = "vassal_of" Right = Tag }
+	(N Y) = { Left = "war_with" Right = Tag }
+	(N Y) = { Left = "truce_with" Right = Tag }
+	(N Y) = { Left = "alliance_with" Right = Tag }
+	(N Y) = { Left = "owns" Right = LandProvince }
+	(N Y) = { Left = "controls" Right = LandProvince }
+	(N Y) = { Left = "overlord_of" Right = Tag }
+	(Y  ) = { Left = "prestige" Right = Double }
+	(Y  ) = { Left = "war_exhaustion" Right = Double }
+	(N Y) = { Left = "idea" Right = Idea }
+	(Y  ) = { Left = "manpower" Right = Double }
+	(Y  ) = { Left = "war" Right = Bool }
+	(Y  ) = { Left = "treasury" Right = Double }
+	(Y  ) = { Left = "land_dominance" Right = Double }
+	(Y  ) = { Left = "naval_dominance" Right = Double }
+	(N Y) = { Left = "relation" Right = {
+		Single = { Left = "who" Right = Tag }
+		Single = { Left = "value" Right = Double }
+	} }
+	(N Y) = { Left = "num_of_artillery_fraction" Right = NnDblP }
+
+} }
+
+(ContextValidator Command) = { Members = {
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(Y N) = { Left = "secede_province" Right = Tag }
+	(Y  ) = { Left = "revolt_risk" Right = Double }
+	(Y  ) = { Left = "create_revolt" Right = Double }
+	(Y  ) = { Left = "nationalism" Right = Double }
+	(N Y) = { Left = "remove_building" Right = Building }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y  ) = { Left = "idea_points" Right = Double }
+	(Y  ) = { Left = "prestige" Right = Double }
+	(Y  ) = { Left = "manpower" Right = Double }
+	(Y  ) = { Left = "remove_fow" Right = PInt }
+	(N Y) = { Left = "free_vassal" Right = Tag }
+	(N Y) = { Left = "government" Right = GovernmentType }
+	(N Y) = { Left = "release_vassal" Right = Tag }
+	(N Y) = { Left = "inherit" Right = Tag }
+	(N N) = { Left = "relation" Right = {
+		Single = { Left = "who" Right = Tag }
+		Single = { Left = "value" Right = Double }
+	} }
+	(Y  ) = { Left = "define_ruler" Right = {
+		Single = { Left = "name" Right = String }
+		Single = { Left = { "adm" "ADM" } Right = PInt }
+		Single = { Left = { "dip" "DIP" } Right = PInt }
+		Single = { Left = { "mil" "MIL" } Right = PInt }
+		Single = {
+			Left = "picture"
+			Right = String
+			FileExists = {
+				Target = "[R]"
+				Path = "gfx\portraits\*.tga"
+			}
+		}
+	} }
+	(N Y) = { Left = "create_alliance" Right = Tag }
+	(Y  ) = { Left = "war_exhaustion" Right = Double }
+	(Y  ) = { Left = "treasury" Right = Double }
+	
+	(N Y) = { Left = "add_leader" Right = LeaderId }
+	(N Y) = { Left = "remove_leader" Right = LeaderId }
+	(N Y) = { Left = "vassalize" Right = Tag }
+	
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

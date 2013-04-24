@@ -1,0 +1,96 @@
+# Country History Module
+# _Common\CountryHistory.pdox
+# Provides a base for Clausewitz country history checks.
+#	- Adds a validator, "Country History"
+# To use, include this file, and add the following
+#	- A type, DateClause, which will handle date clauses.
+#	- By default, there is an option to enable complex date checks. If it doesn't make sense in the context of the specific game, then before importing
+#		the module, add a line "(AddFlag DoNotAllowComplexDateChecks)".
+#	- Add a type called "CountryHistorySkip", which lists tags that should not be checked; often, this will include "reb", the rebels.
+
+Shared = {
+
+# Checks for tag duplications and missing tags
+(Local TagDb ExistenceDatabase) = {
+	Target = Tag
+	CaseSensitive = False
+	Title = "Missing Country Definition"
+	Message = "Missing Country History Definition for $Left$"
+}
+
+(Validator CountryHistory) = {
+	Type = Default
+	FriendlyName = "Country History"
+	(FileGroup "history\countries" "*.txt")
+	ValidatorName = CountryHistory
+}
+	
+(Type CountryHistoryBase) = {
+	# Warns about anything not matching the specified format.
+	# Also warns if anything is not actually a tag
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				Or = {
+					Not = { (Match "^(?<tag>\w{3}).*$") = { } }
+					(Match "^(?<tag>\w{3}).*$") = {
+						(Capture tag) = { Not = { IsInstanceOf = Tag } }
+					}
+				}
+			}
+		}
+		
+		Then = {
+			(Warn "Invalid country history file (name in wrong format or tag does not exist): $File$" "Invalid file")
+			Skip
+		}
+	}
+	
+	# Checking for duplicate tags
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				Or = {
+					Not = { (Match "^(?<tag>\w{3}).*$") = { } }
+					(Match "^(?<tag>\w{3}).*$") = {
+						(Capture tag) = {
+							ReturnTrue = {
+								MessageIfNotUnique = "Duplicate tags in file names: $Path1$ and $Path2$"
+								(LocalOp AddToExistenceDatabase TagDb)
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		Then = { }
+	}
+	
+	# Skips REB, NAT, etc. CountryHistorySkip must be an enum.
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				(Match "^(?<tag>\w{3}).*$") = {
+					(Capture tag) = { IsInstanceOf = CountryHistorySkip }
+				}
+			}
+		}
+		
+		Then = {
+			Skip
+		}
+	}
+	
+	(If IfNot = DoNotAllowComplexDateChecks) = {
+		(If IfNot = "CountryHistory.NoComplexDateChecks") = {
+			CheckDatesOrdered
+			CheckDupsInDates
+		}
+	}
+	
+	(Ch N N) = { Left = "! INJECTED" Right = DateClause }
+	(Ch N N) = { Left = { Type = Date } Right = DateClause }
+}
+
+}

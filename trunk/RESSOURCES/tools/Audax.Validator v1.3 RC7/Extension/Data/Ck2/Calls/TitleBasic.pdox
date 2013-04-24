@@ -1,0 +1,85 @@
+(ContextValidator Trigger) = { Scopes = {
+	TitleTrigger = { Type = AnyTitle }
+
+} }
+
+(ContextValidator ProvTrigger) = { Scopes = {
+	CharTrigger = "controller"
+} }
+
+(ContextValidator CharTrigger) = { Scopes = {
+	TitleTrigger = "primary_title"
+
+} }
+
+(ContextValidator TitleTrigger) = { Scopes = {
+	CharTrigger = "controller"
+
+} }
+
+(ContextValidator Command) = { Scopes = {
+	TitleCommand = { Type = AnyTitle }
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	TitleCommand = "primary_title"
+
+} }
+
+(ContextValidator Trigger) = { Members = {
+	(N Y) = { Left = "is_title_active" Right = AnyTitle }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y  ) = { Left = "num_of_titles" Right = NnInt }
+	(Y  ) = { Left = "num_of_count_titles" Right = NnInt }
+	(Y  ) = { Left = "num_of_duke_titles" Right = NnInt }
+	(Y  ) = { Left = "num_of_king_titles" Right = NnInt }
+	(Y  ) = { Left = "num_of_emperor_titles" Right = NnInt }
+	
+	(N Y) = { Left = "has_landed_title" Right = { AnyTitle ThisTitle No } }
+	(Y  ) = { Left = "num_of_extra_landed_titles" Right = PInt }
+	(N Y) = { Left = "held_title_rating" Right = ThisChar }
+	(Y  ) = { Left = "has_regent" Right = Bool }
+	(Y  ) = { Left = "in_revolt" Right = Bool }
+	
+
+} }
+
+(ContextValidator TitleTrigger) = { Members = {
+	(A Y) = { Left = "title" Right = { AnyTitle ThisTitle ThisProv } }
+	(Y  ) = { Left = "is_titular" Right = Bool }
+	(Y  ) = { Left = "is_occupied" Right = Bool }
+	(N Y) = { Left = "controlled_by" Right = { AnyTitle } }
+	(Y  ) = { Left = "is_landless_type_title" Right = Bool }
+	(Y  ) = { Left = "is_tribal_type_title" Right = Bool }
+	(Y  ) = { Left = "is_primary_type_title" Right = Bool }
+	(Y  ) = { Left = "is_capital" Right = Bool }
+	(Y  ) = { Left = "mercenary" Right = Bool }
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(N Y) = { Left = "add_building" Right = { Building ImprovementValue } }
+	(N Y) = { Left = "remove_building" Right = { Building ImprovementValue } }
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

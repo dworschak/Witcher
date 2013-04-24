@@ -1,0 +1,88 @@
+(ContextValidator Trigger) = { Members = {
+	(If If = Hoi3Ftm) = {
+		(A Y) = { Left = "strategic_resource" Right = StratResources }
+	}
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(N Y) = { Left = "has_building" Right = Building }
+	(Y N) = { Left = { Type = Building } Right = NonNegDbl }
+
+	(If If = Hoi3Ftm) = {
+		(Y  ) = { Left = "has_strategic_resource" Right = Bool }
+	}
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y N) = { Left = { Type = Resource } Right = PositiveInt }
+	(Y Y) = { Left = "money" Right = PositiveInt }
+	(Y Y) = { Left = "supplies" Right = PositiveInt }
+	(Y Y) = { Left = "manpower" Right = PositiveInt }
+	(Y Y) = { Left = "manpower_percentage" Right = PDbl }
+	(Y Y) = { Left = "max_manpower" Right = PositiveInt }
+	(Y Y) = { Left = "max_manpower_greater_than" Right = PositiveInt }
+	(Y N) = { Left = { Type = TechName } Right = Int }
+
+	(If If = Hoi3Ftm) = {
+		(Y  ) = { Left = "fuel" Right = NonNegDbl }
+	}
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y N) = { Left = { Type = Building } Right = Int }
+	(Y N) = { Left = { Type = Resource } Right = Int }
+	(Y Y) = { Left = "change_manpower" Right = Double }
+	(Y Y) = { Left = "industry" Right = Int }
+	(Y Y) = { Left = "supplies" Right = Int }
+	(Y Y) = { Left = "infrastructure" Right = Double }
+	
+	(If If = Hoi3Ftm) = {
+		(Y  ) = { Left = "fuel" Right = NzDbl }
+		(Y  ) = { Left = "strategic_resource" Right = { Type = StratResources Literal = "none" } }
+	}
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "manpower" Right = Double }
+	(Y Y) = { Left = "money" Right = Int }
+	(Y Y) = { Left = "supplies" Right = Int }
+	(Y N) = { Left = { Type = Resource } Right = Int }
+	(Y  ) = { Left = "industral_efficiency" Right = Double }
+
+	# Discovered by Devildread who states:
+	# name_of_tech = amount_of_days 
+	# It adds x days to the tech. If this is enough to gain a level 
+	# (usually, a tech takes 150-200 days per level), the tech gain 
+	# the level and the country will have all the benefits of the techs 
+	# like if they have researched it.
+	(Y N) = { Left = { Type = TechName } Right = Int }
+
+	(Y  If = Hoi3Sf) = { Left = "fuel" Right = NzDbl }
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

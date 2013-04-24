@@ -1,0 +1,96 @@
+﻿(Validator CGM) = {
+	Type = GroupValidator
+	FriendlyName = "CGM definitions"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "cgm\bookmarks.txt")
+		ValidatorName = CGMBookmarkFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "cgm\cgm_settings.txt")
+		ValidatorName = CGMSettingsFile
+	}
+	
+}
+
+(Type CGMBookmarkFile) = {
+	(Ch N N) = { Left = "bookmark" Right = CGMBookmark }
+}
+
+(Type CGMBookmark) = {
+	Single = { Left = "is_cgm" Right = Yes }
+	Single = {
+		Left = "cgm_folder"
+		Right = String
+		UniqueId = Right
+		FileExists = {
+			Target = "[R]"
+			Path = "cgm\*"
+			IsDir = True
+		}
+		(ValidateFile "[R]" CGMTemplateFile Format = "cgm\{0}\templates.txt")
+	}
+	
+	Single = { Left = "icon" Right = String }
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "desc" Right = Key }
+	Single = { Left = "date" Right = Date }
+	(Ch N Y) = { Left = "country" Right = Tag }
+}
+
+(Type CGMSettingsFile) = {
+	Single = { Left = "theory_decay_months" Right = PInt }
+	Single = { Left = "practice_decay_months" Right = PInt }
+	Single = { Left = "officers_ratio" Right = Double }
+	
+	Single = { Left = "unit_cost_mult" Right = {
+		(Ch Y N) = { Left = { Type = Brigade } Right = NnDbl }
+	} }
+	
+	Single = { Left = "destroyable_buildings" Right = {
+		RequiredList = { Left = { Type = Building } Right = Bool }
+	} }
+	
+	Single = { Left = "extra_practice_decay" Right = {
+		OptionList = { Left = { Type = TechCategory } Right = Double }
+	} }
+}
+
+(Type CGMTemplateFile) = {
+	Single = { Left = "template_default" Right = CGMTemplateDef }
+	(Ch Y N) = { Left = { Type = String } Right = CGMTemplateDef }
+}
+
+(Type CGMTemplateDef) = {
+	Single = { Left = "diplomacy" Right = {
+		Single = { Left = "total_points" Right = Double }
+		Single = { Left = "faction_leave_cost" Right = Double }
+		Single = { Left = "alignment_cost" Right = Double }
+		Single = { Left = "neutrality_cost" Right = Double }
+		
+	} }
+	
+	Single = { Left = "technology" Right = {
+		Single = { Left = "extra_points" Right = Double }
+		
+		Optional = { Left = "tech_minimums" Right = { (Ch Y N) = { Left = { Type = TechName } Right = NnInt } } }
+		
+	} }
+
+	Single = { Left = "deployment" Right = {
+		Single = { Left = "extra_points" Right = Double }
+		Single = { Left = "manpower" Right = Double }
+		Single = { Left = "officers" Right = Double }
+		
+	} }
+
+	
+	
+}
+
+
+
+

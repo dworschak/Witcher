@@ -1,0 +1,54 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y  ) = { Left = "enemy_ic_ratio" Right = NnDbl }
+	(N Y) = { Left = "has_cb" Right = {
+		Single = { Left = "type" Right = CbType }
+		Optional = { Left = "actor" Right = ThisCountry }
+	} }
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N N) = { Left = "any_nearby_province" Right = NearbyProvinceClause }
+	(Y  ) = { Left = "local_intel_boost" Right = Double }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+
+} }
+
+(Type NearbyProvinceClause) = {
+	Single = { Left = "distance" Right = NnDbl }
+	Inherits = ProvinceCommand
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

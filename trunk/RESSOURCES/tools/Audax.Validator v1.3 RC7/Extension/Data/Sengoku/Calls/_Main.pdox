@@ -1,0 +1,228 @@
+Includes = {
+	Scopes
+	Commands
+	Triggers
+}
+
+ContextValidatorInfo = {
+	AllowThis = False # True by default
+	AllowRoot = True # False by default; when enabled allows ROOT as a synonym for THIS
+	AllowFromFrom = False # False by default; when enabled allows arbitrary chaining of FROM
+	AllowPrev = True # False by default; when enabled allows arbitary chaining of PREV
+	EnableNamespaces = False
+	
+	NoPush = { "if" "limit" }
+
+	IdSearch = {
+		(FileGroup "events" "*.txt") = {
+			Char = "character_event\id"
+			Letter = "letter_event\id"
+			Prov = "province_event\id"
+			Narrative = "narrative_event\id"
+		}
+		
+		EventTypes = { Char Prov Letter Narrative }
+	}
+	
+	CallSearch = {
+		(FileGroup "events" "*.txt") = {
+			Char = "character_event\option"
+			Char = "letter_event\option"
+			Char = "narrative_event\option"
+			Prov = "province_event\option"
+			Char = "character_event\immediate"
+			Char = "letter_event\immediate"
+			Char = "narrative_event\immediate"
+			Prov = "province_event\immediate"
+			
+			SearchMethod = 2
+		}
+		
+		(FileGroup "decisions" "*.txt") = {
+			None = "*\*\effect"
+			
+			SearchMethod = 2
+		}
+		
+		(FileGroup "common\objectives.txt") = {
+			None = "*\effect"
+			None = "*\abort_effect"
+			None = "*\expose_effect"
+			
+			SearchMethod = 2
+		}
+
+		(FileGroup "common\on_actions.txt") = {
+			Char = "on_ninja_captured_assasinate\events"
+			Char = "on_ninja_backfired_assasinate\events"
+			Char = "on_ninja_captured_kidnap\events"
+			Char = "on_ninja_backfired_kidnap\events"
+			Char = "on_ninja_captured_free_hostage\events"
+			Char = "on_ninja_backfired_free_hostage\events"
+			Char = "on_ninja_captured_undermine_honor\events"
+			Char = "on_ninja_backfired_undermine_honor\events"
+			Char = "on_ninja_captured_weaken_defenses\events"
+			Char = "on_ninja_backfired_weaken_defenses\events"
+			Char = "on_ninja_captured_undermine_faction\events"
+			Char = "on_ninja_backfired_undermine_faction\events"
+			Char = "on_ninja_captured_burn_manufactory\events"
+			Char = "on_ninja_backfired_burn_manufactory\events"
+			
+			None = "*\random_events\*"
+			None = "*\events\*"
+			
+			SearchMethod = 3
+		}
+		
+		Search = {
+			character_event
+			letter_event
+			province_event
+			narrative_event
+		}
+	}
+}
+
+(ContextValidator Char) = { }
+(ContextValidator Letter) = { }
+(ContextValidator Prov) = { }
+(ContextValidator Narrative) = { }
+
+(ContextValidator Trigger) = {
+	Abstract = True
+	
+	Set = {
+		CharTrigger = CharTrigger
+		ProvTrigger = ProvTrigger
+		GlobalTrigger = GlobalTrigger
+		
+		Char = Char
+		Letter = Letter
+		Prov = Prov
+		Global = Global
+	}
+}
+
+Global = {
+(Type CharTrigger) = {
+	ContextValidator = CharTrigger
+}
+}
+
+(ContextValidator CharTrigger) = {
+	Inherits = Trigger
+	
+	ThisTarget = CharTrigger
+	Conditional = CharTrigger
+	BaseType = Char
+}
+
+Global = {
+(Type ProvTrigger) = {
+	ContextValidator = ProvTrigger
+}
+}
+
+(ContextValidator ProvTrigger) = {
+	Inherits = CharTrigger
+	
+	ThisTarget = ProvTrigger
+	Conditional = ProvTrigger
+	BaseType = Prov
+}
+
+Global = {
+(Type GlobalTrigger) = {
+	ContextValidator = GlobalTrigger
+}
+}
+
+(ContextValidator GlobalTrigger) = {
+	Inherits = Trigger
+	
+	ThisTarget = GlobalTrigger
+	Conditional = GlobalTrigger
+	BaseType = Global
+}
+
+
+
+
+(ContextValidator Command) = {
+	Abstract = True
+	
+	Set = {
+		CharCommand = CharCommand
+		CharTrigger = CharTrigger
+		ProvCommand = ProvCommand
+		ProvTrigger = ProvTrigger
+		GlobalTrigger = GlobalTrigger
+		GlobalCommand = GlobalCommand
+	
+		Char = Char
+		Letter = Letter
+		Prov = Prov
+	}
+}
+
+Global = {
+(Type CharCommand) = {
+	ContextValidator = CharCommand
+}
+}
+
+(ContextValidator CharCommand) = {
+	Inherits = Command
+	
+	ThisTarget = CharCommand
+	BaseType = Char
+}
+
+Global = {
+(Type ProvCommand) = {
+	ContextValidator = ProvCommand
+}
+}
+
+(ContextValidator ProvCommand) = {
+	Inherits = CharCommand
+	
+	ThisTarget = ProvCommand
+	BaseType = Prov
+}
+
+Global = {
+(Type GlobalCommand) = {
+	ContextValidator = GlobalCommand
+}
+}
+
+(ContextValidator GlobalCommand) = {
+	Inherits = Command
+	
+	ThisTarget = GlobalCommand
+	Conditional = GlobalCommand
+	BaseType = Global
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

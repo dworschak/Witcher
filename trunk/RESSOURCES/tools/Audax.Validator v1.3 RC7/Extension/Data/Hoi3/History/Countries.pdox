@@ -1,0 +1,60 @@
+﻿Includes = {
+	"..\..\_Common\CountryHistory"
+}
+
+(Type.Enum CountryHistorySkip) = { Values = { "reb" } } # Needed for CountryHistoryBase
+(Type CountryHistory) = {
+	Inherits = CountryHistoryBase
+
+	Inherits = CommonOptionalCommands
+
+	Single = { Left = "capital" Right = LandProvince }
+	Single = { Left = "government" Right = Government }
+	Single = { Left = "ideology" Right = Ideology }
+}
+		
+(Type DateClause) = {
+	Inherits = CommonOptionalCommands
+	
+	Optional = { Left = "capital" Right = LandProvince }
+	Optional = { Left = "government" Right = Government }
+	Optional = { Left = "ideology" Right = Ideology }
+}
+		
+(Type CommonOptionalCommands) = {
+	OptionList = { Left = { Type = MinisterPosition } Right = PositiveInt }
+	OptionList = { Left = { Type = TechCategory } Right = Double }
+	OptionList = { Left = { Type = TechName } Right = NonNegativeInt }
+	OptionList = { Left = { Type = Law } Right = LawOption }
+	(Ch N Y) = { Left = { Type = OccupationPolicy } Right = Tag }
+	Optional = { Left = "alignment" Right = Alignment }
+	Optional = { Left = "neutrality" Right = Double }
+	Optional = { Left = "national_unity" Right = Double }
+	Optional = { Left = "oob" Right = String }
+	Optional = { Left = "organization" Right = PartyList }
+	Optional = { Left = "popularity" Right = PartyList }
+	Optional = { Left = "officers_ratio" Right = Double }
+	Optional = { Left = "dissent" Right = Double }
+	Optional = { Left = "threat" Right = Double }
+	Optional = { Left = "join_faction" Right = Faction }
+	Optional = { Left = "leave_faction" Right = Faction }
+	Optional = { Left = "government_in_exile" Right = Bool }
+	(Ch N Y) = { Left = "decision" Right = Decision }
+	(Ch N Y) = { Left = "set_country_flag" Right = String (LocalOp "set" "[R]" AddSetter CountryFlag) }
+	(Ch N Y) = { Left = "clr_country_flag" Right = String (LocalOp "clr" "[R]" AddSetter CountryFlag) }
+	
+	(If If = Hoi3Sf) = {
+		(Ch Y N) = { Left = { Type = Resource } Right = NonNegInt }
+		Optional = { Left = "money" Right = NonNegInt }
+		Optional = { Left = "fuel" Right = NonNegInt }
+	}
+}
+
+(Type Alignment) = {
+	Single = { Left = "x" Right = Double }
+	Single = { Left = "y" Right = Double }
+}
+		
+(Type PartyList) = {
+	OptionList = { Left = { Type = Ideology } Right = Double }
+}

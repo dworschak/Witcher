@@ -1,0 +1,119 @@
+# _Common\MapCommon.pdox
+# Defines some common map types.
+# Note that the following must be defined in scope: LandProvince, SeaProvince, AdjacencyType
+# Defines the following global types: RegionPath, ContinentPath, AdjacencyPath, Region
+# Defines the following shared types: AdjacencyFile (if MapCommon.AdjacencyFile is set), ContinentFile (if MapCommon.ContinentFile is set)
+
+Script = {
+	(DataSource Pdo) = {
+		Path = {
+			(DataSource Pdo) = {
+				Path = "map\default.map"
+			}
+			
+			(MakeFileGroup RegionPath "map\") = "region\[R]"
+			(MakeFileGroup ContinentPath "map\") = "continent\[R]"
+			(MakeFileGroup AdjacencyPath "map\") = "adjacencies\[R]"
+			(Return "map\") = "region\[R]"
+		}
+	}
+	
+	(MakeEnumValidator Region) = "*\[L]"
+}
+
+Shared = {
+(Type AdjacencyFile If = MapCommon.AdjacencyFile) = {
+	NodeSwitcher = {
+		Node = "0"
+		Default = RealAdjRow
+		MarkChecked = False
+		
+		Switch = {
+			(LandProvince Enum) = RealAdjRow
+			"-1" = FakeAdjRow
+		}
+	}
+}
+}
+
+(Type RealAdjRow If = MapCommon.AdjacencyFile) = {
+	Single = { Left = "0" Right = LandProvince }
+	Single = { Left = "1" Right = LandProvince }
+	Single = { Left = "2" Right = AdjacencyType }
+	Single = { Left = "3" Right = SeaProvince }
+	Single = { Left = "4" Right = String }
+}
+
+(Type FakeAdjRow If = MapCommon.AdjacencyFile) = {
+	Single = { Left = "0" Right = String }
+	Single = { Left = "1" Right = String }
+	Single = { Left = "2" Right = String }
+	Single = { Left = "3" Right = String }
+	Single = { Left = "4" Right = String }
+}
+
+Shared = {
+(Type ContinentFile If = MapCommon.ContinentFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = ContinentProvinceList }
+	AllOf = { Target = "*\*\[R]" Source = LandProvince }
+	(Catch PureNodeStructureError) = {
+		ReplaceMessage = "The province $Missing$ does not appear. All land provinces must be included somewhere within the continent file."
+	}
+	(Catch DuplicateIdError) = {
+		ReplaceMessage = "[map\continent.txt]: The province $Id$ appears twice within the continent file, at sections '$Parent1$' and '$Parent2$'. Each land province may be listed only once."
+	}
+}
+}
+
+(Type ContinentProvinceList If = MapCommon.ContinentFile) = {
+	(PdoList N) = { Type = Province UniqueId = Right }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

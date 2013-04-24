@@ -1,0 +1,127 @@
+(Validator CbTypes) = {
+	Type = Default
+	FriendlyName = "Casus belli"
+	(FileGroup "common\cb_types" "*.txt")
+	ValidatorName = CbTypes
+}
+
+(Type CbTypes) = {
+	(Ch Y N) = { Left = { Type = String } Right = CbTypeDef (CheckKey "*_desc" Left IfNot = NoCheckKey) }
+}
+
+(Type CbTypeDef) = {
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "war_name" Right = Key }
+	Single = { Left = "sprite" Right = PInt }
+	Single = { Left = "truce_days" Right = NonNegInt }
+	
+	Optional = { Left = "check_de_jure_tier" Right = Tier }
+	Optional = { Left = "is_holy_war" Right = Bool }
+	Optional = { Left = "is_claim_all" Right = Bool }
+	Optional = { Left = "can_attack_vassals" Right = Bool }
+	Optional = { Left = "can_ask_to_join_war" Right = Bool }
+	Optional = { Left = "can_call_allies" Right = Bool }
+	(Optional If = V110) = { Left = "apply_short_occ_mod" Right = Bool }
+	Optional = { Left = "hostile_against_others" Right = Bool }
+	Optional = { Left = "is_permanent" Right = Bool }
+	Optional = { Left = "other_de_jure_claim" Right = Bool }
+	Optional = { Left = "press_claim" Right = Bool }
+	Optional = { Left = "can_call_vassals" Right = Bool }
+	Optional = { Left = "allow_whitepeace" Right = Bool }
+	Optional = { Left = "is_revolt_cb" Right = Bool }
+	Optional = { Left = "check_actor_direct_vassals" Right = Bool }
+	Optional = { Left = "check_all_titles" Right = Bool }
+	Optional = { Left = "check_dejure_duchies" Right = Bool }
+	Optional = { Left = "is_independence" Right = Bool }
+	Optional = { Left = "reflect_titleholder_change" Right = Bool }
+	Optional = { Left = "attacker_alliance_occ_warscore" Right = Bool }
+	Optional = { Left = "major_revolt" Right = Bool }
+	Optional = { Left = "check_all_trade_posts" Right = Bool }
+	(Optional If = V110) = { Left = "piety_cost" Right = Double }
+	(Optional If = V110) = { Left = "allow_distant" Right = Bool }
+	
+	Optional = { Left = "is_valid" Right = CbNormalCharTrigger }
+	Optional = { Left = "is_valid_title" Right = CbTitleTrigger }
+	Optional = { Left = "on_add" Right = CbNormalCommand }
+	Optional = { Left = "on_add_title" Right = CbTitleCommand }
+	Optional = { Left = "on_add_posttitle" Right = CbNormalCommand }
+	Optional = { Left = "on_success" Right = CbNormalCommand }
+	Optional = { Left = "on_success_title" Right = CbTitleCommand }
+	Optional = { Left = "on_success_posttitle" Right = CbNormalCommand }
+	Optional = { Left = "on_fail" Right = CbNormalCommand }
+	Optional = { Left = "on_fail_title" Right = CbTitleCommand }
+	Optional = { Left = "on_fail_posttitle" Right = CbNormalCommand }
+	Optional = { Left = "on_reverse_demand" Right = CbNormalCommand }
+	Optional = { Left = "on_reverse_demand_title" Right = CbTitleCommand }
+	Optional = { Left = "on_reverse_demand_posttitle" Right = CbNormalCommand }
+	Optional = { Left = "can_use_title" Right = CbTitleTrigger }
+	Optional = { Left = "can_use" Right = CbNormalCharTrigger }
+	(Optional If = V110) = { Left = "ai_will_do" Right = AiWillDoClause }
+	
+	Optional = { Left = "on_attacker_leader_death" Right = CbNormalCommand }
+	Optional = { Left = "on_defender_leader_death" Right = CbNormalCommand }
+	Optional = { Left = "on_thirdparty_death" Right = CbNormalCommand }
+	
+	Optional = { Left = "attacker_ai_victory_worth" Right = WorthModifier }
+	Optional = { Left = "attacker_ai_defeat_worth" Right = WorthModifier }
+	Optional = { Left = "defender_ai_victory_worth" Right = WorthModifier }
+	Optional = { Left = "defender_ai_defeat_worth" Right = WorthModifier }
+	
+}
+
+(Type AiWillDoClause) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = AiWillDoModifier }
+}
+
+(Type AiWillDoModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	ContextValidator = AiWillDoCB
+	
+}
+
+(ContextValidator AiWillDoCB) = {
+	Inherits = TitleTrigger
+	ThisTarget = Char
+	FromTarget = Char
+}
+
+
+(Type WorthModifier) = {
+	Single = { Left = "factor" Right = { PosDbl -1 } }
+}
+
+(Type CbNormalCharTrigger) = { ContextValidator = CbNormalCharTrigger }
+(ContextValidator CbNormalCharTrigger) = {
+	Inherits = CharTrigger
+	ThisTarget = Char
+	FromTarget = Char
+	FromFromTarget = Char
+}
+
+(Type CbNormalCommand) = { ContextValidator = CbNormalCommand }
+(ContextValidator CbNormalCommand) = {
+	Inherits = CharCommand
+	ThisTarget = Char
+	FromTarget = Char
+	FromFromTarget = Char
+}
+
+(Type CbTitleTrigger) = { ContextValidator = CbTitleTrigger }
+(ContextValidator CbTitleTrigger) = {
+	Inherits = TitleTrigger
+	ThisTarget = Char
+	FromTarget = Char
+	FromFromTarget = Char
+}
+
+(Type CbTitleCommand) = { ContextValidator = CbTitleCommand }
+(ContextValidator CbTitleCommand) = {
+	Inherits = TitleCommand
+	ThisTarget = Char
+	FromTarget = Char
+	FromFromTarget = Char
+}
+
+

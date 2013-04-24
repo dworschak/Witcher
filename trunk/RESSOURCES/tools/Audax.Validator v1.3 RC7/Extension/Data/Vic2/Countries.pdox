@@ -1,0 +1,54 @@
+(Validator Countries) = {
+	Type = Default
+	FriendlyName = "@Countries"
+	(FileGroup "common\countries.txt")
+	ValidatorName = CountryList
+}
+
+(Type CountryList) = {
+	(Ch Y N) = { Left = { Type = String } Right = String (ValidateFile "[R]" Country Format = "common\{0}") }
+}
+
+(Type Country) = {
+	Single = { Left = "color" Right = Color }
+	Single = { Left = "graphical_culture" Right = GraphicalCultureType }
+	Child = { Left = "party" Right = Party }
+	Optional = { Left = "unit_names" Right = UnitNameList }
+}
+
+(Type Party) = {
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "start_date" Right = Date }
+	Single = { Left = "end_date" Right = Date }
+	
+	Single = { Left = "ideology" Right = Ideology }
+	
+	RequiredList = { Left = { Type = PartyIssueKey } Right = PartyIssue }
+}
+
+(Type UnitNameList) = {
+	OptionList = { Left = { Type = Unit } Right = { (PdoList N) = { Type = String } } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

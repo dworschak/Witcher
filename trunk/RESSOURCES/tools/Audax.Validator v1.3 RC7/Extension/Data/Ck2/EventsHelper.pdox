@@ -1,0 +1,138 @@
+(Type CharEvent If = c) = {
+	Inherits = Event
+}
+
+(Type ProvEvent If = p) = {
+	Inherits = Event
+}
+
+(Type Event) = {
+	Single = { Left = "id" Right = NamespaceEventId UniqueId = Right }
+	
+	NodeSwitcher = {
+		Node = "id"
+		Default = NormalEvent
+		
+		Switch = {
+			"1" = DummyEvent
+			"2" = DummyEvent
+		}
+	}
+	
+}
+
+(Type DummyEvent) = {
+	Single = { Left = "is_triggered_only" Right = { Literal = "yes" } }
+	Single = { Left = "desc" Right = Key }
+}
+
+(Type NormalEvent) = {	
+	Optional = { Left = "title" Right = Key }
+	Optional = { Left = "desc" Right = Key }
+		
+	Optional = { Left = "picture" Right = String }
+	Optional = { Left = "border" Right = String }
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	Optional = { Left = "major" Right = Bool }
+	Optional = { Left = "show_from_from" Right = Bool }
+	Optional = { Left = "hide_new" Right = Bool }
+	Optional = { Left = "hide_window" Right = Bool }
+	Optional = { Left = "sound" Right = String }
+		
+	(If If = c) = {
+		Optional = { Left = "trigger" Right = CharTrigger }
+		Optional = { Left = "major_trigger" Right = CharTrigger }
+		Optional = { Left = "immediate" Right = CharCommand }
+		
+		Optional = { Left = "min_age" Right = PInt }
+		Optional = { Left = "max_age" Right = PInt }
+		Optional = { Left = "age" Right = PInt }
+		Optional = { Left = "only_playable" Right = Bool }
+		#Optional = { Left = "playable_only" Right = Bool }
+		#Optional = { Left = "is_playable" Right = Bool }
+		Optional = { Left = "only_men" Right = Bool }
+		Optional = { Left = "only_women" Right = Bool }
+		#Optional = { Left = "only_capable" Right = Bool } # Doesn't work
+		Optional = { Left = "capable_only" Right = Bool }
+		Optional = { Left = "only_rulers" Right = Bool }
+		#Optional = { Left = "only_ruler" Right = Bool }
+		#Optional = { Left = "is_ruler" Right = Bool }
+		Optional = { Left = "is_friendly" Right = Bool }
+		Optional = { Left = "is_hostile" Right = Bool }
+		#Optional = { Left = "prison" Right = Bool }
+		Optional = { Left = "prisoner" Right = Bool }
+		Optional = { Left = "only_independent" Right = Bool }
+		Optional = { Left = { "hide_from" "hide_FROM" } Right = Bool }
+		Optional = { Left = { "show_root" "show_ROOT" } Right = Bool }
+		Optional = { Left = "ai" Right = Bool }
+		Optional = { Left = "is_patrician" Right = Bool }
+		
+	}
+	(If If = p) = {
+		Optional = { Left = "trigger" Right = ProvTrigger }
+		Optional = { Left = "immediate" Right = ProvCommand }
+	}
+	
+	Child = { Left = "option" Right = Option }
+	Optional = { Left = "mean_time_to_happen" Right = Mtth }
+}
+
+(Type Mtth) = {
+	Optional = { Left = "months" Right = NnInt }
+	Optional = { Left = "years" Right = NnInt }
+	Optional = { Left = "days" Right = NnInt }
+	OneOf = { "days" "months" "years" }
+	AtMostOne = { "days" "months" "years" }
+	(Ch N Y) = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type MtthModifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = NonNegDbl }
+
+	(Inherits If = c) = CharTrigger
+	(Inherits If = p) = ProvTrigger
+
+}
+
+(Type Option) = {
+	Single = { Left = "name" Right = Key }
+	Optional = { Left = "ai_chance" Right = AiChance }
+	(Optional If = c) = { Left = "trigger" Right = CharTrigger }
+	(Optional If = p) = { Left = "trigger" Right = ProvTrigger }
+	
+	(Inherits If = c) = CharCommand
+	(Inherits If = p) = ProvCommand
+	
+	(Optional If = c) = { Left = "tooltip_info" Right = { Type = Trait Literal = martial Literal = stewardship Literal = intrigue Literal = diplomacy Literal = learning } }
+}
+
+(Type AiChance) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = Modifier }
+}
+
+(Type Modifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = NnDbl }
+	
+	(Inherits If = c) = CharTrigger
+	(Inherits If = p) = ProvTrigger
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

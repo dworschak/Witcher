@@ -1,0 +1,196 @@
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "set_global_flag" Right = String (LocalOp "set" "[R]" AddSetter GlobalFlag) }
+	(N Y) = { Left = "clr_global_flag" Right = String (LocalOp "clr" "[R]" AddSetter GlobalFlag) }
+	
+	(N Y) = { Left = "set_variable" Right = {
+		(LocalOp "set" "which\[R]" AddSetter Variable)
+		Single = { Left = "which" Right = String }
+		Single = { Left = "value" Right = String }
+	} }
+	(N Y) = { Left = "change_variable" Right = {
+		(LocalOp "cng" "which\[R]" AddSetter Variable)
+		Single = { Left = "which" Right = String }
+		Single = { Left = "value" Right = String }
+	} }
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N N) = { Left = "if" Right = ProvIfClause }
+	
+	(N N) = { Left = "random" Right = {
+		Inherits = ProvCommand
+		Single = { Left = "chance" Right = Int }
+	} }
+	(N N) = { Left = "random_list" Right = {
+		(Ch N N) = { Left = { Type = Int } Right = ProvCommand }
+	} }
+
+	(Y  ) = { Left = "arquebus" Right = Int }
+	(N Y) = { Left = "add_province_modifier" Right = {
+		Single = { Left = "name" Right = Modifier }
+		Single = { Left = "duration" Right = Int }
+		Optional = { Left = "hidden" Right = Bool }
+	} }
+	(N Y) = { Left = "remove_province_modifier" Right = String }
+	(N Y) = { Left = "set_province_flag" Right = String (LocalOp "set" "[R]" AddSetter ProvinceFlag) }
+	(N Y) = { Left = "clr_province_flag" Right = String (LocalOp "clr" "[R]" AddSetter ProvinceFlag) }
+	
+	(N N) = { Left = "spawn_rebels" Right = {
+		Single = { Left = "type" Right = RebelType }
+		Single = { Left = "size" Right = Double }
+	} }
+	(N Y) = { Left = "add_building" Right = { Building Improvement } }
+	(N Y) = { Left = "remove_building" Right = { Building Improvement } }
+	(Y  ) = { Left = "add_city_level" Right = Int }
+	(Y  ) = { Left = "add_castle_level" Right = Int }
+	(Y  ) = { Left = "western" Right = Bool }
+	(Y  ) = { Left = "add_construction_time" Right = Double }
+	(Y  ) = { Left = "revolt_risk" Right = Double }
+	
+	(N N) = { Left = "province_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = ProvEventId }
+	} }
+	(N N) = { Left = "spawn_regiment" Right = {
+		Single = { Left = "type" Right = UnitType }
+		Single = { Left = "size" Right = PInt }
+	} }
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N N) = { Left = "if" Right = CharIfClause }
+
+	(N N) = { Left = "random" Right = {
+		Inherits = CharCommand
+		Single = { Left = "chance" Right = Int }
+	} }
+	(N N) = { Left = "random_list" Right = {
+		(Ch N N) = { Left = { Type = Int } Right = CharCommand }
+	} }
+
+	(Y  ) = { Left = "treasury" Right = Double }
+	(Y  ) = { Left = "wealth" Right = Double }
+	(N Y) = { Left = "civil_war" Right = ThisChar }
+	(N Y) = { Left = "add_character_modifier" Right = {
+		Single = { Left = "name" Right = Modifier }
+		Single = { Left = "duration" Right = Int }
+		Optional = { Left = "hidden" Right = Bool }
+	} }
+	(N Y) = { Left = "add_inherited_modifier" Right = {
+		Single = { Left = "name" Right = Modifier }
+		Single = { Left = "duration" Right = Int }
+		Optional = { Left = "hidden" Right = Bool }
+	} }
+	(N Y) = { Left = "remove_character_modifier" Right = String }
+	(N Y) = { Left = "set_character_flag" Right = String (LocalOp "set" "[R]" AddSetter CharFlag) }
+	(N Y) = { Left = "clr_character_flag" Right = String (LocalOp "clr" "[R]" AddSetter CharFlag) }
+
+	(N N) = { Left = "opinion" Right = OpinionClause }
+	(N N) = { Left = "reverse_opinion" Right = OpinionClause }
+	(N N) = { Left = "remove_opinion" Right = RemoveOpinionClause }
+	(N N) = { Left = "reverse_remove_opinion" Right = RemoveOpinionClause }
+	(Y  ) = { Left = "move_character" Right = LandProvince }
+	(Y  ) = { Left = "war" Right = Bool }
+	(Y  ) = { Left = "change_martial" Right = Int }
+	(Y  ) = { Left = "change_diplomacy" Right = Int }
+	(Y  ) = { Left = "change_intrigue" Right = Int }
+	(Y  ) = { Left = "health" Right = Int }
+	(Y  ) = { Left = "honor" Right = Double }
+	(N Y) = { Left = "add_trait" Right = Trait }
+	(N Y) = { Left = "remove_trait" Right = Trait }
+	(Y  ) = { Left = "death" Right = Yes }
+	(Y  ) = { Left = "execute_plot" Right = Yes }
+	(Y  ) = { Left = "back_plot" Right = Yes }
+	(Y  ) = { Left = "create_clan" Right = Yes }
+	(Y  ) = { Left = "reverse_back_plot" Right = Yes }
+	(Y  ) = { Left = "leave_plot" Right = Yes }
+	(Y  ) = { Left = "reverse_leave_plot" Right = Yes }
+	(Y  ) = { Left = "set_defacto_liege" Right = AnyTitle }
+	(N Y) = { Left = "add_spouse" Right = ThisChar }
+	(N Y) = { Left = "remove_spouse" Right = ThisChar }
+	(N Y) = { Left = "cancel_job_action" Right = { JobAction Yes } }
+	
+	(Y  ) = { Left = "add_objective" Right = Objective }
+	(N Y) = { Left = "cancel_objective" Right = Objective }
+	
+	(N N) = { Left = "character_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = CharEventId }
+	} }
+	(N N) = { Left = "letter_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = LetterEventId }
+	} }
+	(N N) = { Left = "narrative_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = NarrativeEventId }
+	} }	
+	(Y  ) = { Left = "arquebus" Right = Double }
+	(Y  ) = { Left = "reveal_plot" Right = Yes }
+	
+	
+	
+	# Really province scope...
+	(N Y) = { Left = "add_province_modifier" Right = {
+		Single = { Left = "name" Right = Modifier }
+		Single = { Left = "duration" Right = Int }
+		Optional = { Left = "hidden" Right = Bool }
+	} }
+	(N Y) = { Left = "remove_province_modifier" Right = String }
+	(N Y) = { Left = "set_province_flag" Right = String (LocalOp "set" "[R]" AddSetter ProvinceFlag) }
+	(N Y) = { Left = "clr_province_flag" Right = String (LocalOp "clr" "[R]" AddSetter ProvinceFlag) }
+
+} }
+
+(Type OpinionClause) = {
+	Single = { Left = "modifier" Right = OpinionModifier }
+	Single = { Left = "who" Right = { ThisChar ThisProv } }
+	Optional = { Left = "years" Right = PInt }
+	Optional = { Left = "months" Right = PInt }
+	Optional = { Left = "days" Right = PInt }
+	AtMostOne = { years months days }
+}
+
+(Type RemoveOpinionClause) = {
+	Single = { Left = "modifier" Right = OpinionModifier }
+	Single = { Left = "who" Right = { ThisChar ThisProv } }
+}
+
+(Type EventCallBase) = {
+	Optional = { Left = "days" Right = PInt }
+	Optional = { Left = "months" Right = PInt }
+	Optional = { Left = "years" Right = PInt }
+	AtMostOne = { years months days }
+	Optional = { Left = "tooltip" Right = Key }
+	Optional = { Left = "random" Right = NonNegPercent }
+}
+
+(Type ProvIfClause) = {
+	Inherits = ProvCommand
+	
+	Optional = { Left = "limit" Right = ProvTrigger }
+}
+
+(Type CharIfClause) = {
+	Inherits = CharCommand
+	
+	Optional = { Left = "limit" Right = CharTrigger }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+(Validator Nicknames) = {
+	Type = Default
+	FriendlyName = "Nicknames"
+	(FileGroup "common\nicknames" "*.txt")
+	ValidatorName = Nicknames
+}
+
+(Type Nicknames) = {
+	(Ch Y N) = { Left = { Type = String } Right = NicknameDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+Global = {
+(Type.Enum Nickname) = { Import = { (FileGroup "common\nicknames" "*.txt") SelectPath = "*\[L]" } }
+}
+
+(Type NicknameDef) = {
+	Optional = { Left = "allow" Right = CharTrigger }
+	Optional = { Left = "chance" Right = ChanceClause }
+}
+
+(Type ChanceClause) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = ChanceModifier }
+}
+
+(Type ChanceModifier) = {
+	# The factor is the percent chance per year of getting the nick, so 1=1%/yr
+	# Actually it is just a multiplicative thing
+	Inherits = FactorModifier
+	Ensure = {
+		Description = "There must be at least one non-factor entry within a factor modifier."
+		
+		Select = {
+			Condition = { Not = { Left = "factor" } }
+			Target = Right
+		}
+		
+		Operation = Count
+		
+		TrueForResult = {
+			GreaterThan = 0
+		}
+	}
+	
+	Single = { Left = "factor" Right = NonNegPercent }
+	
+	Inherits = CharTrigger
+}
+
+
+
+
+

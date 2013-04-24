@@ -1,0 +1,28 @@
+(Validator Decisions) = {
+	Type = Default
+	(FileGroup "decisions" "*.txt")
+	FriendlyName = "Decisions"
+	ValidatorName = DecisionFile
+}
+
+(Type DecisionFile) = {
+	(Local ID Uid) = Left
+
+	Optional = { Left = "decisions" Right = NormalDecisionGroup }
+	Optional = { Left = "de_jure_laws" Right = DeJureDecisionGroup }
+	Optional = { Left = "laws" Right = DeJureDecisionGroup }
+	Optional = { Left = "dynasty_decisions" Right = DynastyDecisionGroup }
+	Optional = { Left = "plot_decisions" Right = NormalDecisionGroup }
+	Optional = { Left = "gender_laws" Right = DeJureDecisionGroup }
+	Optional = { Left = "succession_laws" Right = SuccessionLawsDecisionGroup }
+	Optional = { Left = "vassal_decisions" Right = VassalDecisionGroup }
+	
+}
+
+(Import "NormalDecisionGroup" From "DecisionsHelper" WithFlag "normal")
+(Import "DeJureDecisionGroup" From "DecisionsHelper" WithFlag "dejure")
+(Import "DynastyDecisionGroup" From "DecisionsHelper" WithFlag "dynasty")
+(Import "SuccessionLawsDecisionGroup" From "DecisionsHelper" WithFlag "succ")
+(Import "VassalDecisionGroup" From "DecisionsHelper" WithFlag "v")
+
+

@@ -1,0 +1,200 @@
+﻿(Validator Modifiers) = {
+	Type = GroupValidator
+	FriendlyName = "Modifiers"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\event_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\static_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+
+	Validator = {
+		Type = Default
+		(FileGroup "common\triggered_modifiers.txt")
+		ValidatorName = TriggeredModifierFile
+	}
+}
+
+(Type ModifierFile) = {
+	Child = { 
+		Left = { Type = String }
+		Right = {
+			Inherits = ModifierCommand
+			Optional = { Left = "icon" Right = Int }
+		}
+	}
+}
+
+(Type TriggeredModifierFile) = {
+	Child = { 
+		Left = { Type = String }
+		Right = {
+			Inherits = ModifierCommand
+			Optional = { Left = "icon" Right = Int }
+			Optional = { Left = "trigger" Right = CountryTrigger }
+			(Optional If = Eu3Dw) = { Left = "potential" Right = CountryTrigger }
+		}
+	}
+}
+
+Global = {
+(Type ModifierCommand) = {
+	(If If = Eu3Ht) = {
+		Optional = { Left = "cultural_tradition" Right = Double }		
+		Optional = { Left = "global_cot_gravity" Right = Double }		
+		Optional = { Left = "legitimacy" Right = Double }	
+		Optional = { Left = "land_maintenance_modifier" Right = Double }	
+		Optional = { Left = "local_cot_gravity" Right = Double }
+		Optional = { Left = "local_production_efficiency" Right = Double }
+		Optional = { Left = "naval_maintenance_modifier" Right = Double }	
+		Optional = { Left = "officials" Right = Double }
+		Optional = { Left = "papal_influence" Right = Double }
+		Optional = { Left = "trade_income_percentage" Right = Double }	
+		Optional = { Left = "merc_maintenance_modifier" Right = Double }	
+		Optional = { Left = "cultural_tradition_decay" Right = Double }	
+		Optional = { Left = { "badboy" "infamy" } Right = Double }
+	}
+	
+	(If If = Eu3Dw) = {
+		Optional = { Left = "trade_range_modifier" Right = NzDbl }
+		Optional = { Left = "bad_relation_daimyo" Right = NzDbl }
+		Optional = { Left = "monthly_shogun_influence" Right = NzDbl }
+		Optional = { Left = { Type = FactionInfluenceString } Right = NzDbl }
+		Optional = { Left = "land_forcelimits_modifier" Right = NzDbl }
+		Optional = { Left = "local_ship_cost" Right = NzDbl }
+		Optional = { Left = "local_ship_repair" Right = NzDbl }
+		Optional = { Left = "naval_forcelimits_modifier" Right = NzDbl }
+	}
+
+	# Commands
+	Optional = { Left = "local_manpower" Right = NzDbl }
+	Optional = { Left = "modifier_province_owner_trade_chance" Right = NzDbl }
+	Optional = { Left = "global_regiment_cost" Right = Double }
+	(Optional If = Eu3In) = { Left = "badboy" Right = Double }
+	Optional = { Left = "missionaries" Right = Double }
+	Optional = { Left = "merchants" Right = Double }
+	Optional = { Left = "colonists" Right = Double }
+	Optional = { Left = "spies" Right = Double }
+	Optional = { Left = "diplomats" Right = Double }
+	Optional = { Left = "prestige" Right = Double }
+	Optional = { Left = "war_exhaustion" Right = Double }
+	Optional = { Left = "advisor_cost" Right = Double }
+	Optional = { Left = "army_tradition" Right = Double }
+	Optional = { Left = "army_tradition_decay" Right = Double }
+	Optional = { Left = "artillery_cost" Right = Double }
+	Optional = { Left = "attrition" Right = Double }
+	Optional = { Left = "badboy_limit" Right = Double }
+	Optional = { Left = "bigship_cost" Right = Double }
+	Optional = { Left = "blockade_efficiency" Right = Double }
+	Optional = { Left = "build_cost" Right = Double }
+	Optional = { Left = "cavalry_cost" Right = Double }
+	Optional = { Left = "colonist_cost" Right = Double }
+	Optional = { Left = "colonist_placement_chance" Right = Double }
+	Optional = { Left = "defensiveness" Right = Double }
+	Optional = { Left = "diplomatic_skill" Right = Double }
+	Optional = { Left = "direct_tax_percentage" Right = Double }
+	Optional = { Left = "discipline" Right = Double }
+	Optional = { Left = "foreign_merchant_compete_chance" Right = Double }
+	Optional = { Left = "fort_level" Right = Double }
+	Optional = { Left = "galley_cost" Right = Double }
+	Optional = { Left = "garrison_growth" Right = Double }
+	Optional = { Left = "global_colonial_growth" Right = Double }
+	Optional = { Left = "global_manpower" Right = Double }
+	Optional = { Left = "global_manpower_modifier" Right = Double }
+	Optional = { Left = "global_regiment_recruit_speed" Right = Double }
+	Optional = { Left = "global_revolt_risk" Right = Double }
+	Optional = { Left = "global_ship_cost" Right = Double }
+	Optional = { Left = "global_ship_recruit_speed" Right = Double }
+	Optional = { Left = "global_spy_defence" Right = Double }
+	Optional = { Left = "global_tariffs" Right = Double }
+	Optional = { Left = "global_tax_modifier" Right = Double }
+	Optional = { Left = "global_trade_income_modifier" Right = Double }
+	Optional = { Left = "government_tech_cost_modifier" Right = Double }
+	Optional = { Left = "government_tech_investment" Right = Double }
+	Optional = { Left = "infantry_cost" Right = Double }
+	Optional = { Left = "inflation_reduction" Right = Double }
+	Optional = { Left = "inflation_reduction_local" Right = Double }
+	Optional = { Left = "interest" Right = Double }
+	Optional = { Left = "land_attrition" Right = Double }
+	Optional = { Left = "land_forcelimit" Right = Double }
+	Optional = { Left = "land_forcelimit_modifier" Right = Double }
+	Optional = { Left = "land_morale" Right = Double }
+	Optional = { Left = "land_tech_cost_modifier" Right = Double }
+	Optional = { Left = "land_tech_investment" Right = Double }
+	Optional = { Left = "leader_fire" Right = Double }
+	Optional = { Left = "leader_naval_manuever" Right = Double }
+	Optional = { Left = "leader_shock" Right = Double }
+	Optional = { Left = "lightship_cost" Right = Double }
+	Optional = { Left = "local_colonial_growth" Right = Double }
+	Optional = { Left = "local_colonist_cost" Right = Double }
+	Optional = { Left = "local_colonist_placement_chance" Right = Double }
+	Optional = { Left = "local_defensiveness" Right = Double }
+	Optional = { Left = "local_manpower_modifier" Right = Double }
+	Optional = { Left = "local_missionary_cost" Right = Double }
+	Optional = { Left = "local_missionary_placement_chance" Right = Double }
+	Optional = { Left = "local_revolt_risk" Right = Double }
+	Optional = { Left = "local_spy_defence" Right = Double }
+	Optional = { Left = "army_tradition_decay" Right = Double }
+	Optional = { Left = "local_tariffs" Right = Double }
+	Optional = { Left = "local_tax_modifier" Right = Double }
+	Optional = { Left = "local_trade_income_modifier" Right = Double }
+	Optional = { Left = "max_attrition" Right = Double }
+	Optional = { Left = "max_war_exhaustion" Right = Double }
+	Optional = { Left = "merchant_compete_chance" Right = Double }
+	Optional = { Left = "mercenary_cost" Right = Double }
+	Optional = { Left = "merchant_compete_chance" Right = Double }
+	Optional = { Left = "merchant_cost" Right = Double }
+	Optional = { Left = "merchant_own_cot_compete_chance" Right = Double }
+	Optional = { Left = "merchant_own_cot_placement_chance" Right = Double }
+	Optional = { Left = "merchant_placement_chance" Right = Double }
+	Optional = { Left = "minimum_revolt_risk" Right = Double }
+	Optional = { Left = "missionary_cost" Right = Double }
+	Optional = { Left = "missionary_placement_chance" Right = Double }
+	Optional = { Left = "naval_attrition" Right = Double }
+	Optional = { Left = "naval_forcelimit" Right = Double }
+	Optional = { Left = "naval_forcelimit_modifier" Right = Double }
+	Optional = { Left = "naval_morale" Right = Double }
+	Optional = { Left = "naval_tech_cost_modifier" Right = Double }
+	Optional = { Left = "naval_tech_investment" Right = Double }
+	Optional = { Left = "navy_tradition" Right = Double }
+	Optional = { Left = "navy_tradition_decay" Right = Double }
+	Optional = { Left = "overseas_income" Right = Double }
+	Optional = { Left = "population_growth" Right = Double }
+	Optional = { Left = "prestige_decay" Right = Double }
+	Optional = { Left = "prestige_from_naval" Right = Double }
+	Optional = { Left = "production_efficiency" Right = Double }
+	Optional = { Left = "production_tech_cost_modifier" Right = Double }
+	Optional = { Left = "production_tech_investment" Right = Double }
+	Optional = { Left = "range" Right = Double }
+	Optional = { Left = "regiment_recruit_speed" Right = Double }
+	Optional = { Left = "local_regiment_cost" Right = Double }
+	Optional = { Left = "local_movement_speed" Right = Double }
+	Optional = { Left = "reinforce_speed" Right = Double }
+	Optional = { Left = "ship_recruit_speed" Right = Double }
+	Optional = { Left = "spies_cost" Right = Double }
+	Optional = { Left = "spy_efficiency" Right = Double }
+	Optional = { Left = "stability_cost" Right = Double }
+	Optional = { Left = "stability_cost_modifier" Right = Double }
+	Optional = { Left = "stability_investment" Right = Double }
+	Optional = { Left = "supply_limit" Right = Double }
+	Optional = { Left = "tax_income" Right = Double }
+	Optional = { Left = "technology_cost" Right = Double }
+	Optional = { Left = "tolerance_heathen" Right = Double }
+	Optional = { Left = "tolerance_heretic" Right = Double }
+	Optional = { Left = "tolerance_own" Right = Double }
+	Optional = { Left = "trade_efficiency" Right = Double }
+	Optional = { Left = "trade_income" Right = Double }
+	Optional = { Left = "trade_tech_cost_modifier" Right = Double }
+	Optional = { Left = "trade_tech_investment" Right = Double }
+	Optional = { Left = "transport_cost" Right = Double }
+	Optional = { Left = "leader_siege" Right = Double }
+	Optional = { Left = "local_speed_movement" Right = Double }
+	Optional = { Left = "prestige_from_land " Right = Double }
+}
+}

@@ -1,0 +1,87 @@
+(ContextValidator ProvinceTrigger) = { Members = {
+	# More information on usage of "current" from Helius 197
+	# In a country event, within a country scope, switching to province scope, will detect
+	# whether the next lowest level of country scope (A) has a core on the province scope (B)
+	# EXAMPLE: id = 728, tested and observed to work as designed
+	# Code:
+	# country_event = {
+	#		rival_countries = { <-- (A)
+	#			neighbour = THIS
+	#			any_owned_province = { <-- (B)
+	#				any_neighbor_province = { owned_by = THIS }
+	#				NOT = { is_core = THIS }
+	#				is_core = current
+	#			}
+	#		}
+	# Here, works in a province scope (B), points back to country scope (A)
+	# According to Helius 436, "is_core = yes" is valid, but only in province scope.
+	(N Y) = { Left = "is_core" Right = { ThisCountry ThisProvince Tag Current Yes } }
+	
+	(A Y) = { Left = "owned_by" Right = { Tag ThisCountry ThisProvince Scope } }
+	(A Y) = { Left = "controlled_by" Right = { Tag ThisCountry ThisProvince Scope Owner } }
+	(A Y If = Eu3Dw) = { Left = "previous_owner" Right = { Tag ThisCountry } }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	# Notes: Added "current" as per Helius [http://forum.paradoxplaza.com/forum/showpost.php?p=10808161&postcount=197]
+	# USAGE:
+	# In a province event, use in a country scope limit to detect whether that country has a core
+	# on the province receiving the event
+	# Code:
+	#		random_country = {
+	#			limit = {
+	#				has_country_flag = propietario
+	#				is_core = current
+	#			}
+	#		}
+	#Here, works in a country scope, points back to province scope
+	(N Y) = { Left = "is_core" Right = { Current Bool LandProvince ThisProvince } }
+	
+	(N Y) = { Left = "owns" Right = { LandProvince ThisProvince } }
+	(N Y) = { Left = "controls" Right = { LandProvince ThisProvince } }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "core_claim" Right = { Type = Tag Type = ThisCountry } }
+		(Y Y) = { Left = "core_percentage" Right = Double }
+	}
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N Y) = { Left = "add_core" Right = { Tag ThisCountry ThisProvince (Emperor If = Eu3Ht) } }
+	# Helius Eu3 450: while 'THIS', when used in province decisions, will often NOT work when intended to point to owner scope, in the case of the remove_core command, it does
+	(N Y) = { Left = "remove_core" Right = { Tag ThisCountry ThisProvince (Emperor If = Eu3Ht) } }
+	(Y Y) = { Left = "change_controller" Right = { Tag ThisCountry ThisProvince Scope } }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "add_temp_claim" Right = { Tag ThisCountry } }
+	}
+	
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "add_core" Right = { LandProvince ThisProvince } }
+	# 0 means remove cores held by non-existent countries, and follows the pattern
+	# [province scope] \ [country scope] \ [remove_core]
+	(N Y) = { Left = "remove_core" Right = { LandProvince ThisProvince 0 } }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "add_temp_claim" Right = { LandProvince ThisProvince } }
+	}
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

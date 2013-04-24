@@ -1,0 +1,87 @@
+(Validator BuildingValidator) = {
+	Type = Default
+	FriendlyName = "Buildings"
+	ValidatorName = BuildingFile
+	(FileGroup "common\buildings.txt")
+}
+
+(Type BuildingFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = BuildingDef }
+}
+
+(Type BuildingDef) = {
+	Single = { Left = "cost" Right = Double }
+	Single = { Left = "time" Right = Int }
+	(Optional If = Eu3Ht) = { Left = "modifier" Right = ModifierCommand }
+	Optional = { Left = "trigger" Right = BuildingProvinceTrigger }
+	Optional = { Left = "previous" Right = Building }
+	Optional = { Left = "destroy_on_conquest" Right = Bool }
+	Optional = { Left = "spare_on_core" Right = Bool }
+	Optional = { Left = "one_per_country" Right = Bool }
+	Optional = { Left = "onmap" Right = Bool }
+	Optional = { Left = "category" Right = NnInt }
+	Optional = { Left = "officials" Right = Double }
+	Optional = { Left = "manufactory" Right = { (PdoList Y) = { Type = TradeGood } } }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+	
+	(If IfNot = Eu3Ht) = {
+		Inherits = ModifierCommand
+		Optional = { Left = "prerequisites" Right = { (PdoList Y) = { Type = Building } } }
+		Optional = { Left = "not_if_x_exists" Right = { (PdoList Y) = { Type = Building } } }
+		Optional = { Left = "capital" Right = Bool }
+		Optional = { Left = "confirm" Right = Bool }
+		Optional = { Left = "port" Right = Bool }
+		
+	}
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N N) = { Left = "modifier" Right = Modifier }
+}
+
+(Type Modifier) = {
+	Single = { Left = "factor" Right = Double }
+	Inherits = BuildingProvinceTrigger
+}
+
+(Type BuildingProvinceTrigger) = { ContextValidator = BuildingProvinceTrigger }
+(ContextValidator BuildingProvinceTrigger) = {
+	Inherits = ProvinceTrigger
+	
+	Set = {
+		ProvinceTrigger = BuildingProvinceTrigger
+		ErrorTrigger = ErrorTrigger
+	}
+	
+	Scopes = {
+		ErrorTrigger = "owner"
+		ErrorTrigger = "ally"
+		ErrorTrigger = "controller"
+		ErrorTrigger = "capital_scope"
+		ErrorTrigger = "sea_zone"
+		ErrorTrigger = "emperor"
+		ErrorTrigger = "revolution_target"
+		ErrorTrigger = "crusade_target"
+		ErrorTrigger = "this"
+		ErrorTrigger = "THIS"
+		ErrorTrigger = "from"
+		ErrorTrigger = "FROM"
+		ErrorTrigger = "league_leader"
+		ErrorTrigger = "overlord"
+		ErrorTrigger = "local_enemy"
+		ErrorTrigger = "heretic"
+	}
+	
+	Members = {
+		(N N) = { Left = "region" Right = Untyped Throw = { Message = "The 'region' clause cannot be used in buildings files." } }
+		(N N) = { Left = "continent" Right = Untyped Throw = { Message = "The 'continent' clause cannot be used in buildings files." } }
+	}
+}
+
+(ContextValidator ErrorTrigger) = {
+
+	Members = {
+		(N N) = { Left = { Type = String } Right = Untyped Throw = { Message = "The 'owner' clause cannot be used in buildings files." } }
+	}
+}

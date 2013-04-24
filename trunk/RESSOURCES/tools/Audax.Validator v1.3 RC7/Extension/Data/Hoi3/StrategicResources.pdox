@@ -1,0 +1,19 @@
+Global = {
+(Type.Enum StratResources) = { Import = { (FileGroup "common\strategic_resources.txt") SelectPath = "*\[L]" } }
+}
+
+(Validator StratResFile) = {
+	Type = Default
+	FriendlyName = "Strategic Resources"
+	(FileGroup "common\strategic_resources.txt")
+	ValidatorName = StratResFile
+}
+
+(Type StratResFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = StratResType (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type StratResType) = {
+	Inherits = ModifierCommand
+	
+}

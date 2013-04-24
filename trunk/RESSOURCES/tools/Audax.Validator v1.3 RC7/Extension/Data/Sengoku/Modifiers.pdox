@@ -1,0 +1,149 @@
+﻿(Validator Modifiers) = {
+	Type = GroupValidator
+	FriendlyName = "Modifiers"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\event_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\static_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+}
+
+Global = {
+(Type.Enum Modifier) = { Import = { (FileGroup "common\event_modifiers.txt") SelectPath = "*\[L]" } Import = { (FileGroup "common\static_modifiers.txt") SelectPath = "*\[L]" } }
+
+}
+
+(Type ModifierFile) = {
+	Child = { 
+		Left = { Type = String }
+		Right = {
+			Inherits = ModifierDef
+			Optional = { Left = "icon" Right = { IconRef = GFX_modifier_icons } }
+		}
+		(CheckKey "*" Left IfNot = NoCheckKey)
+	}
+}
+
+Global = {
+(Type ModifierDef) = {
+	Inherits = ProvModifierDef
+	Inherits = CharModifierDef
+}
+
+(Type BaseModifierDef) = {
+	Optional = { Left = "force_limit" Right = Double }
+	Optional = { Left = "ninja_recruitment_chance" Right = Double }
+	Optional = { Left = "global_tax_modifier" Right = Double }
+	Optional = { Left = "monthly_character_honor" Right = Double }
+	Optional = { Left = "retinue_reinforce_speed" Right = Double }
+	Optional = { Left = "musket_value" Right = Double }
+	Optional = { Left = "mercenary_chance" Right = Double }
+
+}
+
+(Type ProvModifierDef) = {
+	Inherits = BaseModifierDef
+
+	Optional = { Left = "levy_size" Right = Double }
+	Optional = { Left = "local_revolt_risk" Right = Double }
+	Optional = { Left = "tax_income" Right = Double }
+	Optional = { Left = "local_tax_modifier" Right = Double }
+	Optional = { Left = "attrition" Right = Double }
+	Optional = { Left = "land_forcelimit_modifier" Right = Double }
+	Optional = { Left = "max_attrition" Right = Double }
+	Optional = { Left = "supply_limit" Right = Double }
+	Optional = { Left = "local_regiment_recruit_speed" Right = Double }
+	Optional = { Left = "local_defensive" Right = Double }
+	Optional = { Left = "local_movement_speed" Right = Double }
+	Optional = { Left = "levy_reinforce_speed" Right = Double }
+
+	Optional = { Left = "infantry_levy" Right = Double }
+	Optional = { Left = "infantry_morale" Right = Double }
+	Optional = { Left = "infantry_fire" Right = Double }
+	Optional = { Left = "infantry_shock" Right = Double }
+
+	Optional = { Left = "cavalry_levy" Right = Double }
+	Optional = { Left = "cavalry_morale" Right = Double }
+	Optional = { Left = "cavalry_fire" Right = Double }
+	Optional = { Left = "cavalry_shock" Right = Double }
+	
+	Optional = { Left = "artillery_levy" Right = Double }
+	Optional = { Left = "artillery_morale" Right = Double }
+	Optional = { Left = "artillery_fire" Right = Double }
+	Optional = { Left = "artillery_shock" Right = Double }
+	
+	# UNPROVED
+	Optional = { Left = "fort_level" Right = Double }
+	Optional = { Left = "garrison_growth" Right = Double }
+
+}
+
+(Type CharModifierDef) = {
+	Inherits = BaseModifierDef
+
+	Optional = { Left = "global_revolt_risk" Right = Double }
+	Optional = { Left = "minimum_revolt_risk" Right = Double }
+	Optional = { Left = "land_morale" Right = Double }
+	Optional = { Left = "global_defensive" Right = Double }	
+	Optional = { Left = "intrigue_missions" Right = Double }
+	Optional = { Left = "maintenance_cost" Right = Double }
+	Optional = { Left = "global_levy_reinforce_speed" Right = Double }
+
+	Optional = { Left = "diplomacy" Right = Double }
+	Optional = { Left = "martial" Right = Double }
+	Optional = { Left = "intrigue" Right = Double }
+	Optional = { Left = "health" Right = Double }
+	Optional = { Left = "fertility" Right = Double }
+	
+	Optional = { Left = "leader_maneuver" Right = Double }
+	Optional = { Left = "leader_fire" Right = Double }
+	Optional = { Left = "leader_shock" Right = Double }
+	Optional = { Left = "leader_morale" Right = Double }
+	Optional = { Left = "leader_siege" Right = Double }
+	
+	Optional = { Left = "christian_relation" Right = Double }
+	Optional = { Left = "shinto_relation" Right = Double }
+	Optional = { Left = "buddhist_relation" Right = Double }
+	
+	
+	# UNPROVED
+	Optional = { Left = "discipline" Right = Double }
+	
+	Optional = { Left = "vassal_opinion" Right = Double }
+	Optional = { Left = "opposite_opinion" Right = Double }
+	Optional = { Left = "liege_opinion" Right = Double }
+	Optional = { Left = "same_opinion" Right = Double }
+	
+
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

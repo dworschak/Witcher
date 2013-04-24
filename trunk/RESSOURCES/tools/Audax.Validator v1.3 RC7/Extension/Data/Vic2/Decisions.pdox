@@ -1,0 +1,40 @@
+(Validator Decisions) = {
+	Type = Default
+	FriendlyName = "Decisions"
+	(FileGroup "decisions" "*.txt")
+	ValidatorName = DecisionFile
+}
+
+Global = {
+	(Type.Enum Decision) = { Import = { (FileGroup "decisions" "*.txt") SelectPath = "*\*\[L]" } }
+}
+
+(Type DecisionFile) = {
+	Optional = { Left = "political_decisions" Right = DecisionGroup }
+}
+
+(Type DecisionGroup) = {
+	Child = { Left = { Type = String } Right = DecisionType UniqueId = Left }
+}
+
+(Type DecisionType) = {
+	Optional = { Left = "alert" Right = Bool }
+	Single = { Left = "potential" Right = CountryTrigger }
+	Single = { Left = "allow" Right = CountryTrigger }
+	Single = { Left = "effect" Right = CountryCommand }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+	Optional = { Left = "picture" Right = String }
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = NonNegDbl }
+	
+	(Ch N Y) = { Left = "modifier" Right = AiModifier }
+}
+
+(Type AiModifier) = {
+	Inherits = FactorModifier
+	Inherits = CountryTrigger
+	
+	Single = { Left = "factor" Right = NonNegDbl }
+}

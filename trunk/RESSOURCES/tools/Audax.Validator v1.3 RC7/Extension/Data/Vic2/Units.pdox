@@ -1,0 +1,69 @@
+(Validator Units) = {
+	Type = Default
+	FriendlyName = "Units"
+	(FileGroup "units" "*.txt")
+	ValidatorName = UnitFile
+}
+
+(Type UnitFile) = {
+	Single = { Left = { Type = String } Right = Unit UniqueId = Left }
+}
+
+(Type Unit) = {
+	Single = { Left = "icon" Right = { IconRef = GFX_unit_strip } }
+	Single = { Left = "sprite" Right = String } # TODO: Clarify this
+	Single = { Left = "unit_type" Right = { Literal = "special" Literal = "cavalry" Literal = "transport" Literal = "light_ship" Literal = "big_ship" Literal = "infantry" } }
+	Optional = { Left = "transport" Right = Bool }
+	Optional = { Left = "active" Right = Bool }
+	
+	Optional = { Left = "select_sound" Right = Sound }
+	Optional = { Left = "move_sound" Right = Sound }
+	
+	Single = { Left = "priority" Right = PInt }
+	Single = { Left = "max_strength" Right = PInt }
+	Single = { Left = "default_organisation" Right = PInt }
+	Single = { Left = "maximum_speed" Right = PInt }
+	
+	Single = { Left = "build_time" Right = PInt }
+	Single = { Left = "build_cost" Right = { (Ch Y N) = { Left = { Type = Goods } Right = PDbl } } }
+	
+	Single = { Left = "supply_consumption" Right = NnDbl }
+	Single = { Left = "supply_cost" Right = { (Ch Y N) = { Left = { Type = Goods } Right = PDbl } } }
+	
+	NodeSwitcher = {
+		Node = "type"
+		
+		Switch = {
+			"land" = {
+				Single = { Left = "reconnaissance" Right = PInt }
+				Single = { Left = "attack" Right = PInt }
+				Single = { Left = "defence" Right = PInt }
+				Single = { Left = "discipline" Right = PInt }
+				Single = { Left = "support" Right = PInt }
+				Optional = { Left = "maneuver" Right = PInt }
+				Optional = { Left = "primary_culture" Right = Bool } # TODO: Check if this is true. (of course not on navy as has no culture)
+				(Ch Y N) = { Left = { Literal = "fort" Literal = "river" Type = Terrain } Right = {
+					Optional = { Left = "attack" Right = PDbl }
+					Optional = { Left = "defence" Right = PDbl }
+					Optional = { Left = "movement" Right = PDbl }
+				} }
+			}
+			
+			"naval" = {
+				Single = { Left = "hull" Right = PInt }
+				Single = { Left = "gun_power" Right = PInt }
+				Optional = { Left = "capital" Right = Bool }
+			}
+		}
+	}
+	
+	(If If = Vic2Ahd) = {
+		Optional = { Left = "floating_flag" Right = Bool }
+		Optional = { Left = "weighted_value" Right = PosDbl }
+		
+		Optional = { Left = "sprite_override" Right = String }
+		Optional = { Left = "sprite_mount" Right = String }
+		Optional = { Left = "sprite_mount_attach_node" Right = String }
+	}
+}
+

@@ -1,0 +1,39 @@
+(Validator Scenarios) = {
+	FriendlyName = "Scenarios"
+	Description = "Scenarios"
+	Type = GroupValidator
+	
+	Validator = {
+		Type = Default
+		(FileGroup "scenarios" "*.txt")
+		ValidatorName = ScenarioOverview
+	}
+}
+
+(Type ScenarioOverview) = {
+	# Gives events their own scope for the scenario
+	ScenarioScope
+	
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "desc" Right = Key }
+	Single = { Left = "icon" Right = String }
+	Single = { Left = "startdate" Right = Date }
+	Single = { Left = "enddate" Right = Date }
+	
+	Single = { Left = "camera_height" Right = NonNegInt }
+	Single = { Left = "camera_min_x" Right = NonNegInt }
+	Single = { Left = "camera_min_y" Right = NonNegInt }
+	Single = { Left = "camera_max_x" Right = NonNegInt }
+	Single = { Left = "camera_max_y" Right = NonNegInt }
+	Single = { Left = "camera_center" Right = { Single = { Left = "x" Right = NonNegInt } Single = { Left = "y" Right = NonNegInt } } }
+	
+	(Ch N Y) = { Left = { "selectable_country" "country" } Right = Tag }
+	Optional = { Left = "provinces" Right = { (PdoList Y) = { Type = Province } } }
+	Optional = { Left = "regions" Right = { (PdoList Y) = { Type = Region } } }
+	Single = { Left = "reinforcement" Right = NonNegInt }
+	
+	Single = { Left = "number_of_victory_conditions" Right = PosInt }
+	Single = { Left = "victory_conditions_to_win" Right = PosInt }
+	Single = { Left = "victory_conditions" Right = String (ValidateFile "[R]" ScenarioFactionAimsFile Format = "{0}") }
+	(Ch N Y) = { Left = "events" Right = String (ValidateFile "[R]" EventFile Format = "{0}") }
+}

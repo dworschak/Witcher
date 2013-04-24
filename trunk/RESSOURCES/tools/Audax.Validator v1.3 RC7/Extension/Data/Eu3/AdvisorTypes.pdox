@@ -1,0 +1,33 @@
+(Validator AdvisorTypes) = {
+	Type = Default
+	(FileGroup "common\advisortypes.txt")
+	FriendlyName = "Advisor types"
+	ValidatorName = AdvisorTypes
+}
+
+(Type AdvisorTypes) = {
+	(Ch Y N) = { Left = { Type = String } Right = AdvisorType }
+}
+
+(Type AdvisorType) = {
+	Inherits = ModifierCommand
+	
+	(Optional If = "Eu3Ht") = { Left = "army_tradition_cost" Right = Double }
+	(Optional If = "Eu3Ht") = { Left = "naval_tradition_cost" Right = Double }
+	(Optional If = "Eu3Ht") = { Left = "cultural_tradition_cost" Right = Double }
+	(Optional If = "Eu3Ht") = { Left = "availability" Right = CountryTrigger }
+	Optional = { Left = "chance" Right = ChanceClause }
+}
+
+(Type ChanceClause) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N N) = { Left = "modifier" Right = ModifierClause }
+}
+
+(Type ModifierClause) = {
+	Inherits = FactorModifier
+
+	# Definitely ProvinceTrigger, confirmed by Helius
+	Inherits = ProvinceTrigger
+	Single = { Left = "factor" Right = Double }
+}

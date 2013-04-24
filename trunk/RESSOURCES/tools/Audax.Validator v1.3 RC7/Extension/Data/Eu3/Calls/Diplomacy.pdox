@@ -1,0 +1,161 @@
+(ContextValidator Trigger) = { Members = {
+	(N Y) = { Left = "relation" Right = RelationClause }
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	# So that prestige = xx and prestige = THIS do not generate warnings
+	(Y Y) = { Left = "prestige" Right = Double }
+	(Y Y) = { Left = "prestige" Right = { ThisCountry ThisProvince } }
+	
+	(A Y) = { Left = "truce_with" Right = { Tag ThisCountry ThisProvince Scope } }
+	(Y Y) = { Left = "has_border_with_religious_enemy" Right = Bool }
+	(Y Y) = { Left = "can_release_vassals" Right = Bool }
+	(A Y) = { Left = "is_possible_vassal" Right = Tag }
+	(A Y) = { Left = "vassal_of" Right = { Tag ThisCountry ThisProvince } }
+	(Y Y) = { Left = "is_subject" Right = Bool }
+	(Y Y) = { Left = "is_lesser_in_union" Right = Bool }
+	(Y Y) = { Left = "lesser_in_union" Right = Bool }
+	(Y Y) = { Left = "war" Right = Bool }
+	(A Y) = { Left = "war_with" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "alliance_with" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "marriage_with" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "junior_union_with" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "senior_union_with" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "overlord_of" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "is_rival" Right = { Bool ThisCountry ThisProvince } }
+	(A Y) = { Left = "is_threat" Right = { Bool ThisCountry ThisProvince } }
+	(Y Y) = { Left = "num_of_allies" Right = Int }
+	(Y Y) = { Left = "num_of_royal_marriages" Right = Int }
+	(Y Y) = { Left = "num_of_vassals" Right = Int }
+	(Y Y) = { Left = "num_of_unions" Right = Int }
+	(A Y) = { Left = "knows_country" Right = { Tag ThisCountry ThisProvince } }
+	(N Y) = { Left = "neighbour" Right = { Tag ThisCountry ThisProvince } }
+	(N Y) = { Left = "casus_belli" Right = { Tag ThisCountry Bool ThisProvince } }
+	(Y Y) = { Left = "diplomats" Right = Int }
+	(Y Y) = { Left = "spies" Right = Int }
+	(Y Y) = { Left = "is_vassal" Right = Bool }
+	
+	(Y  ) = { Left = "can_create_vassals" Right = { Bool PInt } }
+
+	(If If = Eu3Ht) = {
+		(Y  ) = { Left = { "badboy" "infamy" } Right = Double }
+	}
+	
+	(If If = Eu3In) = {
+		(Y  ) = { Left = "badboy" Right = Double }
+	}
+	
+	(If If = Eu3Dw) = {
+		(Y  ) = { Left = "is_daimyo" Right = Bool }
+		(Y  ) = { Left = "is_shogun" Right = Bool }
+		(Y  ) = { Left = "horde_war" Right = Bool }
+	}
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "relation" Right = RelationClause }
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "remove_fow" Right = PositiveInt }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "add_casus_belli" Right = CBClause }
+		(N Y) = { Left = "casus_belli" Right = CBClause }
+		(N Y) = { Left = "remove_casus_belli" Right = CBRClause }
+		(N Y) = { Left = "this_remove_casus_belli" Right = CBRClause }
+		(N Y) = { Left = "vassalize" Right = { Tag ThisCountry } }
+	}
+	
+		(If If = Eu3Dw) = {
+		
+		# Helius 601
+		# requires root scope (THIS) to be the overlord,
+		# but the command must be contained in the vassal's country scope
+		#
+		# In other words, if I want Bavaria to release Ansbach from its vassalage to 
+		# Bavaria, I have to fire a country event for Bavaria, which contains something like
+		#
+		# random_country = {
+		#	limit = {
+		#		neighbour = THIS
+		#		vassal_of = THIS
+		#	}
+		#	free_vassal = THIS
+		# }
+		(N Y) = { Left = "free_vassal" Right = { Tag ThisCountry } }
+		
+		(N Y) = { Left = "white_peace" Right = { Tag ThisCountry } }
+	}
+	
+	(N Y If = Eu3In) = { Left = "casus_belli" Right = { ThisCountry ThisProvince Tag } }
+	(N Y If = Eu3In) = { Left = "add_casus_belli" Right = { Tag ThisCountry ThisProvince } }
+	
+	(Y Y If = Eu3Ht) = { Left = { "badboy" "infamy" } Right = Double }
+	(Y Y If = Eu3In) = { Left = "badboy" Right = Double }
+	(Y Y) = { Left = "diplomats" Right = Double }
+	(Y Y) = { Left = "prestige" Right = Double }
+	(N Y) = { Left = "inherit" Right = { Tag ThisCountry ThisProvince } }
+	(N Y) = { Left = "release" Right = { Tag ThisCountry ThisProvince } }
+	(N Y) = { Left = "remove_advisor" Right = { Type = AdvisorType Literal = "random" } }
+	(N Y) = { Left = "war" Right = { Tag ThisCountry ThisProvince Scope } }
+	(N Y) = { Left = "create_marriage" Right = { Tag ThisCountry ThisProvince } }
+	(N Y) = { Left = "create_alliance" Right = { Tag ThisCountry ThisProvince } }
+	(N Y) = { Left = "release_vassal" Right = { Tag ThisCountry ThisProvince } }
+	(N N) = { Left = "release_vassal" Right = Random }
+	(N Y) = { Left = "create_advisor" Right = AdvisorType }
+	(Y Y) = { Left = "spies" Right = Double }
+	(Y Y) = { Left = "remove_fow" Right = PositiveInt }
+} }
+
+
+
+
+
+
+(Type RelationClause) = {
+	# THIS can refer to either country or province - confirmed by Helius in Eu3 267
+	Single = { Left = "who" Right = { Type = Tag Type = ThisCountry Type = ThisProvince Type = Scope Literal = "emperor" Literal = "league_leader" } }
+	Single = { Left = "value" Right = Double }
+}
+
+(If If = "Eu3Ht") = {
+	(Type CBClause) = {
+		Single = { Left = "target" Right = { Tag ThisCountry ThisProvince } }
+		Single = { Left = "type" Right = CasusBelli }
+		Single = { Left = "months" Right = Double }
+	}
+	
+	(Type CBRClause) = {
+		Single = { Left = "type" Right =  CasusBelli }
+		Single = { Left = "target" Right = { Tag ThisCountry ThisProvince } }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

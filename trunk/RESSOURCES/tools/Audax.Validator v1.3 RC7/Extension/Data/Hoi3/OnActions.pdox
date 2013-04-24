@@ -1,0 +1,28 @@
+(Validator OnActions) = {
+	Type = Default
+	FriendlyName = "On Actions"
+	(FileGroup "common\on_actions.txt")
+	ValidatorName = OnActionsFile
+}
+
+(Type OnActionsFile) = {
+	Optional = { Left = "on_surrender" Right = CountryPulse }
+	Optional = { Left = "on_enemy_pride_sunk" Right = CountryPulse }
+	Optional = { Left = "on_our_pride_sunk" Right = CountryPulse }
+	Optional = { Left = "on_coup_success" Right = CountryPulse }
+	Optional = { Left = "on_coup_fail" Right = CountryPulse }
+	(Ch Y N) = { Left = { Type = String } Right = Pulse }
+}
+
+(Type CountryPulse) = {
+	(Ch N Y) = { Left = { Type = PInt } Right = { CountryEventId 0 } }
+}
+
+(Type Pulse) = {
+	(Ch N Y) = { Left = { Type = PInt } Right = { ProvinceEventId 0 } }
+}
+
+
+
+
+

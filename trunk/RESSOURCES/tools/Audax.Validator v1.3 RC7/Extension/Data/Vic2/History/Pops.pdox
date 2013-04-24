@@ -1,0 +1,27 @@
+(Validator PopHistory) = {
+	Type = Default
+	FriendlyName = "Pops"
+	(FileGroup "history\pops" "*.txt" True)
+	ValidatorName = PopFile
+}
+
+# TODO: Make friendly for multiple start dates
+# TODO: Clarify if a province can be mentioned multiple times in different/same files
+
+(Type PopFile) = {
+	OptionList = { Left = { Type = LandProvince } Right = PopList }
+}
+
+(Type PopList) = {
+	(Ch N N) = { Left = { Type = PopType } Right = Pop }
+}
+
+# TODO: Make sure that for each province there aren't duplications of PopType/Culture/Religion
+
+(Type Pop) = {
+	Single = { Left = "culture" Right = Culture }
+	Single = { Left = "religion" Right = Religion }
+	Single = { Left = "size" Right = PDbl }
+	Optional = { Left = "militancy" Right = NnDbl } # TODO: Double? Or also check that it falls within limits
+	Optional = { Left = "rebel_type" Right = RebelType }
+}

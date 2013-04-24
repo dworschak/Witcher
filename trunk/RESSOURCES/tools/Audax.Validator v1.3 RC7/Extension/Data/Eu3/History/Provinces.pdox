@@ -1,0 +1,71 @@
+#(Validator ProvinceHistoryValidator) = {
+#	Type = Default
+#	FriendlyName = "Province History"
+#	(FileGroup "history\provinces" "*.txt")
+#	ValidatorName = ProvHist
+#}
+
+(Type.Or TagOrEmpty) = {
+	Type = Tag
+	Type.Enum = { Values = { "XXX" } }
+}
+
+Includes = {
+	"..\..\_Common\ProvinceHistory"
+}
+(Type.Or ProvinceHistoryTag) = { Type.Enum = LandProvince Type.Enum = SeaProvince }
+
+(Type ProvinceHistory) = {
+	Inherits = Common
+	Inherits = ProvinceHistoryBase
+	
+	# If there is a citysize set, it must be that an owner is set
+	AllOrNone = { "owner" "citysize" }
+	InOrder = { "owner" "citysize" }
+}
+
+(Type Common) = {
+	Optional = { Left = "owner" Right = TagOrEmpty }
+	Optional = { Left = "controller" Right = TagOrEmpty }
+	Optional = { Left = "culture" Right = Culture }
+	Optional = { Left = "religion" Right = Religion }
+	Child = { Left = "add_core" Right = Tag }
+	OptionList = { Left = { Type = Building } Right = Bool }
+	Optional = { Left = "citysize" Right = Int }
+	Optional = { Left = "capital" Right = String }
+	Optional = { Left = "manpower" Right = Double }
+	Optional = { Left = "base_tax" Right = Int }
+	Optional = { Left = "revolt_risk" Right = Int }
+	Optional = { Left = "trade_goods" Right = TradeGood }
+	Optional = { Left = "hre" Right = Bool }
+	Optional = { Left = "cot" Right = Bool }
+	
+	Optional = { Left = "native_size" Right = Int }
+	Optional = { Left = "native_ferocity" Right = Double }
+	Optional = { Left = "native_hostileness" Right = Double }
+	
+	Child = { Left = "discovered_by" Right = { TechGroup Tag } }
+	
+	(If If = Eu3Dw) = {
+		(Ch N Y) = { Left = "set_province_flag" Right = String (LocalOp "set" "[R]" AddSetter ProvinceFlag) }
+		(Ch N Y) = { Left = "clr_province_flag" Right = String (LocalOp "clr" "[R]" AddSetter ProvinceFlag) }
+	}
+	
+}
+
+(Type DateClause) = {
+	Inherits = Common
+	
+	Child = { Left = "remove_core" Right = Tag }
+	Child = { Left = "decision" Right = ProvinceDecision }
+	Child = { Left = "revolt" Right = {
+		Type = Empty
+		Type = {
+			Single = { Left = "type" Right = RebelType }
+			# Is valid to be not set - then will create a rebel-controlled province
+			Optional = { Left = "size" Right = Double }
+			Optional = { Left = "name" Right = String }
+			Optional = { Left = "leader" Right = String }
+		}
+	} }
+}

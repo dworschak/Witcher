@@ -1,0 +1,43 @@
+(Validator RebelTypes) = {
+	Type = Default
+	FriendlyName = "Rebel types"
+	(FileGroup "common\rebel_types.txt")
+	ValidatorName = RebelTypesFile
+}
+
+(Type RebelTypesFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = RebelTypeDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type RebelTypeDef) = {
+	Single = { Left = "unit_gfx" Right = String }
+	Single = { Left = "unit" Right = UnitType }
+	Optional = { Left = "western" Right = Bool }
+	
+	Single = { Left = "size" Right = SizeDef }
+	Single = { Left = "spawn_chance" Right = SpawnChanceDef }
+}
+
+(Type SizeDef) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = SizeDefModifier }
+}
+
+(Type SizeDefModifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = NonNegDbl }
+	Inherits = ProvTrigger
+}
+
+(Type SpawnChanceDef) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = SpawnChanceDefModifier }
+}
+
+(Type SpawnChanceDefModifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = NonNegDbl }
+	Inherits = ProvTrigger
+}
+
+

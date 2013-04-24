@@ -1,0 +1,20 @@
+(Validator CountryValidator) = {
+	Type = Default
+	FriendlyName = "Countries"
+	ValidatorName = Country
+	(FileGroup "common\countries" "*.txt")
+}
+
+(Type Country) = {
+	Single = { Left = "graphical_culture" Right = GraphicalCultureType }
+	Optional = { Left = "is_colonial" Right = Bool }
+	Single = { Left = "color" Right = Color }
+	Optional = { Left = "historical_ideas" Right = { (PdoList Y) = { Type = Idea } } }
+	Optional = { Left = "historical_units" Right = { (PdoList Y) = { Type = SpecificUnit } } }
+	Optional = { Left = "monarch_names" Right = { (Ch N N) = { Left = { Type = String } Right = Int } } }
+	Optional = { Left = "leader_names" Right = List }
+	Optional = { Left = "ship_names" Right = List }
+	Optional = { Left = "army_names" Right = List }
+	Optional = { Left = "fleet_names" Right = List }
+	Optional = { Left = "ai_hard_strategy" Right = StrategyClause }
+}

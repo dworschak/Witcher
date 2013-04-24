@@ -1,0 +1,91 @@
+Includes = {
+	Options
+	
+	Bookmarks
+	Brigades
+	Buildings
+	Countries
+	Cultures
+	Decisions
+	Events
+	Governments
+	Ideas
+	Leaders
+	Localization
+	Modifiers
+	#RevoltTriggers
+	Traits
+	Units
+	
+	"Calls\_Main"
+	
+	"History\Diplo"
+	"History\Provinces"
+	"History\Wars"
+	"History\Countries"
+	"History\Oob"
+	
+	# Common
+	"..\_Common\FactorModifier"
+
+}
+
+Global = {
+(Type.Or Key If = NoCheckKey) = { Type = String }
+(Type.Or Key IfNot = NoCheckKey) = { Type = LocalizationKey }
+
+(Literal Yes) = "yes"
+(Literal No) = "no"
+
+(Type.Enum GraphicalCultureType) = { Import = { (DataSource LineFile) = { (FileGroup "common\graphicalculturetype.txt") } SelectPath = ".\[L]" } }
+(Type.Enum GovernmentType) = { Import = { (FileGroup "common\governments.txt") SelectPath = "*\[L]" } }
+(Type.Enum Building) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "*\[L]" } }
+(Type.Enum Culture) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\*\[R]" } }
+(Type.Enum CultureGroup) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\[L]" } }
+(Type.Enum Idea) = { Import = { (FileGroup "common\ideas.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum Leader) = { Import = { (FileGroup "common\leaders" "*.txt") SelectPath = "*\name\[R]" } }
+(Type.Enum LeaderId) = { Import = { (FileGroup "common\leaders" "*.txt") SelectPath = "*\id\[R]" } }
+(Type.Enum UnitType) = { Import = { (FileGroup "common\brigades" "*.txt") SelectPath = "*\*\name\[R]" } }
+(Type.Enum GovernmentCategory) = { Values = { monarchy republic } }
+
+LocalizedEnum = {
+	EnumName = LandProvince
+	LocalizedEnumName = LandProvinceString
+	LocalizedFormat = "PROV*"
+}
+LocalizedEnum = {
+	EnumName = SeaProvince
+	LocalizedEnumName = SeaProvinceString
+	LocalizedFormat = "PROV*"
+}
+LocalizedEnum = {
+	EnumName = Province
+	LocalizedEnumName = ProvinceString
+	LocalizedFormat = "PROV*"
+}
+
+(Type.Enum ProvinceStringMap) = {
+	Import = {
+		(DataSource Csv) = {
+			(FileGroup "map\definition.csv")
+			Columns = 5
+			AllowExtraColumns = True
+		}
+		SelectPath = "4\[R]"
+	}
+}
+
+(Type.Enum Tag) = { Import = { (FileGroup "common\countries.txt") SelectPath = "*\[L]" } }
+(Type.Enum BrigadeType) = { Import = { (FileGroup "common\units" "*.txt") SelectPath = "* { (type\[R]) << BrigadeBaseType }\[L]" } }
+(Type.Enum SquadronType) = { Import = { (FileGroup "common\units" "*.txt") SelectPath = "* { (type\[R]) << SquadronBaseType }\[L]" } }
+
+(Type.Enum BrigadeBaseType) = { Values = { cavalry artillery infantry guard light_infantry militia service } }
+(Type.Enum SquadronBaseType) = { Values = { big_ship light_ship galley transport } }
+
+#(Type.Enum LandRank) = { Values = { corps_general army_general field_marshal } }
+
+}
+
+
+
+

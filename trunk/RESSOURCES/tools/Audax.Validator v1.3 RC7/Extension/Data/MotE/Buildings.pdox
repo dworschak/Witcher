@@ -1,0 +1,53 @@
+(Validator Buildings) = {
+	Type = Default
+	FriendlyName = "Buildings"
+	(FileGroup "common\buildings.txt")
+	ValidatorName = Buildings
+}
+
+(Type Buildings) = {
+	(Ch Y N) = {
+		Left = { Type = String }
+		Right = BuildingDef
+		(CheckKey "building_*" Left IfNot = NoCheckKey)
+		(CheckKey "building_*_desc" Left IfNot = NoCheckKey)
+	}
+}
+
+(Type BuildingDef) = {
+	Single = { Left = "cost" Right = NnDbl }
+	Single = { Left = "time" Right = NonNegInt }
+	
+	Optional = { Left = "previous" Right = Building }
+	Optional = { Left = "modifier" Right = ProvModifier }
+	Optional = { Left = "trigger" Right = ProvTrigger }
+	
+	Optional = { Left = "one_per_country" Right = Bool }
+	Optional = { Left = "destroy_on_conquest" Right = Bool }
+	Optional = { Left = "spare_on_core" Right = Bool }
+	Optional = { Left = "onmap" Right = Bool }
+	
+	Optional = { Left = "category" Right = PInt }
+	
+	#Optional = { Left = "prerequisites" Right = { (PdoList Y) = { Type = ImprovementValue } } }
+	#Optional = { Left = "not_if_x_exists" Right = { (PdoList Y) = { Type = ImprovementValue } } }
+	
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = NzDbl }
+	(Ch N Y) = { Left = "modifier" Right = AiWillDoModifier }
+}
+
+(Type AiWillDoModifier) = {
+	Single = { Left = "factor" Right = NzDbl }
+	Inherits = FactorModifier
+	Inherits = ProvTrigger
+}
+
+
+
+
+
+

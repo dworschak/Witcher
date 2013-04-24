@@ -1,0 +1,129 @@
+(ContextValidator Trigger) = { Scopes = {
+	CountryTrigger = { Type = ThisCountry }
+	ProvinceTrigger = { Type = ThisProvince }
+	CharTrigger = { Type = ThisChar }
+	
+	CountryTrigger = { Type = Tag }
+	ProvinceTrigger = { Type = LandProvince }
+} }
+
+(ContextValidator ProvinceTrigger) = { Scopes = {
+	CountryTrigger = owner
+	CountryTrigger = controller
+	
+	ProvinceTrigger = any_neighbor_province
+	ProvinceTrigger = any_empty_neighbor_province
+	ProvinceTrigger = any_trade_route
+	ProvinceTrigger = sea_zone
+	
+	CharTrigger = governor_scope
+	
+	# BAD - Instead, do owner = { ruler = { ... } }
+	(CharTrigger) = ruler
+} }
+
+(ContextValidator CountryTrigger) = { Scopes = {
+	CountryTrigger = any_neighbor_country
+	CountryTrigger = civil_war_faction
+	CountryTrigger = ally
+
+	ProvinceTrigger = capital_scope
+	ProvinceTrigger = any_province
+	ProvinceTrigger = any_garrisoned_province
+
+	CharTrigger = ruler
+	CharTrigger = previous_ruler
+	CharTrigger = any_character
+} }
+
+(ContextValidator CharTrigger) = { Scopes = {
+	CountryTrigger = country
+	
+	ProvinceTrigger = location
+
+	CharTrigger = ruler
+	CharTrigger = any_child
+	CharTrigger = any_rival
+	CharTrigger = any_friend
+	CharTrigger = any_family_member
+	CharTrigger = spouse
+} }
+
+(ContextValidator Command) = { Scopes = {
+	CountryCommand = { Type = ThisCountry }
+	ProvinceCommand = { Type = ThisProvince }
+	CharCommand = { Type = ThisChar }
+	
+	ProvinceCommand = { Type = LandProvince }
+	CountryCommand = { Type = Tag }
+
+} }
+
+(ContextValidator ProvinceCommand) = { Scopes = {
+	ProvinceTrigger = limit
+	
+	CountryCommand = owner
+
+	ProvinceCommand = random_neighbor_province
+	ProvinceCommand = any_neighbor_province
+	ProvinceCommand = any_empty_neighbor_province
+	
+	CharCommand = governor_scope
+	
+	# BAD - Instead, do owner = { ruler = { ... } }
+	(CharCommand) = ruler
+} }
+
+(ContextValidator CountryCommand) = { Scopes = {
+	CountryTrigger = limit
+	
+	CountryCommand = random_country
+	CountryCommand = any_neighbor_country
+	CountryCommand = any_country
+	
+	ProvinceCommand = capital_scope
+	ProvinceCommand = random_owned
+	ProvinceCommand = any_owned
+
+	CharCommand = ruler
+	CharCommand = random_character
+	CharCommand = any_character
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharTrigger = limit
+	
+	CountryCommand = country
+	
+	ProvinceCommand = location
+
+	CharCommand = ruler
+	CharCommand = random_child
+	CharCommand = random_rival
+	CharCommand = random_friend
+	CharCommand = any_friend
+	CharCommand = any_rival
+	CharCommand = father
+	CharCommand = mother
+	CharCommand = spouse
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

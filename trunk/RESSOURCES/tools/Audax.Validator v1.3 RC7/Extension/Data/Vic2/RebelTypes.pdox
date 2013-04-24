@@ -1,0 +1,106 @@
+(Validator RebelTypes) = {
+	Type = Default
+	FriendlyName = "Rebel Types"
+	(FileGroup "common\rebel_types.txt")
+	ValidatorName = RebFile
+}
+
+(Type RebFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = RebType }
+}
+
+(Type.Enum RebArea) = { Values = { nation culture nation_culture nation_religion religion culture_group all } }
+(Type.Enum RebDefection) = { Values = { culture culture_group religion ideology any none pan_nationalist } }
+(Type.Enum RebInd) = { Values = { culture culture_group religion colonial any none pan_nationalist } }
+
+(Type RebType) = {
+	Single = { Left = "icon" Right = { IconRef = GFX_politics_rebel_strip } }
+	Single = { Left = "area" Right = RebArea }
+	Optional = { Left = "break_alliance_on_win" Right = Bool }
+	Single = { Left = "government" Right = { RequiredList = { Left = { Type = Government } Right = Government } } }
+	Single = { Left = "defection" Right = RebDefection }
+	Single = { Left = "independence" Right = RebInd }
+	Single = { Left = "defect_delay" Right = PInt } # TODO: Check
+	Optional = { Left = "ideology" Right = Ideology }
+	
+	Optional = { Left = "allow_all_cultures" Right = Bool }
+	Optional = { Left = "allow_all_culture_groups" Right = Bool }
+	Optional = { Left = "allow_all_religions" Right = Bool }
+	Optional = { Left = "allow_all_ideologies" Right = Bool }
+	Optional = { Left = "resilient" Right = Bool }
+	Optional = { Left = "reinforcing" Right = Bool }
+	Optional = { Left = "general" Right = Bool }
+	Optional = { Left = "smart" Right = Bool }
+	Optional = { Left = "unit_transfer" Right = Bool }
+	
+	Single = { Left = "will_rise" Right = WillRise }
+	Single = { Left = "spawn_chance" Right = SpawnChance }
+	Single = { Left = "movement_evaluation" Right = MoveEval }
+	Single = { Left = "demands_enforced_trigger" Right = DemandsTrigger }
+	Single = { Left = "demands_enforced_effect" Right = DemandsEffect }
+	Optional = { Left = "siege_won_trigger" Right = ProvinceTrigger }
+	Optional = { Left = "siege_won_effect" Right = ProvinceCommand }
+}
+
+(Type WillRise) = {
+	Single = { Left = "factor" Right = NonNegDbl }
+	(Ch N Y) = { Left = "modifier" Right = { Inherits = FactorModifier Inherits = CountryTrigger Single = { Left = "factor" Right = NonNegDbl } } }
+}
+
+(Type SpawnChance) = {
+	Single = { Left = "factor" Right = Double }
+	(Ch N Y) = { Left = "modifier" Right = { Inherits = FactorModifier Inherits = SpawnChanceTrigger Single = { Left = "factor" Right = Double } } }
+}
+
+(Type MoveEval) = {
+	Single = { Left = "factor" Right = NonNegDbl }
+	(Ch N Y) = { Left = "modifier" Right = { Inherits = FactorModifier Inherits = ProvinceTrigger Single = { Left = "factor" Right = NonNegDbl } } }
+}
+
+(Type SpawnChanceTrigger) = {
+	ContextValidator = SpawnChanceTrigger
+}
+
+(ContextValidator SpawnChanceTrigger) = {
+	Inherits = PopTrigger
+	ThisTarget = Province
+}
+
+(Type DemandsTrigger) = { ContextValidator = DemandsTrigger }
+
+(ContextValidator DemandsTrigger) = {
+	Inherits = CountryTrigger
+	
+	ThisTarget = Country
+	
+	Scopes = {
+		CountryTrigger = independence
+	}
+	
+	Set = {
+		CountryTrigger = DemandsTrigger
+	}
+}
+
+(Type DemandsEffect) = {
+	Inherits = CountryCommand
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

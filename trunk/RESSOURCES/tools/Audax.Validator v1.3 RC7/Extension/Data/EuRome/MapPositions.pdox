@@ -1,0 +1,35 @@
+(Validator MapPositions) = {
+	Type = Default
+	FriendlyName = "Map Positions"
+	(FileGroup "map\positions.txt")
+	ValidatorName = MapPositions
+}
+
+(Type MapPositions) = {
+	(Ch Y N) = { Left = { Type = LandProvince } Right = LandPosition }
+	(Ch Y N) = { Left = { Type = SeaProvince } Right = SeaPosition }
+}
+
+(Type SeaPosition) = {
+	Optional = { Left = "unit" Right = Xy }
+	Optional = { Left = "siege" Right = Xy }
+	Optional = { Left = "siege_nudge" Right = Double }
+	Optional = { Left = "text_position" Right = Xy }
+	Optional = { Left = "text_rotation" Right = Double }
+	Single = { Left = "text_scale" Right = Double }
+}
+
+(Type LandPosition) = {
+	Inherits = SeaPosition
+	
+	Optional = { Left = "city" Right = Xy }
+	Optional = { Left = "port" Right = Xy }
+	Optional = { Left = "port_rotation" Right = Double }
+	Optional = { Left = "manufactory" Right = Xy }
+	Optional = { Left = "manufactory_nudge" Right = Double }
+}
+
+(Type Xy) = {
+	Single = { Left = "x" Right = Double }
+	Single = { Left = "y" Right = Double }
+}

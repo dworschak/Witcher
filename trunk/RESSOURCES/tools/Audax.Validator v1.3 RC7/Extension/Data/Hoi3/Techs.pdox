@@ -1,0 +1,193 @@
+﻿(Validator TechFile) = {
+	Type = Default
+	FriendlyName = "Technologies"
+	(FileGroup "technologies" "*.txt")
+	ValidatorName = TechFile
+}
+
+(Type TechFile) = {
+	Child = { Left = { Type = String } Right = Tech (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+# IMPORTANT
+# Technology files are using different modifiers than events/triggered_modifiers/ministers/laws (all those use the same). Sometimes they have same name but they don't do the same thing. You can't activate unit or anything in other file than technology. In FTM we have new event modifiers (hard_attack etc.) but they are % modifiers and not flat bonus as in technologies.
+# Technology modifiers:
+# - activate, difficulty etc. all the ones you can find in the technology files (I don't know any field not used in vanilla files)
+# - any unit field (speed, org, morale, attack, width etc.) minus the 'is_something' and 'priority'
+
+(Type Tech) = {
+	Single = { Left = "difficulty" Right = Double }
+	Single = { Left = "start_year" Right = NnInt }
+	(Optional If = Hoi3Ftm) = { Left = "is_nuclear" Right = Bool }
+	(Optional If = Hoi3Tfh) = { Left = "stealable" Right = Bool }
+	
+	# According to Devildread, no folder needed
+	Optional = { Left = "folder" Right = TechFolder }
+	Optional = { Left = "allow" Right = TechAllowConditions }
+	Optional = { Left = "first_offset" Right = NnInt }
+	Optional = { Left = "additional_offset" Right = PositiveInt }
+	Optional = { Left = "max_level" Right = PInt }
+	Optional = { Left = "decay" Right = { Single = { Left = { Type = TechCategory } Right = Double } } }
+
+	OptionList = { Left = { Type = LandBrigade } Right = LandBrigadeChangeStats }
+	OptionList = { Left = { Type = AirBrigade } Right = AirBrigadeChangeStats }
+	OptionList = { Left = { Type = NavalBrigade } Right = NavalBrigadeChangeStats }
+	(OptionList If = Hoi3Tfh) = { Left = { Type = CombatTactic } Right = Double }
+	
+	Child = { Left = "activate_unit" Right = Brigade }
+	Child = { Left = "activate_building" Right = Building }
+	Child = { Left = "research_bonus_from" 
+		Right = {
+			OptionList = { Left = { Type = TechCategory } Right = Double }
+		}
+	}
+	Child = { Left = "on_completion" Right = TechCategory }
+	
+	Optional = { Left = "repair_rate" Right = Double }
+	Optional = { Left = "supply_throughput" Right = Double }
+	Optional = { Left = "supply_transfer_cost" Right = Double }
+	Optional = { Left = "leadership_gain" Right = Double }
+	Optional = { Left = "energy_production" Right = Double }
+	Optional = { Left = "rares_production" Right = Double }
+	Optional = { Left = "metal_production" Right = Double }
+	Optional = { Left = "refinery_efficiency" Right = Double }
+	Optional = { Left = "encryption" Right = Double }
+	Optional = { Left = "decryption" Right = Double }
+	Optional = { Left = "research_efficiency" Right = Double }
+	Optional = { Left = "radar_efficiency" Right = Double }
+	Optional = { Left = "combat_efficiency" Right = Double }
+	Optional = { Left = "listening_station" Right = Bool }
+	Optional = { Left = "provincial_aa_efficiency" Right = Double }
+	Optional = { Left = "ic_to_supplies" Right = Double }
+	Optional = { Left = "energy_to_oil_conversion" Right = Double }
+	Optional = { Left = "ic_efficiency" Right = Double }
+	Optional = { Left = "ic_modifier" Right = Double }
+	Optional = { Left = "manpower_gain" Right = Double }
+	Optional = { Left = "maximum_attrition" Right = Double }
+	Optional = { Left = "casualty_trickleback" Right = Double }
+	Optional = { Left = "can_upgrade" Right = Bool }
+	Optional = { Left = "nuclear_production" Right = Double }
+	Optional = { Left = "naval_base_efficiency" Right = Double }
+	Optional = { Left = "escort_efficiency" Right = Double }
+	Optional = { Left = "change" Right = Bool }
+	Optional = { Left = "radar_impact" Right = Double }
+	Optional = { Left = "bomber_targeting" Right = Double }
+	Optional = { Left = "fighter_targeting" Right = Double }
+	Optional = { Left = "reserve_focus" Right = Double }
+	Optional = { Left = "naval_air_target_chance" Right = Double }
+	Optional = { Left = "division_size" Right = Double }
+	(Ch Y N) = { Left = { Type = CombinedArmsGroup } Right = Double }
+	Optional = { Left = "reinforce_chance" Right = Double }
+	Optional = { Left = "attack_delay" Right = Double }
+	Optional = { Left = "unit_cooperation" Right = Double }
+	Optional = { Left = "targeting_choice" Right = Double }
+	Optional = { Left = "frontline_focus" Right = Double }
+	Optional = { Left = "targeting_chance" Right = Double }
+	Optional = { Left = "allow_escorts" Right = Bool }
+	Optional = { Left = "attack_movement_speed" Right = Double }
+	
+	OptionList = { Left = { Type = AirMission } Right = AirMissionModifier }
+	(OptionList IfNot = Hoi3Tfh) = { Left = { Type = CombatEvent } Right = Double }
+}
+
+(Type AirMissionModifier) = {
+	Optional = { Left = "efficiency" Right = Double }
+	Optional = { Left = "reduction_modifier" Right = Double }
+}
+
+(Type TechAllowConditions) = {
+	Inherits = CountryTrigger
+	
+	# Basic grouping
+	Child = { Left = "or" Right = TechAllowConditions }
+	Child = { Left = "and" Right = TechAllowConditions }
+	Child = { Left = "not" Right = TechAllowConditions }
+	
+	# BAD
+	Child = { Left = "OR" Right = TechAllowConditions }
+	Child = { Left = "AND" Right = TechAllowConditions }
+	Child = { Left = "NOT" Right = TechAllowConditions }
+	
+	OptionList = { Left = { Type = TechName } Right = PositiveInt }
+}
+
+(Type BrigadeChangeStats) = {
+	Optional = { Left = "default_organisation" Right = Double }
+	Optional = { Left = "default_morale" Right = Double }
+	Optional = { Left = "maximum_speed" Right = Double }
+	Optional = { Left = "air_attack" Right = Double }
+	Optional = { Left = "air_defence" Right = Double }
+	Optional = { Left = "supply_consumption" Right = Double }
+	Optional = { Left = "fuel_consumption" Right = Double }
+	Optional = { Left = "radio_strength" Right = Double }
+	Optional = { Left = "officers" Right = Int }
+	Optional = { Left = "max_strength" Right = Int }
+	
+	Optional = { Left = "build_cost_ic" Right = Double }
+	Optional = { Left = "build_cost_manpower" Right = Double }
+	Optional = { Left = "build_time" Right = Int }
+}
+
+(Type AirBrigadeChangeStats) = {
+	Inherits = BrigadeChangeStats
+	
+	Optional = { Left = "range" Right = Double }
+	Optional = { Left = "surface_defence" Right = Double }
+	Optional = { Left = "soft_attack" Right = Double }
+	Optional = { Left = "hard_attack" Right = Double }
+	Optional = { Left = "sea_attack" Right = Double }
+	Optional = { Left = "strategic_attack" Right = Double }
+	Optional = { Left = "transport_capability" Right = Double }
+	Optional = { Left = "air_detection" Right = Double }
+	Optional = { Left = "surface_detection" Right = Double }
+	Optional = { Left = "sub_attack" Right = Double }
+	
+	Child = { Left = "night" Right = AirModifier }		
+}
+
+(Type LandBrigadeChangeStats) = {
+	Inherits = BrigadeChangeStats
+	
+	Optional = { Left = "soft_attack" Right = Double }
+	Optional = { Left = "ap_attack" Right = Double }
+	Optional = { Left = "armor_value" Right = Double }
+	Optional = { Left = "defensiveness" Right = Double }
+	Optional = { Left = "toughness" Right = Double }
+	Optional = { Left = "softness" Right = Double }
+	Optional = { Left = "combat_width" Right = Double }
+	Optional = { Left = "hard_attack" Right = Double }
+	Optional = { Left = "suppression" Right = Double }
+	Optional = { Left = "transport_weight" Right = Double }
+	
+	OptionList = { Left = { Type = Terrain } Right = LandModifier }			
+	Optional = { Left = "amphibious" Right = LandModifier }			
+	Optional = { Left = "river" Right = LandModifier }		
+	Optional = { Left = "fort" Right = LandModifier }		
+	Optional = { Left = "night" Right = LandModifier }		
+}
+
+(Type NavalBrigadeChangeStats) = {
+	Inherits = BrigadeChangeStats
+	
+	Optional = { Left = "sea_attack" Right = Double }
+	Optional = { Left = "sea_defence" Right = Double }
+	Optional = { Left = "sub_attack" Right = Double }
+	Optional = { Left = "convoy_attack" Right = Double }
+	Optional = { Left = "range" Right = Double }
+	Optional = { Left = "positioning" Right = Double }
+	Optional = { Left = "carrier_size" Right = Double }
+	Optional = { Left = "shore_bombardment" Right = Double }
+	Optional = { Left = "distance" Right = Double }
+	Optional = { Left = "transport_capability" Right = NnDbl }
+	(Optional If = Hoi3Ftm) = { Left = "hull" Right = Double }
+	(Optional If = Hoi3Tfh) = { Left = "amphibious_invasion_speed" Right = Double }
+	(Optional If = Hoi3Tfh) = { Left = "amphibious_invasion_defence" Right = Double }
+	
+	# Detection Abilities
+	Optional = { Left = "surface_detection" Right = Double }
+	Optional = { Left = "air_detection" Right = Double }
+	Optional = { Left = "sub_detection" Right = Double }
+	Optional = { Left = "visibility" Right = Double }
+				
+	Optional = { Left = "night" Right = NavalModifier }		
+}

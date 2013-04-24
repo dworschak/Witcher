@@ -1,0 +1,46 @@
+(Validator Buildings) = {
+	Type = Default
+	FriendlyName = "Buildings"
+	(FileGroup "common\buildings.txt")
+	ValidatorName = Buildings
+}
+
+(Type Buildings) = {
+	(Ch Y N) = { Left = { Type = String } Right = BuildingGroup (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type BuildingGroup) = {
+	Optional = { Left = "infantry" Right = UnitType }
+	Optional = { Left = "cavalry" Right = UnitType }
+	Optional = { Left = "arquebus" Right = UnitType }
+
+	Child = { Left = { Type = String } Right = BuildingDef UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type BuildingDef) = {
+	Optional = { Left = "build_cost" Right = NnDbl }
+	Single = { Left = "build_time" Right = NonNegInt }
+	
+	Optional = { Left = "prerequisites" Right = { (PdoList Y) = { Type = Improvement } } }
+	Optional = { Left = "not_if_x_exists" Right = { (PdoList Y) = { Type = Improvement } } }
+	
+	Inherits = ProvModifierDef
+	
+	Optional = { Left = "technology" Right = Int }
+	Optional = { Left = "faction" Right = Faction }
+}
+
+(Type StartProvTrigger) = { ContextValidator = StartProvTrigger }
+
+(ContextValidator StartProvTrigger) = {
+	Inherits = TitleTrigger
+	FromTarget = Char
+}
+
+(Type BuildProvTrigger) = { ContextValidator = BuildProvTrigger }
+
+(ContextValidator BuildProvTrigger) = {
+	Inherits = ProvTrigger
+	FromTarget = Char
+}
+

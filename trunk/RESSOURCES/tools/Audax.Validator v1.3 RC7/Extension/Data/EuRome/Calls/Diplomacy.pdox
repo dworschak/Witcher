@@ -1,0 +1,63 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(N Y) = { Left = "relation" Right = RelationClause }
+	(Y Y) = { Left = "badboy" Right = Double }
+	(N Y) = { Left = "neighbour" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "war_with" Right = { Tag ThisCountry } }
+	
+	(Y Y) = { Left = "num_of_allies" Right = NonNegInt }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "relation" Right = RelationClause }
+	(Y Y) = { Left = "badboy" Right = Double }
+	(N Y) = { Left = "casus_belli" Right = { Tag ThisCountry ThisProvince } }
+} }
+
+(ContextValidator CharCommand) = { Members = {
+
+} }
+
+
+
+
+(Type RelationClause) = {
+	Single = { Left = "who" Right = { Tag ThisCountry ThisProvince } }
+	Single = { Left = "value" Right = Int }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

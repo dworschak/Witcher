@@ -1,0 +1,34 @@
+(ContextValidator ProvinceTrigger) = { Members = {
+	(A Y) = { Left = "is_overseas" Right = Bool }
+	(A Y) = { Left = "native_size" Right = Int }
+	(A Y) = { Left = "native_ferocity" Right = Int }
+	(A Y) = { Left = "native_hostileness" Right = Int }
+	(A Y) = { Left = "has_empty_adjacent_province" Right = Bool }
+	(A Y) = { Left = "empty" Right = Bool }
+	(A Y) = { Left = "range" Right = Bool }
+	(Y Y) = { Left = "has_discovered" Right = { ThisCountry ThisProvince } }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "colonists" Right = Int }
+	(Y Y) = { Left = "number_of_colonies" Right = { Int ThisCountry } }
+	(Y Y) = { Left = "overseas_provinces_percentage" Right = Double }
+	(N Y) = { Left = "has_discovered" Right = { Continent Region LandProvince SeaProvince } }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "colony_claim" Right = { Tag ThisCountry } }	
+	}
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "discover" Right = Bool }
+	(Y Y) = { Left = "native_ferocity" Right = Double }
+	(Y Y) = { Left = "native_hostileness" Right = Double }
+	(Y Y) = { Left = "native_size" Right = Double }
+	(Y Y) = { Left = "create_native" Right = Int }
+	(Y Y) = { Left = "create_colony" Right = Int }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "colonists" Right = Double }
+} }

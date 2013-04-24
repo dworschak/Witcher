@@ -1,0 +1,139 @@
+(Validator CbValidator) = {
+	Type = Default
+	FriendlyName = "Casus Belli"
+	ValidatorName = Cbs
+	(FileGroup "common\cb_types.txt")
+}
+
+(Type Cbs) = {
+	(Ch Y N) = { Left = { Type = String } Right = Cb }
+}
+
+(Type Cb) = {
+	NodeSwitcher = {
+		Node = "is_triggered_only"
+		Default = NonTriggeredCb
+		
+		Switch = {
+			"yes" = TriggeredCb
+			"true" = TriggeredCb
+			"no" = NonTriggeredCb
+			"false" = NonTriggeredCb
+		}
+	}
+}
+
+(Type CbCommon) = {
+	Optional = { Left = "mutual" Right = Bool }
+	Optional = { Left = "badboy_factor" Right = Double }
+	Optional = { Left = "prestige_factor" Right = Double }
+	Optional = { Left = "peace_cost_factor" Right = Double }
+	
+	Optional = { Left = "war_name" Right = Key }
+	Optional = { Left = "country_desc" Right = Key }
+	Optional = { Left = "prov_desc" Right = Key }
+	
+	Optional = {
+		Left = "allowed_provinces"
+		Right = {
+			Inherits = AllowedProvinceTrigger
+			Optional = { Left = "always" Right = Bool }
+		}
+	}
+	
+	Optional = { Left = "po_annex" Right = Bool }
+	Optional = { Left = "po_demand_provinces" Right = Bool }
+	Optional = { Left = "po_revoke_cores" Right = Bool }
+	Optional = { Left = "po_release_vassals" Right = Bool }
+	Optional = { Left = "po_release_annexed" Right = Bool }
+	Optional = { Left = "po_change_religion" Right = Bool }
+	Optional = { Left = "po_form_personal_union" Right = Bool }
+	Optional = { Left = "po_gold" Right = Bool }
+	Optional = { Left = "po_become_vassal" Right = Bool }
+	Optional = { Left = "po_concede_defeat" Right = Bool }
+	Optional = { Left = "po_reduce_sphere" Right = Bool }
+	Optional = { Left = "po_annul_treaties" Right = Bool }
+	Optional = { Left = "po_join_league" Right = Bool }
+	
+	(If If = Eu3Dw) = {
+		Optional = { Left = "nomad" Right = Bool }
+	
+		Optional = { Left = "po_become_kampaku" Right = Bool }
+		Optional = { Left = "po_stop_endorse_shogun" Right = Bool }
+		Optional = { Left = "po_endorse_shogun" Right = Bool }
+	}
+}
+
+(ContextValidator AllowedProvinceTrigger) = {
+	Inherits = ProvinceTrigger
+	ThisTarget = CountryTrigger
+	
+	Set = {
+		ProvinceTrigger = AllowedProvinceTrigger
+	}
+	
+	Members = {
+		(A Y) = { Left = "temp_claim" Right = { Tag This } }
+	}
+}
+
+(Type AllowedProvinceTrigger) = {
+	ContextValidator = AllowedProvinceTrigger
+}
+
+(Type TriggeredCb) = {
+	Inherits = CbCommon
+	
+	Optional = { Left = "months" Right = Int }
+}
+
+(Type NonTriggeredCb) = {
+	Inherits = CbCommon
+	Single = { Left = "prerequisites" Right = CbCountryTrigger }
+}
+
+(ContextValidator CbCountryTrigger) = {
+	Inherits = CountryTrigger
+	
+	Set = {
+		CountryTrigger = CbCountryTrigger
+	}
+	
+	Scopes = {
+		CountryTrigger = any_ally
+	}
+	
+	Members = {
+		(N Y) = { Left = "temp_claim" Right = { Tag ThisCountry } }
+	}	
+}
+
+(Type CbCountryTrigger) = {
+	ContextValidator = CbCountryTrigger
+}
+
+(Type.Enum This) = { Values = { "THIS" "this" } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

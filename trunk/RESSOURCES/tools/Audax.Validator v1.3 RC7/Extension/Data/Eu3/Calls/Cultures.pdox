@@ -1,0 +1,62 @@
+(ContextValidator Trigger) = { Members = {
+	# 0.8.9 added ThisCountry
+	# 0.8.9 moved from CountryTrigger to Trigger according to 500 Trin Tragula
+	(A Y) = { Left = "dominant_culture" Right = { Culture Capital ThisCountry ThisProvince } }
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(A Y) = { Left = "culture_group" Right = { CultureGroup ThisProvince ThisCountry } }
+	(Y Y) = { Left = "has_owner_culture" Right = Bool }
+	(A Y) = { Left = "culture" Right = { Culture ThisProvince ThisCountry } }
+	
+	(A Y) = { Left = "primary_culture" Right = Culture }
+	(Y Y) = { Left = "primary_culture" Right = Capital }
+	(Y Y) = { Left = "primary_culture" Right = { ThisProvince ThisCountry } }
+	(N Y) = { Left = "accepted_culture" Right = { Culture ThisProvince ThisCountry Capital } }
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(A Y) = { Left = "culture_group" Right = CultureGroup }
+	(Y Y) = { Left = "culture_group" Right = Capital }
+	(Y Y) = { Left = "culture_group" Right = { ThisProvince ThisCountry } }
+	(A Y) = { Left = "primary_culture" Right = Culture }
+	(Y Y) = { Left = "primary_culture" Right = Capital }
+	(Y Y) = { Left = "primary_culture" Right = { ThisProvince ThisCountry } }
+	(N Y) = { Left = "accepted_culture" Right = { Culture ThisProvince ThisCountry Capital } }
+	
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "culture_group_claim" Right = { Tag ThisCountry } }
+		(Y Y) = { Left = "culture_group_union" Right = CultureGroup }
+	}
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "culture" Right = { Culture ThisCountry ThisProvince Capital } }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "primary_culture" Right = { Culture Capital ThisProvince (ThisCountry If = Eu3Ht) } }
+	(N Y) = { Left = "add_accepted_culture" Right = { Culture Capital } }
+	(N Y) = { Left = "remove_accepted_culture" Right = Culture }
+
+	(If If = Eu3Ht) = {
+		# Exactly. This was added by Paradox in HTTT and means there can 
+		# now be a maximum of 2 cultural unions per culture group. One 
+		# designated by the event command and one that has it as an 
+		# inherent ability of it's tag. I'm not sure what would happen 
+		# if you used the command on more than one country but according 
+		# to one of the paradox staff (can't remember which one) it only
+		# works for one country.
+		# In vanilla it's used for forming the HRE (a country that needs
+		# to be a cultural union but the Germany tag already has that 
+		# ability). I use it for culture group union where a union tag would 
+		# feel out of place but cultures banding together under an existing 
+		# country would make some sense.
+		# Like with the culture_union tag the country needs to have a primary 
+		# culture actually in the cultural group it is a union of for the union 
+		# to work. I don't see how the validator could check for that though.
+		(Y Y) = { Left = "culture_group_union" Right = CultureGroup }
+	}
+} }

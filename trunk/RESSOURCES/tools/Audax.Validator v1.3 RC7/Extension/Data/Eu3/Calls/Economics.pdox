@@ -1,0 +1,122 @@
+(ContextValidator Trigger) = { Members = {
+	# See 4.1b patch notes
+	(Y Y) = { Left = "placed_merchants" Right = Double }
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(N Y) = { Left = "has_building" Right = Building }
+	(A Y) = { Left = "trade_goods" Right = TradeGood }
+	(Y Y) = { Left = "base_tax" Right = Int }
+	(Y Y) = { Left = "cot_value" Right = Int }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "treasury" Right = Int }
+	(Y Y) = { Left = "wartax" Right = Bool }
+	(Y Y) = { Left = "number_of_loans" Right = Int }
+	(Y Y) = { Left = "num_of_monopolys" Right = { Int ThisCountry ThisProvince } }
+	(Y Y) = { Left = "num_of_cots" Right = Int }
+	(Y Y) = { Left = "is_bankrupt" Right = Bool }
+	(Y Y) = { Left = "production_efficiency" Right = Double }
+	(Y Y) = { Left = "trade_efficiency" Right = Double }
+	(Y Y) = { Left = "num_of_trade_agreements" Right = Int }
+	(Y Y) = { Left = "num_of_trade_embargos" Right = Int }
+	(A Y) = { Left = "technology_group" Right = { TechGroup ThisCountry } }
+	(Y Y) = { Left = "merchants" Right = Int }
+	(Y Y) = { Left = "monthly_income" Right = Double }
+	(Y N) = { Left = { Type = Technology } Right = { Int ThisCountry ThisProvince } }
+	(Y N) = { Left = { Type = Building } Right = Int }
+	(Y N) = { Left = { Type = TradeGood } Right = Int }
+	(Y Y) = { Left = "overseas_province_percentage" Right = Double }
+	(Y Y) = { Left = "trade_income_percentage" Right = Double }
+	(Y Y) = { Left = "gold_income_percentage" Right = Double }
+	(Y Y) = { Left = "total_merchants" Right = Int }
+	(A Y) = { Left = "open_market" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "trade_agreement_with" Right = { Tag ThisCountry ThisProvince } }
+	(A Y) = { Left = "trade_embargo_by" Right = { Tag ThisCountry ThisProvince } }
+	(Y Y) = { Left = "tariff_efficiency" Right = Double }
+	(Y Y) = { Left = "inflation" Right = Double }
+	
+	(If If = Eu3In) = {
+		(Y Y) = { Left = "badboy" Right = Double }
+	}
+
+	(If If = Eu3Ht) = {
+		(Y Y) = { Left = "has_sphere" Right = Bool }
+		(Y Y) = { Left = "num_of_league_members" Right = Double }
+		(Y Y) = { Left = "num_of_trade_rights" Right = Double }
+		(Y Y) = { Left = { "badboy" "infamy" } Right = Double }
+		(N Y) = { Left = "trade_rights" Right = TradeRightsClause }
+		(Y Y) = { Left = "years_of_income" Right = Double }
+		(N Y) = { Left = "trade_embargoing" Right = { Tag ThisCountry ThisProvince } }
+	}
+	
+	(If If = Eu3Dw) = {
+		(N Y) = { Left = "trading_part" Right = {
+			Single = { Left = "trade_goods" Right = TradeGood }
+			Single = { Left = "value" Right = NnDblP }
+			} }
+			
+		(Y  ) = { Left = "tech_difference" Right = Int }
+	}
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "base_tax" Right = Double }
+	(Y Y) = { Left = "citysize" Right = Double }
+	(Y Y) = { Left = "cot" Right = Bool }
+	(N Y) = { Left = "add_building" Right = Building }
+	(N Y) = { Left = "remove_building" Right = Building }
+	(Y Y) = { Left = "trade_goods" Right = TradeGood }
+	(N N) = { Left = "remove_merchant" Right = { Tag Random ThisCountry ThisProvince } }
+	(Y Y) = { Left = "multiply_citysize" Right = Double }
+	(N N) = { Left = "send_merchant" Right = { Tag Random ThisCountry ThisProvince } }
+
+	(Y Y) = { Left = "treasury" Right = Double }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "merchants" Right = Double }
+	(Y Y) = { Left = "treasury" Right = Double }
+	(Y Y) = { Left = "inflation" Right = Double }
+	(Y Y) = { Left = "technology_group" Right = TechGroup }
+	(Y Y) = { Left = "loan_size" Right = Double }
+	(N N) = { Left = "add_merchant" Right = { Tag ThisCountry Scope Random ThisProvince } }
+	(Y Y) = { Left = "years_of_income" Right = Double }
+	(Y N) = { Left = { Type = Technology } Right = Double }
+
+	(If If = Eu3Ht) = {
+		(N Y) = { Left = "add_to_sphere" Right = { Tag ThisCountry ThisProvince } }
+		(N Y) = { Left = "remove_from_sphere" Right = { Tag ThisCountry ThisProvince } }
+		(N Y) = { Left = "trade_rights" Right = TradeRightsClause }
+	}
+	
+} }
+
+(If If = Eu3Ht) = {
+	(Type TradeRightsClause) = {
+		Single = { Left = { "tag" "TAG" } Right = { Tag ThisCountry ThisProvince } }
+		Single = { Left = "trade_goods" Right = TradeGood }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

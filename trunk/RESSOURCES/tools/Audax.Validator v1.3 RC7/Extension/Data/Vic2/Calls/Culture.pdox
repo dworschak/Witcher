@@ -1,0 +1,75 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(A Y) = { Left = "pop_majority_culture" Right = Culture }
+	(A Y) = { Left = "culture" Right = Culture } # TODO: Check if it is real
+	(Y  ) = { Left = "is_primary_culture" Right = { Bool Culture ThisOnlyCountry ThisOnlyProvince } }
+	(Y  ) = { Left = "is_accepted_culture" Right = Bool }
+	(N Y) = { Left = "has_pop_culture" Right = { Culture ThisPop } } # TODO: Check if it is real.
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y  ) = { Left = "is_primary_culture" Right = { Culture ThisOnlyCountry ThisOnlyProvince } }
+	(A Y) = { Left = "is_culture_group" Right = { CultureGroup ThisCountry ThisProvince } } # TODO: Check if it is real. Is THIS valid?
+	(A Y) = { Left = "primary_culture" Right = { Culture ThisCountry ThisPop } } # TODO: Check if it is real
+	(Y  ) = { Left = "culture_has_union_tag" Right = Bool } # TODO: Check if it is real
+	(N Y) = { Left = "has_pop_culture" Right = { Culture ThisPop } } # TODO: Check if it is real.
+	(N Y) = { Left = "accepted_culture" Right = Culture }
+
+} }
+
+(ContextValidator PopTrigger) = { Members = {
+	(A Y) = { Left = "culture" Right = { ThisCountry Culture } }
+	(Y  ) = { Left = "is_accepted_culture" Right = Bool }
+	(Y  ) = { Left = "is_primary_culture" Right = { Bool Culture ThisOnlyCountry ThisOnlyProvince } }
+	(A Y) = { Left = "is_culture_group" Right = { CultureGroup ThisCountry ThisProvince } } # TODO: Check if it is real
+	(A Y) = { Left = "has_pop_culture" Right = Culture } # TODO: Check if it is real
+	(Y  ) = { Left = "culture_has_union_tag" Right = Bool }
+
+} }
+
+(ContextValidator RegionTrigger) = { Members = {
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "add_accepted_culture" Right = { Culture Union } } # TODO: Is Union a valid arg?
+	(Y  ) = { Left = "primary_culture" Right = { Culture ThisCountry } }
+	(N Y) = { Left = "remove_accepted_culture" Right = Culture }
+
+} }
+
+(ContextValidator PopCommand) = { Members = {
+
+} }
+
+(ContextValidator RegionCommand) = { Members = {
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,230 @@
+﻿(Validator Modifiers) = {
+	Type = GroupValidator
+	FriendlyName = "Modifiers"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\event_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\static_modifiers.txt")
+		ValidatorName = ModifierFile
+	}
+
+	Validator = {
+		Type = Default
+		(FileGroup "common\triggered_modifiers.txt")
+		ValidatorName = TriggeredModifierFile
+	}
+}
+
+Global = {
+(Type.Enum NormalModifier) = { Import = { (FileGroup "common\event_modifiers.txt") SelectPath = "*\[L]" } Import = { (FileGroup "common\static_modifiers.txt") SelectPath = "*\[L]" } }
+(Type.Enum TriggeredModifier) = { Import = { (FileGroup "common\triggered_modifiers.txt") SelectPath = "*\[L]" } }
+
+}
+
+(Type ModifierFile) = {
+	Child = { 
+		Left = { Type = String }
+		Right = {
+			Inherits = Modifier
+			Optional = { Left = "icon" Right = { IconRef = GFX_modifier_icons } }
+		}
+	}
+}
+
+(Type TriggeredModifierFile) = {
+	Child = { 
+		Left = { Type = String }
+		Right = {
+			Inherits = CountryModifier
+			Optional = { Left = "icon" Right = { IconRef = GFX_modifier_icons } }
+			Optional = { Left = "trigger" Right = CharTrigger }
+			Optional = { Left = "potential" Right = CharTrigger }
+		}
+	}
+}
+
+Global = {
+(Type Modifier) = {
+	Inherits = ProvModifier
+	Inherits = CountryModifier
+}
+
+(Type BaseModifier) = {
+	Optional = { Left = "attack" Right = Double }
+	Optional = { Left = "galley_attack" Right = Double }
+	Optional = { Left = "galley_defense" Right = Double }
+	Optional = { Left = "galley_initiative" Right = Double }
+	Optional = { Left = "galley_cost" Right = Double }
+	Optional = { Left = "light_ship_attack" Right = Double }
+	Optional = { Left = "light_ship_defense" Right = Double }
+	Optional = { Left = "light_ship_initiative" Right = Double }
+	Optional = { Left = "light_ship_cost" Right = Double }
+	Optional = { Left = "big_ship_attack" Right = Double }
+	Optional = { Left = "big_ship_defense" Right = Double }
+	Optional = { Left = "big_ship_initiative" Right = Double }
+	Optional = { Left = "big_ship_cost" Right = Double }
+	Optional = { Left = "transport_initiative" Right = Double }
+	
+	
+	
+	Optional = { Left = "infantry_attack" Right = Double }
+	Optional = { Left = "infantry_defense" Right = Double }
+	Optional = { Left = "infantry_initiative" Right = Double }
+	Optional = { Left = "infantry_cost" Right = Double }
+	Optional = { Left = "infantry_build_time" Right = Double }
+	
+	Optional = { Left = "guard_attack" Right = Double }
+	Optional = { Left = "guard_defense" Right = Double }
+	Optional = { Left = "guard_initiative" Right = Double }
+	Optional = { Left = "guard_cost" Right = Double }
+	Optional = { Left = "guard_build_time" Right = Double }
+	
+	Optional = { Left = "cavalry_attack" Right = Double }
+	Optional = { Left = "cavalry_defense" Right = Double }
+	Optional = { Left = "cavalry_initiative" Right = Double }
+	Optional = { Left = "cavalry_cost" Right = Double }
+	Optional = { Left = "cavalry_build_time" Right = Double }
+	
+	Optional = { Left = "light_infantry_attack" Right = Double }
+	Optional = { Left = "light_infantry_defense" Right = Double }
+	Optional = { Left = "light_infantry_initiative" Right = Double }
+	Optional = { Left = "light_infantry_cost" Right = Double }
+	Optional = { Left = "light_infantry_build_time" Right = Double }
+	
+	Optional = { Left = "artillery_attack" Right = Double }
+	Optional = { Left = "artillery_defense" Right = Double }
+	Optional = { Left = "artillery_initiative" Right = Double }
+	Optional = { Left = "artillery_cost" Right = Double }
+	Optional = { Left = "artillery_build_time" Right = Double }
+	
+	Optional = { Left = "militia_attack" Right = Double }
+	Optional = { Left = "militia_defense" Right = Double }
+	Optional = { Left = "militia_initiative" Right = Double }
+	Optional = { Left = "militia_cost" Right = Double }
+	Optional = { Left = "militia_build_time" Right = Double }
+	
+	
+	
+	Optional = { Left = "land_frontage" Right = Double }
+	Optional = { Left = "offense" Right = Double }
+	Optional = { Left = "defense" Right = Double }
+	Optional = { Left = "naval_speed" Right = Double }
+
+}
+
+(Type ProvModifier) = {
+	Inherits = BaseModifier
+	
+	Optional = { Left = "local_revolt_risk" Right = Double }
+	Optional = { Left = "local_movement_speed" Right = Double }
+	Optional = { Left = "local_tax_modifier" Right = Double }
+	Optional = { Left = "regiment_recruit_speed" Right = Double }
+	Optional = { Left = "localarmy_reinforce_speed" Right = Double }
+	
+	Optional = { Left = "harbor_level" Right = Double }
+	Optional = { Left = "fort_level" Right = Double }
+	Optional = { Left = "development_level" Right = Double }
+	Optional = { Left = "transport_level" Right = Double }
+	Optional = { Left = "depot_level" Right = Double }
+	
+	Optional = { Left = "build_cost" Right = Double }
+	Optional = { Left = "localnavy_reinforce_speed" Right = Double }
+	Optional = { Left = "localarmy_reinforce_speed" Right = Double }
+	Optional = { Left = "naval_evasion" Right = Double }
+	Optional = { Left = "local_revolt_risk" Right = Double }
+	Optional = { Left = "minimum_revolt_risk" Right = Double }
+	Optional = { Left = "garrison_growth" Right = Double }
+	Optional = { Left = "ship_recruit_speed" Right = Double }
+	Optional = { Left = "max_attrition" Right = Double }
+	Optional = { Left = "supply_production" Right = Double }
+	Optional = { Left = "local_manpower_modifier" Right = Double }
+	Optional = { Left = "local_regiment_cost" Right = Double }
+	Optional = { Left = "local_ship_cost" Right = Double }
+	Optional = { Left = "local_defensiveness" Right = Double }
+	Optional = { Left = "local_attrition" Right = Double }
+	Optional = { Left = "defensiveness" Right = Double }
+	
+	
+
+}
+
+(Type CountryModifier) = {
+	Inherits = BaseModifier
+
+	Optional = { Left = "land_speed" Right = Double }
+	Optional = { Left = "supply_limit" Right = Double }
+	Optional = { Left = "land_attrition" Right = Double }
+	Optional = { Left = "modifier_offense" Right = Double }
+	Optional = { Left = "modifier_defense" Right = Double }
+	Optional = { Left = "global_manpower_modifier" Right = Double }
+	Optional = { Left = "global_regiment_cost" Right = Double }
+	Optional = { Left = "land_morale" Right = Double }
+	Optional = { Left = "militia_build_time" Right = Double }
+	Optional = { Left = "militia_cost" Right = Double }
+	Optional = { Left = "militia_defense" Right = Double }
+	Optional = { Left = "militia_attack" Right = Double }
+	Optional = { Left = "diplomats" Right = Double }
+	Optional = { Left = "global_tax_modifier" Right = Double }
+	Optional = { Left = "global_revolt_risk" Right = Double }
+	Optional = { Left = "naval_morale" Right = Double }
+	
+	Optional = { Left = "land_maintenance_modifier" Right = Double }
+	Optional = { Left = "naval_maintenance_modifier" Right = Double }
+	Optional = { Left = "war_exhaustion" Right = Double }
+	Optional = { Left = "max_war_exhaustion" Right = Double }
+	
+	Optional = { Left = "tax_income" Right = Double }
+	Optional = { Left = "prestige" Right = Double }
+	Optional = { Left = "experience_gain_modifier" Right = Double }
+	Optional = { Left = "idea_points" Right = Double }
+	Optional = { Left = "diplomatic_skill" Right = Double }
+	Optional = { Left = "start_experience" Right = Double }
+	Optional = { Left = "blockade_efficiency" Right = Double }
+	Optional = { Left = "reinforce_speed" Right = Double }
+	Optional = { Left = "warscore_cost_reduction" Right = Double }
+	Optional = { Left = "global_supply_production" Right = Double }
+	Optional = { Left = "interest" Right = Double }
+	Optional = { Left = "range" Right = Double }
+	Optional = { Left = "global_regiment_recruit_speed" Right = Double }
+	Optional = { Left = "prestige_from_land" Right = Double }
+	Optional = { Left = "global_ship_repair" Right = Double }
+	Optional = { Left = "global_ship_cost" Right = Double }
+	Optional = { Left = "prestige_from_naval" Right = Double }
+	Optional = { Left = "casualty_trickleback" Right = Double }
+	Optional = { Left = "naval_attrition" Right = Double }
+	Optional = { Left = "forced_march_attrition" Right = Double }
+	Optional = { Left = "land_evasion" Right = Double }
+	Optional = { Left = "global_manpower" Right = Double }
+	Optional = { Left = "supply_storage" Right = Double }
+	
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

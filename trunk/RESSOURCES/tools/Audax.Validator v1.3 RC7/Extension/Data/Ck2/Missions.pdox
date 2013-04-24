@@ -1,0 +1,179 @@
+(Validator Missions) = {
+	Type = Default
+	FriendlyName = "Missions"
+	(FileGroup "common\missions.txt")
+	ValidatorName = MissionFile
+}
+
+(Type MissionFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = MissionDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type MissionDef) = {
+	Single = { Left = "target_type" Right = { Literal = "character" Literal = "title" Literal = "province" } }
+	
+	NodeSwitcher = {
+		Node = "target_type"
+		Switch = {
+			"character" = {
+				Optional = { Left = "creation_trigger" Right = CharMissionTrigger }
+				Optional = { Left = "creation_effect" Right = CharMissionCommand }
+				Optional = { Left = "ai_creation_factor" Right = CharMissionAiCreation }
+				Optional = { Left = "potential_taker" Right = CharMissionTrigger2 }
+				Optional = { Left = "success_trigger" Right = CharMissionTrigger2 }
+				Optional = { Left = "success_effect" Right = CharMissionCommand2 }
+			}
+			"province" = {
+				Optional = { Left = "creation_trigger" Right = ProvMissionTrigger }
+				Optional = { Left = "creation_effect" Right = ProvMissionCommand }
+				Optional = { Left = "ai_creation_factor" Right = ProvMissionAiCreation }
+				Optional = { Left = "potential_taker" Right = ProvMissionTrigger2 }
+				Optional = { Left = "success_trigger" Right = ProvMissionTrigger2 }
+				Optional = { Left = "success_effect" Right = ProvMissionCommand2 }
+			}
+			"title" = {
+				Optional = { Left = "creation_trigger" Right = TitleMissionTrigger }
+				Optional = { Left = "creation_effect" Right = TitleMissionCommand }
+				Optional = { Left = "ai_creation_factor" Right = TitleMissionAiCreation }
+				Optional = { Left = "potential_taker" Right = TitleMissionTrigger2 }
+				Optional = { Left = "success_trigger" Right = TitleMissionTrigger2 }
+				Optional = { Left = "success_effect" Right = TitleMissionCommand2 }
+			}
+		}
+	}
+	
+	Optional = { Left = "potential_creator" Right = CharTrigger }
+	Optional = { Left = "abort_effect" Right = CharCommand }
+}
+
+#region Char
+
+(Type CharMissionTrigger) = { ContextValidator = CharMissionTrigger }
+(ContextValidator CharMissionTrigger) = {
+	ThisTarget = Char
+	Inherits = CharTrigger
+}
+
+(Type CharMissionCommand) = { ContextValidator = CharMissionCommand }
+(ContextValidator CharMissionCommand) = {
+	ThisTarget = Char
+	Inherits = CharCommand
+}
+
+(Type CharMissionTrigger2) = { ContextValidator = CharMissionTrigger2 }
+(ContextValidator CharMissionTrigger2) = {
+	ThisTarget = Char
+	FromTarget = Char
+	Inherits = CharTrigger
+}
+
+(Type CharMissionCommand2) = { ContextValidator = CharMissionCommand2 }
+(ContextValidator CharMissionCommand2) = {
+	ThisTarget = Char
+	FromTarget = Char
+	Inherits = CharCommand
+}
+
+
+(Type CharMissionAiCreation) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = CharMissionModifier }
+}
+
+(Type CharMissionModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	Inherits = CharMissionTrigger
+}
+
+#endregion Char
+
+#region Prov
+
+(Type ProvMissionTrigger) = { ContextValidator = ProvMissionTrigger }
+(ContextValidator ProvMissionTrigger) = {
+	ThisTarget = Char
+	Inherits = ProvTrigger
+}
+
+(Type ProvMissionCommand) = { ContextValidator = ProvMissionCommand }
+(ContextValidator ProvMissionCommand) = {
+	ThisTarget = Char
+	Inherits = ProvCommand
+}
+
+(Type ProvMissionTrigger2) = { ContextValidator = ProvMissionTrigger2 }
+(ContextValidator ProvMissionTrigger2) = {
+	ThisTarget = Prov
+	FromTarget = Char
+	Inherits = CharTrigger
+}
+
+(Type ProvMissionCommand2) = { ContextValidator = ProvMissionCommand2 }
+(ContextValidator ProvMissionCommand2) = {
+	ThisTarget = Prov
+	FromTarget = Char
+	Inherits = CharCommand
+}
+
+(Type ProvMissionAiCreation) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = ProvMissionModifier }
+}
+
+(Type ProvMissionModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	Inherits = ProvMissionTrigger
+}
+
+#endregion Prov
+
+#region Title
+
+(Type TitleMissionTrigger) = { ContextValidator = TitleMissionTrigger }
+(ContextValidator TitleMissionTrigger) = {
+	ThisTarget = Char
+	Inherits = TitleTrigger
+}
+
+(Type TitleMissionCommand) = { ContextValidator = TitleMissionCommand }
+(ContextValidator TitleMissionCommand) = {
+	ThisTarget = Char
+	Inherits = TitleCommand
+}
+
+(Type TitleMissionTrigger2) = { ContextValidator = TitleMissionTrigger2 }
+(ContextValidator TitleMissionTrigger2) = {
+	ThisTarget = Title
+	FromTarget = Char
+	Inherits = CharTrigger
+}
+
+(Type TitleMissionCommand2) = { ContextValidator = TitleMissionCommand2 }
+(ContextValidator TitleMissionCommand2) = {
+	ThisTarget = Title
+	FromTarget = Char
+	Inherits = CharCommand
+}
+
+(Type TitleMissionAiCreation) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = TitleMissionModifier }
+}
+
+(Type TitleMissionModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+	Inherits = FactorModifier
+	Inherits = TitleMissionTrigger
+}
+
+#endregion Title
+
+
+
+
+
+
+
+

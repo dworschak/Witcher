@@ -1,0 +1,78 @@
+(Validator DiplomacyFile) = {
+	Type = Default
+	FriendlyName = "Diplomatic History"
+	(FileGroup "history\diplomacy" "*.txt")
+	ValidatorName = DiplomacyFile
+}
+	
+(Type DiplomacyFile) = {
+	#(Ch N N) = {
+	#	Left = "alliance"
+	#	Right = Relation
+	#	FancyUniqueId = {
+	#		Key = {
+	#			first = "first\[R]"
+	#			second = "second\[R]"
+	#			start_date = "start_date\[R]"
+	#			end_date = "end_date\[R]"
+	#		}
+	#	}
+	#}
+	(Ch N N) = {
+		Left = "coalition"
+		Right = {
+			Single = { Left = "start_date" Right = Date }
+			Single = { Left = "target" Right = Tag }
+			Single = { Left = "leader" Right = Tag }
+			(Ch N Y) = { Left = "member" Right = Tag }
+		}
+	}
+	(Ch N N) = {
+		Left = "vassal"
+		Right = Relation
+		FancyUniqueId = {
+			Key = {
+				first = "first\[R]"
+				second = "second\[R]"
+				start_date = "start_date\[R]"
+				end_date = "end_date\[R]"
+			}
+		}
+	}	
+	(Ch N N) = {
+		Left = "guarantee"
+		Right = Relation
+		FancyUniqueId = {
+			Key = {
+				first = "first\[R]"
+				second = "second\[R]"
+				start_date = "start_date\[R]"
+				end_date = "end_date\[R]"
+			}
+		}
+	}
+	(Ch N N) = {
+		Left = "relation"
+		Right = RelationValue
+		FancyUniqueId = {
+			Key = {
+				first = "first\[R]"
+				second = "second\[R]"
+				start_date = "start_date\[R]"
+				end_date = "end_date\[R]"
+			}
+		}
+	}
+}
+		
+(Type Relation) = {
+	Single = { Left = "first" Right = Tag }
+	Single = { Left = "second" Right = Tag }
+	Single = { Left = "start_date" Right = Date }
+	Single = { Left = "end_date" Right = Date }
+}
+
+(Type RelationValue) = {
+	Inherits = Relation
+	Single = { Left = "value" Right = Int }
+}

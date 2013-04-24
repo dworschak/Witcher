@@ -1,0 +1,35 @@
+(Validator Traits) = {
+	Type = Default
+	FriendlyName = "Traits"
+	(FileGroup "common\traits.txt")
+	ValidatorName = Traits
+}
+
+Global = {
+	(Type.Enum Trait) = { Import = { (FileGroup "common\traits.txt") SelectPath = "*\[L]" } }
+}
+
+(Type Traits) = {
+	Child = { Left = { Type = String } Right = TraitDef UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type TraitDef) = {
+	Inherits = CharModifierDef
+
+	Optional = { Left = "opposites" Right = { (PdoList Y) = { Type = Trait } } }
+	
+	Optional = { Left = "is_health" Right = Bool }
+	Optional = { Left = "personality" Right = Bool }
+	Optional = { Left = "lifestyle" Right = Bool }
+	Optional = { Left = "education" Right = Bool }
+	Optional = { Left = "congenital" Right = Bool }
+	Optional = { Left = "incapacitating" Right = Bool }
+	Optional = { Left = "inbred" Right = Bool }
+	
+	Optional = { Left = "ai_rationality" Right = NzDbl }
+	Optional = { Left = "ai_honor" Right = NzDbl }
+	Optional = { Left = "ai_ambition" Right = NzDbl }
+	Optional = { Left = "ai_innovative" Right = NzDbl }
+	
+	
+}

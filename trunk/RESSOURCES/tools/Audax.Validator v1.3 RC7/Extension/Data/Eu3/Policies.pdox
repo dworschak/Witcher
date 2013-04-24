@@ -1,0 +1,52 @@
+(Validator PolicyValidator) = {
+	Type = Default
+	FriendlyName = "Policies"
+	ValidatorName = Policies
+	(FileGroup "common\policies.txt")
+}
+
+(Type Policies) = {
+	(Ch Y N) = { Left = { Type = String } Right = Policy }
+}
+
+(Type Policy) = {
+	Inherits = ModifierCommand
+	
+	Single = { Left = "left_specific" Right = ModifierCommand }
+	Single = { Left = "right_specific" Right = ModifierCommand }
+	Single = { Left = "on_left" Right = CountryCall }
+	Single = { Left = "on_right" Right = CountryCall }
+	
+	(If If = Eu3Dw) = {
+		(Ch Y N) = { Left = { Type = FactionInfluenceString } Right = NzDbl }
+	}
+}
+
+(Type CountryCall) = {
+	(Ch N Y) = { Left = { Type = Int } Right = { 0 CountryEventId } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

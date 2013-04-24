@@ -1,0 +1,65 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "has_civil_war" Right = Bool }
+	(Y Y) = { Left = "revolt_percentage" Right = NonNegDblPercent }
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y Y) = { Left = "loyalty" Right = Int }
+	
+	(Y Y) = { Left = "num_of_loyal_cohorts" Right = Int }
+	(Y Y) = { Left = "num_of_loyal_merc_cohorts" Right = Int }
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "change_unit_allegiance" Right = Allegiance }
+	(Y Y) = { Left = "secede_province" Right = Allegiance }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "change_unit_allegiance" Right = Allegiance }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y Y) = { Left = "loyalty" Right = Int }
+	
+	(Y Y) = { Left = "move_character" Right = Allegiance }
+} }
+
+(Type.Or Allegiance) = {
+	Type = Tag
+	Type.Enum = { Values = { "civil_war_faction" } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

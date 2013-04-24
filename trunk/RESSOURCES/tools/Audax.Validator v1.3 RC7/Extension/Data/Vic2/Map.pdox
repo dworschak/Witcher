@@ -1,0 +1,174 @@
+Includes = { "..\_Common\MapCommon" }
+
+(Validator Maps) = {
+	FriendlyName = "Map"
+	Type = GroupValidator
+	
+	Validator = {
+		Type = Default
+		(FileGroup Ref = RegionPath)
+		ValidatorName = RegionFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup Ref = ContinentPath)
+		ValidatorName = ContinentFile
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "map\positions.txt")
+		ValidatorName = PositionsFile
+	}
+	
+	Validator = {
+		Type = Default
+		(DataSource Csv) = {
+			(FileGroup Ref = AdjacencyPath)
+			Columns = 5
+			AllowExtraColumns = True
+		}
+		ValidatorName = AdjacencyFile
+	}
+	
+}
+
+(Type RegionFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = { (PdoList Y) = { Type = LandProvince } } }
+	(Catch TypeMismatchError ExpectedType = Province) = {
+		ReplaceMessage = "$NodeText$ is not a valid province. Provinces in a region file must be either land or ocean provinces."
+	}
+}
+
+(Type ContinentFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = ContinentGroup }
+}
+
+(Type ContinentGroup) = {
+	Single = { Left = "provinces" Right = { (PdoList Y) = { Type = LandProvince UniqueId = Right } } }
+	Single = { Left = "assimilation_rate" Right = Double }
+}
+
+(Type AdjacencyFile) = {
+	NodeSwitcher = {
+		Node = "2"
+		Default = RealAdjRow
+		
+		Switch = {
+			"sea" = RealAdjRow
+			"canal" = CanalRow
+			"impassable" = ImpassableRow
+			"" = FakeAdjRow
+		}
+	}
+}
+
+(Type RealAdjRow) = {
+	Single = { Left = "0" Right = LandProvince }
+	Single = { Left = "1" Right = LandProvince }
+	Single = { Left = "3" Right = SeaProvince }
+	Single = { Left = "4" Right = 0 }
+}
+
+(Type CanalRow) = {
+	Single = { Left = "0" Right = SeaProvince }
+	Single = { Left = "1" Right = SeaProvince }
+	Single = { Left = "3" Right = LandProvince }
+	Single = { Left = "4" Right = PosInt UniqueId = Right }
+}
+
+(Type FakeAdjRow) = {
+	Single = { Left = "0" Right = String }
+	Single = { Left = "1" Right = String }
+	Single = { Left = "3" Right = String }
+	Single = { Left = "4" Right = String }
+}
+
+(Type ImpassableRow) = {
+	Single = { Left = "0" Right = LandProvince }
+	Single = { Left = "1" Right = LandProvince }
+	Single = { Left = "3" Right = 0 }
+	Single = { Left = "4" Right = 0 }
+}
+
+(Type PositionsFile) = {
+	OptionList = { Left = { Type = LandProvince } Right = LandProvincePosition }
+	OptionList = { Left = { Type = SeaProvince } Right = SeaProvincePosition }
+}
+
+(Type Point) = {
+	Single = { Left = "x" Right = Double }
+	Single = { Left = "y" Right = Double }
+}
+
+(Type PositionBase) = {
+	Optional = { Left = "text_position" Right = Point }
+	Optional = { Left = "text_rotation" Right = Double }
+	Optional = { Left = "text_scale" Right = Double }
+	
+	Optional = { Left = "unit" Right = Point }
+}
+
+(Literal "fort") = "fort"
+(Literal "naval_base") = "naval_base"
+(Literal "railroad") = "railroad"
+(Type.Or BuildingBunch) = {
+	Literal = "fort"
+	Literal = "naval_base"
+	Literal = "railroad"
+	Type = Factory
+}
+
+(Type LandProvincePosition) = {
+	Inherits = PositionBase	
+	
+	Optional = { Left = "building_construction" Right = Point }
+	Optional = { Left = "military_construction" Right = Point }
+	Optional = { Left = "factory" Right = Point }
+	Optional = { Left = "city" Right = Point }
+	
+	Optional = { Left = "building_position" Right = {
+		OptionList = { Left = { Type = BuildingBunch } Right = Point }
+	} }
+	Optional = { Left = "building_rotation" Right = {
+		OptionList = { Left = { Type = BuildingBunch } Right = Double }
+	} }
+	Optional = { Left = "building_nudge" Right = {
+		OptionList = { Left = { Type = BuildingBunch } Right = Double }
+	} }
+	
+	Optional = { Left = "spawn_railway_track" Right = {
+		(Ch N N) = { Left = "Nameless" Right = Point }
+	} }
+	
+}
+
+(Type SeaProvincePosition) = {
+	Inherits = PositionBase
+	(If If = Debug) = {
+		Optional = { Left = "spawn_railway_track" Right = Debug }
+		Optional = { Left = "military_construction" Right = Point }
+		Optional = { Left = "building_construction" Right = Debug }
+		Optional = { Left = "factory" Right = Point }
+		Optional = { Left = "building_rotation" Right = Debug }
+		Optional = { Left = "building_position" Right = Debug }
+		Optional = { Left = "city" Right = Debug }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+(ContextValidator ProvinceTrigger) = { Members = {
+	(If If = Debug) = {
+		(Y N) = { Left = { Type = Slider } Right = Int }
+	}
+	
+	# Helius Eu3 450: tag = THIS does not work in province scope (it fails to resolve 'THIS' as 'owner of root scope province')
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "stability" Right = Int }
+	(Y N) = { Left = { Type = Slider } Right = Int }
+	(Y Y) = { Left = "primitives" Right = Bool }
+	
+	# Note - Do not put in ThisProvince as it will not work
+	# This is confirmed by Helius, Eu3 267
+	(A Y) = { Left = "tag" Right = { Tag ThisCountry } }
+	(Y Y) = { Left = "luck" Right = Bool }
+	
+	# Helius 436: ThisProvince is not valid, at least in some contexts.
+	(Y Y) = { Left = "num_of_cities" Right = { Int ThisCountry ThisProvince } }
+	(Y Y) = { Left = "num_of_ports" Right = Int }
+	(Y Y) = { Left = "total_num_of_ports" Right = Int }
+	(Y Y) = { Left = "exists" Right = Bool }
+	(Y Y) = { Left = "is_colonial" Right = Bool }
+	(A Y) = { Left = "capital" Right = LandProvince }
+	
+	(If If = Eu3Dw) = {
+		(Y  ) = { Left = "nomad" Right = Bool }
+		(Y  ) = { Left = "primitives" Right = Bool }
+		(Y  ) = { Left = "num_trade_leader" Right = PInt }
+		(Y  ) = { Left = "land_morale" Right = PDbl }
+		(Y  ) = { Left = "naval_morale" Right = PDbl }
+		(N Y) = { Left = "trading_bonus" Right = TradeInfo }
+		(N Y) = { Left = "production_leader" Right = TradeInfo }
+		(N Y) = { Left = "trade_leader" Right = TradeInfo }
+		(N Y) = { Left = "trading_part" Right = TradeInfoDbl }
+		(N Y) = { Left = "has_leader_with" Right = {
+			Optional = { Left = "general" Right = Bool }
+			Optional = { Left = "admiral" Right = Bool }
+			Optional = { Left = "shock" Right = Int }
+			Optional = { Left = "fire" Right = Int }
+			Optional = { Left = "siege" Right = Int }
+			Optional = { Left = "manuever" Right = Int }
+		} }
+	}
+} }
+
+(Type TradeInfo) = {
+	Single = { Left = "trade_goods" Right = TradeGood }
+	Single = { Left = "value" Right = Bool }
+}
+
+(Type TradeInfoDbl) = {
+	Single = { Left = "trade_goods" Right = TradeGood }
+	Single = { Left = "value" Right = Double }
+}
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "capital" Right = { ThisProvince ThisCountry } }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "stability" Right = Int }
+	(Y N) = { Left = { Type = Slider } Right = Int }
+	(Y Y) = { Left = "change_tag" Right = Tag }
+	# capital = THIS will make the present province the capital of the country receiving the event.
+	(Y Y) = { Left = "capital" Right = LandProvince }
+} }

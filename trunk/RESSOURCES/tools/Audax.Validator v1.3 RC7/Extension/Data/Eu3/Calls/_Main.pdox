@@ -1,0 +1,214 @@
+# FromStatus[None | Country | Province]
+# Call[FromStatus; Location pointer; int id]
+
+Includes = {
+	Scopes
+	
+	Control
+	BasicCountry
+	BasicProvince
+	Leadership
+	Status
+	Ownership
+	War
+	Diplomacy
+	Economics
+	Colonization
+	Hre
+	Religion
+	Cultures
+	Missions
+	
+	(Factions If = Eu3Dw)
+	(Shogun If = Eu3Dw)
+}
+
+ContextValidatorInfo = {
+	IdSearch = {
+		(FileGroup "events" "*.txt") = {
+			Province = "province_event\id"
+			Country = "country_event\id"
+		}
+		
+		EventTypes = { Country Province }
+	}
+	
+	CallSearch = {
+		(FileGroup "events" "*.txt") = {
+			Province = "province_event\option"
+			Country = "country_event\option"
+			Province = "province_event\immediate"
+			Country = "country_event\immediate"
+		}
+		
+		(FileGroup "decisions" "*.txt") = {
+			Country = "country_decisions\*\effect"
+			Country = "religion_decisions\*\effect"
+			Province = "province_decisions\*\effect"
+			(Country If = Eu3Ht) = "cultural_decisions\*\effect"
+			(Country If = Eu3Ht) = "hre_decisions\*\effect"
+			(Country If = Eu3Dw) = "shogunate_decisions\*\effect"
+		}
+		(FileGroup "missions"  "*.txt") = {
+			Country = "*\effect"
+			(Country If = Eu3Ht) = "*\immediate"
+			(Country If = Eu3Ht) = "*\abort_effect"
+		}
+		
+		(FileGroup "common\rebel_types.txt") = {
+			None = "*\siege_won_effect"
+			None = "*\demands_accepted_effect"
+			None = "*\demands_enforced_effect"
+		}
+		
+		(FileGroup "common\on_actions.txt") = {
+			None = "*\*"
+			
+			SearchMethod = 1
+		}
+		
+		(FileGroup "common\policies.txt") = {
+			None = "*\on_left\*"
+			None = "*\on_right\*"
+			
+			SearchMethod = 1
+		}
+		
+		(FileGroup "common\spies.txt") = {
+			Country = "*\effect"
+		}
+		
+		Search = {
+			province_event
+			country_event
+		}
+	}
+}
+
+(ContextValidator Country) = { }
+(ContextValidator Province) = { }
+
+(ContextValidator Trigger) = {
+	Abstract = True
+	
+	Set = {
+		CountryTrigger = CountryTrigger
+		ProvinceTrigger = ProvinceTrigger
+		
+		Country = Country
+		Province = Province
+	}
+}
+
+Global = {
+(Type ProvinceTrigger) = {
+	ContextValidator = ProvinceTrigger
+}
+}
+
+(ContextValidator ProvinceTrigger) = {
+	(Inherits IfNot = Debug) = Trigger
+	(Inherits If = Debug) = CountryTrigger
+	
+	ThisTarget = ProvinceTrigger
+	Conditional = ProvinceTrigger
+}
+
+Global = {
+(Type CountryTrigger) = {
+	ContextValidator = CountryTrigger
+}
+}
+
+(ContextValidator CountryTrigger) = {
+	Inherits = Trigger
+	ThisTarget = CountryTrigger
+	Conditional = CountryTrigger
+}
+
+(ContextValidator Command) = {
+	Abstract = True
+	
+	Set = {
+		CountryCommand = CountryCommand
+		ProvinceCommand = ProvinceCommand
+		CountryTrigger = CountryTrigger
+		ProvinceTrigger = ProvinceTrigger
+		
+		Country = Country
+		Province = Province
+	}
+}
+
+Global = {
+(Type ProvinceCommand) = {
+	ContextValidator = ProvinceCommand
+}
+}
+
+(ContextValidator ProvinceCommand) = {
+	(Inherits IfNot = Debug) = Command
+	(Inherits If = Debug) = CountryCommand
+	
+	ThisTarget = ProvinceCommand
+}
+
+Global = {
+(Type CountryCommand) = {
+	ContextValidator = CountryCommand
+}
+}
+
+(ContextValidator CountryCommand) = {
+	Inherits = Command
+	ThisTarget = CountryCommand
+}
+
+Global = {
+(Type.Enum Yes) = { Values = { "YES" "yes" } }
+(Type.Enum Capital) = { Values = { "CAPITAL" "capital" } }
+(Type.Enum Current) = { Values = { "CURRENT" "current" } }
+(Type.Enum Owner) = { Values = { "OWNER" "owner" } }
+(Type.Enum Emperor) = { Values = { "EMPEROR" "emperor" } }
+(Type.Enum Xxx) = { Values = { "XXX" "xxx" } }
+(Type.Enum Heretic) = { Values = { "HERETIC" "heretic" } }
+(Type.Enum Random) = { Values = { "RANDOM" "random" } }
+}
+
+
+		# ([Left Uniqueness] [Right Uniqueness])
+		# N = never has to be unique
+		# A = has to be unique only in an And clause
+		# 		Only valid in conditionals
+		#		Hence, can have duplicates in Or, Not clauses
+		# Y = always has to be unique
+		# Right can be left out only if left is Y - always must be unique
+		# Hence, it is implied that Right is also Y.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

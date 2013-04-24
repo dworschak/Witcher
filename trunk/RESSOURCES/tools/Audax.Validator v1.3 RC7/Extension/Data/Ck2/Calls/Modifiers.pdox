@@ -1,0 +1,41 @@
+(ContextValidator ProvTrigger) = { Members = {
+	(N Y) = { Left = "has_province_modifier" Right = { NormalModifier TriggeredModifier } }
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "has_character_modifier" Right = { NormalModifier TriggeredModifier } }
+	(N Y) = { Left = "has_province_modifier" Right = { NormalModifier TriggeredModifier } }
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N Y) = { Left = "add_province_modifier" Right = AddModifier }
+	(N Y) = { Left = "remove_province_modifier" Right = NormalModifier }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N Y) = { Left = "add_character_modifier" Right = AddModifier }
+	(N Y) = { Left = "remove_character_modifier" Right = NormalModifier }
+	(N Y) = { Left = "add_province_modifier" Right = AddModifier }
+	(N Y) = { Left = "remove_province_modifier" Right = NormalModifier }
+
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(N Y) = { Left = "remove_holding_modifier" Right = NormalModifier }
+
+} }
+
+(Type AddModifier) = {
+	Single = { Left = "name" Right = NormalModifier }
+	Optional = { Left = { "duration" "days" } Right = { -1 PInt } }
+	Optional = { Left = "hidden" Right = Bool }
+
+}
+
+
+
+
+

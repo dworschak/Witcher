@@ -1,0 +1,33 @@
+﻿(Validator "DecisionFile") = {
+	Type = Default
+	FriendlyName = {
+		en-US = "Decisions"
+		se-NO = "{Dééçíísióóñs}"
+	}
+	
+	(FileGroup "decisions" "*.txt")
+	ValidatorName = DecisionFile
+}
+
+(Type DecisionFile) = {
+	Child = { Left = "diplomatic_decisions" Right = DecisionGroup }
+}
+
+(Type DecisionGroup) = {
+	Child = { Left = { Type = String } Right = Decision UniqueId = Left (CheckKey "*_title" Left IfNot = NoCheckKey) (CheckKey "*_desc" Left IfNot = NoCheckKey) }
+}
+
+(Type Decision) = {
+	Optional = { Left = "potential" Right = CountryTrigger }
+	Optional = { Left = "allow" Right = CountryTrigger }
+	Single = { Left = "effect" Right = CountryCommand }
+	Optional = { Left = "ai_will_do" Right = AiWillDo }
+	
+	(If If = Hoi3Ftm) = {
+		Optional = { Left = "major" Right = Bool }
+	}
+}
+
+(Type AiWillDo) = {
+	Single = { Left = "factor" Right = Int }
+}

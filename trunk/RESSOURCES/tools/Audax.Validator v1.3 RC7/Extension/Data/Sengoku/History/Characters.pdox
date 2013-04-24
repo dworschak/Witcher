@@ -1,0 +1,56 @@
+﻿(Validator CharacterFile) = {
+	Type = Default
+	FriendlyName = "Characters"
+	(FileGroup "history\characters" "*.txt")
+	ValidatorName = Character
+}
+
+(Type Character) = {
+	Inherits = CharacterBase
+	
+	Single = { Left = "name" Right = String }
+	Single = { Left = "dynasty" Right = DynastyId }
+	Single = { Left = "culture" Right = Culture }
+	
+	Optional = { Left = "diplomacy" Right = NnDbl }
+	Optional = { Left = "martial" Right = NnDbl }
+	Optional = { Left = "intrigue" Right = NnDbl }
+	
+	Optional = { Left = "rebel" Right = Bool }
+	Optional = { Left = "female" Right = Bool }
+	Optional = { Left = "father" Right = CharId }
+	Optional = { Left = "mother" Right = CharId }
+	(Ch N Y) = { Left = "add_trait" Right = Trait }
+
+	(Ch N N) = { Left = { Type = Date } Right = DateClause }
+	(Ch N N) = { Left = "! INJECTED" Right = DateClause }
+	
+	(If IfNot = CharacterHistory.NoBirthDeathCheck) = {
+		CharBirthDeathCheck
+	}
+
+	(If IfNot = CharacterHistory.NoComplexDateChecks) = {
+		CheckDatesOrdered
+		CheckDupsInDates
+	}
+		
+}
+
+(Type CharacterBase) = {
+	Optional = { Left = "is_clan_leader" Right = Bool }
+	Optional = { Left = "add_spouse" Right = CharId }
+
+}
+
+(Type DateClause) = {
+	Inherits = CharacterBase
+	
+	Optional = { Left = "birth" Right = Date (CheckDateMatchesParent IfNot = Debug) }
+	Optional = { Left = "death" (CheckDateMatchesParent IfNot = Debug) Right = Date }
+	
+	Optional = { Left = "is_civil_war_leader" Right = Bool }
+	Optional = { Left = "employer" Right = CharId }
+
+}
+
+

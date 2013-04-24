@@ -1,0 +1,33 @@
+(Validator WarFile) = {
+	Type = Default
+	FriendlyName = "War History"
+	(FileGroup "history\wars" "*.txt")
+	ValidatorName = WarFile
+}
+	
+(Type WarFile) = {
+	(SkipIfEmpty If = WarHistory.NoWarnOnEmptyFile)
+
+	Single = { Left = "name" Right = String }
+	Optional = { Left = "limited_war" Right = Bool }
+	
+	(Ch N Y) = { Left = { Type = Date } Right = WarEvents }
+}
+		
+(Type WarEvents) = {
+	Child = { Left = "add_attacker" Right = Tag }
+	Child = { Left = "add_defender" Right = Tag }
+	Child = { Left = "rem_attacker" Right = Tag }
+	Child = { Left = "rem_defender" Right = Tag }
+	
+	(If If = Hoi3Ftm) = {
+		(Ch N Y) = { Left = "war_goal" Right = WarGoal }
+	}
+}
+
+(Type WarGoal If = Hoi3Ftm) = {
+	Single = { Left = "casus_belli" Right = CbType }
+	Single = { Left = "actor" Right = Tag }
+	Single = { Left = "receiver" Right = Tag }
+}
+		

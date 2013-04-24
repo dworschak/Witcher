@@ -1,0 +1,74 @@
+# Family stuff, excluding spouse
+# so basically mother, father, children, siblings
+
+(ContextValidator CharTrigger) = { Scopes = {
+	CharTrigger = "mother"
+	
+	CharTrigger = "father"
+	CharTrigger = "real_father"
+	CharTrigger = "father_of_unborn"
+	CharTrigger = "father_even_if_dead"
+	CharTrigger = "mother_even_if_dead"
+
+	CharTrigger = "any_child"
+	CharTrigger = "any_sibling"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = "mother"
+	
+	CharCommand = "father"
+	CharCommand = "real_father"
+	CharCommand = "father_of_unborn"
+	CharCommand = "father_even_if_dead"
+	CharCommand = "mother_even_if_dead"
+	
+	CharCommand = "random_child"
+	CharCommand = "any_child"
+	
+	CharCommand = "any_sibling"
+	CharCommand = "random_sibling"
+	
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "is_father" Right = { ThisChar Bool } }
+	(N Y) = { Left = "is_mother" Right = { ThisChar Bool } }
+	(N Y) = { Left = "is_child_of" Right = { ThisChar } }
+	(Y  ) = { Left = "num_of_children" Right = NnInt }
+	(N Y) = { Left = "sibling" Right = ThisChar }
+	(N Y) = { Left = "family" Right = { ThisChar ThisTitle Bool } }
+	(N Y) = { Left = "is_close_relative" Right = { Bool ThisChar } }
+	(Y  ) = { Left = "was_conceived_a_bastard" Right = Bool }
+	(Y  ) = { Left = "father_of_unborn_known" Right = Bool }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(Y  ) = { Left = "set_father" Right = ThisChar }
+	(Y  ) = { Left = "set_mother" Right = ThisChar }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

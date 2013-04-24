@@ -1,0 +1,83 @@
+(Validator Units) = {
+	Type = GroupValidator
+	FriendlyName = "Units"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\units" "*.txt")
+		ValidatorName = UnitsFile
+	}
+	
+}
+
+(Type UnitsFile) = {
+	(Ch N N) = { Left = { Type = String } Right = UnitDef UniqueId = Left }
+}
+
+(Type UnitDef) = {
+	Single = { Left = "type" Right = { BrigadeBaseType SquadronBaseType } }
+	
+	NodeSwitcher = {
+		Node = "type"
+
+		Switch = {
+			(BrigadeBaseType Enum) = BrigadeUnitDef
+			(SquadronBaseType Enum) = SquadronUnitDef
+		}
+	}
+	
+	Single = { Left = "build_cost" Right = NnDbl }
+	Single = { Left = "build_cost_manpower" Right = NnDbl }
+	Single = { Left = "build_time" Right = PInt }
+	Single = { Left = "speed" Right = NnDbl }
+	
+}
+
+(Type BrigadeUnitDef) = {
+	Optional = { Left = "maintenance" Right = NnDbl }
+	Optional = { Left = "supply_storage" Right = NnDbl }
+	Optional = { Left = "back_row" Right = Bool }
+	Optional = { Left = "garrison" Right = Bool }
+	Optional = { Left = "screen" Right = Bool }
+	
+	Single = { Left = "attack_bombard" Right = NnDbl }
+	Single = { Left = "attack_combat" Right = NnDbl }
+	Single = { Left = "attack_pursuit" Right = NnDbl }
+	Single = { Left = "defense_bombard" Right = NnDbl }
+	Single = { Left = "defense_combat" Right = NnDbl }
+	Single = { Left = "defense_pursuit" Right = NnDbl }
+	Single = { Left = "rate_of_fire_bombard" Right = NnDbl }
+	Single = { Left = "rate_of_fire_combat" Right = NnDbl }
+	Single = { Left = "rate_of_fire_pursuit" Right = NnDbl }
+	Optional = { Left = "initiative_bombard" Right = NnDbl }
+	Optional = { Left = "initiative_combat" Right = NnDbl }
+	Optional = { Left = "initiative_pursuit" Right = NnDbl }
+	
+	Single = { Left = "morale" Right = NnDbl }
+	Single = { Left = "frontage" Right = NnDbl }
+	Single = { Left = "evasion" Right = NnDbl }
+	Single = { Left = "supply" Right = NnDbl }
+
+}
+
+(Type SquadronUnitDef) = {
+	Single = { Left = "attack_bombard" Right = NnInt }
+	Single = { Left = "attack_combat" Right = NnInt }
+	Single = { Left = "defense_bombard" Right = NnInt }
+	Single = { Left = "defense_combat" Right = NnInt }
+	Single = { Left = "rate_of_fire_bombard" Right = NnInt }
+	Single = { Left = "rate_of_fire_combat" Right = NnInt }
+	Optional = { Left = "initiative_bombard" Right = NnDbl }
+	Optional = { Left = "initiative_combat" Right = NnDbl }
+	
+	Single = { Left = "morale" Right = NnInt }
+	Single = { Left = "frontage" Right = NnDbl }
+	Single = { Left = "evasion" Right = NnInt }
+	
+	Optional = { Left = "transport" Right = Bool }
+
+}
+
+
+
+

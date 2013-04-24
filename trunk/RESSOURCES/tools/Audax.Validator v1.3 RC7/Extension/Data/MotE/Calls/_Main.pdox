@@ -1,0 +1,148 @@
+Includes = {
+	_Scopes
+	Control
+	Misc
+	Modifiers
+}
+
+ContextValidatorInfo = {
+	AllowThis = False # True by default
+	AllowRoot = False # False by default; when enabled allows ROOT as a synonym for THIS
+	AllowFromFrom = False # False by default; when enabled allows arbitrary chaining of FROM
+	AllowPrev = False # False by default; when enabled allows arbitary chaining of PREV
+	EnableNamespaces = False
+	
+	#NoPush = { "if" "limit" }
+
+	IdSearch = {
+		(FileGroup "events" "*.txt") = {
+			Country = "country_event\id"
+		}
+		
+		EventTypes = { Country }
+	}
+	
+	CallSearch = {
+		(FileGroup "events" "*.txt") = {
+			Country = "country_event\option"
+			
+			SearchMethod = 0
+		}
+		(FileGroup "decisions" "*.txt") = {
+			Country = "country_decisions\*\effect"
+			
+			SearchMethod = 0
+		}		
+		Search = {
+			country_event
+		}
+	}
+}
+
+(ContextValidator Country) = { }
+(ContextValidator Prov) = { }
+
+(ContextValidator Trigger) = {
+	Abstract = True
+	
+	Set = {
+		CountryTrigger = CountryTrigger
+		ProvTrigger = ProvTrigger
+		
+		Country = Country
+		Prov = Prov
+	}
+}
+
+Global = {
+(Type CountryTrigger) = {
+	ContextValidator = CountryTrigger
+}
+}
+
+(ContextValidator CountryTrigger) = {
+	Inherits = Trigger
+	
+	ThisTarget = CountryTrigger
+	Conditional = CountryTrigger
+	BaseType = Country
+}
+
+Global = {
+(Type ProvTrigger) = {
+	ContextValidator = ProvTrigger
+}
+}
+
+(ContextValidator ProvTrigger) = {
+	Inherits = Trigger
+	
+	ThisTarget = ProvTrigger
+	Conditional = ProvTrigger
+	BaseType = Prov
+}
+
+
+(ContextValidator Command) = {
+	Abstract = True
+	
+	Set = {
+		CountryCommand = CountryCommand
+		CountryTrigger = CountryTrigger
+		ProvCommand = ProvCommand
+		ProvTrigger = ProvTrigger
+	
+		Country = Country
+		Prov = Prov
+	}
+}
+
+Global = {
+(Type CountryCommand) = {
+	ContextValidator = CountryCommand
+}
+}
+
+(ContextValidator CountryCommand) = {
+	Inherits = Command
+	
+	ThisTarget = CountryCommand
+	BaseType = Country
+}
+
+Global = {
+(Type ProvCommand) = {
+	ContextValidator = ProvCommand
+}
+}
+
+(ContextValidator ProvCommand) = {
+	Inherits = Command
+	
+	ThisTarget = ProvCommand
+	BaseType = Prov
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

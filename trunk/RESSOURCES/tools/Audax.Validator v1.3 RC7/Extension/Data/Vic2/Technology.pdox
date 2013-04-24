@@ -1,0 +1,81 @@
+Global = {
+
+(Type.Enum TechSchool) = { Import = { (FileGroup "common\technology.txt") SelectPath = "schools\*\[L]" } }
+
+}
+
+(Validator Tech) = {
+	Type = GroupValidator
+	FriendlyName = "Tech"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\technology.txt")
+		ValidatorName = TechDef
+	}
+	
+	Validator = {
+		Type = Default
+		(FileGroup "technologies" "*.txt")
+		ValidatorName = TechFile
+	}
+}
+
+(Type TechDef) = {
+	Single = { Left = "folders" Right = FolderGroup }
+	Single = { Left = "schools" Right = SchoolGroup }
+}
+
+(Type FolderGroup) = {
+	(Ch Y N) = { Left = { Type = String } Right = { (PdoList Y) = { Type = String UniqueId = Right } } }
+}
+
+(Type TechFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = Tech UniqueId = Left }
+}
+
+(Type SchoolGroup) = {
+	(Ch Y N) = { Left = { Type = String } Right = School }
+}
+
+(Type School) = {
+	Single = { Left = "army_tech_research_bonus" Right = Double }
+	Single = { Left = "commerce_tech_research_bonus" Right = Double }
+	Single = { Left = "culture_tech_research_bonus" Right = Double }
+	Single = { Left = "industry_tech_research_bonus" Right = Double }
+	Single = { Left = "navy_tech_research_bonus" Right = Double }
+	Optional = { Left = "unciv_economic_modifier" Right = Double }
+	Optional = { Left = "unciv_military_modifier" Right = Double }
+}
+
+Script = {
+	(DataSource Pdo) = { Path = "common\technology.txt" }
+	MakeDicEnum = {
+		KeyName = TechArea
+		ElementPath = "folders\*\*"
+		KeyPath = "^\[L]"
+		ValuePath = ".\[R]"
+	}
+}
+
+(Type Tech) = {
+	Single = { Left = "area" Right = TechAreaValue } # TODO: Make sure specified area is in correct tech category.
+	Single = { Left = "year" Right = Year }
+	Single = { Left = "cost" Right = PInt }
+	Optional = { Left = "ai_chance" Right = AiChance }
+	
+	Debug
+}
+
+(Type AiChance) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = Modifier }
+}
+
+(Type Modifier) = {
+	Inherits = FactorModifier
+	Inherits = CountryTrigger
+	
+	Single = { Left = "factor" Right = NnDbl }
+}
+

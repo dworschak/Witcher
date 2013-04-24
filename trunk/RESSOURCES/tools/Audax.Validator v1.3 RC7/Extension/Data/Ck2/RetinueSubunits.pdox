@@ -1,0 +1,30 @@
+(Validator RetinueSubunits) = {
+	Type = Default
+	FriendlyName = "Retinue subunits"
+	(FileGroup "common\retinue_subunits" "*.txt")
+	ValidatorName = RetinueSubunits
+}
+
+(Type RetinueSubunits) = {
+	(Ch Y N) = { Left = { Type = String } Right = Subunit }
+}
+
+(Type.Enum SubunitType) = { Values = { 0 1 2 3 4 5 6 } }
+
+(Type Subunit) = {
+	(CheckKey "*" Left IfNot = NoCheckKey)
+	Single = { Left = "first_type" Right = SubunitType }
+	Single = { Left = "first_amount" Right = PInt }
+	Optional = { Left = "second_type" Right = SubunitType }
+	Optional = { Left = "second_amount" Right = PInt }
+	AllOrNone = { "second_type" "second_amount" }
+	
+	(Ch N Y) = { Left = "culture_group" Right = CultureGroup }
+	(Ch N Y) = { Left = "culture" Right = Culture }
+	
+	Optional = { Left = "modifier" Right = UnitStatsModifier }
+}
+
+
+
+

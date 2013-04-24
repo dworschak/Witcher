@@ -1,0 +1,44 @@
+Global = {
+(Type.Enum Trait) = { Import = { (FileGroup "common\traits.txt") SelectPath = "*\[L]" } }
+}
+
+(Validator Traits) = {
+	Type = Default
+	FriendlyName = "Traits"
+	(FileGroup "common\traits.txt")
+	ValidatorName = TraitFile
+}
+	
+(Type TraitFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = TraitClause UniqueId = Left }
+}
+
+(Type TraitClause) = {
+	Optional = { Left = "opposites" Right = { (PdoList Y) = { Type = Trait } } }
+	Optional = { Left = "province" Right = Modifier }
+	Optional = { Left = "country" Right = Modifier }
+	
+	(Optional If = Vv) = { Left = "congenital" Right = Bool }
+	Optional = { Left = "max_rivals" Right = Int }
+	Optional = { Left = "max_friends" Right = Int }
+	Optional = { Left = "diplomatic_missions" Right = Double }
+	Optional = { Left = "intrigue_missions" Right = Double }
+	Optional = { Left = "battle_event_chance" Right = Double }
+	Optional = { Left = "corruption" Right = Double }
+	Optional = { Left = "fertility" Right = Double }
+	Optional = { Left = "charisma" Right = Int }
+	Optional = { Left = "finesse" Right = Int }
+	Optional = { Left = "monthly_character_loyalty" Right = Double }
+	Optional = { Left = "monthly_character_popularity" Right = Double }
+	Optional = { Left = "monthly_character_wealth" Right = Double }
+	Optional = { Left = "loyalty_gain_chance" Right = Double }
+	Optional = { Left = "health" Right = Double }
+	Optional = { Left = "martial" Right = Int }
+	Optional = { Left = "combat" Right = CombatStance }
+}
+
+(Type.Enum CombatStance) = { Values = { "rally" "envelope" "wedge" "hold_ground" "force_attack" } }
+
+
+
+

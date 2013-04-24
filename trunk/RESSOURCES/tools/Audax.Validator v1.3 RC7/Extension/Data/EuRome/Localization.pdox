@@ -1,0 +1,27 @@
+(Validator Localization) = {
+	Type = Default
+	(DataSource Csv) = {
+		(FileGroup "localisation" "*.csv")
+		Columns = 8
+		AllowExtraColumns = True
+	}
+
+	FriendlyName = Localization
+	ValidatorName = LocalizationFile
+}
+
+(Type LocalizationFile) = {
+	Single = { Left = "0" Right = String (UniqueId CaseSensitive = True) = Right }
+	(Ch N N) = { Left = { Type = String } Right = String }
+}
+
+(Dictionary Localization) = {
+	(DataSource Csv) = {
+		(FileGroup "localisation" "*.csv")
+		Columns = 5 # We don't really care about the rest and just want to be able to recognize as much as possible
+		AllowExtraColumns = True
+	}
+	
+	Key = ".\0\[R]"
+	Value = ".\1\[R]"
+}

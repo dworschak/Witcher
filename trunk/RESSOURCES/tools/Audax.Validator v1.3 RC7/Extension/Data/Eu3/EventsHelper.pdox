@@ -1,0 +1,92 @@
+(Type CountryEvent If = "c") = {
+	Inherits = Event
+}
+
+(Type ProvinceEvent If = "p") = {
+	Inherits = Event
+}
+
+(Type Event) = {
+	Single = { Left = "id" Right = NonNegativeInt UniqueId = Right }
+	Single = { Left = "title" Right = Key }
+	Single = { Left = "desc" Right = Key }
+	
+	(LocalOp AddInfo EventInfo) = {
+		ID = ".\id\[R]"
+		# TitleKey -> will be --- if not resolved
+		# Title -> will either have resolved or original
+		(Lookup TitleKey Title Localization) = ".\title\[R]"
+		(Tag If = c) = {
+			".\trigger\tag\[R]"
+			".\trigger\* { ([L]) << Tag } \[L]"
+			".\trigger\exists { ([R]) << Tag }\[R]"
+			".\trigger\*\exists { ([R]) << Tag }\[R]"
+		}
+		(Tag If = p) = {
+			".\trigger\owner\tag\[R]"
+			".\trigger\* { ([L]) << Tag } \[L]"
+			".\trigger\owned_by { ([R]) << Tag }\[R]"
+			".\trigger\is_core { ([R]) << Tag }\[R]"
+			".\trigger\exists { ([R]) << Tag }\[R]"
+			".\trigger\*\owned_by { ([R]) << Tag }\[R]"
+			".\trigger\*\is_core { ([R]) << Tag }\[R]"
+			".\trigger\*\exists { ([R]) << Tag }\[R]"
+		}
+	}
+
+	Optional = { Left = "major" Right = Bool }
+	Optional = { Left = "is_triggered_only" Right = Bool }
+	(Optional If = Eu3Ht) = { Left = "exclusive" Right = Bool }
+	
+	(If If = "c") = {
+		Optional = { Left = "immediate" Right = CountryCommand }
+		Optional = { Left = "trigger" Right = CountryTrigger }
+	}
+	
+	(If If = "p") = {
+		Optional = { Left = "immediate" Right = ProvinceCommand }
+		Optional = { Left = "trigger" Right = ProvinceTrigger }
+		(Optional If = "Eu3Ht") = { Left = "exclusive" Right = Bool }
+	}
+	
+	Required = { Left = "option" Right = Option }
+	Optional = { Left = "mean_time_to_happen" Right = Mtth }
+}
+
+(Type Option) = {
+	Single = { Left = "name" Right = Key }
+	Optional = { Left = "ai_chance" Right = AiClause }
+	(Ch N N) = { Left = "random" Right = RandomClause }
+	
+	(Inherits If = "c") = CountryCommand
+	(Inherits If = "p") = ProvinceCommand
+}
+		
+(Type AiClause) = {
+	Single = { Left = "factor" Right = Int }
+	Optional = { Left = "days" Right = Int }
+	(Ch N N) = { Left = "modifier" Right = MtthModifier }
+}
+		
+(Type RandomClause) = {
+	Single = { Left = "chance" Right = Int }
+	
+	(Inherits If = "c") = CountryCommand
+	(Inherits If = "p") = ProvinceCommand
+}
+		
+(Type Mtth) = {
+	OneOf = { "days" "months" "years" }
+	Optional = { Left = "days" Right = NonNegativeInt }
+	Optional = { Left = "months" Right = NonNegativeInt }
+	Optional = { Left = "years" Right = NonNegativeInt }
+	Child = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type MtthModifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = Double }
+	
+	(Inherits If = "c") = CountryTrigger
+	(Inherits If = "p") = ProvinceTrigger
+}

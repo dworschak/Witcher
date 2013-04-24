@@ -1,0 +1,51 @@
+(Validator Ideas) = {
+	Type = GroupValidator
+	FriendlyName = "Ideas"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\ideas.txt")
+		ValidatorName = IdeasFile
+	}
+	
+}
+
+(Type IdeasFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = IdeasGroup (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type IdeasGroup) = {
+	Optional = { Left = "trigger" Right = CountryTrigger }
+	(Ch N N) = { Left = { Type = String } Right = Idea UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) (CheckKey "*_desc" Left IfNot = NoCheckKey) }
+}
+
+(Type Idea) = {
+	Inherits = Modifier
+	
+	Optional = { Left = "winter_supplies" Right = Bool }
+	Optional = { Left = "scorch_earth" Right = Bool }
+	Optional = { Left = "sea_repair" Right = Bool }
+	Optional = { Left = "allow_repair_in_allied_ports" Right = Bool }
+	Optional = { Left = "pontoneers" Right = Bool }
+	Optional = { Left = "may_force_march" Right = Bool }
+	Optional = { Left = "march_to_guns" Right = Bool }
+	
+	Optional = { Left = "ai_chance" Right = AiChance }
+}
+
+(Type AiChance) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = AiChanceModifier }
+}
+
+(Type AiChanceModifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = NnDbl }
+	
+	Inherits = CountryTrigger
+	
+}
+
+
+
+

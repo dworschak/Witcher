@@ -1,0 +1,27 @@
+﻿(Validator Diplomacy) = {
+	Type = Default
+	FriendlyName = "Diplomacy"
+	(FileGroup "history\diplomacy" "*.txt")
+	ValidatorName = DiplomacyFile
+}
+	
+(Type DiplomacyFile) = {
+	(Ch N Y) = { Left = "alliance" Right = Alliance }
+	(Ch N Y) = { Left = "tribute" Right = Tribute }
+}
+
+(Type Relation) = {
+	Single = { Left = "first" Right = Tag }
+	Single = { Left = "second" Right = Tag }
+	Single = { Left = "start_date" Right = Date }
+	Single = { Left = "end_date" Right = Date }
+}
+
+(Type Alliance) = {
+	Inherits = Relation
+}
+
+(Type Tribute) = {
+	Inherits = Relation
+	Single = { Left = "value" Right = Double }
+}

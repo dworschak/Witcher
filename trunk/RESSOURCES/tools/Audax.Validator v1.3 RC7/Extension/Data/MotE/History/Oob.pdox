@@ -1,0 +1,48 @@
+﻿Global = {
+(Type OobFile) = {
+	(Ch Y N) = { Left = { Type = Tag } Right = MiscInfo }
+	(Ch N N) = { Left = "army" Right = ArmyDef }
+	(Ch N N) = { Left = "navy" Right = NavyDef }
+	(Ch N N) = { Left = "garrison_unit" Right = ArmyDef }
+}
+}
+
+(Type MiscInfo) = {
+	Optional = { Left = "military_access" Right = Bool }
+}
+
+(Type ArmyDef) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "location" Right = ProvinceStringMap }
+	Optional = { Left = "leader" Right = Leader }
+	
+	(Ch N N) = { Left = "flank_leader" Right = {
+		Single = { Left = "leader" Right = Leader }
+		Single = { Left = "flank" Right = { Literal = left Literal = right Literal = center Literal = reserves } }
+	} }
+	
+	(Ch N N) = { Left = "left" Right = ArmyUnit }
+	(Ch N N) = { Left = "center" Right = ArmyUnit }
+	(Ch N N) = { Left = "right" Right = ArmyUnit }
+	(Ch N N) = { Left = "reserves" Right = ArmyUnit }
+	
+	OneOf = { left center right reserves }
+}
+
+(Type NavyDef) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "location" Right = ProvinceStringMap }
+	Optional = { Left = "leader" Right = Leader }
+	
+	(Ch N N) = { Left = "squadron" Right = {
+		Single = { Left = "name" Right = String }
+		Single = { Left = "type" Right = UnitType }
+		Optional = { Left = "experience" Right = NnDbl }
+	} }
+}
+
+(Type ArmyUnit) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "type" Right = UnitType }
+	Optional = { Left = "experience" Right = NnDbl }
+}

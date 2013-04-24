@@ -1,0 +1,20 @@
+(Validator SpyValidator) = {
+	Type = Default
+	FriendlyName = "Spies"
+	ValidatorName = SpyFile
+	(FileGroup "common\spies.txt")
+}
+
+(Type SpyFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = SpyAction }
+}
+
+(Type SpyAction) = {
+	Single = { Left = "cost" Right = NnDbl }
+	Single = { Left = "difficulty" Right = NnInt }
+	Optional = { Left = "prestige" Right = Double }
+	Optional = { Left = "badboy" Right = Double }
+	Optional = { Left = "capital" Right = Bool }
+	Optional = { Left = "trigger" Right = ProvinceTrigger }
+	Optional = { Left = "effect" Right = ProvinceCommand }
+}

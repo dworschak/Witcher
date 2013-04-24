@@ -1,0 +1,65 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(A Y) = { Left = "government" Right = { ThisCountry Government } }
+	(Y Y) = { Left = "government_in_exile" Right = Bool }
+	(N Y) = { Left = "has_leader" Right = String }
+	(A Y) = { Left = "ideology" Right = Ideology }
+	(A Y) = { Left = "ideology_group" Right = IdeologyGroup }
+	(N Y) = { Left = "minister_alive" Right = MinisterId }
+	
+	# Government positions
+	(A Y) = { Left = { Type = MinisterPosition } Right = MinisterId }
+
+	(If If = Hoi3Ftm) = {
+		(Y Y) = { Left = "has_removable_minister" Right = Bool }
+	}
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "form_government_in_exile" Right = Bool }
+	(Y Y) = { Left = "government" Right = { ThisCountry Government } }
+	(Y N) = { Left = { Type = MinisterPosition } Right = MinisterId }
+	(N Y) = { Left = "kill_leader" Right = LeaderId }
+	(N Y) = { Left = "remove_minister" Right = { Type = MinisterId Literal = "yes" } }
+
+	(If If = Hoi3Ftm) = {
+		(N Y) = { Left = "do_election" Right = { Tag ThisCountry } }
+	}
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

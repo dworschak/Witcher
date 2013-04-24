@@ -1,0 +1,34 @@
+﻿(Validator "TechTableFile") = {
+	Type = Default
+	FriendlyName = "Technology Tables"
+	(FileGroup "common\technologies" "*_table.txt")
+	ValidatorName = TechTableFile
+}
+		
+(Validator "TechInventionFile") = {
+	Type = Default
+	FriendlyName = "Technology Inventions"
+	(FileGroup "common\technologies" "*_inventions.txt")
+	ValidatorName = TechInventionFile
+}
+	
+# Tech tables
+(Type TechTableFile) = {
+	(Ch N N) = { Left = "technology" Right = Tech }
+}
+
+(Type Tech) = {
+	Inherits = CountryCommand
+	Single = { Left = "id" Right = Int }
+	Single = { Left = "average_year" Right = Int }
+}
+
+(Type TechInventionFile) = {
+	(Ch N N) = { Left = { Type = String } Right = Invention }
+}
+
+(Type Invention) = {
+	Inherits = Modifier
+	Single = { Left = "trigger" Right = CountryTrigger }
+	Single = { Left = "effect" Right = CountryCommand }
+}

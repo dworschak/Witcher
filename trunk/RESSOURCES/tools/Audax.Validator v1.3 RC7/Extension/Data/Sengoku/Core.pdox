@@ -1,0 +1,69 @@
+Includes = {
+	Options
+	Localization
+	"Calls\_Main"
+	"..\_Common\FactorModifier"
+	
+	Bookmarks
+	Buildings
+	Cultures
+	Decisions
+	Dynasties
+	Events
+	JobActions
+	Modifiers
+	Ninjas
+	Objectives
+	OnActions
+	OpinionModifiers
+	RebelTypes
+	Titles
+	Traits
+	Units
+	
+	"History\Characters"
+	"History\Diplomacy"
+	"History\Global"
+	"History\Provinces"
+	"History\Titles"
+	"History\Wars"
+	
+}
+
+Global = {
+(Type.Or Key If = NoCheckKey) = { Type = String }
+(Type.Or Key IfNot = NoCheckKey) = { Type = LocalizationKey }
+
+(Literal Yes) = "yes"
+(Type.Enum DynastyId) = { Import = { (FileGroup "common\dynasties.txt") SelectPath = "*\[L]" } }
+(Type.Enum CultureGroup) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\[L]" } }
+(Type.Enum Culture) = { Import = { (FileGroup "common\cultures.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum Building) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "*\[L]" } }
+(Type.Enum Improvement) = { Import = { (FileGroup "common\buildings.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum RebelType) = { Import = { (FileGroup "common\rebel_types.txt") SelectPath = "*\[L]" } }
+(Type.Enum Tier) = { Values = { emperor king duke count } }
+(Type.Enum Faction) = { Values = { shinto christian buddhist } }
+(Type.Enum UnitType) = { Import = { (FileGroup "common\units.txt") SelectPath = "*\[L]" } }
+(Type.Enum JobTitle) = { Import = { (FileGroup "common\job_titles.txt") SelectPath = "*\[L]" } }
+(Type.Enum JobAction) = { Import = { (FileGroup "common\job_actions.txt") SelectPath = "*\[L]" } }
+(Type.Enum Attribute) = { Values = { diplomacy intrigue martial } }
+
+(Type.Enum CharId) = {
+	Import = {
+		(DataSource PathListing) = {
+			(FileGroup "history\characters" "*.txt")
+			JustFileName = True
+			DropExtension = True
+			ForceLower = True
+			Regex = "(?<target>\d+)\s+\S+"
+		}
+		
+		SelectPath = "*\[L]"
+	}
+}
+
+}
+
+
+
+

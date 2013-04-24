@@ -1,0 +1,20 @@
+(Validator Religion) = {
+	Type = Default
+	FriendlyName = "@Religion"
+	(FileGroup "common\religion.txt")
+	ValidatorName = ReligionFile
+}
+
+(Type ReligionFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = ReligionGroup }
+}
+
+(Type ReligionGroup) = {
+	Child = { Left = { Type = String } Right = Religion UniqueId = Left }
+}
+
+(Type Religion) = {
+	Single = { Left = "icon" Right = { IconRef = "GFX_icon_religion" } }
+	Single = { Left = "color" Right = { (PdoList N) = { Type = NonNegDblPercent } } }
+	Optional = { Left = "pagan" Right = Bool }
+}

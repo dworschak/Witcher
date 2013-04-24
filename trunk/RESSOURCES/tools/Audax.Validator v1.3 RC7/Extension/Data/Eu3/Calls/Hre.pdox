@@ -1,0 +1,53 @@
+(ContextValidator Trigger) = { Members = {
+	(Y  ) = { Left = "num_of_electors"			Right = Int }
+	(Y Y) = { Left = "hre" Right = Bool }
+
+	(Y Y) = { Left = "hre_size" Right = Int }
+
+	(If If = Eu3Ht) = {
+		(Y  ) = { Left = "imperial_influence"	Right = Int }
+	}
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "is_emperor" Right = Bool }
+	(Y Y) = { Left = "elector" Right = Bool }
+	(A Y) = { Left = "preferred_emperor" Right = { Tag ThisCountry ThisProvince } }
+} }
+
+(ContextValidator Command) = { Members = {
+	(If If = Eu3Ht) = {
+		# Don't check dups because it can be add=100, add=-80 to get 20%
+		(N N)  = { Left = "add_imperial_influence" Right = Double }
+		(Y Y) = { Left = "dismantle_hre" Right = Bool }
+		(Y Y)  = { Left = "internal_hre_cb" Right = Bool }
+		(N Y) = { Left = "remove_temp_claim" Right = { Tag ThisCountry LandProvince } }
+	}
+	
+	(If If = Eu3Dw) = {
+		(Y  ) = { Left = "revoke_reform" Right = Bool }
+	}
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "hre" Right = Bool }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y Y) = { Left = "elector" Right = Bool }
+		
+} }
+
+
+
+
+
+
+
+
+

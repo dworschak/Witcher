@@ -1,0 +1,161 @@
+(ContextValidator ProvinceTrigger) = { Members = {
+	(Y Y) = { Left = "is_blockaded" Right = Bool }
+	(Y Y) = { Left = "revolt_risk" Right = Double }
+	(Y Y) = { Left = "looted" Right = Bool }
+	(Y Y) = { Left = "has_siege" Right = Bool }
+	(Y Y) = { Left = "garrison" Right = Int }
+	(A Y) = { Left = "can_spawn_rebels" Right = RebelType }
+	(Y Y) = { Left = "unit_in_battle" Right = Bool }
+	(Y Y) = { Left = "unit_in_siege" Right = Bool }
+	(A Y) = { Left = "likely_rebels" Right = RebelType }
+	(Y Y) = { Left = "manpower" Right = Double }
+	
+	# As per Helius 197, clarifying THIS
+	# infantry_in_province is province scope. Needs THIS or tag, either as in
+	# infantry_in_province = THIS
+	# or as in
+	# THIS = { infantry_in_province = 4 }
+	# Helius Eu3 450:
+	# units_in_province may be used as follows:
+	# - with "THIS", will evaluate as true, if the root scope country 
+	# (country event), or the owner of the root scope province 
+	# (province event) has any units in this province
+	# - with an integer, will evaluate as true, if the total number of units in this province is equal to or greater than the integer
+	# In both cases, it must be within province scope.
+	(N Y) = { Left = "units_in_province" Right = Int }
+	(N Y) = { Left = "units_in_province" Right = { ThisCountry ThisProvince } }
+	(N Y) = { Left = "units_in_province" Right = Tag }
+
+	(N Y) = { Left = "infantry_in_province" Right = Int }
+	(N Y) = { Left = "infantry_in_province" Right = Tag }
+
+	(N Y) = { Left = "galleys_in_province" Right = Int }
+	(N Y) = { Left = "galleys_in_province" Right = Tag }
+	
+	(If If = Eu3Dw) = {
+		(N Y) = { Left = "cavalry_in_province" Right = Int }
+		(N Y) = { Left = "cavalry_in_province" Right = Tag }
+		(N Y) = { Left = "artillery_in_province" Right = Int }
+		(N Y) = { Left = "artillery_in_province" Right = Tag }
+		(N Y) = { Left = "big_ships_in_province" Right = Int }
+		(N Y) = { Left = "big_ships_in_province" Right = Tag }
+		(N Y) = { Left = "light_ships_in_province" Right = Int }
+		(N Y) = { Left = "light_ships_in_province" Right = Tag }
+		(N Y) = { Left = "transports_in_province" Right = Int }
+		(N Y) = { Left = "transports_in_province" Right = Tag }
+	}
+	
+	(Y Y If = Eu3In) = { Left = "manpower" Right = Double }
+	(Y Y) = { Left = "max_manpower" Right = { Double Yes } }
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y Y) = { Left = "war_exhaustion" Right = Double }
+	(Y Y) = { Left = "blockade" Right = Double }
+	(Y Y) = { Left = "manpower" Right = Double }
+	(Y Y) = { Left = "max_manpower" Right = { Double Yes } }
+	(Y Y) = { Left = "manpower_percentage" Right = Double }
+	(Y Y) = { Left = "land_maintenance" Right = Double }
+	(Y Y) = { Left = "naval_maintenance" Right = Double }
+	(Y Y) = { Left = "army_tradition" Right = Double }
+	(Y Y) = { Left = "navy_tradition" Right = Double }
+	(Y Y) = { Left = "num_of_revolts" Right = Double }
+	(Y Y) = { Left = "revolt_percentage" Right = Double }
+	(Y Y) = { Left = "infantry_fraction" Right = Double }
+	(Y Y) = { Left = "cavalry_fraction" Right = Double}
+	(Y Y) = { Left = "artillery_fraction" Right = Double }
+	(Y Y) = { Left = "big_ship_fraction" Right = Double }
+	(Y Y) = { Left = "light_ship_fraction" Right = Double }
+	(Y Y) = { Left = "galley_fraction" Right = Double }
+	(Y Y) = { Left = "transport_fraction" Right = Double }
+	(Y Y) = { Left = "unit_in_battle" Right = Bool }
+	(Y Y) = { Left = "unit_in_siege" Right = Bool }
+	(Y Y) = { Left = "unit_has_leader" Right = Bool }
+	(Y Y) = { Left = "navy_size_percentage" Right = Double }
+	(Y Y) = { Left = "army_size_percentage" Right = Double }
+	(Y Y) = { Left = "max_manpower_greater_than" Right = Double }
+	(Y Y) = { Left = "at_war_with_religious_enemy" Right = Bool }
+	(Y Y) = { Left = "land_forcelimit" Right = Int }
+	(Y Y) = { Left = "naval_forcelimit" Right = Int }
+	(Y Y) = { Left = "num_of_cardinals" Right = Int }
+	(N Y) = { Left = "army" Right = { ThisCountry ThisProvince Tag } }
+	(Y Y) = { Left = "army" Right = { Int } }
+	(N Y) = { Left = "navy" Right = { ThisCountry ThisProvince Tag } }
+	(Y Y) = { Left = "navy" Right = { Int } }
+	(Y Y) = { Left = "war_score" Right = IntPercent }
+	
+	(Y N) = { Left = { Type = BasicUnitType } Right = PInt }
+	(Y N) = { Left = { Type = BasicUnitType } Right = { ThisCountry ThisProvince } }
+		
+	(If If = Eu3Ht) = {
+		(A Y) = { Left = "unit_type" Right = TechGroup }
+	}
+	
+	(N Y) = { Left = "infantry_in_province" Right = Int }
+} }
+
+(Type.Enum BasicUnitType) = { Values = { infantry cavalry artillery big_ship light_ship galley transport } }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	# Accepts doubles, as per Helius 197
+	(Y Y) = { Left = "revolt_risk" Right = Double }
+	(Y Y) = { Left = "create_pirate" Right = Int }
+	(Y Y) = { Left = "change_manpower" Right = Double }
+	(Y Y) = { Left = "change_siege" Right = Int }
+	# Not right unique b/c can spawn two weak stacks if desired that are same
+	(N N) = { Left = "spawn_rebels" Right = SpawnRebels }
+	# Fixed to Double from Int
+	# 0.8.9 changed from Double to NonNegDbl
+	(N N) = { Left = { Type = RebelType } Right = NonNegDbl }
+	(Y Y) = { Left = "create_revolt" Right = Int }
+	(N N) = { Left = { Type = Unit } Right = { Current ThisCountry ThisProvince LandProvince } }
+	# See post 656 and those around it
+	(N N If = Eu3Dw) = { Left = { Type = SpecificUnit } Right = { Current ThisCountry ThisProvince } }
+
+	(Y Y) = { Left = "army_tradition" Right = Double }
+	(Y Y) = { Left = "navy_tradition" Right = Double }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+
+	(Y Y) = { Left = "war_exhaustion" Right = Double }
+	(Y Y) = { Left = "manpower" Right = Double }
+	(Y Y) = { Left = "army_tradition" Right = Double }
+	(Y Y) = { Left = "navy_tradition" Right = Double }
+	(N N) = { Left = { Type = Unit } Right = { ThisProvince LandProvince } }
+	# See post 656 and those around it
+	(N N If = Eu3Dw) = { Left = { Type = SpecificUnit } Right = { Current ThisCountry ThisProvince } }
+
+	(If If = "Eu3Ht") = {
+		(Y Y) = { Left = "unit_type" Right = TechGroup }
+	}
+	
+} }
+
+
+
+
+
+
+(Type SpawnRebels) = {
+	Single = { Left = "type" Right = RebelType }
+	Single = { Left = "size" Right = Int }
+	Optional = { Left = "friend" Right = { Tag ThisCountry ThisProvince } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

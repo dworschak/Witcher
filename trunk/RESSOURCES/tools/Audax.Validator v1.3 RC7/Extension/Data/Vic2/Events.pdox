@@ -1,0 +1,26 @@
+(Validator Events) = {
+	Type = Default
+	(FileGroup "events" "*.txt")
+	FriendlyName = "@Events"
+	ValidatorName = EventFile
+}
+
+(Type EventFile) = {
+	Child = { Left = "country_event" Right = CountryOrStateEvent }
+	Child = { Left = "province_event" Right = ProvinceEvent }
+}
+
+(Type CountryOrStateEvent) = {
+	NodeSwitcher = {
+		Node = "id"
+		MarkChecked = False
+		Switch = {
+			(CountryEventId Enum) = CountryEvent
+			(RegionEventId Enum) = RegionEvent
+		}
+	}
+}
+
+(Import "CountryEvent" From "EventsHelper" WithFlag "c")
+(Import "ProvinceEvent" From "EventsHelper" WithFlag "p")
+(Import "RegionEvent" From "EventsHelper" WithFlag "s")

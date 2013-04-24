@@ -1,0 +1,56 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(A Y) = { Left = "controlled_by" Right = { Type = Tag Type = ThisCountry Literal = "owner" } }
+	(A Y) = { Left = "owned_by" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "is_core" Right = { Tag ThisCountry } }
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(N Y) = { Left = "controls" Right = LandProvince }
+	(N Y) = { Left = "owns" Right = LandProvince }
+	(N Y) = { Left = "is_core" Right = LandProvince }
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(Y Y) = { Left = "change_controller" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "add_core" Right = { Tag ThisCountry } }
+	(N Y) = { Left = "remove_core" Right = { Tag ThisCountry } }
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N Y) = { Left = "add_core" Right = LandProvince }
+	(N Y) = { Left = "remove_core" Right = LandProvince }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

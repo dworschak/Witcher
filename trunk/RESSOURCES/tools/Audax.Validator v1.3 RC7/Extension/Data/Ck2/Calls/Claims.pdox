@@ -1,0 +1,65 @@
+(ContextValidator CharTrigger) = { Scopes = {
+	TitleTrigger = "any_claim"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	TitleCommand = "random_claim"
+	TitleCommand = "any_claim"
+
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(Y  ) = { Left = "num_of_claims" Right = NnInt }
+	(N Y) = { Left = "has_strong_claim" Right = { ThisTitle AnyTitle } }
+	(N Y) = { Left = "has_weak_claim" Right = { ThisTitle AnyTitle } }
+	(N Y) = { Left = "has_claim" Right = { ThisTitle AnyTitle } }
+	(N Y) = { Left = "total_claims" Right = {
+		Single = { Left = "who" Right = ThisChar }
+		Optional = { Left = "strong" Right = Bool }
+		Single = { Left = "value" Right = NnInt }
+	} }
+
+} }
+
+(ContextValidator TitleTrigger) = { Members = {
+	(N Y) = { Left = "claimed_by" Right = ThisChar }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N Y) = { Left = "remove_claim" Right = { ThisTitle AnyTitle } }
+	(N Y) = { Left = "add_weak_claim" Right = { ThisTitle AnyTitle } }
+	(N Y) = { Left = "add_claim" Right = { ThisTitle AnyTitle } }
+
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(N Y) = { Left = "add_pressed_claim" Right = ThisChar }
+	(N Y) = { Left = "add_claim" Right = ThisChar }
+	(N Y) = { Left = "add_weak_pressed_claim" Right = ThisChar }
+	(N Y) = { Left = "add_weak_claim" Right = ThisChar }
+	(N Y) = { Left = "remove_claim" Right = ThisChar }
+
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

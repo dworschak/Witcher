@@ -1,0 +1,37 @@
+(Validator NationalFocuses) = {
+	Type = Default
+	FriendlyName = "National Focuses"
+	(FileGroup "common\national_focus.txt")
+	ValidatorName = NationalFocusFile
+}
+
+(Type NationalFocusFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = FocusGroup }
+}
+
+(Type FocusGroup) = {
+	Child = { Left = { Type = String } Right = Focus UniqueId = Left }
+}
+
+(Type Focus) = {
+	Inherits = ProvinceModifier
+
+	Single = { Left = "icon" Right = { IconRef = GFX_province_natfocus_strip } }
+	Optional = { Left = "limit" Right = ProvinceTrigger }
+	
+	(Ch Y N) = { Left = { Type = Goods } Right = Double }
+	(Ch Y N) = { Left = { Type = PopType } Right = Double }
+	Optional = { Left = "increase_colony" Right = Double }
+	Optional = { Left = "railroads" Right = Double }
+	Optional = { Left = "uncolonized_province" Right = Bool }
+	Optional = { Left = "colonial_validity_check" Right = Bool }
+	
+	(If If = Vic2Ahd) = {
+		Optional = { Left = "outliner_show_as_percent" Right = Bool }
+		
+		AllOrNone = { "loyalty_value" "ideology" }
+		Optional = { Left = "ideology" Right = Ideology }
+		Optional = { Left = "loyalty_value" Right = Double }
+	}
+
+}

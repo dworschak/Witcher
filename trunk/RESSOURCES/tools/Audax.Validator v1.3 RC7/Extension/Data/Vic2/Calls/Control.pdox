@@ -1,0 +1,112 @@
+(ContextValidator Trigger) = { Members = {
+
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+
+} }
+
+(ContextValidator PopTrigger) = { Members = {
+
+} }
+
+(ContextValidator RegionTrigger) = { Members = {
+
+} }
+
+(ContextValidator Command) = { Members = {
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomProvinceCommand }
+	(N N) = { Left = "random_list" Right = RandomProvinceList }
+	
+	(N N IfNot = Vic2Ahd) = { Left = "province_event" Right = ProvinceEventId }
+	(N N If = Vic2Ahd) = { Left = "province_event" Right = { Int CountryEventCall } }
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomCountryCommand }
+	(N N) = { Left = "random_list" Right = RandomCountryList }
+	
+	(N N IfNot = Vic2Ahd) = { Left = "country_event" Right = CountryEventId }
+	(N N If = Vic2Ahd) = { Left = "country_event" Right = { Int CountryEventCall } }
+} }
+
+(ContextValidator PopCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomPopCommand }
+	(N N) = { Left = "random_list" Right = RandomPopList }
+} }
+
+(ContextValidator RegionCommand) = { Members = {
+	(N N) = { Left = "random" Right = RandomRegionCommand }
+	(N N) = { Left = "random_list" Right = RandomRegionList }
+} }
+
+(If If = Vic2Ahd) = {
+	(Type CountryEventCall) = {
+		Single = { Left = "id" Right = CountryEventId }
+		Single = { Left = "days" Right = NnInt }
+	}
+	(Type ProvinceEventCall) = {
+		Single = { Left = "id" Right = ProvinceEventId }
+		Single = { Left = "days" Right = NnInt }
+	}
+}
+
+
+
+
+
+(Type RandomCountryCommand) = {
+	Inherits = CountryCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomCountryList) = {
+	(Ch N N) = { Left = { Type = Int } Right = CountryCommand }
+}
+
+(Type RandomProvinceCommand) = {
+	Inherits = ProvinceCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomProvinceList) = {
+	(Ch N N) = { Left = { Type = Int } Right = ProvinceCommand }
+}
+
+(Type RandomPopCommand) = {
+	Inherits = PopCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomPopList) = {
+	(Ch N N) = { Left = { Type = Int } Right = PopCommand }
+}
+
+(Type RandomRegionCommand) = {
+	Inherits = RegionCommand
+	Single = { Left = "chance" Right = Int }
+}
+
+(Type RandomRegionList) = {
+	(Ch N N) = { Left = { Type = Int } Right = RegionCommand }
+}
+
+
+
+
+
+
+
+
+
+
+
+

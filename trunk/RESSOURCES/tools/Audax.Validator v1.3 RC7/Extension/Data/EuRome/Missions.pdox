@@ -1,0 +1,56 @@
+﻿(Validator Missions) = {
+	Type = Default
+	FriendlyName = "Missions"
+	(FileGroup "missions" "*.txt")
+	ValidatorName = MissionFile
+}
+
+# Mission File
+(Type MissionFile) = {
+	(Ch N N) = {
+		Left = { Type = String } 
+		Right = {
+			NodeSwitcher = {
+				Node = "type"
+				Switch = {
+					"country" = CountryMission
+					"any_country" = CountryMission
+					"neighbor_countries" = CountryMission
+					
+					"empty_provinces" = ProvinceMission
+					"our_provinces" = ProvinceMission
+					"enemy_provinces" = ProvinceMission
+					"neighbor_provinces" = ProvinceMission
+				}
+			}
+		}
+		UniqueId = Left
+	}
+}
+
+(Type MissionBase) = {
+	Single = { Left = "duration" Right = Int }
+	Single = { Left = "type" Right = String } # Any problems will already have been reported by the mission transformer.
+}
+
+(Type CountryMission) = {
+	Inherits = MissionBase
+	
+	Single = { Left = "allow" Right = CountryTrigger }
+	Single = { Left = "abort" Right = CountryTrigger }
+	Single = { Left = "success" Right = CountryTrigger }
+	Single = { Left = "effect" Right = CountryCommand }
+	Single = { Left = "fail_effect" Right = CountryCommand }
+	Single = { Left = "chance" Right = { Inherits = CountryTrigger Single = { Left = "factor" Right = Double } } }
+}
+
+(Type ProvinceMission) = {
+	Inherits = MissionBase
+	
+	Single = { Left = "allow" Right = ProvinceTrigger }
+	Single = { Left = "abort" Right = ProvinceTrigger }
+	Single = { Left = "success" Right = ProvinceTrigger }
+	Single = { Left = "effect" Right = ProvinceCommand }
+	Single = { Left = "fail_effect" Right = ProvinceCommand }
+	Single = { Left = "chance" Right = { Inherits = ProvinceTrigger Single = { Left = "factor" Right = Double } } }
+}

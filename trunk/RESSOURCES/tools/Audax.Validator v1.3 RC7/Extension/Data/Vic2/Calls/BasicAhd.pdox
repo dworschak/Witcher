@@ -1,0 +1,92 @@
+(ContextValidator Trigger) = { Members = {
+	(Y  ) = { Left = "great_wars_enabled" Right = Bool }
+} }
+
+(ContextValidator ProvinceTrigger) = { Members = {
+	(N Y) = { Left = "can_build_in_province" Right = {
+		Single = { Left = "building" Right = { Type = Building } }
+		Optional = { Left = "limit_to_world_greatest_level" Right = Bool }
+	} }
+	
+	(Y  ) = { Left = "is_state_capital" Right = Bool }
+	(Y  ) = { Left = "total_pops" Right = PInt }
+	(Y  ) = { Left = "can_build_factory" Right = Bool }
+	(N Y) = { Left = { Type = PopType } Right = NnDblP }
+	(Y  ) = { Left = "has_culture_core" Right = Bool }
+} }
+
+(ContextValidator CountryTrigger) = { Members = {
+	(Y  ) = { Left = "is_substate" Right = Bool }
+	(Y  ) = { Left = "num_of_vassals_no_substates" Right = NnInt }
+	(Y  ) = { Left = "can_build_railway_in_capital" Right = BuildInfo }
+	(Y  ) = { Left = "can_build_fort_in_capital" Right = BuildInfo }
+	(N Y) = { Left = "can_build_factory_in_capital_state" Right = Factory }
+	(Y  ) = { Left = "num_of_substates" Right = NnInt }
+	(Y  ) = { Left = "political_movement" Right = Bool }
+	(Y  ) = { Left = "social_movement" Right = Bool }
+	(Y  ) = { Left = "civilization_progress" Right = NonNegDblPercent }
+	(Y  ) = { Left = "constructing_cb_progress" Right = NonNegPercent }
+	(A Y) = { Left = "constructing_cb_type" Right = CasusBelliType }
+	(A Y) = { Left = "substate_of" Right = { Tag ThisCountry } }
+
+	(Y  ) = { Left = "can_nationalize" Right = Bool }
+} }
+
+(ContextValidator PopTrigger) = { Members = {
+	(Y  ) = { Left = "political_movement" Right = Bool }
+	(Y  ) = { Left = "social_movement" Right = Bool }
+	(Y  ) = { Left = "has_culture_core" Right = Bool }
+
+} }
+
+(ContextValidator RegionTrigger) = { Members = {
+
+} }
+
+(ContextValidator Command) = { Members = {
+	(Y  ) = { Left = "great_wars_enabled" Right = Bool }
+
+} }
+
+(ContextValidator ProvinceCommand) = { Members = {
+
+} }
+
+(ContextValidator CountryCommand) = { Members = {
+	(Y  ) = { Left = "build_railway_in_capital" Right = BuildInfo }
+	(Y  ) = { Left = "build_fort_in_capital" Right = BuildInfo }
+	(N Y) = { Left = "build_factory_in_capital_state" Right = Factory }
+	(N Y) = { Left = "activate_technology" Right = Tech }
+	(Y  ) = { Left = "nationalize" Right = Yes }
+	(Y  ) = { Left = "remove_random_economic_reforms" Right = PInt }
+	(Y  ) = { Left = "remove_random_military_reforms" Right = PInt }
+} }
+
+(ContextValidator PopCommand) = { Members = {
+
+} }
+
+(ContextValidator RegionCommand) = { Members = {
+
+} }
+
+(Type BuildInfo) = {
+	Optional = { Left = "in_whole_capital_state" Right = Bool }
+	Optional = { Left = "limit_to_world_greatest_level" Right = Bool }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

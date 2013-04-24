@@ -1,0 +1,41 @@
+﻿Includes = {
+	"..\..\_Common\CountryHistory"
+}
+
+(Type.Enum CountryHistorySkip) = { Values = { "reb" } } # Needed for CountryHistoryBase
+(Type CountryHistory) = {
+	Inherits = CountryHistoryBase
+
+	Inherits = CommonOptionalCommands
+
+	Single = { Left = "primary_culture" Right = Culture }
+	(Ch N Y) = { Left = "add_accepted_culture" Right = Culture }
+	Single = { Left = "capital" Right = LandProvince }
+	Single = { Left = "government" Right = GovernmentType }
+	Optional = { Left = "oob" Right = String (ValidateFile "[R]" OobFile Format = "history\oob\{0}") }
+	Optional = { Left = "prestige" Right = Int }
+	Optional = { Left = "idea_points" Right = Int }
+	(Ch Y N) = { Left = { Type = Idea } Right = Bool }
+	
+}
+		
+(Type DateClause) = {
+	Optional = { Left = "monarch" Right = {
+		Single = { Left = "name" Right = String }
+		Single = { Left = { "adm" "ADM" } Right = PInt }
+		Single = { Left = { "dip" "DIP" } Right = PInt }
+		Single = { Left = { "mil" "MIL" } Right = PInt }
+		Single = {
+			Left = "monarch_picture"
+			Right = String
+			FileExists = {
+				Target = "[R]"
+				Path = "gfx\portraits\*.tga"
+			}
+		}
+	} }
+}
+		
+(Type CommonOptionalCommands) = {
+}
+

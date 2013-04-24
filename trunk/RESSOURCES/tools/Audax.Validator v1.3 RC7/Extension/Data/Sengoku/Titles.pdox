@@ -1,0 +1,88 @@
+(Validator HistoryTitles) = {
+	Type = GroupValidator
+	FriendlyName = "Titles"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\job_titles.txt")
+		ValidatorName = JobTitles
+	}
+	Validator = {
+		Type = Default
+		(FileGroup "common\landed_titles.txt")
+		ValidatorName = LandedTitles
+	}
+}
+
+(Type JobTitles) = {
+	(Ch Y N) = { Left = { Type = String } Right = JobTitleDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type JobTitleDef) = {	
+	Optional = { Left = "can_lead_troops" Right = Bool }
+	Optional = { Left = "is_marshal" Right = Bool }
+	Optional = { Left = "is_spymaster" Right = Bool }
+	Optional = { Left = "is_chancellor" Right = Bool }
+	Single = { Left = "attribute" Right = Attribute }
+	Optional = { Left = "opinion_effect" Right = Int }
+	Optional = { Left = "dignity" Right = Int }
+
+	(Ch N Y) = { Left = "action" Right = JobAction }
+	
+	Optional = { Left = "allow" Right = CharTrigger }
+	Optional = { Left = "gain_effect" Right = CharCommand }
+	Optional = { Left = "lose_effect" Right = CharCommand }
+	
+}
+
+(Type LandedTitles) = {
+	(Ch Y N) = { Left = { Type = EmpireTitle } Right = EmpireTitleDef }
+	(Ch Y N) = { Left = { Type = KingTitle } Right = KingTitleDef }
+	(Ch Y N) = { Left = { Type = DukeTitle } Right = DukeTitleDef }
+}
+
+(Type LandedTitleBase) = {
+	(CheckKey "*" Left IfNot = NoCheckKey)
+	
+	Optional = { Left = "color" Right = Color }
+	Optional = { Left = "color2" Right = Color }
+	Optional = { Left = "capital" Right = LandProvince }
+}
+
+(Type EmpireTitleDef) = {
+	Inherits = LandedTitleBase
+	(Ch Y N) = { Left = { Type = KingTitle } Right = KingTitleDef }
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+
+	Optional = { Left = "is_clan_leader" Right = Bool }
+	Optional = { Left = "pirate" Right = Bool }
+	Optional = { Left = "rebel" Right = Bool }
+	Optional = { Left = "historical_law" Right = { Literal = "succ_feudal_elective" } }
+}
+
+(Type KingTitleDef) = {
+	Inherits = LandedTitleBase
+
+	(Ch Y N) = { Left = { Type = DukeTitle } Right = DukeTitleDef }
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+	Optional = { Left = "is_clan_leader" Right = Bool }
+}
+
+(Type DukeTitleDef) = {
+	Inherits = LandedTitleBase
+	(Ch Y N) = { Left = { Type = CountTitle } Right = CountTitleDef }
+
+}
+
+(Type CountTitleDef) = {
+	Inherits = LandedTitleBase
+
+}
+
+
+
+
+
+
+
+

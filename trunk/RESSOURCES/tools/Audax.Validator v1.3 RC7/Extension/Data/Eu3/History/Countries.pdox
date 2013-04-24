@@ -1,0 +1,89 @@
+﻿Includes = {
+	"..\..\_Common\CountryHistory"
+}
+
+(Type.Enum CountryHistorySkip) = { Values = { "reb" "pir" "nat" } } # Needed for CountryHistoryBase	
+(Type CountryHistory) = {
+	Inherits = CountryHistoryBase
+	
+	Single = { Left = "government" Right = Government }
+	OptionList = { Left = { Type = Slider } Right = Int }
+	Single = { Left = "technology_group" Right = TechGroup }
+	Single = { Left = "religion" Right = Religion }
+	Single = { Left = "primary_culture" Right = Culture }
+	Child = { Left = "add_accepted_culture" Right = Culture }
+	Single = { Left = "capital" Right = LandProvince }
+	Optional = { Left = "emperor" Right = Bool }
+	Optional = { Left = "elector" Right = Bool }
+	Child = { Left = "historical_friend" Right = Tag }
+	Optional = { Left = "unit_type" Right = TechGroup }
+	
+	(If If = Eu3Dw) = {
+		Optional = { Left = "daimyo" Right = { Type = Bool Literal = "emperor" } }
+		(Ch N Y) = { Left = "faction" Right = Faction }
+		(Ch Y N) = { Left = { Type = Faction } Right = PInt }
+	}
+}
+
+(Type DateClause) = {
+	Optional = { Left = "monarch" Right = Monarch }
+	(Ch N Y) = { Left = "leader" Right = Leader }
+	(Optional If = Eu3Ht) = { Left = "heir" Right = Heir }
+	
+	OptionList = { Left = { Type = Slider } Right = Int }
+	Optional = { Left = "government" Right = Government }
+	Optional = { Left = "technology_group" Right = TechGroup }
+	Optional = { Left = "religion" Right = Religion }
+	Optional = { Left = "primary_culture" Right = Culture }
+	(Ch N Y) = { Left = "add_accepted_culture" Right = Culture }
+	(Ch N Y) = { Left = "remove_accepted_culture" Right = Culture }
+	Optional = { Left = "capital" Right = LandProvince }
+	Optional = { Left = "emperor" Right = Bool }
+	Optional = { Left = "elector" Right = Bool }
+	Optional = { Left = "changed_tag_from" Right = Tag }
+	Optional = { Left = "revolution_target" Right = Bool }
+	(Ch N Y) = { Left = "set_country_flag" Right = String (LocalOp "set" "[R]" AddSetter CountryFlag) }
+	(Ch N Y) = { Left = "clr_country_flag" Right = String (LocalOp "clr" "[R]" AddSetter CountryFlag) }
+	(Ch N Y) = { Left = "set_global_flag" Right = String (LocalOp "set" "[R]" AddSetter GlobalFlag) }
+	(Ch N Y) = { Left = "clr_global_flag" Right = String (LocalOp "clr" "[R]" AddSetter GlobalFlag) }
+	(Ch N Y) = { Left = "decision" Right = { CountryDecision ReligionDecision } }
+	Optional = { Left = "unit_type" Right = TechGroup }
+	
+	(If If = Eu3Dw) = {
+		Optional = { Left = "shogun" Right = NnInt }
+	}
+}
+
+(Type MonarchBase) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = { "adm" "ADM" } Right = TraitNumber }
+	Single = { Left = { "dip" "DIP" } Right = TraitNumber }
+	Single = { Left = { "mil" "MIL" } Right = TraitNumber }
+	(Optional If = Eu3Ht) = { Left = "dynasty" Right = String }
+	Optional = { Left = "female" Right = Bool }
+	Optional = { Left = "leader" Right = Leader }
+}
+		
+(Type Monarch) = {
+	Inherits = MonarchBase
+	Optional = { Left = "regent" Right = Bool }
+}
+
+(Type Heir If = "Eu3Ht") = {
+	Inherits = "MonarchBase"
+	Single = { Left = "monarch_name" Right = String }
+	Single = { Left = { Literal = "birth_date"  Literal = "birth_Date"} Right = Date }
+	Single = { Left = { Literal = "death_date"  Literal = "death_Date"} Right = Date }
+	Single = { Left = "claim" Right = Int }
+	}
+		
+(Type Leader) = {
+	Single = { Left = "name" Right = String }
+	Single = { Left = "type" Right = { Literal = "general" Literal = "admiral" Literal = "conquistador" Literal = "explorer" } }
+	Optional = { Left = "rank" Right = String } #BAD BAD BAD THIS IS OUTDATED
+	Optional = { Left = "death_date" Right = Date }
+	Single = { Left = "fire" Right = Int }
+	Single = { Left = "shock" Right = Int }
+	Single = { Left = "manuever" Right = Int }
+	Single = { Left = "siege" Right = Int }
+}

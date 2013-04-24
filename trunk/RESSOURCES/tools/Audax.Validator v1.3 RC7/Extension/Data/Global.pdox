@@ -1,0 +1,173 @@
+﻿Global = {
+	# NOTE: Templates CANNOT be used in the same file that they are declared in, and must have
+	# been read before
+	(Template Child) = { (LeftUnique N) (RightUnique N) }
+	(Template Optional) = { (LeftUnique N) (RightUnique N) (MinOccurs 0) (MaxOccurs 1) }
+	(Template Single) = { (LeftUnique N) (RightUnique N) (MinOccurs 1) (MaxOccurs 1) }
+	(Template Required) = { (LeftUnique N) (RightUnique N) (MinOccurs 1) }
+	
+	(Template OptionList) = { (LeftUnique N) (RightUnique N) (CountOccursByString True) (MaxOccurs 1) }
+	(Template RequiredList) = { (LeftUnique N) (RightUnique N) (CountOccursByString True) (MinOccurs 1) (MaxOccurs 1) }
+	
+	(Template PdoList) = {
+		(LeftUnique N)
+		(RightUnique Binding Attr Required 1)
+		(MinOccurs Binding Attr Optional 2 Fallback 0)
+		(MaxOccurs Binding Attr Optional 3 Fallback -1)
+		
+		Left = "Item"
+		(Right Binding Type)
+	}
+	
+	(Template Debug) = { (LeftUnique N) (RightUnique N) Left = { Type = String } Right = Untyped }
+	(Template Untyped) = { (LeftUnique N) (RightUnique N) Left = { Type = String } Right = Untyped }
+	
+	# Binding:
+	# Any template property can be bound to a target on the callsite
+	# e.g. For PdoList, we can bind RightUnique, so that (PdoList Y) means that the Y provides the value of RightUnique
+	# For this to work, we read the arguments in one by one
+	# If "Binding" Then
+	#	// We are now in a binding
+	#	ReadNext
+	#	If "Required" Then
+	#		Read Source
+	#	Else "Optional" Then
+	#		Read Source
+	#		Read "Fallback"
+	#		Read Fallback value
+	# Else
+	#	Value is as quoted
+	#
+	# Read Source:
+	# 	Attr -> [1-based index]
+	# 	Node -> [node name]
+		
+	(Type.Enum Bool) = {
+		Values = { "yes" "no" "true" "false" }
+	}
+		
+	(Literal 0) = 0
+	(Literal 1) = 1
+	(Literal 2) = 2
+	(Literal 3) = 3
+	(Literal 4) = 4
+	(Literal 5) = 5
+	(Literal 6) = 6
+	(Literal 7) = 7
+	(Literal -1) = -1
+	(Literal -2) = -2
+	(Literal -3) = -3
+	(Literal -4) = -4
+	(Literal -5) = -5
+	(Literal -6) = -6
+	(Literal -7) = -7
+	
+	(RestrictedNumber NonNegOrNullInt) = { Restriction = "[-1," Message = "The value '{0}' on node '{1}' must be an integer -1 or above." }
+	(RestrictedNumber NonNegativeDouble) = { Restriction = "[0.0," Message = "The value '{0}' on node '{1}' must be a double 0 or above." }
+	(RestrictedNumber PosDbl) = { Restriction = "(0.0," Message = "The value '{0}' on node '{1}' must be a positive double." }
+	
+	# Percents
+	(RestrictedNumber PositivePercent) = { Restriction = "[0,100]" Message = "The value '{0}' on node '{1}' must be an integer between 0 and 100." }
+	(RestrictedNumber IntPercent) = { Restriction = "[-100,100]" Message = "The value '{0}' on node '{1}' must be between -100 and 100." }
+	
+	(RestrictedNumber Percent) = { Restriction = "[-100.0,100.0]" Message = "The value '{0}' on node '{1}' must be between -100.0. and 100.0." }
+	(RestrictedNumber NonNegPercent) = { Restriction = "[-0.0,100.0]" Message = "The value '{0}' on node '{1}' must be between -0.0. and 100.0." }
+	
+	(RestrictedNumber DblPercent) = { Restriction = "[-1.0,1.0]" Message = "The value '{0}' on node '{1}' must be a value between -1.0 and 1.0, inclusive." }
+	(RestrictedNumber NonNegDblPercent) = { Restriction = "[0.0,1.0]" Message = "The value '{0}' on node '{1}' must be a value between 0.0 and 1.0, inclusive." }
+	(RestrictedNumber PositiveDoublePercent) = { Restriction = "(0.0,1.0]" Message = "The value '{0}' on node '{1}' must be a value greater than 0.0 and less than or equal to 1.0." }
+	
+	(Type NonZeroInt) = {
+		(RestrictedNumber NonZeroInt) = {
+			Type = Int
+			Message = "The value '{0}' on node '{1}' must be a non-zero int."
+			Neq = 0
+		}
+	}
+	(Type NonZeroDouble) = {
+		(RestrictedNumber NonZeroDouble) = {
+			Type = Double
+			Message = "The value '{0}' on node '{1}' must be a non-zero double."
+			Neq = 0
+		}
+	}
+	(Type NonZeroDblPercent) = {
+		(RestrictedNumber NonZeroDblPercent) = {
+			Type = Double
+			Message = "The value '{0}' on node '{1}' must be a non-zero double."
+			Neq = 0
+			Gte = -1.0
+			Lte = 1.0
+		}
+	}
+
+#region Ints
+	(RestrictedNumber PositiveInt) = { Restriction = "(0," Message = "The value '{0}' on node '{1}' must be a positive integer." }
+	(RestrictedNumber NegativeInt) = {
+		Type = Int
+		Message = "The value '{0}' on node '{1}' must be a negative integer."
+		Lt = 0
+	}
+	(RestrictedNumber NonNegativeInt) = { Restriction = "[0," Message = "The value '{0}' on node '{1}' must be a non-negative integer." }
+	
+	(RestrictedNumber NonPositiveInt) = {
+		Type = Int
+		Message = "The value '{0}' on node '{1}' must be a non-positive integer."
+		Lte = 0
+	}
+	
+	(RestrictedNumber NegOneOrPositiveInt) = {
+		Type = Int
+		Message = "The value '{0}' on node '{1}' must be a positive integer or -1."
+		Or = {
+			Gt = 0
+			Eq = -1
+		}
+	}
+	
+	(Type PosInt) = PositiveInt
+	(Type NegInt) = NegativeInt
+	(Type NonNegInt) = NonNegativeInt
+	(Type NonZeroDbl) = NonZeroDouble
+	
+	(Type NzDbl) = NonZeroDbl
+	(Type NonNegDbl) = NonNegativeDouble
+	(Type NnDbl) = NonNegativeDouble
+	(Type NnDouble) = NonNegativeDouble
+	(Type NnDblP) = NonNegDblPercent
+	(Type PInt) = PositiveInt
+	(Type NInt) = NegativeInt
+	(Type NnInt) = NonNegativeInt
+	(Type NzDblP) = NonZeroDblPercent
+	(Type NzInt) = NonZeroInt
+	(Type NnP) = NonNegPercent
+	(Type PDblP) = PositiveDoublePercent
+	(Type PDbl) = PosDbl
+	
+#endregion
+
+	# DO NOT REMOVE OR RENAME! USED BY THE ENGINE ITSELF
+	(Type Empty) = { }
+
+}
+
+Packages = { "*" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

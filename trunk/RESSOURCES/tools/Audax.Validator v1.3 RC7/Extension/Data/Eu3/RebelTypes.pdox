@@ -1,0 +1,164 @@
+(Validator RebelTypeValidator) = {
+	Type = Default
+	FriendlyName = "Rebel Types"
+	ValidatorName = RebelTypes
+	(FileGroup "common\rebel_types.txt")
+}
+
+(Type RebelTypes) = {
+	Child = { Left = { Type = String } Right = RebelType UniqueId = Left }
+}
+
+(Type RebelType) = {
+	Single = { Left = "area" Right = { Type.Enum = { Values = { "nation" "culture" "nation_culture" "nation_religion" "religion" "all" } } } }
+	Single = { Left = "government" Right = { Type.Enum = { Values = { monarchy republic theocracy anti any feudal_monarchy } } } }
+	Single = { Left = "defection" Right = { Type.Enum = { Values = { culture culture_group religion any none colonial } } } }
+	Single = { Left = "independence" Right = { Type.Enum = { Values = { culture culture_group religion colonial any none } } } }
+	
+	Optional = { Left = "defect_delay" Right = Int }
+	
+	Single = { Left = "resilient" Right = Bool }
+	Single = { Left = "reinforcing" Right = Bool }
+	Single = { Left = "general" Right = Bool }
+	Single = { Left = "smart" Right = Bool }
+	Single = { Left = "unit_transfer" Right = Bool }
+	Optional = { Left = "disband_on_leader_death" Right = Bool }
+
+	Single = { Left = "artillery" Right = Double }
+	Single = { Left = "infantry" Right = Double }
+	Single = { Left = "cavalry" Right = Double }
+	
+	Single = { Left = "spawn_chance" Right = SpawnChance }
+	Single = { Left = "movement_evaluation" Right = SpawnChance }
+	Optional = { Left = "siege_won_trigger" Right = RebelProvinceTrigger }
+	Single = { Left = "can_negotiate_trigger" Right = RebelCountryTrigger }
+	Single = { Left = "can_enforce_trigger" Right = RebelCountryTrigger }
+	Single = { Left = "demands_accepted_effect" Right = RebelCountryCommand }
+	Single = { Left = "demands_enforced_effect" Right = RebelCountryCommand }
+	Optional = { Left = "siege_won_effect" Right = RebelProvinceCommand }
+}
+
+(Type "SpawnChance") = {
+	Single = { Left = "factor" Right = Double }
+	Child = { Left = "modifier" Right = Modifier }
+}
+
+(Type "Modifier") = {
+	Inherits = RebelProvinceTrigger
+	Single = { Left = "factor" Right = Double }
+}
+
+(ContextValidator RebelProvinceTrigger) = {
+	Inherits = ProvinceTrigger
+	#Conditional = ProvinceTrigger
+	#ThisTarget = ProvinceTrigger
+	
+	Set = {
+		ProvinceTrigger = RebelProvinceTrigger
+		CountryTrigger = RebelCountryTrigger
+	}
+	
+	Members = {
+		(Y Y) = { Left = "controlled_by" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "religion" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "primary_culture" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "culture" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "exists" Right = Bool }
+		(Y Y) = { Left = "is_colonial" Right = Bool }
+	}
+}
+
+(Type RebelProvinceTrigger) = {
+	ContextValidator = RebelProvinceTrigger
+}
+
+(ContextValidator RebelCountryTrigger) = {
+	Inherits = CountryTrigger
+	#Conditional = CountryTrigger
+	#ThisTarget = CountryTrigger
+	
+	Set = {
+		ProvinceTrigger = RebelProvinceTrigger
+		CountryTrigger = RebelCountryTrigger
+	}
+	
+	Scopes = {
+		ProvinceTrigger = any_core
+	}
+	
+	Members = {
+		(Y Y) = { Left = "religion" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "religion_group" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "culture" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "primary_culture" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "is_colonial" Right = Bool }
+	}
+}
+
+(Type RebelCountryTrigger) = {
+	Optional = { Left = "always" Right = Bool }
+	ContextValidator = RebelCountryTrigger
+}
+
+(ContextValidator RebelCountryCommand) = {
+	Inherits = CountryCommand
+	
+	Set = {
+		ProvinceTrigger = RebelProvinceTrigger
+		CountryTrigger = RebelCountryTrigger
+		ProvinceCommand = RebelProvinceCommand
+		CountryCommand = RebelCountryCommand
+	}
+	
+	Members = {
+		(Y Y) = { Left = "government" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "define_ruler" Right = RebelRulerClause }
+		(Y Y) = { Left = "religion" Right = { Literal = "REB" } }
+		(Y Y) = { Left = "force_converted" Right = Bool }
+		(N N) = { Left = "random" Right = { Single = { Left = "chance" Right = Int } Inherits = RebelCountryCommand } }
+	}
+}
+
+(Type RebelRulerClause) = {
+	Inherits = RulerClause
+	Optional = { Left = "rebel" Right = Yes }
+}
+
+(Type RebelCountryCommand) = {
+	ContextValidator = RebelCountryCommand
+}
+
+(ContextValidator RebelProvinceCommand) = {
+	Inherits = ProvinceCommand
+	
+	Set = {
+		ProvinceTrigger = RebelProvinceTrigger
+		CountryTrigger = RebelCountryTrigger
+		ProvinceCommand = RebelProvinceCommand
+		CountryCommand = RebelCountryCommand
+	}
+	
+	Members = {
+		(Y Y) = { Left = "religion" Right = { Literal = "REB" } }
+	}
+}
+
+(Type RebelProvinceCommand) = {
+	ContextValidator = RebelProvinceCommand
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

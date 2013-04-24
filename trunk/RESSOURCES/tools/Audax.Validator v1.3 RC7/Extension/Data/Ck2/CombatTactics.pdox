@@ -1,0 +1,91 @@
+(Validator CombatTactics) = {
+	Type = Default
+	FriendlyName = "Combat Tactics"
+	(FileGroup "common\combat_tactics.txt")
+	ValidatorName = CombatTactics
+}
+
+(Type CombatTactics) = {
+	(Ch Y N) = { Left = { Type = String } Right = CombatTacticDef }
+}
+
+Global = {
+(Type.Enum TacticGroup) = { Values = { charge defensive swarm skirmish harass advance stand_fast volley } }
+(Type.Enum Phase) = { Values = { melee pursue skirmish } }
+}
+
+(Type CombatTacticDef) = {
+	Optional = { Left = "days" Right = NonNegInt }
+	Optional = { Left = "sprite" Right = { IconRef = GFX_combat_tactic_strip } }
+	Optional = { Left = "trigger" Right = BattleTrigger }
+	Optional = { Left = "mean_time_to_happen" Right = Mtth }
+	Optional = { Left = "siege" Right = { Literal = "defender" Literal = "attacker" } }
+	Optional = { Left = "group" Right = TacticGroup }
+	Optional = { Left = "change_phase_to" Right = Phase }
+	Child = { Left = "enemy" Right = EnemyClause }
+	
+	Inherits = UnitStatsModifier
+	(Ch Y N) = { Left = { Type = Unit } Right = Double }
+}
+
+(Type Mtth) = {
+	Single = { Left = "days" Right = NonNegInt }
+	
+	(Ch N Y) = { Left = "modifier" Right = MtthModifier }
+}
+
+(Type MtthModifier) = {
+	Single = { Left = "factor" Right = NnDbl }
+
+	Inherits = FactorModifier
+	Inherits = BattleTrigger
+}
+
+(Type EnemyClause) = {
+	Single = { Left = "group" Right = TacticGroup }
+	Single = { Left = "factor" Right = Double }
+}
+
+(Type BattleTrigger) = {
+	ContextValidator = BattleTrigger
+	
+	Optional = { Left = "always" Right = Bool }
+}
+(ContextValidator BattleTrigger) = {
+	Inherits = Trigger
+	Conditional = BattleTrigger
+	
+	Members = {
+		(A Y) = { Left = "phase" Right = Phase }
+		(Y  ) = { Left = "days" Right = NonNegInt }
+		(Y  ) = { Left = "is_flanking" Right = Bool }
+		(Y  ) = { Left = "martial" Right = NonNegInt } # Shortcut for leader martial
+		(Y  ) = { Left = "flank_has_leader" Right = Bool }
+		
+		(N Y) = { Left = "troops" Right = {
+			Single = { Left = "who" Right = Unit }
+			Single = { Left = "value" Right = NnDblP }
+		} }
+		(N Y) = { Left = "light_troops" Right = {
+			Single = { Left = "who" Right = { Literal = "light_infantry" Literal = "light_cavalry" Literal = "horse_archers" Literal = "archers" } }
+			Single = { Left = "value" Right = NnDblP }
+		} }
+		(N Y) = { Left = "heavy_troops" Right = {
+			Single = { Left = "who" Right = { Literal = "heavy_infantry" Literal = "pikemen" Literal = "knights" Literal = "light_troops" } }
+			Single = { Left = "value" Right = NnDblP }
+		} }
+		(Y  ) = { Left = { Type = Unit } Right = NnDblP }
+	}
+	
+	Scopes = {
+		CharTrigger = "leader"
+		BattleTrigger = "enemy"
+		ProvTrigger = "location"
+	}
+	
+	Set = {
+		BattleTrigger = BattleTrigger
+	}
+}
+
+

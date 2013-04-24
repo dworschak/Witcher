@@ -1,0 +1,27 @@
+﻿(Validator Wars) = {
+	Type = Default
+	FriendlyName = "Wars"
+	(FileGroup "history\wars" "*.txt")
+	ValidatorName = WarFile
+}
+
+(Type WarFile) = {
+	(Ch N Y) = { Left = "name" Right = Key }
+	Optional = { Left = "casus_belli" Right = CbClause }
+	(Ch N N) = { Left = { Type = Date } Right = WarEvents }
+}
+
+(Type CbClause) = {
+	Single = { Left = "actor" Right = CharacterId }
+	Single = { Left = "recipient" Right = CharacterId }
+	Single = { Left = "casus_belli" Right = CasusBelli }
+	Single = { Left = "date" Right = Date }
+	Optional = { Left = "landed_title" Right = AnyTitle }
+}
+
+(Type WarEvents) = {
+	(Ch N Y) = { Left = "add_attacker" Right = CharacterId }
+	(Ch N Y) = { Left = "add_defender" Right = CharacterId }
+	(Ch N Y) = { Left = "rem_attacker" Right = CharacterId }
+	(Ch N Y) = { Left = "rem_defender" Right = CharacterId }
+}

@@ -1,0 +1,104 @@
+(Type "CountryMission" If = "c") = {
+	Inherits = Mission
+}
+
+(Type "ProvinceMission" If = "p") = {
+	Inherits = Mission
+}
+(Type "Mission") = {
+	
+	#Single = { Left = "allow" Right = ProvinceMissionAllowClause }
+	Single = { Left = "chance" Right = MissionModifier }
+
+	(If If = "c") = {
+		Single = { Left = "allow" Right = CountryTrigger }
+		Optional = { Left = "abort" Right = CountryTrigger }
+		Single = { Left = "success" Right = CountryTrigger }
+		Single = { Left = "effect" Right = CountryCommand }
+		
+		(If If = "Eu3Ht") = {
+			Optional = { Left = "immediate" Right = CountryCommand }
+			Optional = { Left = "abort_effect " Right = CountryCommand  }
+		}
+	}
+	
+	(If If = "p") = {
+		Single = { Left = "allow" Right = ProvinceMissionAllowClause }
+		Optional = { Left = "abort" Right = ProvinceMissionAllowClause }
+		Single = { Left = "success" Right = ProvinceMissionAllowClause }
+		Single = { Left = "effect" Right = ProvinceMissionEffect }
+		
+		(If If = "Eu3Ht") = {
+			Optional = { Left = "immediate" Right = ProvinceMissionEffect }
+			Optional = { Left = "abort_effect " Right = ProvinceMissionEffect }
+		}
+	}
+	
+}
+
+(Type MissionModifier) = {
+	Single = { Left = "factor" Right = Double }
+	Child = { Left = "modifier" Right = MissionTrigger }
+}
+		
+(Type MissionTrigger) = {
+	(Inherits If = "p") = ProvinceMissionAllowClause
+	(Inherits If = "c") = CountryTrigger # for both country and province
+	
+	Single = { Left = "factor" Right = Double }
+}
+
+(If If = p) = {
+	(Type ProvinceMissionAllowClause) = {
+		ContextValidator = MissionAllowClause
+	}
+
+	(ContextValidator CountryProvince) = { }
+
+	(ContextValidator Trigger) = { Set = {
+		CountryProvince = CountryProvince
+		MissionAllowClause = MissionAllowClause
+	} }
+
+	(ContextValidator Command) = { Set = {
+		CountryProvince = CountryProvince
+		MissionAllowClause = MissionAllowClause
+	} }
+
+	(ContextValidator MissionAllowClause) = {
+		Inherits = ProvinceTrigger
+		InheritsWeak = CountryTrigger
+		ThisTarget = CountryProvince # So either a country or a province
+		Conditional = MissionAllowClause
+	}
+
+
+	(Type ProvinceMissionEffect) = {
+		ContextValidator = ProvinceMissionEffect
+	}
+
+	(ContextValidator ProvinceMissionEffect) = {
+		Inherits = ProvinceCommand
+		InheritsWeak = CountryCommand
+		
+		ThisTarget = CountryProvince
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

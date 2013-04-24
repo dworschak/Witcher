@@ -1,0 +1,59 @@
+(Validator Buildings) = {
+	Type = Default
+	FriendlyName = "Buildings"
+	(FileGroup "common\buildings" "*.txt")
+	ValidatorName = Buildings
+}
+
+(Type Buildings) = {
+	(Ch Y N) = { Left = { Type = String } Right = BuildingGroup (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type BuildingGroup) = {
+	Child = { Left = { Type = String } Right = BuildingDef UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type BuildingDef) = {
+	Optional = { Left = "desc" Right = Key }
+	Single = { Left = "build_cost" Right = NnDbl }
+	Single = { Left = "build_time" Right = NonNegInt }
+	
+	Optional = { Left = "prerequisites" Right = { (PdoList Y) = { Type = ImprovementValue } } }
+	Optional = { Left = "not_if_x_exists" Right = { (PdoList Y) = { Type = ImprovementValue } } }
+	Optional = { Left = "upgrades_from" Right = ImprovementValue }
+	Optional = { Left = "ai_creation_factor" Right = NonNegInt }
+	Optional = { Left = "auto_add_at_year" Right = NonNegInt }
+	
+	(If If = V110) = {
+		Optional = { Left = "max_tradeposts" Right = NonNegInt }
+		Optional = { Left = "add_number_to_name" Right = Bool }
+	}
+	
+	Optional = { Left = "start" Right = StartProvTrigger }
+	Optional = { Left = "potential" Right = BuildProvTrigger }
+	Optional = { Left = "trigger" Right = BuildProvTrigger }
+	
+	(Ch Y N) = { Left = { Type = Unit } Right = Int }
+	
+	Optional = { Left = "retinuesize" Right = Double }
+	Optional = { Left = "tradevalue" Right = Double }
+	Optional = { Left = "scouting" Right = Bool }
+
+	Inherits = Modifier
+}
+
+(Type StartProvTrigger) = { ContextValidator = StartProvTrigger }
+
+(ContextValidator StartProvTrigger) = {
+	Inherits = TitleTrigger
+	FromTarget = Char
+}
+
+(Type BuildProvTrigger) = { ContextValidator = BuildProvTrigger }
+
+(ContextValidator BuildProvTrigger) = {
+	Inherits = ProvTrigger
+	FromTarget = Char
+	FromFromTarget = Title
+}
+

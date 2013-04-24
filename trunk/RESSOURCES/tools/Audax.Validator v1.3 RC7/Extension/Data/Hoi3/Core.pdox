@@ -1,0 +1,133 @@
+﻿(System IfNot = Hoi3Tfh) = "Clausewitz"
+(System If = Hoi3Tfh) = "Hoi3Tfh"
+
+Packages = { Core Hoi3Core Localization }
+Includes = {
+	"Calls\_Main"
+	"Countries"
+	"Decisions"
+	"Events\_Events"
+	"Techs"
+	"Units"
+	"Modifiers"
+	"Localization"
+	
+	"History\Countries"
+	"History\Leaders"
+	"History\Provinces"
+	"History\Oob"
+	"History\Wars"
+	"History\Diplo"
+	
+	Buildings
+	Combat
+	Government
+	Map
+	Partisanship
+	OnActions
+	
+	Options
+	
+	(If If = Hoi3Sf) = {
+		FactionAims
+	}
+	
+	(If If = Hoi3Ftm) = {
+		Scenarios
+		CbTypes
+		StrategicResources
+		Music
+	}
+	
+	(If If = Hoi3Tfh) = {
+		CovertOps
+		CGM
+	}
+	
+	# Common
+	"..\_Common\FactorModifier"
+}
+
+(Type.Enum EventModifier) = { Import = { (FileGroup "common\event_modifiers.txt") SelectPath = "*\[L]" } }
+(Type.Enum StaticModifier) = { Import = { (FileGroup "common\static_modifiers.txt") SelectPath = "*\[L]" } }
+(Type.Enum TriggeredModifier) = { Import = { (FileGroup "common\triggered_modifiers.txt") SelectPath = "*\[L]" } }
+
+(FileGroup IdeologyPath 	"common\ideologies.txt")
+(FileGroup TagPath 			"common\countries.txt")
+(FileGroup CommonTechPath 	"common\technology.txt")
+
+(Type.Or Key If = NoCheckKey) = { Type = String }
+(Type.Or Key IfNot = NoCheckKey) = { Type = LocalizationKey }
+
+Global = {
+(Literal Yes) = "yes"
+
+(Type.Enum "Faction") = { Import = { (FileGroup Ref = IdeologyPath) SelectPath = "*\faction\tag\[R]" } }
+(Type.Enum "IdeologyGroup") = { Import = { (FileGroup Ref = IdeologyPath) SelectPath = "*\[L]" } }
+(Type.Enum "Ideology") = { Import = { (FileGroup Ref = IdeologyPath) SelectPath = "*\*\[L]" Remove = { "faction" "position" } } }
+(Type.Enum "Decision") = { Import = { (FileGroup "decisions" "*.txt") SelectPath = "diplomatic_decisions\*\[L]" } }
+(Type.Enum Tag) = { Import = { (FileGroup Ref = TagPath) SelectPath = "*\[L]" } }
+(Type.Enum TechCategory If = Hoi3Va) = { Import = { (FileGroup Ref = CommonTechPath) SelectPath = "categories\Item\[R]" } }
+(Type.Enum TechCategory If = Hoi3Sf) = {
+	Import = { (FileGroup Ref = CommonTechPath) SelectPath = "theoretical\Item\[R]" }
+	Import = { (FileGroup Ref = CommonTechPath) SelectPath = "practical\Item\[R]" }
+}
+(Type.Enum TechFolder) = { Import = { (FileGroup Ref = CommonTechPath) SelectPath = "folders\Item\[R]" } }
+(Type.Enum TechName) = { Import = { (FileGroup "technologies" "*.txt") SelectPath = "*\[L]" } }
+(Type.Enum "Terrain") = { Import = { (FileGroup "map\terrain.txt") SelectPath = "categories\*\[L]" } }
+(Type.Enum "Trait") = { Import = { (FileGroup "common\traits.txt") SelectPath = "*\[L]" } }
+(Type.Enum "Law") = { Import = { (FileGroup "common\laws.txt") SelectPath = "*\[L]" } }
+(Type.Enum "LawOption") = { Import = { (FileGroup "common\laws.txt") SelectPath = "*\*\[L]" } }
+(Type.Enum "OccupationPolicy") = { Import = { (FileGroup "common\occupation_policies.txt") SelectPath = "*\[L]" } }
+}
+
+Global = {
+(Type.Enum Resource) = { Values = {	"energy" "metal" "rare_materials" "crude_oil" } }
+(Type.Enum AirMission) = { Values = { "air_intercept" "ground_attack" "interdiction" "logistical_strike" "installation_strike" "runway_cratering" "port_strike" "naval_strike" "strategic_bomb" "paradrop_mission" "convoy_raid" "convoy_escort" "sortie" "carrier_protection" } }
+(Type.Enum Continent) = { Import = { (FileGroup "map\continent.txt") SelectPath = "*\[L]" } }
+(Type.Or Modifier) = { Type = EventModifier Type = StaticModifier Type = TriggeredModifier }
+
+(Type NavalModifier) = {
+	Optional = { Left = "attack" Right = Double }
+	Optional = { Left = "defence" Right = Double }
+}
+
+(Type AirModifier) = {
+	Optional = { Left = "attack" Right = Double }
+	Optional = { Left = "defence" Right = Double }
+}	
+
+(Type LandModifier) = {
+	Optional = { Left = "attack" Right = Double }
+	Optional = { Left = "defence" Right = Double }
+	Optional = { Left = "movement" Right = Double }
+	Optional = { Left = "attrition" Right = Double }
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

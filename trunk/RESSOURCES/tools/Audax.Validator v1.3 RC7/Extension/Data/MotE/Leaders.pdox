@@ -1,0 +1,67 @@
+(Validator Leaders) = {
+	Type = GroupValidator
+	FriendlyName = "Leaders"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\leaders" "*.txt")
+		ValidatorName = LeaderFile
+	}
+	
+}
+
+(Type LeaderFile) = {
+	ExaminePath = {
+		IfTrue = {
+			NameWithoutExtension = {
+				Or = {
+					Not = { (Match "^(?<tag>\w+)") = { } }
+					(Match "^(?<tag>\w+)$") = {
+						(Capture tag) = { Not = { IsInstanceOf = Tag } }
+					}
+				}
+			}
+		}
+		
+		Then = {
+			(Warn "Invalid leader file (name in wrong format or title does not exist): $File$" "Invalid file")
+			Skip
+		}
+	}
+
+	(Ch N N) = { Left = "leader" Right = LeaderDef }
+}
+
+(Type LeaderDef) = {
+	Single = { Left = "id" Right = PInt UniqueId = Right }
+	Single = { Left = "enable" Right = Bool }
+	Single = { Left = "name" Right = String }
+	
+	Single = { Left = "type" Right = { Literal = "land" Literal = "sea" } }
+	
+	Single = { Left = "maneuver" Right = NnInt }
+	Single = { Left = "offensive" Right = NnInt }
+	Single = { Left = "defensive" Right = NnInt }
+	
+	#(Single IfNot = Debug) = { Left = "rank" Right = LandRank }
+	#(Optional If = Debug) = { Left = "rank" Right = LandRank }
+
+	Single = {
+		Left = "picture"
+		Right = String
+		(UniqueId If = Leaders.UniquePictureCheck) = Right
+		FileExists = {
+			Target = "[R]"
+			Path = "gfx\portraits\*.tga"
+		}
+	}
+
+}
+
+(Type LandLeaderDef) = {
+}	
+
+
+
+
+

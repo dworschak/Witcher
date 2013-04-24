@@ -1,0 +1,80 @@
+(Validator Religions) = {
+	Type = Default
+	FriendlyName = "Religions"
+	(FileGroup "common\religions" "*.txt")
+	ValidatorName = ReligionFile
+}
+
+(Type ReligionFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = ReligionGroupDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type ReligionGroupDef) = {
+	Optional = { Left = "graphical_culture" Right = GraphicalCultureType }
+	Optional = { Left = "has_coa_on_barony_only" Right = Bool }
+	Optional = { Left = "crusade_cb" Right = CasusBelli }
+	Optional = { Left = "playable" Right = Bool }
+	Optional = { Left = "pacifist" Right = Bool }
+	
+	Optional = { Left = "male_names" Right = { (PdoList Y) = { Type = String } } }
+	Optional = { Left = "female_names" Right = { (PdoList Y) = { Type = String } } }
+
+	Child = { Left = { Type = String } Right = ReligionDef UniqueId = Left (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type ReligionDef) = {
+	Optional = { Left = "graphical_culture" Right = GraphicalCultureType }
+	Single = { Left = "icon" Right = { IconRef = GFX_religion_icon_strip } }
+	Optional = { Left = "color" Right = FloatColor }
+	
+	Optional = { Left = "crusade_name" Right = Key }
+	Optional = { Left = "scripture_name" Right = Key }
+	Optional = { Left = "god_names" Right = { (PdoList Y) = { Type = Key } } }
+	
+	Optional = { Left = "investiture" Right = Bool }
+	Optional = { Left = "can_excommunicate" Right = Bool }
+	Optional = { Left = "can_grant_divorce" Right = Bool }
+	Optional = { Left = "can_grant_claim" Right = Bool }
+	Optional = { Left = "can_call_crusade" Right = Bool }
+	Optional = { Left = "priests_can_marry" Right = Bool }
+	Optional = { Left = "autocephaly" Right = Bool }
+	Optional = { Left = "can_grant_invasion_cb" Right = CasusBelli }
+	
+	Optional = { Left = "parent" Right = Religion }
+	Optional = { Left = "max_wives" Right = NnInt }
+	Optional = { Left = "psc_marriage" Right = Bool }
+	Optional = { Left = "max_consorts" Right = NnInt }
+	Optional = { Left = "defensive_attrition" Right = Bool }
+	
+	(If If = V110) = {
+		Optional = { Left = "independence_war_score_bonus" Right = Double }
+		Optional = { Left = "short_reign_opinion_year_mult" Right = Double }
+		Optional = { Left = "peace_prestige_loss" Right = Bool }
+		Optional = { Left = "reformer_head_of_religion" Right = Bool }
+		Optional = { Left = "raised_vassal_opinion_loss" Right = Bool }
+		Optional = { Left = "allow_looting" Right = Bool }
+		Optional = { Left = "allow_viking_invasion" Right = Bool }
+		Optional = { Left = "pc_marriage" Right = Bool }
+		Optional = { Left = "bs_marriage" Right = Bool }
+		Optional = { Left = "divine_blood" Right = Bool }
+		Optional = { Left = "female_temple_holders" Right = Bool }
+		Optional = { Left = "reformed" Right = Religion }
+		Optional = { Left = "allow_rivermovement" Right = Bool }
+		
+		Optional = { Left = "unit_home_modifier" Right = {
+			Inherits = Modifier
+			Single = { Left = "key" Right = Key }
+		} }
+		Optional = { Left = "unit_modifier" Right = {
+			Inherits = Modifier
+			Single = { Left = "key" Right = Key }
+		} }
+		
+		Optional = { Left = "religious_clothing_head" Right = Int }
+		Optional = { Left = "religious_clothing_priest" Right = Int }
+		Optional = { Left = "aggression" Right = Double }
+
+	}
+	
+}
+

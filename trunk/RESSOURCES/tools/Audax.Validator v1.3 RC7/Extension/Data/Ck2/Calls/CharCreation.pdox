@@ -1,0 +1,104 @@
+(ContextValidator CharTrigger) = { Scopes = {
+	CharTrigger = "new_character"
+
+} }
+
+(ContextValidator TitleTrigger) = { Scopes = {
+	CharTrigger = "new_character"
+
+} }
+
+(ContextValidator ProvCommand) = { Scopes = {
+	CharCommand = "new_character"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	CharCommand = "new_character"
+
+} }
+
+(ContextValidator TitleCommand) = { Scopes = {
+	CharCommand = "new_character"
+
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N N) = { Left = "create_character" Right = CharCreation }
+	(N N) = { Left = "create_random_soldier" Right = CharCreation }
+	(N N) = { Left = "create_random_diplomat" Right = CharCreation }
+	(N N) = { Left = "create_random_priest" Right = CharCreation }
+	(N N) = { Left = "create_random_steward" Right = CharCreation }
+	(N N) = { Left = "create_random_intriguer" Right = CharCreation }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N N) = { Left = "create_character" Right = CharCreation }
+	(N N) = { Left = "create_random_soldier" Right = CharCreation }
+	(N N) = { Left = "create_random_diplomat" Right = CharCreation }
+	(N N) = { Left = "create_random_priest" Right = CharCreation }
+	(N N) = { Left = "create_random_steward" Right = CharCreation }
+	(N N) = { Left = "create_random_intriguer" Right = CharCreation }
+
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(N N) = { Left = "create_character" Right = CharCreation }
+	(N N) = { Left = "create_random_soldier" Right = CharCreation }
+	(N N) = { Left = "create_random_diplomat" Right = CharCreation }
+	(N N) = { Left = "create_random_priest" Right = CharCreation }
+	(N N) = { Left = "create_random_steward" Right = CharCreation }
+	(N N) = { Left = "create_random_intriguer" Right = CharCreation }
+
+} }
+
+(Type CharCreation) = {
+	Optional = { Left = "age" Right = Int }
+	Optional = { Left = "min_age" Right = Int }
+	Optional = { Left = "max_age" Right = Int }
+	Optional = { Left = "name" Right = String }
+	Optional = { Left = "has_nickname" Right = Nickname }
+	Optional = { Left = "attributes" Right = {
+		Optional = { Left = "martial" Right = NnInt }
+		Optional = { Left = "intrigue" Right = NnInt }
+		Optional = { Left = "diplomacy" Right = NnInt }
+		Optional = { Left = "stewardship" Right = NnInt }
+		Optional = { Left = "learning" Right = NnInt }
+	} }
+	(Ch N Y) = { Left = "trait" Right = Trait }
+	Optional = { Left = "learning" Right = NnInt }
+	Optional = { Left = "diplomacy" Right = NnInt }
+	Optional = { Left = "health" Right = Double }
+	Optional = { Left = "fertility" Right = Double }
+	Optional = { Left = "random_traits" Right = Bool }
+	Optional = { Left = "female" Right = Bool }
+	Optional = { Left = "is_female" Right = Bool }
+	Optional = { Left = "employer" Right = AnyTitle }
+	Optional = { Left = "religion" Right = { Religion ThisChar ThisProv ThisTitle } }
+	Optional = { Left = "culture" Right = { Type = Culture Type = ThisChar Type = ThisProv Type = ThisTitle Literal = "random" Literal = "RANDOM" } }
+	Optional = { Left = "dynasty" Right = { Literal = "random" Literal = "NONE" Literal = "none" Type = DynastyId Type = ThisChar } }
+	
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

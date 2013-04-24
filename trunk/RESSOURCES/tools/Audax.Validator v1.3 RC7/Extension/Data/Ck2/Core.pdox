@@ -1,0 +1,146 @@
+(If IfNot = EnableNonFactorCheck) = {
+	(AddFlag FactorModifier.DisableNonFactorCheck)
+}
+
+Includes = {
+	Options
+	
+	#funsies
+
+	Buildings
+	Bookmarks
+	CbTypes
+	CombatTactics
+	Cultures
+	Decisions
+	Disease
+	Dynasties
+	JobActions
+	Localization
+	#Missions # Obsolete
+	Modifiers
+	Nicknames
+	Objectives
+	OnActions
+	#OpinionModifiers
+	# RegionColors # apparently not yet used
+	Religions
+	Tech
+	Titles
+	Traits
+	Map
+	Music
+	RetinueSubunits
+		
+	"History\Characters"
+	"History\Provinces"
+	"History\Wars"
+	"History\Titles"
+
+	Events
+	"Calls\_Main"
+	
+	# Common
+	"..\_Common\FactorModifier"
+
+}
+
+Global = {
+
+(Type.Or Key If = NoCheckKey) = { Type = String }
+(Type.Or Key IfNot = NoCheckKey) = { Type = LocalizationKey }
+
+(Literal Yes) = "yes"
+(Literal No) = "no"
+(Type.Enum SuccessionType) = { Values = { "gavelkind" "primogeniture" "feudal_elective" "seniority"
+		"catholic_bishopric" "open_elective" "turkish_succession" "patrician_elective" "ultimogeniture"
+		"tanistry" } }
+(Type.Enum WarEnd) = { Values = { invalid whitepeace success reverse_demand } }
+(Type.Enum DeathReason) = { Values = { death_execution death_battle death_rabble death_trait death_murder_unknown death_accident death_duel death_dungeon death_murder death_suicide death_hashshashin death_sacrificed death_by_nature } }
+(Type.Enum OpinionClauseDefinedTypes) = { Values = { LIEGE liege top_liege spouse father mother host } }
+(Type.Enum Tier) = { Values = { emperor king duke count baron EMPEROR KING DUKE COUNT BARON } }
+(Type.Enum Attribute) = { Values = { diplomacy stewardship intrigue martial learning } }
+(Type.Enum Religion) = { Import = { (FileGroup "common\religions" "*.txt") SelectPath = "*\*\[L]" } Remove = { graphical_culture has_coa_on_barony_only } }
+(Type.Enum ReligionGroup) = { Import = { (FileGroup "common\religions" "*.txt") SelectPath = "*\[L]" } }
+(Type.Enum Culture) = { Import = { (FileGroup "common\cultures" "*.txt") SelectPath = "*\*\color\^\[L]" } }
+(Type.Enum CultureGroup) = { Import = { (FileGroup "common\cultures" "*.txt") SelectPath = "*\[L]" } }
+(Type.Enum CasusBelli) = { Import = { (FileGroup "common\cb_types" "*.txt") SelectPath = "*\[L]" } }
+(Type.Enum Terrain) = { Import = { (FileGroup "map\terrain.txt") SelectPath = "categories\*\[L]" } }
+(Type.Enum JobAction) = { Import = { (FileGroup "common\job_actions.txt") SelectPath = "*\[L]" } }
+(Type.Enum GraphicalCultureType) = { Import = { (FileGroup "common\graphicalculturetypes" "*.txt") SelectPath = "*\[L]" } }
+(Type.Enum Unit) = { Values = { pikemen light_cavalry knights horse_archers heavy_infantry archers galleys light_infantry } }
+(Type.Enum JobTitle) = { Import = { (FileGroup "common\job_titles.txt") SelectPath = "*\[L]" } }
+(Type.Enum Disease) = { Import = { (FileGroup "common\disease.txt") SelectPath = "*\[L]" } }
+
+(If IfNot = Debug) = {
+	(Type.Enum CharacterId) = { Import = { (FileGroup "history\characters" "*.txt") SelectPath = "*\[L]" } }
+	(Type.Enum DynastyId) = { Import = { (FileGroup "common\dynasties" "*.txt") SelectPath = "*\[L]" } }
+	(Type.Enum Trait) = { Import = { (FileGroup "common\traits" "*.txt") SelectPath = "*\[L]" } }
+}
+
+(If If = Debug) = {
+	(Type CharacterId) = Int
+	(Type DynastyId) = Int
+	(Type Trait) = String
+}
+
+Script = {
+	(DataSource Pdo) = { (FileGroup "decisions" "*.txt") }
+
+	(MakeEnumValidator SuccessionLaw) = "succession_laws\*\[L]"
+	(MakeEnumValidator DeJureLaw) = "de_jure_laws\*\[L]"
+	(MakeEnumValidator NormalLaw) = "laws\*\[L]"
+	(MakeEnumValidator GenderLaw) = "gender_laws\*\[L]"
+
+}
+(Type.Or Law) = {
+	Type = SuccessionLaw
+	Type = DeJureLaw
+	Type = NormalLaw
+	Type = GenderLaw
+}
+
+Script = {
+	(DataSource Pdo) = { (FileGroup "common\buildings" "*.txt") }
+	MakeDicEnum = {
+		KeyName = Improvement
+		ElementPath = "*\*"
+		KeyPath = "^\[L]"
+		ValuePath = "[L]"
+	}
+	
+	(MakeEnumValidator Building) = "*\[L]"
+
+}
+
+(Type UnitStatsModifier) = {
+	Optional = { Left = "pikemen_offensive" Right = Double }
+	Optional = { Left = "light_cavalry_offensive" Right = Double }
+	Optional = { Left = "knights_offensive" Right = Double }
+	Optional = { Left = "horse_archers_offensive" Right = Double }
+	Optional = { Left = "heavy_infantry_offensive" Right = Double }
+	Optional = { Left = "archers_offensive" Right = Double }
+	Optional = { Left = "light_infantry_offensive" Right = Double }
+	
+	Optional = { Left = "pikemen_defensive" Right = Double }
+	Optional = { Left = "light_cavalry_defensive" Right = Double }
+	Optional = { Left = "knights_defensive" Right = Double }
+	Optional = { Left = "horse_archers_defensive" Right = Double }
+	Optional = { Left = "heavy_infantry_defensive" Right = Double }
+	Optional = { Left = "archers_defensive" Right = Double }
+	Optional = { Left = "light_infantry_defensive" Right = Double }
+
+	Optional = { Left = "horse_archers_morale" Right = Double }
+	Optional = { Left = "light_cavalry_morale" Right = Double }
+	Optional = { Left = "light_infantry_morale" Right = Double }
+	Optional = { Left = "knights_morale" Right = Double }
+	Optional = { Left = "archers_morale" Right = Double }
+	Optional = { Left = "pikemen_morale" Right = Double }
+	Optional = { Left = "heavy_infantry_morale" Right = Double }
+
+}
+}
+
+
+
+

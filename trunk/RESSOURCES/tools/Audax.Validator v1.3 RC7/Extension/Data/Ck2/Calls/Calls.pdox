@@ -1,0 +1,53 @@
+(ContextValidator ProvCommand) = { Members = {
+	(N N) = { Left = "province_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = ProvEventId }
+	} }
+
+} }
+
+(ContextValidator CharCommand) = { Members = {
+	(N N) = { Left = "character_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = {
+			CharEventId
+			(LetterEventId If = ContextValidator.AllowCharacterWideTargeting)
+			(NarrativeEventId If = ContextValidator.AllowCharacterWideTargeting)
+		} }
+	} }
+	(N N) = { Left = "letter_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = {
+			(CharEventId If = ContextValidator.AllowCharacterWideTargeting)
+			LetterEventId
+			(NarrativeEventId If = ContextValidator.AllowCharacterWideTargeting)
+		} }
+	} }
+	(N N) = { Left = "narrative_event" Right = {
+		Inherits = EventCallBase
+		Single = { Left = "id" Right = {
+			(CharEventId If = ContextValidator.AllowCharacterWideTargeting)
+			(LetterEventId If = ContextValidator.AllowCharacterWideTargeting)
+			NarrativeEventId
+		} }
+	} }
+
+} }
+
+(Type EventCallBase) = {
+	Optional = { Left = "days" Right = NnInt }
+	Optional = { Left = "months" Right = NnInt }
+	Optional = { Left = "years" Right = NnInt }
+	AtMostOne = { days years months }
+	Optional = { Left = "tooltip" Right = Key }
+	Optional = { Left = "random" Right = NonNegPercent }
+}
+
+
+
+
+
+
+
+
+

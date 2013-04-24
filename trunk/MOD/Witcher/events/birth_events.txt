@@ -1,0 +1,804 @@
+#############################################
+#
+# EVENTS FOR LOVE, PREGNANCY AND BIRTH
+#
+#############################################
+# by Henrik Fåhraeus
+#############################################
+
+#############################################
+# EVENTS LEADING UP TO BASTARD PREGNANCY 
+# (Attraction grows between the male ruler and a female courtier)
+#############################################
+
+# A female courtier initiates romance with her liege
+character_event = {
+	id = 450
+	desc = EVTDESC450
+	picture = GFX_evt_lovers
+	
+	only_women = yes
+	max_age = 40
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_marriage_adult = yes
+		independent = no
+		has_lover = no
+		is_pregnant = no
+		NOT = { trait = homosexual }
+		NOT = { trait = infirm }
+		NOT = { trait = incapable }
+		NOT = { trait = celibate }
+		liege = {
+			is_marriage_adult = yes
+			is_female = no
+			has_lover = no
+			prisoner = no
+			NOT = { is_close_relative = ROOT }
+			is_valid_attraction = ROOT
+			NOT = { trait = homosexual }
+			NOT = { trait = infirm }
+			NOT = { trait = incapable }
+			NOT = { trait = celibate }
+			NOT = { any_spouse = { character = ROOT } }
+			OR = {
+				is_married = no
+				NOT = { trait = chaste }
+			}
+			NOT = {
+				has_character_modifier = lustful_affair_timer
+			}
+			opinion = { who = ROOT value = 0 }
+			reverse_opinion = { who = ROOT value = 0 }
+		}
+	}
+	
+	
+	mean_time_to_happen = {
+		months = 600
+		
+		modifier = {
+			factor = 0.4
+			trait = lustful
+		}
+		modifier = {
+			factor = 0.4
+			liege = { trait = lustful }
+		}
+		modifier = {
+			factor = 0.75
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.75
+			liege = { trait = hedonist }
+		}
+		modifier = {
+			factor = 0.9
+			opinion = { who = ROOT value = 25 }
+		}
+		modifier = {
+			factor = 0.9
+			reverse_opinion = { who = ROOT value = 25 }
+		}
+		modifier = {
+			factor = 0.9
+			opinion = { who = ROOT value = 50 }
+		}
+		modifier = {
+			factor = 0.9
+			reverse_opinion = { who = ROOT value = 50 }
+		}
+		modifier = {
+			factor = 0.9
+			opinion = { who = ROOT value = 75 }
+		}
+		modifier = {
+			factor = 0.9
+			reverse_opinion = { who = ROOT value = 75 }
+		}
+		modifier = {
+			factor = 2.0
+			trait = chaste
+		}
+		modifier = {
+			factor = 5.0
+			liege = { trait = chaste }
+		}
+		modifier = {
+			factor = 4
+			liege = { any_child = { trait = bastard } }
+		}
+	}
+
+	option = {
+		name = EVTOPTA450
+		ai_chance = { factor = 90 }
+		liege = { character_event = { id = 451 days = 7 tooltip = EVTTOOLTIP451 } }
+	}
+	
+	option = {
+		name = EVTOPTB450
+		ai_chance = { factor = 10 }
+		piety = 1
+	}
+}
+
+# The liege responds to her advances
+character_event = {
+	id = 451
+	desc = EVTDESC451
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes 
+	
+	immediate = {
+		hidden_tooltip = {
+			add_character_modifier = {
+				name = lustful_affair_timer
+				duration = 1825
+				hidden = yes
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA451
+		ai_chance = { factor = 90 }
+		FROM = { character_event = { id = 452 days = 7 tooltip = EVTTOOLTIP452 } }
+	}
+	
+	option = {
+		name = EVTOPTB451
+		ai_chance = { factor = 10 }
+		trigger = {
+			NOT = { trait = lustful }
+		}
+		piety = 10
+	}
+}
+
+# The female courtier accepts or spurns the liege lord
+character_event = {
+	id = 452
+	desc = EVTDESC452
+	picture = GFX_evt_lovers
+	
+	is_triggered_only = yes 
+	
+	option = {
+		name = EVTOPTA452
+		ai_chance = { factor = 90 }
+		trigger = {
+			fertility = 0.66
+		}
+		if = {
+			limit = {
+				is_married = yes
+			}
+			impregnate_cuckoo = FROM
+		}
+		if = {
+			limit = {
+				is_married = no
+			}
+			impregnate = FROM
+		}
+		add_lover = FROM
+		FROM = { character_event = { id = 453 tooltip = EVTTOOLTIP453 } }
+	}
+
+	option = {
+		name = EVTOPTA452
+		ai_chance = { factor = 50 }
+		trigger = {
+			fertility = 0.33
+			NOT = { fertility = 0.66 }
+		}
+		random_list = {
+			50 = { 
+				if = {
+					limit = {
+						is_married = yes
+					}
+					impregnate_cuckoo = FROM
+				}
+				if = {
+					limit = {
+						is_married = no
+					}
+					impregnate = FROM
+				} 
+			}
+			50 = {
+				health = 0.01 
+			}
+		}
+		add_lover = FROM
+		FROM = { character_event = { id = 453 tooltip = EVTTOOLTIP453 } }
+	}
+	option = {
+		name = EVTOPTA452
+		ai_chance = { factor = 90 }
+		trigger = {
+			NOT = { fertility = 0.33 }
+		}
+		add_lover = FROM
+		FROM = { character_event = { id = 453 tooltip = EVTTOOLTIP453 } }
+	}
+	
+	option = {
+		name = EVTOPTB452
+		ai_chance = { factor = 5 }
+		trigger = {
+			NOT = { trait = lustful }
+			NOT = { trait = slow }
+			NOT = { trait = imbecile }
+			NOT = { trait = inbred }
+		}
+		FROM = { character_event = { id = 454 tooltip = EVTTOOLTIP454 } }
+	}
+	
+	option = {
+		name = EVTOPTC452
+		ai_chance = { factor = 5 }
+		trigger = {
+			NOT = { trait = lustful }
+		}
+		FROM = { character_event = { id = 455 tooltip = EVTTOOLTIP455 } }
+	}
+}
+
+# The ruler becomes her lover
+character_event = {
+	id = 453
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC453
+	picture = GFX_evt_lovers
+	
+	option = {
+		name = EVTOPTA453
+		add_lover = FROM
+	}
+}
+
+# The ruler is spurned and disappointed
+character_event = {
+	id = 454
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC454
+	
+	option = {
+		name = EVTOPTA454
+		opinion = {
+			who = FROM
+			modifier = opinion_spurned
+			months = 12
+		}
+	}
+}
+
+# The ruler is spurned and embarrassed
+character_event = {
+	id = 455
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC455
+	
+	option = {
+		name = EVTOPTA455
+		opinion = {
+			who = FROM
+			modifier = opinion_embarrassed
+			months = 18
+		}
+	}
+}
+
+#############################################
+# PREGNANCY STARTS SHOWING EVENTS
+#############################################
+
+# On-action event: Pregnancy starts showing
+character_event = {
+	id = 400
+	desc = EVTDESC400
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		father_of_unborn = {
+			any_spouse = {
+				character = ROOT
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+		add_trait = pregnant
+		prestige = 10
+		
+		if = {
+			limit = {
+				father_of_unborn = {
+					is_alive = yes
+				}
+			}
+			father_of_unborn = { character_event = { id = 403 tooltip = EVTTOOLTIP403 } }
+		}
+	}
+}
+
+# On-action event: Pregnancy out of wedlock!
+character_event = {
+	id = 401
+	desc = EVTDESC401
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		is_married = no
+		father_of_unborn = {
+			NOT = {
+				any_spouse = {
+					character = ROOT
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+		add_trait = pregnant
+		piety = -50
+		prestige = -50
+	}
+}
+
+# On-action event: Pregnancy in matrimony, with another father!
+character_event = {
+	id = 402
+	desc = EVTDESC402
+	picture = "GFX_evt_pregnancy"
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		is_married = yes
+		father_of_unborn = {
+			NOT = {
+				any_spouse = {
+					character = ROOT
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA402
+		add_trait = pregnant
+		spouse = { character_event = { id = 404 tooltip = EVTTOOLTIP404 } }
+	}
+}
+
+# The husband is a proud father!
+character_event = {
+	id = 403
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC403
+
+	option = {
+		name = OK
+		prestige = 5
+	}
+}
+
+# The husband suspects something ain't right
+character_event = {
+	id = 404
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC404
+
+	option = {
+		name = EVTOPTA404
+		if = {
+			limit = {
+				FROM = {
+					father_of_unborn_known = yes
+				}
+			}
+			opinion = {
+				who = FROM
+				modifier = opinion_potential_cuckold
+				months = 7
+			}
+		}
+	}
+}
+
+#############################################
+# EVENTS ON THE BIRTH OF A BASTARD CHILD
+#############################################
+
+# On-action event: A child is born out of wedlock
+character_event = {
+	id = 300
+	desc = EVTDESC300
+	picture = GFX_evt_birth
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		was_conceived_a_bastard = yes
+		NOT = { real_father = { always = yes } } # There is no 'real_father' set, i.e. this is not a hidden, cuckoo bastard
+	}
+
+	option = {
+		name = OK
+		father = {
+			character_event = { id = 301 days = 1 } # The father's reaction
+		}
+	}
+}
+
+# The father reacts to the bastard birth
+character_event = {
+	id = 301
+	desc = EVTDESC301
+	picture = GFX_evt_birth
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA301 # Legitimize the child
+		FROM = {
+			character_event = { id = 302 tooltip = EVTTOOLTIP302 } # The child gets the father's dynasty
+			mother = {
+				character_event = { id = 303 tooltip = EVTTOOLTIP303 } # The child's mother is very pleased
+				spouse = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
+				}
+			}
+		}
+		any_child = {
+			limit = {
+				NOT = { character = FROM }
+				dynasty = ROOT
+				NOT = { trait = bastard }
+			}
+			opinion = {
+				who = ROOT
+				modifier = legitimized_bastard
+				months = 12
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTB301 # Acknowledge the child
+		trigger = {
+			FROM = {
+				is_female = no
+			}
+			NOT = { religion_group = muslim } # No bastards like this in the Muslim world
+		}
+		FROM = {
+			character_event = { id = 306 tooltip = EVTTOOLTIP306 } # The child gets the father's dynasty, but is not legitimized.
+			mother = {
+				character_event = { id = 307 tooltip = EVTTOOLTIP307 } # The child's mother is pleased
+				spouse = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTC301 # Denounce the child
+		
+		FROM = {
+			character_event = { id = 309 tooltip = EVTTOOLTIP309 } #  The child founds a new bastard dynasty
+			mother = {
+				character_event = { id = 310 tooltip = EVTTOOLTIP310 } # The child's mother is dishonoured
+				spouse = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
+				}
+			}
+		}
+	}
+}
+
+# The child gets the father's dynasty
+character_event = {
+	id = 302
+	
+	is_triggered_only = yes 
+	desc = EVTDESC302
+	picture = GFX_evt_birth
+
+	option = {
+		name = OK
+		dynasty = FROM
+		remove_trait = bastard
+		add_trait = legit_bastard
+		
+		father = {
+			spouse = {
+				character_event = { id = 305 tooltip = EVTTOOLTIP305 } # The father's wife is enraged
+			}
+		}
+	}
+}
+
+# The child's mother is very pleased
+character_event = {
+	id = 303
+	
+	is_triggered_only = yes 
+	desc = EVTDESC303
+	picture = GFX_evt_birth
+
+	option = {
+		name = EVTOPTA303
+		opinion = {
+			who = FROM
+			modifier = legitimized_child
+			years = 10
+		}
+	}
+}
+
+# The child's mother's husband is pissed off
+character_event = {
+	id = 304
+	picture = GFX_evt_quarrel
+	desc = EVTDESC304
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = EVTOPTA304
+		opinion = {
+			who = FROM
+			modifier = cuckolded
+			years = 10
+		}
+		spouse = {
+			reverse_opinion = {
+				who = ROOT
+				modifier = unfaithful
+				years = 10
+			}
+		}
+	}
+}
+
+# The father's wife is enraged
+character_event = {
+	id = 305
+	desc = EVTDESC305
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = EVTOPTA305
+		FROM = {
+			mother = {
+				reverse_opinion = {
+					who = ROOT
+					modifier = slut_seductress
+					years = 20
+				}
+			}
+		}
+		
+		spouse = {
+			reverse_opinion = {
+				who = ROOT
+				modifier = legitimized_bastard
+				years = 20
+			}
+		}
+	}
+}
+
+# The child founds a new bastard dynasty
+character_event = {
+	id = 306
+	
+	is_triggered_only = yes 
+		
+	desc = EVTDESC306
+	picture = GFX_evt_birth
+
+	option = {
+		name = OK
+		dynasty = FROM
+		add_trait = bastard
+		
+		father = {
+			spouse = {
+				character_event = { id = 308 tooltip = EVTTOOLTIP308 } # The father's wife is angered
+			}
+		}
+	}
+}
+
+# The child's mother is pleased
+character_event = {
+	id = 307
+	
+	is_triggered_only = yes 
+		
+	desc = EVTDESC307
+	picture = GFX_evt_birth
+
+	option = {
+		name = EVTOPTA307
+		opinion = {
+			who = FROM
+			modifier = acknowledged_child
+			years = 10
+		}
+	}
+}
+
+# The father's wife is angered
+character_event = {
+	id = 308
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes 
+		
+	desc = EVTDESC308
+
+	option = {
+		name = EVTOPTA308
+		FROM = {
+			mother = {
+				reverse_opinion = {
+					who = ROOT
+					modifier = slut_seductress
+					years = 20
+				}
+			}
+		}
+		
+		spouse = {
+			reverse_opinion = {
+				who = ROOT
+				modifier = acknowledged_bastard
+				years = 10
+			}
+		}
+	}
+}
+
+# The child is denounced
+character_event = {
+	id = 309
+	
+	is_triggered_only = yes 
+		
+	desc = EVTDESC309
+	picture = GFX_evt_birth
+
+	option = {
+		name = OK
+		
+		father = {
+			spouse = {
+				character_event = { id = 311 } # The father's wife is displeased
+			}
+		}
+	}
+}
+
+# The child's mother is dishonoured
+character_event = {
+	id = 310
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes 
+		
+	desc = EVTDESC310
+
+	option = {
+		name = EVTOPTA310
+		opinion = {
+			who = FROM
+			modifier = denounced_child
+			years = 10
+		}
+	}
+}
+
+# The father's wife is displeased
+character_event = {
+	id = 311
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes 
+		
+	desc = EVTDESC311
+
+	option = {
+		name = EVTOPTA311
+		FROM = {
+			mother = {
+				reverse_opinion = {
+					who = ROOT
+					modifier = slut_seductress
+					years = 20
+				}
+			}
+		}
+		
+		spouse = {
+			reverse_opinion = {
+				who = ROOT
+				modifier = unfaithful
+				years = 5
+			}
+		}
+	}
+}
+
+# On-action event: A bastard child is born, but is not recognized as such by the spouse of the mother
+character_event = {
+	id = 318
+	desc = "EVTDESC318"
+	picture = "GFX_evt_birth"
+	
+	is_triggered_only = yes 
+	
+	trigger = {
+		real_father = {
+			is_alive = yes
+			ROOT = {
+				father = {
+					NOT = { character = PREVPREV }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "OK"
+		real_father = {
+			character_event = { id = 319 } # The real father is notified
+		}
+	}
+}
+
+character_event = {
+	id = 319
+	desc = "EVTDESC319"
+	picture = "GFX_evt_birth"
+	
+	is_triggered_only = yes 
+	
+	option = {
+		name = "EVTOPTA319"
+		piety = -1
+	}
+}

@@ -1,0 +1,30 @@
+(Validator Diseases) = {
+	Type = Default
+	FriendlyName = "Diseases"
+	(FileGroup "common\disease.txt")
+	ValidatorName = Diseases
+}
+
+(Type Diseases) = {
+	(Ch Y N) = { Left = { Type = String } Right = Disease (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type Disease) = {
+	Single = { Left = "contagiousness" Right = NonNegDblPercent }
+	Single = { Left = "outbreak_chance" Right = NonNegDblPercent }
+	Single = { Left = "effect" Right = ProvModifier }
+	Single = { Left = "icon" Right = { IconRef = GFX_disease_icons } }
+	Single = { Left = "tooltip" Right = Key }
+	Single = { Left = "months" Right = PInt }
+	Single = { Left = "trait" Right = Trait }
+	Single = { Left = "always_get_message" Right = Bool }
+	Optional = { Left = "active" Right = Bool }
+	
+	Single = { Left = "timeperiod" Right = TimePeriod }
+}
+
+(Type TimePeriod) = {
+	Single = { Left = "start_date" Right = Date }
+	Single = { Left = "end_date" Right = Date }
+	Single = { Left = "one_only" Right = Bool }
+}

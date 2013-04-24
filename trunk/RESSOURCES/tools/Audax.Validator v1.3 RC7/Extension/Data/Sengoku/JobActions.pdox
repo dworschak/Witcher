@@ -1,0 +1,28 @@
+(Validator JobActions) = {
+	Type = Default
+	FriendlyName = "Job actions"
+	(FileGroup "common\job_actions.txt")
+	ValidatorName = JobActions
+}
+
+(Type JobActions) = {
+	(Ch Y N) = { Left = { Type = String } Right = JobActionDef (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type JobActionDef) = {
+	Single = { Left = "attribute" Right = Attribute }
+	Optional = { Left = "abroad" Right = Bool }
+	Optional = { Left = "vassals" Right = Bool }
+	Optional = { Left = "demesne" Right = Bool }
+	Optional = { Left = "province_improvement" Right = Bool }
+		
+	Optional = { Left = "multiplied" Right = ModifierDef }
+	Optional = { Left = "simple" Right = ModifierDef }
+	
+	Optional = { Left = "sow_dissent" Right = Int }
+	Optional = { Left = "improve_relations" Right = Int }
+	
+	
+}
+
+

@@ -1,0 +1,182 @@
+(Name If = Eu3InOnly) = "Europa Universalis III: IN"
+(Key If = Eu3InOnly) = Eu3In
+(Name If = Eu3HtOnly) = "Europa Universalis III: HttT"
+(Key If = Eu3HtOnly) = Eu3Ht
+(Name If = Eu3DwOnly) = "Europa Universalis III: DW"
+(Key If = Eu3DwOnly) = Eu3Dw
+System = "Clausewitz"
+
+Packages = {
+	"Core"
+	"MissionCore"
+	"Eu3Core"
+}
+
+Includes = {
+	# MUST be at the very top, before any translation is needed.
+	"Translation\Header"
+	
+	"Calls\_Main"
+	"AiStrategies"
+	
+	"AdvisorTypes"
+	"Prices"
+	
+	Buildings
+	"Countries"
+	"CountryColors"
+	"Cultures"
+	"Decisions"
+	"Events"
+	"Missions"
+	"Modifiers"
+	"RebelTypes"
+	"Units"
+	"Policies"
+	"Map"
+	Ideas
+	Technology
+	OnActions
+	#Spies
+	
+	"Localization"
+	
+	"History\Advisors"
+	"History\Countries"
+	"History\Diplomacy"
+	"History\Wars"
+	"History\Provinces"
+	
+	Options
+	
+	# Common
+	"..\_Common\FactorModifier"
+}
+
+(Includes If = Eu3Ht) = {
+	Cbs
+	RevoltTriggers
+}
+
+(Includes If = Eu3Dw) = {
+	Factions
+}
+
+(FileGroup Cultures "common\cultures.txt")
+(FileGroup Decisions "decisions" "*.txt") # -> FileGroup $Attr1 = TagPath $Attr2 = "decisions" $Attr3 = "*.txt"
+(FileGroup Religion "common\religion.txt")
+(FileGroup TagPath "common\countries.txt") # -> FileGroup $Attr1 = TagPath $Attr2 = "common\countries.txt"
+
+Global = {
+(Type.Enum AdvisorType) = { 		Import = { (FileGroup "common\advisortypes.txt") 		SelectPath = "*\[L]" } }
+(Type.Enum Building) = { 			Import = { (FileGroup "common\buildings.txt")			SelectPath = "*\[L]" } }
+(Type.Enum CountryDecision) = {	 	Import = { (FileGroup Ref = Decisions)					SelectPath = "country_decisions\*\[L]" } }
+(Type.Enum ReligionDecision) = {	Import = { (FileGroup Ref = Decisions)					SelectPath = "religion_decisions\*\[L]" } }
+(Type.Enum ProvinceDecision) = {	Import = { (FileGroup Ref = Decisions)					SelectPath = "province_decisions\*\[L]" } }
+(Type.Enum Mission) = {	 			Import = { (FileGroup "missions" "*.txt")				SelectPath = "*\[L]" } }
+(Type.Enum CultureGroup) = {	 	Import = { (FileGroup Ref = Cultures)					SelectPath = "*\[L]" } }
+(Type.Enum Culture) = {	 			Import = { (FileGroup Ref = Cultures)					SelectPath = "*\*\[L]" } }
+(Type.Enum Government) = {	 		Import = { (FileGroup "common\governments.txt")			SelectPath = "*\[L]" } }
+(Type.Enum Idea) = {	 			Import = { (FileGroup "common\ideas.txt")				SelectPath = "*\*\[L]" } }
+(Type.Enum ReligionGroup) = {	 	Import = { (FileGroup Ref = Religion)					SelectPath = "*\[L]" } }
+(Type.Enum Religion) = {	 		Import = { (FileGroup Ref = Religion)					SelectPath = "*\*\[L]" } }
+(Type.Enum Slider) = {	 			Import = { (FileGroup "common\policies.txt")			SelectPath = "*\[L]" } }
+(Type.Enum Tag) = {	 				Import = { (FileGroup Ref = TagPath)					SelectPath = "*\[L]" } }
+(Type.Enum TechGroup) = {	 		Import = { (FileGroup "common\technology.txt")			SelectPath = "groups\*\[L]" } }
+(Type.Enum TradeGood) = {	 		Import = { (FileGroup "common\tradegoods.txt")			SelectPath = "*\[L]" } }
+(Type.Enum Continent) = {	 		Import = { (FileGroup Ref = ContinentPath)				SelectPath = "*\[L]" } }
+(Type.Enum EventModifier) = {	 	Import = { (FileGroup "common\event_modifiers.txt")		SelectPath = "*\[L]" } }
+(Type.Enum StaticModifier) = {	 	Import = { (FileGroup "common\static_modifiers.txt")	SelectPath = "*\[L]" } }
+(Type.Enum TriggeredModifier) = {	Import = { (FileGroup "common\triggered_modifiers.txt")	SelectPath = "*\[L]" } }
+(Type.Enum RebelType) = {	 		Import = { (FileGroup "common\rebel_types.txt")			SelectPath = "*\[L]" } }
+(Type.Enum GraphicalCultureType) = { Import = { (DataSource LineFile) = { (FileGroup "common\graphicalculturetype.txt") } SelectPath = ".\[L]" } }
+
+(Type.Enum CasusBelli If = Eu3Ht) = {	Import = { (FileGroup "common\cb_types.txt")			SelectPath = "*\[L]" } }
+
+(Type.Enum SpecificUnit) = {
+	Import = {
+		(DataSource PathListing) = {
+			(FileGroup "common\units" "*.txt")
+			JustFileName = True
+			DropExtension = True
+			ForceLower = True
+		}
+		
+		SelectPath = "*\[L]"
+	}
+	
+	CaseInsensitive = True
+	
+}
+
+(Type.Or Modifier) = {
+	Type = EventModifier
+	Type = StaticModifier
+	Type = TriggeredModifier
+}
+		
+(Type.Enum Technology) = {
+	Values = {
+		land_tech
+		naval_tech
+		trade_tech
+		production_tech
+		government_tech
+	}
+}
+		
+(Type.Enum Unit) = {
+	Values = {
+		"cavalry"
+		"infantry"
+		"artillery"
+		"big_ship"
+		"light_ship"
+		"transport"
+		"galley"
+	}
+}
+		
+(Type.Enum Scope) = {
+	Values = { 
+		"emperor"
+		"elector"
+		"controller"
+		"owner"
+		"overlord"
+	}
+}
+
+(Type TraitNumber) = {
+	(RestrictedNumber "TraitNumber") = {
+		Type = Int
+		Message = "Trait value must be between 1 and 9, inclusive, but is {0}."
+		Gte = 1
+		Lte = 9
+	}
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

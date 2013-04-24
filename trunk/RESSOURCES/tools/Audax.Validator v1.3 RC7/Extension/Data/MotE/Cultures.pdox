@@ -1,0 +1,21 @@
+(Validator Cultures) = {
+	Type = GroupValidator
+	FriendlyName = "@Cultures"
+	
+	Validator = {
+		Type = Default
+		(FileGroup "common\cultures.txt")
+		ValidatorName = CultureFile
+	}
+}
+
+(Type CultureFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = CultureGroup (CheckKey "*" Left IfNot = NoCheckKey) }
+}
+
+(Type CultureGroup) = {
+	(PdoList N) = { Type = String UniqueId = Right (CheckKey "*" Right IfNot = NoCheckKey) }
+}
+
+
+

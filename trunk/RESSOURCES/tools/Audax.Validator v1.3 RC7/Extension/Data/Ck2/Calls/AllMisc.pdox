@@ -1,0 +1,299 @@
+(ContextValidator Trigger) = { Scopes = {
+	CharTrigger = { Type = Trait }
+
+} }
+
+(ContextValidator ProvTrigger) = { Scopes = {
+	ProvTrigger = "sea_zone"
+	CharTrigger = "trade_post_owner"
+} }
+
+(ContextValidator CharTrigger) = { Scopes = {
+	TitleTrigger = "any_potential_tribal_county"
+	TitleTrigger = { Type = Faction }
+	CharTrigger = "any_faction_backer"
+	CharTrigger = "supported_claimant"
+	TitleTrigger = "capital_holding"
+	CharTrigger = "killer"
+	
+	(If If = V110) = {
+		CharTrigger = "consort"
+		CharTrigger = "any_consort"
+	}
+} }
+
+(ContextValidator TitleTrigger) = { Scopes = {
+	CharTrigger = "heir_under_seniority_law"
+	CharTrigger = "heir_under_primogeniture_law"
+	CharTrigger = "any_claimant"
+	TitleTrigger = "succ_law_title"
+	CharTrigger = "trade_post_owner"
+	
+	(If If = V110) = {
+		CharTrigger = "any_previous_holder"
+	}
+} }
+
+(ContextValidator Command) = { Scopes = {
+	CharCommand = { Type = Trait }
+} }
+
+(ContextValidator ProvCommand) = { Scopes = {
+	ProvCommand = "sea_zone"
+	CharCommand = "trade_post_owner"
+
+} }
+
+(ContextValidator CharCommand) = { Scopes = {
+	TitleCommand = "random_potential_tribal_county"
+	TitleCommand = "any_potential_tribal_county"
+	CharCommand = "any_faction_backer"
+	TitleCommand = { Type = Faction }
+	ProvCommand = "random_trade_post"
+	
+	(If If = V110) = {
+		CharCommand = "consort"
+		CharCommand = "any_consort"
+	}
+
+} }
+
+(ContextValidator TitleCommand) = { Scopes = {
+
+} }
+
+(ContextValidator Trigger) = { Members = {
+	(N Y) = { Left = "has_dlc" Right = {
+		Literal = "Legacy of Rome"
+		Literal = "Sunset Invasion"
+		Literal = "The Republic"
+		(Literal If = V110) = "The Old Gods"
+	} }
+} }
+
+(Type DistanceDef) = {
+	Single = { Left = "where" Right = { Province } }
+	Single = { Left = "value" Right = NnDbl }
+}
+
+(Type DistanceCharDef) = {
+	Single = { Left = "who" Right = { ThisChar } }
+	Single = { Left = "distance" Right = NnDbl }
+}
+
+(ContextValidator ProvTrigger) = { Members = {
+	(N Y) = { Left = "distance" Right = DistanceDef }
+	(Y  ) = { Left = "has_trade_post" Right = Bool }
+	
+	(If If = V110) = {
+		(Y  ) = { Left = "has_owner" Right = Bool }
+		(N Y) = { Left = "province" Right = ThisProv }
+	}
+} }
+
+(ContextValidator CharTrigger) = { Members = {
+	(N Y) = { Left = "num_of_realm_counties" Right = {
+		Single = { Left = "value" Right = PInt }
+		Single = { Left = "title" Right = ThisTitle }
+	} }
+	
+	(A Y) = { Left = "in_faction" Right = { Faction Bool } }
+	(A Y) = { Left = "leads_faction" Right = { Faction Yes } }
+	(N Y) = { Left = "faction_power" Right = {
+		Single = { Left = "faction" Right = Faction }
+		Single = { Left = "power" Right = NnDbl
+	} } }
+	
+	(Y  ) = { Left = "can_have_more_leadership_traits" Right = Bool }
+	
+	(N N) = { Left = "opinion_diff" Right = {
+		Single = { Left = "first" Right = { ThisChar OpinionClauseDefinedTypes } }
+		Single = { Left = "second" Right = { ThisChar OpinionClauseDefinedTypes } }
+		Single = { Left = "value" Right = Double }
+		Optional = { Left = "as_if_liege" Right = Bool }
+	} }
+	
+	(N Y) = { Left = "defending_against_claimant" Right = {
+		Single = { Left = "character" Right = ThisChar }
+		Single = { Left = "title" Right = ThisTitle }
+	} }
+	(N Y) = { Left = "distance" Right = DistanceCharDef }
+	(Y  ) = { Left = "has_earmarked_regiments" Right = NnInt }
+	(Y  ) = { Left = "has_embargo" Right = ThisChar }
+	(Y  ) = { Left = "diplomatic_immunity" Right = Bool }
+
+	(N Y) = { Left = "num_of_trade_post_diff" Right = {
+		Single = { Left = "character" Right = ThisChar }
+		Single = { Left = "value" Right = Int }
+	} }
+	(Y  ) = { Left = "num_of_trade_posts" Right = PInt }
+	
+	(Y  ) = { Left = "at_sea" Right = Bool }
+	(N Y) = { Left = "graphical_culture" Right = ThisChar }
+	
+	(A Y) = { Left = "death_reason" Right = DeathReason }
+	
+	(If If = V110) = {
+		(N N) = {
+			Left = "num_culture_realm_provs"
+			Right = {
+				Single = { Left = "num" Right = PInt }
+				Single = { Left = "culture" Right = Culture }
+			}
+			FancyUniqueId = {
+				Local = True
+				Key = {
+					culture = "culture\[R]"
+				}
+			}
+		}
+		(N N) = {
+			Left = "relative_power"
+			Right = {
+				Single = { Left = "who" Right = ThisChar }
+				Single = { Left = "power" Right = Double }
+			}
+			FancyUniqueId = {
+				Local = True
+				Key = {
+					who = "who\[R]"
+				}
+			}
+		}
+		(N N) = {
+			Left = "attribute_diff"
+			Right = {
+				Single = { Left = "character" Right = ThisChar }
+				Single = { Left = "attribute" Right = { Literal = "martial" } }
+				Single = { Left = "value" Right = Double }
+			}
+			FancyUniqueId = {
+				Local = True
+				Key = {
+					character = "character\[R]"
+				}
+			}
+		}
+		
+		(Y  ) = { Left = "is_consort" Right = Bool }
+		(N Y) = { Left = "is_consort" Right = ThisChar }
+		(Y  ) = { Left = "preparing_invasion" Right = Bool }
+		(Y  ) = { Left = "is_reformed_religion" Right = Bool }
+		(Y  ) = { Left = "num_of_holy_sites" Right = Int }
+	}
+} }
+
+(ContextValidator TitleTrigger) = { Members = {
+	(Y  ) = { Left = "is_contested" Right = Bool }
+	(Y  ) = { Left = "is_conquered" Right = Bool }
+	(Y  ) = { Left = "has_trade_post" Right = Bool }
+	
+	(If If = V110) = {
+		(Y  ) = { Left = "temporary" Right = Bool }
+		(Y  ) = { Left = "holy_order" Right = Bool }
+		(N Y) = { Left = "is_valid_viking_invasion_target" Right = ThisChar }
+	}
+} }
+
+(ContextValidator Command) = { Members = {
+	(N Y) = { Left = "set_parent_religion" Right = {
+		Single = { Left = "religion" Right = Religion }
+		Single = { Left = "parent" Right = Religion }
+	} }
+	(N Y) = { Left = "activate_disease" Right = Disease }
+} }
+
+(ContextValidator ProvCommand) = { Members = {
+	(N Y) = { Left = "seize_trade_post" Right = ThisChar }
+	(Y  ) = { Left = "set_name" Right = String }
+
+} }
+
+(Type SiezeThing) = {
+	Single = { Left = "title" Right = ThisTitle }
+	Single = { Left = "enemy" Right = ThisChar }
+	Optional = { Left = "is_crusade" Right = Bool }
+	Optional = { Left = "same_religion" Right = Bool }
+}
+
+(ContextValidator CharCommand) = { Members = {
+	(Y  ) = { Left = "objective_succeeds" Right = Yes }
+	
+	(N Y) = { Left = "vassalize_or_take_under_title" Right = SiezeThing }
+	
+	(Y  ) = { Left = "disband_event_forces" Right = String (LocalOp "chk" "[R]" AddChecker Earmarks If = TraceFlags) }
+	(Y  ) = { Left = "faction" Right = Faction }
+	(Y  ) = { Left = "capital" Right = ThisTitle }
+	(Y  ) = { Left = "diplomatic_immunity" Right = Bool }
+	(Y  ) = { Left = "embargo" Right = ThisChar }
+	(N Y) = { Left = "destroy_tradepost" Right = ThisProv }
+	
+	(If If = V110) = {
+		(N Y) = { Left = "vassalize_or_take_under_title_destroy_duchies" Right = SiezeThing }
+		(N Y) = { Left = "subjugate_or_take_under_title" Right = SiezeThing }
+		(N Y) = { Left = "create_title" Right = CreateTitle }
+	
+		(N N) = { Left = "spawn_fleet" Right = {
+			AddContextValidatorStackFrame = None
+			
+			Single = { Left = "province" Right = { Literal = "closest" Type = ThisChar Type = ThisProv } }
+			Single = { Left = "owner" Right = ThisChar }
+			Optional = { Left = "earmark" Right = String (LocalOp "set" "[R]" AddSetter Earmarks If = TraceFlags) }
+			Optional = { Left = "troops" Right = {
+				(Ch Y N) = { Left = { Type = Unit } Right = { (PdoList N 2 2) = { Type = NnInt } } }
+			} }
+			Optional = { Left = "match_character" Right = ThisChar }
+			Optional = { Left = "match_mult" Right = Double }
+			
+		} }
+		
+		(Y  ) = { Left = "culture_techpoints" Right = Double }
+		(Y  ) = { Left = "military_techpoints" Right = Double }
+		(Y  ) = { Left = "economy_techpoints" Right = Double }
+		(Y  ) = { Left = "move_character" Right = ThisChar }
+	}
+	
+
+} }
+
+(ContextValidator TitleCommand) = { Members = {
+	(Y  ) = { Left = "set_name" Right = String }
+	(Y  ) = { Left = "province_capital" Right = Yes }
+	(Y  ) = { Left = "copy_title_laws" Right = AnyTitle }
+	(Y  ) = { Left = "copy_title_history" Right = AnyTitle }
+	(Y  ) = { Left = "seize_trade_post" Right = ThisChar }
+	(If If = V110) = {
+		(Y  ) = { Left = "refill_holding_levy" Right = Yes }
+		(Y  ) = { Left = "make_primary_title" Right = Yes }
+	}
+} }
+
+(Type CreateTitle If = V110) = {
+	Single = { Left = "tier" Right = Tier }
+	Optional = { Left = "landless" Right = Bool }
+	Optional = { Left = "temporary" Right = Bool }
+	Single = { Left = "culture" Right = { Culture ThisChar } }
+	Single = { Left = "name" Right = Key }
+	Single = { Left = "holder" Right = { ThisChar } }
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

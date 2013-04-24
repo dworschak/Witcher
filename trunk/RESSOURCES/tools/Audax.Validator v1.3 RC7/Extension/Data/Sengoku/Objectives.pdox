@@ -1,0 +1,54 @@
+(Validator Objectives) = {
+	Type = Default
+	FriendlyName = "Objectives"
+	(FileGroup "common\objectives.txt")
+	ValidatorName = ObjectiveFile
+}
+
+(Type ObjectiveFile) = {
+	(Ch Y N) = { Left = { Type = String } Right = ObjectiveDef (CheckKey "*_desc" Left IfNot = NoCheckKey) (CheckKey "*_title" Left IfNot = NoCheckKey) }
+}
+
+Global = {
+(Type.Enum Objective) = { Import = { (FileGroup "common\objectives.txt") SelectPath = "*\[L]" } }
+}
+
+(Type ObjectiveDef) = {
+	Single = { Left = "type" Right = { Literal = "attack_title" Literal = "character" 
+		Literal = "form_clan" Literal = "take_over_clan" } }
+	
+	Optional = { Left = "plot" Right = Bool }
+	Optional = { Left = "potential" Right = CharTrigger }
+	Optional = { Left = "allow" Right = CharTrigger }
+	Single = { Left = "chance" Right = ChanceClause }
+	Single = { Left = "success" Right = CharTrigger }
+	Single = { Left = "abort" Right = CharTrigger }
+	Single = { Left = "effect" Right = CharCommand }
+	Optional = { Left = "abort_effect" Right = CharCommand }
+	Optional = { Left = "expose_effect" Right = CharCommand }
+
+	
+}
+
+(Type ChanceClause) = {
+	Single = { Left = "factor" Right = NnDbl }
+	(Ch N Y) = { Left = "modifier" Right = ChanceModifier }
+}
+
+(Type ChanceModifier) = {
+	Inherits = FactorModifier
+	Single = { Left = "factor" Right = NnDbl }
+	
+	Inherits = CharTrigger
+}
+
+
+
+
+
+
+
+
+
+
+
