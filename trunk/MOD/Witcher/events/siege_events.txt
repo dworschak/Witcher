@@ -1,3 +1,6 @@
+# Siege Events: 62000 - 62299
+
+
 character_event = {
 
 	id = 62000
@@ -868,8 +871,7 @@ character_event = {
 				province_id = 50
 				#province_id = 323
 				#province_id = 328
-				#province_id = 330
-			}
+				#province_id = 330			}
 		}
 	}
 
@@ -969,8 +971,7 @@ character_event = {
 			province_id = 50
 			#province_id = 323
 			#province_id = 328
-			#province_id = 330
-		}
+			#province_id = 330		}
 	}
 
 	mean_time_to_happen = {
@@ -1591,5 +1592,129 @@ character_event = { # Other side gets event
 	option = {
 		name = EVTOPTA62045
 		custom_tooltip = siege_hide
+	}
+}
+
+# Imprisoned by the winner. Fired from 'on_siege_over_loc_chars'.
+# Siege winner unit owner in the 'new_character' scope, lost holding title in FROM, local character in ROOT.
+character_event = {
+	id = 62100
+	picture = GFX_evt_siege
+	
+	desc = EVTDESC62100
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		new_character = {
+			NOT = { has_landed_title = e_rebels }
+			NOT = { # Handled by SSI.61
+				OR = {
+					has_landed_title = e_mexikha
+					any_liege = {
+						has_landed_title = e_mexikha
+					}
+				}
+			}
+		}
+		
+		OR = {
+			is_ruler = yes
+			
+			host = {
+				OR = {
+					is_close_relative = ROOT
+					any_spouse = {
+						character = ROOT
+					}
+					any_consort = {
+						character = ROOT
+					}
+				}
+			}
+			new_character = {
+				ROOT = {
+					prisoner = yes
+					employer = {
+						character = PREVPREV
+					}
+				}
+			}
+			
+			AND = {
+				new_character = {
+					ROOT = {
+						host = {
+							top_liege = {
+								war_with = PREVPREVPREV
+							}
+						}
+					}
+				}
+				
+				host = {
+					top_liege = {
+						is_close_relative = ROOT
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		modifier = {
+			factor = 2
+			is_female = yes
+			new_character = {
+				OR = {
+					religion_group = pagan_group
+					religion_group = zoroastrian_group
+				}
+			}
+		}
+		modifier = {
+			factor = 4 # Free prisoner
+			new_character = {
+				ROOT = {
+					prisoner = yes
+					employer = {
+						character = PREVPREV
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA62100
+		new_character = {
+			ROOT = {
+				imprison = PREV
+			}
+		}
+		hidden_tooltip = {
+			new_character = {
+				character_event = { id = 62101 }
+			}
+		}
+	}
+}
+
+# Jailor informed
+character_event = {
+	id = 62101
+	picture = GFX_evt_siege
+	desc = EVTDESC62101
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA62101
+		tooltip = {
+			FROM = {
+				imprison = yes
+			}
+		}
 	}
 }
