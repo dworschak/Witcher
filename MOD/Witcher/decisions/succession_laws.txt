@@ -17,7 +17,9 @@ succession_laws = {
 			OR = {
 				is_landless_type_title = no
 				is_tribal_type_title = yes
+				temporary = yes
 			}
+			rebel = no
 			OR = {
 				AND = {
 					tier = baron
@@ -26,7 +28,6 @@ succession_laws = {
 				holder_scope = { is_feudal = yes }
 			}
 			is_primary_type_title = no
-			NOT = { tier = baron }
 		}
 		effect = {
 			succession = gavelkind
@@ -46,6 +47,11 @@ succession_laws = {
 			holder_scope = {
 				NOT = { religion_group = muslim }
 				is_merchant_republic = no
+				
+				OR = {
+					NOT = { religion_group = pagan_group }
+					is_reformed_religion = yes
+				}
 				
 				OR = {
 					is_republic = no
@@ -104,6 +110,11 @@ succession_laws = {
 		potential = {
 			holder_scope = {
 				NOT = { religion_group = muslim }
+				OR = {
+					NOT = { religion_group = pagan_group }
+					is_reformed_religion = yes
+				}
+				
 				is_merchant_republic = no
 				is_patrician = no
 			}
@@ -152,6 +163,11 @@ succession_laws = {
 				NOT = { religion_group = muslim }
 				is_merchant_republic = no
 				is_patrician = no
+				
+				OR = {
+					NOT = { religion_group = pagan_group }
+					is_reformed_religion = yes
+				}
 			}
 			OR = {
 				is_landless_type_title = no
@@ -216,7 +232,18 @@ succession_laws = {
 		dynasty_opinion = -5
 		potential = {
 			holder_scope = {
-#				religion_group = pagan_group
+				OR = {
+					culture = mongol
+					AND = {
+						NOT = { religion = norse_pagan }
+						NOT = { religion = tengri_pagan }
+						NOT = { religion = baltic_pagan }
+						NOT = { religion = finnish_pagan }
+						NOT = { religion = aztec }
+						NOT = { religion = slavic_pagan }
+					}
+				}
+				
 				NOT = { religion_group = muslim }
 				is_merchant_republic = no
 				is_patrician = no
