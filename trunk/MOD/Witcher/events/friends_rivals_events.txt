@@ -19,8 +19,8 @@ character_event = {
 	picture = GFX_evt_child_sword
 	
 	only_men = yes
-	min_age = 6
-	max_age = 11
+	min_age = 4
+	max_age = 14
 	prisoner = no
 	
 	trigger = {
@@ -30,54 +30,56 @@ character_event = {
 		NOT = {
 			num_of_rivals = 2
 		}
-		any_courtier = {
-			is_abroad = no
-			prisoner = no
-			at_location = ROOT
-			OR = {
-				AND = {
-					ROOT = {
+		host = {
+			any_courtier = {
+				is_abroad = no
+				prisoner = no
+				at_location = ROOT
+				OR = {
+					AND = {
+						ROOT = {
+							is_female = no
+						}
 						is_female = no
 					}
-					is_female = no
-				}
-				AND = {
-					ROOT = {
+					AND = {
+						ROOT = {
+							is_female = yes
+						}
 						is_female = yes
 					}
-					is_female = yes
 				}
-			}
-			NOT = {
-				trait = craven
-			}
-			NOT = {
-				trait = honest
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			age = 6
-			NOT = {
-				age = 11
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				NOT = {
+					trait = craven
+				}
+				NOT = {
+					trait = honest
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				age = 4
+				NOT = {
+					age = 14
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -102,135 +104,139 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA100000
-		random_courtier = {
-			limit = {
-				is_abroad = no
-				prisoner = no
-				at_location = ROOT
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					trait = craven
-				}
-				NOT = {
-					trait = honest
-				}
-				OR = {
-					AND = {
-						ROOT = {
+		host = {
+			random_courtier = {
+				limit = {
+					is_abroad = no
+					prisoner = no
+					at_location = ROOT
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						trait = craven
+					}
+					NOT = {
+						trait = honest
+					}
+					OR = {
+						AND = {
+							ROOT = {
+								is_female = no
+							}
 							is_female = no
 						}
-						is_female = no
-					}
-					AND = {
-						ROOT = {
+						AND = {
+							ROOT = {
+								is_female = yes
+							}
 							is_female = yes
 						}
-						is_female = yes
-					}
-				}
-				NOT = {
-					sibling = ROOT
-				}
-				age = 6
-				NOT = {
-					age = 11
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-			}
-			opinion = {
-				modifier = opinion_rival
-				who = FROM
-				years = 100
-			}
-			character_event = {
-				id = 100001
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100001
-			}
-			if = {
-				limit = {
-					NOT = {
-						num_of_traits = 5
 					}
 					NOT = {
-						trait = wroth
+						sibling = ROOT
 					}
-					trait = greedy
+					age = 4
+					NOT = {
+						age = 14
+					}
+					NOT = {
+						num_of_friends = 2
+					}
 				}
-				add_trait = wroth
-			}
-			if = {
-				limit = {
-					NOT = {
-						num_of_traits = 5
-					}
-					NOT = {
+				opinion = {
+					modifier = opinion_rival
+					who = FROM
+					years = 100
+				}
+				character_event = {
+					id = 100001
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100001
+				}
+				if = {
+					limit = {
+						NOT = {
+							num_of_traits = 5
+						}
+						NOT = {
+							trait = wroth
+						}
 						trait = greedy
 					}
-					trait = wroth
+					add_trait = wroth
 				}
-				add_trait = greedy
+				if = {
+					limit = {
+						NOT = {
+							num_of_traits = 5
+						}
+						NOT = {
+							trait = greedy
+						}
+						trait = wroth
+					}
+					add_trait = greedy
+				}
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB100000
-		random_courtier = {
-			limit = {
-				is_abroad = no
-				prisoner = no
-				at_location = ROOT
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+		host = {
+			random_courtier = {
+				limit = {
+					is_abroad = no
+					prisoner = no
+					at_location = ROOT
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						trait = craven
+					}
+					NOT = {
+						trait = honest
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					age = 4
+					NOT = {
+						age = 14
+					}
+					NOT = {
+						num_of_friends = 2
+					}
 				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				reverse_opinion = {
+					modifier = opinion_friend
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				character_event = {
+					id = 100002
+					tooltip = EVTTOOLTIP100002
 				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					trait = craven
-				}
-				NOT = {
-					trait = honest
-				}
-				NOT = {
-					sibling = ROOT
-				}
-				age = 6
-				NOT = {
-					age = 11
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_friend
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100002
-				tooltip = EVTTOOLTIP100002
 			}
 		}
 	}
@@ -278,8 +284,8 @@ character_event = {
 	desc = EVTDESC100005
 	picture = GFX_evt_child_talking
 	
-	min_age = 6
-	max_age = 11
+	min_age = 4
+	max_age = 14
 	prisoner = no
 	
 	trigger = {
@@ -294,35 +300,37 @@ character_event = {
 			trait = charitable
 			trait = brave
 		}
-		any_courtier = {
-			at_location = ROOT
-			prisoner = no
-			age = 6
-			NOT = {
-				age = 11
+		host = {
+			any_courtier = {
+				at_location = ROOT
+				prisoner = no
+				age = 4
+				NOT = {
+					age = 14
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				trait = shy
 			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			trait = shy
 		}
 	}
 	
@@ -349,9 +357,9 @@ character_event = {
 			limit = {
 				at_location = ROOT
 				prisoner = no
-				age = 6
+				age = 4
 				NOT = {
-					age = 11
+					age = 14
 				}
 				NOT = {
 					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
@@ -391,9 +399,9 @@ character_event = {
 			limit = {
 				at_location = ROOT
 				prisoner = no
-				age = 6
+				age = 4
 				NOT = {
-					age = 11
+					age = 14
 				}
 				NOT = {
 					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
@@ -655,34 +663,36 @@ character_event = {
 		NOT = {
 			num_of_rivals = 2
 		}
-		any_courtier = {
-			is_female = no
-			same_guardian = ROOT
-			NOT = {
-				sibling = ROOT
-			}
-			OR = {
-				trait = charitable
-				trait = kind
-				trait = ambitious
-			}
-			NOT = {
-				num_of_friends = 3
-			}
-			NOT = {
-				num_of_rivals = 3
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				is_female = no
+				same_guardian = ROOT
+				NOT = {
+					sibling = ROOT
+				}
+				OR = {
+					trait = charitable
+					trait = kind
+					trait = ambitious
+				}
+				NOT = {
+					num_of_friends = 3
+				}
+				NOT = {
+					num_of_rivals = 3
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -702,94 +712,98 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA100015
-		random_courtier = {
-			limit = {
-				is_female = no
-				same_guardian = ROOT
-				NOT = {
-					sibling = ROOT
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = no
+					same_guardian = ROOT
+					NOT = {
+						sibling = ROOT
+					}
+					OR = {
+						trait = charitable
+						trait = kind
+						trait = ambitious
+					}
+					NOT = {
+						num_of_friends = 3
+					}
+					NOT = {
+						num_of_rivals = 3
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				OR = {
-					trait = charitable
-					trait = kind
-					trait = ambitious
+				reverse_opinion = {
+					modifier = opinion_friend
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					num_of_friends = 3
+				character_event = {
+					id = 100016
+					days = 1
+					random = 3
+					tooltip = EVTTOOLTIPA100016
 				}
-				NOT = {
-					num_of_rivals = 3
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_friend
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100016
-				days = 1
-				random = 3
-				tooltip = EVTTOOLTIPA100016
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB100015
-		random_courtier = {
-			limit = {
-				is_female = no
-				same_guardian = ROOT
-				NOT = {
-					sibling = ROOT
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = no
+					same_guardian = ROOT
+					NOT = {
+						sibling = ROOT
+					}
+					OR = {
+						trait = charitable
+						trait = kind
+						trait = ambitious
+					}
+					NOT = {
+						num_of_friends = 3
+					}
+					NOT = {
+						num_of_rivals = 3
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				OR = {
-					trait = charitable
-					trait = kind
-					trait = ambitious
+				reverse_opinion = {
+					modifier = opinion_irritated
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					num_of_friends = 3
+				set_character_flag = wrongly_interfered
+				character_event = {
+					id = 100016
+					days = 1
+					random = 3
+					tooltip = EVTTOOLTIPB100016
 				}
-				NOT = {
-					num_of_rivals = 3
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_irritated
-				who = ROOT
-				years = 100
-			}
-			set_character_flag = wrongly_interfered
-			character_event = {
-				id = 100016
-				days = 1
-				random = 3
-				tooltip = EVTTOOLTIPB100016
 			}
 		}
 	}
@@ -935,7 +949,7 @@ character_event = {
 		any_courtier = {
 			at_location = ROOT
 			#same_liege = ROOT
-			#is_female = no
+			is_female = no
 			prisoner = no
 			is_married = no
 			age = 16
@@ -1657,8 +1671,8 @@ character_event = {
 	
 	only_women = yes
 	prisoner = no
-	min_age = 6
-	max_age = 11
+	min_age = 4
+	max_age = 14
 	
 	trigger = {
 		NOT = {
@@ -1672,39 +1686,41 @@ character_event = {
 			trait = diligent
 			trait = just
 		}
-		any_courtier = {
-			at_location = ROOT
-			is_female = yes
-			prisoner = no
-			age = 6
-			NOT = {
-				age = 11
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			OR = {
-				trait = ambitious
-				trait = diligent
-				trait = just
+		host = {
+			any_courtier = {
+				at_location = ROOT
+				is_female = yes
+				prisoner = no
+				age = 4
+				NOT = {
+					age = 14
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				OR = {
+					trait = ambitious
+					trait = diligent
+					trait = just
+				}
 			}
 		}
 	}
@@ -1736,93 +1752,97 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA100035
-		random_courtier = {
-			limit = {
-				at_location = ROOT
-				is_female = yes
-				prisoner = no
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					at_location = ROOT
+					is_female = yes
+					prisoner = no
+					age = 4
+					NOT = {
+						age = 14
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					OR = {
+						trait = ambitious
+						trait = diligent
+						trait = just
+					}
 				}
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100036
+					days = 2
+					random = 4
+					tooltip = EVTTOOLTIP100036
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				OR = {
-					trait = ambitious
-					trait = diligent
-					trait = just
-				}
-			}
-			character_event = {
-				id = 100036
-				days = 2
-				random = 4
-				tooltip = EVTTOOLTIP100036
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB100035
-		random_courtier = {
-			limit = {
-				at_location = ROOT
-				is_female = yes
-				prisoner = no
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					at_location = ROOT
+					is_female = yes
+					prisoner = no
+					age = 4
+					NOT = {
+						age = 14
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					OR = {
+						trait = ambitious
+						trait = diligent
+						trait = just
+					}
 				}
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100037
+					days = 2
+					random = 4
+					tooltip = EVTTOOLTIP100037
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				OR = {
-					trait = ambitious
-					trait = diligent
-					trait = just
-				}
-			}
-			character_event = {
-				id = 100037
-				days = 2
-				random = 4
-				tooltip = EVTTOOLTIP100037
 			}
 		}
 	}
@@ -1961,38 +1981,40 @@ character_event = {
 			trait = shy
 			trait = paranoid
 		}
-		any_courtier = {
-			at_location = ROOT
-			age = 11
-			NOT = {
-				age = 16
-			}
-			is_female = yes
-			prisoner = no
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			OR = {
-				trait = lustful
-				trait = gregarious
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				at_location = ROOT
+				age = 11
+				NOT = {
+					age = 16
+				}
+				is_female = yes
+				prisoner = no
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				OR = {
+					trait = lustful
+					trait = gregarious
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -2012,100 +2034,104 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA100040
-		random_courtier = {
-			limit = {
-				is_married = no
-				is_betrothed = no
-				age = 15
-				NOT = {
-					age = 25
+		host = {
+			random_courtier = {
+				limit = {
+					is_married = no
+					is_betrothed = no
+					age = 15
+					NOT = {
+						age = 25
+					}
+					at_location = ROOT
+					is_female = yes
+					prisoner = no
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					OR = {
+						trait = lustful
+						trait = gregarious
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				is_female = yes
-				prisoner = no
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100041
+					days = 2
+					random = 3
+					tooltip = EVTTOOLTIP100041
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				OR = {
-					trait = lustful
-					trait = gregarious
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			character_event = {
-				id = 100041
-				days = 2
-				random = 3
-				tooltip = EVTTOOLTIP100041
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB100040
-		random_courtier = {
-			limit = {
-				is_married = no
-				is_betrothed = no
-				age = 15
-				NOT = {
-					age = 25
+		host = {
+			random_courtier = {
+				limit = {
+					is_married = no
+					is_betrothed = no
+					age = 15
+					NOT = {
+						age = 25
+					}
+					at_location = ROOT
+					is_female = yes
+					prisoner = no
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					OR = {
+						trait = lustful
+						trait = gregarious
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				is_female = yes
-				prisoner = no
-				NOT = {
-					sibling = ROOT
+				reverse_opinion = {
+					modifier = opinion_rival
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					num_of_friends = 2
+				character_event = {
+					id = 100042
+					days = 2
+					random = 3
+					tooltip = EVTTOOLTIP100042
 				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				OR = {
-					trait = lustful
-					trait = gregarious
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_rival
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100042
-				days = 2
-				random = 3
-				tooltip = EVTTOOLTIP100042
 			}
 		}
 	}
@@ -2652,35 +2678,37 @@ character_event = {
 		}	
 		NOT = {
 			martial = 5
-		}	
-		any_courtier = {
-			martial = 5
-			is_female = no
-			age = 11
-			NOT = {
-				age = 16
-			}
-			at_location = ROOT
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		}
+		host = {
+			any_courtier = {
+				martial = 5
+				is_female = no
+				age = 11
+				NOT = {
+					age = 16
+				}
+				at_location = ROOT
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -2723,47 +2751,49 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTB100060
-		random_courtier = {
-			limit = {
-				martial = 5
-				is_female = no
-				age = 11
-				NOT = {
-					age = 16
+		host = {
+			random_courtier = {
+				limit = {
+					martial = 5
+					is_female = no
+					age = 11
+					NOT = {
+						age = 16
+					}
+					at_location = ROOT
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				NOT = {
-					sibling = ROOT
+				reverse_opinion = {
+					modifier = opinion_rival
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					num_of_friends = 2
+				character_event = {
+					id = 100061
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100061
 				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_rival
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100061
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100061
 			}
 		}
 	}
@@ -2809,8 +2839,8 @@ character_event = {
 	
 	only_men = yes
 	prisoner = no
-	min_age = 6
-	max_age = 11
+	min_age = 4
+	max_age = 14
 	
 	trigger = {
 		NOT = {
@@ -2819,38 +2849,40 @@ character_event = {
 		NOT = {
 			num_of_rivals = 2
 		}
-		any_courtier = {
-			prisoner = no
-			is_female = no
-			age = 6
-			NOT = {
-				age = 11
-			}
-			at_location = ROOT
-			OR = {
-				trait = wroth
-				trait = cruel
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				prisoner = no
+				is_female = no
+				age = 4
+				NOT = {
+					age = 14
+				}
+				at_location = ROOT
+				OR = {
+					trait = wroth
+					trait = cruel
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -2881,96 +2913,100 @@ character_event = {
 			}
 			add_trait = brave
 		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				is_female = no
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					prisoner = no
+					is_female = no
+					age = 4
+					NOT = {
+						age = 14
+					}
+					at_location = ROOT
+					OR = {
+						trait = wroth
+						trait = cruel
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				OR = {
-					trait = wroth
-					trait = cruel
+				reverse_opinion = {
+					modifier = opinion_rival
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100066
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100066
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_rival
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100066
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100066
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB100065
-		random_courtier = {
-			limit = {
-				prisoner = no
-				is_female = no
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					prisoner = no
+					is_female = no
+					age = 4
+					NOT = {
+						age = 14
+					}
+					at_location = ROOT
+					OR = {
+						trait = wroth
+						trait = cruel
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				OR = {
-					trait = wroth
-					trait = cruel
+				character_event = {
+					id = 100067
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100067
 				}
-				NOT = {
-					sibling = ROOT
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			character_event = {
-				id = 100067
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100067
 			}
 		}
 	}
@@ -3157,76 +3193,8 @@ character_event = {
 			trait = wroth
 			trait = envious
 		}
-		any_courtier = {
-			prisoner = no
-			OR = {
-				AND = {
-					ROOT = {
-						is_female = yes
-					}
-					is_female = yes
-				}
-				AND = {
-					ROOT = {
-						is_female = no
-					}
-					is_female = no
-				}
-			}
-			age = 11
-			NOT = {
-				age = 16
-			}
-			at_location = ROOT
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 80
-		
-		modifier = {
-			factor = 2
-			trait = honest
-		}
-		modifier = {
-			factor = 0.5
-			trait = deceitful
-		}
-		modifier = {
-			factor = 0.5
-			intrigue = 5
-		}
-		modifier = {
-			factor = 2
-			NOT = { intrigue = 5 }
-		}
-	}
-	
-	option = {
-		name = EVTOPTA100070
-		random_courtier = {
-			limit = {
+		host = {
+			any_courtier = {
 				prisoner = no
 				OR = {
 					AND = {
@@ -3257,9 +3225,6 @@ character_event = {
 					num_of_rivals = 2
 				}
 				NOT = {
-					reverse_opinion = { who = ROOT value = -10 }
-				}
-				NOT = {
 					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
 				}
 				NOT = {
@@ -3272,16 +3237,91 @@ character_event = {
 					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
 				}
 			}
-			reverse_opinion = {
-				modifier = opinion_rival
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100071
-				days = 1
-				random = 3
-				tooltip = EVTTOOLTIP100071
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 80
+		
+		modifier = {
+			factor = 2
+			trait = honest
+		}
+		modifier = {
+			factor = 0.5
+			trait = deceitful
+		}
+		modifier = {
+			factor = 0.5
+			intrigue = 5
+		}
+		modifier = {
+			factor = 2
+			NOT = { intrigue = 5 }
+		}
+	}
+	
+	option = {
+		name = EVTOPTA100070
+		host = {
+			random_courtier = {
+				limit = {
+					prisoner = no
+					OR = {
+						AND = {
+							ROOT = {
+								is_female = yes
+							}
+							is_female = yes
+						}
+						AND = {
+							ROOT = {
+								is_female = no
+							}
+							is_female = no
+						}
+					}
+					age = 11
+					NOT = {
+						age = 16
+					}
+					at_location = ROOT
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						reverse_opinion = { who = ROOT value = -10 }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+				}
+				reverse_opinion = {
+					modifier = opinion_rival
+					who = ROOT
+					years = 100
+				}
+				character_event = {
+					id = 100071
+					days = 1
+					random = 3
+					tooltip = EVTTOOLTIP100071
+				}
 			}
 		}
 	}
@@ -3339,55 +3379,57 @@ character_event = {
 	
 	option = {
 		name = EVTOPTC100070
-		random_courtier = {
-			limit = {
-				prisoner = no
-				OR = {
-					AND = {
-						ROOT = {
+		host = {
+			random_courtier = {
+				limit = {
+					prisoner = no
+					OR = {
+						AND = {
+							ROOT = {
+								is_female = yes
+							}
 							is_female = yes
 						}
-						is_female = yes
-					}
-					AND = {
-						ROOT = {
+						AND = {
+							ROOT = {
+								is_female = no
+							}
 							is_female = no
 						}
-						is_female = no
+					}
+					age = 11
+					NOT = {
+						age = 16
+					}
+					at_location = ROOT
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
 					}
 				}
-				age = 11
-				NOT = {
-					age = 16
+				character_event = {
+					id = 100072
+					days = 1
+					random = 3
+					tooltip = EVTTOOLTIP100072
 				}
-				at_location = ROOT
-				NOT = {
-					sibling = ROOT
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			character_event = {
-				id = 100072
-				days = 1
-				random = 3
-				tooltip = EVTTOOLTIP100072
 			}
 		}
 	}
@@ -3579,8 +3621,8 @@ character_event = {
 	desc = EVTDESC100080
 	picture = GFX_evt_child_talking
 	
-	min_age = 6
-	max_age = 11
+	min_age = 4
+	max_age = 14
 	prisoner = no
 	only_playable = yes
 	
@@ -3593,48 +3635,50 @@ character_event = {
 		NOT = {
 			num_of_rivals = 2
 		}
-		any_courtier = {
-			prisoner = no
-			OR = {
-				AND = {
-					ROOT = {
+		host = {
+			any_courtier = {
+				prisoner = no
+				OR = {
+					AND = {
+						ROOT = {
+							is_female = yes
+						}
 						is_female = yes
 					}
-					is_female = yes
-				}
-				AND = {
-					ROOT = {
+					AND = {
+						ROOT = {
+							is_female = no
+						}
 						is_female = no
 					}
-					is_female = no
 				}
-			}
-			age = 11
-			NOT = {
-				age = 16
-			}
-			at_location = ROOT
-			trait = cynical
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				age = 11
+				NOT = {
+					age = 16
+				}
+				at_location = ROOT
+				trait = cynical
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -3674,61 +3718,63 @@ character_event = {
 	}	
 	option = {
 		name = EVTOPTB100080
-		random_courtier = {
-			limit = {
-				prisoner = no
-				OR = {
-					AND = {
-						ROOT = {
+		host = {
+			random_courtier = {
+				limit = {
+					prisoner = no
+					OR = {
+						AND = {
+							ROOT = {
+								is_female = yes
+							}
 							is_female = yes
 						}
-						is_female = yes
-					}
-					AND = {
-						ROOT = {
+						AND = {
+							ROOT = {
+								is_female = no
+							}
 							is_female = no
 						}
-						is_female = no
 					}
-				}
-				age = 11
-				NOT = {
-					age = 16
-				}
-				at_location = ROOT
-				OR = {
-					trait = cynical
+					age = 11
 					NOT = {
-						trait = zealous
+						age = 16
+					}
+					at_location = ROOT
+					OR = {
+						trait = cynical
+						NOT = {
+							trait = zealous
+						}
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
 					}
 				}
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100081
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100081
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			character_event = {
-				id = 100081
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100081
 			}
 		}
 	}
@@ -3894,37 +3940,39 @@ character_event = {
 		NOT = {
 			num_of_rivals = 2
 		}
-		any_courtier = {
-			is_female = yes
-			age = 6
-			NOT = {
-				age = 11
-			}
-			at_location = ROOT
-			OR = {
-				trait = ambitious
-				trait = diligent
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				is_female = yes
+				age = 4
+				NOT = {
+					age = 14
+				}
+				at_location = ROOT
+				OR = {
+					trait = ambitious
+					trait = diligent
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -3958,143 +4006,149 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTB100090
-		random_courtier = {
-			limit = {
-				is_female = yes
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = yes
+					age = 4
+					NOT = {
+						age = 14
+					}
+					at_location = ROOT
+					OR = {
+						trait = ambitious
+						trait = diligent
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				OR = {
-					trait = ambitious
-					trait = diligent
+				reverse_opinion = {
+					modifier = opinion_rival
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100091
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100091
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_rival
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100091
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100091
 			}
 		}
 	}
 	option = {
 		name = EVTOPTC100090
-		random_courtier = {
-			limit = {
-				is_female = yes
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = yes
+					age = 4
+					NOT = {
+						age = 14
+					}
+					at_location = ROOT
+					OR = {
+						trait = ambitious
+						trait = diligent
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				OR = {
-					trait = ambitious
-					trait = diligent
+				reverse_opinion = {
+					modifier = opinion_envy
+					who = ROOT
+					years = 1
 				}
-				NOT = {
-					sibling = ROOT
+				character_event = {
+					id = 100092
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100092
 				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_envy
-				who = ROOT
-				years = 1
-			}
-			character_event = {
-				id = 100092
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100092
 			}
 		}
 	}
 	option = {
 		name = EVTOPTD100090
-		random_courtier = {
-			limit = {
-				is_female = yes
-				age = 6
-				NOT = {
-					age = 11
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = yes
+					age = 4
+					NOT = {
+						age = 14
+					}
+					at_location = ROOT
+					OR = {
+						trait = ambitious
+						trait = diligent
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 2
+					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				at_location = ROOT
-				OR = {
-					trait = ambitious
-					trait = diligent
+				character_event = {
+					id = 100094
+					days = 1
+					random = 2
+					tooltip = EVTTOOLTIP100094
 				}
-				NOT = {
-					sibling = ROOT
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			character_event = {
-				id = 100094
-				days = 1
-				random = 2
-				tooltip = EVTTOOLTIP100094
 			}
 		}
 	}
@@ -4261,8 +4315,8 @@ character_event = {
 	picture = GFX_evt_child_bully
 	
 	only_women = yes
-	min_age = 6
-	max_age = 11
+	min_age = 4
+	max_age = 14
 	prisoner = no
 	
 	trigger = {
@@ -4272,42 +4326,44 @@ character_event = {
 		NOT = {
 			num_of_rivals = 2
 		}
-		any_courtier = {
-			at_location = ROOT
-			is_female = yes
-			is_abroad = no
-			prisoner = no
-			age = 6
-			NOT = {
-				age = 11
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 2
-			}
-			NOT = {
-				num_of_rivals = 2
-			}
-			OR = {
-				trait = deceitful
-				trait = greedy
-			}
-			NOT = {
-				opinion = { who = ROOT value = 10 }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				at_location = ROOT
+				is_female = yes
+				is_abroad = no
+				prisoner = no
+				age = 4
+				NOT = {
+					age = 14
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				NOT = {
+					num_of_friends = 2
+				}
+				NOT = {
+					num_of_rivals = 2
+				}
+				OR = {
+					trait = deceitful
+					trait = greedy
+				}
+				NOT = {
+					opinion = { who = ROOT value = 10 }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -4363,53 +4419,55 @@ character_event = {
 			}			
 		}
 		hidden_tooltip = {
-			random_courtier = {
-				limit = {
-					at_location = ROOT
-					is_female = yes
-					is_abroad = no
-					prisoner = no
-					age = 6
-					NOT = {
-						age = 11
+			host = {
+				random_courtier = {
+					limit = {
+						at_location = ROOT
+						is_female = yes
+						is_abroad = no
+						prisoner = no
+						age = 4
+						NOT = {
+							age = 14
+						}
+						NOT = {
+							sibling = ROOT
+						}
+						NOT = {
+							num_of_friends = 2
+						}
+						NOT = {
+							num_of_rivals = 2
+						}
+						OR = {
+							trait = deceitful
+							trait = greedy
+						}
+						NOT = {
+							trait = kind
+						}
+						NOT = {
+							opinion = { who = ROOT value = 10 }
+						}
+						NOT = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+						}
+						NOT = {
+							reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+						}
+						NOT = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+						}
+						NOT = {
+							reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+						}
 					}
-					NOT = {
-						sibling = ROOT
+					character_event = {
+						id = 100101
+						days = 5
+						random = 5
+						tooltip = EVTTOOLTIP100101
 					}
-					NOT = {
-						num_of_friends = 2
-					}
-					NOT = {
-						num_of_rivals = 2
-					}
-					OR = {
-						trait = deceitful
-						trait = greedy
-					}
-					NOT = {
-						trait = kind
-					}
-					NOT = {
-						opinion = { who = ROOT value = 10 }
-					}
-					NOT = {
-						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-					}
-					NOT = {
-						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-					}
-					NOT = {
-						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-					}
-					NOT = {
-						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-					}
-				}
-				character_event = {
-					id = 100101
-					days = 5
-					random = 5
-					tooltip = EVTTOOLTIP100101
 				}
 			}
 		}
@@ -4581,37 +4639,39 @@ character_event = {
 		NOT = {
 			religion_group = muslim
 		}
-		any_courtier = {
-			is_female = no
-			prisoner = no
-			in_command = yes
-			war = yes
-			at_location = ROOT
-			trait = crusader
-			NOT = {
-				religion_group = muslim
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			age = 16
-			NOT = {
-				num_of_friends = 5
-			}
-			NOT = {
-				num_of_rivals = 5
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				is_female = no
+				prisoner = no
+				in_command = yes
+				war = yes
+				at_location = ROOT
+				trait = crusader
+				NOT = {
+					religion_group = muslim
+				}
+				NOT = {
+					sibling = ROOT
+				}
+				age = 16
+				NOT = {
+					num_of_friends = 5
+				}
+				NOT = {
+					num_of_rivals = 5
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -4649,92 +4709,96 @@ character_event = {
 	option = {
 		name = EVTOPTA100105
 		piety = 10
-		random_courtier = {
-			limit = {
-				is_female = no
-				prisoner = no
-				in_command = yes
-				war = yes
-				at_location = ROOT
-				trait = crusader
-				NOT = {
-					religion_group = muslim
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = no
+					prisoner = no
+					in_command = yes
+					war = yes
+					at_location = ROOT
+					trait = crusader
+					NOT = {
+						religion_group = muslim
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					age = 16
+					NOT = {
+						num_of_friends = 5
+					}
+					NOT = {
+						num_of_rivals = 5
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				NOT = {
-					sibling = ROOT
+				set_character_flag = crusader_piety
+				character_event = {
+					id = 100106
+					days = 7
+					random = 7
+					tooltip = EVTTOOLTIP100106
 				}
-				age = 16
-				NOT = {
-					num_of_friends = 5
-				}
-				NOT = {
-					num_of_rivals = 5
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			set_character_flag = crusader_piety
-			character_event = {
-				id = 100106
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100106
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB100105
 		prestige = 10
-		random_courtier = {
-			limit = {
-				is_female = no
-				prisoner = no
-				in_command = yes
-				war = yes
-				at_location = ROOT
-				trait = crusader
-				NOT = {
-					religion_group = muslim
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = no
+					prisoner = no
+					in_command = yes
+					war = yes
+					at_location = ROOT
+					trait = crusader
+					NOT = {
+						religion_group = muslim
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					age = 16
+					NOT = {
+						num_of_friends = 5
+					}
+					NOT = {
+						num_of_rivals = 5
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				NOT = {
-					sibling = ROOT
+				set_character_flag = crusader_prestige
+				character_event = {
+					id = 100106
+					days = 7
+					random = 7
+					tooltip = EVTTOOLTIP100106
 				}
-				age = 16
-				NOT = {
-					num_of_friends = 5
-				}
-				NOT = {
-					num_of_rivals = 5
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			set_character_flag = crusader_prestige
-			character_event = {
-				id = 100106
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100106
 			}
 		}
 	}
@@ -5617,37 +5681,39 @@ character_event = {
 		spouse = {
 			is_alive = yes
 		}
-		any_courtier = {
-			is_female = yes
-			is_abroad = no
-			prisoner = no
-			at_location = ROOT
-			is_pregnant = yes
-			NOT = {
-				sibling = ROOT
-			}
-			age = 16
-			NOT = {
-				num_of_friends = 5
-			}
-			NOT = {
-				num_of_rivals = 5
-			}
-			opinion = { who = ROOT value = 5 }
-			NOT = {
-				opinion = { who = ROOT value = 40 }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-			}
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+		host = {
+			any_courtier = {
+				is_female = yes
+				is_abroad = no
+				prisoner = no
+				at_location = ROOT
+				is_pregnant = yes
+				NOT = {
+					sibling = ROOT
+				}
+				age = 16
+				NOT = {
+					num_of_friends = 5
+				}
+				NOT = {
+					num_of_rivals = 5
+				}
+				opinion = { who = ROOT value = 5 }
+				NOT = {
+					opinion = { who = ROOT value = 40 }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+				}
+				NOT = {
+					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
+				NOT = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+				}
 			}
 		}
 	}
@@ -5692,50 +5758,52 @@ character_event = {
 	
 	option = {	
 		name = EVTOPTA100115
-		random_courtier = {
-			limit = {
-				is_female = yes
-				is_abroad = no
-				prisoner = no
-				at_location = ROOT
-				is_pregnant = yes
-				NOT = {
-					sibling = ROOT
+		host = {
+			random_courtier = {
+				limit = {
+					is_female = yes
+					is_abroad = no
+					prisoner = no
+					at_location = ROOT
+					is_pregnant = yes
+					NOT = {
+						sibling = ROOT
+					}
+					age = 16
+					NOT = {
+						num_of_friends = 5
+					}
+					NOT = {
+						num_of_rivals = 5
+					}
+					opinion = { who = ROOT value = 5 }
+					NOT = {
+						opinion = { who = ROOT value = 40 }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+					}
+					NOT = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
+					NOT = {
+						reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+					}
 				}
-				age = 16
-				NOT = {
-					num_of_friends = 5
+				reverse_opinion = {
+					modifier = opinion_friend
+					who = ROOT
+					years = 100
 				}
-				NOT = {
-					num_of_rivals = 5
+				character_event = {
+					id = 100116
+					days = 5
+					random = 7
+					tooltip = EVTTOOLTIP100116
 				}
-				opinion = { who = ROOT value = 5 }
-				NOT = {
-					opinion = { who = ROOT value = 40 }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
-				}
-				NOT = {
-					has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-				NOT = {
-					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
-				}
-			}
-			reverse_opinion = {
-				modifier = opinion_friend
-				who = ROOT
-				years = 100
-			}
-			character_event = {
-				id = 100116
-				days = 5
-				random = 7
-				tooltip = EVTTOOLTIP100116
 			}
 		}
 	}
