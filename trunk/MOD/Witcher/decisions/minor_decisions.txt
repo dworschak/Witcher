@@ -1,0 +1,641 @@
+decisions = {
+	
+	feast_0 = {
+		potential = {
+			is_ruler = yes
+			is_feudal = yes
+			prisoner = no
+			NOT = {
+				religion_group = muslim
+				religion_group = pagan_group
+			}
+			NOT = {
+				has_character_modifier = holding_large_feast
+			}
+			NOT = {
+				has_character_modifier = large_feast_timer
+			}
+			NOT = {
+				has_character_modifier = fabulous_feast
+			}
+			NOT = {
+				has_character_flag = guest_feast_started
+			}
+			NOT = {
+				liege = {
+					has_character_modifier = holding_large_feast
+				}
+			}			
+			num_of_vassals = 1
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			prisoner = no
+			scaled_wealth = 0.20
+			month = 10
+			prestige = 100
+		}
+		effect = {
+			scaled_wealth = -0.20
+			add_character_modifier = {
+				name = holding_large_feast
+				duration = 365
+			}
+			
+			hidden_tooltip = {
+				character_event = {
+					id = 72003
+					days = 25
+					random = 10
+				}
+				
+				letter_event = { 
+					id = 72109  
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				month = 11
+			}
+			
+			modifier = {
+				factor = 0
+				NOT = { age = 30 }
+			}						
+		}
+	}
+	
+	summer_fair = {
+		potential = {
+			is_ruler = yes
+			religion_group = christian
+			prisoner = no
+			NOT = {
+				has_character_modifier = holding_summer_fair
+			}
+			NOT = {
+				has_character_modifier = summer_fair_timer
+			}
+			num_of_vassals = 1
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			scaled_wealth = 0.25
+			prisoner = no
+			month = 4
+			NOT = {
+				month = 7
+			}
+		}
+		effect = {
+			scaled_wealth = -0.25
+			add_character_modifier = {
+				name = holding_summer_fair
+				duration = 60
+			}
+			hidden_tooltip = {
+				character_event = {
+					id = 74047
+					days = 65
+				}
+				character_event = { id = 74050  }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 5.0
+				}
+			}
+		}
+	}
+	
+	hold_grand_hunt = {
+		potential = {
+			is_ruler = yes
+			age = 16
+			is_female = no
+			prisoner = no
+			OR = {
+				religion_group = christian
+				religion_group = pagan_group
+			}
+			NOT = {
+				OR = {
+					has_landed_title = e_mongol_empire
+					has_landed_title = e_golden_horde
+					has_landed_title = e_il-khanate
+				}
+			}
+			NOT = {	has_character_flag = holding_grand_hunt }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			month = 8
+			scaled_wealth = 0.20
+			NOT = { month = 10 }
+			NOT = {	health_traits = 1 }
+			prisoner = no
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = holding_grand_hunt
+			hidden_tooltip = { 
+				character_event = { id = 36090 days = 16 random = 25 } 
+				letter_event = { id = 36080  }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 8
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { month = 9 }
+
+			}
+		}
+	}	
+	
+	
+	
+	go_on_hajj = {
+		is_high_prio = yes
+		potential = {
+			is_female = no
+			is_ruler = yes
+			religion_group = muslim
+			NOT = { trait = hajjaj }
+			NOT = { trait = on_hajj }
+			NOT = {	has_character_flag = preparing_hajj }
+			NOT = {	has_character_flag = ramadan }
+			NOT = {	has_character_flag = activated_hajj }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			prisoner = no
+			scaled_wealth = 0.20
+			age = 16
+		}
+		effect = {
+			scaled_wealth = -0.20
+			clr_character_flag = promise_hajj
+			set_character_flag = activated_hajj
+
+			hidden_tooltip = {
+				letter_event = { 
+					id = 86000
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				trait = cynical
+			}
+			modifier = { # Monthly randomizer for when AI takes decision (1% chance)
+				factor = 0
+				random = 1
+			}
+			modifier = {
+				factor = 0
+				NOT = { age = 22 }
+			}						
+		}
+	}
+	
+	observe_ramadan = {
+		potential = {
+			is_ruler = yes
+			prisoner = no
+			religion_group = muslim
+			NOT = { 
+				has_character_flag = ramadan
+				has_character_modifier = observed_ramadan
+				trait = on_hajj
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			wealth = 100
+		}
+		effect = {
+			character_event = { id = 88500 tooltip = "begin_fast" }
+			set_character_flag = ramadan
+			decadence = -3
+			piety = 15
+			wealth = -60
+			add_character_modifier = {
+				name = observed_ramadan
+				duration = 1900
+				hidden = no
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	commit_suicide = {
+		potential = {
+			age = 16
+			trait = depressed
+		}
+		allow = {
+			trait = depressed
+		}
+		effect = {
+			death = { death_reason = death_suicide }
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	commission_runestone = {
+		potential = {
+			has_dlc = "The Old Gods"
+			is_ruler = yes
+			age = 16
+			prisoner = no
+			OR = {
+				culture_group = north_germanic
+				religion = norse_pagan
+				religion = norse_pagan_reformed
+			}
+			NOT = {	has_character_flag = commissioned_runestone }
+			NOT = { year = 1150 }
+		}
+		allow = {
+			wealth = 100
+			prisoner = no
+		}
+		effect = {
+			wealth = -100
+			set_character_flag = commissioned_runestone
+			hidden_tooltip = { 
+				character_event = { id = TOG.500 }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}	
+	
+	hold_nerge = {
+		potential = {
+			has_dlc = "The Old Gods"
+			is_ruler = yes
+			age = 16
+			is_female = no
+			prisoner = no
+			culture = mongol
+			OR = {
+				has_landed_title = e_il-khanate
+				has_landed_title = e_golden_horde
+				has_landed_title = e_mongol_empire
+			}
+			NOT = { has_character_modifier = morale_from_nerge }
+			NOT = {	has_character_flag = holding_nerge }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			month = 8
+			scaled_wealth = 0.20
+			NOT = { month = 10 }
+			prisoner = no
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = holding_nerge
+			hidden_tooltip = { 
+				character_event = { id = TOG.100 } 
+			}
+			custom_tooltip = prepare_nerge
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 8
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { month = 9 }
+
+			}
+		}
+	}	
+	
+	hold_blot = {
+		potential = {
+			has_dlc = "The Old Gods"
+			is_ruler = yes
+			age = 16
+			prisoner = no
+			OR = {
+				religion = norse_pagan
+				religion = norse_pagan_reformed
+			}
+			NOT = { has_character_modifier = held_blot_timer }
+			NOT = {	has_character_flag = holding_blot }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			OR = {
+				NOT = { month = 2 }
+				month = 10
+			}
+			scaled_wealth = 0.20
+			prisoner = no
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = holding_blot
+			hidden_tooltip = { 
+				character_event = { id = TOG.600 } 
+			}
+			custom_tooltip = prepare_blot
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 8
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { month = 9 }
+
+			}
+		}
+	}	
+	
+	hold_ukon_juhla = {
+		potential = {
+			has_dlc = "The Old Gods"
+			is_ruler = yes
+			age = 16
+			prisoner = no
+			OR = {
+				religion = finnish_pagan
+				religion = finnish_pagan_reformed
+			}
+			NOT = { has_character_modifier = held_ukon_juhla_timer }
+			NOT = {	has_character_flag = holding_ukon_juhla }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			OR = {
+				NOT = { month = 7 }
+				month = 4
+			}
+			scaled_wealth = 0.20
+			prisoner = no
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = holding_ukon_juhla
+			hidden_tooltip = { 
+				character_event = { id = TOG.700 } 
+			}
+			custom_tooltip = prepare_ukon_juhla
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 8
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { month = 9 }
+
+			}
+		}
+	}
+	
+	hold_uzgavenes = {
+		potential = {
+			has_dlc = "The Old Gods"
+			is_ruler = yes
+			age = 16
+			prisoner = no
+			OR = {
+				religion = baltic_pagan
+				religion = baltic_pagan_reformed
+			}
+			NOT = { has_character_modifier = held_uzgavenes_timer }
+			NOT = {	has_character_flag = holding_uzgavenes }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			OR = {
+				NOT = { month = 7 }
+				month = 4
+			}
+			scaled_wealth = 0.20
+			prisoner = no
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = holding_uzgavenes
+			hidden_tooltip = { 
+				character_event = { id = TOG.750 } 
+			}
+			custom_tooltip = prepare_uzgavenes
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 8
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { month = 9 }
+
+			}
+		}
+	}
+	
+	hold_jarilo = {
+		potential = {
+			has_dlc = "The Old Gods"
+			is_ruler = yes
+			age = 16
+			prisoner = no
+			OR = {
+				religion = slavic_pagan
+				religion = slavic_pagan_reformed
+			}
+			NOT = { has_character_modifier = held_jarilo_timer }
+			NOT = {	has_character_flag = holding_jarilo }
+		}
+		allow = {
+			war = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			OR = {
+				NOT = { month = 7 }
+				month = 4
+			}
+			scaled_wealth = 0.20
+			prisoner = no
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = holding_jarilo
+			hidden_tooltip = { 
+				character_event = { id = TOG.800 } 
+			}
+			custom_tooltip = prepare_jarilo
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = {
+					scaled_wealth = 3.0
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					martial = 8
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { month = 9 }
+
+			}
+		}
+	}	
+	
+}
