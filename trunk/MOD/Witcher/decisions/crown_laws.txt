@@ -12,11 +12,8 @@ de_jure_laws = {
 		
 		feudal_opinion = 5
 		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		
 		allow = {
+			holder_scope = { is_republic = no }
 			has_law = centralization_1
 		}
 		revoke_allowed = {
@@ -130,11 +127,21 @@ de_jure_laws = {
 		
 		feudal_opinion = -10
 		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		
 		allow = {
+			holder_scope = { 
+				is_republic = no 
+				hidden_tooltip = {
+					NOT = { religion = freya }
+					NOT = { religion = kreve }
+					NOT = { religion = melitele }
+					NOT = { religion = tengri_pagan }
+					NOT = { religion = baltic_pagan }
+					NOT = { religion = finnish_pagan }
+					NOT = { religion = aztec }
+					NOT = { religion = slavic_pagan }
+				}
+				custom_tooltip = TT_NOT_UNREFORMED_PAGAN
+			}
 			OR = {
 				has_law = centralization_1
 				has_law = centralization_3
@@ -207,13 +214,23 @@ de_jure_laws = {
 		show_as_title = yes
 		group = centralization
 		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		
 		feudal_opinion = -20
 		
 		allow = {
+			holder_scope = { 
+				is_republic = no 
+				hidden_tooltip = {
+					NOT = { religion = freya }
+					NOT = { religion = kreve }
+					NOT = { religion = melitele }
+					NOT = { religion = tengri_pagan }
+					NOT = { religion = baltic_pagan }
+					NOT = { religion = finnish_pagan }
+					NOT = { religion = aztec }
+					NOT = { religion = slavic_pagan }
+				}
+				custom_tooltip = TT_NOT_UNREFORMED_PAGAN
+			}
 			OR = {
 				has_law = centralization_2
 				has_law = centralization_4
@@ -229,7 +246,10 @@ de_jure_laws = {
 			}
 			modifier = {
 				factor = 0
-				NOT = { has_law = centralization_2 }
+				OR = {
+					NOT = { has_law = centralization_2 }
+					NOT = { ruled_years = 20 }
+				}
 			}
 		}
 		ai_will_revoke = {
@@ -287,18 +307,28 @@ de_jure_laws = {
 		show_as_title = yes
 		group = centralization
 		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		
 		feudal_opinion = -30
 		
 		allow = {
+			holder_scope = { 
+				is_republic = no 
+				hidden_tooltip = {
+					NOT = { religion = freya }
+					NOT = { religion = kreve }
+					NOT = { religion = melitele }
+					NOT = { religion = tengri_pagan }
+					NOT = { religion = baltic_pagan }
+					NOT = { religion = finnish_pagan }
+					NOT = { religion = aztec }
+					NOT = { religion = slavic_pagan }
+				}
+				custom_tooltip = TT_NOT_UNREFORMED_PAGAN
+			}
 			has_law = centralization_3
 		}
 		revoke_allowed = {
 			always = no
-		}			
+		}
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -306,9 +336,13 @@ de_jure_laws = {
 			}
 			modifier = {
 				factor = 0
-				NOT = { has_law = centralization_3 }
+				OR = {
+					NOT = { has_law = centralization_3 }
+					NOT = { ruled_years = 20 }
+				}
 			}
 		}
+		
 		ai_will_revoke = {
 			factor = 0
 		}
@@ -366,6 +400,7 @@ de_jure_laws = {
 		group = investiture_law
 		default = yes
 		potential = {
+			year = 1300
 			holder_scope = { religion = catholic }
 		}
 		revoke_allowed = {
@@ -412,4 +447,5 @@ de_jure_laws = {
 			set_investiture = any
 		}
 	}
+	
 }
