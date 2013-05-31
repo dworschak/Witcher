@@ -14,6 +14,7 @@ NDiplomacy = {
 	PAPAL_INVEST_PIETY_COST_MULT = 0.5, 		-- The effect of Papal investiture on the piety cost of the special Papal actions
 	SHORT_REIGN_YEARS_END = 9,
 	LONG_REIGN_YEARS_START = 10,
+	SHORT_REIGN_OPINION_MULT = 2,				-- Opinion penalty multiplier to short reign years
 	DOW_ON_ALLY_PRESTIGE_COST = 50,
 	MINIMUM_SEND_GIFT_COST = 20,
 	SEND_GIFT_INCOME_SCALEFACTOR = 24, 
@@ -23,13 +24,18 @@ NDiplomacy = {
 	DEMESNE_MAX_SIZE_BARON_MULT = 1.0, 			-- Extra Max Demesne Size from the ruler's rank
 	DEMESNE_MAX_SIZE_COUNT_MULT = 1.0, 			-- Extra Max Demesne Size from the ruler's rank
 	DEMESNE_MAX_SIZE_DUKE_MULT = 1.0,			-- Extra Max Demesne Size from the ruler's rank
-	DEMESNE_MAX_SIZE_KING_MULT = 3.0,			-- Extra Max Demesne Size from the ruler's rank
-	DEMESNE_MAX_SIZE_EMPEROR_MULT = 4.0,		-- Extra Max Demesne Size from the ruler's rank
+	DEMESNE_MAX_SIZE_KING_MULT = 2.0,			-- Extra Max Demesne Size from the ruler's rank
+	DEMESNE_MAX_SIZE_EMPEROR_MULT = 3.0,		-- Extra Max Demesne Size from the ruler's rank
 	DEMESNE_MAX_SIZE_GREAT_DUKE_BONUS = 1.0,	-- Extra Max Demesne Size for Dukes with more than one Duchy
 	DEMESNE_MAX_SIZE_STEWARDSHIP_MULT = 0.15,	-- Extra Max Demesne Size from ruler and spouse intrigue
 	DEMESNE_MAX_SIZE_LEGALISM_MULT = 1.0,		-- Extra Max Demesne Size from the level of legalism
 	DEMESNE_MAX_SIZE_PATRICIAN = 1.0,			-- Extra Max Demesne Size for Patricians (Tier effects do no not apply to Patricians!)
 	DEMESNE_MAX_SIZE_PATRICIAN_DOGE = 1.0,		-- Extra Max Demesne Size for a Patrician Doge (Tier effects do no not apply to Patricians!)
+	DEMESNE_BONUS_MAX_TECH_EMPEROR = 5,
+	DEMESNE_BONUS_MAX_TECH_KING = 4,
+	DEMESNE_BONUS_MAX_TECH_DUKE = 3,
+	DEMESNE_BONUS_MAX_TECH_COUNT = 2,
+	DEMESNE_BONUS_MAX_TECH_BARON = 1,
 	GAVELKIND_MAX_SIZE_BONUS = 0.30,			-- Max demesne size bonus from Gavelkind
 	DIPLO_FRIEND_OPINION_THRESHOLD = 40,		-- OBSOLETE
 	DIPLO_RIVAL_OPINION_THRESHOLD = -40,		-- OBSOLETE
@@ -45,10 +51,16 @@ NDiplomacy = {
 	INTER_MUSLIM_WAR_MONTHLY_PIETY_COST = 2,  	-- Monthly Piety cost for Muslims who are primary attackers against a ruler of the same religion (not civil wars)
 	MUSLIM_TEMPLE_HOLDING_MONTHLY_PIETY = 0.2, 	-- Monthly Piety for Muslims for each Temple holding in the demesne
 	DOWRY_MULTIPLIER = 1.0,						-- The Dowry cost for a Patrician is prestige gain from marriage * this
+	PAGAN_PEACE_MONTHS = 24,					-- Months before the Peace Prestige loss kicks in for certain Pagan religions
+	PAGAN_PEACE_MONTHLY_PRESTIGE_LOSS = 2.0,	-- Prestige loss for being at peace, for certain Pagan religions
 	PRESTIGE_OPINION_DIV = 100,					-- Divider for prestige to vassal opinion (5x higher effect for negative prestige)
 	PRESTIGE_OPINION_MAX = 20,					-- Max opinion impact of prestige (positive OR negative)
 	PIETY_OPINION_DIV = 25,						-- Divider for piety to church opinion
 	PIETY_OPINION_MAX = 20,						-- Max opinion impact of piety (positive OR negative)	
+	MIN_PREP_INV_TARGET_HOLDINGS = 9,			-- The target must control at least this many holdings within the target kingdom to be a valid prepared invasion target
+	MAX_PREP_INV_TARGET_HOLDINGS = 40,			-- The target must control at the most this many holdings within the target kingdom to be a valid prepared invasion target
+	MAX_PREP_INV_ATTACKER_HOLDINGS = 40,		-- The attacker must have fewer Holdings than this in the realm (disallow Prepared Invasions for rulers who are already very powerful)
+	PREP_INV_REQ_PRESTIGE = 1000,				-- Need to have this much Prestige to prepare an invasion
 
 	IMPRISON_CHARACTER_INTERACTION_MONEY = 0,
 	IMPRISON_CHARACTER_INTERACTION_PIETY = 10,
@@ -236,7 +248,7 @@ NDiplomacy = {
 	ASK_FOR_DIVORCE_INTERACTION_THRESHOLD_FOR_NO = 0,
 	ASK_FOR_DIVORCE_INTERACTION_THRESHOLD_FOR_YES = 0,
 	
-	DIVORCE_INTERACTION_MONEY = 0,
+	DIVORCE_INTERACTION_MONEY = 1.0, 										-- Multiplier of yearly income
 	DIVORCE_INTERACTION_PIETY = 0,
 	DIVORCE_INTERACTION_PRESTIGE = 0,
 	DIVORCE_INTERACTION_THRESHOLD_FOR_NO = 0,
@@ -282,7 +294,25 @@ NDiplomacy = {
 	ASK_TO_EMBARGO_INTERACTION_PIETY = 0,
 	ASK_TO_EMBARGO_INTERACTION_PRESTIGE = 0,
 	ASK_TO_EMBARGO_INTERACTION_THRESHOLD_FOR_NO = 0,
-	ASK_TO_EMBARGO_INTERACTION_THRESHOLD_FOR_YES = 0
+	ASK_TO_EMBARGO_INTERACTION_THRESHOLD_FOR_YES = 0,
+	
+	PREPARE_INVASION_INTERACTION_MONEY = 0,
+	PREPARE_INVASION_INTERACTION_PIETY = 0,
+	PREPARE_INVASION_INTERACTION_PRESTIGE = 500,
+	PREPARE_INVASION_INTERACTION_THRESHOLD_FOR_NO = 0,
+	PREPARE_INVASION_INTERACTION_THRESHOLD_FOR_YES = 0,
+	
+	MAKE_CONSORT_INTERACTION_MONEY = 0,
+	MAKE_CONSORT_INTERACTION_PIETY = 0,
+	MAKE_CONSORT_INTERACTION_PRESTIGE = 0,
+	MAKE_CONSORT_INTERACTION_THRESHOLD_FOR_NO = 0,
+	MAKE_CONSORT_INTERACTION_THRESHOLD_FOR_YES = 0,
+	
+	DISMISS_CONSORT_INTERACTION_MONEY = 0,
+	DISMISS_CONSORT_INTERACTION_PIETY = 0,
+	DISMISS_CONSORT_INTERACTION_PRESTIGE = 0,
+	DISMISS_CONSORT_INTERACTION_THRESHOLD_FOR_NO = 0,
+	DISMISS_CONSORT_INTERACTION_THRESHOLD_FOR_YES = 0
 },
 
 NCharacter = {
@@ -297,10 +327,12 @@ NCharacter = {
 	NEED_GUARDIAN_AT_AGE = 6, 						-- The age at which children should be appointed a mentor/guardian
 	ASSIGN_ACTION_DAYS = 183, 						-- Days before a Councillor can be assigned a new job in a county
 	MARRIAGE_TIER_DIFF_PRESTIGE_MULT = 100, 		-- Prestige multiplier from marrying below or above your rank.
+	CONSORT_TIER_PRESTIGE_MULT = 25,				-- Prestige multiplier for rank of consort	
 	RAISED_TROOPS_VASSAL_OPINION_DAYS = 73,			-- After 73 days of having their troops raised, vassals will get -1 opinion more of you
 	MAX_GENERATED_TRAITS_FOR_HISTORICAL = 4,		-- Generate random traits up this number for adult historical characters
 	MUSLIM_NUM_WIVES_MONTHLY_PRESTIGE = 0.4,		-- The prestige effect from each extra or lacking expected wife
-	INBRED_TRAIT_CHANCE_FACTOR = 1.0,				-- Inbreeding: Multiplier to the base chance
+	PAGAN_NUM_CONSORTS_MONTHLY_PRESTIGE = 0.2,		-- The monthly prestige effect for pagans for each young Concubine
+	INBRED_TRAIT_CHANCE_FACTOR = 1.5,				-- Inbreeding: Multiplier to the base chance
 	LUNATIC_TRAIT_CHANCE_FACTOR = 0.2,				-- Inbreeding: Multiplier to the base chance
 	INBRED_DIVINE_BLOOD_TRAIT_CHANCE_FACTOR = 0.2,	-- Inbreeding: Multiplier to the base chance
 	LUNATIC_DIVINE_BLOOD_TRAIT_CHANCE_FACTOR = 1.0,	-- Inbreeding: Multiplier to the base chance
@@ -326,7 +358,8 @@ NCharacter = {
 	NATURAL_DEATH_CHANCE_AGE_70 = 734,				-- Natural deaths per decade out of 10000 people: Age 70-79
 	NATURAL_DEATH_CHANCE_AGE_80 = 1728,				-- Natural deaths per decade out of 10000 people: Age 80-90
 	NATURAL_DEATH_CHANCE_AGE_90 = 4000,				-- Natural deaths per decade out of 10000 people: Age 90-99
-	NATURAL_DEATH_CHANCE_AGE_100 = 8160				-- Natural deaths per decade out of 10000 people: Age 100+
+	NATURAL_DEATH_CHANCE_AGE_100 = 8160,			-- Natural deaths per decade out of 10000 people: Age 100+
+	FERTILITY_BASE_MULT = 0.50						-- Base fertility multiplier to adjust the base chance of impregnation
 },
 
 NTitle = {
@@ -420,8 +453,8 @@ NTitle = {
 	ENFORCE_ONE_OF_EACH_HOLDING = 1,			-- Require players to build at least one City, Temple and Castle in each province
 
 -- Title creation and usurpation requirements	
-	DEJURE_COUNTY_LIMIT_TO_CREATE = 0.5,		-- Fraction of de jure counties that you must control to create a non-imperial title
-	DEJURE_COUNTY_LIMIT_TO_USURP = 0.5,		-- Fraction of de jure counties that you must control to usurp a non-imperial title
+	DEJURE_COUNTY_LIMIT_TO_CREATE = 0.51,			-- Fraction of de jure counties that you must control to create a non-imperial title
+	DEJURE_COUNTY_LIMIT_TO_USURP = 0.51,			-- Fraction of de jure counties that you must control to usurp a non-imperial title
 	EMPIRE_DEJURE_COUNTY_LIMIT_TO_CREATE = 0.8,		-- Fraction of de jure counties that you must control to create an imperial title
 	EMPIRE_DEJURE_COUNTY_LIMIT_TO_USURP = 0.8		-- Fraction of de jure counties that you must control to usurp an imperial title	
 },
@@ -433,12 +466,22 @@ NReligion = {
 	CREATE_ANTIPOPE_AUTHORITY_LOSS = 0.2,
 	ANTIPOPE_MONTHLY_AUTHORITY_LOSS = 0.001,
 	POPE_DIPLO_TO_AUTHORITY_DIV = 10000,
-	EXCOM_MIN_AUTHORITY = 0.2,
-	INVASION_MIN_AUTHORITY = 0.3,
+	EXCOM_MIN_AUTHORITY = 0.4,
+	INVASION_MIN_AUTHORITY = 0.5,
 	KINGDOM_CREATION_PIETY_COST = 200,
 	EMPIRE_CREATION_PIETY_COST = 400,
 	CRUSADE_AUTHORITY_COST = 0.05,
-	ORTHODOX_PENTARCH_MONTHLY_AUTHORITY = 0.001
+	ORTHODOX_PENTARCH_MONTHLY_AUTHORITY = 0.001,
+	REFORM_RELIGION_MIN_AUTHORITY = 0.5,			-- Moral authority required to reform a pagan faith
+	REFORM_RELIGION_MIN_HOLY_SITES = 3,				-- Number of holy sites you must control to reform a pagan faith
+	REFORM_RELIGION_PIETY_COST = 750,				-- Piety cost of reforming a pagan faith
+	AUTHORITY_FROM_HOLY_SITE = 0.1,					-- Authority from each holy site held
+	AUTHORITY_FROM_ANTIPOPE = -0.2,					-- Authority from each antipope
+	AUTHORITY_FROM_RELHEAD_PIETY = 0.02,			-- Authority from each 100 piety of religious head
+	AUTHORITY_FROM_RELHEAD_DIPLOMACY = 0.05,		-- Authority from each 10 diplomacy of religious head
+	AUTHORITY_FROM_RELHEAD_HOLY_SITE = 0.05,		-- Authority from religious head controlling a holy site (does not stack)
+	AUTHORITY_FROM_ORG_RELIGION = 0.2,				-- Authority from being an organized religion
+	DIVINE_BLOOD_FERTILITY_MULT = 0.25				-- Fertility multiplier in a religious close kin marriage
 },
 
 NEconomy = {
@@ -461,6 +504,8 @@ NEconomy = {
 	TRADE_POST_OPINION_EFFECT = 0.4,				-- The bonus or penalty depending on topliege opinion
 	MAX_TRADE_POSTS_BASE = 1,
 	MIN_TRADE_POSTS = 4,							-- Minimum number of max trade posts per patrician	
+	MIN_TRADETECH_LEVEL_FOR_TPS = 1,				-- Minimum tech level needed to build trade posts
+	TRADETECH_LEVEL_FOR_BASE_TPS = 3,
 	PATRICIAN_CAMPAIGN_FUND_FACTOR = 5,				-- The effect of money in the Campaign Fund on Doge elections (money * factor)
 	PATRICIAN_PRESTIGE_RESPECT_FACTOR = 2,			-- The effect of Prestige on the Respect value for Doge elections (prestige * factor)
 	PATRICIAN_AGE_RESPECT_FACTOR = 1,				-- The effect of Age on the Respect value for Doge elections (age * age * factor)
@@ -472,7 +517,17 @@ NEconomy = {
 	PATRICIAN_INHERITANCE_FROM_RELATIVE_MULT = 0.5,	-- When a Patrician inherits the wealth of a non-Patrician relative, this multiplier determines the part he actually gets
 	PATRICIAN_GOLD_TO_MONTHLY_PRESTIGE = 0.0005,	-- Prestige that Patricians get each month from their treasury (CFixedPoint64 to support such small numbers)
 	PATRICIAN_CITY_TAX_MULT = 0.5,					-- Patricians don't pay normal City Tax to their liege... (CFixedPoint64)
-
+	OVER_MAX_DEMESNE_TAX_PENALTY = 0.25,			-- Percent penalty per county over the limit
+	TAX_TO_LOOT_MULTIPLIER = 1.0,					-- Lootable gold per tax 
+	FORT_LOOT_DEFENCE_MULTIPLIER = 4.0,				-- Loot protected gold per fortlevel
+	LOOTABLE_GOLD_REGROWTH = 0.025,					-- Percent of max lootable gold that regrows every month
+	LOOT_PERCENT_PER_LOOTTICK = 0.04,				-- Percent of max lootable gold that is looted each loot tick
+	TPC_TO_LOOT_MULTIPLIER = 0.1,					-- Max loot in a navy is max troops * this
+	LOOTER_SHIP_MAINT_MULT = 0.1,					-- Religions that have looting have lower ship maintenance costs
+	LOOT_PRESTIGE_MULT = 1.0,						-- Whenever you gain loot you also get prestige related to the loot
+	LOOT_EVERY_X_DAYS = 4,							-- Loot every this many days
+	LOOT_IDEAL_MIN_TROOPS = 500,					-- Minimum troops for maximum loot, less than this scales down the amount looted
+	BUILDING_COST_MULT = 0.5,						-- Increases build cost of all buildings
 },
 
 NDecadence = {
@@ -495,8 +550,6 @@ NDecadence = {
 }, 
 
 NMilitary = {
-	RETINUE_RATIO_PER_TECH = 0.1,
-	RETINUE_RATIO_BASE = 0.0,
 	CONTROLLER_MONTHS_BEFORE_OWNER_CHANGE = 120,	-- Number of months before ownership change of province, for certain cb:s that have contested titles
 	MORALE_COLLAPSE_THRESHOLD = 0.25,				-- Threshold before unit runs away
 	TROOP_KILL_FACTOR = 0.015,						-- Affects the death rate in combats(higher gives bigger losses)
@@ -511,7 +564,7 @@ NMilitary = {
 	MERCENARY_HIRE_COST_FACTOR = 0.1,				-- Hire cost factor for mercenary units
 	HOLY_ORDER_HIRE_COST_FACTOR = 0.25,				-- Conversion of nominal gold cost to piety cost when hiring Holy Orders
 	VASSAL_MERC_HIRE_COST_FACTOR = 0.125,			-- Fraction of nominal hire cost when hiring vassal mercenaries or holy orders
-	MERCENARY_HIRE_DISTANCE_THRESHOLD = 450,		-- Mercs will not be available if the province of origin is more distant from your capital
+	MERCENARY_HIRE_DISTANCE_THRESHOLD = 600,		-- Mercs will not be available if the province of origin is more distant from your capital
 	OPINION_WHEN_MARSHAL_INSTEAD_OF_SELF = 25,		-- Below this opinion value a vassal tends to use his marshal instead of himself when someone asks to raise his troops
 	OPINION_WHEN_NO_LEADER = 0,						-- Below this opinion a vassal will not supply a leader for subunits at all
 	BATTLE_WARSCORE_WORTH = 75,						-- Warscore from battles are multiplied with this value
@@ -526,6 +579,7 @@ NMilitary = {
 	SIEGE_MORALE_LOSS = 0.2,						-- Monthly morale loss in a siege
 	DAYS_BETWEEN_COMBAT_EVENTS = 10,				-- Combat events will happen every this many days
 	BATTLE_PRESTIGE_MULTIPLIER = 10,				-- Total prestige gained in the battle will be this * ( losers losses ) / 1000
+	BATTLE_TECH_MULTIPLIER = 0.5,					-- Military tech gain from battles multiplier.
 	MAINLEADER_PRESTIGE_PART = 0.35,				-- The % of the total prestige gained in the battle that the center flank leader will get
 	FLANKLEADER_PRESTIGE_PART = 0.125,				-- The % of the total prestige gained in the battle that each other flank leader will get
 	BATTLE_UNIT_OWNER_PRESTIGE_MULT = 0.5,			-- The % of the total prestige gained in the battle that will be divided among the participating unit owners
@@ -545,7 +599,7 @@ NMilitary = {
 	DAYS_UNTIL_HOLDER_GETS_WARSCORE = 365,			-- Days until the war score of the title owner starts increasing, if he controls the Holdings
 	DAYS_UNTIL_HOLDER_GETS_WARSCORE_INDEP = 0,		-- Days until the war score of the title owner starts increasing in Independence Wars, if he controls the Holdings
 	CONTESTED_TITLE_OCCUPIED_WARSCORE_BONUS = 15,	-- Amount of warscore per year since attacker/defender started getting the bonus
-	CONTESTED_TITLE_OCCUPIED_WARSCORE_BONUS_INDEP = 20,	-- Amount of warscore per year since attacker/defender started getting the bonus, for independence wars
+	CONTESTED_TITLE_OCCUPIED_WARSCORE_BONUS_INDEP = 20,	-- Amount of warscore per year since attacker/defender started getting the bonus, for independence wars (can be overridden separately in religion scripts)
 	REVOLTRISK_REDUCTION_PER_YEAR = 1,
 	DIFFERENT_RELIGIONGROUP_SUPPLY_PENALTY = -0.5,	-- Only 50% supply in provinces with different religios group
 	MONTHS_UNTIL_REBEL_WIN = 12,					-- Number of days until province is totally conquered by rebels
@@ -560,6 +614,7 @@ NMilitary = {
 	ATTRITION_LEVEL_FACTOR_50_OVER = 1.0,			-- A general "attrition per month" multiplier when 50% over the supply limit
 	ATTRITION_LEVEL_FACTOR_100_OVER = 2.0,			-- A general "attrition per month" multiplier when 100% over the supply limit
 	COASTAL_SUPPLY_BONUS = 0.5,						-- Supply bonus in coastal provinces
+	PAGAN_HOME_SUPPLY_MOD = 0.05,					-- Non Pagans suffer extreme attrition in some Pagan homelands (based on province religion)
 	NAVAL_ATTRITION = 0.0,							-- Attrition taken monthly by units loaded on ships
 	ARMY_MOVEMENT_SPEED = 3,						-- Base movement speed of land units
 	NAVY_MOVEMENT_SPEED = 30,						-- Base movement speed of naval units
@@ -575,17 +630,27 @@ NMilitary = {
 	WAR_CONTRIBUTION_BATTLE_PER_DAY = 0.20,			-- Every day in battle, a participant gets this. (My Troops / Total Friendly Troops) * Total Enemy Troops * WAR_CONTRIBUTION_BATTLE_PER_DAY. Max is [My Troops].
 	LOW_DECADENCE_MORALE_MOD = 0.5,					-- Extra Morale defence when at 0% decadence
 	HIGH_DECADENCE_MORALE_MOD = 2.0,				-- Extra Morale damage taken when at 100% decadence
+	CAPTURED_CLOSE_MALE_RELATIVE_WAR_SCORE = 5.0,	-- War score for holding a close male relative prisoner
+	CAPTURED_HEIR_WAR_SCORE = 50.0,					-- War score for holding the heir prisoner
 	
-	OCCUPATION_PENALTY_MONTHS = 60,					-- This and below are different modifier lengths applied to settlements upon conquest
-	OCCUPATION_PENALTY_MONTHS_DIFFERENT_RELIGION = 180,
-	OCCUPATION_PENALTY_MONTHS_DIFFERENT_RELIGIONGROUP = 360,
-	OCCUPATION_PENALTY_MONTHS_DIFFERENT_CULTURE = 120,
-	OCCUPATION_PENALTY_MONTHS_DIFFERENT_CULTUREGROUP = 240,
+	OCCUPATION_PENALTY_MONTHS = 12,					-- This and below are different modifier lengths applied to settlements upon conquest
+	OCCUPATION_PENALTY_MONTHS_DIFFERENT_RELIGION = 90,
+	OCCUPATION_PENALTY_MONTHS_DIFFERENT_RELIGIONGROUP = 180,
+	OCCUPATION_PENALTY_MONTHS_DIFFERENT_CULTURE = 60,
+	OCCUPATION_PENALTY_MONTHS_DIFFERENT_CULTUREGROUP = 120,
 	
-	RETINUE_TECH_INDEX = 6,							-- Recruitment tech index
-	RETINUE_HIRE_COST_MULTIPLIER = 0.05,				-- Retinues are free to hire atm, but they cost alot to reinforce
+	LOOTED_MODIFIER_MONTHS = 36,					-- How long pagan looting lasts
+	LOOT_TAX_MULTIPLIER = 1.5,						-- Base gold looted from raided holdings is (tax * LOOT_TAX_MULTIPLIER) + (total building value * LOOT_BUILDING_MULTIPLIER)
+	LOOT_BUILDING_MULTIPLIER = 0.02,				-- Extra gold looted from raided holdings, from buildings (LOOT_BUILDING_MULTIPLIER * building built cost)
+	LOOT_HOLDING_DEST_MIN_SAFE = 4,					-- there is a 1 in LOOT_HOLDING_DESTRUCTION_ODDS chance that
+	LOOT_HOLDING_DESTRUCTION_ODDS = 20,				-- a holding with less than LOOT_HOLDING_DEST_MIN_SAFE buildings will be destroyed by looting
+	LOOT_HOLDING_BUILDING_DEST_ODDS = 10,			-- there is a 1 in this chance a random building is destroyed when looted
+	
+	RETINUE_FROM_REALMSIZE = 6.0,
+	RETINUE_INCREASE_PER_TECH = 2.0,
+	RETINUE_HIRE_COST_MULTIPLIER = 0.08,			-- Retinues are free to hire atm, but they cost alot to reinforce
 	RETINUE_REINFORCE_RATE = 0.05,
-	RETINUE_REINFORCE_COST = 2.0,					-- Retinues cost while reinforcing.
+	RETINUE_REINFORCE_COST = 1.0,					-- Retinues cost while reinforcing.
 	RETINUE_CONSTANT_COST = 0.0, 					-- Retinues cost at all times.
 	MIN_RETINUE = 0,								-- Minimum retinue ( Disabled for now, can be enabled by mods )
 	
@@ -632,8 +697,8 @@ NMilitary = {
 
 	LIGHT_CAVALRY_MORALE = 4,
 	LIGHT_CAVALRY_MAINTENANCE = 2,
-	LIGHT_CAVALRY_PHASE_SKIRMISH_ATTACK = 1,
-	LIGHT_CAVALRY_PHASE_MELEE_ATTACK = 3,
+	LIGHT_CAVALRY_PHASE_SKIRMISH_ATTACK = 1.5,
+	LIGHT_CAVALRY_PHASE_MELEE_ATTACK = 4.5,
 	LIGHT_CAVALRY_PHASE_PURSUE_ATTACK = 10,
 	LIGHT_CAVALRY_PHASE_SKIRMISH_DEFENSE = 5,
 	LIGHT_CAVALRY_PHASE_MELEE_DEFENSE = 3,
@@ -681,51 +746,57 @@ NMilitary = {
 	GALLEYS_GRAPHICAL_FACTOR = 1,
 	
 	COMMAND_MODIFIER_MARTIAL_MULTIPLIER = 0.05,
+	
+	MAX_RIVER_MOVEMENT_FORT_LEVEL = 10.0,
 },
 
 NTechnology = {
-	BASE_TECH_GROWTH_CHANCE = 0.012, --Base chance of a progress ( 1/10 of a level ) increase
-	BASE_NEIGHBOUR_SPREAD_BONUS = 0.15, --bonus for each neighbour with the tech
-	NEIGHBOUR_SAME_RELIGON_GROUP_MULT = 2.0, --multiplier to the above bonus if neighbour is of your religious group
-	BASE_DEMESNE_SPREAD_BONUS = 0.25, --bonus for each other province in demesne with the tech
-	MAX_DEMESNE_BONUS = 3.0, -- maximum bonus from demesne
-	FOCUS_BONUS = 2.0, --bonus for the tech in each group set as the focus
+	POINTS_PER_ATTRIBUTE = 0.04,
+
+	BASE_NEIGHBOUR_SPREAD_BONUS = 0.03, 		-- bonus for each neighbour with the tech
+	NEIGHBOUR_SAME_RELIGON_GROUP_MULT = 2.0, 	-- multiplier to the above bonus if neighbour is of your religious group
+	BASE_DEMESNE_SPREAD_BONUS = 0.06, 			-- bonus for each other province in demesne with the tech
+	MAX_DEMESNE_BONUS = 0.3, 					-- maximum bonus from demesne
+	FOCUS_BONUS = 2.0, 							-- bonus for the tech in each group set as the focus
+	TRADEPOST_SPREAD_BONUS = 0.002, 			-- Spread from trade posts
+	SPYACTION_SPREAD_BONUS = 0.006,				-- Spread from the target of the study technology spymaster action
 	
-	IDEAL_YEAR_LEVEL_1 = 1066, --the chance to get a progress to this level will increase after this date and decrease before it
-	IDEAL_YEAR_LEVEL_2 = 1163,
-	IDEAL_YEAR_LEVEL_3 = 1259,
-	IDEAL_YEAR_LEVEL_4 = 1356,
-	IDEAL_YEAR_LEVEL_5 = 1453,
+	IDEAL_YEAR_LEVEL_0 = 920, 					-- the chance to get a progress to this level will increase after this date and decrease before it
+	IDEAL_YEAR_LEVEL_8 = 1500,
+	IDEAL_YEAR_AHEAD_PENALTY = -0.2,			-- UNUSED
+	IDEAL_YEAR_AHEAD_PENALTY_INVEST = 0.3,		-- Percent increase in cost pre level ahead of ideal date
+	
+	PAGAN_HOME_ATTRITION_REMOVAL_LEVEL = 4.0,
 	
 	-- Used to determine tech levels when starting a new game
 	
-	START_MIL_CATHOLIC  = 1.0,
+	START_MIL_CATHOLIC  = 0.5,
 	START_ECO_CATHOLIC  = 1.0,
 	START_CUL_CATHOLIC  = 1.0,
-	END_MIL_CATHOLIC    = 3.5,
-	END_ECO_CATHOLIC    = 3.5,
-	END_CUL_CATHOLIC    = 3.5,
-	END_REN_CLOSE       = 5.0, -- Tech level at the center of the renaissance
-	END_REN_FAR         = 4.5, -- Tech level on the fringe of the renaissance
+	END_MIL_CATHOLIC    = 5.0,
+	END_ECO_CATHOLIC    = 5.0,
+	END_CUL_CATHOLIC    = 5.0,
+	END_REN_CLOSE       = 7.0, -- Tech level at the center of the renaissance
+	END_REN_FAR         = 6.0, -- Tech level on the fringe of the renaissance
 	REN_PROVINCE        = 328, -- Province where the Renaissance is centered
-	START_MIL_MUSLIM    = 1.2,
-	START_ECO_MUSLIM    = 2.5,
-	START_CUL_MUSLIM    = 2.5,
-	END_MIL_MUSLIM      = 3.0,
-	END_ECO_MUSLIM      = 3.0,
-	END_CUL_MUSLIM      = 3.0,
-	START_MIL_OTHER     = 0.0,
-	START_ECO_OTHER     = 0.0,
-	START_CUL_OTHER     = 0.0,
-	END_MIL_OTHER       = 2.5,
-	END_ECO_OTHER       = 2.5,
-	END_CUL_OTHER       = 2.5,
-	START_MIL_BYZANTIUM = 1.5,
-	START_ECO_BYZANTIUM = 2.5,
-	START_CUL_BYZANTIUM = 2.5,
-	END_MIL_BYZANTIUM   = 3.5,
-	END_ECO_BYZANTIUM   = 3.5,
-	END_CUL_BYZANTIUM   = 3.5
+	START_MIL_MUSLIM    = 0.5,
+	START_ECO_MUSLIM    = 1.5,
+	START_CUL_MUSLIM    = 1.5,
+	END_MIL_MUSLIM      = 4.5,
+	END_ECO_MUSLIM      = 4.5,
+	END_CUL_MUSLIM      = 4.5,
+	START_MIL_OTHER     = 0.1,
+	START_ECO_OTHER     = 0.1,
+	START_CUL_OTHER     = 0.1,
+	END_MIL_OTHER       = 3.5,
+	END_ECO_OTHER       = 3.5,
+	END_CUL_OTHER       = 3.5,
+	START_MIL_BYZANTIUM = 1.2,
+	START_ECO_BYZANTIUM = 1.5,
+	START_CUL_BYZANTIUM = 1.5,
+	END_MIL_BYZANTIUM   = 4.5,
+	END_ECO_BYZANTIUM   = 4.5,
+	END_CUL_BYZANTIUM   = 4.5
 },  
 
 NDisease = {
