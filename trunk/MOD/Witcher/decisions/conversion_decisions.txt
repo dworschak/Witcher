@@ -13,10 +13,25 @@ decisions = {
 			NOT = { trait = zealous }
 		}
 		effect = {
-			piety = -500
+			prestige = -500
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = {
+					modifier = ruler_converted_from
+				}
+			}
 			liege = {
 				reverse_religion = ROOT
 			}
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = {
+						modifier = ruler_converted_to
+					}
+				}
+			}
+			piety = 200
 		}
 		revoke_allowed = {
 			always = no
@@ -61,8 +76,25 @@ decisions = {
 			NOT = { trait = zealous }
 		}
 		effect = {
-			piety = -500
+			prestige = -500
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = {
+					modifier = ruler_converted_from
+				}
+			}
+			
 			abandon_heresy = yes
+			
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = {
+						modifier = ruler_converted_to
+					}
+				}
+			}
+			piety = 200
 		}
 		revoke_allowed = {
 			always = no
@@ -71,5 +103,905 @@ decisions = {
 			factor = 0
 		}
 	}
+	
+	# Pagans are allowed to convert to the attacker's religion when under holy war
+	convert_to_attacker_religion = {
+		is_high_prio = yes
+		
+		potential = {
+			is_playable = yes
+			OR = {
+				religion_group = northern_religions
+				religion_group = pagan_group
+				religion_group = zoroastrian_group
+			}
+			controls_religion = no
+			war = yes
+			any_war = {
+				defender = { character = ROOT }
+				attacker = {
+					OR = {
+						religion_group = muslim
+						religion_group = christian
+					}
+				}
+				OR = {
+					using_cb = crusade
+					using_cb = religious
+					using_cb = muslim_invasion
+				}
+			}
+		}
+		
+		allow = {
+			NOT = { trait = zealous }
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			any_war = {
+				limit = {
+					defender = { character = ROOT }
+					attacker = {
+						OR = {
+							religion_group = muslim
+							religion_group = christian
+						}
+					}
+					OR = {
+						using_cb = crusade
+						using_cb = religious
+						using_cb = muslim_invasion
+					}
+				}
+				attacker = {
+					hidden_tooltip = {
+						letter_event = { id = 62800 }
+					}
+					hidden_tooltip = {
+						ROOT = {
+							any_courtier = {
+								limit = {
+									religion = ROOT
+									employer = { character = ROOT }
+								}
+								religion = PREVPREV
+							}
+							any_vassal = {
+								limit = {
+									is_playable = no
+									religion = ROOT
+								}
+								religion = PREVPREV
+							}
+							capital_scope = {
+								if = {
+									limit = { religion = ROOT }
+									religion = PREVPREV
+								}
+							}
+						}
+					}
+					reverse_religion = ROOT 
+				}
+			}
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			
+			piety = 100
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					any_war = {
+						defender = { character = ROOT }
+						attacker = {
+							OR = {
+								religion_group = muslim
+								religion_group = christian
+							}
+						}
+						OR = {
+							using_cb = crusade
+							using_cb = religious
+							using_cb = muslim_invasion
+						}
+						war_score = 50
+						thirdparty_title_scope = {
+							ROOT = {
+								primary_title = {
+									title = PREVPREV
+								}
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				any_war = {
+					defender = { character = ROOT }
+					attacker = {
+						OR = {
+							religion_group = muslim
+							religion_group = christian
+						}
+					}
+					OR = {
+						using_cb = crusade
+						using_cb = religious
+						using_cb = muslim_invasion
+					}
+					war_score = 75
+					thirdparty_title_scope = {
+						ROOT = {
+							primary_title = {
+								title = PREVPREV
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+#	convert_to_swedish = {
+#		potential = {
+#			culture = norse
+#			is_ruler = yes
+#			capital_scope = {
+#				kingdom = { title = k_sweden }
+#			}
+#			any_realm_province = {
+#				culture = swedish
+#			}
+#		}
+#		allow = {
+#			culture = norse
+#		}
+#		effect = {
+#			culture = swedish
+#			any_courtier = {
+#				limit = {
+#					culture = norse
+#					employer = { character = ROOT }
+#					dynasty = ROOT
+#				}
+#				culture = swedish
+#			}
+#		}
+#		revoke_allowed = {
+#			always = no
+#		}
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0.2 # Slow it down a bit
+#			}
+#			modifier = {
+#				factor = 0.01
+#				capital_scope = {
+#					NOT = { culture = swedish }
+#				}
+#			}
+#			modifier = {
+#				factor = 2.0
+#				liege = { culture = swedish }
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 2
+#					culture = swedish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 4
+#					culture = swedish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 6
+#					culture = swedish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 8
+#					culture = swedish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 10
+#					culture = swedish
+#				}
+#			}
+#		}
+#	}
+#	convert_to_norwegian = {
+#		potential = {
+#			culture = norse
+#			is_ruler = yes
+#			capital_scope = {
+#				kingdom = { title = k_norway }
+#			}
+#			any_realm_province = {
+#				culture = norwegian
+#			}
+#		}
+#		allow = {
+#			culture = norse
+#		}
+#		effect = {
+#			culture = norwegian
+#			any_courtier = {
+#				limit = {
+#					culture = norse
+#					employer = { character = ROOT }
+#					dynasty = ROOT
+#				}
+#				culture = norwegian
+#			}
+#		}
+#		revoke_allowed = {
+#			always = no
+#		}
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0.2 # Slow it down a bit
+#			}
+#			modifier = {
+#				factor = 0.01
+#				capital_scope = {
+#					NOT = { culture = norwegian }
+#				}
+#			}
+#			modifier = {
+#				factor = 2.0
+#				liege = { culture = norwegian }
+#			}
+#			
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 2
+#					culture = norwegian
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 4
+#					culture = norwegian
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 6
+#					culture = norwegian
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 8
+#					culture = norwegian
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 10
+#					culture = norwegian
+#				}
+#			}
+#		}
+#	}
+#	convert_to_danish = {
+#		potential = {
+#			culture = norse
+#			is_ruler = yes
+#			capital_scope = {
+#				kingdom = { title = k_denmark }
+#			}
+#			any_realm_province = {
+#				culture = danish
+#			}
+#		}
+#		allow = {
+#			culture = norse
+#		}
+#		effect = {
+#			culture = danish
+#			any_courtier = {
+#				limit = {
+#					culture = norse
+#					employer = { character = ROOT }
+#					dynasty = ROOT
+#				}
+#				culture = danish
+#			}
+#		}
+#		revoke_allowed = {
+#			always = no
+#		}
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0.2 # Slow it down a bit
+#			}
+#			modifier = {
+#				factor = 0.01
+#				capital_scope = {
+#					NOT = { culture = danish }
+#				}
+#			}
+#			modifier = {
+#				factor = 2.0
+#				liege = { culture = danish }
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 2
+#					culture = danish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 4
+#					culture = danish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 6
+#					culture = danish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 8
+#					culture = danish
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 10
+#					culture = danish
+#				}
+#			}
+#		}
+#	}
+#	convert_to_norman = {
+#		potential = {
+#			culture = norse
+#			is_ruler = yes
+#			capital_scope = {
+#				culture = norman
+#			}
+#		}
+#		allow = {
+#			culture = norse
+#		}
+#		effect = {
+#			culture = norman
+#			any_courtier = {
+#				limit = {
+#					culture = norse
+#					employer = { character = ROOT }
+#					dynasty = ROOT
+#				}
+#				culture = norman
+#			}
+#		}
+#		revoke_allowed = {
+#			always = no
+#		}
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0.2 # Slow it down a bit
+#			}
+#			modifier = {
+#				factor = 1.2
+#				liege = { culture = norman }
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 2
+#					culture = norman
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 4
+#					culture = norman
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 6
+#					culture = norman
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 8
+#					culture = norman
+#				}
+#			}
+#			modifier = {
+#				factor = 1.1
+#				num_culture_realm_provs = {
+#					num = 10
+#					culture = norman
+#				}
+#			}
+#		}
+#	}
 
+	convert_to_reformed = {
+		potential = {
+			is_playable = yes
+			is_heretic = yes
+			OR = {
+				religion = freya
+				religion = melitele
+				religion = kreve
+				religion = nordic_pagan
+				religion = finnish_pagan
+				religion = baltic_pagan
+				religion = tengri_pagan
+				religion = slavic_pagan
+				religion = aztec
+				religion = west_african_pagan
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 50
+		}
+		effect = {
+			piety = -50
+			if = {
+				limit = { religion = freya }
+				religion = freya_reformed
+			}
+			if = {
+				limit = { religion = melitele }
+				religion = melitele_reformed
+			}
+			if = {
+				limit = { religion = kreve }
+				religion = kreve_reformed
+			}
+			if = {
+				limit = { religion = solar }
+				religion = solar_reformed
+			}
+			if = {
+				limit = { religion = nordic_pagan }
+				religion = nordic_pagan_reformed
+			}
+			if = {
+				limit = { religion = finnish_pagan }
+				religion = finnish_pagan_reformed
+			}
+			if = {
+				limit = { religion = baltic_pagan }
+				religion = baltic_pagan_reformed
+			}
+			if = {
+				limit = { religion = tengri_pagan }
+				religion = tengri_pagan_reformed
+			}
+			if = {
+				limit = { religion = slavic_pagan }
+				religion = slavic_pagan_reformed
+			}
+			if = {
+				limit = { religion = aztec }
+				religion = aztec_reformed
+			}
+			if = {
+				limit = { religion = west_african_pagan }
+				religion = west_african_pagan_reformed
+			}
+			
+			hidden_tooltip = {
+				any_courtier = {
+					limit = {
+						is_heresy_of = ROOT
+						employer = { character = ROOT }
+					}
+					religion = ROOT
+				}
+				any_vassal = {
+					limit = {
+						is_playable = no
+						is_heresy_of = ROOT
+					}
+					religion = ROOT
+				}
+				capital_scope = {
+					if = {
+						limit = { is_heresy_of = ROOT }
+						religion = ROOT
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1 # On average ca 1 year before taken
+			modifier = {
+				factor = 0.025 # Generally quite a slow process - ca 40 years
+			}
+			modifier = {
+				factor = 0.5
+				trait = slow
+			}
+			modifier = {
+				factor = 0.1
+				trait = imbecile
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 2.0
+				trait = quick
+			}
+			modifier = {
+				factor = 4.0
+				trait = genius
+			}
+			modifier = {
+				factor = 5.0
+				trait = cynical # It's the future..
+			}
+			modifier = {
+				factor = 2.0
+				trait = ambitious
+			}
+			modifier = {
+				factor = 0
+				independent = no
+				any_liege = {
+					religion = ROOT
+				}
+			}
+		}
+	}
+	
+	# Pagans can convert to the Catholic faith if their wife or a concubine is Catholic
+	convert_to_spouse_catholic = {
+		potential = {
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+			NOT = { trait = zealous }
+			OR = {
+				any_spouse = {
+					religion = catholic
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+				any_consort = {
+					religion = catholic
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+			}
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			
+			religion = catholic
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			piety = 200
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	# Pagans can convert to the Orthodox faith if their wife or a concubine is Orthodox
+	convert_to_spouse_orthodox = {
+		potential = {
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+			NOT = { trait = zealous }
+			OR = {
+				any_spouse = {
+					religion = orthodox
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+				any_consort = {
+					religion = orthodox
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+			}
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			
+			religion = orthodox
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			piety = 200
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	# Pagans can convert to the Sunni faith if their wife or a concubine is Sunni
+	convert_to_spouse_sunni = {
+		potential = {
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+			NOT = { trait = zealous }
+			OR = {
+				any_spouse = {
+					religion = sunni
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+				any_consort = {
+					religion = sunni
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+			}
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			
+			religion = sunni
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			piety = 200
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	# Pagans can convert to the Shiite faith if their wife or a concubine is Shiite
+	convert_to_spouse_shiite = {
+		potential = {
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+			NOT = { trait = zealous }
+			OR = {
+				any_spouse = {
+					religion = shiite
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+				any_consort = {
+					religion = shiite
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+			}
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			
+			religion = shiite
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			piety = 200
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	# Pagans can convert to the Zoroatrian faith if their wife or a concubine is a believer
+	convert_to_spouse_zoroastrian = {
+		potential = {
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+			NOT = { trait = zealous }
+			OR = {
+				any_spouse = {
+					religion = zoroastrian
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+				any_consort = {
+					religion = zoroastrian
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+			}
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			
+			religion = zoroastrian
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			piety = 200
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	# Pagans can convert to the Miaphysite faith if their wife or a concubine is a believer
+	convert_to_spouse_miaphysite = {
+		potential = {
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+			NOT = { trait = zealous }
+			OR = {
+				any_spouse = {
+					religion = miaphysite
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+				any_consort = {
+					religion = miaphysite
+					hidden_tooltip = {
+						is_alive = yes
+					}
+				}
+			}
+		}
+		
+		effect = {
+			prestige = -500
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			
+			religion = miaphysite
+			
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+			piety = 200
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
 }
