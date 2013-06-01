@@ -72,6 +72,8 @@ plot_decisions = {
 									using_cb = invasion
 									using_cb = religious
 									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
 									using_cb = claim_all
 									using_cb = claim
 									using_cb = other_claim
@@ -155,6 +157,8 @@ plot_decisions = {
 									using_cb = invasion
 									using_cb = religious
 									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
 									using_cb = claim_all
 									using_cb = claim
 									using_cb = other_claim
@@ -239,6 +243,8 @@ plot_decisions = {
 									using_cb = invasion
 									using_cb = religious
 									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
 									using_cb = claim_all
 									using_cb = claim
 									using_cb = other_claim
@@ -322,6 +328,8 @@ plot_decisions = {
 									using_cb = invasion
 									using_cb = religious
 									using_cb = tribal_invasion
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
 									using_cb = claim_all
 									using_cb = claim
 									using_cb = other_claim
@@ -406,7 +414,8 @@ plot_decisions = {
 									using_cb = invasion
 									using_cb = religious
 									using_cb = tribal_invasion
-
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
 									using_cb = claim_all
 									using_cb = claim
 									using_cb = other_claim
@@ -499,6 +508,30 @@ plot_decisions = {
 					any_war = {
 						attacker = { character = PREV }
 						NOT = { defender = { religion_group = ROOT } }
+					}
+				}
+			}
+			
+			modifier = {
+				factor = 0
+				liege = {
+					religion = ROOT					
+					any_war = {
+						OR = {
+							AND = {
+								defender = { character = PREV }
+								OR = {
+									using_cb = religious
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
+									using_cb = crusade
+								}
+							}
+							AND = {
+								attacker = { character = PREV }			
+								using_cb = viking_invasion
+							}
+						}
 					}
 				}
 			}
@@ -651,6 +684,36 @@ plot_decisions = {
 			
 			modifier = {
 				factor = 0
+				supported_claimant = {
+					any_war = {
+						OR = {
+							AND = {
+								any_attacker = { character = PREV }
+								any_attacker = { 
+									ROOT = {
+										liege = {
+											character = PREVPREV
+										} 
+									}
+								}
+							}
+							AND = {
+								any_defender = { character = PREV }
+								any_defender = { 
+									ROOT = {
+										liege = {
+											character = PREVPREV
+										} 
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			modifier = {
+				factor = 0
 				liege = {
 					any_war = {
 						OR = {
@@ -661,10 +724,10 @@ plot_decisions = {
 								NOT = { using_cb = overthrow_ruler_no_calls }
 								NOT = { using_cb = succession_on_liege }
 								NOT = { using_cb = other_succession_on_liege }
-								thirdparty_title = {
+								thirdparty_title_scope = {
 									ROOT = {
 										supported_claimant_title = {
-											war_title = PREVPREV
+											title = PREVPREV
 										}
 									}
 									OR = {
@@ -696,7 +759,8 @@ plot_decisions = {
 								OR = {
 									using_cb = religious
 									using_cb = crusade
-
+									using_cb = muslim_invasion
+									using_cb = viking_invasion
 									using_cb = invasion
 									using_cb = tribal_invasion
 									using_cb = claim_all
