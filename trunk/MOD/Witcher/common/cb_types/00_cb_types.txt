@@ -5529,157 +5529,157 @@ cb_faction_independence = {
 	}
 }
 
-imperial_reconquest = {
-	name = CB_NAME_IMPERIAL
-	war_name = WAR_NAME_IMPERIAL
-	sprite = 17
-	truce_days = 3650
-	is_permanent = yes
-	check_de_jure_tier = DUKE # this scans all dejure duchies for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
-
-	can_use = {
-		ROOT = {
-			has_landed_title = e_roman_empire
-			independent = yes
-			religion_group = christian
-			NOT = { same_realm = FROM }
-		}
-		FROM = {
-			NOT = { religion_group = muslim }
-		}
-	}
-
-	can_use_title = {
-		OR = {
-			de_jure_liege_or_above = k_byzantium
-			de_jure_liege_or_above = k_anatolia
-			de_jure_liege_or_above = k_armenia
-			de_jure_liege_or_above = k_bulgaria
-			de_jure_liege_or_above = k_serbia
-			de_jure_liege_or_above = k_croatia
-			de_jure_liege_or_above = k_italy
-			de_jure_liege_or_above = k_sicily
-			de_jure_liege_or_above = k_bavaria
-			de_jure_liege_or_above = k_burgundy
-			de_jure_liege_or_above = k_france
-			de_jure_liege_or_above = k_aquitaine
-			de_jure_liege_or_above = k_brittany
-			de_jure_liege_or_above = k_england
-			de_jure_liege_or_above = k_wales
-			de_jure_liege_or_above = k_frisia
-			de_jure_liege_or_above = k_lotharingia
-			de_jure_liege_or_above = k_aragon
-			de_jure_liege_or_above = k_castille
-			de_jure_liege_or_above = k_andalusia
-			de_jure_liege_or_above = k_leon
-			de_jure_liege_or_above = k_spanish_galicia
-			de_jure_liege_or_above = k_portugal
-			de_jure_liege_or_above = k_navarra
-			de_jure_liege_or_above = k_syria
-			de_jure_liege_or_above = k_jerusalem
-			de_jure_liege_or_above = k_egypt
-			de_jure_liege_or_above = k_africa
-			de_jure_liege_or_above = k_mauretania
-			de_jure_liege_or_above = k_papal_state
-			de_jure_liege_or_above = k_venice
-		}
-	}
-	
-	is_valid = {
-		ROOT = {
-			independent = yes
-			religion_group = christian
-			NOT = { same_realm = FROM }
-		}
-	}
-	
-	on_success = {
-		any_attacker = {
-			limit = { character = ROOT }
-			participation_scaled_prestige = 100
-		}
-		any_attacker = {
-			limit = { NOT = { character = ROOT } }
-			hidden_tooltip = { 
-				participation_scaled_prestige = 100
-			}
-		}
-		
-		FROM = { prestige = -100 }
-	}
-
-	on_success_title = {
-		custom_tooltip = tribal_invasion_succ_tip
-		hidden_tooltip = {
-			ROOT = {
-				vassalize_or_take_under_title = {
-					title = PREV
-					enemy = FROM
-				}
-			}
-		}
-		if = {
-			limit = {
-				holder_scope = { character = FROM }
-			}
-			usurp_title_only = ROOT
-		}
-	}
-
-	on_fail = {
-		ROOT = { prestige = -150 }
-	}
-
-	on_reverse_demand = {
-		ROOT = {
-			transfer_scaled_wealth = {
-				to = FROM
-				value = 4.0
-			}
-			ROOT = { prestige = -200 }
-		}
-		any_defender = {
-			limit = { character = FROM }
-			participation_scaled_piety = 100
-			participation_scaled_prestige = 200
-			if = {
-				limit = {
-					religion_group = muslim
-				}
-				participation_scaled_decadence = -10
-			}
-		}
-		any_defender = {
-			limit = { NOT = { character = FROM } }
-			hidden_tooltip = { 
-				participation_scaled_piety = 100
-				participation_scaled_prestige = 200
-				if = {
-					limit = {
-						religion_group = muslim
-					}
-					participation_scaled_decadence = -10
-				}
-			}
-		}
-	}
-
-	attacker_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-
-	defender_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
-}
+#imperial_reconquest = {
+#	name = CB_NAME_IMPERIAL
+#	war_name = WAR_NAME_IMPERIAL
+#	sprite = 17
+#	truce_days = 3650
+#	is_permanent = yes
+#	check_de_jure_tier = DUKE # this scans all dejure duchies for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
+#
+#	can_use = {
+#		ROOT = {
+#			has_landed_title = e_roman_empire
+#			independent = yes
+#			religion_group = christian
+#			NOT = { same_realm = FROM }
+#		}
+#		FROM = {
+#			NOT = { religion_group = muslim }
+#		}
+#	}
+#
+#	can_use_title = {
+#		OR = {
+#			de_jure_liege_or_above = k_byzantium
+#			de_jure_liege_or_above = k_anatolia
+#			de_jure_liege_or_above = k_armenia
+#			de_jure_liege_or_above = k_bulgaria
+#			de_jure_liege_or_above = k_serbia
+#			de_jure_liege_or_above = k_croatia
+#			de_jure_liege_or_above = k_italy
+#			de_jure_liege_or_above = k_sicily
+#			de_jure_liege_or_above = k_bavaria
+#			de_jure_liege_or_above = k_burgundy
+#			de_jure_liege_or_above = k_france
+#			de_jure_liege_or_above = k_aquitaine
+#			de_jure_liege_or_above = k_brittany
+#			de_jure_liege_or_above = k_england
+#			de_jure_liege_or_above = k_wales
+#			de_jure_liege_or_above = k_frisia
+#			de_jure_liege_or_above = k_lotharingia
+#			de_jure_liege_or_above = k_aragon
+#			de_jure_liege_or_above = k_castille
+#			de_jure_liege_or_above = k_andalusia
+#			de_jure_liege_or_above = k_leon
+#			de_jure_liege_or_above = k_spanish_galicia
+#			de_jure_liege_or_above = k_portugal
+#			de_jure_liege_or_above = k_navarra
+#			de_jure_liege_or_above = k_syria
+#			de_jure_liege_or_above = k_jerusalem
+#			de_jure_liege_or_above = k_egypt
+#			de_jure_liege_or_above = k_africa
+#			de_jure_liege_or_above = k_mauretania
+#			de_jure_liege_or_above = k_papal_state
+#			de_jure_liege_or_above = k_venice
+#		}
+#	}
+#	
+#	is_valid = {
+#		ROOT = {
+#			independent = yes
+#			religion_group = christian
+#			NOT = { same_realm = FROM }
+#		}
+#	}
+#	
+#	on_success = {
+#		any_attacker = {
+#			limit = { character = ROOT }
+#			participation_scaled_prestige = 100
+#		}
+#		any_attacker = {
+#			limit = { NOT = { character = ROOT } }
+#			hidden_tooltip = { 
+#				participation_scaled_prestige = 100
+#			}
+#		}
+#		
+#		FROM = { prestige = -100 }
+#	}
+#
+#	on_success_title = {
+#		custom_tooltip = tribal_invasion_succ_tip
+#		hidden_tooltip = {
+#			ROOT = {
+#				vassalize_or_take_under_title = {
+#					title = PREV
+#					enemy = FROM
+#				}
+#			}
+#		}
+#		if = {
+#			limit = {
+#				holder_scope = { character = FROM }
+#			}
+#			usurp_title_only = ROOT
+#		}
+#	}
+#
+#	on_fail = {
+#		ROOT = { prestige = -150 }
+#	}
+#
+#	on_reverse_demand = {
+#		ROOT = {
+#			transfer_scaled_wealth = {
+#				to = FROM
+#				value = 4.0
+#			}
+#			ROOT = { prestige = -200 }
+#		}
+#		any_defender = {
+#			limit = { character = FROM }
+#			participation_scaled_piety = 100
+#			participation_scaled_prestige = 200
+#			if = {
+#				limit = {
+#					religion_group = muslim
+#				}
+#				participation_scaled_decadence = -10
+#			}
+#		}
+#		any_defender = {
+#			limit = { NOT = { character = FROM } }
+#			hidden_tooltip = { 
+#				participation_scaled_piety = 100
+#				participation_scaled_prestige = 200
+#				if = {
+#					limit = {
+#						religion_group = muslim
+#					}
+#					participation_scaled_decadence = -10
+#				}
+#			}
+#		}
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		factor = -1 # always accept
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		factor = 100
+#	}
+#
+#	defender_ai_victory_worth = {
+#		factor = -1 # always accept
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		factor = 100
+#	}
+#}
 
 # Embargo Merchant Republic CB
 embargo_cb = {
