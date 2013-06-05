@@ -61,6 +61,8 @@ NDiplomacy = {
 	MAX_PREP_INV_TARGET_HOLDINGS = 40,			-- The target must control at the most this many holdings within the target kingdom to be a valid prepared invasion target
 	MAX_PREP_INV_ATTACKER_HOLDINGS = 40,		-- The attacker must have fewer Holdings than this in the realm (disallow Prepared Invasions for rulers who are already very powerful)
 	PREP_INV_REQ_PRESTIGE = 1000,				-- Need to have this much Prestige to prepare an invasion
+	BASE_REVOLT_CHANCE_MOD = 1000,				-- Pre Old Gods rebel spawn chance modifier (fires on_rebel_revolt) : lower means fewer revolts. MUST NOT BE ZERO.
+	TOG_REVOLT_CHANCE_MOD = 200,				-- Old Gods rebel spawn chance modifier (fires on_rebel_revolt) : lower means fewer revolts. MUST NOT BE ZERO.
 
 	IMPRISON_CHARACTER_INTERACTION_MONEY = 0,
 	IMPRISON_CHARACTER_INTERACTION_PIETY = 10,
@@ -312,7 +314,13 @@ NDiplomacy = {
 	DISMISS_CONSORT_INTERACTION_PIETY = 0,
 	DISMISS_CONSORT_INTERACTION_PRESTIGE = 0,
 	DISMISS_CONSORT_INTERACTION_THRESHOLD_FOR_NO = 0,
-	DISMISS_CONSORT_INTERACTION_THRESHOLD_FOR_YES = 0
+	DISMISS_CONSORT_INTERACTION_THRESHOLD_FOR_YES = 0,
+	
+	RETRACT_VASSAL_INTERACTION_MONEY = 0,
+	RETRACT_VASSAL_INTERACTION_PIETY = 0,
+	RETRACT_VASSAL_INTERACTION_PRESTIGE = 0,
+	RETRACT_VASSAL_INTERACTION_THRESHOLD_FOR_NO = 25,
+	RETRACT_VASSAL_INTERACTION_THRESHOLD_FOR_YES = 75
 },
 
 NCharacter = {
@@ -841,7 +849,9 @@ NAI =
 	MAX_KING_TITLES_TO_CREATE = 1,							-- AI will not seek to create/usurp more King-level titles than this (0 for unlimited)
 	MAX_EMPIRE_TITLES_TO_CREATE = 0,						-- AI will not seek to create/usurp more Empire-level titles than this (0 for unlimited)
 	AI_EMPEROR_CREATES_KINGDOMS = 0,						-- If set to 1, AI Emperors will create King-level titles
-	AI_ASSAULT_RATIO = 6									-- AI will launch assaults at this ratio of attackers to defenders
+	AI_ASSAULT_RATIO = 6,									-- AI will launch assaults at this ratio of attackers to defenders
+	HARD_DIFF_AI_ATTRITION = 0.5,							-- AI attrition multiplier at Hard difficulty
+	V_HARD_DIFF_AI_ATTRITION = 0.25							-- AI attrition multiplier at Very Hard difficulty
 },
 
 NFrontend = 
