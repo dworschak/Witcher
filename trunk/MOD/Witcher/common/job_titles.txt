@@ -106,8 +106,18 @@ job_spymaster = {
 	allow = {
 		OR = {
 			is_female = no
-			liege = { mother = { character = FROM } }
-			liege = { spouse = { character = FROM } }
+			liege = { 
+				OR = {
+					mother = { character = FROM }
+					spouse = { character = FROM }
+				}
+			}
+			AND = {
+				religion_group = pagan_group
+				liege = {
+					religion_group = pagan_group
+				}
+			}
 		}
 		is_adult = yes
 		prisoner = no
@@ -136,11 +146,21 @@ job_spiritual = {
 	monthly_piety = 0.015
 	
 	allow = {
-		is_female = no
 		is_adult = yes
 		prisoner = no
 		liege = {
-			religion = FROM
+			religion = ROOT
+		}
+		
+		OR = {
+			is_female = no
+			AND = {
+				religion_group = pagan_group
+				NOT = { religion = aztec }
+				NOT = { religion = aztec_reformed}
+				NOT = { religion = tengri_pagan }
+				NOT = { religion = tengri_pagan_reformed}
+			}
 		}
 		
 		NOT = { trait = incapable }
@@ -148,7 +168,6 @@ job_spiritual = {
 		OR = {
 			is_theocracy = yes
 			liege = { religion_group = muslim }
-#			liege = { lower_tier_than = KING }
 			AND = {
 				is_ruler = no
 				NOT = { religion = orthodox }
