@@ -1804,6 +1804,7 @@ letter_event = {
 	}
 	option = {
 		name = "EVTOPTB8000" # War!
+		
 		ai_chance = {
 			factor = 90
 			modifier = {
@@ -2230,6 +2231,26 @@ letter_event = {
 			}
 			ROOT = {
 				supported_claimant_title = {
+					# If the claimant has the wrong government type, take care of that first.
+					if = {
+						limit = {
+							higher_tier_than = PREVPREV
+							holder_scope = {
+								is_feudal = yes
+							}
+							ROOT = {
+								supported_claimant = {
+									is_ruler = yes
+									OR = {
+										is_theocracy = yes
+										is_republic = yes
+									}
+								}
+							}
+						}
+						ROOT = { supported_claimant = { abdicate = yes } }
+					}
+				
 					usurp_title_plus_barony_if_unlanded_and_vassals = PREVPREV
 				}
 			}
@@ -2315,7 +2336,14 @@ letter_event = {
 	immediate = {
 		any_demesne_title = {
 			limit = {
+				controls_religion = no
 				higher_tier_than = BARON
+				FROM = {
+					OR = { # If the old liege can use the subjugation CB, give no claims
+						NOT = { religion_group = pagan_group }
+						NOT = { culture_group = ROOT }
+					}
+				}
 			}
 			add_weak_pressed_claim = FROM
 		}
@@ -2576,7 +2604,14 @@ letter_event = {
 	immediate = {
 		any_demesne_title = {
 			limit = {
+				controls_religion = no
 				higher_tier_than = BARON
+				FROM = {
+					OR = { # If the old liege can use the subjugation CB, give no claims
+						NOT = { religion_group = pagan_group }
+						NOT = { culture_group = ROOT }
+					}
+				}
 			}
 			add_weak_pressed_claim = FROM
 		}
@@ -7054,7 +7089,7 @@ character_event = {
 # A plot backer sees an opportunity - Manure Explosion
 character_event = {
 	id = 7721
-	desc = "EVTDESC7720"
+	desc = "EVTDESC7721"
 	picture = GFX_evt_whispers
 	border = GFX_event_normal_frame_intrigue
 	
@@ -8169,7 +8204,7 @@ character_event = {
 # A plot backer sees an opportunity - Infanticide
 character_event = {
 	id = 7741
-	desc = "EVTDESC7740"
+	desc = "EVTDESC7741"
 	picture = GFX_evt_birth
 	border = GFX_event_normal_frame_intrigue
 	
@@ -9283,7 +9318,7 @@ character_event = {
 # A plot backer sees an opportunity - Prison Break
 character_event = {
 	id = 7761
-	desc = "EVTDESC7760"
+	desc = "EVTDESC7761"
 	picture = GFX_evt_into_the_dungeon
 	border = GFX_event_normal_frame_intrigue
 	
@@ -10399,7 +10434,7 @@ character_event = {
 # A plot backer sees an opportunity - Bathtub Drowning
 character_event = {
 	id = 7781
-	desc = "EVTDESC7780"
+	desc = "EVTDESC7781"
 	picture = GFX_evt_whispers
 	border = GFX_event_normal_frame_intrigue
 	
@@ -11517,7 +11552,7 @@ character_event = {
 # A plot backer sees an opportunity - Boating Accident
 character_event = {
 	id = 7801
-	desc = "EVTDESC7800"
+	desc = "EVTDESC7801"
 	picture = GFX_evt_kraken
 	border = GFX_event_normal_frame_intrigue
 	
@@ -12604,7 +12639,7 @@ character_event = {
 # A plot backer sees an opportunity - Poisonous Snake
 character_event = {
 	id = 7821
-	desc = "EVTDESC7820"
+	desc = "EVTDESC7821"
 	picture = GFX_evt_whispers
 	border = GFX_event_normal_frame_intrigue
 	
@@ -13721,7 +13756,7 @@ character_event = {
 # A plot backer sees an opportunity - Balcony Plummet
 character_event = {
 	id = 7841
-	desc = "EVTDESC7840"
+	desc = "EVTDESC7841"
 	picture = GFX_evt_castle_construction
 	border = GFX_event_normal_frame_intrigue
 	
@@ -14839,7 +14874,7 @@ character_event = {
 # A plot backer sees an opportunity - Hunting Accident
 character_event = {
 	id = 7861
-	desc = "EVTDESC7860"
+	desc = "EVTDESC7861"
 	picture = GFX_evt_hunt
 	border = GFX_event_normal_frame_intrigue
 	
@@ -15957,7 +15992,7 @@ character_event = {
 # A plot backer sees an opportunity - Disguised Highwaymen
 character_event = {
 	id = 7881
-	desc = "EVTDESC7880"
+	desc = "EVTDESC7881"
 	picture = GFX_evt_bandits
 	border = GFX_event_normal_frame_intrigue
 	
@@ -17074,7 +17109,7 @@ character_event = {
 # A plot backer sees an opportunity - Carriage Accident
 character_event = {
 	id = 7901
-	desc = "EVTDESC7900"
+	desc = "EVTDESC7901"
 	picture = GFX_evt_whispers
 	border = GFX_event_normal_frame_intrigue
 	

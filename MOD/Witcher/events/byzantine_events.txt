@@ -22,9 +22,12 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-
+		has_dlc = "Legacy of Rome"
 		age = 16
-		has_landed_title = e_nilfgaard
+		OR = {
+			has_landed_title = e_byzantium
+			has_landed_title = e_roman_empire
+		}
 		NOT = {
 			any_courtier = { has_minor_title = title_imperial_eunuch }
 		}
@@ -309,13 +312,14 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-
+		has_dlc = "Legacy of Rome"
 		age = 16
 		in_command = no
-		
-		has_landed_title = e_nilfgaard
-		
-		capital_scope = { province_id = 92 }
+		OR = {
+			has_landed_title = e_byzantium
+			has_landed_title = e_roman_empire
+		}
+		capital_scope = { province_id = 496 }
 		any_vassal = {
 			has_landed_title = d_varangian_guard
 		}
@@ -378,14 +382,14 @@ character_event = {
 	ai = yes
 	
 	trigger = {
-
+		has_dlc = "Legacy of Rome"
 		is_female = yes
 		age = 16
 		father = {
 			ai = no
 			OR = {
-				has_landed_title = e_nilfgaard
-	
+				has_landed_title = e_byzantium
+				has_landed_title = e_roman_empire
 			}
 			any_vassal = {
 				has_landed_title = d_varangian_guard
@@ -490,20 +494,19 @@ character_event = {
 	ai = yes
 	
 	trigger = {
-
+		has_dlc = "Legacy of Rome"
 		OR = {
-			has_landed_title = b_nilfgaard
-			#has_landed_title = b_galata
-			#has_landed_title = b_hieron
-			#has_landed_title = b_deuteron
-			#has_landed_title = b_pempton
+			has_landed_title = b_galata
+			has_landed_title = b_hieron
+			has_landed_title = b_deuteron
+			has_landed_title = b_pempton
 		}
 		age = 16
 		liege = {
 			ai = no
 			OR = {
-				has_landed_title = e_nilfgaard
-	
+				has_landed_title = e_byzantium
+				has_landed_title = e_roman_empire
 			}
 			any_vassal = {
 				has_landed_title = d_varangian_guard
@@ -589,8 +592,11 @@ narrative_event = {
 	ai = no
 	
 	trigger = {
-
-				has_landed_title = e_nilfgaard
+		has_dlc = "Legacy of Rome"
+		OR = {
+			has_landed_title = e_byzantium
+			has_landed_title = e_roman_empire
+		}
 		NOT = { has_global_flag = greek_fire }
 		age = 16
 		in_command = no
@@ -1129,7 +1135,7 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-
+		has_dlc = "Legacy of Rome"
 		age = 16
 		in_command = no
 	}
@@ -1329,38 +1335,39 @@ character_event = {
 	
 	ai = yes
 	min_age = 16
-	max_age = 60
+	max_age = 50
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
 		primary_title = { higher_tier_than = COUNT }
+		is_feudal = yes
 		OR = {
 			liege = {
-		
-				has_landed_title = e_nilfgaard
+				has_dlc = "Legacy of Rome"
+				has_landed_title = e_byzantium
 				NOT = { has_character_flag = no_more_tzykanion }
 				ai = no
 				culture = greek
 				is_female = no
 				prisoner = no
 				age = 16
-				NOT = { age = 65 }
+				NOT = { age = 50 }
 				NOT = { trait = infirm }
 				NOT = { trait = incapable }
 			}
 			liege = {
-				has_landed_title = e_nilfgaard
+				has_landed_title = e_byzantium
 				any_realm_lord = {
 					ai = no
-			
+					has_dlc = "Legacy of Rome"
 					NOT = { has_character_flag = no_more_tzykanion }
 					same_liege = ROOT
 					culture = greek
 					is_female = no
 					prisoner = no
 					age = 16
-					NOT = { age = 65 }
+					NOT = { age = 50 }
 					NOT = { trait = infirm }
 					NOT = { trait = incapable }
 				}
@@ -1371,14 +1378,14 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1400
+		months = 1800
 	}
 	
 	immediate = {
 		if = {
 			limit = {
 				liege = {
-					has_landed_title = e_nilfgaard
+					has_landed_title = e_byzantium
 					ai = no
 				}
 			}
@@ -1389,7 +1396,7 @@ character_event = {
 		if = {
 			limit = {
 				liege = {
-					has_landed_title = e_nilfgaard
+					has_landed_title = e_byzantium
 					any_realm_lord = { ai = no }
 				}
 			}
@@ -1458,7 +1465,7 @@ character_event = {
 		prestige = 25
 		if = {
 			limit = { 
-				NOT = { has_landed_title = e_nilfgaard }
+				NOT = { has_landed_title = e_byzantium }
 			}
 			liege = {
 				any_realm_lord = {
@@ -1472,7 +1479,7 @@ character_event = {
 			}
 		}
 		if = {
-			limit = { has_landed_title = e_nilfgaard }
+			limit = { has_landed_title = e_byzantium }
 			any_realm_lord = {
 				limit = { has_character_flag = tzykanion }
 				opinion = {
@@ -1497,7 +1504,7 @@ character_event = {
 		name = EVTOPTALoR.903
 		if = {
 			limit = { 
-				NOT = { has_landed_title = e_nilfgaard }
+				NOT = { has_landed_title = e_byzantium }
 			}
 			liege = {
 				any_realm_lord = {
@@ -1511,7 +1518,7 @@ character_event = {
 			}
 		}
 		if = {
-			limit = { has_landed_title = e_nilfgaard }
+			limit = { has_landed_title = e_byzantium }
 			any_realm_lord = {
 				limit = { has_character_flag = tzykanion }
 				opinion = {
@@ -1538,7 +1545,7 @@ character_event = {
 		set_character_flag = no_more_tzykanion
 		if = {
 			limit = { 
-				NOT = { has_landed_title = e_nilfgaard }
+				NOT = { has_landed_title = e_byzantium }
 			}
 			liege = {
 				any_realm_lord = {
@@ -1552,7 +1559,7 @@ character_event = {
 			}
 		}
 		if = {
-			limit = { has_landed_title = e_nilfgaard }
+			limit = { has_landed_title = e_byzantium }
 			any_realm_lord = {
 				limit = { has_character_flag = tzykanion }
 				opinion = {

@@ -31,7 +31,6 @@ character_event = {
 	picture = GFX_evt_heretic
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -104,6 +103,17 @@ character_event = {
 		modifier = {
 			factor = 0.75
 			religion_authority = 0.8
+		}
+		modifier = {
+			factor = 3.0
+			religion_group = pagan_group
+			is_reformed_religion = no
+			location = {
+				OR = {
+					NOT = { religion_group = pagan_group }
+					is_reformed_religion = yes
+				}
+			}
 		}
 		modifier = {
 			factor = 1.5
@@ -198,7 +208,6 @@ character_event = {
 	picture = GFX_evt_heretic
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -209,6 +218,14 @@ character_event = {
 				NOT = { character = ROOT }
 				NOT = { is_liege_of = ROOT }
 				NOT = { religion = ROOT }
+				OR = {
+					is_ruler = no
+					primary_title = {
+						controls_religion = no
+						mercenary = no
+						holy_order = no
+					}
+				}
 				same_realm = ROOT
 			}
 		}
@@ -265,6 +282,11 @@ character_event = {
 			factor = 0.75
 			religion_authority = 0.8
 		}
+		modifier = {
+			factor = 3.0
+			religion_group = pagan_group
+			is_reformed_religion = no
+		}
 	}
 	
 	option = {
@@ -276,6 +298,14 @@ character_event = {
 					NOT = { character = ROOT }
 					NOT = { is_liege_of = ROOT }
 					NOT = { religion = ROOT }
+					OR = {
+						is_ruler = no
+						primary_title = {
+							controls_religion = no
+							mercenary = no
+							holy_order = no
+						}
+					}
 					same_realm = ROOT
 				}
 				letter_event = { id = 20010 tooltip = "EVTTOOLTIP20010" }
@@ -295,7 +325,23 @@ letter_event = {
 	
 	option = {
 		name = "EVTOPTA20010"
+		
+		if = {
+			limit = { higher_tier_than = BARON }
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+		}
+		
 		religion = FROM
+		
+		if = {
+			limit = { higher_tier_than = BARON }
+			religion_authority = {
+				modifier = ruler_converted_to
+			}
+		}
+		
 		hidden_tooltip = {
 			FROM = {
 				liege = { letter_event = { id = 20011 days = 7 } }
@@ -356,7 +402,6 @@ character_event = {
 	picture = GFX_evt_peasants
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -540,12 +585,12 @@ character_event = {
 	picture = GFX_evt_heretic
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
 		has_job_action = action_inquisition
+		NOT = { religion_group = pagan_group }
 		location = {
 			any_province_lord = {
 				NOT = { is_liege_of = ROOT }
@@ -814,7 +859,14 @@ letter_event = {
 	
 	option = {
 		name = "EVTOPTA20035"
-		become_heretic = yes
+		FROM = {
+			opinion = {
+				modifier = opinion_branded_heretic
+				who = ROOT
+				years = 5
+			}
+		}
+		piety = -50
 		clr_character_flag = suspected_heretic
 	}
 }
@@ -840,7 +892,6 @@ character_event = {
 	picture = GFX_evt_peasants
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -983,6 +1034,313 @@ letter_event = {
 	}
 }
 
+# Chaplain arrives at Pagan capital
+character_event = {
+	id = 39650
+	desc = EVTDESC39650
+	picture = GFX_evt_bishop
+	border = GFX_event_normal_frame_religion
+	
+	prisoner = no
+	
+	trigger = {
+		has_job_action = action_inquisition
+		NOT = { has_character_flag = preacher_arrives }
+		location = {
+			owner = {
+				NOT = { character = ROOT }
+				NOT = { is_liege_of = ROOT }
+				NOT = { religion = ROOT }
+				religion_group = pagan_group
+				NOT = { same_realm = ROOT }
+				controls_religion = no
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA39650
+		set_character_flag = preacher_arrives
+		location = {
+			owner = {
+				character_event = { id = 39600 days = 4 tooltip = EVTTOOLTIP39600 }
+			}
+		}
+	}
+}
+
+# Chaplain has a chance of converting the Pagan lord
+character_event = {
+	id = 39651
+	desc = EVTDESC39651
+	picture = GFX_evt_bishop
+	border = GFX_event_normal_frame_religion
+	
+	prisoner = no
+	
+	trigger = {
+		has_job_action = action_inquisition
+		has_character_flag = preacher_arrives
+		location = {
+			owner = {
+				NOT = { character = ROOT }
+				NOT = { is_liege_of = ROOT }
+				NOT = { religion = ROOT }
+				religion_group = pagan_group
+				NOT = { same_realm = ROOT }
+				controls_religion = no
+				at_location = ROOT
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 220
+	
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 2 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 3 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 4 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 5 }
+		}
+		modifier = {
+			factor = 0.75
+			learning = 10
+		}
+		modifier = {
+			factor = 0.75
+			learning = 11
+		}
+		modifier = {
+			factor = 0.75
+			learning = 12
+		}
+		modifier = {
+			factor = 0.75
+			learning = 13
+		}
+		modifier = {
+			factor = 2.0
+			NOT = { religion_authority = 0.4 }
+		}
+		modifier = {
+			factor = 2.0
+			NOT = { religion_authority = 0.2 }
+		}
+		modifier = {
+			factor = 0.75
+			religion_authority = 0.6
+		}
+		modifier = {
+			factor = 0.75
+			religion_authority = 0.8
+		}
+	}
+	
+	option = {
+		name = EVTOPTA39651
+		hidden_tooltip = {
+			location = {
+				owner = {
+					character_event = { id = 39601 days = 1 }
+				}
+			}
+		}
+	}
+}
+
+# Chaplain converts Pagan courtier
+character_event = {
+	id = 39652
+	desc = EVTDESC39652
+	picture = GFX_evt_bishop
+	border = GFX_event_normal_frame_religion
+	
+	prisoner = no
+	
+	trigger = {
+		has_job_action = action_inquisition
+		has_character_flag = preacher_arrives
+		location = {
+			owner = {
+				NOT = { character = ROOT }
+				NOT = { is_liege_of = ROOT }
+				NOT = { religion = ROOT }
+				religion_group = pagan_group
+				NOT = { same_realm = ROOT }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 2 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 3 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 4 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { learning = 5 }
+		}
+		modifier = {
+			factor = 0.75
+			learning = 10
+		}
+		modifier = {
+			factor = 0.75
+			learning = 11
+		}
+		modifier = {
+			factor = 0.75
+			learning = 12
+		}
+		modifier = {
+			factor = 0.75
+			learning = 13
+		}
+		modifier = {
+			factor = 2.0
+			NOT = { religion_authority = 0.4 }
+		}
+		modifier = {
+			factor = 2.0
+			NOT = { religion_authority = 0.2 }
+		}
+		modifier = {
+			factor = 0.75
+			religion_authority = 0.6
+		}
+		modifier = {
+			factor = 0.75
+			religion_authority = 0.8
+		}
+	}
+	
+	option = {
+		name = EVTOPTA39652
+		hidden_tooltip = {
+			location = {
+				owner = {
+					random_courtier = {
+						limit = { 
+							age = 10
+							prisoner = no
+							at_location = ROOT
+							NOT = { trait = incapable }
+							ai = yes
+							religion_group = pagan_group
+						}
+						character_event = { id = 39610 days = 1 }
+					}
+				}
+			}
+		}
+	}
+}
+
+# Chaplain squabbles with other chaplain
+character_event = {
+	id = 39653
+	desc = EVTDESC39653
+	picture = GFX_evt_bishop
+	border = GFX_event_normal_frame_religion
+	
+	prisoner = no
+	
+	trigger = {
+		has_job_action = action_inquisition
+		has_character_flag = preacher_arrives
+		location = {
+			owner = {
+				NOT = { character = ROOT }
+				NOT = { is_liege_of = ROOT }
+				NOT = { religion = ROOT }
+				religion_group = pagan_group
+				NOT = { same_realm = ROOT }
+			}
+		}
+		any_playable_ruler = {
+			any_courtier = {
+				has_job_action = action_inquisition
+				has_character_flag = preacher_arrives
+				at_location = ROOT
+				NOT = { character = ROOT }
+				NOT = { same_liege = ROOT }
+			}
+		}			
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = {
+		name = EVTOPTA39653
+		hidden_tooltip = {
+			random_playable_ruler = {
+				limit = {
+					any_courtier = {
+						has_job_action = action_inquisition
+						has_character_flag = preacher_arrives
+						at_location = ROOT
+						NOT = { character = ROOT }
+						NOT = { same_liege = ROOT }
+					}
+				}
+				random_courtier = {
+					limit = {
+						has_job_action = action_inquisition
+						has_character_flag = preacher_arrives
+						at_location = ROOT
+						NOT = { character = ROOT }
+						NOT = { same_liege = ROOT }
+					}
+					character_event = { id = 39611 days = 1 }
+				}
+			}
+		}
+	}
+}
+
+# Clear preacher_arrives flag
+character_event = {
+	id = 39654
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = preacher_arrives
+		NOT = { has_job_action = action_inquisition }
+	}
+	
+	immediate = {
+		clr_character_flag = preacher_arrives
+	}
+	
+	option = {
+		name = OK
+	}
+}
+
+
 
 ##############################
 # LORD SPIRITUAL
@@ -997,7 +1355,6 @@ character_event = {
 	picture = GFX_evt_bishop
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -1132,7 +1489,6 @@ character_event = {
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_religion
 
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -1266,7 +1622,6 @@ character_event = {
 	picture = GFX_evt_emissary
 	border = GFX_event_normal_frame_religion
 	
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
@@ -1328,9 +1683,7 @@ letter_event = {
 	option = {
 		name = "EVTOPTA20260"
 		scaled_wealth = -0.5
-		FROM = {
-			location = { change_random_civ_tech = 2 }
-		}
+		culture_techpoints = 50
 	}
 	option = {
 		name = "EVTOPTB20260"
@@ -1346,14 +1699,33 @@ character_event = {
 	picture = GFX_evt_heretic
 	border = GFX_event_normal_frame_religion
 	
-	only_men = yes
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
 		has_job_action = action_advance_cul_tech
 		is_heretic = no
-		liege = { is_heretic = no }
+		liege = { 
+			is_heretic = no
+			NOT = {
+				religion = norse_pagan
+				religion = tengri_pagan
+				religion = baltic_pagan
+				religion = finnish_pagan
+				religion = aztec
+				religion = slavic_pagan
+				religion = west_african_pagan
+			}
+		}
+		NOT = {
+			religion = norse_pagan
+			religion = tengri_pagan
+			religion = baltic_pagan
+			religion = finnish_pagan
+			religion = aztec
+			religion = slavic_pagan
+			religion = west_african_pagan
+		}
 	}
 	
 	mean_time_to_happen = {

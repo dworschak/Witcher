@@ -27,6 +27,7 @@ character_event = {
 		independent = no
 		has_lover = no
 		is_pregnant = no
+		is_consort = no
 		NOT = { trait = homosexual }
 		NOT = { trait = infirm }
 		NOT = { trait = incapable }
@@ -36,6 +37,7 @@ character_event = {
 			is_female = no
 			has_lover = no
 			prisoner = no
+			religion_group = christian
 			NOT = { is_close_relative = ROOT }
 			is_valid_attraction = ROOT
 			NOT = { trait = homosexual }
@@ -350,11 +352,12 @@ character_event = {
 	
 	trigger = {
 		is_married = no
+		is_consort = no
 		father_of_unborn = {
 			NOT = {
 				any_spouse = {
 					character = ROOT
-				}
+				}				
 			}
 		}
 	}
@@ -381,7 +384,7 @@ character_event = {
 			NOT = {
 				any_spouse = {
 					character = ROOT
-				}
+				}			
 			}
 		}
 	}
@@ -419,6 +422,101 @@ character_event = {
 
 	option = {
 		name = EVTOPTA404
+		if = {
+			limit = {
+				FROM = {
+					father_of_unborn_known = yes
+				}
+			}
+			opinion = {
+				who = FROM
+				modifier = opinion_potential_cuckold
+				months = 7
+			}
+		}
+	}
+}
+
+# Consort: Pregnancy starts showing
+character_event = {
+	id = 410
+	desc = EVTDESC410
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		father_of_unborn = {
+			is_consort = ROOT
+		}
+	}
+	
+	option = {
+		name = OK
+		add_trait = pregnant
+		prestige = 10
+		
+		if = {
+			limit = {
+				father_of_unborn = {
+					is_alive = yes
+				}
+			}
+			father_of_unborn = { character_event = { id = 413 tooltip = EVTTOOLTIP413 } }
+		}
+	}
+}
+
+# Consort: Pregnancy with another father!
+character_event = {
+	id = 412
+	desc = EVTDESC412
+	picture = "GFX_evt_pregnancy"
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		is_consort = yes
+		father_of_unborn = {
+			NOT = {
+				is_consort = ROOT		
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA412
+		add_trait = pregnant
+		consort = { character_event = { id = 414 tooltip = EVTTOOLTIP414 } }
+	}
+}
+
+# The consort's liege is a proud father!
+character_event = {
+	id = 413
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC413
+
+	option = {
+		name = OK
+		prestige = 5
+	}
+}
+
+# The consort's liege suspects something ain't right
+character_event = {
+	id = 414
+	picture = GFX_evt_pregnancy
+	
+	is_triggered_only = yes 
+	
+	desc = EVTDESC414
+
+	option = {
+		name = EVTOPTA414
 		if = {
 			limit = {
 				FROM = {
@@ -475,7 +573,10 @@ character_event = {
 				character_event = { id = 303 tooltip = EVTTOOLTIP303 } # The child's mother is very pleased
 				spouse = {
 					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
-				}
+				}		
+				consort = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's lord is pissed off
+				}			
 			}
 		}
 		any_child = {
@@ -498,7 +599,6 @@ character_event = {
 			FROM = {
 				is_female = no
 			}
-			NOT = { religion_group = muslim } # No bastards like this in the Muslim world
 		}
 		FROM = {
 			character_event = { id = 306 tooltip = EVTTOOLTIP306 } # The child gets the father's dynasty, but is not legitimized.
@@ -507,6 +607,9 @@ character_event = {
 				spouse = {
 					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
 				}
+				consort = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's lord is pissed off
+				}				
 			}
 		}
 	}
@@ -516,11 +619,26 @@ character_event = {
 		
 		FROM = {
 			character_event = { id = 309 tooltip = EVTTOOLTIP309 } #  The child founds a new bastard dynasty
+			if = {
+				limit = { trait = born_in_the_purple }
+				remove_trait = born_in_the_purple
+			}
+			if = {
+				limit = { trait = saoshyant_descendant }
+				remove_trait = saoshyant_descendant
+			}
+			if = {
+				limit = { trait = sayyid }
+				remove_trait = sayyid
+			}
 			mother = {
 				character_event = { id = 310 tooltip = EVTTOOLTIP310 } # The child's mother is dishonoured
 				spouse = {
 					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
-				}
+				}	
+				consort = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's lord is pissed off
+				}				
 			}
 		}
 	}
@@ -760,6 +878,25 @@ character_event = {
 				years = 5
 			}
 		}
+	}
+}
+
+character_event = {
+	id = 312
+	desc = "EVTDESC312"
+	picture = "GFX_evt_birth"
+	
+	is_triggered_only = yes 	
+	
+	trigger = {
+		mother = {
+			is_consort = yes #TODO: Should probably track this in code instead, in case consort status changes during pregnancy
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTA12"
+		add_trait = child_of_consort
 	}
 }
 
