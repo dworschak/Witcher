@@ -24,9 +24,7 @@ character_event = {
 		trait = lustful
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		NOT = { 
 			has_job_title = job_spiritual
 		}
@@ -331,9 +329,7 @@ character_event = {
 		in_command = no
 		trait = lustful
 		has_job_title = job_spiritual
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 	}
 	
 	mean_time_to_happen = {
@@ -383,7 +379,7 @@ character_event = {
 		in_command = no
 		trait = chaste
 		religion = catholic
-		#NOT = { has_landed_title = k_papal_state }
+		NOT = { has_landed_title = k_papal_state }
 		NOT = { trait = excommunicated }
 	}
 	
@@ -416,9 +412,7 @@ character_event = {
 	option = {
 		name = EVTOPTA3020
 		trigger = {
-			NOT = {
-				religion_group = muslim
-			}
+			religion_group = christian
 			NOT = {
 				lifestyle_traits = 1
 			}
@@ -536,7 +530,6 @@ character_event = {
 	option = {
 		name = EVTOPTB3021
 		piety = 5
-		religion_authority = 0.01
 	}
 }
 
@@ -618,9 +611,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = chaste
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_courtier = {
 			is_female = yes
 			age = 18
@@ -709,9 +700,7 @@ character_event = {
 		NOT = {
 			trait = homosexual
 		}
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		fertility = 0.4
 		any_courtier = {
 			is_female = yes
@@ -767,7 +756,7 @@ character_event = {
 				NOT = { is_close_relative = ROOT }
 				has_opinion_modifier = { who = ROOT modifier = opinion_admire_chaste } 				
 			}
-			impregnate = ROOT
+			impregnate_cuckoo = ROOT
 		}
 		add_trait = stressed
 	}
@@ -976,17 +965,13 @@ character_event = {
 		war = no
 		in_command = no
 		is_ruler = yes
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_courtier = {
 			martial = 8
 			age = 16
 			is_female = no
 			prisoner = no
-			NOT = {
-				religion_group = muslim
-			}
+			religion_group = christian
 		}
 	}
 	
@@ -1015,9 +1000,7 @@ character_event = {
 				age = 16
 				is_female = no
 				prisoner = no
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 			}
 			opinion = {
 				modifier = temperate_good_judgement
@@ -1050,7 +1033,6 @@ character_event = {
 			name = defer_to_church_decision
 			duration = 365
 		}
-		religion_authority = 0.01
 	}
 	option = {
 		name = EVTOPTC3012
@@ -1072,9 +1054,7 @@ character_event = {
 				age = 16
 				is_female = no
 				prisoner = no
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 			}
 			opinion = {
 				modifier = temperate_bad_judgement
@@ -1102,9 +1082,7 @@ character_event = {
 		war = no
 		in_command = no
 		is_ruler = yes
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_vassal = {
 			tier = baron
 			trait = gluttonous
@@ -1832,9 +1810,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = greedy
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			trait = wroth
 			trait = gluttonous
@@ -3040,6 +3016,10 @@ character_event = {
 		trait = diligent
 		war = no
 		in_command = no
+		OR = {
+			religion_group = christian
+			religion_group = muslim
+		}
 	}	
 	
 	mean_time_to_happen = {
@@ -3053,9 +3033,7 @@ character_event = {
 	option = {
 		name = EVTOPTA3126
 		trigger = {
-			NOT = {
-				religion_group = muslim
-			}	
+			religion_group = christian
 		}
 		piety = -10
 	}
@@ -4202,15 +4180,11 @@ character_event = {
 		trait = wroth
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_courtier = {
 			age = 16
 			prisoner = no
-			NOT = {
-				religion_group = muslim
-			}
+			religion_group = christian
 			NOT = {
 				trait = incapable
 			}
@@ -4254,9 +4228,7 @@ character_event = {
 			limit = {
 				age = 16
 				prisoner = no
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 				NOT = {
 					trait = incapable
 				}
@@ -5604,9 +5576,7 @@ character_event = {
 		NOT = {
 			martial = 7
 		}
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		NOT = { has_character_modifier = deceitful_martial }
 		
 	}
@@ -6080,118 +6050,118 @@ character_event = {
 }
 
 ### Praise liege for his virtues ###
-character_event = {
-	id = 3283
-	desc = EVTDESC3283
-	picture = GFX_evt_throne_room
-	
-	min_age = 16
-	capable_only = yes
-	prisoner = no
-	is_triggered_only = yes 
-	
-	trigger = {
-		trait = honest
-		war = no
-		in_command = no
-		independent = no
-		liege = {
-			age = 25
-			OR = {
-				trait = charitable
-				trait = kind
-				trait = diligent
-				trait = chaste
-				trait = temperate
-				trait = patient
-				trait = humble
-			}
-		}
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = EVTOPTA3283
-		liege = {
-			character_event = { 
-				id = 3284 
-				tooltip = EVTTOOLTIP3284 
-			}
-		}
-		prestige = 10
-	}
-	option = {
-		name = EVTOPTB3283
-		liege = { 
-			letter_event = { 
-				id = 3285 
-				tooltip = EVTTOOLTIP3285 
-			}
-			opinion = {
-				who = ROOT
-				modifier = honest_pos
-				years = 10
-			}
-		}
-	}	
-}
+#character_event = {
+#	id = 3283
+#	desc = EVTDESC3283
+#	picture = GFX_evt_throne_room
+#	
+#	min_age = 16
+#	capable_only = yes
+#	prisoner = no
+#	is_triggered_only = yes 
+#	
+#	trigger = {
+#		trait = honest
+#		war = no
+#		in_command = no
+#		independent = no
+#		liege = {
+#			age = 25
+#			OR = {
+#				trait = charitable
+#				trait = kind
+#				trait = diligent
+#				trait = chaste
+#				trait = temperate
+#				trait = patient
+#				trait = humble
+#			}
+#		}
+#	}
+#	
+#	mean_time_to_happen = {
+#		days = 1
+#	}
+#	
+#	option = {
+#		name = EVTOPTA3283
+#		liege = {
+#			character_event = { 
+#				id = 3284 
+#				tooltip = EVTTOOLTIP3284 
+#			}
+#		}
+#		prestige = 10
+#	}
+#	option = {
+#		name = EVTOPTB3283
+#		liege = { 
+#			letter_event = { 
+#				id = 3285 
+#				tooltip = EVTTOOLTIP3285 
+#			}
+#			opinion = {
+#				who = ROOT
+#				modifier = honest_pos
+#				years = 10
+#			}
+#		}
+#	}	
+#}
 
 #Vassal compliments Liege
-character_event = {
-	id = 3284
-	desc = EVTDESC3284
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes 
-	
-	option = {
-		name = EVTOPTA3284
-		prestige = 5
-		any_vassal = {
-			limit = {
-				NOT = { character = FROM }
-			}
-			if = {
-				limit = {
-					opinion = { who = ROOT value = 20 }
-				}
-				opinion = { 
-					modifier = honest_pos
-					who = ROOT 
-					years = 5 
-				}
-			}
-			if = {
-				limit = {
-					NOT = {
-						opinion = { who = ROOT value = 20 }
-					}
-				}
-				opinion = { 
-					modifier = honest_neg
-					who = ROOT 
-					years = 5 
-				}
-			}
-		}
-	}
-}
+#character_event = {
+#	id = 3284
+#	desc = EVTDESC3284
+#	picture = GFX_evt_throne_room
+#	
+#	is_triggered_only = yes 
+#	
+#	option = {
+#		name = EVTOPTA3284
+#		prestige = 5
+#		any_vassal = {
+#			limit = {
+#				NOT = { character = FROM }
+#			}
+#			if = {
+#				limit = {
+#					opinion = { who = ROOT value = 20 }
+#				}
+#				opinion = { 
+#					modifier = honest_pos
+#					who = ROOT 
+#					years = 5 
+#				}
+#			}
+#			if = {
+#				limit = {
+#					NOT = {
+#						opinion = { who = ROOT value = 20 }
+#					}
+#				}
+#				opinion = { 
+#					modifier = honest_neg
+#					who = ROOT 
+#					years = 5 
+#				}
+#			}
+#		}
+#	}
+#}
 
 #Vassals agree (?)
-letter_event = {
-	id = 3285
-	desc = EVTDESC3285
-	
-	is_triggered_only = yes 
-	
-	option = {
-		name = EVTOPTA3285
-		piety = 10
-	}
-}
+#letter_event = {
+#	id = 3285
+#	desc = EVTDESC3285
+#	
+#	is_triggered_only = yes 
+#	
+#	option = {
+#		name = EVTOPTA3285
+#		piety = 10
+#	}
+#}
 
 ### Good vassal! ###
 character_event = {
@@ -6374,9 +6344,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = craven
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			NOT = { demesne_size = 1 }
 			tier = count
@@ -6388,9 +6356,7 @@ character_event = {
 				is_priest = yes
 				has_job_title = job_spiritual
 			}
-			NOT = {
-				religion_group = muslim
-			}
+			religion_group = christian
 			NOT = {
 				character = ROOT
 			}
@@ -6438,9 +6404,7 @@ character_event = {
 					is_priest = yes
 					has_job_title = job_spiritual
 				}
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 				NOT = {
 					character = ROOT
 				}
@@ -6856,9 +6820,7 @@ character_event = {
 		trait = brave
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 	}
 	
 	mean_time_to_happen = {
@@ -6904,6 +6866,10 @@ character_event = {
 		trait = brave
 		war = no
 		in_command = no
+		OR = {
+			religion_group = christian
+			religion_group = muslim
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -7578,9 +7544,7 @@ character_event = {
 		war = no
 		in_command = no
 		is_priest = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			any_courtier = {
 				opinion = { who = ROOT value = 75 }
@@ -8009,9 +7973,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = content
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 	}
 	
 	mean_time_to_happen = {
@@ -8275,9 +8237,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = arbitrary
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_courtier = {
 			age = 16
 			prisoner = no
@@ -9605,9 +9565,7 @@ character_event = {
 	trigger = {
 		in_command = no
 		trait = cynical
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_courtier = {
 			age = 16
 			in_command = no
@@ -9720,9 +9678,7 @@ character_event = {
 	trigger = {
 		in_command = no
 		trait = zealous
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			tier = count
 			tier = duke
@@ -9907,16 +9863,12 @@ character_event = {
 		trait = zealous
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			spouse = {
 				is_alive = yes
 				is_abroad = no
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 				NOT = {
 					trait = zealous
 				}
@@ -9927,9 +9879,7 @@ character_event = {
 				NOT = {
 					trait = zealous
 				}
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 				opinion = { who = ROOT value = 100 }
 			}
 		}	
@@ -9966,9 +9916,7 @@ character_event = {
 				NOT = {
 					trait = zealous
 				}
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 				opinion = { who = ROOT value = 100 }
 			}
 		}
@@ -9987,9 +9935,7 @@ character_event = {
 				NOT = {
 					trait = zealous
 				}
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 				opinion = { who = ROOT value = 100 }
 			}
 		}
@@ -10068,9 +10014,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = zealous
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 	}
 	
 	mean_time_to_happen = {
@@ -11048,9 +10992,7 @@ character_event = {
 		in_command = no
 		fertility = 0.4
 		has_lover = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			trait = chaste
 			piety = 50
@@ -11141,7 +11083,7 @@ character_event = {
 		random = {
 			chance = 20
 			spouse = {
-				impregnate = ROOT
+				impregnate_cuckoo = ROOT
 			}
 		}
 	}
@@ -11159,9 +11101,7 @@ character_event = {
 		name = EVTOPTA3521
 		if = {
 			limit = {
-				NOT = {
-					religion_group = muslim
-				}
+				religion_group = christian
 			}
 			add_trait = chaste
 		}
@@ -11199,9 +11139,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = celibate
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		OR = {
 			trait = chaste
 			NOT = {
@@ -11409,9 +11347,7 @@ character_event = {
 		trait = celibate
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		NOT = {
 			trait = lustful
 		}
@@ -18162,9 +18098,7 @@ character_event = {
 		trait = hunter
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
+		religion_group = christian
 		any_courtier = {
 			age = 16
 			in_command = no

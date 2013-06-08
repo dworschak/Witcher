@@ -6,6 +6,10 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { trait = berserker }
+	}
 
 	mean_time_to_happen = {
 		days = 1
@@ -181,6 +185,7 @@ character_event = {
 	trigger = {
 		NOT = { trait = wounded }
 		NOT = { trait = maimed }
+		NOT = { trait = berserker }
 		is_alive = yes
 	}
 	
@@ -342,6 +347,7 @@ character_event = {
 	
 	trigger = {
 		NOT = { trait = maimed }
+		NOT = { trait = berserker }
 		is_alive = yes
 	}
 	
@@ -963,6 +969,7 @@ character_event = {
 
 	trigger = {
 		is_alive = yes
+		is_landed = yes
 		OR = {
 			trait = brilliant_strategist
 			trait = skilled_tactician
@@ -1446,9 +1453,7 @@ character_event = {
 #On-action battle_won: Heroism shown.
 character_event = {
 	id = 260
-	desc = EVTDESC260
-	picture = GFX_evt_battle
-	border = GFX_event_normal_frame_war
+	hide_window = yes
 	
 	is_triggered_only = yes
 
@@ -1574,10 +1579,20 @@ character_event = {
 		}
 
 	}
+	
+	immediate = {
+		random_list = {
+			16 = { character_event = { id = 262 } }
+			16 = { character_event = { id = 263 } }
+			16 = { character_event = { id = 264 } }
+			16 = { character_event = { id = 265 } }
+			16 = { character_event = { id = 266 } }
+			16 = { character_event = { id = 267 } }
+		}
+	}
 
 	option = {
-		name = EXCELLENT
-		prestige = 5
+		name = OK
 	}
 }
 
@@ -1628,6 +1643,96 @@ character_event = {
 			religion = ROOT
 			culture = ROOT
 		}		
+	}
+}
+
+# Heroism Shown 1
+character_event = {
+	id = 262
+	desc = EVTDESC262
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA262
+		prestige = 100
+	}
+}
+
+# Heroism Shown 2
+character_event = {
+	id = 263
+	desc = EVTDESC263
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA262
+		prestige = 100
+	}
+}
+
+# Heroism Shown 3
+character_event = {
+	id = 264
+	desc = EVTDESC264
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA262
+		prestige = 100
+	}
+}
+
+# Heroism Shown 4
+character_event = {
+	id = 265
+	desc = EVTDESC265
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA262
+		prestige = 100
+	}
+}
+
+# Heroism Shown 5
+character_event = {
+	id = 266
+	desc = EVTDESC266
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA262
+		prestige = 100
+	}
+}
+
+# Heroism Shown 6
+character_event = {
+	id = 267
+	desc = EVTDESC267
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA262
+		prestige = 100
 	}
 }
 
@@ -1896,21 +2001,6 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
-		NOT = {
-			and = {
-				trait = rough_terrain_leader
-				trait = flat_terrain_leader
-				trait = mountain_terrain_leader
-				trait = desert_terrain_leader
-				trait = cavalry_leader
-				trait = heavy_infantry_leader
-				trait = light_foot_leader
-				trait = defensive_leader
-				trait = aggressive_leader
-				trait = inspiring_leader
-				trait = incapable
-			}
-		}
 	}
 	
 	mean_time_to_happen = {
@@ -2011,6 +2101,7 @@ character_event = {
 			OR = {
 				location = { terrain = plains }
 				location = { terrain = farmlands }
+				location = { terrain = steppe }
 			}
 			NOT = { 
 				trait = rough_terrain_leader
@@ -2123,20 +2214,6 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
-		NOT = {
-			and = {
-				trait = rough_terrain_leader
-				trait = flat_terrain_leader
-				trait = mountain_terrain_leader
-				trait = desert_terrain_leader
-				trait = cavalry_leader
-				trait = heavy_infantry_leader
-				trait = light_foot_leader
-				trait = trickster
-				trait = flanker
-				trait = incapable
-			}
-		}
 	}
 	
 	mean_time_to_happen = {
@@ -2229,6 +2306,7 @@ character_event = {
 			OR = {
 				location = { terrain = plains }
 				location = { terrain = farmlands }
+				location = { terrain = steppe }
 			}
 			NOT = { 
 				trait = rough_terrain_leader
@@ -2330,15 +2408,6 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
-		NOT = {
-			and = {
-				trait = organizer
-				trait = experimenter
-				trait = holy_warrior
-				trait = unyielding_leader
-				trait = incapable
-			}
-		}
 	}
 	
 	mean_time_to_happen = {

@@ -15,6 +15,10 @@ character_event = {
 	picture = GFX_evt_council
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
+	prisoner = no
+	capable_only = yes
+	
 	trigger = {
 		has_minor_title = title_regent
 		independent = no
@@ -2977,5 +2981,263 @@ character_event = {
 	
 	option = {
 		name = OK
+	}
+}
+
+## The Regent Lowers Crown Authority in a Kingdom
+character_event = {
+	id = 61300
+	desc = EVTDESC61300
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 16
+	prisoner = no
+	capable_only = yes
+	only_playable = yes # Only titled Regents do this
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_lowered_CA }
+			any_demesne_title = {
+				tier = KING
+				OR = {
+					has_law = centralization_1
+					has_law = centralization_2
+					has_law = centralization_3
+					has_law = centralization_4
+				}
+				ROOT = {
+					primary_title = {
+						kingdom = {
+							title = PREVPREVPREV
+						}
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.25
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.25
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2.0
+			trait = charitable
+		}
+		modifier = {
+			factor = 3.0
+			trait = just
+		}
+	}
+	
+	option = {
+		name = EVTOPTA61300
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					OR = {
+						has_law = centralization_1
+						has_law = centralization_2
+						has_law = centralization_3
+						has_law = centralization_4
+					}
+					ROOT = {
+						primary_title = {
+							kingdom = {
+								title = PREVPREVPREV
+							}
+						}
+					}
+				}
+				if = {
+					limit = { has_law = centralization_1 }
+					add_law = centralization_0
+				}
+				if = {
+					limit = { has_law = centralization_2 }
+					add_law = centralization_1
+				}
+				if = {
+					limit = { has_law = centralization_3 }
+					add_law = centralization_2
+				}
+				if = {
+					limit = { has_law = centralization_4 }
+					add_law = centralization_3
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = 61301 }
+				set_character_flag = regent_lowered_CA
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTB61300
+		ai_chance = { factor = 0 }
+	}
+}
+
+## Ruler informed that Regent has Lowered CA in a Kingdom
+character_event = {
+	id = 61301
+	desc = EVTDESC61301
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA61301
+		opinion = {
+			who = FROM
+			modifier = opinion_regent_lowered_CA
+		}
+	}
+}
+
+## The Regent Lowers Crown Authority in an Empire
+character_event = {
+	id = 61302
+	desc = EVTDESC61302
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 16
+	prisoner = no
+	capable_only = yes
+	only_playable = yes # Only titled Regents do this
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_lowered_CA }
+			any_demesne_title = {
+				tier = EMPEROR
+				OR = {
+					has_law = centralization_1
+					has_law = centralization_2
+					has_law = centralization_3
+					has_law = centralization_4
+				}
+				ROOT = {
+					primary_title = {
+						empire = {
+							title = PREVPREVPREV
+						}
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.25
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.25
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2.0
+			trait = charitable
+		}
+		modifier = {
+			factor = 3.0
+			trait = just
+		}
+	}
+	
+	option = {
+		name = EVTOPTA61300
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = EMPEROR
+					OR = {
+						has_law = centralization_1
+						has_law = centralization_2
+						has_law = centralization_3
+						has_law = centralization_4
+					}
+					ROOT = {
+						primary_title = {
+							empire= {
+								title = PREVPREVPREV
+							}
+						}
+					}
+				}
+				if = {
+					limit = { has_law = centralization_1 }
+					add_law = centralization_0
+				}
+				if = {
+					limit = { has_law = centralization_2 }
+					add_law = centralization_1
+				}
+				if = {
+					limit = { has_law = centralization_3 }
+					add_law = centralization_2
+				}
+				if = {
+					limit = { has_law = centralization_4 }
+					add_law = centralization_3
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = 61303 }
+				set_character_flag = regent_lowered_CA
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTB61300
+		ai_chance = { factor = 0 }
+	}
+}
+
+## Ruler informed that Regent has Lowered CA in an Empire
+character_event = {
+	id = 61303
+	desc = EVTDESC61303
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA61301
+		opinion = {
+			who = FROM
+			modifier = opinion_regent_lowered_CA
+		}
 	}
 }
