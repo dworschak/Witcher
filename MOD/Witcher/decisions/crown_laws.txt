@@ -454,4 +454,218 @@ de_jure_laws = {
 		}
 	}
 	
+#Tolerance
+
+	tolerance_0 = {
+		show_as_title = yes
+		group = tolerance
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		ai_will_revoke = {
+			factor = 0
+		}
+		effect = {
+			hidden_tooltip = {
+				revoke_law = tolerance_0
+				revoke_law = tolerance_1
+				revoke_law = tolerance_2
+			}
+		}
+	}
+	
+	tolerance_1 = {
+		show_as_title = yes
+		group = tolerance
+		default = yes
+		
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		allow = {
+			OR = {
+				holder_scope = {
+					OR = {
+						AND = {
+							lower_tier_than = emperor
+							prestige = 500
+						}
+						prestige = 750
+					}
+					NOT = { trait = content }
+					OR = {
+						trait = arbitrary
+						trait = ambitious
+						trait = elusive_shadow
+						trait = grey_eminence
+						trait = zealous
+		
+					}
+					NOT = {
+						any_vassal = {
+							higher_tier_than = count
+							prisoner = no
+							NOT = { opinion = { who = ROOT value = -15 } }
+						}
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { has_law = tolerance_0 }
+			}
+		}
+		ai_will_revoke = {
+			factor = 0
+			modifier = {
+				factor = 1
+				trait = just
+				trait = dilligent
+				trait = kind
+				trait = gregarious
+			}
+		}
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = {
+						has_law = tolerance_0
+					}
+					holder_scope = {
+						any_vassal = {
+							limit = {
+								crownlaw_title = { title = ROOT }
+							}
+							opinion = {
+								who = ROOT
+								modifier = opinion_increased_authority
+								months = 150
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			hidden_tooltip = {
+				revoke_law = tolerance_0
+				revoke_law = tolerance_1
+				revoke_law = tolerance_2
+			}
+		}
+	}
+	
+	tolerance_2 = {
+		show_as_title = yes
+		group = tolerance
+		
+		feudal_opinion = -10
+		temple_opinion = 10
+		infidel_opinion = -25
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		allow = {
+			holder_scope = {
+				OR = {
+					AND = {
+						lower_tier_than = emperor
+						prestige = 750
+					}
+					prestige = 1000
+				}
+				NOT = { trait = content }
+				NOT = { trait = kind }
+				NOT = { trait = just }
+				NOT = { trait = charitable }
+				OR = {
+					trait = cruel
+					trait = ambitious
+					trait = elusive_shadow
+					trait = grey_eminence
+					trait = zealous
+					trait = arbitrary
+				}
+				NOT = {
+					any_vassal = {
+						religion = ROOT
+						higher_tier_than = count
+						prisoner = no
+						NOT = { opinion = { who = ROOT value = -10 } }
+					}
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 1
+				OR = {
+					trait = cruel
+					trait = lunatic
+					trait = arbitrary
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { any_vassal = { is_heresy_of = ROOT } }
+				NOT = { any_vassal = { is_parent_religion = ROOT } }
+				NOT = { any_vassal = { NOT = { religion_group = ROOT } } }
+			}
+		}
+		ai_will_revoke = {
+			factor = 0
+			modifier = {
+				factor = 1
+				OR = {
+					trait = kind
+					trait = just
+					trait = charitable
+					trait = dilligent
+				}
+			}
+		}
+		pass_effect = {
+			hidden_tooltip = {
+				holder_scope = {
+					any_vassal = {
+						limit = {
+							crownlaw_title = { title = ROOT }
+						}
+						opinion = {
+							who = ROOT
+							modifier = opinion_increased_authority
+							months = 240
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			hidden_tooltip = {
+				revoke_law = tolerance_0
+				revoke_law = tolerance_1
+				revoke_law = tolerance_2
+			}
+		}
+	}
+	
 }
