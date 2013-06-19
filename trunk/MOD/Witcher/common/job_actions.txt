@@ -27,6 +27,60 @@ action_fabricate_claims = {
 		any_province_lord = {
 			NOT = { character = FROM }
 		}
+		OR = {
+			owner = { same_realm = FROM }
+			any_neighbor_province = {
+				owner = {
+					OR = {
+						any_liege = { character = FROM }
+						character = FROM
+					}
+				}
+			}
+			any_neighbor_province = {
+				is_land = no
+				any_neighbor_province = {
+					owner = {
+						OR = {
+							any_liege = { character = FROM }
+							character = FROM
+						}
+					}
+				}
+			}
+		}
+		OR = {
+			county = {
+				NOT = { claimed_by = FROM }
+				holder_scope = {
+					NOT = { is_liege_of = FROM }
+					NOT = { character = FROM }
+				}
+			}
+			AND = {
+				duchy = {
+					NOT = { claimed_by = FROM }
+					holder_scope = {
+						NOT = { is_liege_of = FROM }
+						NOT = { character = FROM }
+					}
+				}
+				FROM = { ai = no }
+			}
+		}
+		kingdom = { always = yes }
+		NOT = {
+			AND = {
+				owner = { is_merchant_republic = yes }
+				is_capital = yes
+			}
+		}
+		OR = {
+			FROM = { ai = no }
+			FROM = { independent = yes }
+			FROM = { tier = king }
+			owner = { same_realm = FROM }
+		}
 	}
 	
 	events = { 913 914 }
@@ -189,11 +243,7 @@ action_inquisition = {
 	trigger = {
 		OR = {
 			owner = {
-				FROM = { 
-					NOT = { 
-						religion_group = pagan_group 
-					} 
-				}
+				FROM = { NOT = { religion_group = pagan_group } }
 				independent = yes
 				NOT = { religion = FROM }
 				religion_group = pagan_group
@@ -211,6 +261,11 @@ action_inquisition = {
 				}
 				NOT = {
 					has_opinion_modifier = { who = FROM modifier = opinion_sent_preacher }
+				}
+				OR = {
+					religion = norse_pagan
+					FROM = { trait = zealous }
+					FROM = { ai = no }
 				}
 			}
 			any_province_lord = {
