@@ -1,0 +1,107 @@
+namespace = dueling
+
+#feast battle results
+character_event = {
+	id = dueling.1
+	desc = EVTDESCdueling.1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdueling.1
+		hidden_tooltip = { FROM = { character_event = { id = 72034 } } } #Nothing happened
+	}
+}
+character_event = {
+	id = dueling.2
+	desc = EVTDESCDUELOUTPUT1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdueling.2
+		hidden_tooltip = { FROM = { character_event = { id = 72033 } } } #Liege reacts
+	}
+}
+
+#rival duel results
+character_event = {
+	id = dueling.3
+	desc = EVTDESCdueling.1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdueling.3
+		#draw
+	}
+}
+character_event = {
+	id = dueling.4
+	desc = EVTDESCDUELOUTPUT1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTC100415
+		hidden_tooltip = { FROMFROM = { character_event = { id = dueling.5 } } } #Loser was wounded
+	}
+}
+character_event = {
+	id = dueling.5
+	desc = EVTDESC100415
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100415
+		opinion = {
+			modifier = opinion_revenge_seeker
+			who = FROM
+			years = 50
+		}
+	}
+}
+#regency battle
+character_event = {
+	id = dueling.6
+	desc = EVTDESCDUELOUTPUT1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTADUELOUTPUT1
+		hidden_tooltip = {
+			IF = {
+				limit = { FROM = { has_minor_title = title_regent } }
+				FROM = { character_event = { id = 61226 } }
+				FROMFROM = { character_event = { id = 61230 } }
+			}
+			IF = {
+				limit = { FROMFROM = { has_minor_title = title_regent } }
+				FROM = { character_event = { id = 61229 } }
+				FROMFROM = { character_event = { id = 61227 } }
+			}
+		}
+	}
+}
+character_event = {
+	id = dueling.7
+	desc = EVTDESCDUELOUTPUT1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTADUELOUTPUT1
+		hidden_tooltip = {
+			IF = {
+				limit = { FROM = { has_minor_title = title_regent } }
+				FROM = { character_event = { id = 61225 } }
+			}
+			IF = {
+				limit = { FROMFROM = { has_minor_title = title_regent } }
+				FROM = { character_event = { id = 61228 } }
+			}
+		}
+	}
+}

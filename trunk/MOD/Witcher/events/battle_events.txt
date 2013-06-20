@@ -145,7 +145,7 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
+		}
 	}
 	
 	immediate = {
@@ -170,7 +170,7 @@ character_event = {
 	
 	option = {
 		name = ALAS
-	}	
+	}
 }
 
 #On-action combat event: Wounded in action
@@ -181,7 +181,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		NOT = { trait = wounded }
 		NOT = { trait = maimed }
@@ -321,12 +321,11 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_measles
-		}		
+		}
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
-		
+		}
 	}
 	
 	option = {
@@ -487,8 +486,7 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
-
+		}
 	}
 	
 	option = {
@@ -525,7 +523,6 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.5
-		
 			trait = craven
 		}
 		modifier = {
@@ -577,7 +574,7 @@ character_event = {
 			trait = weak
 			factor = 2.5
 		}		
-				modifier = {
+		modifier = {
 			factor = 1.25
 			trait = stressed
 		}
@@ -648,8 +645,7 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
-
+		}
 	}
 
 	option = {
@@ -666,7 +662,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	
 	trigger = {
 		is_alive = yes
@@ -792,7 +788,6 @@ character_event = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-		
 	}
 
 	option = {
@@ -829,7 +824,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		is_alive = yes
 		NOT = { martial = 10 }
@@ -1122,7 +1117,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		is_alive = yes
 		NOT = { trait = brave }
@@ -1165,7 +1160,7 @@ character_event = {
 			trait = weak
 			factor = 0.8
 		}		
-				modifier = {
+		modifier = {
 			factor = 0.8
 			trait = stressed
 		}
@@ -1241,7 +1236,6 @@ character_event = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-
 	}
 
 	option = {
@@ -1258,7 +1252,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		is_alive = yes
 		NOT = { trait = brave }
@@ -1408,7 +1402,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		is_alive = yes
 		NOT = { trait = wroth }
@@ -1453,12 +1447,15 @@ character_event = {
 #On-action battle_won: Heroism shown.
 character_event = {
 	id = 260
-	hide_window = yes
+	desc = EVTDESC260
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		is_alive = yes
+		NOT = { trait = craven }
 	}
 	
 	mean_time_to_happen = {
@@ -1501,7 +1498,7 @@ character_event = {
 			trait = weak
 			factor = 0.8
 		}	
-				modifier = {
+		modifier = {
 			factor = 0.8
 			trait = stressed
 		}
@@ -1577,7 +1574,6 @@ character_event = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-
 	}
 	
 	immediate = {
@@ -1590,9 +1586,53 @@ character_event = {
 			16 = { character_event = { id = 267 } }
 		}
 	}
-
+	
 	option = {
-		name = OK
+		name = EXCELLENT
+		prestige = 5
+		set_character_flag = combattrait
+		if = { 
+			limit = {  
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+				has_character_flag = combattrait
+			}
+			add_trait = poor_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = poor_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = trained_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = trained_warrior 
+				has_character_flag = combattrait
+			}
+			add_trait = skilled_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = skilled_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = master_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = {
+				trait = master_warrior
+				has_character_flag = combattrait
+			}
+			clr_character_flag = combattrait
+		}
 	}
 }
 
@@ -1642,7 +1682,7 @@ character_event = {
 			female = no
 			religion = ROOT
 			culture = ROOT
-		}		
+		}
 	}
 }
 
@@ -1745,7 +1785,7 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		is_alive = yes
 		prisoner = no
@@ -1898,7 +1938,7 @@ letter_event = {
 	border = GFX_event_letter_frame_war
 	
 	is_triggered_only = yes
-
+	
 	trigger = {
 		ai = no
 	}
