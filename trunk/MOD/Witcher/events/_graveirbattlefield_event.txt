@@ -6,10 +6,6 @@ character_event = {
 	picture = "GFX_evt_pale_rider"
 	
 	is_triggered_only = yes	
-
-	mean_time_to_happen = {
-		days = 1
-	}
 	
 	immediate = {
 		death = {
@@ -32,12 +28,6 @@ character_event = {
 	
 	is_triggered_only = yes
 
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	
-	
 	option = {
 		name = graveirbattlefield.101 #Send Your Marshal To Hunt It
 		trigger = {
@@ -156,9 +146,9 @@ letter_event = {
 		}
 		prestige = 50
 		FROM = {
-			letter_event = { id = graveirbattlfield.marshalaccept days = 1 }
-			character_event = { id = graveirbattlefield.250 days = 1 }
+			letter_event = { id = graveirbattlefield.210 days = 1 }
 		}
+		character_event = { id = graveirbattlefield.250 days = 1 }
 	}
 	
 	
@@ -170,15 +160,15 @@ letter_event = {
 		}
 		prestige = -35
 		FROM = {
-			letter_event = { id = graveirbattlefield.marshalrefuse days = 1 }
+			letter_event = { id = graveirbattlefield.220 days = 1 }
 		}
 	}
 }
 
 #Marshal Accepted
 letter_event = {
-	id = graveirbattlefield.marshalaccept
-	desc = graveirbattlefield.marshalaccept.desc
+	id = graveirbattlefield.210
+	desc = graveirbattlefield.210.desc
 	picture = "GFX_evt_large_army"
 	
 	is_triggered_only = yes
@@ -195,8 +185,8 @@ letter_event = {
 
 #Marshal Refused
 letter_event = {
-	id = graveirbattlefield.marshalrefuse
-	desc = graveirbattlefield.marshalrefuse.desc
+	id = graveirbattlefield.220
+	desc = graveirbattlefield.220.desc
 	picture = "GFX_evt_scandal"
 	
 	is_triggered_only = yes
@@ -227,10 +217,10 @@ character_event = {
 		}
 		hidden_tooltip = {
 			random_list = {
-				55 = { character_event = { id = graveirbattlefield.victory days = 1 } }
-				30 = { character_event = { id = graveirbattlefield.wounded days = 1 } }
-				10 = { character_event = { id = graveirbattlefield.maimed days = 1 } }
-				5 = { character_event = { id = graveirbattlefield.death } }
+				55 = { character_event = { id = graveirbattlefield.260 days = 1 } }
+				30 = { character_event = { id = graveirbattlefield.270 days = 1 } }
+				10 = { character_event = { id = graveirbattlefield.280 days = 1 } }
+				5 = { character_event = { id = graveirbattlefield.290 } }
 			}
 		}
 	}
@@ -243,8 +233,8 @@ character_event = {
 		}
 		hidden_tooltip = {
 			random_list = {
-				90 = { character_event = { id = graveirbattlefield.fled days = 1 } }
-				10 = { character_event = { id = graveirbattlefield.death } }
+				90 = { character_event = { id = graveirbattlefield.400 days = 1 } }
+				10 = { character_event = { id = graveirbattlefield.290 } }
 			}
 		}				
 	}
@@ -252,8 +242,8 @@ character_event = {
 
 #Victory!
 character_event = {
-	id = graveirbattlefield.victory
-	desc = graveirbattlefield.victory.desc
+	id = graveirbattlefield.260
+	desc = graveirbattlefield.260.desc
 	picture = "GFX_evt_pale_rider"
 	
 	is_triggered_only = yes
@@ -265,18 +255,16 @@ character_event = {
 			change_martial = 1
 		}
 		prestige = 50
-	}
-	IF = {
 		LIEGE = { has_character_flag = sent_marshal_to_hunt_graveir
-			LIEGE = { letter_event = { id = graveirbattlefield.informedvictory } }
+			LIEGE = { letter_event = { id = graveirbattlefield.265 } }
 		}
 	}
 }
 
 #Wounded
 character_event = {
-	id = graveirbattlefield.wounded
-	desc = graveirbattlefield.wounded.desc
+	id = graveirbattlefield.270
+	desc = graveirbattlefield.270.desc
 	picture = "GFX_evt_large_army"
 	
 	is_triggered_only = yes
@@ -289,18 +277,16 @@ character_event = {
 			change_martial = 1
 		}
 		prestige = 50
-	}
-	IF = {
 		LIEGE = { has_character_flag = sent_marshal_to_hunt_graveir
-			LIEGE = { letter_event = { id = graveirbattlefield.informedwounded } }
+			LIEGE = { letter_event = { id = graveirbattlefield.275 } }
 		}
 	}
 }
 
 #Maimed
 character_event = {
-	id = graveirbattlefield.maimed
-	desc = graveirbattlefield.maimed.desc
+	id = graveirbattlefield.280
+	desc = graveirbattlefield.280.desc
 	picture = "GFX_evt_death"
 	
 	is_triggered_only = yes
@@ -313,18 +299,16 @@ character_event = {
 			change_martial = 1
 		}
 		prestige = 50
-	}
-	IF = {
 		LIEGE = { has_character_flag = sent_marshal_to_hunt_graveir
-			LIEGE = { letter_event = { id = graveirbattlefield.informedmaimed } }
+			LIEGE = { letter_event = { id = graveirbattlefield.285 } }
 		}
 	}
 }
 
 #Death
 character_event = {
-	id = graveirbattlefield.death
-	desc = graveirbattlefield.death.desc
+	id = graveirbattlefield.290
+	desc = graveirbattlefield.290.desc
 	picture = "GFX_evt_bloody_man"
 	
 	is_triggered_only = yes
@@ -334,28 +318,8 @@ character_event = {
 		death = {
 			death_reason = death_battle
 		}
-	}
-	IF = {
 		LIEGE = { has_character_flag = sent_marshal_to_hunt_graveir
-			LIEGE = { letter_event = { id = graveirbattlefield.informeddeath } }
-		}
-	}
-}
-
-#Fled
-character_event = {
-	id = graveirbattlefield.fled
-	desc = graveirbattlefield.fled.desc
-	picture = "GFX_evt_lunatic"
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = WHEW
-	}
-	IF = {
-		LIEGE = { has_character_flag = sent_marshal_to_hunt_graveir
-			LIEGE = { letter_event = { id = graveirbattlefield.informedfled } }
+			LIEGE = { letter_event = { id = graveirbattlefield.295 } }
 		}
 	}
 }
@@ -376,10 +340,10 @@ character_event = {
 		}
 		hidden_tooltip = {
 			random_list = {
-				75 = { character_event = { id = graveirbattlefield.victory days = 1 } }
-				15 = { character_event = { id = graveirbattlefield.wounded days = 1 } }
-				7 = { character_event = { id = graveirbattlefield.maimed days = 1 } }
-				3 = { character_event = { id = graveirbattlefield.death } }
+				75 = { character_event = { id = graveirbattlefield.260 days = 1 } }
+				15 = { character_event = { id = graveirbattlefield.270 days = 1 } }
+				7 = { character_event = { id = graveirbattlefield.280 days = 1 } }
+				3 = { character_event = { id = graveirbattlefield.290 } }
 			}
 		}
 	}
@@ -389,8 +353,8 @@ character_event = {
 		add_trait = craven
 		hidden_tooltip = {
 			random_list = {
-				98 = { character_event = { id = graveirbattlefield.fled days = 1 } }
-				2 = { character_event = { id = graveirbattlefield.death } }
+				98 = { character_event = { id = graveirbattlefield.400 days = 1 } }
+				2 = { character_event = { id = graveirbattlefield.290 } }
 			}
 		}
 	}
@@ -399,8 +363,8 @@ character_event = {
 #Liege Informed Events
 #Victory
 letter_event = {
-	id = graveirbattlefield.informedvictory
-	desc = graveirbattlefield.informedvictory.desc
+	id = graveirbattlefield.265
+	desc = graveirbattlefield.265.desc
 	picture = "GFX_evt_emissary"
 	
 	is_triggered_only = yes
@@ -412,8 +376,8 @@ letter_event = {
 }
 #Wounded
 letter_event = {
-	id = graveirbattlefield.informedwounded
-	desc = graveirbattlefield.informedwounded.desc
+	id = graveirbattlefield.275
+	desc = graveirbattlefield.275.desc
 	picture = "GFX_evt_emissary"
 	
 	is_triggered_only = yes
@@ -425,8 +389,8 @@ letter_event = {
 }
 #Maimed
 letter_event = {
-	id = graveirbattlefield.informedmaimed
-	desc = graveirbattlefield.informedmaimed.desc
+	id = graveirbattlefield.285
+	desc = graveirbattlefield.285.desc
 	picture = "GFX_evt_death"
 	
 	is_triggered_only = yes
@@ -438,8 +402,8 @@ letter_event = {
 }
 #Death
 letter_event = {
-	id = graveirbattlefield.informeddeath
-	desc = graveirbattlefield.informeddeath.desc
+	id = graveirbattlefield.295
+	desc = graveirbattlefield.295.desc
 	picture = "GFX_evt_death"
 	
 	is_triggered_only = yes
@@ -453,10 +417,10 @@ letter_event = {
 		clr_character_flag = sent_marshal_to_hunt_graveir
 	}
 }
-#Fled
+#Fled (Informed)
 letter_event = {
-	id = graveirbattlefield.informedfled
-	desc = graveirbattlefield.informedfled.desc
+	id = graveirbattlefield.405
+	desc = graveirbattlefield.405.desc
 	picture = "GFX_evt_emissary"
 	
 	is_triggered_only = yes
@@ -470,6 +434,24 @@ letter_event = {
 				who = ROOT
 				years = 1
 			}
+		}
+	}
+}
+
+#Fled
+character_event = {
+	id = graveirbattlefield.400
+	desc = graveirbattlefield.400.desc
+	picture = "GFX_evt_lunatic"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = WHEW
+	}
+	IF = {
+		LIEGE = { has_character_flag = sent_marshal_to_hunt_graveir
+			LIEGE = { letter_event = { id = graveirbattlefield.405 } }
 		}
 	}
 }
