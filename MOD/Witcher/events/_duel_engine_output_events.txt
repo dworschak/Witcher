@@ -192,8 +192,6 @@ character_event = {
 		FROM = { clr_character_flag = flag_duel_friendly }
 		clr_character_flag = flag_duel_to_the_death
 		FROM = { clr_character_flag = flag_duel_to_the_death }
-		clr_character_flag = flag_duel_tourney
-		FROM = { clr_character_flag = flag_duel_tourney }
 		#############################
 		# Clear kill/mercy flags
 		clr_character_flag = flag_killed_opponent
@@ -204,67 +202,6 @@ character_event = {
 		FROM = { clr_character_flag = flag_maimed_opponent }
 		clr_character_flag = flag_spared_opponent
 		FROM = { clr_character_flag = flag_spared_opponent }
-	}
-}
-
-# duel_output.2	Collect your output from the duel engine - Tourny joust flavour
-
-character_event = {
-	id = duel_output.2
-	desc = "EVTDESCDUELOUTPUT2"
-	picture = GFX_evt_joust
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = "EVTOPTADUELOUTPUT1"
-				
-		#####################
-		# Tournament Jousts #
-		#####################
-		if = {
-			limit = {
-				has_character_flag = tournament_jouster
-				has_character_flag = flag_spared_opponent
-			}
-			character_event = { id = joust.10 } #Clean win
-			clr_character_flag = duelist_courtier
-			FROM = { clr_character_flag = tournament_jouster }
-			FROMFROM = { clr_character_flag = tournament_jouster }
-		}
-		if = {
-			limit = {
-				has_character_flag = tournament_jouster
-				has_character_flag = flag_wounded_opponent
-			}
-			character_event = { id = joust.11 } #Wounded loser
-			clr_character_flag = duelist_courtier
-			FROM = { clr_character_flag = tournament_jouster }
-			FROMFROM = { clr_character_flag = tournament_jouster }
-		}
-		if = {
-			limit = {
-				has_character_flag = tournament_jouster
-				has_character_flag = flag_maimed_opponent
-			}
-			character_event = { id = joust.12 } #Maimed loser
-			clr_character_flag = tournament_jouster
-			FROM = { clr_character_flag = tournament_jouster }
-			FROMFROM = { clr_character_flag = tournament_jouster }
-		}
-		if = {
-			limit = {
-				has_character_flag = tournament_jouster
-				has_character_flag = flag_killed_opponent
-			}
-			character_event = { id = joust.13 } #Killed loser
-			clr_character_flag = tournament_jouster
-			FROM = { clr_character_flag = tournament_jouster }
-			FROMFROM = { clr_character_flag = tournament_jouster }
-		}
-		# End of tournament jousts block
-		################################
-		
 		#############################
 		# Special Context Flag Cleanup
 		#############################
@@ -272,8 +209,6 @@ character_event = {
 		FROM = { clr_character_flag = flag_duel_friendly }
 		clr_character_flag = flag_duel_to_the_death
 		FROM = { clr_character_flag = flag_duel_to_the_death }
-		clr_character_flag = flag_duel_tourney
-		FROM = { clr_character_flag = flag_duel_tourney }
 		#############################
 		# Clear kill/mercy flags
 		clr_character_flag = flag_killed_opponent
@@ -307,8 +242,6 @@ character_event = {
 		FROM = { clr_character_flag = flag_duel_friendly }
 		clr_character_flag = flag_duel_to_the_death
 		FROM = { clr_character_flag = flag_duel_to_the_death }
-		clr_character_flag = flag_duel_tourney
-		FROM = { clr_character_flag = flag_duel_tourney }
 		#############################
 		# Clear kill/mercy flags
 		clr_character_flag = flag_killed_opponent
