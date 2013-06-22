@@ -1,0 +1,86 @@
+#these decisions are broken at the moment!
+
+make_wyzima_capital = {
+	is_high_prio = yes
+	potential = {
+		has_landed_title = k_temeria
+		capital_scope = {
+			NOT = { province_id = 5 }
+		}
+		any_realm_lord = { 
+			AND = {
+				ai = yes
+				has_landed_title = c_wyzima
+			}
+		}
+		any_realm_lord = { 
+			AND = {
+				ai = yes
+				has_landed_title = b_foltests_castle
+			}
+		}
+	}
+	allow = {
+		has_landed_title = k_temeria
+		any_realm_lord = { has_landed_title = c_wyzima }
+	}
+	effect = {
+		custom_tooltip = wyzima_capital
+		hidden_tooltip = {
+			b_foltests_castle = { province_capital = yes }
+			ROOT = {
+				b_foltests_castle = {
+					usurp_title = PREV
+				}
+			}
+		}
+	}
+	ai_will_do = {
+		factor = 0
+	}
+}
+make_nilfgaard_capital = {
+	is_high_prio = yes
+	potential = {
+		OR = {
+			has_landed_title = k_nilfgaard
+			has_landed_title = e_nilfgaard
+		}
+		capital_scope = {
+			NOT = { province_id = 165 }
+		}
+		any_realm_lord = { 
+			AND = {
+				ai = yes
+				has_landed_title = c_nilfgaard
+			}
+		}
+		any_realm_lord = { 
+			AND = {
+				ai = yes
+				has_landed_title = b_imperial_palace
+			}
+		}
+	}
+	allow = {
+		OR = {
+			has_landed_title = k_nilfgaard
+			has_landed_title = e_nilfgaard
+		}
+		any_realm_lord = { has_landed_title = c_nilfgaard }
+	}
+	effect = {
+		custom_tooltip = nilfgaard_capital
+		hidden_tooltip = {
+			b_imperial_palace = { province_capital = yes }
+			ROOT = {
+				b_imperial_palace = {
+					usurp_title = PREV
+				}
+			}
+		}
+	}
+	ai_will_do = {
+		factor = 0
+	}
+}
