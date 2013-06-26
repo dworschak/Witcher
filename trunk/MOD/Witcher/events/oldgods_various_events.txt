@@ -1501,6 +1501,12 @@ character_event = {
 		has_dlc = "The Old Gods"
 		has_character_flag = serving_varangian
 		is_married = no
+		e_byzantium = {
+			holder_scope = {
+				culture = greek
+				religion = orthodox
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -1570,6 +1576,11 @@ character_event = {
 			}
 		}
 		NOT = { trait = zealous }
+		e_byzantium = {
+			holder_scope = {
+				religion = orthodox
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -3151,5 +3162,232 @@ character_event = {
 	}
 }
 
+### Event Contest Winners
 
+# Son of the Buffalo Woman
+character_event = {
+	id = TOG.3403
+	hide_window = yes
+	
+	min_age = 16
+	only_women = yes
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		any_spouse = {
+			OR = {
+				religion = west_african_pagan
+				religion = west_african_pagan_reformed
+				AND = {
+					culture = manden
+					any_demesne_province = {
+						OR = {
+							religion = west_african_pagan
+							religion = west_african_pagan_reformed
+						}
+					}
+				}
+			}
+			has_lover = no
+			is_alive = yes
+			NOT = { has_character_flag = buffalo_woman }
+		}
+		OR = {
+			trait = ugly
+			trait = hunchback
+			trait = harelip
+			trait = clubfooted
+			trait = dwarf
+		}
+		num_of_children = 0
+		has_lover = no
+		is_pregnant = no
+	}
+	
+	immediate = {
+		spouse = {
+			character_event = { id = TOG.3400 days = 3 }
+		}
+	}
+	
+	option = {
+		name = OK
+	}
+}
+
+# Son of the Buffalo Woman
+character_event = {
+	id = TOG.3400
+	desc = EVTDESC_TOG_3400
+	picture = GFX_evt_comet
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		set_character_flag = buffalo_woman
+	}
+	
+	option = {
+		name = EVTOPTA_TOG_3400
+		piety = 30
+		random_list = {
+			80 = { }
+			10 = { impregnate = FROM }
+			10 = { add_lover = FROM }
+		}
+	}
+	option = {
+		name = EVTOPTB_TOG_3400
+		trigger = {
+			OR = {
+				religion = west_african_pagan
+				religion = west_african_pagan_reformed
+			}
+		}
+		piety = -30
+		FROM = {
+			opinion = {
+				modifier = opinion_spurned
+				who = ROOT
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC_TOG_3400
+		trigger = {
+			NOT = {
+				OR = {
+					religion = west_african_pagan
+					religion = west_african_pagan_reformed
+				}
+			}
+		}
+		piety = 30
+		FROM = {
+			opinion = {
+				modifier = opinion_spurned
+				who = ROOT
+			}
+		}
+	}
+}
+
+# Peijaiset
+character_event = {
+	id = TOG.3401
+	desc = EVTDESC_TOG_3401
+	picture = GFX_evt_hunt
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			religion = finnish_pagan
+			religion = finnish_pagan_reformed
+		}
+		NOT = { has_character_flag = peijaiset }
+	}
+	
+	immediate = {
+		set_character_flag = peijaiset
+	}
+	
+	option = {
+		name = EVTOPTA_TOG_3401
+		prestige = 100
+		wealth = -50
+	}
+	option = {
+		name = EVTOPTB_TOG_3401
+		prestige = -25
+	}
+	option = {
+		name = EVTOPTC_TOG_3401
+		tooltip_info = greedy
+		trigger = {
+			trait = greedy
+		}
+		prestige = -25
+		wealth = 50
+	}
+	option = {
+		name = EVTOPTD_TOG_3401
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		prestige = 100
+		piety = 50
+		wealth = -50
+	}
+}
+
+# Will the real Odin please stand up?
+character_event = {
+	id = TOG.3402
+	desc = EVTDESC_TOG_3402
+	picture = GFX_evt_lunatic
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			religion = norse_pagan
+			religion = norse_pagan_reformed
+		}
+		NOT = { has_character_flag = odin_event }
+	}
+	
+	immediate = {
+		set_character_flag = odin_event
+	}
+	
+	option = {
+		name = EVTOPTA_TOG_3402
+		wealth = 50
+		prestige = 50
+		add_trait = zealous
+		custom_tooltip = odin_option_a
+	}
+	option = {
+		name = EVTOPTB_TOG_3402
+		prestige = -50
+		if = {
+			limit = {
+				NOT = {
+					lifestyle_traits = 1
+				}
+			}
+			add_trait = hunter
+		}
+		custom_tooltip = odin_option_b
+	}
+	option = {
+		name = EVTOPTC_TOG_3402
+		prestige = -50
+		if = {
+			limit = { trait = zealous }
+			remove_trait = zealous
+		}
+		if = {
+			limit = { NOT = { trait = zealous } }
+			add_trait = cynical
+		}
+		custom_tooltip = odin_option_c
+	}
+}
 
