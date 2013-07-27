@@ -28,6 +28,29 @@ succession_laws = {
 				holder_scope = { is_feudal = yes }
 			}
 			is_primary_type_title = no
+			NOT = { tier = baron }
+		}
+		allow = {
+			holder_scope = {
+				OR = {
+					AND = {
+						tier = count
+						prestige = 100
+					}
+					AND = {
+						tier = duke
+						prestige = 250
+					}
+					AND = {
+						tier = king
+						prestige = 500
+					}
+					AND = {
+						tier = emperor
+						prestige = 1000
+					}
+				}
+			}
 		}
 		effect = {
 			succession = gavelkind
@@ -51,8 +74,6 @@ succession_laws = {
 				OR = {
 					NOT = { religion_group = pagan_group }
 					is_reformed_religion = yes
-					religion = hellenic_pagan
-					is_patrician = yes
 				}
 				
 				OR = {
@@ -86,11 +107,33 @@ succession_laws = {
 					has_crown_law_title = no
 				}
 				holder_scope = { is_patrician = yes }
+				lower_tier_than = king
 				crownlaw_title = {
 					OR = {
 						has_law = centralization_2
 						has_law = centralization_3
 						has_law = centralization_4
+					}
+				}
+			}
+			holder_scope = {
+				OR = {
+					is_patrician = yes
+					AND = {
+						tier = count
+						prestige = 100
+					}
+					AND = {
+						tier = duke
+						prestige = 250
+					}
+					AND = {
+						tier = king
+						prestige = 500
+					}
+					AND = {
+						tier = emperor
+						prestige = 1000
 					}
 				}
 			}
@@ -115,7 +158,6 @@ succession_laws = {
 				OR = {
 					NOT = { religion_group = pagan_group }
 					is_reformed_religion = yes
-					religion = hellenic_pagan
 				}
 				
 				is_merchant_republic = no
@@ -136,6 +178,7 @@ succession_laws = {
 		}
 		allow = {
 			OR = {
+				#lower_tier_than = king
 				hidden_tooltip = {
 					has_crown_law_title = no
 				}
@@ -143,6 +186,26 @@ succession_laws = {
 					OR = {
 						has_law = centralization_3
 						has_law = centralization_4
+					}
+				}
+			}
+			holder_scope = {
+				OR = {
+					AND = {
+						tier = count
+						prestige = 100
+					}
+					AND = {
+						tier = duke
+						prestige = 250
+					}
+					AND = {
+						tier = king
+						prestige = 500
+					}
+					AND = {
+						tier = emperor
+						prestige = 1000
 					}
 				}
 			}
@@ -160,7 +223,7 @@ succession_laws = {
 		oldest_child_opinion = -30
 		child_opinion = -10
 		dynasty_opinion = -5
-		vassal_opinion = 20
+		vassal_opinion = 10
 		potential = {
 			holder_scope = {
 				NOT = { religion_group = muslim }
@@ -170,7 +233,6 @@ succession_laws = {
 				OR = {
 					NOT = { religion_group = pagan_group }
 					is_reformed_religion = yes
-					religion = hellenic_pagan
 				}
 			}
 			OR = {
@@ -219,6 +281,47 @@ succession_laws = {
 					is_feudal = yes
 				}
 				holder_scope = { is_feudal = yes }
+			}
+		}
+		allow = {
+			holder_scope = {
+				OR = {
+					AND = {
+						tier = count
+						prestige = 100
+					}
+					AND = {
+						tier = duke
+						prestige = 250
+					}
+					AND = {
+						tier = king
+						prestige = 500
+					}
+					AND = {
+						tier = emperor
+						prestige = 1000
+					}
+				}
+				OR = {
+					culture_group = celtic
+					AND = {
+						ai = no
+						NOT = {
+							OR = {
+								trait = content
+								trait = craven
+								trait = slothful
+								trait = stressed
+							}
+						}
+						OR = {
+							trait = ambitious
+							trait = brave
+							trait = diligent
+						}
+					}
+				}
 			}
 		}
 		effect = {
@@ -280,6 +383,26 @@ succession_laws = {
 					NOT = { has_law = centralization_0 }
 				}
 			}
+			holder_scope = {
+				OR = {
+					AND = {
+						tier = count
+						prestige = 100
+					}
+					AND = {
+						tier = duke
+						prestige = 250
+					}
+					AND = {
+						tier = king
+						prestige = 500
+					}
+					AND = {
+						tier = emperor
+						prestige = 1000
+					}
+				}
+			}
 		}
 		
 		effect = {
@@ -302,6 +425,7 @@ succession_laws = {
 			holder_scope = {
 				is_republic = no
 				is_merchant_republic = no
+				is_patrician = no
 				religion_group = muslim
 			}
 			is_primary_type_title = no
@@ -405,8 +529,6 @@ gender_laws = {
 		potential = {
 			holder_scope = { 
 				NOT = { religion_group = muslim }
-				NOT = { religion = tengri_pagan_reformed }
-				NOT = { religion = tengri_pagan }
 				has_horde_culture = no
 				is_merchant_republic = no
 				is_patrician = no
@@ -414,12 +536,18 @@ gender_laws = {
 			
 			is_landless_type_title = no
 			
-			OR = {
-				AND = {
-					tier = baron
-					is_feudal = yes
+			AND = {
+				OR =  {
+					is_female = yes
+					trait = kind
 				}
-				holder_scope = { is_feudal = yes }
+				OR = {
+					AND = {
+						tier = baron
+						is_feudal = yes
+					}
+					holder_scope = { is_feudal = yes }
+				}
 			}
 			
 			is_primary_type_title = no
@@ -450,8 +578,6 @@ gender_laws = {
 		potential = {
 			holder_scope = { 
 				NOT = { religion_group = muslim }
-				NOT = { religion = tengri_pagan_reformed }
-				NOT = { religion = tengri_pagan }
 				has_horde_culture = no
 				is_merchant_republic = no
 				is_patrician = no
@@ -470,7 +596,40 @@ gender_laws = {
 			is_primary_type_title = no
 		}
 		allow = {
-			holder_scope = { culture = basque }
+			OR = {
+				holder_scope = { culture = basque }
+				holder_scope = {
+					is_female = yes
+					NOT = { trait = content }
+					OR = {
+						has_nickname = nick_the_conqueror
+						has_nickname = nick_the_holy
+						has_nickname = nick_the_able
+						has_nickname = nick_the_kind
+						has_nickname = nick_the_good
+						has_nickname = nick_the_troubadour
+						has_nickname = nick_the_strong
+						has_nickname = nick_the_magnanimous
+						has_nickname = nick_the_merry
+						has_nickname = nick_the_noble
+						has_nickname = nick_the_gentle
+						has_nickname = nick_the_silent
+						has_nickname = nick_the_just
+						has_nickname = nick_the_wise
+						has_nickname = nick_the_pious
+						has_nickname = nick_the_apostle
+						has_nickname = nick_the_blessed
+						has_nickname = nick_the_confessor
+						has_nickname = nick_the_monk
+						has_nickname = nick_the_ironside
+						has_nickname = nick_the_lion
+						has_nickname = nick_the_lionheart
+						has_nickname = nick_the_bold
+						has_nickname = nick_the_magnificent
+						has_nickname = nick_the_great
+					}
+				}
+			}
 		}
 		effect = {
 			gender_succ = true_cognatic
