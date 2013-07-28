@@ -367,7 +367,7 @@ NCharacter = {
 	NATURAL_DEATH_CHANCE_AGE_80 = 1728,				-- Natural deaths per decade out of 10000 people: Age 80-90
 	NATURAL_DEATH_CHANCE_AGE_90 = 4000,				-- Natural deaths per decade out of 10000 people: Age 90-99
 	NATURAL_DEATH_CHANCE_AGE_100 = 8160,			-- Natural deaths per decade out of 10000 people: Age 100+
-	FERTILITY_BASE_MULT = 0.50						-- Base fertility multiplier to adjust the base chance of impregnation
+	FERTILITY_BASE_MULT = 0.75						-- Base fertility multiplier to adjust the base chance of impregnation
 },
 
 NTitle = {
