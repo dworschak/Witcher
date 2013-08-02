@@ -27,9 +27,93 @@ narrative_event = {
 			if = {
 				limit = {
 					graphical_culture = dryadgfx
-					is_female = yes
 				}
 				add_trait = dryad
+			}
+			if = {
+				limit = {
+					graphical_culture = elvengfx
+				}
+				add_trait = elven
+				religion = dana_meadbh
+			}
+			if = {
+				limit = {
+					graphical_culture = dwarvengfx
+				}
+				add_trait = dwarven
+				religion = dwarven
+			}
+		}
+	}
+}
+
+character_event = {
+	id = 130000014
+	desc = "ESMISC130000008DESC"
+	picture = GFX_evt_comet
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = human }
+		NOT = { trait = dwarf }
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	immediate = {
+		name = "My race is..."
+		hidden_tooltip = {
+			if = {
+				limit = {
+					graphical_culture = dryadgfx
+				}
+				add_trait = dryad
+			}
+			if = {
+				limit = {
+					graphical_culture = elvengfx
+					mother = { culture = elven }
+					father = { culture = elven }
+					NOT = { mother = { trait = halfelf } }
+					NOT = { father = { trait = halfelf } }
+				}
+				add_trait = elven
+			}
+			if = {
+				limit = {
+					graphical_culture = elvengfx
+					OR = {
+						father = { NOT = { culture = elven } }
+						father = { trait = halfelf }
+						mother = { NOT = { culture = elven } }
+						mother = { trait = halfelf }
+					}
+				}
+				add_trait = halfelf
+			}
+			if = {
+				limit = {
+					graphical_culture = dwarvengfx
+				}
+				add_trait = dwarven
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							graphical_culture = dryadgfx
+							graphical_culture = dwarvengfx
+							graphical_culture = elvengfx
+						}	
+					}
+				}
+				add_trait = human
 			}
 		}
 	}
