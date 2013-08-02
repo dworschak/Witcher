@@ -397,12 +397,50 @@ plot_decisions = {
 					}
 				}
 			}
+			OR = {
+				AND = {
+					higher_tier_than = DUKE
+					prestige = 400
+				}
+				AND = {
+					tier = DUKE
+					prestige = 200
+				}
+				AND = {
+					lower_tier_than = DUKE
+					prestige = 100
+				}
+			}
 		}
 		effect = {
 			ROOT = {
 				character_event = { id = REP.300 tooltip = EVTTOOLTIPREP.300 }
 				set_character_flag = plot_seize_trade_post_decision_taken
 				activate_plot = yes
+				if = {
+					limit = {
+						ROOT = {
+							higher_tier_than = DUKE
+						}
+					}
+					ROOT = { prestige = -200 wealth = -100 }
+				}
+				if = {
+					limit = {
+						ROOT = {
+							tier = DUKE
+						}
+					}
+					ROOT = { prestige = -100 wealth = -50 }
+				}
+				if = {
+					limit = {
+						ROOT = {
+							lower_tier_than = DUKE
+						}
+					}
+					ROOT = { prestige = -50 wealth = -25 }
+				}
 			}
 		}
 		revoke_allowed = {

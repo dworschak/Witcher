@@ -1,0 +1,2296 @@
+###################################
+#
+# Religious Flavor Events
+#
+# ID# 1000109329 - 1000109336 Holy Wars/Crusades/Jihads 
+# ID# 1000109397 - 1000109400 Zoroastrian Events
+#
+# Fired from on actions
+#
+###################################
+
+##########################################################################
+# Holy War Events
+##########################################################################
+
+# Character meets lost infidel warrior
+character_event = {
+	id = 1000109329
+	desc = "EVTDESC1000109329"
+	picture = GFX_evt_crusaders
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	only_men = yes
+	
+	trigger = {
+		OR = {
+			religion_group = christian
+			religion_group = muslim
+		}
+		OR = {
+			OR = {
+				any_war = {
+					using_cb = religious
+				}
+				any_liege = {
+					any_war = {
+						using_cb = religious
+					}
+				}
+			}
+			OR = {
+				any_war = {
+					using_cb = crusade
+				}
+				any_liege = {
+					any_war = {
+						using_cb = crusade
+					}
+				}
+			}
+		}
+		NOT = { has_character_flag = infidel_joins_court }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+		modifier = {
+			factor = 2
+			trait = charitable
+		}
+		modifier = {
+			factor = 0.1
+			in_command = no
+		}
+	}
+	
+	option = { #Show kindness
+		name = "EVTOPTA1000109329"
+		trigger = {
+			NOT = { trait = wroth }
+			NOT = { trait = cruel }
+			NOT = { trait = impaler }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.3
+				trait = paranoid
+			}
+			modifier = {
+				factor = 3
+				trait = kind
+			}
+			modifier = {
+				factor = 3
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+		}
+		wealth = -1
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = charitable }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = charitable }
+			}			
+		}
+		if = {
+			limit = {
+				NOT = { trait = just }
+				NOT = { trait = arbitrary }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = just }
+			}			
+		}			
+		if = {
+			limit = {
+				trait = paranoid
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = paranoid }
+			}			
+		}
+		character_event = { id = 1000109330 tooltip = "EVTTOOLTIP1000109330" }
+	}
+	
+	option = { #KILL
+		name = "EVTOPTB1000109329"
+		trigger = {
+			NOT = { trait = kind }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = paranoid
+			}
+			modifier = {
+				factor = 2
+				trait = cruel
+			}
+			modifier = {
+				factor = 0.5
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+			modifier = {
+				factor = 1.5
+				trait = zealous
+			}
+		}
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = cruel }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = cruel }
+			}			
+		}	
+		if = {
+			limit = {
+				trait = patient
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = patient }
+			}			
+		}
+	}
+
+		
+	option = { #Leave him
+		name = "EVTOPTC1000109329"
+		ai_chance = {
+			factor = 1
+		}
+		prestige = 5
+	}
+}
+
+# Infidel warrior wishes to serve character
+character_event = {
+	id = 1000109330
+	desc = "EVTDESC1000109330"
+	picture = GFX_evt_tuscan_country
+	
+	is_triggered_only = yes
+	
+	option = { #Very well
+		name = "EVTOPTA1000109330"
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.3
+				trait = paranoid
+			}
+			modifier = {
+				factor = 3
+				trait = kind
+			}
+			modifier = {
+				factor = 3
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+			modifier = {
+				factor = 0.3
+				trait = zealous
+			}
+		}
+		wealth = -5
+		set_character_flag = infidel_joins_court
+		if = {
+			limit = {
+				religion_group = christian
+			}
+			random_list = {
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = sunni
+						culture = levantine_arabic
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = sunni
+						culture = bedouin_arabic
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = sunni
+						culture = egyptian_arabic
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = sunni
+						culture = kurdish
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = sunni
+						culture = cuman
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = shiite
+						culture = levantine_arabic
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = shiite
+						culture = bedouin_arabic
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = shiite
+						culture = egyptian_arabic
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = shiite
+						culture = kurdish
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = shiite
+						culture = cuman
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+			}			
+		}
+		if = {
+			limit = {
+				religion_group = muslim
+			}
+			random_list = {
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = orthodox
+						culture = greek
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = orthodox
+						culture = georgian
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = orthodox
+						culture = russian
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = orthodox
+						culture = bulgarian
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = miaphysite
+						culture = armenian
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = catholic
+						culture = frankish
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = catholic
+						culture = norman
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = catholic
+						culture = castillan
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = catholic
+						culture = german
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+				10 = {
+					create_random_soldier = {
+						random_traits = yes
+						dynasty = random
+						religion = catholic
+						culture = italian
+						female = no
+					}
+					new_character = {
+						opinion = {
+							modifier = opinion_patron
+							who = ROOT
+							years = 20
+						}
+						reverse_opinion = {
+							modifier = opinion_new_courtier
+							who = ROOT
+							years = 5
+						}				
+					}				
+				}
+			}			
+		}
+	}
+		
+	option = { #Let him go his way
+		name = "EVTOPTB1000109330"
+		ai_chance = {
+			factor = 2
+		}
+		prestige = 5
+	}
+}
+
+
+# Muslim character comes across Christian pilgrims
+character_event = {
+	id = 1000109331
+	desc = "EVTDESC1000109331"
+	picture = GFX_evt_jerusalem
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	only_men = yes
+	
+	trigger = {
+		religion_group = muslim
+		OR = {
+			OR = {
+				any_war = {
+					using_cb = religious
+				}
+				any_liege = {
+					any_war = {
+						using_cb = religious
+					}
+				}
+			}
+			OR = {
+				any_war = {
+					using_cb = crusade
+				}
+				any_liege = {
+					any_war = {
+						using_cb = crusade
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+		modifier = {
+			factor = 2
+			trait = charitable
+		}
+		modifier = {
+			factor = 0.1
+			in_command = no
+		}
+	}
+	
+	option = { #Let them go
+		name = "EVTOPTA1000109331"
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 0.5
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+		}
+		piety = 5
+		if = {
+			limit = {
+				trait = paranoid
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = paranoid }
+			}			
+		}
+		if = {
+			limit = {
+				trait = wroth
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = wroth }
+			}			
+		}
+	}
+	
+	option = { #Give stuff
+		name = "EVTOPTB1000109331"
+		trigger = {
+			OR = {
+				trait = kind
+				trait = charitable
+				trait = just
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 0.5
+				trait = cruel
+			}
+			modifier = {
+				factor = 0.2
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+			modifier = {
+				factor = 4
+				trait = kind
+			}
+			modifier = {
+				factor = 4
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+		}
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = kind }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = kind }
+			}			
+		}	
+		if = {
+			limit = {
+				NOT = { trait = charitable }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = charitable }
+			}			
+		}	
+		if = {
+			limit = {
+				trait = cruel
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = cruel }
+			}			
+		}
+		if = {
+			limit = {
+				trait = shy
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = shy }
+			}			
+		}
+	}
+
+		
+	option = { #KILL
+		name = "EVTOPTC1000109331"
+		trigger = {
+			NOT = { trait = kind }
+			NOT = { trait = just }
+			NOT = { trait = patient }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = paranoid
+			}
+			modifier = {
+				factor = 4
+				trait = cruel
+			}
+			modifier = {
+				factor = 0.5
+				trait = charitable
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+		}
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = cruel }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = cruel }
+			}			
+		}
+	}
+}
+
+
+# Christian character comes across Saint's tomb
+character_event = {
+	id = 1000109332
+	desc = "EVTDESC1000109332"
+	picture = GFX_evt_jerusalem
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	only_men = yes
+	
+	trigger = {
+		religion_group = christian
+		OR = {
+			OR = {
+				any_war = {
+					using_cb = religious
+				}
+				any_liege = {
+					any_war = {
+						using_cb = religious
+					}
+				}
+			}
+			OR = {
+				any_war = {
+					using_cb = crusade
+				}
+				any_liege = {
+					any_war = {
+						using_cb = crusade
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = humble
+		}
+		modifier = {
+			factor = 0.1
+			in_command = no
+		}
+	}
+	
+	option = { #Courage in battle
+		name = "EVTOPTA1000109332"
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 0.5
+				trait = patient
+			}
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+		}
+		prestige = 10
+		if = {
+			limit = {
+				trait = brave
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = paranoid }
+			}			
+		}
+		if = {
+			limit = {
+				NOT = { trait = brave }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = brave }
+			}			
+		}
+	}
+	
+	option = { #Justice served
+		name = "EVTOPTB1000109332"
+		trigger = {
+			NOT = { trait = arbitrary }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = cruel
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 2
+				trait = diligent
+			}
+		}
+		piety = 5
+		prestige = 5
+		if = {
+			limit = {
+				NOT = { trait = just }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = just }
+			}			
+		}
+		if = {
+			limit = {
+				trait = cruel
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = cruel }
+			}			
+		}
+		if = {
+			limit = {
+				trait = shy
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = shy }
+			}			
+		}
+	}
+
+		
+	option = { #Compassion of God
+		name = "EVTOPTC1000109332"
+		tooltip_info = kind
+		trigger = {
+			trait = kind
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+		}
+		piety = 10
+		if = {
+			limit = {
+				trait = arbitrary
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = arbitrary }
+			}			
+		}
+		if = {
+			limit = {
+				trait = cynical
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = cynical }
+			}			
+		}
+	}
+	
+	option = { #TREMBLE
+		name = "EVTOPTD1000109332"
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+			NOT = { trait = craven }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+		}
+		piety = 5
+		prestige = 5
+		if = {
+			limit = {
+				NOT = { trait = brave }
+				NOT = { trait = craven }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = brave }
+			}			
+		}
+		if = {
+			limit = {
+				trait = craven
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = craven }
+			}			
+		}
+	}
+}
+
+
+# Crusader/Mujahid worries about having vices
+character_event = {
+	id = 1000109333
+	desc = "EVTDESC1000109333"
+	picture = GFX_evt_brothel
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	only_men = yes
+	
+	trigger = {
+		OR = {
+			AND = {
+				religion_group = christian
+				trait = crusader
+			}
+			AND = {
+				religion_group = muslim
+				trait = mujahid
+			}
+		}
+		OR = {
+			trait = envious
+			trait = proud
+			trait = greedy
+			trait = lustful
+			trait = slothful
+			trait = wroth
+			trait = gluttonous
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 3
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}
+		modifier = {
+			factor = 2
+			trait = humble
+		}
+	}
+	
+	option = { #All have flaws
+		name = "EVTOPTA1000109333"
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = deceitful
+			}
+			modifier = {
+				factor = 0.5
+				trait = ambitious
+			}
+			modifier = {
+				factor = 2
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = patient
+			}
+		}
+		prestige = 5
+		piety = 5
+		if = {
+			limit = {
+				trait = ambitious
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = ambitious }
+			}			
+		}
+		if = {
+			limit = {
+				NOT = { trait = content }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = content }
+			}			
+		}
+	}
+	
+	option = { #Pray for guidance
+		name = "EVTOPTB1000109333"
+		trigger = {
+			NOT = { trait = cynical }
+			NOT = { trait = slothful }
+			NOT = { trait = imbecile }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = proud
+			}
+			modifier = {
+				factor = 0.5
+				trait = content
+			}
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+		}
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = just }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = just }
+			}			
+		}
+		if = {
+			limit = {
+				trait = content
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = content }
+			}			
+		}
+		character_event = { id = 1000109334 tooltip = "EVTTOOLTIP1000109334" }
+	}
+
+		
+	option = { #Seek advice
+		name = "EVTOPTC1000109333"
+		tooltip_info = diplomacy
+		trigger = {
+			diplomacy = 11
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 0.5
+				trait = proud
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+		}
+		prestige = 10
+		if = {
+			limit = {
+				trait = content
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = content }
+			}			
+		}
+		if = {
+			limit = {
+				NOT = { trait = gregarious }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = gregarious }
+			}			
+		}
+		character_event = { id = 1000109335 tooltip = "EVTTOOLTIP1000109335" }
+	}
+}
+
+
+# Crusader/Mujahid receives vision
+character_event = {
+	id = 1000109334
+	desc = "EVTDESC1000109334"
+	picture = GFX_evt_jerusalem
+	
+	is_triggered_only = yes
+	
+	option = { #Praise be God
+		name = "EVTOPTA1000109334"
+		piety = 5
+		if = {
+			limit = {
+				trait = proud
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = proud }
+			}			
+		}
+		if = {
+			limit = {
+				trait = envious
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = envious }
+			}			
+		}
+		if = {
+			limit = {
+				trait = wroth
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = wroth }
+			}			
+		}
+		if = {
+			limit = {
+				trait = slothful
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = slothful }
+			}			
+		}
+		if = {
+			limit = {
+				trait = gluttonous
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = gluttonous }
+			}			
+		}
+		if = {
+			limit = {
+				trait = lustful
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = lustful }
+			}			
+		}
+		if = {
+			limit = {
+				trait = greedy
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = greedy }
+			}			
+		}
+	}
+}
+
+
+
+
+# Crusader/Mujahid asks old knight
+character_event = {
+	id = 1000109335
+	desc = "EVTDESC1000109335"
+	picture = GFX_evt_jerusalem
+	
+	is_triggered_only = yes
+	
+	option = { #Thanks for advice
+		name = "EVTOPTA1000109335"
+		prestige = 5
+		if = {
+			limit = {
+				trait = proud
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = proud }
+			}			
+		}
+		if = {
+			limit = {
+				trait = envious
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = envious }
+			}			
+		}
+		if = {
+			limit = {
+				trait = wroth
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = wroth }
+			}			
+		}
+		if = {
+			limit = {
+				trait = slothful
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = slothful }
+			}			
+		}
+		if = {
+			limit = {
+				trait = gluttonous
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = gluttonous }
+			}			
+		}
+		if = {
+			limit = {
+				trait = lustful
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = lustful }
+			}			
+		}
+		if = {
+			limit = {
+				trait = greedy
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = greedy }
+			}			
+		}
+	}
+}
+
+
+# Is Holy War justified?
+character_event = {
+	id = 1000109336
+	desc = "EVTDESC1000109336"
+	picture = GFX_evt_bishop
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	only_men = yes
+	
+	trigger = {
+		OR = {
+			religion_group = christian
+			religion_group = muslim
+		}
+		OR = {
+			OR = {
+				any_war = {
+					using_cb = religious
+				}
+				any_liege = {
+					any_war = {
+						using_cb = religious
+					}
+				}
+			}
+			OR = {
+				any_war = {
+					using_cb = crusade
+				}
+				any_liege = {
+					any_war = {
+						using_cb = crusade
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 2
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = envious
+		}
+		modifier = {
+			factor = 2
+			trait = humble
+		}
+		modifier = {
+			factor = 0.5
+			trait = proud
+		}
+	}
+	
+	option = { #Death to infidels
+		name = "EVTOPTA1000109336"
+		trigger = {
+			NOT = { trait = kind }
+			NOT = { trait = cynical }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = patient
+			}
+			modifier = {
+				factor = 0.5
+				trait = humble
+			}
+			modifier = {
+				factor = 3
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+			modifier = {
+				factor = 2
+				trait = impaler
+			}
+		}
+		wealth = -1
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = zealous }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = zealous }
+			}			
+		}			
+		if = {
+			limit = {
+				trait = patient
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = patient }
+			}			
+		}
+	}
+	
+	option = { #Protecting our faith
+		name = "EVTOPTB1000109336"
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+			modifier = {
+				factor = 0.5
+				trait = cynical
+			}
+		}
+		piety = 5
+		if = {
+			limit = {
+				NOT = { trait = just }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = just }
+			}			
+		}	
+		if = {
+			limit = {
+				trait = proud
+			}
+			random_list = {
+				70 = { }
+				30 = { remove_trait = proud }
+			}			
+		}
+	}
+
+		
+	option = { #Cynical
+		name = "EVTOPTC1000109336"
+		tooltip_info = cynical
+		trigger = {
+			trait = cynical
+		}
+		ai_chance = {
+			factor = 20
+		}
+		piety = -1
+		prestige = 5
+	}
+}
+
+
+##########################################################################
+# Zoroastrian Events
+##########################################################################
+
+# Honesty is the best policy
+character_event = {
+	id = 1000109397
+	desc = "EVTDESC1000109397"
+	picture = GFX_evt_zoroastrian_fire
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		religion_group = zoroastrian_group
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+		modifier = {
+			factor = 2
+			trait = charitable
+		}
+		modifier = {
+			factor = 0.5
+			trait = greedy
+		}
+		modifier = {
+			factor = 2
+			trait = honest
+		}
+		modifier = {
+			factor = 0.5
+			trait = deceitful
+		}
+		modifier = {
+			factor = 3
+			has_ambition = obj_follow_truth
+		}
+	}
+	
+	option = {
+		trigger = {
+			NOT = { trait = honest }
+		}
+		name = "EVTOPTA1000109397"  #ok
+		piety = 2
+		random_list = {
+			80 = { }
+			20 = { add_trait = honest }
+		}
+	}		
+	option = {
+		tooltip_info = honest
+		trigger = {
+			trait = honest
+		}
+		name = "EVTOPTB1000109397"  #ok
+		piety = 5
+	}	
+}
+# The Baklava Thief
+character_event = {
+	id = 1000109398
+	desc = "EVTDESC1000109398"
+	picture = GFX_evt_baklava
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		religion_group = zoroastrian_group
+		any_courtier = {
+			is_adult = yes
+			is_ruler = no
+			religion_group = zoroastrian_group
+			NOT = { trait = incapable }
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.5
+			trait = just
+		}
+		modifier = {
+			factor = 4
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 0.25
+			trait = temperate
+		}
+		modifier = {
+			factor = 2
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.5
+			trait = charitable
+		}
+		modifier = {
+			factor = 2
+			trait = deceitful
+		}
+		modifier = {
+			factor = 0.5
+			trait = honest
+		}
+		modifier = {
+			factor = 3
+			has_ambition = obj_follow_truth
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109398"  #Honesty
+		ai_chance = {
+			factor = 2
+			modifier = {
+				factor = 10
+				trait = honest
+			}
+			modifier = {
+				factor = 0.1
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+		}
+		piety = 2
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_ruler = no
+				religion_group = zoroastrian_group
+				NOT = { trait = incapable }
+			}
+			opinion = {
+				modifier = opinion_impressed
+				who = ROOT
+				years = 2
+			}
+		}
+		if = {
+			limit = {
+				NOT = { trait = honest }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = honest }
+			}			
+		}
+	}		
+	option = {
+		name = "EVTOPTB1000109398"  #Prideful honesty
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = honest
+			}
+			modifier = {
+				factor = 0.5
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 4
+				trait = proud
+			}
+			modifier = {
+				factor = 0.25
+				trait = humble
+			}
+		}
+		piety = 2
+		prestige = 2
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_ruler = no
+				religion_group = zoroastrian_group
+				NOT = { trait = incapable }
+			}
+			opinion = {
+				modifier = opinion_impressed
+				who = ROOT
+				years = 1
+			}
+		}
+		if = {
+			limit = {
+				NOT = { trait = proud }
+			}
+			random_list = {
+				70 = { }
+				30 = { add_trait = proud }
+			}			
+		}
+		if = {
+			limit = {
+				NOT = { trait = honest }
+			}
+			random_list = {
+				90 = { }
+				10 = { add_trait = honest }
+			}			
+		}
+	}			
+	option = {
+		name = "EVTOPTC1000109398"  #LIES AND DRUJ
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.2
+				trait = honest
+			}
+			modifier = {
+				factor = 10
+				trait = deceitful
+			}
+			modifier = {
+				factor = 0.5
+				trait = just
+			}
+			modifier = {
+				factor = 2
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.5
+				trait = charitable
+			}
+		}
+		piety = -3
+		if = {
+			limit = {
+				NOT = { trait = deceitful }
+			}
+			random_list = {
+				60 = { }
+				40 = { add_trait = deceitful }
+			}			
+		}
+		add_character_modifier = {
+			name = best_meal_in_ages
+			duration = 30
+		}
+	}	
+}
+
+# Defiling the Pure Holy Fire
+character_event = {
+	id = 1000109399
+	desc = "EVTDESC1000109399"
+	picture = GFX_evt_zoroastrian_fire
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		religion_group = zoroastrian_group
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 4
+			trait = ill
+		}
+		modifier = {
+			factor = 0.5
+			trait = strong
+		}
+		modifier = {
+			factor = 3
+			has_ambition = obj_follow_truth
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109399"  #Honesty
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				trait = honest
+			}
+			modifier = {
+				factor = 0.1
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+			modifier = {
+				factor = 0.5
+				trait = proud
+			}
+		}
+		piety = 5
+		prestige = -5
+		if = {
+			limit = {
+				NOT = { trait = honest }
+			}
+			random_list = {
+				60 = { }
+				40 = { add_trait = honest }
+			}			
+		}
+	}				
+	option = {
+		name = "EVTOPTB1000109399"  #LIES AND DRUJ
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.2
+				trait = honest
+			}
+			modifier = {
+				factor = 10
+				trait = deceitful
+			}
+			modifier = {
+				factor = 0.5
+				trait = just
+			}
+			modifier = {
+				factor = 2
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = proud
+			}
+			modifier = {
+				factor = 0.5
+				trait = humble
+			}
+		}
+		prestige = -8
+		if = {
+			limit = {
+				NOT = { trait = deceitful }
+			}
+			random_list = {
+				60 = { }
+				40 = { add_trait = deceitful }
+			}			
+		}
+	}	
+}
+# Toenail clippings
+character_event = {
+	id = 1000109400
+	desc = "EVTDESC1000109400"
+	picture = GFX_evt_zoroastrian_fire
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		religion_group = zoroastrian_group
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}		
+		modifier = {
+			factor = 2
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109399"  #Get rid of it!
+		random_list = {
+			50 = { piety = 1 }
+			50 = { prestige = 1 }
+		}
+	}					
+}
