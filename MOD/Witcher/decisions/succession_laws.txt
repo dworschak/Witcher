@@ -229,11 +229,6 @@ succession_laws = {
 				NOT = { religion_group = muslim }
 				is_merchant_republic = no
 				is_patrician = no
-				
-				#OR = {
-				#	NOT = { religion_group = pagan_group }
-				#	is_reformed_religion = yes
-				#}
 			}
 			OR = {
 				is_landless_type_title = no
@@ -249,6 +244,41 @@ succession_laws = {
 				holder_scope = { is_feudal = yes }
 			}
 		}
+		allow = {
+			OR = {
+				hidden_tooltip = {
+					has_crown_law_title = no
+				}
+				crownlaw_title = {
+					OR = {
+						has_law = centralization_1
+						has_law = centralization_2
+						has_law = centralization_3
+						has_law = centralization_4
+					}
+				}
+			}
+			holder_scope = {
+				OR = {
+					AND = {
+						tier = count
+						prestige = 100
+					}
+					AND = {
+						tier = duke
+						prestige = 250
+					}
+					AND = {
+						tier = king
+						prestige = 500
+					}
+					AND = {
+						tier = emperor
+						prestige = 1000
+					}
+				}
+			}
+		}		
 		effect = {
 			succession = feudal_elective
 		}
