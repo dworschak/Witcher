@@ -74,17 +74,33 @@ character_event = {
 					graphical_culture = dryadgfx
 				}
 				add_trait = dryad
+			}	
+			if = {
+				limit = {
+					father_even_if_dead = { NOT = { graphical_culture = elvengfx } }
+					mother = { graphical_culture = elvengfx }
+					OR = {
+						trait = human
+						trait = elf
+						NOT = { trait = halfelf }
+					}
+				}
+				remove_trait = human
+				remove_trait = elf
+				add_trait = halfelf
 			}
 			if = {
 				limit = {
-					graphical_culture = elvengfx
+					father_even_if_dead = { graphical_culture = elvengfx }
+					mother = { NOT = { graphical_culture = elvengfx } }
 					OR = {
-						father = { NOT = { culture = elven } }
-						father = { trait = halfelf }
-						mother = { NOT = { culture = elven } }
-						mother = { trait = halfelf }
+						trait = human
+						trait = elf
+						NOT = { trait = halfelf }
 					}
 				}
+				remove_trait = human
+				remove_trait = elf
 				add_trait = halfelf
 			}
 			if = {
@@ -92,7 +108,9 @@ character_event = {
 					graphical_culture = elvengfx
 					mother = { culture = elven }
 					father = { culture = elven }
-					NOT = { mother = { trait = halfelf } }
+					NOT = { 
+						mother = { trait = halfelf } 
+					}
 					NOT = { father = { trait = halfelf } }
 				}
 				add_trait = elven
@@ -109,7 +127,10 @@ character_event = {
 						OR = {
 							graphical_culture = dryadgfx
 							graphical_culture = dwarvengfx
-							graphical_culture = elvengfx
+							trait = elven
+							trait = halfelf
+							trait = dwarven
+							trait = dryad
 						}	
 					}
 				}
