@@ -3,50 +3,50 @@
 #Miscellaneous Events
 ###############################
 
-narrative_event = {
-	id = 130000009
-	title = "ESMDAY1TIT"
-	desc = "ESMDAY1DESC"
-	picture = GFX_evt_start
-	
-	is_alive = yes
-	
-	trigger = {
-		NOT = { year = 3750 }
-		NOT = { has_character_flag = 3370_start }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = "Let the tale of Witcherland unfold..."
-		set_character_flag = 3370_start
-		hidden_tooltip = {
-			if = {
-				limit = {
-					graphical_culture = dryadgfx
-				}
-				add_trait = dryad
-			}
-			if = {
-				limit = {
-					graphical_culture = elvengfx
-				}
-				add_trait = elven
-				religion = dana_meadbh
-			}
-			if = {
-				limit = {
-					graphical_culture = dwarvengfx
-				}
-				add_trait = dwarven
-				religion = dwarven
-			}
-		}
-	}
-}
+#narrative_event = {
+#	id = 130000009
+#	title = "ESMDAY1TIT"
+#	desc = "ESMDAY1DESC"
+#	picture = GFX_evt_start
+#	
+#	is_alive = yes
+#	
+#	trigger = {
+#		NOT = { year = 3750 }
+#		NOT = { has_character_flag = 3370_start }
+#	}
+#	
+#	mean_time_to_happen = {
+#		days = 1
+#	}
+#	
+#	option = {
+#		name = "Let the tale of Witcherland unfold..."
+#		set_character_flag = 3370_start
+#		hidden_tooltip = {
+#			if = {
+#				limit = {
+#					graphical_culture = dryadgfx
+#				}
+#				add_trait = dryad
+#			}
+#			if = {
+#				limit = {
+#					graphical_culture = elvengfx
+#				}
+#				add_trait = elven
+#				religion = dana_meadbh
+#			}
+#			if = {
+#				limit = {
+#					graphical_culture = dwarvengfx
+#				}
+#				add_trait = dwarven
+#				religion = dwarven
+#			}
+#		}
+#	}
+#}
 
 character_event = {
 	id = 130000014
@@ -77,43 +77,93 @@ character_event = {
 			}	
 			if = {
 				limit = {
-					father_even_if_dead = { NOT = { graphical_culture = elvengfx } }
-					mother = { graphical_culture = elvengfx }
 					OR = {
-						trait = human
-						trait = elf
-						NOT = { trait = halfelf }
+						OR = {
+							AND = {
+								father_even_if_dead = { NOT = { trait = elven } }
+								mother_even_if_dead = { trait = elven }
+							}
+							AND = {
+								father_even_if_dead = { trait = elven }
+								mother_even_if_dead = { NOT = { trait = elven } }
+							}
+							AND = {
+								father_even_if_dead = { trait = halfelf }
+								mother_even_if_dead = { trait = halfelf }
+							}
+						}
+						#OR = {
+						#	AND = {
+						#		trait = human
+						#		trait = elf
+						#	}
+						#	NOT = { trait = halfelf }
+						#}
 					}
 				}
 				remove_trait = human
 				remove_trait = elf
-				add_trait = halfelf
-			}
-			if = {
-				limit = {
-					father_even_if_dead = { graphical_culture = elvengfx }
-					mother = { NOT = { graphical_culture = elvengfx } }
-					OR = {
-						trait = human
-						trait = elf
-						NOT = { trait = halfelf }
-					}
-				}
-				remove_trait = human
-				remove_trait = elf
+				remove_trait = elven_blood
 				add_trait = halfelf
 			}
 			if = {
 				limit = {
 					graphical_culture = elvengfx
-					mother = { culture = elven }
-					father = { culture = elven }
-					NOT = { 
-						mother = { trait = halfelf } 
+					OR = {
+					
+						#if both parents are elfs the child is an elf
+						AND = {
+							father_even_if_dead = { culture = elven }
+							mother_even_if_dead = { culture = elven }
+							NOT = { father_even_if_dead = { trait = halfelf } }
+							NOT = { mother_even_if_dead = { trait = halfelf } }	
+						}
+						
+						#Elf + halfelf "upgrades" to a full elf
+						AND = {
+							graphical_culture = elvengfx
+							father_even_if_dead = { trait = elven }
+							mother_even_if_dead = { trait = halfelf }
+						}
+						AND = {
+							graphical_culture = elvengfx
+							mother_even_if_dead = { trait = elven }
+							father_even_if_dead = { trait = halfelf }
+						}
 					}
-					NOT = { father = { trait = halfelf } }
 				}
 				add_trait = elven
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							father_even_if_dead = { trait = halfelf }
+							mother_even_if_dead = { 
+								NOT = { 
+									OR = { 
+										trait = halfelf 
+										trait = elven 
+									} 
+								} 
+							}
+						}
+						AND = {
+							father_even_if_dead = { 
+								NOT = { 
+									OR = { 
+										trait = halfelf 
+										trait = elven 
+									}
+								} 
+							}
+							mother_even_if_dead = { trait = halfelf }
+						}
+						father_even_if_dead = { trait = elven_blood }
+						mother = { trait = elven_blood }
+					}
+				}
+				add_trait = elven_blood
 			}
 			if = {
 				limit = {
