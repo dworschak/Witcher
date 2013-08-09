@@ -3,50 +3,50 @@
 #Miscellaneous Events
 ###############################
 
-#narrative_event = {
-#	id = 130000009
-#	title = "ESMDAY1TIT"
-#	desc = "ESMDAY1DESC"
-#	picture = GFX_evt_start
-#	
-#	is_alive = yes
-#	
-#	trigger = {
-#		NOT = { year = 3750 }
-#		NOT = { has_character_flag = 3370_start }
-#	}
-#	
-#	mean_time_to_happen = {
-#		days = 1
-#	}
-#	
-#	option = {
-#		name = "Let the tale of Witcherland unfold..."
-#		set_character_flag = 3370_start
-#		hidden_tooltip = {
-#			if = {
-#				limit = {
-#					graphical_culture = dryadgfx
-#				}
-#				add_trait = dryad
-#			}
-#			if = {
-#				limit = {
-#					graphical_culture = elvengfx
-#				}
-#				add_trait = elven
-#				religion = dana_meadbh
-#			}
-#			if = {
-#				limit = {
-#					graphical_culture = dwarvengfx
-#				}
-#				add_trait = dwarven
-#				religion = dwarven
-#			}
-#		}
-#	}
-#}
+narrative_event = {
+	id = 130000009
+	title = "ESMDAY1TIT"
+	desc = "ESMDAY1DESC"
+	picture = GFX_evt_start
+	
+	is_alive = yes
+	
+	trigger = {
+		NOT = { year = 3750 }
+		NOT = { has_character_flag = 3370_start }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "Let the tale of Witcherland unfold..."
+		set_character_flag = 3370_start
+		hidden_tooltip = {
+			if = {
+				limit = {
+					graphical_culture = dryadgfx
+				}
+				add_trait = dryad
+			}
+			if = {
+				limit = {
+					graphical_culture = elvengfx
+				}
+				add_trait = elven
+				religion = dana_meadbh
+			}
+			if = {
+				limit = {
+					graphical_culture = dwarvengfx
+				}
+				add_trait = dwarven
+				religion = dwarven
+			}
+		}
+	}
+}
 
 character_event = {
 	id = 130000014
@@ -57,6 +57,7 @@ character_event = {
 	trigger = {
 		NOT = { trait = human }
 		NOT = { trait = dwarf }
+		NOT = { trait = halfdwarf }
 		NOT = { trait = elven }
 		NOT = { trait = halfelf }
 		NOT = { trait = dryad }
@@ -102,7 +103,7 @@ character_event = {
 					}
 				}
 				remove_trait = human
-				remove_trait = elf
+				remove_trait = elven
 				remove_trait = elven_blood
 				add_trait = halfelf
 			}
@@ -167,8 +168,62 @@ character_event = {
 			}
 			if = {
 				limit = {
-					graphical_culture = dwarvengfx
+					OR = {
+						OR = {
+							AND = {
+								father_even_if_dead = { NOT = { trait = dwarven } }
+								mother_even_if_dead = { trait = dwarven }
+							}
+							AND = {
+								father_even_if_dead = { trait = dwarven }
+								mother_even_if_dead = { NOT = { trait = dwarven } }
+							}
+							AND = {
+								father_even_if_dead = { trait = halfdwarf }
+								mother_even_if_dead = { trait = halfdwarf }
+							}
+						}
+						#OR = {
+						#	AND = {
+						#		trait = human
+						#		trait = dwarven
+						#	}
+						#	NOT = { trait = halfdwarf }
+						#}
+					}
 				}
+				remove_trait = human
+				remove_trait = dwarven
+				remove_trait = dwarven_blood
+				add_trait = halfdwarf
+			}
+			if = {
+				limit = {
+					graphical_culture = dwarvengfx
+					OR = {
+					
+						#if both parents are dwarfs the child is an dwarf
+						AND = {
+							father_even_if_dead = { culture = dwarven }
+							mother_even_if_dead = { culture = dwarven }
+							NOT = { father_even_if_dead = { trait = halfdwarf } }
+							NOT = { mother_even_if_dead = { trait = halfdwarf } }	
+						}
+						
+						#dwarf + halfdwarf "upgrades" to a full dwarf
+						AND = {
+							graphical_culture = dwarvengfx
+							father_even_if_dead = { trait = dwarven }
+							mother_even_if_dead = { trait = halfdwarf }
+						}
+						AND = {
+							graphical_culture = dwarvengfx
+							mother_even_if_dead = { trait = dwarven }
+							father_even_if_dead = { trait = halfdwarf }
+						}
+					}
+				}
+				remove_trait = halfdwarf
 				add_trait = dwarven
 			}
 			if = {
