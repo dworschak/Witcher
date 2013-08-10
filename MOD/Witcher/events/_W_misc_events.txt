@@ -109,27 +109,26 @@ character_event = {
 			}
 			if = {
 				limit = {
-					graphical_culture = elvengfx
-					OR = {
-					
-						#if both parents are elfs the child is an elf
-						AND = {
-							father_even_if_dead = { culture = elven }
-							mother_even_if_dead = { culture = elven }
-							NOT = { father_even_if_dead = { trait = halfelf } }
-							NOT = { mother_even_if_dead = { trait = halfelf } }	
-						}
-						
-						#Elf + halfelf "upgrades" to a full elf
-						AND = {
-							graphical_culture = elvengfx
-							father_even_if_dead = { trait = elven }
-							mother_even_if_dead = { trait = halfelf }
-						}
-						AND = {
-							graphical_culture = elvengfx
-							mother_even_if_dead = { trait = elven }
-							father_even_if_dead = { trait = halfelf }
+					AND = {
+						graphical_culture = elvengfx
+						OR = {
+							#if both parents are elfs the child is an elf
+							AND = {
+								father_even_if_dead = { culture = elven }
+								mother_even_if_dead = { culture = elven }
+								NOT = { father_even_if_dead = { trait = halfelf } }
+								NOT = { mother_even_if_dead = { trait = halfelf } }	
+							}
+							
+							#Elf + halfelf "upgrades" to a full elf
+							AND = {
+								father_even_if_dead = { trait = elven }
+								mother_even_if_dead = { trait = halfelf }
+							}
+							AND = {
+								mother_even_if_dead = { trait = elven }
+								father_even_if_dead = { trait = halfelf }
+							}
 						}
 					}
 				}
