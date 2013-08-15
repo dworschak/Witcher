@@ -595,11 +595,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTB301 # Acknowledge the child
-		trigger = {
-			FROM = {
-				is_female = no
-			}
-		}
 		FROM = {
 			character_event = { id = 306 tooltip = EVTTOOLTIP306 } # The child gets the father's dynasty, but is not legitimized.
 			mother = {
@@ -750,7 +745,7 @@ character_event = {
 
 	option = {
 		name = OK
-		dynasty = FROM
+		dynasty = father_bastard
 		add_trait = bastard
 		
 		father = {
@@ -822,12 +817,15 @@ character_event = {
 
 	option = {
 		name = OK
+		dynasty = mother_bastard
 		
 		father = {
 			spouse = {
 				character_event = { id = 311 } # The father's wife is displeased
 			}
 		}
+		set_father = 0
+		set_real_father = FROM
 	}
 }
 
