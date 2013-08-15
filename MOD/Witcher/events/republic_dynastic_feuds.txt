@@ -126,7 +126,7 @@ narrative_event = {
 	option = {
 		name = EVTOPTB_REP_101
 		prestige = -60
-		custom_tooltip = no_ball_tooltip
+		custom_tooltip = { text = no_ball_tooltip }
 		clr_character_flag = the_grand_ball
 	}
 }
@@ -150,7 +150,7 @@ narrative_event = {
 		set_character_flag = shamed_at_ball
 		prestige = -100
 		FROMFROM = { prestige = 100 }
-		custom_tooltip = feud_begins_tooltip
+		custom_tooltip = { text = feud_begins_tooltip }
 	}
 }
 
@@ -262,7 +262,7 @@ narrative_event = {
 	option = {
 		name = EVTOPTB_REP_104
 		prestige = -20
-		custom_tooltip = no_own_ball_tooltip
+		custom_tooltip = { text = no_own_ball_tooltip }
 	}
 }
 
@@ -557,14 +557,14 @@ narrative_event = {
 				}
 			}
 		}
-		custom_tooltip = flagship_plan_approved_tooltip
+		custom_tooltip = { text = flagship_plan_approved_tooltip }
 	}
 	option = {
 		name = EVTOPTB_REP_151
 		hidden_tooltip = {
 			narrative_event = { id = REP.154 days = 46 }
 		}
-		custom_tooltip = flagship_plan_refused_tooltip
+		custom_tooltip = { text = flagship_plan_refused_tooltip }
 	}
 }
 
@@ -829,7 +829,7 @@ narrative_event = {
 				}
 			}
 			set_character_flag = julia
-			custom_tooltip = forbid_daughter_tooltip
+			custom_tooltip = { text = forbid_daughter_tooltip }
 		}
 	}
 	option = {
@@ -858,7 +858,7 @@ narrative_event = {
 				}
 			}
 			set_character_flag = julia
-			custom_tooltip = permit_love_tooltip
+			custom_tooltip = { text = permit_love_tooltip }
 		}
 	}
 }
@@ -1036,7 +1036,7 @@ narrative_event = {
 				in_command = no
 			}
 			set_character_flag = romeo
-			custom_tooltip = forbid_son_tooltip
+			custom_tooltip = { text = forbid_son_tooltip }
 		}
 	}
 	option = {
@@ -1067,7 +1067,7 @@ narrative_event = {
 				in_command = no
 			}
 			set_character_flag = romeo
-			custom_tooltip = permit_love_tooltip
+			custom_tooltip = { text = permit_love_tooltip }
 		}
 	}
 }
@@ -1097,7 +1097,7 @@ narrative_event = {
 			limit = { has_character_flag = julia }
 			death = { death_reason = death_suicide }
 		}
-		custom_tooltip = end_feud_tooltip
+		custom_tooltip = { text = end_feud_tooltip }
 	}
 	option = {
 		name = EVTOPTB_REP_164
@@ -1108,7 +1108,7 @@ narrative_event = {
 			limit = { has_character_flag = julia }
 			death = { death_reason = death_suicide }
 		}
-		custom_tooltip = continue_feud_tooltip
+		custom_tooltip = { text = continue_feud_tooltip }
 	}
 }
 
@@ -1137,7 +1137,7 @@ narrative_event = {
 			limit = { has_character_flag = romeo }
 			death = { death_reason = death_suicide }
 		}
-		custom_tooltip = end_feud_tooltip
+		custom_tooltip = { text = end_feud_tooltip }
 	}
 	option = {
 		name = EVTOPTB_REP_165
@@ -1148,7 +1148,7 @@ narrative_event = {
 			limit = { has_character_flag = romeo }
 			death = { death_reason = death_suicide }
 		}
-		custom_tooltip = continue_feud_tooltip
+		custom_tooltip = { text = continue_feud_tooltip }
 	}
 }
 
@@ -1463,16 +1463,19 @@ narrative_event = {
 	
 	option = {
 		name = EVTOPTA_REP_182
-		hidden_tooltip = {
-			FROMFROM = {
-				character_event = { id = REP.183 days = 26 }
+		
+		custom_tooltip = {
+			text = approve_plan_tooltip
+			hidden_tooltip = {
+				FROMFROM = {
+					character_event = { id = REP.183 days = 26 }
+				}
 			}
 		}
-		custom_tooltip = approve_plan_tooltip
 	}
 	option = {
 		name = EVTOPTB_REP_182
-		custom_tooltip = refuse_plan_tooltip
+		custom_tooltip = { text = refuse_plan_tooltip }
 	}
 }
 
@@ -1706,14 +1709,16 @@ narrative_event = {
 	
 	option = {
 		name = EVTOPTA_REP_191
-		custom_tooltip = battle_tooltip
-		hidden_tooltip = {	
-			narrative_event = { id = REP.192 days = 5 }
+		custom_tooltip = { 
+			text = battle_tooltip
+			hidden_tooltip = {	
+				narrative_event = { id = REP.192 days = 5 }
+			}
 		}
 	}
 	option = {
 		name = EVTOPTB_REP_191
-		custom_tooltip = no_battle_tooltip
+		custom_tooltip = { text = no_battle_tooltip }
 		prestige = -100
 		FROM = { prestige = 100 }
 	}
@@ -1730,10 +1735,12 @@ narrative_event = {
 	
 	option = {
 		name = EVTOPTA_REP_192
-		custom_tooltip = flotsam_tooltip
-		hidden_tooltip = {
-			FROMFROM = {
-				character_event = { id = REP.193 }
+		custom_tooltip = [ 
+			text = flotsam_tooltip
+			hidden_tooltip = {
+				FROMFROM = {
+					character_event = { id = REP.193 }
+				}
 			}
 		}
 	}
@@ -1773,13 +1780,15 @@ narrative_event = {
 		FROM = {
 			death = { death_reason = death_dungeon }
 		}
-		custom_tooltip = flee_ship_tooltip
+		custom_tooltip = { text = flee_ship_tooltip }
 	}
 	option = {
 		name = EVTOPTB_REP_194
-		custom_tooltip = rescue_rival_tooltip
-		hidden_tooltip = {
-			narrative_event = { id = REP.195 } 
+		custom_tooltip = {
+			text = rescue_rival_tooltip
+			hidden_tooltip = {
+				narrative_event = { id = REP.195 } 
+			}
 		}
 	}
 }
@@ -1795,7 +1804,7 @@ narrative_event = {
 	
 	option = {
 		name = EVTOPTA_REP_195
-		custom_tooltip = feud_over_tooltip
+		custom_tooltip = { text = feud_over_tooltip }
 		clr_dynasty_flag = the_victims
 		FROMFROM = {
 			clr_dynasty_flag = the_feuders
@@ -1807,7 +1816,7 @@ narrative_event = {
 	}
 	option = {
 		name = EVTOPTB_REP_195
-		custom_tooltip = feud_continues_tooltip
+		custom_tooltip = { text = feud_continues_tooltip }
 	}
 }
 
