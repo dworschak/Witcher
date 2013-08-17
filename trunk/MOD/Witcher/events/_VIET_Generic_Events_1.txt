@@ -11,6 +11,7 @@
 # ID# 1000109390 - 1000109396 Dream Events
 # ID# 1000109432 - 1000109438 Ancient Culture Events
 # ID# 1000109439 - 1000109447 Sound Events
+# ID# 1000109457 - 1000109461 Prayer Events
 #
 # Fired from on actions
 #
@@ -7608,6 +7609,174 @@ character_event = {
 	}	
 }
 
+
+# Bamiyan Buddhas
+character_event = {
+	id = 1000109436
+	desc = "EVTDESC1000109436"
+	picture = GFX_evt_desert
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		OR = {
+			has_landed_title = k_khorasan
+			has_landed_title = k_qarakhnid
+			has_landed_title = d_birjand
+			has_landed_title = d_baluchistan
+			AND = {
+				OR = {
+					culture = pashtun
+					culture = persian
+					culture = tajik
+					culture = bactrian
+					culture = sogdian
+					culture = chagatai
+				}
+				liege = {
+					OR = {
+						has_landed_title = k_khorasan
+						has_landed_title = k_qarakhnid
+						has_landed_title = d_birjand
+						has_landed_title = d_baluchistan
+					}
+				}
+			}
+			AND = {
+				OR = {
+					culture = pashtun
+					culture = persian
+					culture = tajik
+					culture = bactrian
+					culture = sogdian
+					culture = chagatai
+				}
+				top_liege = {
+					OR = {
+						has_landed_title = k_khorasan
+						has_landed_title = k_qarakhnid
+						has_landed_title = d_birjand
+						has_landed_title = d_baluchistan
+					}
+				}
+			}
+			any_demesne_province = {
+				religion_group = eastern_group		
+			}
+		}
+		NOT = { religion_group = eastern_group }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}		
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}		
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}				
+		modifier = {
+			factor = 2
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.5
+			trait = zealous
+		}					
+		modifier = {
+			factor = 2
+			trait = charitable
+		}
+		modifier = {
+			factor = 0.5
+			trait = greedy
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109436"  #Impressive sight
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = patient
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+			modifier = {
+				factor = 0.5
+				trait = proud
+			}
+		}
+		prestige = 3
+	}	
+	option = {
+		name = "EVTOPTB1000109436"  #HEATHENS
+		trigger = {
+			OR = {
+				religion_group = christian
+				religion_group = muslim
+				religion_group = jewish_group
+				religion_group = judaic
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 0.5
+				trait = cynical
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.5
+				trait = patient
+			}
+		}
+		piety = 3
+	}
+}
+
+
+
 # Henges
 character_event = {
 	id = 1000109437
@@ -8765,4 +8934,376 @@ character_event = {
 	}
 
 	
+}
+
+
+##########################################################################
+# Prayer Events
+##########################################################################
+
+# Character learning prayers
+character_event = {
+	id = 1000109457
+	desc = "EVTDESC1000109457"
+	picture = GFX_evt_child_play
+	
+	is_triggered_only = yes
+
+	min_age = 4	
+	max_age = 10
+	
+	trigger = {
+		NOT = { trait = incapable } 
+		NOT = { personality_traits = 5 }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}		
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}		
+		modifier = {
+			factor = 2
+			trait = genius
+		}
+		modifier = {
+			factor = 0.5
+			trait = imbecile
+		}		
+		modifier = {
+			factor = 2
+			trait = quick
+		}
+		modifier = {
+			factor = 0.5
+			trait = slow
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109457"  # BOOOOO
+		if = {
+			limit = {
+				NOT = { trait = cynical }
+			}
+			random_list = {
+				50 = { add_trait = cynical }
+				20 = { add_trait = slothful }
+				30 = {  }
+			}
+		}
+		if = {
+			limit = {
+				trait = cynical
+			}
+			random_list = {
+				10 = { add_trait = wroth }
+				20 = { add_trait = slothful }
+				70 = {  }
+			}
+		}
+	}
+	
+	option = {
+		name = "EVTOPTB1000109457"  # Yay
+		if = {
+			limit = {
+				NOT = { trait = zealous }
+			}
+			random_list = {
+				50 = { add_trait = zealous }
+				20 = { add_trait = trusting }
+				30 = {  }
+			}
+		}
+		if = {
+			limit = {
+				trait = zealous
+			}
+			random_list = {
+				10 = { add_trait = gregarious }
+				20 = { add_trait = trusting }
+				70 = {  }
+			}
+		}
+	}
+	
+}
+
+
+# Church Prayer
+character_event = {
+	id = 1000109458
+	desc = "EVTDESC1000109458"
+	picture = GFX_evt_bishop
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		religion_group = christian
+		war = no
+		in_command = no
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 1.5
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.5
+			trait = stressed
+		}
+		modifier = {
+			factor = 3
+			has_ambition = obj_have_no_worries
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109458"  #healing
+		ai_chance = {
+			factor = 1
+		}
+		piety = 3
+		if = {
+			limit = {
+				has_trait = stressed
+			}
+			remove_trait = stressed
+		}
+		if = {
+			limit = {
+				has_trait = depressed
+			}
+			remove_trait = depressed
+		}
+	}
+}
+
+# Mosque Prayer
+character_event = {
+	id = 1000109459
+	desc = "EVTDESC1000109459"
+	picture = GFX_evt_bishop_muslim
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		religion_group = muslim
+		war = no
+		in_command = no
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 1.5
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.5
+			trait = stressed
+		}
+		modifier = {
+			factor = 3
+			has_ambition = obj_have_no_worries
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA1000109459"  #healing
+		ai_chance = {
+			factor = 1
+		}
+		piety = 3
+		if = {
+			limit = {
+				has_trait = stressed
+			}
+			remove_trait = stressed
+		}
+		if = {
+			limit = {
+				has_trait = depressed
+			}
+			remove_trait = depressed
+		}
+	}
+}
+
+
+#Praying in the middle of battle
+character_event = {
+	id = 1000109460
+	desc = EVTDESC1000109460
+	picture = GFX_evt_holy_light
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { trait = maimed }
+		is_alive = yes
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 1.5
+			trait = brave
+		}
+		modifier = {
+			factor = 0.5
+			trait = craven
+		}
+		modifier = {
+			factor = 2.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.25
+			trait = cynical
+		}
+		
+	}
+	
+	option = {
+		name = EVTOPTA1000109460
+		piety = 1
+	}
+}
+
+#Praying for a dying soldier
+character_event = {
+	id = 1000109461
+	desc = EVTDESC1000109461
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { trait = maimed }
+		is_alive = yes
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+
+		modifier = {
+			factor = 1.5
+			trait = brave
+		}
+		modifier = {
+			factor = 0.5
+			trait = craven
+		}
+		modifier = {
+			factor = 1.5
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.25
+			trait = cynical
+		}
+		
+	}
+	
+	option = {
+		name = EVTOPTA1000109461
+		piety = 3
+	}
 }
