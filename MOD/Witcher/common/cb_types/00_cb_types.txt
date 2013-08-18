@@ -508,7 +508,6 @@ claim_on_liege = {
 	can_call_vassals = yes
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		FROM = {
 			in_revolt = no
 			liege = {
@@ -724,10 +723,6 @@ claim_on_liege_plot = {
 	press_claim = yes
 	can_call_allies = no
 	can_ask_to_join_war = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-	}
 
 	can_use_title = {
 		OR = {
@@ -899,10 +894,6 @@ claim_on_vassal_plot = {
 	press_claim = yes
 	can_call_allies = no
 	can_attack_vassals = yes
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		}
 
 	can_use_title = {
 		OR = {
@@ -1014,7 +1005,6 @@ other_claim_on_liege = {
 				}
 			}
 		}
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 	}
 
 	can_use_title = {
@@ -1400,6 +1390,10 @@ claim_all = {
 				if = {
 					limit = {
 						has_dlc = "Legacy of Rome"
+						OR = { 
+							has_landed_title = e_byzantium
+							has_landed_title = e_roman_empire
+						}
 						religion_group = christian
 					}
 					character_event = { id = LoR.30 days = 12 }
@@ -1460,6 +1454,10 @@ claim_all = {
 			if = {
 				limit = { 
 					has_dlc = "Legacy of Rome"
+					OR = { 
+						has_landed_title = e_byzantium
+						has_landed_title = e_roman_empire
+					}
 					religion_group = christian
 				}
 				hidden_tooltip = { character_event = { id = LoR.30 days = 12 } }
@@ -1499,7 +1497,6 @@ change_seniority_succession_law = {
 	major_revolt = yes
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			vassal_of = FROM	
 		}
@@ -1650,9 +1647,6 @@ change_primogeniture_succession_law = {
 	major_revolt = yes
 	
 	can_use = {
-		
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		
 		ROOT = {
 			vassal_of = FROM	
 		}
@@ -1806,9 +1800,6 @@ change_feudal_elective_succession_law = {
 	major_revolt = yes
 	
 	can_use = {
-		
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		
 		ROOT = {
 			vassal_of = FROM	
 		}
@@ -2023,6 +2014,10 @@ invasion = {
 				if = {
 					limit = {
 						has_dlc = "Legacy of Rome"
+						OR = { 
+							has_landed_title = e_byzantium
+							has_landed_title = e_roman_empire
+						}
 						religion_group = christian
 					}
 					character_event = { id = LoR.30 days = 12 }
@@ -2036,16 +2031,17 @@ invasion = {
 	}
 
 	on_success_title = {
-		custom_tooltip = invasion_succ_tip
-		
-		hidden_tooltip = {
-			usurp_title_plus_barony_if_unlanded = ROOT
-			FROM = { set_defacto_liege = ROOT }
-			if = {
-				limit = {
-					FROM = { is_liege_or_above = ROOT }
+		custom_tooltip = {
+			text = invasion_succ_tip
+			hidden_tooltip = {
+				usurp_title_plus_barony_if_unlanded = ROOT
+				FROM = { set_defacto_liege = ROOT }
+				if = {
+					limit = {
+						FROM = { is_liege_or_above = ROOT }
+					}
+					FROM = { imprison = ROOT }
 				}
-				FROM = { imprison = ROOT }
 			}
 		}
 		
@@ -2094,6 +2090,10 @@ invasion = {
 			if = {
 				limit = { 
 					has_dlc = "Legacy of Rome"
+					OR = { 
+						has_landed_title = e_byzantium
+						has_landed_title = e_roman_empire
+					}
 					religion_group = christian
 				}
 				hidden_tooltip = { character_event = { id = LoR.30 days = 12 } }
@@ -2153,7 +2153,6 @@ tribal_invasion = {
 	can_use_title = {
 		ROOT = {
 			OR = {
-				has_character_flag = tribal_inv_requirements_bypass
 				AND = {
 					independent = yes
 					OR = {
@@ -2227,13 +2226,15 @@ tribal_invasion = {
 	}
 	
 	on_success_title = {
-		custom_tooltip = tribal_invasion_succ_tip
-		hidden_tooltip = {
-			ROOT = {
-				vassalize_or_take_under_title_destroy_duchies = {
-					title = PREV
-					enemy = FROM
-					is_crusade = yes # Even if the title holder is not participating in the war, gain holdings occupied by all Crusade participants
+		custom_tooltip = {
+			text = tribal_invasion_succ_tip
+			hidden_tooltip = {
+				ROOT = {
+					vassalize_or_take_under_title_destroy_duchies = {
+						title = PREV
+						enemy = FROM
+						is_crusade = yes # Even if the title holder is not participating in the war, gain holdings occupied by all Crusade participants
+					}
 				}
 			}
 		}
@@ -2271,6 +2272,10 @@ tribal_invasion = {
 			if = {
 				limit = { 
 					has_dlc = "Legacy of Rome"
+					OR = { 
+						has_landed_title = e_byzantium
+						has_landed_title = e_roman_empire
+					}
 					religion_group = christian
 				}
 				hidden_tooltip = { character_event = { id = LoR.30 days = 12 } }
@@ -2407,22 +2412,6 @@ religious = {
 					}
 				}
 			}
-			OR = {
-				has_global_flag = orthodox_holy_war_on
-				NOT = {
-					AND = {
-						OR = {
-							religion = orthodox
-							is_heresy_of = orthodox
-							religion = miaphysite
-							is_heresy_of = miaphysite
-							religion = nestorian
-							is_heresy_of = nestorian
-						}
-						FROM = { NOT = { religion_group = pagan_group } }
-					}
-				}
-			}
 		}
 	}
 	
@@ -2549,18 +2538,20 @@ religious = {
 	}
 
 	on_success_title = {
-		custom_tooltip = religious_cb_succ_tip
-		hidden_tooltip = {
-			ROOT = {
-				vassalize_or_take_under_title = {
-					title = PREV
-					enemy = FROM
-					same_religion = yes # Only vassalize rulers of my religion
+		custom_tooltip = {
+			text = religious_cb_succ_tip
+			hidden_tooltip = {
+				ROOT = {
+					vassalize_or_take_under_title = {
+						title = PREV
+						enemy = FROM
+						same_religion = yes # Only vassalize rulers of my religion
+					}
+	#				gain_settlements_under_title = {
+	#					title = PREV
+	#					enemy = FROM
+	#				}
 				}
-#				gain_settlements_under_title = {
-#					title = PREV
-#					enemy = FROM
-#				}
 			}
 		}
 	}
@@ -2808,9 +2799,6 @@ bid_for_independence = {
 	is_independence = yes
 
 	can_use = {
-		
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		
 		ROOT = {
 			de_facto_liege = FROM
 			
@@ -3016,9 +3004,6 @@ depose_liege = {
 	can_call_vassals = yes
 
 	can_use = {
-		
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		
 		ROOT = {
 			de_facto_liege = FROM
 		}
@@ -3164,7 +3149,6 @@ overthrow_ruler = {
 	can_call_vassals = yes
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			de_facto_liege = FROM
 		}
@@ -3293,7 +3277,6 @@ overthrow_ruler_no_calls = {
 	can_ask_to_join_war = no
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			de_facto_liege = FROM
 		}
@@ -3412,10 +3395,6 @@ succession_on_liege = {
 	can_call_vassals = yes
 
 	allow_whitepeace = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-	}
 
 	is_valid_title = {
 		FROM = {
@@ -3539,10 +3518,6 @@ other_succession = {
 	can_call_vassals = yes
 
 	allow_whitepeace = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		}
 
 	can_use_title = {
 		OR = {
@@ -3719,10 +3694,6 @@ other_succession_on_liege = {
 	can_call_vassals = yes
 
 	allow_whitepeace = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		}
 
 	can_use_title = {
 		OR = {
@@ -3925,7 +3896,6 @@ change_gavelkind_succession_law = {
 	major_revolt = yes
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			vassal_of = FROM	
 		}
@@ -4076,7 +4046,6 @@ lower_crown_authority_law = {
 	major_revolt = yes
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			vassal_of = FROM
 		}
@@ -4290,7 +4259,6 @@ coastal_republic = {
 	}
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			religion_group = christian
 			OR = {
@@ -4459,7 +4427,6 @@ coastal_county_republic = {
 	allow_distant = yes # AI parameter
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			OR = {
 				is_merchant_republic = yes
@@ -4724,10 +4691,6 @@ weaken_vassal_plot = {
 	press_claim = yes
 	can_call_allies = no
 	can_ask_to_join_war = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		}
 
 	can_use_title = {
 		OR = {
@@ -4878,7 +4841,6 @@ cb_faction_independence = {
 	is_independence = yes
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			vassal_of = FROM
 		}
@@ -5102,7 +5064,6 @@ embargo_cb = {
 	can_ask_to_join_war = no
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			independent = yes
 			NOT = { has_embargo = FROM }
@@ -5284,7 +5245,6 @@ seize_trade_post = {
 	allow_distant = yes
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = {
 			OR = {
 				is_merchant_republic = yes
@@ -5488,43 +5448,45 @@ viking_invasion = {
 	}
 	
 	on_success_title = {
-		custom_tooltip = tribal_invasion_succ_tip
-		hidden_tooltip = {
-			FROM = {
-				random_realm_province = {
-					limit = {
-						de_jure_liege_or_above = PREVPREV
-						OR = {
-							NOT = { culture = ROOT }
-							NOT = { religion = ROOT }
+		custom_tooltip = { 
+			text = tribal_invasion_succ_tip
+			hidden_tooltip = {
+				FROM = {
+					random_realm_province = {
+						limit = {
+							de_jure_liege_or_above = PREVPREV
+							OR = {
+								NOT = { culture = ROOT }
+								NOT = { religion = ROOT }
+							}
 						}
+						culture = ROOT
+						religion = ROOT
 					}
-					culture = ROOT
-					religion = ROOT
 				}
-			}
-			ROOT = {
-				occupy_minors_of_occupied_settlements = FROM
-				gain_all_occupied_titles = FROM
-				vassalize_or_take_under_title_destroy_duchies = {
-					title = PREV
-					enemy = FROM
+				ROOT = {
+					occupy_minors_of_occupied_settlements = FROM
+					gain_all_occupied_titles = FROM
+					vassalize_or_take_under_title_destroy_duchies = {
+						title = PREV
+						enemy = FROM
+					}
+					
+					# Settle the special invasion forces
+					disband_event_forces = prepared_invasion
+					any_demesne_title = {
+						limit = { tier = BARON }
+						remove_holding_modifier = recently_conquered
+						refill_holding_levy = yes
+					}
 				}
 				
-				# Settle the special invasion forces
-				disband_event_forces = prepared_invasion
-				any_demesne_title = {
-					limit = { tier = BARON }
-					remove_holding_modifier = recently_conquered
-					refill_holding_levy = yes
+				if = {
+					limit = {
+						FROM = { is_liege_or_above = ROOT }
+					}
+					FROM = { imprison = ROOT }
 				}
-			}
-			
-			if = {
-				limit = {
-					FROM = { is_liege_or_above = ROOT }
-				}
-				FROM = { imprison = ROOT }
 			}
 		}
 	}
@@ -5679,11 +5641,14 @@ pagan_subjugation = {
 	
 	can_use_title = {
 		ROOT = {
-			AND = {
-				has_ambition = obj_become_king
-				capital_scope = {
-					kingdom = {
-						title = PREVPREVPREV
+			OR = {
+				NOT = { has_character_modifier = launched_subjugation }
+				AND = {
+					has_ambition = obj_become_king
+					capital_scope = {
+						kingdom = {
+							title = PREVPREVPREV
+						}
 					}
 				}
 			}
@@ -5786,12 +5751,14 @@ pagan_subjugation = {
 		}
 		
 		# Vassalize the rest
-		custom_tooltip = pagan_subjugation_tip
-		hidden_tooltip = {
-			ROOT = {
-				subjugate_or_take_under_title = { # If the target only has territory within the kingdom, he is simply vassalized
-					title = PREV
-					enemy = FROM
+		custom_tooltip = {
+			text = pagan_subjugation_tip
+			hidden_tooltip = {
+				ROOT = {
+					subjugate_or_take_under_title = { # If the target only has territory within the kingdom, he is simply vassalized
+						title = PREV
+						enemy = FROM
+					}
 				}
 			}
 		}
@@ -5829,6 +5796,10 @@ pagan_subjugation = {
 			if = {
 				limit = { 
 					has_dlc = "Legacy of Rome"
+					OR = { 
+						has_landed_title = e_byzantium
+						has_landed_title = e_roman_empire
+					}
 					religion_group = christian
 				}
 				hidden_tooltip = { character_event = { id = LoR.30 days = 12 } }
@@ -6099,7 +6070,6 @@ liberation_revolt = {
 	is_independence = yes
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		ROOT = { has_character_flag = nationalist_rebel }
 	}
 
@@ -6126,26 +6096,28 @@ liberation_revolt = {
 	}
 
 	on_success_title = {
-		custom_tooltip = tribal_invasion_succ_tip
-		hidden_tooltip = {
-			ROOT = {
-				vassalize_or_take_under_title = {
-					title = PREV
-					enemy = FROM
-				}
-				if = {
-					limit = {
-						num_of_count_titles = 5
-						PREV = { 
-							OR = {
-								has_holder = no 
-								holder_scope = {
-									character = FROM
+		custom_tooltip = {
+			text = tribal_invasion_succ_tip
+			hidden_tooltip = {
+				ROOT = {
+					vassalize_or_take_under_title = {
+						title = PREV
+						enemy = FROM
+					}
+					if = {
+						limit = {
+							num_of_count_titles = 5
+							PREV = { 
+								OR = {
+									has_holder = no 
+									holder_scope = {
+										character = FROM
+									}
 								}
 							}
 						}
+						usurp_title = PREV
 					}
-					usurp_title = PREV
 				}
 			}
 		}
@@ -6267,12 +6239,14 @@ duchy_adventure = {
 	}
 
 	on_success_title = {
-		custom_tooltip = tribal_invasion_succ_tip
-		hidden_tooltip = {
-			ROOT = {
-				vassalize_or_take_under_title = {
-					title = PREV
-					enemy = FROM
+		custom_tooltip = {
+			text = tribal_invasion_succ_tip
+			hidden_tooltip = {
+				ROOT = {
+					vassalize_or_take_under_title = {
+						title = PREV
+						enemy = FROM
+					}
 				}
 			}
 		}
@@ -6374,6 +6348,7 @@ pagan_holy_war = {
 				religion = melitele_reformed
 				religion = kreve_reformed
 				religion = freya_reformed
+				religion = lebioda_reformed
 				religion = solar_reformed
 				religion = norse_pagan_reformed
 				religion = tengri_pagan_reformed
@@ -6455,6 +6430,7 @@ pagan_holy_war = {
 				religion = kreve_reformed
 				religion = freya_reformed
 				religion = solar_reformed
+				religion = lebioda_reformed
 				religion = norse_pagan_reformed
 				religion = tengri_pagan_reformed
 				religion = baltic_pagan_reformed
@@ -6503,13 +6479,15 @@ pagan_holy_war = {
 	}
 
 	on_success_title = {
-		custom_tooltip = religious_cb_succ_tip
-		hidden_tooltip = {
-			ROOT = {
-				vassalize_or_take_under_title = {
-					title = PREV
-					enemy = FROM
-					same_religion = yes # Only vassalize rulers of my religion
+		custom_tooltip = {
+			text = religious_cb_succ_tip
+			hidden_tooltip = {
+				ROOT = {
+					vassalize_or_take_under_title = {
+						title = PREV
+						enemy = FROM
+						same_religion = yes # Only vassalize rulers of my religion
+					}
 				}
 			}
 		}
@@ -6584,10 +6562,6 @@ dejure_county_claim = {
 	check_all_titles = yes # if permanent, setting this to true will check against all of someones titles, including vassal held titles
 	press_claim = yes
 	can_ask_to_join_war = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		}
 
 	can_use_title = {
 		tier = count
@@ -6750,10 +6724,6 @@ dejure_barony_claim = {
 	check_all_titles = yes # if permanent, setting this to true will check against all of someones titles, including vassal held titles
 	press_claim = yes
 	can_ask_to_join_war = no
-	
-	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
-		}
 
 	can_use_title = {
 		tier = baron
@@ -6883,7 +6853,6 @@ other_dejure_barony_claim = {
 	can_ask_to_join_war = no
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		NOT = {
 			ROOT = {
 				character = PREV
@@ -7032,7 +7001,6 @@ other_dejure_county_claim = {
 	can_ask_to_join_war = no
 
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads }	}
 		NOT = {
 			ROOT = {
 				character = PREV
@@ -7305,6 +7273,7 @@ crusade = {
 			}
 		}
 		OR = {
+			title = k_jerusalem
 			ROOT = { NOT = { religion_group = christian } }
 			FROM = {
 				any_realm_province = {
@@ -7541,6 +7510,10 @@ crusade = {
 			if = {
 				limit = { 
 					has_dlc = "Legacy of Rome"
+					OR = { 
+						has_landed_title = e_byzantium
+						has_landed_title = e_roman_empire
+					}
 					religion_group = christian
 				}
 				hidden_tooltip = { character_event = { id = LoR.30 days = 12 } }
@@ -7578,6 +7551,10 @@ crusade = {
 			if = {
 				limit = { 
 					has_dlc = "Legacy of Rome"
+					OR = { 
+						has_landed_title = e_byzantium
+						has_landed_title = e_roman_empire
+					}
 					religion_group = christian
 				}
 				hidden_tooltip = { character_event = { id = LoR.30 days = 12 } }
