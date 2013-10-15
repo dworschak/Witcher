@@ -1,4 +1,4 @@
-name = "Witcher"
+name = "Witcher 0.1.R240"
 path = "mod/Witcher"
 
 user_dir = "Witcher"
