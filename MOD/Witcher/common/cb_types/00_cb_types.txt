@@ -2745,7 +2745,6 @@ depose_liege = {
 
 	on_success = {
 		FROM = {
-			prestige = -500
 			any_demesne_title = { # All titles
 				limit = {
 					OR = {
@@ -2755,6 +2754,7 @@ depose_liege = {
 #					is_titular = no
 					NOT = { has_law = centralization_0 }
 				}
+				
 				if = {
 					limit = { has_law = centralization_1 }
 					add_law = centralization_0
@@ -2804,6 +2804,17 @@ depose_liege = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 50 }
 		}
+	}
+	
+	on_defender_leader_death = {
+		hidden_tooltip = {
+			any_attacker = {
+				letter_event = {
+					id = 252
+				}
+			}
+		}
+		end_war = invalid
 	}
 
 	attacker_ai_victory_worth = {
