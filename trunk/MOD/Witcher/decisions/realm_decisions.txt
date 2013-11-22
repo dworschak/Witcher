@@ -7,7 +7,7 @@ decisions = {
 				has_character_flag = epic_tournament
 			}
 			NOT = {
-				religion_group = muslim
+				#religion_group = muslim
 				#religion_group = pagan_group
 			}
 			independent = yes
@@ -286,7 +286,9 @@ decisions = {
 #			age = 16
 #			prisoner = no
 #			NOT = { trait = incapable }
+#			NOT = { has_global_flag = rome_restored }
 #			has_landed_title = e_byzantium
+#			religion_group = christian
 #		}
 #		allow = {
 #			prestige = 3000
@@ -306,6 +308,7 @@ decisions = {
 #			completely_controls = d_croatia
 #		}
 #		effect = {
+#			set_global_flag = rome_restored
 #			narrative_event = { id = LoR.20 tooltip = EVTTOOLTIPLoR.20 }
 #		}
 #		ai_will_do = {
@@ -407,18 +410,20 @@ decisions = {
 #			any_realm_lord = { has_landed_title = c_roma }
 #		}
 #		effect = {
-#			custom_tooltip = rome_capital
-#			hidden_tooltip = {
-#				b_tivoli = { province_capital = yes }
-#				ROOT = {
-#					b_tivoli = {
-#						usurp_title = PREV
+#			custom_tooltip = {
+#				text = rome_capital
+#				hidden_tooltip = {
+#					b_tivoli = { province_capital = yes }
+#					ROOT = {
+#						b_tivoli = {
+#							usurp_title = PREV
+#						}
 #					}
-#				}
-#				#b_roma = { set_name = Lateran }
-#				b_tivoli = { 
-#					set_name = Rome 
-#					ROOT = { capital = PREV }
+#					#b_roma = { set_name = Lateran }
+#					b_tivoli = { 
+#						set_name = Rome 
+#						ROOT = { capital = PREV }
+#					}
 #				}
 #			}
 #		}
@@ -580,7 +585,7 @@ decisions = {
 #				narrative_event = { id = TOG.3100 }
 #				create_character = {
 #					random_traits = yes
-#					religion = freya
+#					religion = norse_pagan
 #					culture = norse
 #					dynasty = NONE
 #					female = no
@@ -610,6 +615,7 @@ decisions = {
 #			}
 #		}
 #		allow = {
+#			war = no
 #			completely_controls = d_pest
 #			OR = {
 #				completely_controls = d_transylvania
@@ -618,7 +624,9 @@ decisions = {
 #			}
 #		}
 #		effect = {
-#			custom_tooltip = EVTOPTA62910_CUSTOM
+#			custom_tooltip = {
+#				text = EVTOPTA62910_CUSTOM
+#			}
 #			narrative_event = { id = 62910 tooltip = EVTTOOLTIP62910 }
 #			if = {
 #				limit = { has_nickname = no }
@@ -690,6 +698,7 @@ decisions = {
 #			add_trait = saoshyant
 #			prestige = 500
 #			piety = 500
+#
 #		}
 #		ai_will_do = {
 #			factor = 1
@@ -705,6 +714,7 @@ decisions = {
 #			}
 #		}
 #		allow = {
+#			war = no
 #			capital_scope = {
 #				province_id = 190 # Leon
 #			}
@@ -767,6 +777,344 @@ decisions = {
 #		}
 #		ai_will_do = {
 #			factor = 1
+#		}
+#	}
+	
+#	build_third_temple = {
+#		is_high_prio = yes
+#		potential = {
+#			has_dlc = "Sons of Abraham"
+#			religion_group = jewish_group
+#			NOT = { has_global_flag = third_temple_built }
+#			NOT = { has_global_flag = building_third_temple }
+#		}
+#		allow = {
+#			completely_controls = c_jerusalem
+#			774 = {
+#				religion = jewish
+#			}
+#			wealth = 1500
+#			piety = 1500
+#		}
+#		effect = {
+#			hidden_tooltip = {
+#				character_event = { id = SoA.100 }
+#				narrative_event = { id = SoA.101 days = 1460 random = 50 }
+#			}
+#			set_global_flag = building_third_temple
+#			wealth = -1500
+#			prestige = 500
+#			piety = 500
+#		}
+#		ai_will_do = {
+#			factor = 1
+#		}
+#	}
+#	
+#	restore_high_priesthood = {
+#		is_high_prio = yes
+#		potential = {
+#			has_dlc = "Sons of Abraham"
+#			religion_group = jewish_group
+#			has_landed_title = k_israel
+#			has_global_flag = third_temple_built
+#			NOT = { has_global_flag = jewish_priesthood_founded }
+#		}
+#		allow = {
+#			completely_controls = c_jerusalem
+#			774 = {
+#				religion = jewish
+#			}
+#			piety = 1000
+#		}
+#		effect = {
+#			set_global_flag = jewish_priesthood_founded
+#			activate_title = { title = d_jewish status = yes }
+#			hidden_tooltip = {
+#				create_random_priest = {
+#					random_traits = yes
+#					religion = jewish
+#					culture = ROOT
+#					dynasty = random
+#					female = no
+#					age = 41
+#				}
+#				new_character = {
+#					d_jewish = {
+#						grant_title = PREV
+#					}
+#					narrative_event = { id = SoA.550 }
+#				}
+#			}
+#			d_jewish = {
+#				holder_scope = {
+#					k_israel = {
+#						holder_scope = {
+#							set_defacto_vassal = PREVPREV
+#						}
+#					}
+#				}
+#			}
+#		}
+#		ai_will_do = {
+#			factor = 1
+#		}
+#	}
+#	
+#	create_israel = {
+#		is_high_prio = yes
+#		potential = {
+#			has_dlc = "Sons of Abraham"
+#			religion_group = jewish_group
+#			k_israel = {
+#				has_holder = no
+#			}
+#		}
+#		allow = {
+#			completely_controls = d_jerusalem
+#			completely_controls = d_ascalon
+#			completely_controls = d_galilee
+#			completely_controls = d_oultrejourdain
+#			774 = {
+#				religion_group = jewish_group
+#			}
+#			piety = 500
+#			prestige = 500
+#		}
+#		effect = {
+#			narrative_event = { id = SoA.102 tooltip = EVTTOOLTIP_SoA_102 }
+#			prestige = 1000
+#		}
+#		ai_will_do = {
+#			factor = 1
+#		}
+#	}
+#	
+#	welcome_jews = {
+#		potential = {
+#			has_dlc = "Sons of Abraham"
+#			NOT = { 
+#				religion_group = jewish_group 
+#				has_character_modifier = expelled_jews_timer
+#			}
+#			has_character_modifier = expelled_jewish
+#			primary_title = { higher_tier_than = DUKE }
+#		}
+#		allow = {
+#		}
+#		effect = {
+#			remove_character_modifier = expelled_jewish
+#			custom_tooltip = {
+#				text = jews_are_welcome
+#			}
+#			hidden_tooltip = {
+#				character_event = { id = SoA.106 }
+#			}
+#		}
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0.1 # Less likely to do it
+#			}
+#			modifier = {
+#				factor = 0
+#				trait = zealous
+#			}
+#		}
+#	}
+#	
+#	expel_jews = {
+#		potential = {
+#			has_dlc = "Sons of Abraham"
+#			OR = {
+#				religion_group = christian
+#				religion_group = muslim
+#				religion_group = zoroastrian_group
+#			}	
+#			NOT = { 
+#				religion_group = jewish_group
+#				has_character_modifier = expelled_jewish
+#				trait = incapable
+#				any_realm_province = { religion = jewish }
+#			}
+#			independent = yes
+#			is_playable = yes
+#			age = 16
+#			prisoner = no
+#		}
+#		allow = {
+#		}
+#		effect = {
+#			if = {
+#				limit = { has_character_modifier = borrowed_from_jews }
+#				remove_character_modifier = borrowed_from_jews
+#			}
+#			add_character_modifier = {
+#				name = expelled_jewish
+#				duration = -1
+#				inherit = yes
+#			}
+#			custom_tooltip = {
+#				text = jews_are_expelled
+#			}
+#			hidden_tooltip = {
+#				character_event = { id = SoA.105 }
+#				add_character_modifier = {
+#					name = expelled_jews_timer
+#					duration = 7300
+#					hidden = yes
+#				}
+#			}
+#		}
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0.001 # Less likely to do it
+#			}
+#			modifier = {
+#				factor = 0
+#				any_courtier = {
+#					religion = jewish
+#					reverse_opinion = { who = ROOT value = 20 }
+#				}
+#			}
+#			modifier = {
+#				factor = 0
+#				any_spouse = {
+#					religion = jewish
+#				}
+#			}
+#			modifier = {
+#				factor = 0
+#				any_child = {
+#					religion = jewish
+#				}
+#			}
+#			modifier = {
+#				factor = 0
+#				trait = kind
+#			}
+#			modifier = {
+#				factor = 1.2
+#				trait = zealous
+#				trait = arbitrary
+#			}
+#			modifier = {
+#				factor = 1.2
+#				has_character_modifier = borrowed_from_jews
+#				trait = greedy
+#			}
+#		}
+#	}
+#	
+#	embrace_mutazila = {
+#		potential = {
+#			has_dlc = "Sons of Abraham"
+#			religion = sunni
+#			NOT = { 
+#				OR = {
+#					trait = mutazilite
+#					trait = ashari
+#				}
+#			}
+#			is_ruler = yes
+#			age = 16
+#			prisoner = no
+#		}
+#		
+#		allow = {
+#			piety = 50
+#		}
+#		
+#		effect = {
+#			add_trait = mutazilite
+#			character_event = { id = SoA.600 tooltip = EVTTOOLTIP_SoA_600 }
+#		}
+#		
+#		revoke_allowed = {
+#			always = no
+#		}
+#		
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0
+#				trait = zealous
+#			}
+#			modifier = {
+#				factor = 1.2
+#				trait = cynical
+#			}
+#			modifier = {
+#				factor = 1.2
+#				liege = { trait = mutazilite }
+#			}
+#			modifier = {
+#				factor = 0.005 # Slow it down
+#			}
+#		}
+#	}
+#	embrace_ashari = {
+#		potential = {	
+#			has_dlc = "Sons of Abraham"
+#			religion = sunni
+#			NOT = { 
+#				OR = {
+#					trait = mutazilite
+#					trait = ashari
+#				}
+#			}
+#			is_ruler = yes
+#			age = 16
+#			prisoner = no
+#		}
+#		
+#		allow = {
+#			piety = 50
+#		}
+#		
+#		effect = {
+#			add_trait = ashari
+#			character_event = { id = SoA.601 tooltip = EVTTOOLTIP_SoA_601 }
+#		}
+#		
+#		revoke_allowed = {
+#			always = no
+#		}
+#		
+#		ai_will_do = {
+#			factor = 1
+#			
+#			modifier = {
+#				factor = 0
+#				trait = cynical
+#			}
+#			modifier = {
+#				factor = 1.2
+#				trait = zealous
+#			}
+#			modifier = {
+#				factor = 1.2
+#				liege = { trait = ashari }
+#			}
+#			modifier = {
+#				factor = 1.2
+#				decadence = 40
+#			}
+#			modifier = {
+#				factor = 1.2
+#				decadence = 60
+#			}
+#			modifier = {
+#				factor = 1.2
+#				decadence = 80
+#			}
+#			modifier = {
+#				factor = 0.005 # Slow it down
+#			}
 #		}
 #	}
 }

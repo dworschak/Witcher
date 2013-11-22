@@ -319,6 +319,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { trait = pregnant }
 		father_of_unborn = {
 			any_spouse = {
 				character = ROOT
@@ -351,6 +352,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { trait = pregnant }
 		is_married = no
 		is_consort = no
 		father_of_unborn = {
@@ -379,6 +381,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { trait = pregnant }
 		is_married = yes
 		father_of_unborn = {
 			NOT = {
@@ -446,6 +449,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { trait = pregnant }
 		father_of_unborn = {
 			is_consort = ROOT
 		}
@@ -476,6 +480,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { trait = pregnant }
 		is_consort = yes
 		father_of_unborn = {
 			NOT = {
@@ -898,6 +903,368 @@ character_event = {
 	}
 }
 
+# On-action event: Birth complications
+character_event = {
+	id = 313
+	desc = OK
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { age = 1 }
+	}
+
+	immediate = {
+		random_list = {
+			80 = {
+				# All is well
+			}
+			10 = {
+				add_trait = sickly
+			}
+			10 = {
+				add_trait = ill
+			}
+		}
+	}
+
+	option = { # No complications
+		name = OK
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 2.0
+				mother = {
+					health = 6
+				}
+			}
+			modifier = {
+				factor = 2.0
+				mother = {
+					health = 7
+				}
+			}
+			modifier = {
+				factor = 2.0
+				mother = {
+					num_of_children = 3
+				}
+			}
+			modifier = {
+				factor = 1.2
+				age = 20
+			}
+			modifier = {
+				factor = 1.2
+				age = 25
+			}
+			modifier = {
+				factor = 1.2
+				age = 30
+			}
+		}
+	}
+	option = { # Mother gets ill
+		name = OK
+		ai_chance = {
+			factor = 12
+			modifier = {
+				factor = 0
+				mother = {
+					trait = pneumonic
+				}
+			}
+			modifier = {
+				factor = 2.0
+				mother = {
+					NOT = { health = 4.1 }
+				}
+			}
+			modifier = {
+				factor = 1.5
+				mother = {
+					NOT = { num_of_children = 2 }
+				}
+			}
+		}
+		
+		mother = {
+			if = {
+				limit = {
+					trait = ill
+				}
+				character_event = { id = 316 }
+			}
+			if = {
+				limit = {
+					NOT = { trait = ill }
+				}
+				character_event = { id = 315 }
+			}
+		}
+	}
+	option = { # Mother gets pneumonia
+		name = OK
+		ai_chance = {
+			factor = 8
+			
+			modifier = {
+				factor = 2.0
+				mother = {
+					NOT = { health = 4.1 }
+				}
+			}
+			modifier = {
+				factor = 6.0
+				mother = {
+					NOT = { health = 3.1 }
+				}
+			}
+			modifier = {
+				factor = 1.5
+				mother = {
+					NOT = { num_of_children = 2 }
+				}
+			}
+		}
+		
+		mother = {
+			if = {
+				limit = {
+					OR = {
+						trait = pneumonic 
+						has_epidemic = yes
+					}
+				}
+				death = {
+					death_reason = death_childbirth
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							trait = pneumonic 
+							has_epidemic = yes
+						}
+					}
+				}
+				character_event = { id = 316 }
+			}
+		}
+	}
+	option = { # Mother dies
+		name = OK
+		ai_chance = {
+			factor = 2
+			modifier = {
+				factor = 2.0
+				mother = {
+					NOT = { health = 4.1 }
+				}
+			}
+			modifier = {
+				factor = 6.0
+				mother = {
+					NOT = { health = 3.1 }
+				}
+			}
+			modifier = {
+				factor = 1.5
+				mother = {
+					NOT = { num_of_children = 2 }
+				}
+			}
+		}
+		mother = {
+			death = {
+				death_reason = death_childbirth
+			}
+		}
+	}
+}
+
+# On-action event: Birth complications after a stillbirth
+character_event = {
+	id = 314
+	desc = OK
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		age = 1
+	}
+	
+	option = { # No complications
+		name = OK
+		ai_chance = {
+			factor = 66
+			modifier = {
+				factor = 2.0
+				health = 6
+			}
+			modifier = {
+				factor = 2.0
+				health = 7
+			}
+			modifier = {
+				factor = 2.0
+				num_of_children = 3
+			}
+			modifier = {
+				factor = 1.2
+				age = 20
+			}
+			modifier = {
+				factor = 1.2
+				age = 25
+			}
+			modifier = {
+				factor = 1.2
+				age = 30
+			}
+		}
+	}
+	option = { # Mother gets ill
+		name = OK
+		ai_chance = {
+			factor = 22
+			modifier = {
+				factor = 0
+				trait = pneumonic
+			}
+			modifier = {
+				factor = 2.0
+				NOT = { health = 4.1 }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { num_of_children = 2 }
+			}
+		}
+		
+		if = {
+			limit = {
+				trait = ill
+			}
+			character_event = { id = 315 }
+		}
+		if = {
+			limit = {
+				NOT = { trait = ill }
+			}
+			character_event = { id = 314 }
+		}
+	}
+	option = { # Mother gets pneumonia
+		name = OK
+		ai_chance = {
+			factor = 10
+			
+			modifier = {
+				factor = 2.0
+				NOT = { health = 4.1 }
+			}
+			modifier = {
+				factor = 6.0
+				NOT = { health = 3.1 }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { num_of_children = 2 }
+			}
+		}
+		
+		if = {
+			limit = {
+				OR = {
+					trait = pneumonic 
+					has_epidemic = yes
+				}
+			}
+			death = {
+				death_reason = death_childbirth
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					OR = {
+						trait = pneumonic 
+						has_epidemic = yes
+					}
+				}
+			}
+			character_event = { id = 315 }
+		}
+	}
+	option = { # Mother dies
+		name = OK
+		ai_chance = {
+			factor = 2
+			modifier = {
+				factor = 2.0
+				NOT = { health = 4.1 }
+			}
+			modifier = {
+				factor = 6.0
+				NOT = { health = 3.1 }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { num_of_children = 2 }
+			}
+		}
+		death = {
+			death_reason = death_childbirth
+		}
+	}
+}
+
+# Mother ill after giving birth
+character_event = {
+	id = 315
+	desc = EVTDESC315
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		add_trait = ill
+	}
+
+	option = {
+		name = EVTOPTA315
+		tooltip = {
+			add_trait = ill
+		}
+	}
+}
+
+# Mother pneumonic after giving birth
+character_event = {
+	id = 316
+	desc = EVTDESC315
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		add_trait = pneumonic
+	}
+
+	option = {
+		name = EVTOPTA315
+		tooltip = {
+			add_trait = pneumonic
+		}
+	}
+}
+	
 # On-action event: A bastard child is born, but is not recognized as such by the spouse of the mother
 character_event = {
 	id = 318

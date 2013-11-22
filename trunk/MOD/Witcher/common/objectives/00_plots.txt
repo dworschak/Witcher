@@ -320,23 +320,25 @@ plot_gain_vassal_title = {
 			AND = {
 				tier = DUKE
 				holder_scope = {
-					NOT = {
-						any_demesne_title = {
-							tier = COUNT
-							location = {
-								duchy = {
-									title = ROOT
-								}
-							}
-						}
-					}
-					NOT = {
-						any_vassal = {
+					AND = {
+						NOT = {
 							any_demesne_title = {
 								tier = COUNT
 								location = {
 									duchy = {
 										title = ROOT
+									}
+								}
+							}
+						}
+						NOT = {
+							any_vassal = {
+								any_demesne_title = {
+									tier = COUNT
+									location = {
+										duchy = {
+											title = ROOT
+										}
 									}
 								}
 							}
@@ -518,23 +520,25 @@ plot_gain_vassal_title = {
 					AND = {
 						tier = DUKE
 						holder_scope = {
-							NOT = {
-								any_demesne_title = {
-									tier = COUNT
-									location = {
-										duchy = {
-											title = ROOT
-										}
-									}
-								}
-							}
-							NOT = {
-								any_vassal = {
+							AND = {
+								NOT = {
 									any_demesne_title = {
 										tier = COUNT
 										location = {
 											duchy = {
 												title = ROOT
+											}
+										}
+									}
+								}
+								NOT = {
+									any_vassal = {
+										any_demesne_title = {
+											tier = COUNT
+											location = {
+												duchy = {
+													title = ROOT
+												}
 											}
 										}
 									}
@@ -660,14 +664,16 @@ plot_kill_character = {
 				}
 				
 				# Character's child is heir or pretender to a title that I don't hold
-				any_child = {
-					OR = {
-						any_pretender_title = {
-							NOT = { holder = ROOT }
-							NOT = { current_heir = { character = ROOT } }
-						}
-						any_heir_title = {
-							NOT = { holder = ROOT }
+				AND = {
+					any_child = {
+						OR = {
+							any_pretender_title = {
+								NOT = { holder = ROOT }
+								NOT = { current_heir = { character = ROOT } }
+							}
+							any_heir_title = {
+								NOT = { holder = ROOT }
+							}
 						}
 					}
 				}
@@ -947,16 +953,6 @@ plot_kill_character = {
 				religion_group = muslim
 				top_liege = { character = father }
 			}
-		}
-		#Christian Iberians were rather fond of killing one antoher
-		modifier = {
-			factor = 10000
-			any_heir_title = {
-				holder = ROOT
-			}
-			culture = castillan
-			FROM = { culture = castillan }
-			NOT = { any_child = { character = FROM } }
 		}
 	}
 	
@@ -1405,17 +1401,19 @@ plot_weaken_fellow_vassal = {
 	}
 	
 	success = {
-		hidden_tooltip = {
-			holder_scope = {
-				NOT = { 
-					has_opinion_modifier = {
-						modifier = opinion_plot_weaken_fellow_vassal
-						who = FROM			
+		custom_tooltip = {
+			text = PLOT_TOOLTIP_WEAKEN_VASSAL
+			hidden_tooltip = {
+				holder_scope = {
+					NOT = { 
+						has_opinion_modifier = {
+							modifier = opinion_plot_weaken_fellow_vassal
+							who = FROM			
+						}
 					}
 				}
 			}
 		}
-		custom_tooltip = PLOT_TOOLTIP_WEAKEN_VASSAL
 	}
 	abort = {
 		OR = {
@@ -1635,8 +1633,11 @@ plot_gain_liege_title = {
 		claimed_by = FROM
 	}
 	abort = {
-		holder_scope = {
-			character = FROM
+		OR = {
+			holder_scope = {
+				character = FROM
+			}
+			has_holder = no
 		}
 	}
 	abort_effect = {
@@ -1831,8 +1832,11 @@ plot_gain_fellow_vassal_title = {
 		claimed_by = FROM
 	}
 	abort = {
-		holder_scope = {
-			character = FROM
+		OR = {
+			holder_scope = {
+				character = FROM
+			}
+			has_holder = no
 		}
 	}
 	abort_effect = {

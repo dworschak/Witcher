@@ -707,6 +707,7 @@ on_five_year_pulse = {
 		10 = 3264
 		10 = 3730
 		10 = 3735
+		10 = personality.07 #Racist/tolerant
 		
 		#VIET EVENTS
 		#Byzantine Events
@@ -761,6 +762,8 @@ on_yearly_childhood_pulse = {
 		100 = 1965
 		100 = 1632
 		100 = 1732
+		100 = personality.01 # Racist
+		100 = personality.04 # Tolerant
 		
 		#Toddler flavour events (age 2-5), not very common, but some will get them.
 		10 = 1900 
@@ -977,15 +980,24 @@ on_siege_over_winner = {
 		TOG.1005 # Peasants take county capital
 		TOG.1025 # Heretics take county capital
 		TOG.1045 # Nationalists take county capital
+		TOG.1065 # Religious rebels take county capital
+	}
+	random_events = {
+		400 = 0 # Nothing happens
+		100 = SoA.5400 # Massacre at Beziers-type event
 	}
 }
 
 # Fires for all characters presumed to be in the Holding at the time. Siege winner unit owner in the 'new_character' scope, lost holding title in FROM, local character in ROOT.
 on_siege_over_loc_chars = {
+	events = {
+		SoA.5406 # Shepherds' Crusade kills Jews and priests
+	}
 	random_events = {
  		1000 = 0 # Nothing happens
  		400 = SSI.61 # Aztec sacrifice
  		100 = 62100 # Character imprisoned
+ 		200 = TOG.1190 # Rebels kill character
  	}
 }
 
@@ -1027,8 +1039,24 @@ on_birth = {
 		300 # A Bastard is born
 		312 # The child of a consort is born		
 		318 # A Bastard is born, but is not recognized as such by the mother's spouse (cuckoo!)
-		
 		TOG.3206 # Child Perceived to be Demon Born
+		706 # Full House achievement
+		707 # Keeping it in the Family achievement
+	}
+}
+
+# character
+on_adulthood = {
+	events = {
+		SoA.3020 # Demon child's true nature asserts itself
+	}
+}
+
+# baby scope
+on_post_birth = {
+	events = {
+		313 # Possible complications for the mother and child
+		314 # Possible complications for the mother after stillbirth
 	}
 }
 
@@ -1063,6 +1091,7 @@ on_marriage = {
 	events = {
  		500 # Royal Marriage Aid Duty
  		501 # Zoroastrian "Xwedodah" marriage
+		708 # Marriage Game achievement
  	}
 }
 
@@ -1136,9 +1165,13 @@ on_death = {
 	events = {
 #		8250
 		650
+		675
 		24500
 		24502
 		70041
+		88291
+		SoA.5306
+		705
 		finnish.1
 	}
 	random_events = {
@@ -1252,6 +1285,43 @@ SEND_GIFT_INTERACTION_DECLINE_EVENT = {
 		209
 	}
 }
+
+ASK_FOR_MONEY_INTERACTION_ACCEPT_EVENT = {
+	events = {
+		SoA.3100
+	}
+}
+
+ASK_FOR_MONEY_INTERACTION_DECLINE_EVENT = {
+	events = {
+		SoA.3101
+	}
+}
+
+ASK_FOR_CLAIM_INTERACTION_ACCEPT_EVENT = {
+	events = {
+		SoA.3104
+	}
+}
+
+ASK_FOR_CLAIM_INTERACTION_DECLINE_EVENT = {
+	events = {
+		SoA.3105
+	}
+}
+
+NOMINATE_BISHOP_TO_POPE_INTERACTION_ACCEPT_EVENT = {
+	events = {
+		SoA.3102
+	}
+}
+
+NOMINATE_BISHOP_TO_POPE_INTERACTION_DECLINE_EVENT = {
+	events = {
+		SoA.3103
+	}
+}
+
 
 OFFER_VASSALIZATION_INTERACTION_ACCEPT_EVENT = {
 	events = {
@@ -1579,6 +1649,8 @@ on_rebel_revolt = {
 		TOG.1020	# Heretic rebels rise up
 		TOG.1050 	# Nationalist rebels reinforced
 		TOG.1040	# Nationalist rebels rise up
+		TOG.1070 	# Religious rebels reinforced
+		TOG.1060	# Religious rebels rise up
 		TOG.1010 	# Peasant rebels reinforced
 		TOG.1000 	# Peasant rebels rise up
 	}
@@ -1623,5 +1695,52 @@ on_forced_consort = {
 on_reform_religion = {
 	events = {
 		670
+	}
+}
+
+# When the religion changes in a county
+on_county_religion_change = {
+	events = {
+		SoA.4121
+	}
+}
+
+# When a character accepts religious conversion (the diplomatic action)
+# FROMFROM is the demander. FROM is the vassal. ROOT is the character. Fires for the vassal and each of his courtiers and vassals.
+on_vassal_accepts_religious_conversion = {
+	events = {
+		39700 # Hidden event actually changing the religion
+	}
+}
+
+# A heresy has become the new norm, replacing the old orthodoxy
+on_heresy_takeover = {
+	events = {
+		SoA.4200
+	}
+}
+
+# Fires for a newly elected Doge. FROM is the previous (dying or abdicating) doge.
+on_become_doge = {
+	events = {
+		701
+	}
+}
+
+# Fires when a navy moves into a port. Starts in unit scope, FROM is the owner.
+on_entering_port = {
+	events = {
+		700
+	}
+}
+
+# Fires when a cardinal is elected. SoA only! FROM is the Religious head.
+on_rel_elector_chosen = {
+}
+
+# Fires when a Pope is elected. SoA only! FROM is the previous Religious Head
+on_rel_head_chosen = {
+	events = {
+		704
 	}
 }

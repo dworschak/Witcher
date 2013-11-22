@@ -29,7 +29,7 @@ character_event = {
 	border = GFX_event_normal_frame_intrigue
 
 	only_rulers = yes
-	min_age = 16
+	min_age = 15
 	capable_only = yes
 	prisoner = no
 	
@@ -234,7 +234,7 @@ letter_event = {
 ###########################################
 # 7040-7045
 
-# Drunk plot member spills the beans
+# Drunk plot member spills the beans - Non-Murder Plots
 character_event = {
 	id = 7040
 	desc = "EVTDESC7040"
@@ -248,8 +248,6 @@ character_event = {
 		any_backed_character = {
 			OR = {
 				has_plot = plot_gain_title
-				has_plot = plot_kill_character
-				has_plot = plot_kill_spouse
 				has_plot = plot_weaken_fellow_vassal
 				has_plot = plot_gain_liege_title
 				has_plot = plot_gain_fellow_vassal_title
@@ -294,8 +292,6 @@ character_event = {
 			limit = {
 				OR = {
 					has_plot = plot_gain_title
-					has_plot = plot_kill_character
-					has_plot = plot_kill_spouse
 					has_plot = plot_weaken_fellow_vassal
 					has_plot = plot_gain_liege_title
 					has_plot = plot_gain_fellow_vassal_title
@@ -326,6 +322,7 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7045"
+		clr_character_flag = event7040
 		if = {
 			limit = {
 				plot_target_char = {
@@ -358,6 +355,158 @@ character_event = {
 	}
 }
 
+# Drunk plot member spills the beans - Murder Plots
+character_event = {
+	id = 7041
+	desc = EVTDESC7040
+	picture = GFX_evt_drunk
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		any_backed_character = {
+			OR = {
+				has_plot = plot_kill_character
+				has_plot = plot_kill_spouse
+			}
+			is_plot_active = no
+			NOT = { has_character_flag = event7041 }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+
+		modifier = {
+			factor = 0.5
+			trait = drunkard
+		}
+		modifier = {
+			factor = 0.5
+			trait = imbecile
+		}
+		modifier = {
+			factor = 0.75
+			trait = slow
+		}
+		modifier = {
+			factor = 5.0
+			trait = temperate
+		}
+		modifier = {
+			factor = 2.0
+			trait = genius
+		}
+		modifier = {
+			factor = 1.5
+			trait = quick
+		}
+	}
+	
+	option = {
+		name = "EVTOPTA7040"
+		random_backed_character = {
+			limit = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				NOT = { has_character_flag = event7041 }
+			}
+			opinion = {
+				who = ROOT
+				modifier = revealed_plot
+				months = 120
+			}
+			set_character_flag = event7041
+			hidden_tooltip = {
+				character_event = { id = 7046 days = 1 }
+			}
+		}
+	}
+}
+
+# Plot revealed by drunken backer
+character_event = {
+	id = 7046
+	desc = EVTDESC7045
+	picture = GFX_evt_drunk
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA7045
+		
+		clr_character_flag = event7041
+		if = {
+			limit = {
+				plot_target_char = {
+					any_courtier = {
+						has_job_title = job_spymaster
+					}
+				}
+			}
+			reveal_plot_w_message = yes
+		}
+		if = {
+			limit = {
+				plot_target_char = {
+					NOT = {
+						any_courtier = {
+							has_job_title = job_spymaster
+						}
+					}
+				}
+			}
+			reveal_plot = yes
+		}
+		plot_target_char = {
+			opinion = {
+				who = ROOT
+				modifier = opinion_murder_attempt
+				months = 120
+			}
+			opinion = {
+				who = ROOT
+				modifier = opinion_dishonorable
+				months = 60
+			}
+			
+			if = {
+				limit = {
+					employer = {
+						NOT = { character = ROOT }
+						NOT = { character = PREV }
+					}
+				}
+				employer = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+			}
+			hidden_tooltip = {
+				any_dynasty_member = {
+					limit = {
+						is_alive = yes
+						NOT = { character = ROOT }
+						NOT = { character = PREV }
+					}
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+			}
+		}
+	}
+}
 
 ###########################################
 # Ultimatum event series
@@ -1319,7 +1468,7 @@ letter_event = {
 # Ultimatum - crown authority
 letter_event = {
 	id = 8025
-	desc = "EVTDESC8025"
+	desc = EVTDESC8025
 	
 	is_triggered_only = yes
 	
@@ -1338,7 +1487,7 @@ letter_event = {
 	}
 	
 	option = {
-		name = "EVTOPTA8000"
+		name = EVTOPTA8000
 		ai_chance = {
 			factor = 10
 			modifier = {
@@ -1387,7 +1536,8 @@ letter_event = {
 			any_vassal = {
 				limit = {
 					ai = no
-					NOT = { in_faction = faction_lower_crown_authority }
+					NOT = { in_faction = faction_lower_crown_authority
+ }
 				}
 				character_event = { id = 8094 }
 			}
@@ -1552,12 +1702,12 @@ letter_event = {
 # Ultimatum - gain a vassal title
 letter_event = {
 	id = 8030
-	desc = "EVTDESC8030"
+	desc = EVTDESC8030
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA8000"
+		name = EVTOPTA8000
 		ai_chance = {
 			factor = 10
 			modifier = {
@@ -1604,7 +1754,7 @@ letter_event = {
 		}
 	}
 	option = {
-		name = "EVTOPTB8000"
+		name = EVTOPTB8000
 		ai_chance = {
 			factor = 90
 			modifier = {
@@ -1649,7 +1799,7 @@ letter_event = {
 			}
 		}
 		FROM = {
-			letter_event = { id = 8118 days = 3 tooltip = "EVTTOOLTIP8100" }
+			letter_event = { id = 8118 days = 3 tooltip = EVTTOOLTIP8100 }
 		}
 	}
 }
@@ -1657,12 +1807,12 @@ letter_event = {
 # Regent is in on the plot
 letter_event = {
 	id = 8026
-	desc = "EVTDESC8026"
+	desc = EVTDESC8026
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA8026"
+		name = EVTOPTA8026
 		hidden_tooltip = {
 			FROM = {
 				letter_event = { id = 8067 }
@@ -3016,7 +3166,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
 			NOT = { trait = incapable }
@@ -3239,7 +3389,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				prisoner = no
 				NOT = { trait = incapable }
 			}
@@ -3255,7 +3405,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 8400
+		months = 4200
 		
 		modifier = {
 			factor = 0.6
@@ -3612,7 +3762,7 @@ character_event = {
 	}
 	option = {
 		name = "EVTOPTB8154" # Screw this
-		FROM = { clr_character_flag = murder_in_motion }
+		clr_character_flag = murder_in_motion
 	}
 }
 
@@ -4137,7 +4287,7 @@ character_event = {
 		}
 		plot_target_char = {
 			age = 5
-			NOT = { age = 16 }
+			NOT = { age = 15 }
 			prisoner = no
 			NOT = { trait = incapable }
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -4361,7 +4511,7 @@ character_event = {
 			plot_power = 0.5
 			plot_target_char = {
 				age = 5
-				NOT = { age = 16 }
+				NOT = { age = 15 }
 				prisoner = no
 				NOT = { trait = incapable }
 			}
@@ -5762,7 +5912,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			is_ruler = yes
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
 			NOT = { trait = incapable }
@@ -5986,7 +6136,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				is_ruler = yes
 				NOT = { trait = incapable }
 				prisoner = no
@@ -6881,7 +7031,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
 			NOT = { trait = incapable }
 			prisoner = no
@@ -7104,7 +7254,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				prisoner = no
 				NOT = { trait = incapable }
 			}
@@ -11344,7 +11494,7 @@ character_event = {
 		}
 		plot_target_char = {
 			age = 5
-			NOT = { age = 16 }
+			NOT = { age = 15 }
 			NOT = { trait = incapable }
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -11568,7 +11718,7 @@ character_event = {
 			plot_power = 0.5
 			plot_target_char = {
 				age = 5
-				NOT = { age = 16 }
+				NOT = { age = 15 }
 				NOT = { trait = incapable }
 				prisoner = no
 			}
@@ -12431,7 +12581,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			NOT = { trait = incapable }
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -12654,7 +12804,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				NOT = { trait = incapable }
 				prisoner = no
 			}
@@ -13548,7 +13698,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			NOT = { trait = incapable }
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -13771,7 +13921,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				NOT = { trait = incapable }
 				prisoner = no
 			}
@@ -14666,7 +14816,7 @@ character_event = {
 		}
 		plot_target_char = {
 			age = 5
-			NOT = { age = 16 }
+			NOT = { age = 15 }
 			NOT = { trait = incapable }
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -14890,7 +15040,7 @@ character_event = {
 			plot_power = 0.5
 			plot_target_char = {
 				age = 5
-				NOT = { age = 16 }
+				NOT = { age = 15 }
 				NOT = { trait = incapable }
 				prisoner = no
 			}
@@ -15784,7 +15934,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			NOT = { trait = incapable }
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -16007,7 +16157,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				NOT = { trait = incapable }
 				prisoner = no
 			}
@@ -16901,7 +17051,7 @@ character_event = {
 			has_plot = plot_kill_spouse
 		}
 		plot_target_char = {
-			age = 16
+			age = 15
 			NOT = { trait = incapable }
 			prisoner = no
 			at_location = ROOT # The Plot Head needs to be at the target's location to get a chance
@@ -17124,7 +17274,7 @@ character_event = {
 			}
 			plot_power = 0.5
 			plot_target_char = {
-				age = 16
+				age = 15
 				NOT = { trait = incapable }
 				prisoner = no
 			}

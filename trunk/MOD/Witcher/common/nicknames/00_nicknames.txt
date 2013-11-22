@@ -47,6 +47,9 @@ nick_the_german = {}
 nick_the_younger = {}
 nick_the_saoshyant = {}
 nick_hardeknud = {}
+nick_the_maid = {}
+nick_darc = {}
+nick_the_master_of_hungary = {}
 
 # GIVEN BY TRAITS
 #################
@@ -99,14 +102,9 @@ nick_the_troubadour = {
 		age = 20
 		trait = poet
 		trait = gregarious
-		OR = {
-			culture_group = latin
-			culture_group = byzantine
-			culture_group = iberian
-		}
 	}
 	chance = {
-		factor = 2
+		factor = 1
 	}
 }
 
@@ -183,6 +181,7 @@ nick_the_blind = {
 	allow = {
 		age = 20
 		OR = {
+			trait = maimed
 			trait = inbred
 			trait = leper
 			trait = blinded
@@ -238,8 +237,8 @@ nick_the_bastard = {
 		age = 10
 		is_female = no
 		OR = {
-		trait = bastard
-		trait = legit_bastard
+			trait = bastard
+			trait = legit_bastard
 		}
 	}
 	chance = {
@@ -291,6 +290,7 @@ nick_the_hunter = {
 		trait = hunter
 		NOT = { trait = infirm }
 		NOT = { trait = incapable }
+		NOT = { trait = blinded }
 	}
 	chance = {
 		factor = 1
@@ -306,6 +306,7 @@ nick_the_fowler = {
 		}
 		NOT = { trait = infirm }
 		NOT = { trait = incapable }
+		NOT = { trait = blinded }
 	}
 	chance = {
 		factor = 1
@@ -317,7 +318,7 @@ nick_the_just = {
 		age = 15
 		trait = just
 		stewardship = 12
-		NOT = { trait = wroth }
+		NOT = { trait = deceitful }
 		NOT = { trait = imbecile }
 		NOT = { trait = slow }
 		NOT = { trait = incapable }
@@ -330,8 +331,24 @@ nick_the_just = {
 	chance = {
 		factor = 1
 		modifier = {
+			factor = 1.5
+			stewardship = 6
+		}
+		modifier = {
+			factor = 1.5
+			stewardship = 7
+		}
+		modifier = {
+			factor = 1.5
+			stewardship = 8
+		}
+		modifier = {
+			factor = 1.5
+			stewardship = 9
+		}
+		modifier = {
 			factor = 2.0
-			trait = patient
+			trait = honest
 		}
 	}
 }
@@ -1096,7 +1113,7 @@ nick_the_old = {
 
 nick_the_great = {
 	allow = {
-		ruled_years = 15
+		ruled_years = 10
 		prestige = 3000
 	}
 	chance = {

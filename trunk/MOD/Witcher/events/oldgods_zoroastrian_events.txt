@@ -21,6 +21,10 @@ narrative_event = {
 	
 	hide_from = yes
 	
+	immediate = {
+		set_character_flag = achievement_brings_benefit
+	}
+	
 	option = {
 		name = EVTOPTA_TOG_6000
 		hidden_tooltip = {
@@ -42,11 +46,18 @@ character_event = {
 	
 	trigger = {
 		has_dlc = "The Old Gods"
+		has_global_flag = saoshyant_appears
 		OR = {
 			mother = { trait = saoshyant }
 			father = { trait = saoshyant }
+			mother = { trait = saoshyant_descendant }
+			father = { trait = saoshyant_descendant } 
 		}
 		NOT = { trait = saoshyant_descendant }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
 	}
 	
 	immediate = {
