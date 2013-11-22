@@ -19,7 +19,7 @@ character_event = {
 	
 	hide_window = yes # Only fires for unplayable landless characters
 	
-	min_age = 16
+	min_age = 15
 	max_age = 50
 	only_men = yes
 	capable_only = yes
@@ -57,10 +57,14 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		years = 34
+		years = 50
 		modifier = {
 			factor = 0.5
 			trait = ambitious
+		}
+		modifier = {
+			factor = 0.2
+			has_character_flag = demon_child_non_pagan
 		}
 		modifier = {
 			factor = 0.5
@@ -110,6 +114,11 @@ character_event = {
 				has_holder = yes
 				holder_scope = {
 					independent = yes # Only do this vs independent rulers
+					OR = {
+						# Don't target a liege unless I am ambitious
+						NOT = { is_vassal_or_below = ROOT }
+						ROOT = { trait = ambitious }
+					}
 				}
 			}
 			
@@ -174,6 +183,11 @@ character_event = {
 			has_holder = yes
 			holder_scope = {
 				independent = yes # Only do this vs independent rulers
+				OR = {
+					# Don't target a liege unless I am ambitious
+					NOT = { is_vassal_or_below = ROOT }
+					ROOT = { trait = ambitious }
+				}
 			}
 			OR = {
 				tier = KING
@@ -572,7 +586,7 @@ character_event = {
 	
 	hide_window = yes # Only fires for unplayable landless characters
 	
-	min_age = 16
+	min_age = 15
 	max_age = 50
 	only_men = yes
 	capable_only = yes
@@ -583,8 +597,8 @@ character_event = {
 		
 		is_ruler = no
 		
-		diplomacy = 7
-		martial = 7
+		diplomacy = 9
+		martial = 9
 		health = 4
 		
 		NOT = { trait = content }
@@ -602,6 +616,7 @@ character_event = {
 				culture = hungarian
 				NOT = { year = 1066 }
 			}
+			has_character_flag = demon_child_non_pagan
 		}
 		
 		NOT = { # Somewhat clunky way of checking that the character does not stand to inherit any titles
@@ -652,7 +667,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		years = 70
+		years = 100
 		modifier = {
 			factor = 0.5
 			trait = ambitious
@@ -673,6 +688,10 @@ character_event = {
 		modifier = {
 			factor = 0.5
 			has_character_flag = flag_denied_title
+		}
+		modifier = {
+			factor = 0.2
+			has_character_flag = demon_child_non_pagan
 		}
 		modifier = {
 			factor = 0.75
@@ -701,6 +720,18 @@ character_event = {
 		modifier = {
 			factor = 3.0
 			trait = kind
+		}
+		modifier = {
+			factor = 3.0
+			any_liege = {
+				ai = no
+			}
+		}
+		modifier = {
+			factor = 3.0
+			top_liege = {
+				tier = emperor
+			}
 		}
 	}
 	

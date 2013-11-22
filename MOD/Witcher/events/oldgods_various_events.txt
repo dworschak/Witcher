@@ -33,7 +33,7 @@ character_event = {
 		}
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		modifier = {
 			factor = 1.5
@@ -111,7 +111,7 @@ character_event = {
 		is_alive = yes
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		
 		modifier = {
@@ -273,7 +273,7 @@ character_event = {
 		is_alive = yes
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		
 		modifier = {
@@ -432,7 +432,7 @@ character_event = {
 		trait = berserker
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		modifier = {
 			factor = 1.5
@@ -608,7 +608,7 @@ character_event = {
 		trait = berserker
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		modifier = {
 			factor = 1.5
@@ -823,7 +823,7 @@ character_event = {
 	hide_window = yes
 	
 	ai = yes
-	min_age = 16
+	min_age = 15
 	only_men = yes
 	capable_only = yes
 	prisoner = no
@@ -908,9 +908,18 @@ character_event = {
 	id = TOG.3105
 	hide_window = yes
 	
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
 	trigger = {
 		has_landed_title = d_varangian_guard
 		NOT = { trait = varangian }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
 	}
 	
 	immediate = {
@@ -949,7 +958,7 @@ character_event = {
 	hide_window = yes
 	
 	ai = yes
-	min_age = 16
+	min_age = 15
 	max_age = 40
 	only_men = yes
 	capable_only = yes
@@ -964,6 +973,7 @@ character_event = {
 		NOT = { 
 			trait = varangian 
 			has_character_flag = wants_varangian
+			has_character_flag = denied_varangian
 		}
 		father = {
 			is_alive = yes
@@ -1036,7 +1046,7 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
+	option = { # Deny
 		name = EVTOPTA_TOG_3110
 		FROM = {
 			opinion = {
@@ -1044,10 +1054,12 @@ character_event = {
 				years = 1
 				who = ROOT
 			}
+			clr_character_flag = wants_varangian
+			set_character_flag = denied_varangian
 		}
 		prestige = -100
 	}
-	option = {
+	option = { # Allow
 		name = EVTOPTB_TOG_3110
 		d_varangian_guard = {
 			holder_scope = {
@@ -1850,14 +1862,19 @@ character_event = {
 	picture = GFX_evt_viking_throneroom_oldgods
 	border = GFX_event_normal_frame_war
 	
+	ai = no
+	
 	trigger = {
 		has_dlc = "The Old Gods"
-		ai = no
 		OR = {
 			has_character_flag = wants_varangian
 			has_character_flag = serving_varangian
 		}
 		father = { is_alive = no }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
 	}
 	
 	immediate = {
@@ -1878,14 +1895,23 @@ character_event = {
 	id = TOG.3135
 	hide_window = yes
 	
+	min_age = 15
+	ai = yes
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
 	trigger = {
 		has_dlc = "The Old Gods"
-		ai = yes
 		OR = {
 			has_character_flag = wants_varangian
 			has_character_flag = serving_varangian
 		}
 		father = { is_alive = no }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
 	}
 	
 	immediate = {
@@ -1909,7 +1935,7 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 	
 	ai = no
-	min_age = 16
+	min_age = 15
 	capable_only = yes
 	prisoner = no
 	
@@ -1962,7 +1988,7 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 	
 	ai = no
-	min_age = 16
+	min_age = 15
 	capable_only = yes
 	prisoner = no
 	
@@ -2016,7 +2042,7 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 	
 	ai = no
-	min_age = 16
+	min_age = 15
 	capable_only = yes
 	prisoner = no
 	
@@ -2068,7 +2094,7 @@ character_event = {
 	hide_window = yes
 	
 	only_women = yes
-	min_age = 16
+	min_age = 15
 	prisoner = no
 	
 	trigger = {
@@ -2186,7 +2212,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_strange_1 }
 		has_character_flag = demon_child
 		father = { is_alive = yes }
@@ -2231,7 +2257,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_strange_2 }
 		has_character_flag = demon_child
 		father = { is_alive = yes }
@@ -2276,7 +2302,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_strange_3 }
 		has_character_flag = demon_child
 		father = { is_alive = yes }
@@ -2321,7 +2347,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_kills_1 }
 		has_character_flag = demon_child
 		father = { is_alive = yes }
@@ -2431,7 +2457,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_kills_2 }
 		has_character_flag = demon_child
 		father = { is_alive = yes }
@@ -2541,7 +2567,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_kills_3 }
 		has_character_flag = demon_child
 		father = { is_alive = yes }
@@ -2651,7 +2677,7 @@ character_event = {
 	trigger = {
 		has_dlc = "The Old Gods"
 		age = 4
-		NOT = { age = 16 }
+		NOT = { age = 15 }
 		NOT = { has_character_flag = child_exorcism }
 		father = { is_alive = yes }
 		OR = {
@@ -2926,10 +2952,16 @@ character_event = {
 	id = TOG.3260
 	hide_window = yes
 	
+	min_age = 15
+	max_age = 15
+	
 	trigger = {
 		has_dlc = "The Old Gods"
 		has_character_flag = demon_child
-		age = 16
+	}
+	
+	mean_time_to_happen = {
+		days = 1
 	}
 	
 	immediate = {
@@ -3149,7 +3181,7 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	min_age = 16
+	min_age = 15
 	only_men = yes
 	capable_only = yes
 	prisoner = no
@@ -3176,7 +3208,7 @@ character_event = {
 	id = TOG.3403
 	hide_window = yes
 	
-	min_age = 16
+	min_age = 15
 	only_women = yes
 	capable_only = yes
 	prisoner = no
@@ -3292,7 +3324,7 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	min_age = 16
+	min_age = 15
 	capable_only = yes
 	prisoner = no
 	
@@ -3347,7 +3379,7 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	min_age = 16
+	min_age = 15
 	capable_only = yes
 	prisoner = no
 	

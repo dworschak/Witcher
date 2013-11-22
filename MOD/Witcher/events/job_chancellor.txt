@@ -24,8 +24,8 @@
 # 910: The Chancellor attempts to improve relations with lord
 character_event = {
 	id = 910
-	title = "EVTNAME910"
-	desc = "EVTDESC910"
+	title = EVTNAME910
+	desc = EVTDESC910
 	picture = GFX_evt_emissary
 	border = GFX_event_normal_frame_diplomacy
 
@@ -49,7 +49,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 80
+		months = 100
 		
 		modifier = {
 			factor = 1.25
@@ -94,7 +94,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "EVTOPTA910"
+		name = EVTOPTA910
 		hidden_tooltip = {
 			location = {
 				random_province_lord = {
@@ -149,7 +149,7 @@ letter_event = {
 			opinion = {
 				modifier = opinion_improved_relations
 				who = ROOT
-				years = 2
+				years = 4
 			}
 		}
 	}
@@ -663,9 +663,14 @@ letter_event = {
 			}
 		}
 	}
-	option = {	# Count
+	option = {	# Count or Patrician
 		name = "EVTOPTA20131" #Press the Claim
-		trigger = { primary_title = { tier = COUNT } }
+		trigger = {
+			OR = {
+				primary_title = { tier = COUNT }
+				is_patrician = yes
+			}
+		}
 		ai_chance = {
 			factor = 90
 			modifier = {

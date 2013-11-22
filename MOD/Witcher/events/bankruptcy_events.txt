@@ -7,78 +7,80 @@
 #############################################
 
 # Ruler is in the red. Go to the moneylenders.
-character_event = {
-	id = 38000
-	desc = EVTDESC38000
-	picture = GFX_evt_council
-	
-	only_playable = yes
-	
-	trigger = {
-		NOT = { wealth = -50 }
-		NOT = { has_character_flag = loan_taken }
-		OR = {
-			NOT = { has_character_flag = loan_refused }
-			had_character_flag = { flag = loan_refused days = 365 }
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 1
-	}
-	
-	option = {
-		name = EVTOPTA38000 # Go to the moneylenders - Favorable terms
-		tooltip_info = stewardship
-		trigger = {
-			stewardship = 8
-		}
-		wealth = 200
-		character_event = { id = 38001 days = 1825 tooltip = EVTTOOLTIP38001 }
-		set_character_flag = loan_taken
-		clr_character_flag = loan_refused
-	}
-	option = {
-		name = EVTOPTB38000 # Go to the moneylenders - Unfavorable terms
-		trigger = {
-			NOT = { stewardship = 8 }
-		}
-		wealth = 200
-		character_event = { id = 38002 days = 1825 tooltip = EVTTOOLTIP38002 }
-		set_character_flag = loan_taken
-		clr_character_flag = loan_refused
-	}
-	option = {
-		name = EVTOPTC38000 # Do not go to the moneylenders
-		set_character_flag = loan_refused
-	}
-}
+#character_event = {
+#	id = 38000
+#	desc = EVTDESC38000
+#	picture = GFX_evt_council
+#	
+#	only_playable = yes
+#	
+#	trigger = {
+#		NOT = { wealth = -50 }
+#		NOT = { has_character_flag = loan_taken }
+#		OR = {
+#			NOT = { has_character_flag = loan_refused }
+#			had_character_flag = { flag = loan_refused days = 365 }
+#		}
+#	}
+#
+#	# Patch 2.00: disabled
+#	is_triggered_only = yes	
+#	mean_time_to_happen = {
+#		months = 1
+#	}
+#	
+#	option = {
+#		name = EVTOPTA38000 # Go to the moneylenders - Favorable terms
+#		tooltip_info = stewardship
+#		trigger = {
+#			stewardship = 8
+#		}
+#		wealth = 200
+#		character_event = { id = 38001 days = 1825 tooltip = EVTTOOLTIP38001 }
+#		set_character_flag = loan_taken
+#		clr_character_flag = loan_refused
+#	}
+#	option = {
+#		name = EVTOPTB38000 # Go to the moneylenders - Unfavorable terms
+#		trigger = {
+#			NOT = { stewardship = 8 }
+#		}
+#		wealth = 200
+#		character_event = { id = 38002 days = 1825 tooltip = EVTTOOLTIP38002 }
+#		set_character_flag = loan_taken
+#		clr_character_flag = loan_refused
+#	}
+#	option = {
+#		name = EVTOPTC38000 # Do not go to the moneylenders
+#		set_character_flag = loan_refused
+#	}
+#}
 
 # Follow-up to favorable loan terms
-character_event = {
-	id = 38001
-	desc = EVTDESC38001
-	picture = GFX_evt_council
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA38001 # Return the money
-		trigger = {
-			wealth = 250
-		}
-		wealth = -250
-		clr_character_flag = loan_taken
-	}
-	option = {
-		name = EVTOPTB38001 # Cannot afford it
-		trigger = {
-			NOT = { wealth = 250 }
-		}
-		character_event = { id = 38002 days = 365 tooltip = EVTTOOLTIP38002B }
-	}
-	
-}
+#character_event = {
+#	id = 38001
+#	desc = EVTDESC38001
+#	picture = GFX_evt_council
+#	
+#	is_triggered_only = yes
+#	
+#	option = {
+#		name = EVTOPTA38001 # Return the money
+#		trigger = {
+#			wealth = 250
+#		}
+#		wealth = -250
+#		clr_character_flag = loan_taken
+#	}
+#	option = {
+#		name = EVTOPTB38001 # Cannot afford it
+#		trigger = {
+#			NOT = { wealth = 250 }
+#		}
+#		character_event = { id = 38002 days = 365 tooltip = EVTTOOLTIP38002B }
+#	}
+#	
+#}
 
 # Follow-up to unfavorable loan terms
 character_event = {
@@ -371,7 +373,7 @@ character_event = {
 character_event = {
 	id = 38020
 	desc = EVTDESC38020
-	picture = GFX_evt_council
+	picture = GFX_evt_pope_feast
 	
 	only_playable = yes
 	
@@ -522,7 +524,7 @@ character_event = {
 character_event = {
 	id = 38022
 	desc = EVTDESC38022
-	picture = GFX_evt_lunatic
+	picture = GFX_evt_bad_news
 	
 	is_triggered_only = yes
 	

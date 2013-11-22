@@ -2,67 +2,70 @@
 
 vassal_decisions = {
 
-	vassal_fatwa_decision = {
-		from_potential = {
-			religion_group = muslim
-			any_courtier = {
-				has_job_title = job_spiritual
-				religion_group = muslim
-			}
-		}
+	# vassal_fatwa_decision = {
+		# from_potential = {
+			# religion_group = muslim
+			# any_courtier = {
+				# has_job_title = job_spiritual
+				# religion_group = muslim
+			# }
+		# }
 		
-		potential = {
-			age = 16
-			is_ruler = yes
-			is_landed = yes
-			prisoner = no
-			is_liege_or_above = FROM
-			religion_group = muslim
-			decadence = 40
-			NOT = { piety = 100 }
-			NOT = { dynasty = FROM }
-			NOT = { has_job_title = job_spiritual }
-			NOT = { has_character_modifier = fatwa_timer }
-		}
-		allow = {
-			NOT = { FROM = { decadence = 40} }
-			FROM = { piety = 100 }
-		}
-		effect = {
-			add_character_modifier = {
-				name = fatwa_timer
-				duration = 1140
-				hidden = yes
-			}
-			FROM = {
-				any_courtier = {
-					limit = { has_job_title = job_spiritual }
-					character_event = { id = 88750 days = 3 tooltip = "EVTTOOLTIP88750" }
-				}
-			}
-			hidden_tooltip = {
-				FROM = {
-					character_event = { id = 88754 }
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				reverse_opinion = { who = FROM value = 40 }
-			}
-		}
-	}
+		# potential = {
+			# age = 16
+			# is_ruler = yes
+			# is_landed = yes
+			# prisoner = no
+			# is_liege_or_above = FROM
+			# religion_group = muslim
+			# decadence = 40
+			# NOT = { piety = 100 }
+			# NOT = { dynasty = FROM }
+			# NOT = { has_job_title = job_spiritual }
+			# NOT = { has_character_modifier = fatwa_timer }
+		# }
+		# allow = {
+			# NOT = { FROM = { decadence = 40} }
+			# FROM = { piety = 100 }
+		# }
+		# effect = {
+			# add_character_modifier = {
+				# name = fatwa_timer
+				# duration = 1140
+				# hidden = yes
+			# }
+			# FROM = {
+				# any_courtier = {
+					# limit = { has_job_title = job_spiritual }
+					# character_event = { id = 88750 days = 3 tooltip = "EVTTOOLTIP88750" }
+				# }
+			# }
+			# hidden_tooltip = {
+				# FROM = {
+					# character_event = { id = 88754 }
+				# }
+			# }
+		# }
+		# revoke_allowed = {
+			# always = no
+		# }
+		# ai_will_do = {
+			# factor = 1
+			# modifier = {
+				# factor = 0
+				# reverse_opinion = { who = FROM value = 40 }
+			# }
+		# }
+	# }
 	
 	vassal_castrate_decision = {
-		#from_potential = {
-		#	culture_group = byzantine
-		#}
-	
+		from_potential = {
+			OR = {
+				trait = cruel
+				trait = lunatic
+				trait = impaler
+			}
+		}
 		potential = {
 			has_dlc = "Legacy of Rome"
 			prisoner = yes
@@ -76,13 +79,13 @@ vassal_decisions = {
 		effect = {
 			hidden_tooltip = {
 				if = {
-					limit = { age = 16}
+					limit = { age = 15 }
 					FROM = {
 						character_event = { id = LoR.832 }
 					}
 				}
 				if = {
-					limit = { NOT = { age = 16 } }
+					limit = { NOT = { age = 15 } }
 					FROM = {
 						character_event = { id = LoR.834 }
 					}
@@ -137,17 +140,35 @@ vassal_decisions = {
 			}
 			modifier = {
 				factor = 0
-				FROM = { trait = kind }
+				FROM = { 
+					OR = {
+						trait = kind 
+						trait = just
+						trait = honorable 
+					}
+				}
 			}
 			modifier = {
 				factor = 0.2 # Less likely to do it
 			}
 			modifier = {
-				factor = 1.2
+				factor = 0.1 #Enemy has your relative
 				FROM = {
-					OR = {
-						trait = cruel
-						trait = impaler
+					any_current_enemy = {
+						dynasty = ROOT
+						is_close_relative = ROOT
+						any_courtier = {
+							is_close_relative = FROM
+							dynasty = FROM
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0 #Is your enemy and can enforce a victory
+				FROM = {
+					any_current_enemy = {
+						character = ROOT
 					}
 				}
 			}
@@ -155,11 +176,13 @@ vassal_decisions = {
 	}
 	
 	vassal_blinding_decision = {
-	
-		#from_potential = {
-		#	culture_group = byzantine
-		#}
-	
+		from_potential = {
+			OR = {
+				trait = cruel
+				trait = lunatic
+				trait = impaler
+			}
+		}
 		potential = {
 			has_dlc = "Legacy of Rome"
 			prisoner = yes
@@ -224,10 +247,29 @@ vassal_decisions = {
 			}
 			modifier = {
 				factor = 0
-				FROM = { trait = kind }
+				FROM = { 
+					OR = {
+						trait = kind 
+						trait = just
+						trait = honorable 
+					}
+				}
 			}
 			modifier = {
 				factor = 0.4 # Less likely to do it
+			}
+			modifier = {
+				factor = 0.1 #Enemy has your relative
+				FROM = {
+					any_current_enemy = {
+						dynasty = ROOT
+						is_close_relative = ROOT
+						any_courtier = {
+							is_close_relative = FROM
+							dynasty = FROM
+						}
+					}
+				}
 			}
 			modifier = {
 				factor = 2
@@ -236,6 +278,14 @@ vassal_decisions = {
 					OR = {
 						is_pretender = yes
 						is_primary_heir = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 0 #Is your enemy and can enforce a victory
+				FROM = {
+					any_current_enemy = {
+						character = ROOT
 					}
 				}
 			}

@@ -1,0 +1,561 @@
+namespace = personality
+
+################################################
+# Childhood racist event
+################################################
+character_event = {
+	id = personality.1
+	desc = "EVTDESCpersonality.1"
+	picture = "GFX_evt_child_bully"
+	
+	is_triggered_only = yes
+	
+	min_age = 6
+	max_age = 15
+
+	trigger = {
+		NOT = { personality_traits = 5 }
+		trait = human
+		NOT = { trait = racist }
+		NOT = { trait = tolerant }
+		has_guardian = yes
+	}
+	
+	mean_time_to_happen = { # TO DO
+		days = 1
+		modifier = {
+			factor = 2
+			trait = envious
+		}
+		modifier = {
+			factor = 0.5
+			trait = kind
+		}
+		modifier = {
+			trait = clubfooted
+			factor = 1.5
+		}
+		modifier = {
+			trait = harelip
+			factor = 1.5
+		}
+		modifier = {
+			trait = hunchback
+			factor = 2.0
+		}
+		modifier = {
+			trait = lisp
+			factor = 1.5
+		}
+		modifier = {
+			trait = stutter
+			factor = 1.5
+		}
+		modifier = {
+			trait = fair
+			factor = 1.5
+		}
+		modifier = {
+			trait = ugly
+			factor = 1.5
+		}
+		modifier = {
+			trait = dwarf
+			factor = 1.05
+		}		
+		modifier = {
+			trait = genius
+			factor = 0.75
+		}
+		modifier = {
+			trait = quick
+			factor = 1.2
+		}	
+		modifier = {
+			trait = slow
+			factor = 0.5
+		}
+		modifier = {
+			trait = imbecile
+			factor = 0.05
+		}
+		modifier = {
+			trait = inbred
+			factor = 0.25
+		}
+		modifier = {
+			trait = strong
+			factor = 1.05
+		}
+		modifier = {
+			trait = weak
+			factor = 1.25
+		}
+	}
+	
+	option = {
+		name = "EVTOPTApersonality.1"
+		add_trait = racist
+		hidden_tooltip = {
+			guardian = {
+				character_event = {
+					id = personality.2
+					days = 3
+				}
+			}
+		}
+	}
+}
+# Guardian's event
+character_event = {
+	id = personality.2
+	desc = EVTDESCpersonality.2
+	picture = "GFX_evt_child_bully"
+	
+	is_triggered_only = yes
+	
+	option = { # Encourage
+		name = EVTOPTApersonality.2
+		ai_chance = {
+			factor = 10
+			modifier = { factor = 5 trait = racist }
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = envious }
+			modifier = { factor = 0 trait = elven }
+			modifier = { factor = 0 trait = halfelf }
+			modifier = { factor = 0 trait = dwarven }
+			modifier = { factor = 0 trait = halfdwarf }
+			modifier = { factor = 0 trait = halfling }
+			modifier = { factor = 0 trait = dryad }
+			modifier = { factor = 2 crownlaw_title = { has_law = tolerance_2 } }
+		}
+		if = {
+			limit = {
+				trait = racist
+			}
+			prestige = 5
+		}
+		FROM = {
+			tooltip = {
+				add_trait = racist
+			}
+			opinion = {
+				who = ROOT
+				modifier = opinion_happy_with_guardian
+				years = 2
+			}
+		}
+	}
+	
+	option = { # Discourage
+		name = EVTOPTBpersonality.2
+		ai_chance = {
+			factor = 10
+			modifier = { factor = 5 trait = tolerant }
+			modifier = { factor = 2 trait = kind }
+			modifier = { factor = 2 trait = gregarious }
+		}
+		
+		random = {
+			chance = 50 
+			FROM = { 
+				remove_trait = racist
+				hidden_tooltip = { 
+					character_event = {	
+						id = personality.3
+					}
+				}
+			}
+		}
+	}
+
+}
+# Child is discouraged
+character_event = {
+	id = personality.3
+	desc = "EVTDESCpersonality.3"
+	picture = "GFX_evt_guardian"
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_tooltip = {
+			add_trait = racist
+		}
+	}
+	
+	option = {
+		name = "EVTOPTApersonality.3"
+		remove_trait = racist
+	}
+}
+
+################################################
+# Childhood tolerant event
+################################################
+character_event = {
+	id = personality.4
+	desc = "EVTDESCpersonality.4"
+	picture = "GFX_evt_child_play"
+	
+	is_triggered_only = yes
+	
+	min_age = 6
+	max_age = 15
+
+	trigger = {
+		NOT = { personality_traits = 5 }
+		trait = human
+		NOT = { trait = tolerant }
+		NOT = { trait = racist }
+		has_guardian = yes
+	}
+	
+	mean_time_to_happen = { # TO DO
+		days = 1
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			trait = clubfooted
+			factor = 0.8
+		}
+		modifier = {
+			trait = harelip
+			factor = 0.9
+		}
+		modifier = {
+			trait = hunchback
+			factor = 0.7
+		}
+		modifier = {
+			trait = lisp
+			factor = 0.95
+		}
+		modifier = {
+			trait = stutter
+			factor = 0.95
+		}
+		modifier = {
+			trait = fair
+			factor = 0.8
+		}
+		modifier = {
+			trait = ugly
+			factor = 1.25
+		}
+		modifier = {
+			trait = dwarf
+			factor = 0.9
+		}		
+		modifier = {
+			trait = genius
+			factor = 1.05
+		}
+		modifier = {
+			trait = quick
+			factor = 1.05
+		}	
+		modifier = {
+			trait = slow
+			factor = 0.95
+		}
+		
+		modifier = {
+			trait = imbecile
+			factor = 0.5
+		}
+		modifier = {
+			trait = inbred
+			factor = 0.05
+		}
+		modifier = {
+			trait = strong
+			factor = 5.0
+		}
+		modifier = {
+			trait = weak
+			factor = 0.05
+		}
+	
+	}
+	
+	option = {
+		name = "EVTOPTApersonality.4"
+		add_trait = tolerant
+		hidden_tooltip = {
+			guardian = {
+				character_event = {
+					id = personality.5
+					days = 3
+				}
+			}
+		}
+	}
+}
+# Guardian's event
+character_event = {
+	id = personality.5
+	desc = EVTDESCpersonality.5
+	picture = GFX_evt_child_play
+	
+	is_triggered_only = yes
+	
+	option = { # Encourage
+		name = EVTOPTApersonality.5
+		ai_chance = {
+			factor = 10
+			modifier = { factor = 5 trait = tolerant }
+			modifier = { factor = 2 trait = kind }
+			modifier = { factor = 2 trait = gregarious }
+			modifier = { factor = 2 trait = elven }
+			modifier = { factor = 2 trait = halfelf }
+			modifier = { factor = 2 trait = dwarven }
+			modifier = { factor = 2 trait = halfdwarf }
+			modifier = { factor = 2 trait = halfling }
+			modifier = { factor = 0 trait = dryad }
+			modifier = { factor = 2 crownlaw_title = { has_law = tolerance_0 } }
+		}
+		if = {
+			limit = {
+				trait = tolerant
+			}
+			prestige = 5
+		}
+		FROM = {
+			tooltip = {
+				add_trait = tolerant
+			}
+			opinion = {
+				who = ROOT
+				modifier = opinion_happy_with_guardian
+				years = 2
+			}
+		}
+	}
+	
+	option = { # Discourage
+		name = EVTOPTDpersonality.3
+		ai_chance = {
+			factor = 10
+			modifier = { factor = 5 trait = racist }
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = envious }
+		}
+		
+		
+		random = {
+			chance = 50 
+			FROM = { 
+				remove_trait = tolerant
+				hidden_tooltip = { 
+					character_event = {	
+						id = personality.3
+					}
+				}
+			}
+		}
+	}
+}
+# Child is discouraged
+character_event = {
+	id = personality.6
+	desc = "EVTDESCpersonality.6"
+	picture = "GFX_evt_guardian"
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_tooltip = {
+			add_trait = tolerant
+		}
+	}
+	
+	option = {
+		name = "EVTOPTApersonality.6"
+		remove_trait = tolerant
+	}
+}
+
+################################################
+# Adult racist/tolerant event
+################################################
+character_event = {
+	id = personality.7
+	desc = "EVTDESCpersonality.7"
+	picture = "GFX_evt_courtiers_talking"
+	
+	min_age = 16
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { personality_traits = 5 }
+		trait = human
+		NOT = { trait = racist }
+		NOT = { trait = tolernat }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = shy
+		}
+	}
+	
+	option = {
+		name = "EVTOPTApersonality.7"
+		if = {
+			limit = {
+				trait = wroth
+				NOT = { trait = patient }
+			}
+			random = {
+				chance = 70
+				add_trait = racist
+				hidden_tooltip = { character_event = { id = personality.9 } }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { trait = wroth }
+				trait = patient
+			}
+			random = {
+				chance = 20
+				add_trait = racist
+				hidden_tooltip = { character_event = { id = personality.9 } }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { trait = wroth }
+				NOT = { trait = patient }
+			}
+			random = {
+				chance = 45
+				add_trait = racist
+				hidden_tooltip = { character_event = { id = personality.9 } }
+			}
+		}
+		if = {
+			limit = { 
+				trait = wroth
+				trait = patient
+			}
+			random = {
+				chance = 45
+				add_trait = racist
+				hidden_tooltip = { character_event = { id = personality.9 } }
+			}
+		}
+	}
+	
+	option = {
+		name = "EVTOPTBpersonality.7"
+		if = {
+			limit = {
+				trait = just
+				NOT = { trait = arbitary }
+			}
+			random = {
+				chance = 70
+				add_trait = tolerant
+				hidden_tooltip = { character_event = { id = personality.11 } }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { trait = just }
+				trait = arbitary
+			}
+			random = {
+				chance = 20
+				add_trait = tolerant
+				hidden_tooltip = { character_event = { id = personality.11 } }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { trait = just }
+				NOT = { trait = arbitary }
+			}
+			random = {
+				chance = 45
+				add_trait = tolerant
+				hidden_tooltip = { character_event = { id = personality.11 } }
+			}
+		}
+		if = {
+			limit = {
+				trait = just
+				trait = arbitary
+			}
+			random = {
+				chance = 45
+				add_trait = tolerant
+				hidden_tooltip = { character_event = { id = personality.11 } }
+			}
+		}
+	}
+}
+
+################################################
+# Racist notification
+################################################
+#Child becomes racist
+character_event = {
+	id = personality.8
+	desc = EVTDESCpersonality.8
+	picture = GFX_evt_child_play
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK 
+	}
+}
+
+#I have become racist
+character_event = {
+	id = personality.9
+	desc = EVTDESCpersonality.9
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK 
+	}
+}
+################################################
+# Tolerant notification
+################################################
+#Child becomes tolerant
+character_event = {
+	id = personality.10
+	desc = EVTDESCpersonality.10
+	picture = GFX_evt_child_play
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK 
+	}
+}
+
+#I have become tolerant
+character_event = {
+	id = personality.11
+	desc = EVTDESCpersonality.11
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK 
+	}
+}

@@ -19,8 +19,20 @@ job_chancellor = {
 	monthly_prestige = 0.015
 	
 	allow = {
-		is_female = no
-		is_adult = yes
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					AND = {
+						religion = cathar
+						liege = { religion = cathar }
+					}
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_chancellor
+		}
+		
 		prisoner = no
 		NOT = { trait = incapable }
 	}
@@ -48,8 +60,20 @@ job_marshal = {
 	monthly_prestige = 0.015
 	
 	allow = {
-		is_female = no
-		is_adult = yes
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					AND = {
+						religion = cathar
+						liege = { religion = cathar }
+					}
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
 		prisoner = no
 		NOT = { trait = incapable }
 	}
@@ -77,8 +101,19 @@ job_treasurer = {
 	monthly_prestige = 0.015
 	
 	allow = {
-		is_female = no
-		is_adult = yes
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					AND = {
+						religion = cathar
+						liege = { religion = cathar }
+					}
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_treasurer
+		}
 		prisoner = no
 		NOT = { trait = incapable }
 	}
@@ -105,21 +140,31 @@ job_spymaster = {
 	
 	allow = {
 		OR = {
-			is_female = no
-			liege = { 
-				OR = {
-					mother = { character = FROM }
-					spouse = { character = FROM }
-				}
-			}
 			AND = {
-				religion_group = pagan_group
-				liege = {
-					religion_group = pagan_group
+				OR = {
+					is_female = no
+					liege = { 
+						OR = {
+							mother = { character = FROM }
+							spouse = { character = FROM }
+						}
+					}
+					AND = {
+						religion_group = pagan_group
+						liege = {
+							religion_group = pagan_group
+						}
+					}
+					AND = {
+						religion = cathar
+						liege = { religion = cathar }
+					}
 				}
+				is_adult = yes
 			}
+			has_character_flag = special_spymaster
 		}
-		is_adult = yes
+		
 		prisoner = no
 		NOT = { trait = incapable }
 	}
@@ -146,22 +191,26 @@ job_spiritual = {
 	monthly_piety = 0.015
 	
 	allow = {
-		is_adult = yes
 		prisoner = no
 		liege = {
 			religion = ROOT
-			#trait = zealous
 		}
-		
 		OR = {
-			is_female = no
 			AND = {
-				religion_group = pagan_group
-				NOT = { religion = aztec }
-				NOT = { religion = aztec_reformed}
-				NOT = { religion = tengri_pagan }
-				NOT = { religion = tengri_pagan_reformed}
+				is_adult = yes
+				OR = {
+					is_female = no
+					AND = {
+						religion_group = pagan_group
+						NOT = { religion = aztec }
+						NOT = { religion = aztec_reformed}
+						NOT = { religion = tengri_pagan }
+						NOT = { religion = tengri_pagan_reformed}
+					}
+					religion = cathar
+				}
 			}
+			has_character_flag = special_spiritual
 		}
 		
 		NOT = { trait = incapable }

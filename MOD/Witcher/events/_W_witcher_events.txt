@@ -1,0 +1,235 @@
+namespace = witcher
+
+character_event = { # Witcher  - Ask ask the liege permision to leave his court
+	id = witcher.1
+	desc = EVTDESCwitcher.1
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	min_age = 15
+	capable_only = yes
+	
+	trigger = {
+		trait = witcher
+		in_command = no
+		NOT = { has_character_flag = recent_witcher_work }
+	}
+	
+	mean_time_to_happen = { 
+		months = 12
+		modifier = { factor = 3 has_minor_title = title_court_witcher }
+		modifier = { factor = 2 war = yes }
+		modifier = {
+			factor = 1.5
+			liege = { reverse_opinion = { who = ROOT value = 25 } }
+		}
+		modifier = {
+			factor = 1.5
+			liege = { reverse_opinion = { who = ROOT value = 50 } }
+		}
+		modifier = {
+			factor = 1.5
+			liege = { reverse_opinion = { who = ROOT value = 75 } }
+		}
+		modifier = {
+			factor = 3
+			liege = { reverse_has_opinion_modifier = { who = ROOT modifier = opinion_asked_to_stay } }
+		}
+		modifier = {
+			factor = 0.5
+			liege = { any_demesne_province = { NOT= { has_province_modifier = monster_infestation } } }
+		}
+		modifier = { factor = 1.5 trait = content }
+		# other honorary titles
+		# any council position
+	}
+	
+	option = {
+		name = EVTOPTAwitcher.1
+		liege = { character_event = { id = witcher.2 } }
+	}
+}
+
+character_event = { # Liege - The witcher has informed you of his desire to leave your court
+	id = witcher.2
+	desc = EVTDESCwitcher.2 
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = { # Convince the witcher to stay
+		name = EVTOPTAwitcher.2
+		FROM = { character_event = { id = witcher.3 } }
+	}
+	option = { # Bribe the witcher to stay
+		name = EVTOPTBwitcher.2
+		FROM = { character_event = { id = witcher.4 } }
+		transfer_scaled_wealth = {
+			to = FROM
+			value = 0.20
+		}
+	}
+	option = { # Let him leave
+		name = EVTOPTCwitcher.2
+		FROM = { character_event = { id = witcher.5 } }
+		
+	}
+}
+
+character_event = { # Witcher - Your liege wishes you to stay
+	id = witcher.3
+	desc = EVTDESCwitcher.3
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	is_triggered_only = yes
+	
+	option = { # Stay
+		name = EVTOPTAwitcher.3
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 trait = slothful }
+			modifier = { factor = 2 trait = patient }
+			modifier = { factor = 2 has_opinion_modifier = { who = FROM modifier = opinion_friend } }
+		}
+		opinion = {
+			who = FROM
+			modifier = opinion_asked_to_stay
+			months = 12
+			hidden = yes
+		}
+		FROM = { character_event = { id = witcher.6 days = 3 } }
+	}
+	option = { # Leave
+		name = EVTOPTBwitcher.3
+		ai_chance = {
+			factor = 2
+		}
+		character_event = { id = witcher.5 }
+	}
+}
+
+character_event = { # Witcher - Your liege offers a bribe if you stay
+	id = witcher.4
+	desc = EVTDESCwitcher.4
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	is_triggered_only = yes
+	
+	option = { # Stay
+		name = EVTOPTAwitcher.4
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 trait = slothful }
+			modifier = { factor = 2 trait = patient }
+			modifier = { factor = 2 has_opinion_modifier = { who = FROM modifier = opinion_friend } }
+		}
+		opinion = {
+			who = FROM
+			modifier = opinion_asked_to_stay
+			months = 12
+			hidden = yes
+		}
+		FROM = { character_event = { id = witcher.7 days = 3 } }
+	}
+	option = { # Leave
+		ai_chance = {
+			factor = 2
+		}
+		name = EVTOPTBwitcher.5
+		character_event = { id = witcher.5 }
+	}
+}
+
+character_event = { # Witcher - Leave to ...
+	id = witcher.5
+	desc = EVTDESCwitcher.5
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		liege = { character_event = { id = witcher.8 days = 3 } }
+	}
+	
+	option = {
+		name = EVTOPTAwitcher.5
+		if = { # ... different court in same realm
+			limit = {
+				any_realm_lord = {
+					is_landed = yes
+					any_demesne_province = {
+						has_province_modifier = monster_infestation
+					}
+				}
+			}
+			random_realm_lord = {
+				limit = {
+					is_landed = yes
+					any_demesne_province = {
+						has_province_modifier = monster_infestation
+					}
+				}
+				reverse_banish = ROOT
+			}
+		}
+		if = { # ... different realm
+			limit = {
+				OR = {
+					any_realm_lord = { any_demesne_province = { NOT = { has_province_modifier = monster_infestation } } }
+					liege = { any_demesne_province = { NOT = { has_province_modifier = monster_infestation } } }
+				}
+			}
+			top_liege = {
+				random_realm_province = {
+					limit = { any_neighbor_province = { owner = { NOT = { same_realm = ROOT } } } }
+					random_neighbor_province = {
+						limit = { owner = { NOT = { same_realm = ROOT } } }
+						owner = { reverse_banish = ROOT }
+					}
+				}
+			}
+		}
+	}
+}
+
+character_event = { # Liege - The witcher stayed
+	id = witcher.6
+	desc = EVTDESCwitcher.6
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}
+
+character_event = { # Liege - The witcher took the money and stayed
+	id = witcher.7
+	desc = EVTDESCwitcher.7
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}
+
+character_event = { # Liege - The witcher left your court to seek employment elsewhere
+	id = witcher.8
+	desc = EVTDESCwitcher.8
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}

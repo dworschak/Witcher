@@ -291,7 +291,7 @@ character_event = {
 		NOT = { trait = maimed }
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		modifier = {
 			factor = 3
@@ -544,7 +544,7 @@ character_event = {
 		NOT = { trait = maimed }
 	}
 	
-	mean_time_to_happen = {
+	weight_multiplier = {
 		days = 1
 		modifier = {
 			factor = 3
@@ -652,6 +652,19 @@ character_event = {
 	hide_FROM = yes
 	is_triggered_only = yes 
 	
+	immediate = {
+		if = {
+			limit = {
+				spouse = { character = FROM }
+				FROM = { 
+					ai = no
+					NOT = { has_character_flag = achievement_spouse_killer } 
+				}
+			}
+			FROM = { set_character_flag = achievement_spouse_killer }
+		}
+	}
+	
 	option = {
 		name = "EVTOPTA162"
 		hidden_tooltip = {
@@ -707,6 +720,16 @@ character_event = {
 					months = 60
 				}
 			}
+		}
+		if = {
+			limit = { 
+				spouse = { character = FROM }
+				FROM = { 
+					ai = no
+					NOT = { has_character_flag = achievement_spouse_killer } 
+				}
+			}
+			FROM = { set_character_flag = achievement_spouse_killer }
 		}
 		if = {
 			limit = { 
@@ -2224,22 +2247,22 @@ diploresponse_event = {
 }
 
 # GRANT_LANDED_TITLE_INTERACTION_DECLINE_EVENT =
-diploresponse_event = {
-	id = 229
-
-	is_triggered_only = yes
-	major = no
-
-	trigger = {
-		ai = no
-	}
-
-	desc = "EVTDESC229"
-
-	option = {
-		name = "OK"
-	}
-}
+#diploresponse_event = {
+#	id = 229
+#
+#	is_triggered_only = yes
+#	major = no
+#
+#	trigger = {
+#		ai = no
+#	}
+#
+#	desc = "EVTDESC229"
+#
+#	option = {
+#		name = "OK"
+#	}
+#}
 
 # APPOINT_TO_OFFICE_INTERACTION_ACCEPT_EVENT =
 diploresponse_event = {
@@ -2734,15 +2757,6 @@ character_event = {
 		}
 	}
 
-	immediate = {
-		hidden_tooltip = {
-			if = {
-				limit = { ai = no }
-				set_character_flag = achievement_get_married
-			}
-		}
-	}
-	
 	option = {
 		name = "EVTOPTA500"
 		scaled_wealth = 0.5
@@ -2797,15 +2811,6 @@ character_event = {
 		}
 	}
 
-	immediate = {
-		hidden_tooltip = {
-			if = {
-				limit = { ai = no }
-				set_character_flag = achievement_get_married
-			}
-		}
-	}
-	
 	option = {
 		name = "EVTOPTA500"
 		scaled_wealth = 0.5
@@ -3414,6 +3419,10 @@ narrative_event = {
 	only_rulers = yes
 	
 	immediate = {
+		if = {
+			limit = { ai = no }
+			set_character_flag = achievement_new_ways
+		}
 		any_courtier = {
 			limit = {
 				is_heresy_of = ROOT
@@ -3532,5 +3541,31 @@ narrative_event = {
 			NOT = { religion = ROOT }
 			NOT = { is_heresy_of = ROOT }
 		}
+	}
+}
+
+character_event = {
+	id = 675
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		controls_religion = yes
+		death_reason = death_sacrificed
+		killer = {
+			ai = no
+			NOT = { has_character_flag = achievement_holy_smoke }
+		}
+	}
+	
+	immediate = {
+		killer = {
+			set_character_flag = achievement_holy_smoke
+		}
+	}
+	
+	option = {
+		name = "OK"
 	}
 }
