@@ -1,6 +1,9 @@
 namespace = witcher
-
-character_event = { # Witcher  - Ask ask the liege permision to leave his court
+################################################
+# Witcher moving around
+################################################
+# Witcher  - Ask ask the liege permision to leave his court
+character_event = {
 	id = witcher.1
 	desc = EVTDESCwitcher.1
 	picture = GFX_evt_lunatic
@@ -12,12 +15,13 @@ character_event = { # Witcher  - Ask ask the liege permision to leave his court
 	trigger = {
 		trait = witcher
 		in_command = no
+		prisoner = no
 		NOT = { has_character_flag = recent_witcher_work }
 	}
 	
 	mean_time_to_happen = { 
 		months = 12
-		modifier = { factor = 3 has_minor_title = title_court_witcher }
+		modifier = { factor = 2 has_minor_title = title_court_witcher }
 		modifier = { factor = 2 war = yes }
 		modifier = {
 			factor = 1.5
@@ -39,7 +43,10 @@ character_event = { # Witcher  - Ask ask the liege permision to leave his court
 			factor = 0.5
 			liege = { any_demesne_province = { NOT= { has_province_modifier = monster_infestation } } }
 		}
-		modifier = { factor = 1.5 trait = content }
+		modifier = {
+			factor = 0.5
+			any_playable_ruler = { has_character_flag = invited_witcher }
+		}
 		# other honorary titles
 		# any council position
 	}
@@ -49,8 +56,8 @@ character_event = { # Witcher  - Ask ask the liege permision to leave his court
 		liege = { character_event = { id = witcher.2 } }
 	}
 }
-
-character_event = { # Liege - The witcher has informed you of his desire to leave your court
+# Liege - The witcher has informed you of his desire to leave your court
+character_event = {
 	id = witcher.2
 	desc = EVTDESCwitcher.2 
 	picture = GFX_evt_lunatic
@@ -75,8 +82,8 @@ character_event = { # Liege - The witcher has informed you of his desire to leav
 		
 	}
 }
-
-character_event = { # Witcher - Your liege wishes you to stay
+# Witcher - Your liege wishes you to stay
+character_event = {
 	id = witcher.3
 	desc = EVTDESCwitcher.3
 	picture = GFX_evt_lunatic
@@ -106,11 +113,11 @@ character_event = { # Witcher - Your liege wishes you to stay
 		ai_chance = {
 			factor = 2
 		}
-		character_event = { id = witcher.5 }
+		character_event = { id = witcher.5 days = 3 }
 	}
 }
-
-character_event = { # Witcher - Your liege offers a bribe if you stay
+# Witcher - Your liege offers a bribe if you stay
+character_event = {
 	id = witcher.4
 	desc = EVTDESCwitcher.4
 	picture = GFX_evt_lunatic
@@ -141,11 +148,11 @@ character_event = { # Witcher - Your liege offers a bribe if you stay
 			factor = 2
 		}
 		name = EVTOPTBwitcher.5
-		character_event = { id = witcher.5 }
+		character_event = { id = witcher.5 days = 3 }
 	}
 }
-
-character_event = { # Witcher - Leave to ...
+# Witcher - Leave to ...
+character_event = {
 	id = witcher.5
 	desc = EVTDESCwitcher.5
 	picture = GFX_evt_lunatic
@@ -154,51 +161,75 @@ character_event = { # Witcher - Leave to ...
 	is_triggered_only = yes
 	
 	immediate = {
-		liege = { character_event = { id = witcher.8 days = 3 } }
+		liege = { character_event = { id = witcher.8 } }
 	}
 	
-	option = {
+	option = { # ... different court in same realm
 		name = EVTOPTAwitcher.5
-		if = { # ... different court in same realm
-			limit = {
-				any_realm_lord = {
-					is_landed = yes
-					any_demesne_province = {
-						has_province_modifier = monster_infestation
-					}
-				}
-			}
-			random_realm_lord = {
-				limit = {
-					is_landed = yes
-					any_demesne_province = {
-						has_province_modifier = monster_infestation
-					}
-				}
-				reverse_banish = ROOT
+		trigger = {
+			any_realm_lord = {
+				is_landed = yes
+				any_demesne_province = { has_province_modifier = monster_infestation }
+				any_courtier = { NOT = { character = FROM trait = witcher } }
 			}
 		}
-		if = { # ... different realm
+		random_realm_lord = {
 			limit = {
-				OR = {
-					any_realm_lord = { any_demesne_province = { NOT = { has_province_modifier = monster_infestation } } }
-					liege = { any_demesne_province = { NOT = { has_province_modifier = monster_infestation } } }
-				}
+				is_landed = yes
+				any_demesne_province = { has_province_modifier = monster_infestation }
+				any_courtier = { NOT = { character = FROM trait = witcher } }
 			}
-			top_liege = {
-				random_realm_province = {
-					limit = { any_neighbor_province = { owner = { NOT = { same_realm = ROOT } } } }
-					random_neighbor_province = {
-						limit = { owner = { NOT = { same_realm = ROOT } } }
-						owner = { reverse_banish = ROOT }
+			reverse_banish = ROOT
+			character_event = { id = witcher.9 }
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = { # ... different realm
+		name = EVTOPTBwitcher.5
+		top_liege = {
+			random_realm_province = {
+				limit = { 
+					any_neighbor_province = { 
+						owner = { 
+							NOT = { same_realm = ROOT }
+							any_courtier = { NOT = { character = FROM trait = witcher } }
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = { 
+						owner = { 
+							NOT = { same_realm = ROOT }
+							any_courtier = { NOT = { character = FROM trait = witcher } }
+						}
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = { id = witcher.9 }
 					}
 				}
 			}
 		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # ... the court of a ruler who invited witcher
+		name = EVTOPTCwitcher.5
+		trigger = {
+			any_playable_ruler = { has_character_flag = invited_witcher }
+		}
+		random_playable_ruler = {
+			limit = {
+				has_character_flag = invited_witcher
+				any_courtier = { NOT = { character = FROM trait = witcher } }
+			}
+			reverse_banish = ROOT
+			character_event = { id = witcher.9 }
+		}
+		ai_chance = { factor = 100 }
 	}
 }
-
-character_event = { # Liege - The witcher stayed
+# Liege informed - The witcher stayed
+character_event = { 
 	id = witcher.6
 	desc = EVTDESCwitcher.6
 	picture = GFX_evt_lunatic
@@ -209,8 +240,8 @@ character_event = { # Liege - The witcher stayed
 		name = OK
 	}
 }
-
-character_event = { # Liege - The witcher took the money and stayed
+# Liege informed - The witcher took the money and stayed
+character_event = {
 	id = witcher.7
 	desc = EVTDESCwitcher.7
 	picture = GFX_evt_lunatic
@@ -221,8 +252,8 @@ character_event = { # Liege - The witcher took the money and stayed
 		name = OK
 	}
 }
-
-character_event = { # Liege - The witcher left your court to seek employment elsewhere
+# Liege informed - The witcher left your court to seek employment elsewhere
+character_event = {
 	id = witcher.8
 	desc = EVTDESCwitcher.8
 	picture = GFX_evt_lunatic
@@ -231,5 +262,23 @@ character_event = { # Liege - The witcher left your court to seek employment els
 	
 	option = {
 		name = OK
+	}
+}
+# Liege - A witcher has arrived in your court
+character_event = {
+	id = witcher.9
+	desc = EVTDESCwitcher.9
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAwitcher.9 # OK
+		clr_character_flag = invited_witcher
+	}
+	option = {
+		name = EVTOPTBwitcher.9 # I have no need for the witcher
+		trigger = { NOT = { has_character_flag = invited_witcher } }
+		FROM = { character_event = { id = witcher.5 } }
 	}
 }
