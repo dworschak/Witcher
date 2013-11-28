@@ -1104,14 +1104,7 @@ character_event = {
 			years = 100
 		}
 		remove_trait = shy
-		if = {
-			limit = {
-				NOT = {
-					religion_group = muslim
-				}
-			}
-			remove_trait = chaste
-		}
+		remove_trait = chaste
 		FROM = {
 			character_event = {
 				id = 100022
@@ -1244,10 +1237,7 @@ character_event = {
 		NOT = {
 			num_of_rivals = 5
 		}
-		OR = {
-			trait = chaste
-			religion_group = muslim
-		}
+		trait = chaste
 		OR = {
 			trait = paranoid
 			trait = shy
@@ -1489,19 +1479,12 @@ character_event = {
 			who = FROM
 			years = 5
 		}
-		if = {
-			limit = {
-				NOT = {
-					religion_group = muslim
-				}
-			}
-			random = {
-				chance = 25
-				remove_trait = chaste
-				hidden_tooltip = {
-					character_event = {
-						id = 38303 #Notify Removed Chaste
-					}
+		random = {
+			chance = 25
+			remove_trait = chaste
+			hidden_tooltip = {
+				character_event = {
+					id = 38303 #Notify Removed Chaste
 				}
 			}
 		}
@@ -2459,9 +2442,6 @@ character_event = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					religion_group = muslim
-				}
 				NOT = {
 					num_of_traits = 5
 				}
@@ -3627,7 +3607,6 @@ character_event = {
 	only_playable = yes
 	
 	trigger = {
-		religion_group = christian
 		trait = zealous
 		NOT = {
 			num_of_friends = 2
@@ -8681,9 +8660,6 @@ character_event = {
 		num_of_friends = 1
 		learning = 5
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			learning = 10
 		}
 		NOT = {
@@ -8697,9 +8673,6 @@ character_event = {
 			in_command = no
 			prisoner = no
 			learning = 11
-			NOT = {
-				religion_group = muslim
-			}
 			OR = {
 				piety = 100
 				trait = zealous
@@ -8765,9 +8738,6 @@ character_event = {
 				in_command = no
 				prisoner = no
 				learning = 11
-				NOT = {
-					religion_group = muslim
-				}
 			}
 			character_event = {
 				id = 100231
@@ -9050,9 +9020,6 @@ character_event = {
 		in_command = no
 		num_of_friends = 1
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			lifestyle_traits = 1
 		}
 		NOT = {
@@ -9273,9 +9240,6 @@ character_event = {
 		in_command = no
 		num_of_friends = 1
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			lifestyle_traits = 1
 		}
 		NOT = {
@@ -9359,26 +9323,10 @@ character_event = {
 		if = {
 			limit = {
 				trait = chaste
-				NOT = {
-					religion_group = muslim
-				}
 			}
 			hidden_tooltip = {
 				character_event = {
 					id = 5060 #Celibacy/Hedonism
-					days = 30
-					random = 30
-				}
-			}
-		}
-		if = {
-			limit = {
-				trait = chaste
-				religion_group = muslim
-			}
-			hidden_tooltip = {
-				character_event = {
-					id = 5070 #Hedonism/Poetry
 					days = 30
 					random = 30
 				}
@@ -11635,7 +11583,6 @@ character_event = {
 		in_command = no
 		is_heretic = no
 		num_of_rivals = 1
-		religion_group = christian
 		any_rival = {
 			war = no
 			age = 15
@@ -12938,229 +12885,229 @@ character_event = {
 	}
 }
 
-### Your fierce rival has also become a follower of the new way of Christ ###
-character_event = {
-	id = 100500
-	desc = EVTDESC100500
-	picture = GFX_evt_bishop
+# ### Your fierce rival has also become a follower of the new way of Christ ###
+# character_event = {
+	# id = 100500
+	# desc = EVTDESC100500
+	# picture = GFX_evt_bishop
 	
-	min_age = 15
-	capable_only = yes
-	only_rulers = yes
-	prisoner = no
+	# min_age = 15
+	# capable_only = yes
+	# only_rulers = yes
+	# prisoner = no
 	
-	trigger = {
-		war = no
-		in_command = no
-		num_of_rivals = 1
-		religion_group = christian
-		NOT = {
-			has_character_modifier = religious_rival_timer
-		}
-		any_rival = {
-			war = no
-			age = 15
-			in_command = no
-			prisoner = no
-			religion = ROOT
+	# trigger = {
+		# war = no
+		# in_command = no
+		# num_of_rivals = 1
+		# religion_group = christian
+		# NOT = {
+			# has_character_modifier = religious_rival_timer
+		# }
+		# any_rival = {
+			# war = no
+			# age = 15
+			# in_command = no
+			# prisoner = no
+			# religion = ROOT
 			
-			NOT = {
-				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_continued_rivalry }
-			}
-			NOT = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_continued_rivalry }
-			}
-		}
-	}
+			# NOT = {
+				# reverse_has_opinion_modifier = { who = ROOT modifier = opinion_continued_rivalry }
+			# }
+			# NOT = {
+				# has_opinion_modifier = { who = ROOT modifier = opinion_continued_rivalry }
+			# }
+		# }
+	# }
 	
-	mean_time_to_happen = {
-		months = 300
+	# mean_time_to_happen = {
+		# months = 300
 		
-		modifier = {
-			factor = 0.5
-			trait = zealous
-		}
-		modifier = {
-			factor = 0.5
-			piety = 500
-		}
+		# modifier = {
+			# factor = 0.5
+			# trait = zealous
+		# }
+		# modifier = {
+			# factor = 0.5
+			# piety = 500
+		# }
 		
-		modifier = {
-			factor = 2
-			trait = deceitful
-		}
-	}
+		# modifier = {
+			# factor = 2
+			# trait = deceitful
+		# }
+	# }
 	
-	immediate = {
-		hidden_tooltip = {
-			add_character_modifier = {
-				name = religious_rival_timer
-				duration = 2000
-				hidden = yes
-			}
-		}
-	}
+	# immediate = {
+		# hidden_tooltip = {
+			# add_character_modifier = {
+				# name = religious_rival_timer
+				# duration = 2000
+				# hidden = yes
+			# }
+		# }
+	# }
 	
-	option = {
-		name = EVTOPTA100500
-		random_rival = {
-			limit = {
-				war = no
-				age = 15
-				in_command = no
-				prisoner = no
-				religion_group = christian
-			}
-			character_event = {
-				id = 100501
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100501
-			}
-		}
-	}
-	option = {
-		name = EVTOPTB100500
-		if = {
-			limit = {
-				NOT = {
-					trait = zealous
-				}
-				NOT = {
-					trait = cynical
-				}
-			}
-			add_trait = cynical
-		}
-		if = {
-			limit = {
-				NOT = {
-					num_of_traits = 5
-				}
-				trait = zealous
-			}
-			remove_trait = zealous
-		}
-		if = {
-			limit = {
-				NOT = {
-					num_of_traits = 5
-				}
-				trait = cynical
-				NOT = {
-					trait = wroth
-				}
-			}
-			add_trait = wroth
-		}
-		if = {
-			limit = {
-				OR = {
-					AND = {
-						trait = cynical
-						trait = wroth
-					}
-					num_of_traits = 4
-				}
-			}
-			change_intrigue = 1
-		}
-	}
-}
+	# option = {
+		# name = EVTOPTA100500
+		# random_rival = {
+			# limit = {
+				# war = no
+				# age = 15
+				# in_command = no
+				# prisoner = no
+				# religion_group = christian
+			# }
+			# character_event = {
+				# id = 100501
+				# days = 7
+				# random = 7
+				# tooltip = EVTTOOLTIP100501
+			# }
+		# }
+	# }
+	# option = {
+		# name = EVTOPTB100500
+		# if = {
+			# limit = {
+				# NOT = {
+					# trait = zealous
+				# }
+				# NOT = {
+					# trait = cynical
+				# }
+			# }
+			# add_trait = cynical
+		# }
+		# if = {
+			# limit = {
+				# NOT = {
+					# num_of_traits = 5
+				# }
+				# trait = zealous
+			# }
+			# remove_trait = zealous
+		# }
+		# if = {
+			# limit = {
+				# NOT = {
+					# num_of_traits = 5
+				# }
+				# trait = cynical
+				# NOT = {
+					# trait = wroth
+				# }
+			# }
+			# add_trait = wroth
+		# }
+		# if = {
+			# limit = {
+				# OR = {
+					# AND = {
+						# trait = cynical
+						# trait = wroth
+					# }
+					# num_of_traits = 4
+				# }
+			# }
+			# change_intrigue = 1
+		# }
+	# }
+# }
 
-#Christian Rival decides if rivalry continues
-character_event = {
-	id = 100501
-	desc = EVTDESC100501
-	picture = GFX_evt_courtiers_talking
+# #Christian Rival decides if rivalry continues
+# character_event = {
+	# id = 100501
+	# desc = EVTDESC100501
+	# picture = GFX_evt_courtiers_talking
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTA100501
-		ai_chance = {
-			factor = 10
+	# option = {
+		# name = EVTOPTA100501
+		# ai_chance = {
+			# factor = 10
 			
-			modifier = {
-				factor = 10
-				trait = zealous
-			}
-			modifier = {
-				factor = 0.01
-				trait = cynical
-			}
-		}
-		remove_opinion = { who = FROM modifier = opinion_rival }
-		FROM = {
-			character_event = {
-				id = 100502
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100502
-			}
-		}
-	}
-	option = {
-		name = EVTOPTB100501
-		ai_chance = {
-			factor = 10
+			# modifier = {
+				# factor = 10
+				# trait = zealous
+			# }
+			# modifier = {
+				# factor = 0.01
+				# trait = cynical
+			# }
+		# }
+		# remove_opinion = { who = FROM modifier = opinion_rival }
+		# FROM = {
+			# character_event = {
+				# id = 100502
+				# days = 7
+				# random = 7
+				# tooltip = EVTTOOLTIP100502
+			# }
+		# }
+	# }
+	# option = {
+		# name = EVTOPTB100501
+		# ai_chance = {
+			# factor = 10
 			
-			modifier = {
-				factor = 0.01
-				trait = zealous
-			}
-			modifier = {
-				factor = 10
-				trait = cynical
-			}
-		}
-		opinion = {
-			modifier = opinion_continued_rivalry
-			who = FROM
-			years = 5
-		}
-		FROM = {
-			character_event = {
-				id = 100503
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100503
-			}
-		}
-	}
-}
+			# modifier = {
+				# factor = 0.01
+				# trait = zealous
+			# }
+			# modifier = {
+				# factor = 10
+				# trait = cynical
+			# }
+		# }
+		# opinion = {
+			# modifier = opinion_continued_rivalry
+			# who = FROM
+			# years = 5
+		# }
+		# FROM = {
+			# character_event = {
+				# id = 100503
+				# days = 7
+				# random = 7
+				# tooltip = EVTTOOLTIP100503
+			# }
+		# }
+	# }
+# }
 
-#ROOT learns Christian Rival decided rivalry discontinues
-character_event = {
-	id = 100502
-	desc = EVTDESC100502
-	picture = GFX_evt_courtiers_talking
+# #ROOT learns Christian Rival decided rivalry discontinues
+# character_event = {
+	# id = 100502
+	# desc = EVTDESC100502
+	# picture = GFX_evt_courtiers_talking
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTA100502
-		remove_opinion = { who = FROM modifier = opinion_rival }
-	}
-}
+	# option = {
+		# name = EVTOPTA100502
+		# remove_opinion = { who = FROM modifier = opinion_rival }
+	# }
+# }
 
-#ROOT learns Christian Rival decided rivalry continues
-character_event = {
-	id = 100503
-	desc = EVTDESC100503
-	picture = GFX_evt_courtiers_talking
+# #ROOT learns Christian Rival decided rivalry continues
+# character_event = {
+	# id = 100503
+	# desc = EVTDESC100503
+	# picture = GFX_evt_courtiers_talking
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTA100503
-		opinion = {
-			modifier = opinion_continued_rivalry
-			who = FROM
-			years = 5
-		}
-	}
-}
+	# option = {
+		# name = EVTOPTA100503
+		# opinion = {
+			# modifier = opinion_continued_rivalry
+			# who = FROM
+			# years = 5
+		# }
+	# }
+# }
 
 ### Root tries to wound rival during hunt ###
 character_event = {

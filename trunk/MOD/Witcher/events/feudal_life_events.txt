@@ -30,9 +30,6 @@ character_event = {
 	trigger = {
 		war = no
 		in_command = no
-		NOT = {
-			religion_group = muslim
-		}
 		OR = {
 			trait = greedy
 			trait = midas_touched
@@ -107,9 +104,6 @@ character_event = {
 		piety = 50
 		tier = count
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			has_character_modifier = church_unfunny
 		}
 		job_spiritual = {
@@ -177,91 +171,6 @@ character_event = {
 	}
 }
 
-### Blasphemy! - Muslim ###
-character_event = {
-	id = 4041
-	desc = EVTDESC4041
-	picture = GFX_evt_bishop
-	
-	is_triggered_only = yes
-	
-	only_playable = yes
-	min_age = 20
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		war = no
-		in_command = no
-		piety = 50
-		tier = count
-		religion_group = muslim
-		NOT = {
-			has_character_modifier = church_unfunny
-		}
-		job_spiritual = {
-			is_priest = yes
-			OR = {
-				piety = 50
-				trait = zealous
-			}
-		}
-	}
-	
-	weight_multiplier = {
-		days = 1
-		
-		modifier = {
-			factor = 3
-			trait = just
-		}
-		modifier = {
-			factor = 0.66
-			trait = arbitrary
-		}
-	}
-	
-	option = { 
-		name = EVTOPTA4040 #Ignore
-		add_character_modifier = {
-			name = unfunny_imam
-			duration = 90
-		}
-	}
-	
-	option = {
-		name = EVTOPTB4040 #Imprisonment
-		add_character_modifier = {
-			name = imprison_lawbreakers
-			duration = 60
-		}
-	}
-	
-	option = {
-		name = EVTOPTC4040 #Punish cook
-		tooltip_info = arbitrary
-		trigger = {
-			trait = arbitrary
-		}
-		add_character_modifier = {
-			name = punish_cook
-			duration = 60
-		}
-	}
-	
-	option = {
-		name = EVTOPTD4040 #Hanged
-		tooltip_info = zealous
-		trigger = {
-			trait = zealous
-		}
-		add_character_modifier = {
-			name = kill_lawbreakers
-			duration = 60
-		}
-	}
-}
-
 #Wolf hunting - Luparii
 character_event = {
 	id = 4085
@@ -278,9 +187,6 @@ character_event = {
 	
 	trigger = {
 		war = no
-		NOT = {
-			religion_group = muslim
-		}
 		in_command = no
 		tier = count
 		NOT = {
@@ -448,7 +354,6 @@ character_event = {
 		OR = {
 			trait = chaste
 			trait = lustful
-			religion_group = muslim
 		}
 	}
 	
@@ -2610,9 +2515,6 @@ character_event = {
 		is_female = no
 		num_of_rivals = 1
 		num_of_friends = 1
-		NOT = {
-			religion_group = muslim
-		}
 		any_courtier = {
 			martial = 15
 			reverse_opinion = { who = ROOT value = 25 }
@@ -2731,9 +2633,6 @@ character_event = {
 		in_command = no
 		martial = 15
 		intrigue = 10
-		NOT = {
-			religion_group = muslim
-		}
 		OR = {
 			tier = duke
 			tier = count
@@ -3204,6 +3103,11 @@ character_event = {
 		random = {
 			chance = 50
 			remove_trait = wroth
+			hidden_tooltip = {
+				character_event ={
+					id = 38310 #Notify
+				}
+			}
 			add_character_modifier = {
 				name = mod_ashamed
 				duration = 60
@@ -3473,94 +3377,94 @@ character_event = {
 
 #Performing Bear ID 4170 - moved to summer_fair_events.txt
 
-#Bal des Ardents
-character_event = {
-	id = 4175
-	desc = EVTDESC4175
-	picture = GFX_evt_feast
+# #Bal des Ardents
+# character_event = {
+	# id = 4175
+	# desc = EVTDESC4175
+	# picture = GFX_evt_feast
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	min_age = 20
-	only_playable = yes
-	only_men = yes
-	capable_only = yes
-	prisoner = no
+	# min_age = 20
+	# only_playable = yes
+	# only_men = yes
+	# capable_only = yes
+	# prisoner = no
 	
-	trigger = {
-		war = no
-		in_command = no
-		OR = {
-			trait = lunatic
-			trait = possessed
-			trait = infirm
-			trait = drunkard
-		}
-		any_vassal = {
-			trait = diligent
-		}
-		any_vassal = {
-			trait = ambitious
-			trait = wroth
-		}
-	}
+	# trigger = {
+		# war = no
+		# in_command = no
+		# OR = {
+			# trait = lunatic
+			# trait = possessed
+			# trait = infirm
+			# trait = drunkard
+		# }
+		# any_vassal = {
+			# trait = diligent
+		# }
+		# any_vassal = {
+			# trait = ambitious
+			# trait = wroth
+		# }
+	# }
 	
-	weight_multiplier = {
-		days = 3
+	# weight_multiplier = {
+		# days = 3
 		
-		modifier = {
-			factor = 2
-			trait = infirm
-		}
-		modifier = {
-			factor = 5
-			trait = incapable
-		}
-	}
+		# modifier = {
+			# factor = 2
+			# trait = infirm
+		# }
+		# modifier = {
+			# factor = 5
+			# trait = incapable
+		# }
+	# }
 	
-	option = {
-		name = EVTOPTA4175
-		add_trait = maimed
-	}
+	# option = {
+		# name = EVTOPTA4175
+		# add_trait = maimed
+	# }
 	
-	option = {
-		name = EVTOPTB4175
-		random = {
-			chance = 60
+	# option = {
+		# name = EVTOPTB4175
+		# random = {
+			# chance = 60
 			
-			add_trait = wounded
-			hidden_tooltip = { character_event = { id = 38280 } }
-		}
-		random_vassal = {
-			limit = {
-				trait = diligent
-			}
-			reverse_opinion = {
-				modifier = opinion_my_saviour
-				who = ROOT
-				years = 2
-			}
-		}
-	}
+			# add_trait = wounded
+			# hidden_tooltip = { character_event = { id = 38280 } }
+		# }
+		# random_vassal = {
+			# limit = {
+				# trait = diligent
+			# }
+			# reverse_opinion = {
+				# modifier = opinion_my_saviour
+				# who = ROOT
+				# years = 2
+			# }
+		# }
+	# }
 	
-	option = {
-		name = EVTOPTC4175
-		random = {
-			chance = 70
+	# option = {
+		# name = EVTOPTC4175
+		# random = {
+			# chance = 70
 			
-			add_trait = wounded
-			hidden_tooltip = { character_event = { id = 38280 } }
-		}
-		random_courtier = {
-			limit = {
-				trait = ambitious
-				trait = wroth
-			}
-			reverse_opinion = {
-				modifier = opinion_fool_courtier
-				who = ROOT
-				years = 2
-			}
-		}
-	}
-}
+			# add_trait = wounded
+			# hidden_tooltip = { character_event = { id = 38280 } }
+		# }
+		# random_courtier = {
+			# limit = {
+				# trait = ambitious
+				# trait = wroth
+			# }
+			# reverse_opinion = {
+				# modifier = opinion_fool_courtier
+				# who = ROOT
+				# years = 2
+			# }
+		# }
+	# }
+# }
