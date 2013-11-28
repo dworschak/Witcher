@@ -505,9 +505,6 @@ character_event = {
 	
 	trigger = {
 		has_character_flag = suspected_sodomite
-		NOT = {
-			religion_group = muslim
-		}
 		OR = {
 			NOT = {
 				martial = 2
@@ -564,6 +561,7 @@ character_event = {
 		}
 		NOT = {
 			trait = homosexual
+			trait = stressed
 		}
 	}
 	
@@ -574,50 +572,6 @@ character_event = {
 	option = {
 		name = EVTOPTA69007
 		add_trait = stressed
-	}
-}
-
-#People think I am homosexual! An Imam denounces you
-character_event = {
-	id = 69008
-	desc = EVTDESC69008
-	picture = GFX_evt_whispers
-	
-	only_men = yes
-	min_age = 15
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = suspected_sodomite
-		religion_group = muslim
-		OR = {
-			NOT = {
-				martial = 2
-			}
-			trait = craven
-			trait = poet
-			trait = gardener
-		}
-		NOT = {
-			num_of_children = 1
-		}
-		NOT = {
-			trait = homosexual
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 60
-	}
-	
-	option = {
-		name = EVTOPTA69008
-		piety = -10
-	}
-	option = {
-		name = EVTOPTB69008
-		prestige = -10
 	}
 }
 
@@ -638,9 +592,6 @@ character_event = {
 	trigger = {
 		intrigue = 10
 		is_ruler = no
-		NOT = {
-			religion_group = muslim
-		}
 		NOT = {
 			has_character_flag = rumour_spreader
 		}
@@ -1165,20 +1116,7 @@ character_event = {
 		name = EVTOPTA69015
 		clr_character_flag = suspected_of_incest
 		piety = 10
-		if = {
-			limit = {
-				NOT = {
-					religion_group = muslim
-				}
-			}
-			add_trait = chaste
-		}
-		if = {
-			limit = {
-				religion_group = muslim
-			}
-			piety = 5
-		}
+		add_trait = chaste
 	}
 	option = {
 		name = EVTOPTB69015
@@ -1264,26 +1202,13 @@ character_event = {
 	option = {
 		name = EVTOPTB69016 #Ignore the child
 		clr_character_flag = suspected_of_incest
-		if = {
-			limit = {
-				religion = catholic
+		random = {
+			chance = 25
+			character_event = {
+				id = 69017
+				days = 7
+				tooltip = EVTTOOLTIP69017
 			}
-			random = {
-				chance = 25
-				character_event = {
-					id = 69017
-					days = 7
-					tooltip = EVTTOOLTIP69017
-				}
-			}
-		}
-		if = {
-			limit = {
-				NOT = {
-					religion = catholic
-				}
-			}
-			piety = -10
 		}
 	}
 }
@@ -1490,7 +1415,12 @@ character_event = {
 	option = {
 		name = EVTOPTA69021 #Deny
 		set_character_flag = impotent_man
-		add_trait = stressed
+		if = {
+			limit = {
+				NOT = { trait = stressed }
+			}
+			add_trait = stressed
+		}
 		FROM = {
 			opinion = {
 				modifier = denied_impotence_rumour
@@ -1502,22 +1432,21 @@ character_event = {
 	option = {
 		name = EVTOPTB69021 #Admit
 		prestige = -20
-		random = {
-			chance = 20
+		if = {
+			limit = {
+				NOT = {
+					trait = chaste
+				}
+			}		
+			random = {
+				chance = 20
 			
-			if = {
-				limit = {
-					NOT = {
-						religion_group = muslim
+				add_trait = chaste
+				hidden_tooltip = {
+					character_event = {
+						id = 38274 #Notify
 					}
 				}
-				add_trait = chaste
-			}
-			if = {
-				limit = {
-					religion_group = muslim
-				}
-				piety = 5
 			}
 		}
 	}
@@ -2428,7 +2357,7 @@ character_event = {
 			NOT = {
 				reverse_opinion = { who = ROOT value = 50 }
 			}
-			religion_group = christian
+			religion = ROOT
 			learning = 10
 			NOT = {
 				piety = 50
@@ -2477,7 +2406,7 @@ character_event = {
 				prisoner = no
 				is_female = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				learning = 10
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -2510,7 +2439,7 @@ character_event = {
 				prisoner = no
 				is_female = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				learning = 10
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -2544,7 +2473,7 @@ character_event = {
 				prisoner = no
 				is_female = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				learning = 10
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -2677,7 +2606,7 @@ character_event = {
 			prisoner = no
 			is_female = no
 			age = 15
-			religion_group = christian
+			religion = ROOT
 			learning = 10
 			NOT = {
 				reverse_opinion = { who = ROOT value = 50 }
@@ -2725,7 +2654,7 @@ character_event = {
 				prisoner = no
 				is_female = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				learning = 10
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -2758,7 +2687,7 @@ character_event = {
 				prisoner = no
 				is_female = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				learning = 10
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -2822,10 +2751,23 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA69044
-		random = {
-			chance = 25
+		trigger = { NOT = { trait = zealous } }
+		if = {
+			limit = {
+				NOT = {
+					trait = cynical
+				}
+			}		
+			random = {
+				chance = 25
 			
-			add_trait = cynical
+				add_trait = cynical
+				hidden_tooltip = {
+					character_event = {
+						id = 38255 #Notify
+					}
+				}
+			}
 		}
 	}
 	option = {
@@ -2946,6 +2888,7 @@ character_event = {
 		}
 		NOT = {
 			trait = stressed
+			trait = depressed
 		}
 	}
 	
@@ -2972,12 +2915,23 @@ character_event = {
 		}
 		random_list = {
 			25 = {
+				if = {
+					limit = {
+						NOT = { trait = fair }
+					}
 				add_trait = fair
 				hidden_tooltip = {
 					character_event = {
 						id = 38301 #Notify Fair
 					}
 				}
+			}
+				if = {
+					limit = {
+						trait = fair
+					}
+					change_diplomacy = 1
+				}				
 			}
 			25 = {
 				change_martial = 1
@@ -3011,15 +2965,24 @@ character_event = {
 		tooltip_info = paranoid
 		trigger = {
 			trait = paranoid
-			NOT = {
-				religion_group = muslim
-			}
 		}
 		piety = -5
-		random = {
+		if = {
+			limit = {
+				NOT = {
+					trait = possessed
+				}
+			}
+			random = {
 			chance = 33
 			
 			add_trait = possessed
+				hidden_tooltip = {
+					character_event = {
+						id = 38316 #Notify
+					}
+				}
+			}
 		}
 	}
 }
@@ -3508,9 +3471,6 @@ character_event = {
 	
 	trigger = {
 		intrigue = 10
-		NOT = {
-			religion_group = muslim
-		}
 		job_spiritual = {
 			is_female = no
 			age = 15
@@ -3634,11 +3594,10 @@ character_event = {
 		NOT = {
 			has_character_flag = rumour_spreader
 		}
-		religion_group = christian
 		any_courtier = {
 			prisoner = no
 			age = 15
-			religion_group = christian
+			religion = ROOT
 			NOT = {
 				has_character_flag = flag_unchristian
 			}
@@ -3687,7 +3646,7 @@ character_event = {
 			limit = {
 				prisoner = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
 				}
@@ -3721,7 +3680,7 @@ character_event = {
 			limit = {
 				prisoner = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
 				}
@@ -3756,7 +3715,7 @@ character_event = {
 			limit = {
 				prisoner = no
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
 				}
@@ -3880,7 +3839,6 @@ character_event = {
 	
 	trigger = {
 		intrigue = 10
-		religion_group = christian
 		NOT = {
 			has_character_flag = rumour_spreader
 		}
@@ -3890,7 +3848,7 @@ character_event = {
 				has_character_flag = flag_unchristian
 			}
 			age = 15
-			religion_group = christian
+			religion = ROOT
 			NOT = {
 				reverse_opinion = { who = ROOT value = 50 }
 			}
@@ -3939,7 +3897,7 @@ character_event = {
 					has_character_flag = flag_unchristian
 				}
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
 				}
@@ -3972,7 +3930,7 @@ character_event = {
 					has_character_flag = flag_unchristian
 				}
 				age = 15
-				religion_group = christian
+				religion = ROOT
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
 				}
@@ -4032,10 +3990,22 @@ character_event = {
 				hidden = yes
 			}
 		}
-		random = {
-			chance = 25
+		if = {
+			limit = {
+				NOT = {
+					trait = cynical
+				}
+			}		
+			random = {
+				chance = 25
 			
-			add_trait = cynical
+				add_trait = cynical
+				hidden_tooltip = {
+					character_event = {
+						id = 38258 #Notify
+					}
+				}
+			}
 		}
 		random_child = {
 			limit = {
@@ -4049,6 +4019,11 @@ character_event = {
 				chance = 25
 			
 				add_trait = zealous
+				hidden_tooltip = {
+					character_event = {
+						id = 38269 #Notify
+					}
+				}
 				opinion = {
 					modifier = opinion_dislike
 					who = ROOT
@@ -4101,58 +4076,6 @@ character_event = {
 		name = EVTOPTC69065
 		prestige = -10
 		clr_character_flag = flag_unchristian
-	}
-}
-
-### Scolded by the Caliph ###
-character_event = {
-	id = 69066
-	desc = EVTDESC69066
-	picture = GFX_evt_jerusalem
-	
-	only_rulers = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = flag_nomuslim
-		religion_group = muslim
-		NOT = {
-			piety = 100
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 60
-	}
-	
-	option = {
-		name = EVTOPTA69066
-		ai_chance = {
-			factor = 10
-			
-			modifier = {
-				factor = 5
-				scaled_wealth = 0.5
-			}
-			modifier = {
-				factor = 0.01
-				NOT = { scaled_wealth = 0.5 }
-			}
-		}
-		piety = 5
-		scaled_wealth = -0.075
-		clr_character_flag = flag_nomuslim
-	}
-	option = {
-		name = EVTOPTB69065
-		piety = -10
-		clr_character_flag = flag_nomuslim
-	}
-	option = {
-		name = EVTOPTC69065
-		prestige = -10
-		clr_character_flag = flag_nomuslim
 	}
 }
 
@@ -4610,9 +4533,19 @@ character_event = {
 			}
 			30 = {
 				remove_trait = craven
+				hidden_tooltip = {
+					character_event = {
+						id = 38296 #Notify
+					}
+				}
 			}
 			10 = {
 				add_trait = wounded
+				hidden_tooltip = {
+					character_event = {
+						id = 38280 #Notify
+					}
+				}
 			}
 		}
 	}
@@ -4949,376 +4882,5 @@ character_event = {
 			name = suspected_coward
 			duration = 1825
 		}
-	}
-}
-
-### Incompetence at work: Chief Mufti - Muslim ###
-character_event = {
-	id = 69095
-	desc = EVTDESC69095
-	picture = GFX_evt_whispers
-	
-	min_age = 15
-	only_rulers = yes
-	capable_only = yes
-	prisoner = no
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		intrigue = 10
-		religion_group = muslim
-		job_spiritual = {
-			is_female = no
-			age = 15
-			NOT = {
-				learning = 12
-			}
-			liege = {
-				ROOT = {
-					NOT = { has_opinion_modifier = { who = PREV modifier = opinion_unappreciated } }
-				}
-			}
-		}
-	}
-	
-	weight_multiplier = {
-		days = 1
-		
-		modifier = {
-			factor = 2
-			trait = deceitful
-		}
-		modifier = {
-			factor = 2
-			intrigue = 15
-		}
-		modifier = {
-			factor = 2
-			intrigue = 20
-		}
-	}
-	
-	option = {
-		name = EVTOPTA69058
-		ai_chance = {
-			factor = 10
-		}
-		job_spiritual = {
-			character_event = {
-				id = 69096
-				tooltip = EVTTOOLTIP69059
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTB69058
-		ai_chance = {
-			factor = 50
-		}
-		job_spiritual = {
-			character_event = {
-				id = 69089
-				days = 3
-				tooltip = EVTTOOLTIP69089
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTC69058
-		trigger = {
-			job_spiritual = {
-				NOT = {
-					learning = 12
-				}
-				treasury = 20
-			}
-		}
-		treasury = 20
-		job_spiritual = {
-			treasury = -20
-			opinion = {
-				modifier = opinion_money_stolen
-				who = ROOT
-				years = 3
-			}
-		}
-	}
-}
-
-#Chief Mufti
-character_event = {
-	id = 69096
-	desc = EVTDESC69096
-	picture = GFX_evt_whispers
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA69059
-		opinion = {
-			modifier = opinion_unappreciated
-			who = FROM
-			years = 3
-		}
-		random = {
-			chance = 25
-			
-			change_learning = 1
-		}
-	}
-}
-
-### Lack of Piety: Any Courtier - Muslim ###
-character_event = {
-	id = 69100
-	desc = EVTDESC69100
-	picture = GFX_evt_whispers
-	
-	min_age = 15
-	capable_only = yes
-	prisoner = no
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		intrigue = 10
-		is_ruler = no
-		NOT = {
-			has_character_flag = rumour_spreader
-		}
-		religion_group = muslim
-		any_courtier = {
-			prisoner = no
-			is_female = no
-			age = 15
-			religion_group = muslim
-			NOT = {
-				has_character_flag = flag_nomuslim
-			}
-			NOT = {
-				reverse_opinion = { who = ROOT value = 50 }
-			}
-			NOT = {
-				piety = 50
-			}
-			NOT = {
-				learning = 8
-			}
-			NOT = {
-				trait = zealous
-			}
-		}
-	}
-	
-	immediate = {
-		set_character_flag = rumour_spreader
-	}
-	
-	weight_multiplier = {
-		days = 1
-		
-		modifier = {
-			factor = 2
-			trait = deceitful
-		}
-		modifier = {
-			factor = 2
-			intrigue = 15
-		}
-		modifier = {
-			factor = 2
-			intrigue = 20
-		}
-	}
-	
-	option = {
-		name = EVTOPTA69060
-		ai_chance = {
-			factor = 10
-		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				age = 15
-				religion_group = muslim
-				NOT = {
-					reverse_opinion = { who = ROOT value = 50 }
-				}
-				NOT = {
-					has_character_flag = flag_nomuslim
-				}
-				NOT = {
-					piety = 50
-				}
-				NOT = {
-					learning = 8
-				}
-				NOT = {
-					trait = zealous
-				}
-			}
-			character_event = {
-				id = 69101
-				days = 3
-				tooltip = EVTTOOLTIP69061
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTB69100
-		ai_chance = {
-			factor = 50
-		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				is_female = no
-				age = 15
-				religion_group = muslim
-				NOT = {
-					reverse_opinion = { who = ROOT value = 50 }
-				}
-				NOT = {
-					has_character_flag = flag_nomuslim
-				}
-				NOT = {
-					piety = 50
-				}
-				NOT = {
-					learning = 8
-				}
-				NOT = {
-					trait = zealous
-				}
-			}
-			set_character_flag = flag_nomuslim
-			character_event = {
-				id = 69090
-				days = 3
-				tooltip = EVTTOOLTIP69090
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTC69060
-		ai_chance = {
-			factor = 40
-		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				age = 15
-				religion_group = muslim
-				NOT = {
-					reverse_opinion = { who = ROOT value = 50 }
-				}
-				NOT = {
-					has_character_flag = flag_nomuslim
-				}
-				NOT = {
-					piety = 50
-				}
-				NOT = {
-					learning = 8
-				}
-				NOT = {
-					trait = zealous
-				}
-			}
-			character_event = {
-				id = 69102
-				days = 3
-				tooltip = EVTTOOLTIP69062
-			}
-		}
-	}
-}
-
-#Lack of Piety: Target is confronted
-character_event = {
-	id = 69101
-	desc = EVTDESC69101
-	picture = GFX_evt_whispers
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA69061
-		add_character_modifier = {
-			name = good_deeds
-			duration = 730
-		}
-	}
-	option = {
-		name = EVTOPTB69061
-		set_character_flag = flag_nomuslim
-		piety = -10
-	}
-}
-
-#Lack of Piety: Target is blackmailed
-character_event = {
-	id = 69102
-	desc = EVTDESC69102
-	picture = GFX_evt_whispers
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA69062
-		ai_chance = {
-			factor = 50
-
-			modifier = {
-				factor = 2
-				treasury = 50
-			}
-		}
-		treasury = -50
-		FROM = {
-			treasury = 50
-		}
-		opinion = {
-			modifier = opinion_angry
-			who = FROM
-			years = 3
-		}
-	}
-	option = {
-		name = EVTOPTB69062
-		ai_chance = {
-			factor = 50
-			
-			modifier = {
-				factor = 2
-				NOT = {
-					treasury = 50
-				}
-			}
-		}
-		opinion = {
-			modifier = opinion_angry
-			who = FROM
-			years = 3
-		}
-		any_courtier = {
-			limit = {
-				prisoner = no
-				religion_group = muslim
-				NOT = {
-					character = ROOT
-				}
-			}
-			opinion = {
-				modifier = opinion_nomuslim
-				who = ROOT
-				years = 3
-			}
-		}	
 	}
 }

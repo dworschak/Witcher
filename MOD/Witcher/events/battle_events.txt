@@ -1643,6 +1643,19 @@ character_event = {
 			religion = ROOT
 			culture = ROOT
 		}		
+		new_character = {
+			random_list = {
+				75 = { add_trait = trained_warrior }
+				20 = { add_trait = skilled_warrior }
+				5 = { add_trait = master_warrior }
+			}
+			remove_trait = weak
+			remove_trait = imbecile
+			remove_trait = dwarf
+			remove_trait = clubfooted
+			remove_trait = hunchback
+			remove_trait = inbred
+		}
 	}
 }
 
@@ -1974,13 +1987,16 @@ character_event = {
 			years = 5
 		}
 		prestige = -10
-		random = {
-			chance = 25
-			
-			add_trait = cruel
-			hidden_tooltip = {
-				character_event ={
-					id = 38259 #Notify Cruel
+		if = {
+			limit = { NOT = { trait = cruel } }
+			random = {
+				chance = 25
+				
+				add_trait = cruel
+				hidden_tooltip = {
+					character_event ={
+						id = 38259 #Notify Cruel
+					}
 				}
 			}
 		}

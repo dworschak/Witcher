@@ -2278,89 +2278,6 @@ character_event = {
 	}
 }
 
-#Fosterling is Zealous - Muslim
-character_event = {
-	id = 2132
-	desc = EVTDESC2132
-	picture = GFX_evt_child_bully
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA2130 # Encourage
-		ai_chance = { 
-			factor = 10
-			modifier = {
-				factor = 200
-				trait = zealous
-			}
-			modifier = {
-				factor = 0
-				trait = cynical
-			}
-		}
-		if = {
-			limit = {
-				trait = cynical
-			}
-			remove_trait = cynical
-		}
-		if = {
-			limit = {
-				learning = 10
-			}
-			FROM = { change_learning = 1}
-		}
-		if = {
-			limit = {
-				trait = zealous
-				learning = 10
-			}
-			FROM = { piety = 5}
-		}		
-		FROM = {
-			tooltip = {
-				add_trait = zealous
-			}
-			opinion = {
-				modifier = opinion_happy_with_guardian
-				who = ROOT
-				years = 2
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTB2130 # Discourage
-		ai_chance = {
-			factor = 10
-			modifier = {
-				factor = 200
-				trait = cynical
-			}
-			modifier = {
-				factor = 0
-				trait = zealous
-			}
-		}
-		if = {
-			limit = {
-				trait = zealous
-			}
-			remove_trait = zealous
-			piety = -50
-		}
-		FROM = {
-			remove_trait = zealous
-			hidden_tooltip = {
-				character_event = {
-					id = 1631
-				}
-			}
-		}
-	}
-}
-
 ##################################################
 
 #Event ID 2140-2149 is reserved for Honest events#
@@ -3471,26 +3388,9 @@ character_event = {
 		}
 		FROM = {
 			remove_trait = cynical
-			if = {
-				limit = {
-					NOT = {
-						religion_group = muslim
-					}
-				}
-				hidden_tooltip = {
-					character_event = {
-						id = 1731
-					}
-				}
-			}
-			if = {
-				limit = {
-					religion_group = muslim
-				}
-				hidden_tooltip = {
-					character_event = {
-						id = 1733
-					}
+			hidden_tooltip = {
+				character_event = {
+					id = 1731
 				}
 			}
 		}
@@ -3693,10 +3593,7 @@ character_event = {
 				NOT = { age = 15 }
 				prisoner = no
 				NOT = {
-					AND = {
-						is_female = yes
-						religion_group = muslim
-					}
+					is_female = yes
 				}
 				has_guardian = no
 			}
@@ -3917,11 +3814,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA38100 # Ask the guardian about God
-		trigger = {
-			NOT = {
-				religion_group = muslim
-			}
-		}
 		ai_chance = { factor = 100}
 		guardian = {
 			character_event = {
@@ -3936,21 +3828,6 @@ character_event = {
 		name = EVTOPTB38100 # Go play with my friends
 		ai_chance = { factor = 0}
 		piety = -5
-	}
-	option = {
-		name = EVTOPTC38100 # Ask the guardian about Allah
-		trigger = {
-			religion_group = muslim
-		}
-		ai_chance = { factor = 100}
-		guardian = {
-			character_event = {
-				id = 38101
-				days = 2
-				tooltip = EVTTOOLTIPA38101
-			}
-		}
-		piety = 5
 	}
 }
 
@@ -4375,11 +4252,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTD38203 # Let the monks purge sin from the child
-		trigger = {
-			NOT = {
-				religion_group = muslim
-			}
-		}
 		ai_chance = { 
 			factor = 10
 			modifier = {
@@ -4918,32 +4790,6 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTC38211 # It's all part of God's plan
-		trigger = {
-			NOT = {
-				religion_group = muslim
-			}
-		}
-		ai_chance = { 
-			factor = 10
-			modifier = {
-				factor = 2
-				trait = honest
-			}
-			modifier = {
-				factor = 8
-				trait = zealous
-			}			
-		}		
-		random_list = {
-			70 = {	FROM = { add_trait = honest	hidden_tooltip = { ROOT = { character_event = { id = 38162}} character_event = { id = 38262 } }}}		
-			30 = {	FROM = { add_trait = proud	hidden_tooltip = { ROOT = { character_event = { id = 38161}} character_event = { id = 38261} }}}
-		}
-	}
-	option = {
-		name = EVTOPTD38211 # It's all part of Allah's plan
-		trigger = {
-			religion_group = muslim
-		}
 		ai_chance = { 
 			factor = 10
 			modifier = {
@@ -5424,23 +5270,16 @@ character_event = {
 		
 		random_list = {
 			50 = {
-				if = {
-					limit = {
-						NOT = {
-							religion_group = muslim
-						}
-					}
-					FROM = { 
-						add_trait = chaste
-						hidden_tooltip = {
-							ROOT = { 
-								character_event = { 
-									id = 38174
-								}
-							}
+				FROM = { 
+					add_trait = chaste
+					hidden_tooltip = {
+						ROOT = { 
 							character_event = { 
-								id = 38274
+								id = 38174
 							}
+						}
+						character_event = { 
+							id = 38274
 						}
 					}
 				}

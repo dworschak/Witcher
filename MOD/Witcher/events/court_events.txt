@@ -213,11 +213,6 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTC73001 # These are books created by satan!
-		trigger = {
-			NOT = {
-				religion_group = muslim
-			}
-		}
 		ai_chance = {
 			factor = 1
 			modifier = {
@@ -225,40 +220,7 @@ character_event = {
 				NOT= { trait = zealous }
 			}
 		}
-		if = {
-			limit = {
-				spouse = {
-					NOT = {
-						religion_group = muslim
-					}
-				}
-			}
-			spouse = { add_trait = chaste }
-		}
-		piety = 10
-	}
-	option = {
-		name = EVTOPTD73001 # These are books created by Shaytan!
-		trigger = {
-			religion_group = muslim
-		}
-		ai_chance = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT= { trait = zealous }
-			}
-		}
-		if = {
-			limit = {
-				spouse = {
-					NOT = {
-						religion_group = muslim
-					}
-				}
-			}
-			spouse = { add_trait = chaste }
-		}
+		spouse = { add_trait = chaste }
 		piety = 10
 	}
 }	
@@ -277,7 +239,6 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		religion = catholic
 		in_command = no
 		any_vassal = {
 			tier = baron
@@ -330,7 +291,6 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		religion = catholic
 		in_command = no
 		tier = count
 		wealth = 50
@@ -650,20 +610,7 @@ character_event = {
 		name = EVTOPTD73006 #Send him to confess his sins
 		random_child = {
 			limit = { has_character_flag = knock_up_maid }
-			if = {
-				limit = {
-					NOT = {
-						religion_group = muslim
-					}
-				}
-				add_trait = chaste
-			}
-			if = {
-				limit = {
-					religion_group = muslim
-				}
-				piety = -10
-			}
+			add_trait = chaste
 			clr_character_flag = knock_up_maid
 		}
 	}
@@ -684,7 +631,6 @@ character_event = {
 	
 	trigger = {
 		in_command = no
-		religion = catholic
 		spouse = { 
 			is_abroad = no
 			prisoner = no
@@ -769,7 +715,6 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		religion = catholic
 		is_landed = yes
 		capital_scope = { TECH_NOBLE_CUSTOMS = 4 }
 	}
@@ -963,7 +908,6 @@ character_event = {
 	
 	trigger = {
 		year = 1350
-		religion = catholic
 		NOT = { has_character_flag = ars_moriendi }
 	}
 	
@@ -1843,18 +1787,9 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		NOT = {
-			religion_group = muslim
-		}
 		OR = {
 			is_theocracy = yes
-			AND = {
-				is_ruler = no
-				NOT = { religion = orthodox }
-				NOT = { is_heresy_of = orthodox }
-				NOT = { religion = miaphysite }
-				NOT = { is_heresy_of = miaphysite }
-			}
+			is_ruler = no
 		}
 		independent = no
 		is_councillor = no
@@ -1875,7 +1810,6 @@ character_event = {
 			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 120
 		
@@ -1891,14 +1825,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA73230
-		if = {
-			limit = {
-				NOT = {
-					religion_group = muslim
-				}
-			}
-			liege = { letter_event = { id = 73231 tooltip = EVTTOOLTIP73231 } }
-		}
+		liege = { letter_event = { id = 73231 tooltip = EVTTOOLTIP73231 } }
 	}
 }
 

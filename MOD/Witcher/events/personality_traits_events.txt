@@ -24,9 +24,6 @@ character_event = {
 			personality_traits = 5
 		}
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			trait = chaste
 		}
 		NOT = {
@@ -2694,9 +2691,6 @@ character_event = {
 	
 	trigger = {
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			personality_traits = 5
 		}
 		NOT = {
@@ -2906,9 +2900,6 @@ character_event = {
 	trigger = {
 		NOT = {
 			personality_traits = 5
-		}
-		NOT = {
-			religion_group = muslim
 		}
 		NOT = {
 			trait = chaste
@@ -3503,9 +3494,6 @@ character_event = {
 			personality_traits = 5
 		}
 		NOT = {
-			religion_group = muslim
-		}
-		NOT = {
 			trait = chaste
 		}
 		NOT = {
@@ -3709,9 +3697,6 @@ character_event = {
 	trigger = {
 		NOT = {
 			personality_traits = 5
-		}
-		NOT = {
-			religion_group = muslim
 		}
 		NOT = {
 			trait = chaste
@@ -4774,278 +4759,5 @@ character_event = {
 	option = {
 		name = "EVTOPTA1058"
 		remove_trait = trusting
-	}
-}
-
-### Lustful Muslim ###
-character_event = {
-	id = 1060
-	desc = "EVTDESC1060"
-	picture = "GFX_evt_lovers"
-	
-	min_age = 15
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		NOT = {
-			personality_traits = 5
-		}
-		religion_group = muslim
-		NOT = {
-			trait = lustful
-		}
-		NOT = {
-			trait = homosexual
-		}
-	}
-	
-	weight_multiplier = {
-		days = 1
-		
-		modifier = {
-			factor = 1.7
-			trait = greedy
-		}
-		modifier = {
-			factor = 1.7
-			trait = hedonist
-		}
-		modifier = {
-			factor = 1.7
-			trait = gluttonous
-		}
-		modifier = {
-			factor = 0.5
-			trait = temperate
-		}
-	}
-
-	option = {
-		name = "EVTOPTA1060"
-		if = {
-			limit = {
-				trait = honest
-				NOT = {
-					trait = slothful
-				}
-			}
-			random = {
-				chance = 70
-				
-				add_trait = lustful
-				hidden_tooltip = {
-					character_event = {
-						id = 38272 #Notify Lustful
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				trait = slothful
-				NOT = {
-					trait = honest
-				}
-			}
-			random = {
-				chance = 20
-				
-				add_trait = lustful
-				hidden_tooltip = {
-					character_event = {
-						id = 38272 #Notify Lustful
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				NOT = {
-					trait = honest
-				}
-				NOT = {
-					trait = slothful
-				}
-			}
-			random = {
-				chance = 45
-				
-				add_trait = lustful
-				hidden_tooltip = {
-					character_event = {
-						id = 38272 #Notify Lustful
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				trait = honest
-				trait = slothful
-			}
-			random = {
-				chance = 45
-				
-				add_trait = lustful
-				hidden_tooltip = {
-					character_event = {
-						id = 38272 #Notify Lustful
-					}
-				}
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB1060"
-		piety = 10
-	}
-}
-
-### Hafiz - only for Muslims ###
-character_event = {
-	id = 1070
-	desc = "EVTDESC1070"
-	picture = GFX_evt_monk
-	border = GFX_event_normal_frame_religion
-	
-	min_age = 15
-	capable_only = yes
-	prisoner = no
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		NOT = {
-			personality_traits = 5
-		}
-		religion_group = muslim
-		NOT = {
-			trait = hafiz
-		}
-		NOT = {
-			trait = inbred
-		}
-		NOT = {
-			trait = slow
-		}
-		NOT = {
-			trait = infirm
-		}
-	}
-	
-	weight_multiplier = {
-		days = 1
-		
-		modifier = {
-			factor = 1.7
-			trait = scholar
-		}
-		modifier = {
-			factor = 1.7
-			trait = zealous
-		}
-		modifier = {
-			factor = 0.5
-			trait = cynical
-		}
-		modifier = {
-			factor = 0.5
-			trait = slothful
-		}
-		modifier = {
-			factor = 0.5
-			trait = content
-		}
-	}
-
-	option = {
-		name = "EVTOPTA1070"
-		set_character_flag = aspiring_hafiz_flag
-		add_character_modifier = {
-			name = aspiring_hafiz
-			duration = -1
-		}
-	}
-	option = {
-		name = "EVTOPTB1070"
-		if = {
-			limit = {
-				NOT = {
-					trait = slothful
-				}
-			}
-			random = {
-				chance = 20
-				add_trait = slothful
-				hidden_tooltip = {
-					character_event = {
-						id = 38251 #Notify Slothful
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				trait = slothful
-			}
-			piety = -10
-		}
-	}
-}
-
-#Become Hafiz [Root.GetTitledFirstName]
-character_event = {
-	id = 1071
-	desc = "EVTDESC1071"
-	picture = GFX_evt_monk
-	border = GFX_event_normal_frame_religion
-	
-	min_age = 15
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		religion_group = muslim
-		NOT = {
-			trait = hafiz
-		}
-		has_character_modifier = aspiring_hafiz
-		had_character_flag = {
-			flag = aspiring_hafiz_flag
-			days = 365
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 12
-		
-		modifier = {
-			factor = 0.7
-			trait = scholar
-		}
-		modifier = {
-			factor = 0.7
-			trait = zealous
-		}
-		modifier = {
-			factor = 2
-			trait = cynical
-		}
-		modifier = {
-			factor = 2
-			trait = slothful
-		}
-		modifier = {
-			factor = 2
-			trait = content
-		}
-	}
-
-	option = {
-		name = "EVTOPTA1071"
-		add_trait = hafiz
-		remove_character_modifier = aspiring_hafiz
-		clr_character_flag = aspiring_hafiz_flag
 	}
 }
