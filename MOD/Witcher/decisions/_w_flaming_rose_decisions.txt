@@ -1,0 +1,169 @@
+###########################################
+#
+# Holy Order Decisions for Sons of Abraham
+#
+###########################################
+# Written by Henrik Fåhraeus
+###########################################
+
+# Holy Order Decisions are listed for each existing holy order of the right religion
+
+decisions = {
+	expel_flaming_rose = {
+		potential = {
+			ai = no
+			religion = eternal_fire
+			is_heretic = no
+			higher_tier_than = DUKE
+			independent = yes
+			is_title_active = d_flaming_rose
+			NOT = { has_character_modifier = expelled_flaming_rose }
+			
+			any_realm_province = {
+				any_province_lord = {
+					d_flaming_rose = {
+						holder_scope = {
+							OR = {
+								character = PREVPREV
+								is_vassal_or_below = PREVPREV
+							}
+						}
+					}
+				}
+			}
+			
+			has_dlc = "Sons of Abraham"
+		}
+		
+		allow = {
+			piety = 1000
+		}
+		
+		effect = {
+			piety = -1000
+			
+			religion_authority = {
+				modifier = holy_order_expelled
+				years = 20
+			}
+			
+			hidden_tooltip = {
+				d_flaming_rose = {
+					holder_scope = {
+						character_event = {
+							id = flaming_rose.50
+						}
+					}
+				}
+				add_character_modifier = {
+					name = expelled_flaming_rose
+					duration = -1
+					inherit = yes
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	
+	donate_money_to_flaming_rose = {
+		potential = {
+			religion = eternal_fire
+			is_heretic = no
+			is_title_active = d_flaming_rose
+			
+			has_dlc = "Sons of Abraham"
+		}
+		
+		allow = {
+			wealth = 300
+		}
+		
+		effect = {
+			if = {
+				limit = { 
+					NOT = { has_character_modifier = donated_to_holy_order }
+				}
+				add_character_modifier = {
+					name = donated_to_holy_order
+					duration = -1
+				}
+			}
+			
+			hidden_tooltip = {
+				d_flaming_rose = {
+					holder_scope = {
+						character_event = {
+							id = flaming_rose.35
+						}
+					}
+				}
+			}
+			
+			wealth = -300
+			piety = 300
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					piety = 1000
+					NOT = { wealth = 1000 }
+					NOT = { controls_religion = eternal_fire }
+				}
+			}
+			modifier = {
+				factor = 0.002 # Slow it down
+			}
+		}
+	}
+	
+	vassalize_flaming_rose = {
+		is_high_prio = yes
+		
+		potential = {
+			religion = eternal_fire
+			is_heretic = no
+			
+			is_title_active = d_flaming_rose
+			
+			d_flaming_rose = {
+				holder_scope = {
+					liege = {
+						NOT = { character = ROOT }
+					}
+				}
+			}
+			
+			has_dlc = "Sons of Abraham"
+		}
+		
+		allow = {
+			wealth = 500
+		}
+		
+		effect = {
+			wealth = -500
+			
+			hidden_tooltip = {
+				d_flaming_rose = {
+					holder_scope = {
+						wealth = 500
+						character_event = {
+							id = flaming_rose.10
+						}
+					}
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+}

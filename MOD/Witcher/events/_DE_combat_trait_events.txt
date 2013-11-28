@@ -23,25 +23,15 @@ character_event = {
 	picture = GFX_evt_child_sword
 	
 	min_age = 6
-	#max_age = 15
-
+	
 	trigger = {
 		is_adult = no
 		guardian = {
 			OR = {
-				trait = misguided_warrior
-				trait = tough_soldier
-				trait = skilled_tactician
-				trait = brilliant_strategist
-				
 				trait = poor_warrior
 				trait = trained_warrior
 				trait = skilled_warrior
 				trait = master_warrior
-				
-				trait = martial_cleric
-				trait = duelist
-				has_job_title = job_marshal
 			}
 		}
 		NOT = { trait = poor_warrior }
@@ -49,108 +39,53 @@ character_event = {
 		NOT = { trait = skilled_warrior }
 		NOT = { trait = master_warrior }
 	}
-
+	
 	mean_time_to_happen = {
 		months = 30
-
+		
 		# Mentor Effects
-		modifier = {
-			factor = 0.85
-			guardian = {
-				OR = {
-					trait = poor_warrior
-					trait = trained_warrior
-					trait = skilled_warrior
-					trait = master_warrior
-				}
-			}
-		}
-
+		modifier = { factor = 0.9 guardian = { trait = poor_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = trained_warrior } }
+		modifier = { factor = 0.7 guardian = { trait = skilled_warrior } }
+		modifier = { factor = 0.6 guardian = { trait = master_warrior } }
+		
 		# Mentor has martial education
-		modifier = {
-			factor = 0.85
-			guardian = {
-				OR = {
-					trait = martial_cleric
-					has_job_title = job_marshal
-					trait = misguided_warrior
-					trait = tough_soldier
-					trait = skilled_tactician
-					trait = brilliant_strategist
-				}
-			}
-		}
+		modifier = { factor = 0.9 guardian = { trait = misguided_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = tough_soldier } }
+		modifier = { factor = 0.7 guardian = { trait = skilled_tactician } }
+		modifier = { factor = 0.6 guardian = { trait = brilliant_strategist } }
 		
 		# Mentor is skilled in combat
-		modifier = {
-			factor = 0.85
-			guardian = { trait = duelist }
-		}
-
-		# Personality Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			OR = {
-				trait = diligent
-				trait = brave
-			}
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			OR = {
-				trait = slothful
-				trait = craven
-			}
-		}		
+		modifier = { factor = 0.9 guardian = { trait = duelist } }
 		
-		# Intelligence Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = genius
-		}
-		modifier = {
-			factor = 0.9
-			trait = quick
-		}
-		#Bad
-		modifier = {
-			factor = 1.2
-			trait = slow
-		}
-		modifier = {
-			factor = 1.35
-			trait = imbecile
-		}
+		modifier = { factor = 0.8 trait = diligent }
+		modifier = { factor = 0.8 trait = brave }
+		modifier = { factor = 1.4 trait = slothful }
+		modifier = { factor = 1.4 trait = craven }
 		
-		# Physical Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = strong
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			trait = weak
-		}
+		modifier = { factor = 0.8 trait = genius }
+		modifier = { factor = 0.9 trait = quick }
+		modifier = { factor = 1.2 trait = slow }
+		modifier = { factor = 1.4 trait = imbecile }
+		
+		modifier = { factor = 0.8 trait = strong }
+		modifier = { factor = 1.2 trait = weak }
+		
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.2 trait = hunchback }
+		modifier = { factor = 1.2 trait = dwarf }
+		modifier = { factor = 1.2 trait = clubfooted }
 		
 		#Sexism
-		modifier = {
-			factor = 1.4
-			is_female = yes
-		}
+		modifier = { factor = 1.4 is_female = yes }
 	}
-
+	
 	option = {
 		name = "EVTOPTA5550100" # Stick 'em with the pointy end!
-		hidden_tooltip = { guardian = { character_event = {id = 5550105} } } #Guardian Notification.
+		hidden_tooltip = { guardian = { character_event = { id = 5550105} } } #Guardian Notification.
 		add_trait = poor_warrior 
 	}
 }
-
 #5550101 - Learning the sword from your guardian. (lvl-2)
 character_event = {
 	id = 5550101
@@ -158,368 +93,188 @@ character_event = {
 	picture = GFX_evt_child_sword
 	
 	min_age = 6
-	#max_age = 15
-
+	
 	trigger = {
 		is_adult = no
 		guardian = {
 			OR = {
-				trait = misguided_warrior
-				trait = tough_soldier
-				trait = skilled_tactician
-				trait = brilliant_strategist
-				
-				trait = poor_warrior
 				trait = trained_warrior
 				trait = skilled_warrior
 				trait = master_warrior
-				
-				trait = martial_cleric
-				trait = duelist
-				has_job_title = job_marshal
 			}
 		}
-
 		trait = poor_warrior
-
 		NOT = { trait = trained_warrior }
 		NOT = { trait = skilled_warrior }
 		NOT = { trait = master_warrior }
 	}
-
+	
 	mean_time_to_happen = {
-		months = 60
-
+		months = 30
+		
 		# Mentor Effects
-		modifier = {
-			factor = 0.85
-			guardian = {
-				OR = {
-					trait = trained_warrior
-					trait = skilled_warrior
-					trait = master_warrior
-				}
-			}
-		}
-
+		modifier = { factor = 0.9 guardian = { trait = trained_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = skilled_warrior } }
+		modifier = { factor = 0.7 guardian = { trait = master_warrior } }
+		
 		# Mentor has martial education
-		modifier = {
-			factor = 0.85
-			guardian = {
-				OR = {
-					trait = tough_soldier
-					trait = skilled_tactician
-					trait = brilliant_strategist
-				}
-			}
-		}
+		modifier = { factor = 0.9 guardian = { trait = tough_soldier } }
+		modifier = { factor = 0.8 guardian = { trait = skilled_tactician } }
+		modifier = { factor = 0.7 guardian = { trait = brilliant_strategist } }
 		
 		# Mentor is skilled in combat
-		modifier = {
-			factor = 0.85
-			guardian = { trait = duelist }
-		}
-
-		# Personality Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			OR = {
-				trait = diligent
-				trait = brave
-			}
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			OR = {
-				trait = slothful
-				trait = craven
-			}
-		}		
+		modifier = { factor = 0.9 guardian = { trait = duelist } }
 		
-		# Intelligence Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = genius
-		}
-		modifier = {
-			factor = 0.9
-			trait = quick
-		}
-		#Bad
-		modifier = {
-			factor = 1.2
-			trait = slow
-		}
-		modifier = {
-			factor = 1.35
-			trait = imbecile
-		}
+		modifier = { factor = 0.8 trait = diligent }
+		modifier = { factor = 0.8 trait = brave }
+		modifier = { factor = 1.4 trait = slothful }
+		modifier = { factor = 1.4 trait = craven }
 		
-		# Physical Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = strong
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			trait = weak
-		}
+		modifier = { factor = 0.8 trait = genius }
+		modifier = { factor = 0.9 trait = quick }
+		modifier = { factor = 1.2 trait = slow }
+		modifier = { factor = 1.4 trait = imbecile }
+		
+		modifier = { factor = 0.8 trait = strong }
+		modifier = { factor = 1.2 trait = weak }
+		
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.2 trait = hunchback }
+		modifier = { factor = 1.2 trait = dwarf }
+		modifier = { factor = 1.2 trait = clubfooted }
+		
 		#Sexism
-		modifier = {
-			factor = 1.4
-			is_female = yes
-		}
+		modifier = { factor = 1.4 is_female = yes }
 	}
-
+	
 	option = {
-		name = "EVTOPTA5550100"
-		hidden_tooltip = { guardian = { character_event = {id = 5550105} } } #Guardian Notification.
-		remove_trait = poor_warrior 
+		name = "EVTOPTA5550101"
+		hidden_tooltip = { guardian = { character_event = { id = 5550105} } } #Guardian Notification.
 		add_trait = trained_warrior
+		remove_trait = poor_warrior
 	}
 }
-
 #5550102 - Learning the sword from your guardian. (lvl-3)
 character_event = {
 	id = 5550102
-	desc = "EVTDESC550101"
+	desc = "EVTDESC550102"
 	picture = GFX_evt_child_sword
 	
 	min_age = 6
-	#max_age = 15
-
+	
 	trigger = {
 		is_adult = no
 		guardian = {
 			OR = {
-				trait = misguided_warrior
-				trait = tough_soldier
-				trait = skilled_tactician
-				trait = brilliant_strategist
-				
-				trait = poor_warrior
-				trait = trained_warrior
 				trait = skilled_warrior
 				trait = master_warrior
-				
-				trait = martial_cleric
-				trait = duelist
-				has_job_title = job_marshal
 			}
 		}
 		trait = trained_warrior
-
 		NOT = { trait = skilled_warrior }
 		NOT = { trait = master_warrior }
 	}
-
+	
 	mean_time_to_happen = {
-		months = 120
-
+		months = 30
+		
 		# Mentor Effects
-		modifier = {
-			factor = 0.85
-			guardian = {
-				OR = {
-					trait = skilled_warrior
-					trait = master_warrior
-				}
-			}
-		}
-
+		modifier = { factor = 0.9 guardian = { trait = skilled_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = master_warrior } }
+		
 		# Mentor has martial education
-		modifier = {
-			factor = 0.85
-			guardian = {
-				OR = {
-					trait = skilled_tactician
-					trait = brilliant_strategist
-				}
-			}
-		}
-
-		# Personality Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			OR = {
-				trait = diligent
-				trait = brave
-			}
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			OR = {
-				trait = slothful
-				trait = craven
-			}
-		}		
+		modifier = { factor = 0.9 guardian = { trait = skilled_tactician } }
+		modifier = { factor = 0.8 guardian = { trait = brilliant_strategist } }
 		
-		# Intelligence Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = genius
-		}
-		modifier = {
-			factor = 0.9
-			trait = quick
-		}
-		#Bad
-		modifier = {
-			factor = 1.2
-			trait = slow
-		}
-		modifier = {
-			factor = 1.35
-			trait = imbecile
-		}
+		# Mentor is skilled in combat
+		modifier = { factor = 0.95 guardian = { trait = duelist } }
 		
-		# Physical Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = strong
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			trait = weak
-		}
+		modifier = { factor = 0.9 trait = diligent }
+		modifier = { factor = 0.9 trait = brave }
+		modifier = { factor = 1.5 trait = slothful }
+		modifier = { factor = 1.5 trait = craven }
+		
+		modifier = { factor = 0.9 trait = genius }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 2 trait = imbecile }
+		
+		modifier = { factor = 0.9 trait = strong }
+		modifier = { factor = 1.5 trait = weak }
+		
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.5 trait = hunchback }
+		modifier = { factor = 1.5 trait = dwarf }
+		modifier = { factor = 1.5 trait = clubfooted }
 		
 		#Sexism
-		modifier = {
-			factor = 1.4
-			is_female = yes
-		}
+		modifier = { factor = 1.4 is_female = yes }
 	}
+	
 	option = {
-		name = "EVTOPTA5550100"
-		hidden_tooltip = { guardian = { character_event = {id = 5550105} } } #Guardian Notification.
-		remove_trait = trained_warrior 
+		name = "EVTOPTA5550102"
+		hidden_tooltip = { guardian = { character_event = { id = 5550105} } } #Guardian Notification.
 		add_trait = skilled_warrior
+		remove_trait = trained_warrior
 	}
 }
-
-#5550103 - Learning the sword from your guardian. (lvl-3)
+#5550103 - Learning the sword from your guardian. (lvl-4)
 character_event = {
 	id = 5550103
 	desc = "EVTDESC550103" # You have truly mastered the art of combat.
 	picture = GFX_evt_child_sword
 	
 	min_age = 6
-	#max_age = 15
-
+	
 	trigger = {
 		is_adult = no
 		guardian = {
-			OR = {
-				trait = misguided_warrior
-				trait = tough_soldier
-				trait = skilled_tactician
-				trait = brilliant_strategist
-				
-				trait = poor_warrior
-				trait = trained_warrior
-				trait = skilled_warrior
-				trait = master_warrior
-				
-				trait = martial_cleric
-				trait = duelist
-				has_job_title = job_marshal
-			}
+			trait = master_warrior
 		}
 		trait = skilled_warrior
-
 		NOT = { trait = master_warrior }
 	}
-
+	
 	mean_time_to_happen = {
-		months = 180
-
+		months = 30
+		
 		# Mentor Effects
-		modifier = {
-			factor = 0.85
-			guardian = { trait = master_warrior }
-		}
+		modifier = { factor = 0.9 guardian = { trait = master_warrior } }
 		
-		# Mentor has great martial education
-		modifier = {
-			factor = 0.85
-			guardian = { trait = brilliant_strategist }
-		}
-
-		# Personality Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			OR = {
-				trait = diligent
-				trait = brave
-			}
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			OR = {
-				trait = slothful
-				trait = craven
-			}
-		}		
+		# Mentor has martial education
+		modifier = { factor = 0.90 guardian = { trait = brilliant_strategist } }
 		
-		# Intelligence Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = genius
-		}
-		modifier = {
-			factor = 0.9
-			trait = quick
-		}
-		#Bad
-		modifier = {
-			factor = 1.2
-			trait = slow
-		}
-		modifier = {
-			factor = 1.35
-			trait = imbecile
-		}
+		# Mentor is skilled in combat
+		modifier = { factor = 0.95 guardian = { trait = duelist } }
 		
-		# Physical Effects
-		#Good
-		modifier = {
-			factor = 0.85
-			trait = strong
-		}
-		#Bad
-		modifier = {
-			factor = 1.35
-			trait = weak
-		}
+		modifier = { factor = 0.9 trait = diligent }
+		modifier = { factor = 0.9 trait = brave }
+		
+		modifier = { factor = 1.5 trait = slothful }
+		modifier = { factor = 1.5 trait = craven }
+		
+		modifier = { factor = 0.9 trait = genius }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 2 trait = imbecile }
+		
+		modifier = { factor = 0.9 trait = strong }
+		modifier = { factor = 1.5 trait = weak }
+		
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.5 trait = hunchback }
+		modifier = { factor = 1.5 trait = dwarf }
+		modifier = { factor = 1.5 trait = clubfooted }
 		
 		#Sexism
-		modifier = {
-			factor = 1.4
-			is_female = yes
-		}
-	}
-	option = {
-		name = "EVTOPTA5550100"
-		hidden_tooltip = { guardian = { character_event = {id = 5550105} } } #Guardian Notification.
-		remove_trait = skilled_warrior
-		add_trait = master_warrior
+		modifier = { factor = 1.4 is_female = yes }
 	}
 	
+	option = {
+		name = "EVTOPTA5550103"
+		hidden_tooltip = { guardian = { character_event = { id = 5550105} } } #Guardian Notification.
+		add_trait = master_warrior
+		remove_trait = skilled_warrior
+	}
 }
-
 #5550105 - Guardian Notification. (For all lvls)
 character_event = {
 	id = 5550105
@@ -578,33 +333,18 @@ character_event = {
 		months = 120
 
 		# Personality Effects
-		#Good
-		modifier = {
-			factor = 1.25
-			OR = {
-				trait = diligent
-				trait = brave
-				trait = duelist
-			}
-		}
-		#Bad
-		modifier = {
-			factor = 0.75
-			trait = slothful
-		}
+		modifier = { factor = 1.2 trait = diligent }
+		modifier = { factor = 1.2 trait = brave }
+		modifier = { factor = 1.2 trait = duelist }
+		modifier = { factor = 0.7 trait = slothful }
 		
 		# Physical Effects
-		#Good
-		modifier = {
-			factor = 1.5
-			trait = strong
-		}
-		#Bad
-		modifier = {
-			factor = 0.2
-			trait = weak
-		}
+		modifier = { factor = 1.5 trait = strong }
+		modifier = { factor = 0.7 trait = weak }
 		
+		modifier = { factor = 5 trait = witcher }
+		modifier = { factor = 10 trait = dwarven }
+		modifier = { factor = 2 trait = elven }
 	}
 
 	option = {

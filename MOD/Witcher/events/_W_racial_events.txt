@@ -159,3 +159,43 @@ character_event = {
 		}
 	}
 }
+
+################################################
+# Elf and dryad old age culling
+################################################
+character_event = {
+	id = racial.4
+	desc = EVTDESCracial.4
+	picture = GFX_evt_illness
+	
+	hide_window = yes
+	
+	min_age = 100
+	
+	trigger = {
+		trait = elven
+		trait = dryad
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		
+		modifier = { factor = 3 trait = strong }
+		modifier = { factor = 0.8 trait = incapable }
+		modifier = { factor = 0.8 trait = weak }
+		modifier = { factor = 5 age = 100 }
+		modifier = { factor = 2.5 age = 125 }
+		modifier = { factor = 2 age = 150 }
+		modifier = { factor = 1.5 age = 175 }
+		modifier = { factor = 1 age = 200 }
+		modifier = { factor = 0.75 age = 225 }
+		modifier = { factor = 0.5 age = 250 }
+		modifier = { factor = 0.25 age = 275 }
+		modifier = { factor = 0.1 age = 300 }
+	}
+	
+	option = {
+		name = OK
+		death = { death_reason = death_trait }
+	}
+}
