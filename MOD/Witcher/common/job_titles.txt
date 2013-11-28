@@ -65,11 +65,14 @@ job_marshal = {
 				OR = {
 					is_female = no
 					AND = {
-						religion = cathar
-						liege = { religion = cathar }
+						religion = nature
+						liege = { religion = nature }
 					}
 				}
 				is_adult = yes
+				NOT = {
+					trait = witcher
+				}
 			}
 			has_character_flag = special_marshal
 		}
@@ -250,5 +253,83 @@ job_spiritual = {
 	action = action_improve_rel_relations
 	action = action_charity
 
+	lift_fow = yes
+}
+
+job_mage = {
+	attribute = learning
+	dignity = 0.15
+	opinion_effect = 15
+	#show_as_title = yes
+	
+	monthly_salary = 0.75
+	monthly_prestige = 0.015
+	
+	allow = {
+		age = 16
+		prisoner = no
+		trait = sorcerer
+		NOT = { trait = incapable }
+		OR = {			
+			host = { 
+				OR = {
+					culture_group = northern
+				}						
+			}
+		}
+	}
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}	
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+		
+	lift_fow = yes
+}
+
+job_witcher = {
+	#is_marshal = yes
+	attribute = martial
+	dignity = 0.33
+	opinion_effect = 15
+	
+	monthly_salary = 2
+	monthly_prestige = 0.015
+	
+	allow = {
+		age = 16
+		prisoner = no
+		trait = witcher
+		is_female = no
+		is_adult = yes
+		NOT = { trait = incapable }
+	}
+	
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}	
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
 	lift_fow = yes
 }
