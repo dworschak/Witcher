@@ -161,7 +161,7 @@ character_event = {
 }
 
 ################################################
-# Elf and dryad old age culling
+# Elf old age culling
 ################################################
 character_event = {
 	id = racial.4
@@ -170,28 +170,25 @@ character_event = {
 	
 	hide_window = yes
 	
-	min_age = 100
+	min_age = 300
 	
 	trigger = {
 		trait = elven
-		trait = dryad
 	}
 	
 	mean_time_to_happen = {
 		months = 1200
-		
-		modifier = { factor = 3 trait = strong }
-		modifier = { factor = 0.8 trait = incapable }
-		modifier = { factor = 0.8 trait = weak }
-		modifier = { factor = 5 age = 100 }
-		modifier = { factor = 2.5 age = 125 }
-		modifier = { factor = 2 age = 150 }
-		modifier = { factor = 1.5 age = 175 }
-		modifier = { factor = 1 age = 200 }
-		modifier = { factor = 0.75 age = 225 }
-		modifier = { factor = 0.5 age = 250 }
-		modifier = { factor = 0.25 age = 275 }
-		modifier = { factor = 0.1 age = 300 }
+		#Traits
+		modifier = { factor = 2.5 trait = strong } # 400
+		modifier = { factor = 0.2 trait = incapable } # 318
+		modifier = { factor = 0.8 trait = weak } # 352
+		#Age dies at 365
+		modifier = { factor = 1 NOT = { age = 300 } }
+		modifier = { factor = 0.9 age = 300 NOT = { age = 325 } }
+		modifier = { factor = 0.8 age = 325 NOT = { age = 350 } }
+		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
+		modifier = { factor = 0.4 age = 375 NOT = { age = 400 } }
+		modifier = { factor = 0.1 age = 400 }
 	}
 	
 	option = {

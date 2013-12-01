@@ -104,156 +104,156 @@ decisions = {
 		}
 	}
 	
-	# Pagans are allowed to convert to the attacker's religion when under holy war
-	convert_to_attacker_religion = {
-		is_high_prio = yes
+	# # Pagans are allowed to convert to the attacker's religion when under holy war
+	# convert_to_attacker_religion = {
+		# is_high_prio = yes
 		
-		potential = {
-			is_playable = yes
-			OR = {
-				religion_group = pagan_group
-				religion_group = zoroastrian_group
-			}
-			controls_religion = no
-			war = yes
-			any_war = {
-				defender = { character = ROOT }
-				OR = {
-					using_cb = crusade
-					using_cb = religious
-				}
-			}
-		}
+		# potential = {
+			# is_playable = yes
+			# OR = {
+				# religion_group = pagan_group
+				# religion_group = zoroastrian_group
+			# }
+			# controls_religion = no
+			# war = yes
+			# any_war = {
+				# defender = { character = ROOT }
+				# OR = {
+					# using_cb = crusade
+					# using_cb = religious
+				# }
+			# }
+		# }
 		
-		allow = {
-			NOT = { trait = zealous }
-		}
+		# allow = {
+			# NOT = { trait = zealous }
+		# }
 		
-		effect = {
-			prestige = -500
-			religion_authority = {
-				modifier = ruler_converted_from
-			}
-			#
-			#if = {
-			#	limit = { religion_group = pagan_group }
-			#	add_trait = sympathy_pagans
-			#}
-			#if = {
-			#	limit = { religion_group = zoroastrian_group }
-			#	add_trait = sympathy_zoroastrianism
-			#}
+		# effect = {
+			# prestige = -500
+			# religion_authority = {
+				# modifier = ruler_converted_from
+			# }
+			# #
+			# #if = {
+			# #	limit = { religion_group = pagan_group }
+			# #	add_trait = sympathy_pagans
+			# #}
+			# #if = {
+			# #	limit = { religion_group = zoroastrian_group }
+			# #	add_trait = sympathy_zoroastrianism
+			# #}
 			
-			any_war = {
-				limit = {
-					defender = { character = ROOT }
-					OR = {
-						using_cb = crusade
-						using_cb = religious
-					}
-				}
-				attacker = {
-					hidden_tooltip = {
-						letter_event = { id = 62800 }
-					}
-					hidden_tooltip = {
-						ROOT = {
-							any_courtier = {
-								limit = {
-									religion = ROOT
-									employer = { character = ROOT }
-								}
-								religion = PREVPREV
-							}
-							any_vassal = {
-								limit = {
-									is_playable = no
-									religion = ROOT
-								}
-								religion = PREVPREV
-							}
-							capital_scope = {
-								if = {
-									limit = { religion = ROOT }
-									religion = PREVPREV
-								}
-							}
-						}
-					}
-					reverse_religion = ROOT 
-				}
-			}
+			# any_war = {
+				# limit = {
+					# defender = { character = ROOT }
+					# OR = {
+						# using_cb = crusade
+						# using_cb = religious
+					# }
+				# }
+				# attacker = {
+					# hidden_tooltip = {
+						# letter_event = { id = 62800 }
+					# }
+					# hidden_tooltip = {
+						# ROOT = {
+							# any_courtier = {
+								# limit = {
+									# religion = ROOT
+									# employer = { character = ROOT }
+								# }
+								# religion = PREVPREV
+							# }
+							# any_vassal = {
+								# limit = {
+									# is_playable = no
+									# religion = ROOT
+								# }
+								# religion = PREVPREV
+							# }
+							# capital_scope = {
+								# if = {
+									# limit = { religion = ROOT }
+									# religion = PREVPREV
+								# }
+							# }
+						# }
+					# }
+					# reverse_religion = ROOT 
+				# }
+			# }
 			
-			hidden_tooltip = {
-				religion_authority = {
-					modifier = ruler_converted_to
-				}
-			}
+			# hidden_tooltip = {
+				# religion_authority = {
+					# modifier = ruler_converted_to
+				# }
+			# }
 			
-			piety = 100
-		}
+			# piety = 100
+		# }
 		
-		revoke_allowed = {
-			always = no
-		}
+		# revoke_allowed = {
+			# always = no
+		# }
 		
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.1
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					any_war = {
-						defender = { character = ROOT }
-						attacker = {
-							OR = {
-								religion_group = muslim
-								religion_group = christian
-							}
-						}
-						OR = {
-							using_cb = crusade
-							using_cb = religious
-						}
-						war_score = 50
-						thirdparty_title_scope = {
-							ROOT = {
-								primary_title = {
-									title = PREVPREV
-								}
-							}
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 2
-				any_war = {
-					defender = { character = ROOT }
-					attacker = {
-						OR = {
-							religion_group = muslim
-							religion_group = christian
-						}
-					}
-					OR = {
-						using_cb = crusade
-						using_cb = religious
-					}
-					war_score = 75
-					thirdparty_title_scope = {
-						ROOT = {
-							primary_title = {
-								title = PREVPREV
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+		# ai_will_do = {
+			# factor = 1
+			# modifier = {
+				# factor = 0.1
+			# }
+			# modifier = {
+				# factor = 0
+				# NOT = {
+					# any_war = {
+						# defender = { character = ROOT }
+						# attacker = {
+							# OR = {
+								# religion_group = muslim
+								# religion_group = christian
+							# }
+						# }
+						# OR = {
+							# using_cb = crusade
+							# using_cb = religious
+						# }
+						# war_score = 50
+						# thirdparty_title_scope = {
+							# ROOT = {
+								# primary_title = {
+									# title = PREVPREV
+								# }
+							# }
+						# }
+					# }
+				# }
+			# }
+			# modifier = {
+				# factor = 2
+				# any_war = {
+					# defender = { character = ROOT }
+					# attacker = {
+						# OR = {
+							# religion_group = muslim
+							# religion_group = christian
+						# }
+					# }
+					# OR = {
+						# using_cb = crusade
+						# using_cb = religious
+					# }
+					# war_score = 75
+					# thirdparty_title_scope = {
+						# ROOT = {
+							# primary_title = {
+								# title = PREVPREV
+							# }
+						# }
+					# }
+				# }
+			# }
+		# }
+	# }
 	
 	# convert_to_swedish = {
 		# potential = {
@@ -666,118 +666,118 @@ decisions = {
 		# }
 	# }
 
-	convert_to_reformed = {
-		potential = {
-			is_playable = yes
-			is_heretic = yes
-			OR = {
-				religion = freya
-				religion = melitele
-				religion = kreve
-				religion = lebioda
-				religion = nature
-				religion = solar
-			}
-		}
-		allow = {
-			NOT = { trait = zealous }
-			piety = 50
-		}
-		effect = {
-			piety = -50
-			if = {
-				limit = { religion = freya }
-				religion = freya_reformed
-			}
-			if = {
-				limit = { religion = melitele }
-				religion = melitele_reformed
-			}
-			if = {
-				limit = { religion = kreve }
-				religion = kreve_reformed
-			}
-			if = {
-				limit = { religion = lebioda }
-				religion = lebioda_reformed
-			}
-			if = {
-				limit = { religion = nature }
-				religion = nature_reformed
-			}
-			if = {
-				limit = { religion = solar }
-				religion = solar_reformed
-			}
+	# convert_to_reformed = {
+		# potential = {
+			# is_playable = yes
+			# is_heretic = yes
+			# OR = {
+				# religion = freya
+				# religion = melitele
+				# religion = kreve
+				# religion = lebioda
+				# religion = nature
+				# religion = solar
+			# }
+		# }
+		# allow = {
+			# NOT = { trait = zealous }
+			# piety = 50
+		# }
+		# effect = {
+			# piety = -50
+			# if = {
+				# limit = { religion = freya }
+				# religion = freya_reformed
+			# }
+			# if = {
+				# limit = { religion = melitele }
+				# religion = melitele_reformed
+			# }
+			# if = {
+				# limit = { religion = kreve }
+				# religion = kreve_reformed
+			# }
+			# if = {
+				# limit = { religion = lebioda }
+				# religion = lebioda_reformed
+			# }
+			# if = {
+				# limit = { religion = nature }
+				# religion = nature_reformed
+			# }
+			# if = {
+				# limit = { religion = solar }
+				# religion = solar_reformed
+			# }
 			
-			hidden_tooltip = {
-				any_courtier = {
-					limit = {
-						is_heresy_of = ROOT
-						employer = { character = ROOT }
-					}
-					religion = ROOT
-				}
-				any_vassal = {
-					limit = {
-						is_playable = no
-						is_heresy_of = ROOT
-					}
-					religion = ROOT
-				}
-				capital_scope = {
-					if = {
-						limit = { is_heresy_of = ROOT }
-						religion = ROOT
-					}
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 1 # On average ca 1 year before taken
-			modifier = {
-				factor = 0.025 # Generally quite a slow process - ca 40 years
-			}
-			modifier = {
-				factor = 0.5
-				trait = slow
-			}
-			modifier = {
-				factor = 0.1
-				trait = imbecile
-			}
-			modifier = {
-				factor = 0.5
-				trait = content
-			}
-			modifier = {
-				factor = 2.0
-				trait = quick
-			}
-			modifier = {
-				factor = 4.0
-				trait = genius
-			}
-			modifier = {
-				factor = 5.0
-				trait = cynical # It's the future..
-			}
-			modifier = {
-				factor = 2.0
-				trait = ambitious
-			}
-			modifier = {
-				factor = 0
-				independent = no
-				any_liege = {
-					religion = ROOT
-				}
-			}
-		}
-	}
+			# hidden_tooltip = {
+				# any_courtier = {
+					# limit = {
+						# is_heresy_of = ROOT
+						# employer = { character = ROOT }
+					# }
+					# religion = ROOT
+				# }
+				# any_vassal = {
+					# limit = {
+						# is_playable = no
+						# is_heresy_of = ROOT
+					# }
+					# religion = ROOT
+				# }
+				# capital_scope = {
+					# if = {
+						# limit = { is_heresy_of = ROOT }
+						# religion = ROOT
+					# }
+				# }
+			# }
+		# }
+		# revoke_allowed = {
+			# always = no
+		# }
+		# ai_will_do = {
+			# factor = 1 # On average ca 1 year before taken
+			# modifier = {
+				# factor = 0.025 # Generally quite a slow process - ca 40 years
+			# }
+			# modifier = {
+				# factor = 0.5
+				# trait = slow
+			# }
+			# modifier = {
+				# factor = 0.1
+				# trait = imbecile
+			# }
+			# modifier = {
+				# factor = 0.5
+				# trait = content
+			# }
+			# modifier = {
+				# factor = 2.0
+				# trait = quick
+			# }
+			# modifier = {
+				# factor = 4.0
+				# trait = genius
+			# }
+			# modifier = {
+				# factor = 5.0
+				# trait = cynical # It's the future..
+			# }
+			# modifier = {
+				# factor = 2.0
+				# trait = ambitious
+			# }
+			# modifier = {
+				# factor = 0
+				# independent = no
+				# any_liege = {
+					# religion = ROOT
+				# }
+			# }
+		# }
+	# }
 	
 	# # Pagans can convert to the Catholic faith if their wife or a concubine is Catholic
 	# convert_to_spouse_catholic = {
