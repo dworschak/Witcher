@@ -25,15 +25,15 @@ character_event = {
 		modifier = { factor = 2 war = yes }
 		modifier = {
 			factor = 0.9
-			liege = { reverse_opinion = { who = ROOT value = -25 } }
+			liege = { NOT = { reverse_opinion = { who = ROOT value = -25 } } }
 		}
 		modifier = {
 			factor = 0.9
-			liege = { reverse_opinion = { who = ROOT value = -50 } }
+			liege = { NOT = { reverse_opinion = { who = ROOT value = -50 } } }
 		}
 		modifier = {
 			factor = 0.9
-			liege = { reverse_opinion = { who = ROOT value = -75 } }
+			liege = { NOT = { reverse_opinion = { who = ROOT value = -75 } } }
 		}
 		modifier = {
 			factor = 1.4
@@ -52,15 +52,17 @@ character_event = {
 			liege = { reverse_has_opinion_modifier = { who = ROOT modifier = opinion_asked_to_stay } }
 		}
 		modifier = {
-			factor = 0.5
+			factor = 10
 			liege = {
 				any_demesne_province = {
-					NOT= {
+					OR = {
 						has_province_modifier = vampires
 						has_province_modifier = werewolves
 						has_province_modifier = kikimoras
 						has_province_modifier = hellhounds
 						has_province_modifier = rotfiends
+						has_province_modifier = drowners
+						has_province_modifier = nekkers
 					}
 				}
 			}
@@ -181,59 +183,133 @@ character_event = {
 		liege = { character_event = { id = witcher.8 } }
 	}
 	
-	option = { # ... different court in same realm
+	option = { # ... neighbor province with monster problems
 		name = EVTOPTAwitcher.5
 		trigger = {
-			any_realm_lord = {
-				is_landed = yes
+			liege = {
 				any_demesne_province = {
-					OR= {
-						has_province_modifier = vampires
-						has_province_modifier = werewolves
-						has_province_modifier = kikimoras
-						has_province_modifier = hellhounds
-						has_province_modifier = rotfiends
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						OR = {
+							has_province_modifier = vampires
+							has_province_modifier = werewolves
+							has_province_modifier = kikimoras
+							has_province_modifier = hellhounds
+							has_province_modifier = rotfiends
+							has_province_modifier = drowners
+							has_province_modifier = nekkers
+						}
 					}
 				}
-				any_courtier = { NOT = { character = ROOT trait = witcher } }
 			}
 		}
-		random_realm_lord = {
-			limit = {
-				is_landed = yes
-				any_demesne_province = {
-					OR = {
-						has_province_modifier = vampires
-						has_province_modifier = werewolves
-						has_province_modifier = kikimoras
-						has_province_modifier = hellhounds
-						has_province_modifier = rotfiends
-					}
-				}
-				any_courtier = { NOT = { character = ROOT trait = witcher } }
-			}
-			reverse_banish = ROOT
-			character_event = { id = witcher.9 }
-		}
-		ai_chance = { factor = 10 }
-	}
-	option = { # ... different realm
-		name = EVTOPTBwitcher.5
-		top_liege = {
-			random_realm_province = {
-				limit = { 
-					any_neighbor_province = { 
-						owner = { 
-							NOT = { same_realm = ROOT }
-							any_courtier = { NOT = { character = ROOT trait = witcher } }
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						OR = {
+							has_province_modifier = vampires
+							has_province_modifier = werewolves
+							has_province_modifier = kikimoras
+							has_province_modifier = hellhounds
+							has_province_modifier = rotfiends
+							has_province_modifier = drowners
+							has_province_modifier = nekkers
 						}
 					}
 				}
 				random_neighbor_province = {
-					limit = { 
-						owner = { 
-							NOT = { same_realm = ROOT }
-							any_courtier = { NOT = { character = ROOT trait = witcher } }
+					limit = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						OR = {
+							has_province_modifier = vampires
+							has_province_modifier = werewolves
+							has_province_modifier = kikimoras
+							has_province_modifier = hellhounds
+							has_province_modifier = rotfiends
+							has_province_modifier = drowners
+							has_province_modifier = nekkers
+						}
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = { id = witcher.9 }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = { # ... random neighbor province where any witcher haven't recently visited
+		name = EVTOPTBwitcher.5
+		trigger = {
+			liege = {
+				any_demesne_province = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						NOT = { has_province_modifier = monster_purge }
+					}
+				}
+			}
+		}
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						NOT = { has_province_modifier = monster_purge }
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						NOT = { has_province_modifier = monster_purge }
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = { id = witcher.9 }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = { # ... random neighbor province 
+		name = EVTOPTCwitcher.5
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
 						}
 					}
 					owner = {
@@ -246,19 +322,19 @@ character_event = {
 		ai_chance = { factor = 1 }
 	}
 	option = { # ... the court of a ruler who invited witcher
-		name = EVTOPTCwitcher.5
+		name = EVTOPTDwitcher.5
 		trigger = {
 			any_playable_ruler = { has_character_flag = invited_witcher }
 		}
 		random_playable_ruler = {
 			limit = {
 				has_character_flag = invited_witcher
-				any_courtier = { NOT = { character = ROOT trait = witcher } }
+				any_courtier = { NOT = { trait = witcher } }
 			}
 			reverse_banish = ROOT
 			character_event = { id = witcher.9 }
 		}
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 1000 }
 	}
 }
 # Liege informed - The witcher stayed
@@ -319,8 +395,8 @@ character_event = {
 # Witcher info decision
 ################################################
 character_event = {
-	id = witcher.10
-	desc = EVTDESCwitcher.10
+	id = witcher.100
+	desc = EVTDESCwitcher.100
 	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
@@ -434,17 +510,17 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAwitcher.10
-		witcher = { limit = { has_character_flag = witcher_count_1 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_1 }
-		witcher = { limit = { has_character_flag = witcher_count_2 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_2 }
-		witcher = { limit = { has_character_flag = witcher_count_3 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_3 }
-		witcher = { limit = { has_character_flag = witcher_count_4 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_4 }
-		witcher = { limit = { has_character_flag = witcher_count_5 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_5 }
-		witcher = { limit = { has_character_flag = witcher_count_6 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_6 }
-		witcher = { limit = { has_character_flag = witcher_count_7 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_7 }
-		witcher = { limit = { has_character_flag = witcher_count_8 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_8 }
-		witcher = { limit = { has_character_flag = witcher_count_9 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_9 }
-		witcher = { limit = { has_character_flag = witcher_count_10 } custom_tooltip = { text = TOOLTIPWITCHER } clr_character_flag = witcher_count_10 }
+		name = EVTOPTAwitcher.100
+		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
+		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
+		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
+		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 }
+		witcher = { limit = { has_character_flag = witcher_count_5 } clr_character_flag = witcher_count_5 }
+		witcher = { limit = { has_character_flag = witcher_count_6 } clr_character_flag = witcher_count_6 }
+		witcher = { limit = { has_character_flag = witcher_count_7 } clr_character_flag = witcher_count_7 }
+		witcher = { limit = { has_character_flag = witcher_count_8 } clr_character_flag = witcher_count_8 }
+		witcher = { limit = { has_character_flag = witcher_count_9 } clr_character_flag = witcher_count_9 }
+		witcher = { limit = { has_character_flag = witcher_count_10 } clr_character_flag = witcher_count_10 }
 	}
 }
 
@@ -453,8 +529,8 @@ character_event = {
 ################################################
 #Witcher
 character_event = {
-	id = witcher.11
-	desc = EVTDESCwitcher.11
+	id = witcher.200
+	desc = EVTDESCwitcher.200
 	picture = GFX_evt_lunatic
 		
 	ai = yes
@@ -473,6 +549,8 @@ character_event = {
 					has_province_modifier = kikimoras
 					has_province_modifier = hellhounds
 					has_province_modifier = rotfiends
+					has_province_modifier = drowners
+					has_province_modifier = nekkers
 				}
 			}
 		}
@@ -486,55 +564,47 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTDESCwitcher.11
-		random_demesne_province = {
-			limit = {
-				OR = {
-					has_province_modifier = vampires
-					has_province_modifier = werewolves
-					has_province_modifier = kikimoras
-					has_province_modifier = hellhounds
-					has_province_modifier = rotfiends
+		name = EVTDESCwitcher.200
+		liege = {
+			random_demesne_province = {
+				limit = {
+					OR = {
+						has_province_modifier = vampires
+						has_province_modifier = werewolves
+						has_province_modifier = kikimoras
+						has_province_modifier = hellhounds
+						has_province_modifier = rotfiends
+						has_province_modifier = drowners
+						has_province_modifier = nekkers
+					}
 				}
+				province_event = { id = witcher.201 }
 			}
-			province_event = { id = witcher.12 }
 		}
 	}
 }
 #Province
 province_event = {
-	id = witcher.12
-	desc = EVTDESCwitcher.12
-	picture = GFX_evt_lunatic
-	
-	hide_window = yes
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTDESCwitcher.12
-		owner = { character_event  = { id = witcher.13 } }
-	}
-}
-#Liege
-character_event = {
-	id = witcher.13
-	desc = EVTDESCwitcher.13
+	id = witcher.201
+	desc = EVTDESCwitcher.201
 	picture = GFX_evt_lunatic
 	
 	notification = yes
 	
 	is_triggered_only = yes
 	
+	immediate = {
+		remove_province_modifier = vampires
+		remove_province_modifier = werewolves
+		remove_province_modifier = kikimoras
+		remove_province_modifier = hellhounds
+		remove_province_modifier = rotfiends
+		remove_province_modifier = drowners
+		remove_province_modifier = nekkers
+		add_province_modifier = { name = monster_purge duration = 360 }
+		FROM = { add_character_modifier = { name = recent_witcher_work duration = 180 } }
+	}
 	option = {
 		name = OK
-		FROM = {
-			remove_province_modifier = vampires
-			remove_province_modifier = werewolves
-			remove_province_modifier = kikimoras
-			remove_province_modifier = hellhounds
-			remove_province_modifier = rotfiends
-		}
-		FROMFROM = { add_character_modifier = { name = recent_witcher_work duration = 360 hidden = yes } }
 	}
 }

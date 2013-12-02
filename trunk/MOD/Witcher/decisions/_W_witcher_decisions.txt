@@ -1,4 +1,3 @@
-#decisions = {
 decisions = {
 	invite_witcher_to_court = {
 		is_high_prio = yes
@@ -10,20 +9,24 @@ decisions = {
 					has_province_modifier = kikimoras
 					has_province_modifier = hellhounds
 					has_province_modifier = rotfiends
+					has_province_modifier = drowners
+					has_province_modifier = nekkers
 				}
 			}
 		}
 		allow = {
 			NOT = { any_courtier = { trait = witcher } }
-			scaled_wealth = 0.2 
+			wealth = 50
 			NOT = { has_character_flag = invited_witcher }
 		}
 		effect = {
-			scaled_wealth = -0.2
+			wealth = -50
 			set_character_flag = invited_witcher
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 1
+			modifier = { factor = 0 trait = racist }
+			modifier = { factor = 0 NOT = { wealth = 200 } }
 		}
 	}
 	list_witchers = {
@@ -31,7 +34,7 @@ decisions = {
 			witcher = { is_alive = yes }
 		}
 		effect = {
-			character_event = { id = witcher.10 }
+			character_event = { id = witcher.100 }
 		}
 		ai_will_do = {
 			factor = 0
