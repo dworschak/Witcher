@@ -41,6 +41,20 @@ namespace = duel
 # duel.202	Slain!
 # duel.203	Opponent Slain!
 ######################
+# SPECIAL FLAVOR - TOURNEY	
+######################
+# duel.301	Duelist One Round - Tourney
+# duel.302	Duelist Two Round - Tourney
+# duel.303	Winner Exploits Hole in Defense - Tourney
+# duel.304	Loser Is Hit - Tourney
+# duel.305	Opponent Wounded - Tourney
+# duel.306	Wounded - Tourney
+# duel.309	Opponent Unhorsed - Tourney
+# duel.310	Unhorsed - Tourney
+# duel.313  Wounded therefore Lose - Tourney
+# duel.311	The final blow! - Tourney
+# duel.312	Slain - Tourney
+######################
 # How to include a duel in an event chain:
 # 1. Call an event for the first duelist, that gives them
 #    a unique flag for the context of your duel.
@@ -63,6 +77,7 @@ namespace = duel
 #########################
 # flag_duel_friendly		This character is not trying to kill their opponent.
 # flag_duel_to_the_death	This character intends to fight to their death. Overriden by flag_duel_friendly
+# flag_duel_tourney			This duel is a joust in a tourney. Should be used with flag_duel_friendly or bizarre behavior will ensue.
 #########################
 # Images:
 # GFX_evt_duel0: start/circle
@@ -112,9 +127,35 @@ character_event = {
 			}
 			FROM = { character_event = { id = duel_output.3 tooltip = "EVTTOOLTIPDUELOUTPUT3" } } #cancel! Something broke.
 		}
+		if = { #FROM is jousting but FROMFROM is not
+			limit = {
+				NOT = { FROMFROM = { has_character_flag = flag_duel_tourney } }
+				FROM = { has_character_flag = flag_duel_tourney }
+			}
+			FROMFROM = { character_event = { id = duel_output.3 tooltip = "EVTTOOLTIPDUELOUTPUT3" } } #cancel! Something broke.
+		}
+		if = { #FROMFROM is jousting but FROM is not
+			limit = {
+				FROMFROM = { has_character_flag = flag_duel_tourney }
+				NOT = { FROM = { has_character_flag = flag_duel_tourney } }
+			}
+			FROM = { character_event = { id = duel_output.3 tooltip = "EVTTOOLTIPDUELOUTPUT3" } } #cancel! Something broke.
+		}
+		#Tournament jousting
+		if = {
+			limit = {
+				FROMFROM = { has_character_flag = flag_duel_tourney }
+				FROM = { has_character_flag = flag_duel_tourney }
+			}
+			FROMFROM = { character_event = { id = duel.301 } }
+		}
 		# Normal duels
 		if = {
 			limit = {
+				NOT = {
+					FROMFROM = { has_character_flag = flag_duel_tourney }
+					FROM = { has_character_flag = flag_duel_tourney }
+				}
 				OR = {
 					NOT = { FROM = { check_variable = { which = duel_rounds value = 1 } } } #1st round
 					AND = {
@@ -128,6 +169,10 @@ character_event = {
 		}
 		if = {
 			limit = {
+				NOT = {
+					FROMFROM = { has_character_flag = flag_duel_tourney }
+					FROM = { has_character_flag = flag_duel_tourney }
+				}
 				OR = {
 					AND = {
 						FROM = { check_variable = { which = duel_rounds value = 1 } } #2nd round
@@ -143,6 +188,10 @@ character_event = {
 		}
 		if = {
 			limit = {
+				NOT = {
+					FROMFROM = { has_character_flag = flag_duel_tourney }
+					FROM = { has_character_flag = flag_duel_tourney }
+				}
 				OR = {
 					AND = {
 						FROM = { check_variable = { which = duel_rounds value = 2 } } #3rd round
@@ -357,7 +406,6 @@ character_event = {
 				factor = 1.5
 				FROMFROM = { martial = 20 }
 			}
-			
 			# Physical Strength Effects
 			modifier = {
 				factor = 2
@@ -490,7 +538,16 @@ character_event = {
 		}
 		
 		if = {
+			limit = {
+				NOT = { FROMFROM = { has_character_flag = flag_duel_tourney } }
+			}
 			FROMFROM = { character_event = { id = duel.5 } }
+		}
+		if = {
+			limit = {
+				FROMFROM = { has_character_flag = flag_duel_tourney }
+			}
+			FROMFROM = { character_event = { id = duel.303 } }
 		}
 	}
 	
@@ -689,7 +746,16 @@ character_event = {
 			}
 		}
 		if = {
+			limit = {
+				NOT = { FROM = { has_character_flag = flag_duel_tourney } }
+			}
 			FROM = { character_event = { id = duel.5 } }
+		}
+		if = {
+			limit = {
+				FROM = { has_character_flag = flag_duel_tourney }
+			}
+			FROM = { character_event = { id = duel.303 } }
 		}
 	}
 }
@@ -747,7 +813,16 @@ character_event = {
 	option = { # Wounding Blow
 		name = "AI_EVENT"
 		if = {
+			limit = {
+				NOT = { FROMFROM = { has_character_flag = flag_duel_tourney } }
+			}
 			FROMFROM = { character_event = { id = duel.111 } }
+		}
+		if = {
+			limit = { 
+				FROMFROM = { has_character_flag = flag_duel_tourney } 
+			}
+			FROMFROM = { character_event = { id = duel.306 } }
 		}
 		ai_chance = {
 			factor = 33
@@ -781,7 +856,16 @@ character_event = {
 	option = { # Subdued Opponent
 		name = "AI_EVENT"
 		if = {
+			limit = {
+				NOT = { FROMFROM = { has_character_flag = flag_duel_tourney } }
+			}
 			FROMFROM = { character_event = { id = duel.105 } }
+		}
+		if = {
+			limit = {
+				FROMFROM = { has_character_flag = flag_duel_tourney }
+			}
+			FROMFROM = { character_event = { id = duel.309 } }
 		}
 		ai_chance = {
 			factor = 34
@@ -789,7 +873,10 @@ character_event = {
 			modifier = {
 				factor = 10
 				FROMFROM = {
-					any_current_enemy = { character = FROM }
+					OR = {
+						any_current_enemy = { character = FROM }
+						liege = { any_current_enemy = { character = FROM } }
+					}
 					NOT = {
 						OR = {
 							trait = lunatic
@@ -906,13 +993,26 @@ character_event = {
 	option = { # Killing Blow
 		name = "AI_EVENT"
 		if = {
+			limit = {
+				NOT = { FROMFROM = { has_character_flag = flag_duel_tourney } }
+			}
 			FROMFROM = { character_event = { id = duel.201 } }
+		}
+		if = {
+			limit = {
+				FROMFROM = { has_character_flag = flag_duel_tourney }
+			}
+			FROMFROM = { character_event = { id = duel.311 } }
 		}
 		ai_chance = {
 			factor = 33
 			modifier = {
 				factor = 0.01
 				FROMFROM = { has_character_flag = flag_duel_friendly }
+			}
+			modifier = {
+				factor = 0.9
+				FROMFROM = { has_character_flag = flag_duel_tourney }
 			}
 			modifier = {
 				factor = 1.5
@@ -1493,5 +1593,343 @@ character_event = {
 	option = {
 		name = "EVTOPTADUEL203"
 		prestige = 25 #killed opponent
+	}
+}
+
+#######################
+# TOURNEY FLAVOR TEXT #
+#######################
+# MAIN LOOP
+character_event = {
+	id = duel.301
+	desc = "EVTDESCDUEL301"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	hide_from = yes
+	show_from_from = yes
+	
+	immediate = {
+		# Set a target lock with the other duelist so that they can eventually be found via a search
+		add_trait = duel_target
+		FROMFROM = {
+			add_trait = duel_target
+			opinion = { who = ROOT modifier = opinion_duel_target }
+			reverse_opinion = { who = ROOT modifier = opinion_duel_target }
+		}
+	}
+	
+	option = {
+		name = "EVTOPTADUEL301"
+		hidden_tooltip = { FROMFROM = { character_event = { id = duel.302 } } }
+		ai_chance = { factor = 50 }
+	}
+	
+	option = { # Accidents can happen in jousts. Sometimes they're not really accidents.
+		trigger = {
+			OR = {
+				AND = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = { character = FROMFROM }
+				}
+				any_backed_character = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = { character = FROMFROM }
+				}
+				AND = { #republic feuders
+					has_dynasty_flag = the_feuders
+					FROM = { has_dynasty_flag = the_victims }
+				}
+				AND = {
+					has_dynasty_flag = the_victims
+					FROM = { has_dynasty_flag = the_feuders }
+				}
+				AND = {
+					OR = {
+						trait = envious
+						trait = ambitious
+					}
+					NOT = { trait = content }
+					OR = {
+						any_heir_title = { holder = ROOT }
+						any_pretender_title = { holder = ROOT }
+						any_pretender_title = { current_heir = { character = ROOT } }
+					}
+				}
+			}
+			NOT = { trait = just }
+		}
+		name = "EVTOPTBDUEL301"
+		clr_character_flag = flag_duel_friendly # Fight to kill
+		hidden_tooltip = { FROMFROM = { character_event = { id = duel.302 } } }
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0.5
+				trait = honest
+			}
+			modifier = {
+				factor = 0.5
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+			modifier = {
+				factor = 0.1
+				FROM = { is_close_relative = ROOT }
+				NOT = { trait = arbitrary }
+			}
+			modifier = {
+				factor = 0.05
+				FROM = { is_close_relative = ROOT }
+				trait = just
+			}
+		}
+	}
+}
+
+character_event = {
+	id = duel.302
+	desc = "EVTDESCDUEL302"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUEL302"
+		hidden_tooltip = { e_rebels = { holder_scope = { character_event = { id = duel.4 } } } }
+		ai_chance = {
+			factor = 50
+		}
+	}
+	
+	option = { # Accidents can happen in jousts. Sometimes they're not really accidents.
+		trigger = {
+			OR = {
+				AND = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = { character = FROM }
+				}
+				any_backed_character = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = { character = FROM }
+				}
+				AND = { #republic feuders
+					has_dynasty_flag = the_feuders
+					FROM = { has_dynasty_flag = the_victims }
+				}
+				AND = {
+					has_dynasty_flag = the_victims
+					FROM = { has_dynasty_flag = the_feuders }
+				}
+			}
+			NOT = { trait = just }
+		}
+		name = "EVTOPTBDUEL302"
+		clr_character_flag = flag_duel_friendly # Fight to kill
+		hidden_tooltip = { e_rebels = { holder_scope = { character_event = { id = duel.4 } } } }
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0.5
+				trait = honest
+			}
+			modifier = {
+				factor = 0.5
+				trait = kind
+			}
+			modifier = {
+				factor = 2
+				trait = deceitful
+			}
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+		}
+	}
+}
+
+# Winner attacks!
+character_event = {
+	id = duel.303
+	desc = "EVTDESCDUEL303"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUEL303"
+		duel_target = {
+			limit = { has_opinion_modifier = { who = ROOT modifier = opinion_duel_target } }
+			character_event = { id = duel.304 tooltip = "EVTTOOLTIPDUEL304" }
+		}
+	}
+}
+
+# Loser is attacked!
+character_event = {
+	id = duel.304
+	desc = "EVTDESCDUEL304"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"	
+	is_triggered_only = yes
+	
+	immediate = {
+		remove_opinion = { who = FROM modifier = opinion_duel_target }
+		reverse_remove_opinion = { who = FROM modifier = opinion_duel_target }
+		remove_trait = duel_target
+		FROM = { remove_trait = duel_target }
+	}
+	
+	option = {
+		name = "EVTOPTADUEL304"
+		hidden_tooltip = { e_rebels = { holder_scope = { character_event = { id = duel.7 } } } }
+	}
+}
+
+### WOUND OUTCOMES
+character_event = {
+	id = duel.305
+	desc = "EVTDESCDUEL305"
+	picture = GFX_evt_melee
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	
+	immediate = {
+		if = { #Second wound: maimed
+			limit = { trait = wounded }
+			add_trait = maimed
+			FROMFROM = { set_character_flag = flag_maimed_opponent }
+		}
+		if = { #First wound: wounded
+			limit = { NOT = { trait = wounded } NOT = { trait = maimed } }
+			add_trait = wounded
+			FROMFROM = { set_character_flag = flag_wounded_opponent }
+		}
+	}
+	
+	option = { #yield!
+		name = "EVTOPTADUEL305"
+		FROM = { character_event = { id = duel.313 tooltip = "EVTTOOLTIPDUEL310" } }
+	}
+}
+
+character_event = {
+	id = duel.306
+	desc = "EVTDESCDUEL306"
+	picture = GFX_evt_melee
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUEL306"
+		set_character_flag = flag_spared_opponent
+		set_variable = { which = duel_rounds value = 0 }
+		FROMFROM = { character_event = { id = duel.305 tooltip = "EVTTOOLTIPDUEL306" } }
+		#hidden_tooltip = { e_rebels = { holder_scope = { character_event = { id = duel.1 } } } }
+	}
+}
+
+### WIN OUTCOMES (opponent unhorsed or wounded)
+character_event = {
+	id = duel.309
+	desc = "EVTDESCDUEL309"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	hide_from = yes
+	show_from_from = yes
+	option = {
+		name = "EVTOPTADUEL309"
+		prestige = 15 #win
+		set_character_flag = flag_spared_opponent
+		set_variable = { which = duel_rounds value = 0 }
+		FROMFROM = { character_event = { id = duel.310 tooltip = "EVTTOOLTIPDUEL310" } }
+	}
+}
+
+character_event = {
+	id = duel.310
+	desc = "EVTDESCDUEL310"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUEL310"
+		prestige = -10 #loss
+		FROM = { character_event = { id = duel_output.2 tooltip = "EVTTOOLTIPDUELOUTPUT1" } }
+	}
+}
+
+character_event = {
+	id = duel.313
+	desc = "EVTDESCDUEL313"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUEL313"
+		prestige = -10 #loss
+		FROM = { character_event = { id = duel_output.2 tooltip = "EVTTOOLTIPDUELOUTPUT1" } }
+	}
+}
+
+### DEATH OUTCOMES
+character_event = {
+	id = duel.311
+	desc = "EVTDESCDUEL311"
+	picture = GFX_evt_joust
+	border = "GFX_event_normal_frame_war"
+	is_triggered_only = yes
+	hide_from = yes
+	show_from_from = yes
+	
+	option = {
+		name = "EVTOPTADUEL311"
+		#no prestige for killing during joust
+		set_variable = { which = duel_rounds value = 0 }
+		FROMFROM = { character_event = { id = duel.312 tooltip = "EVTTOOLTIPDUEL312" } }
+	}
+}
+
+character_event = {
+	id = duel.312
+	desc = "EVTDESCDUEL312"
+	picture = GFX_evt_death
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUEL312"
+		death = {
+			death_reason = death_accident #actually jousting
+			#killer = FROM
+		}
+		FROM = { set_character_flag = flag_killed_opponent }
+		set_variable = { which = duel_rounds value = 0 }
+		FROM = { character_event = { id = duel_output.2 tooltip = "EVTTOOLTIPDUELOUTPUT1" } }
+		hidden_tooltip = { FROM = { character_event = { id = duel.203 } } }
 	}
 }

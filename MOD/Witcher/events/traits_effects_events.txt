@@ -741,6 +741,7 @@ character_event = {
 				NOT = {
 					trait = celibate
 				}
+				NOT = { trait = eunuch }
 				NOT = {
 					trait = homosexual
 				}
@@ -16159,6 +16160,49 @@ character_event = {
 			name = master_duelist
 			duration = 1825
 		}
+		set_character_flag = combattrait
+		if = { 
+			limit = {  
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+				has_character_flag = combattrait
+			}
+			add_trait = poor_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = poor_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = trained_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = trained_warrior 
+				has_character_flag = combattrait
+			}
+			add_trait = skilled_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = skilled_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = master_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = {
+				trait = master_warrior
+				has_character_flag = combattrait
+			}
+			clr_character_flag = combattrait
+		}
 	}
 }
 
@@ -16194,6 +16238,49 @@ character_event = {
 		add_character_modifier = {
 			name = master_duelist
 			duration = 1825
+		}
+		set_character_flag = combattrait
+		if = { 
+			limit = {  
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+				has_character_flag = combattrait
+			}
+			add_trait = poor_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = poor_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = trained_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = trained_warrior 
+				has_character_flag = combattrait
+			}
+			add_trait = skilled_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = skilled_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = master_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = {
+				trait = master_warrior
+				has_character_flag = combattrait
+			}
+			clr_character_flag = combattrait
 		}
 	}
 }
@@ -16613,6 +16700,49 @@ character_event = {
 		add_character_modifier = {
 			name = master_duelist
 			duration = 1825
+		}
+		set_character_flag = combattrait
+		if = { 
+			limit = {  
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+				has_character_flag = combattrait
+			}
+			add_trait = poor_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = poor_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = trained_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = trained_warrior 
+				has_character_flag = combattrait
+			}
+			add_trait = skilled_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = { 
+				trait = skilled_warrior
+				has_character_flag = combattrait
+			}
+			add_trait = master_warrior
+			clr_character_flag = combattrait
+		}
+		if = { 
+			limit = {
+				trait = master_warrior
+				has_character_flag = combattrait
+			}
+			clr_character_flag = combattrait
 		}
 	}
 	option = {
@@ -18010,7 +18140,6 @@ character_event = {
 		name = EVTOPTC3660 #Bribe
 		scaled_wealth = -0.10
 		create_character = {
-			random_traits = yes
 			diplomacy = 10
 			dynasty = random
 			trait = poet
@@ -18342,6 +18471,7 @@ character_event = {
 						NOT = {
 							trait = celibate
 						}
+						NOT = { trait = eunuch }
 						NOT = {
 							age = 30
 						}
@@ -18520,6 +18650,7 @@ character_event = {
 			in_command = no
 			prisoner = no
 		}
+		NOT = { trait = eunuch }
 		NOT = {
 			trait = celibate
 		}
@@ -18528,6 +18659,7 @@ character_event = {
 		}
 		any_courtier = {
 			is_female = yes
+			NOT = { trait = eunuch }
 			NOT = {
 				trait = celibate
 			}
@@ -18552,6 +18684,7 @@ character_event = {
 		random_courtier = {
 			limit = {
 				is_female = yes
+				NOT = { trait = eunuch }
 				NOT = {
 					trait = celibate
 				}
@@ -18590,6 +18723,7 @@ character_event = {
 		random_courtier = {
 			limit = {
 				is_female = yes
+				NOT = { trait = eunuch }
 				NOT = {
 					trait = celibate
 				}
@@ -19072,6 +19206,7 @@ character_event = {
 		name = EVTOPTA3690
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19097,6 +19232,7 @@ character_event = {
 		}
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19121,6 +19257,7 @@ character_event = {
 		}
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19143,6 +19280,7 @@ character_event = {
 				trait = falconer
 			}
 			any_child = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19297,6 +19435,7 @@ character_event = {
 		change_martial = 1
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19328,6 +19467,7 @@ character_event = {
 		name = EVTOPTA3694
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19367,6 +19507,7 @@ character_event = {
 		prestige = 10
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19415,6 +19556,7 @@ character_event = {
 		name = EVTOPTA3696
 		random_child = {
 			limit = {
+				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -20301,6 +20443,7 @@ character_event = {
 		war = no
 		in_command = no
 		any_child = {
+			is_alive = yes
 			is_abroad = no
 			prisoner = no
 			trait = shy
@@ -20328,6 +20471,7 @@ character_event = {
 		name = EVTOPTA3715
 		random_child = {
 			limit = {
+				is_alive = yes
 				is_abroad = no
 				prisoner = no
 				trait = shy
@@ -20372,6 +20516,7 @@ character_event = {
 		name = EVTOPTB3715
 		random_child = {
 			limit = {
+				is_alive = yes
 				is_abroad = no
 				prisoner = no
 				trait = shy
@@ -20422,6 +20567,7 @@ character_event = {
 		name = EVTOPTC3715
 		random_child = {
 			limit = {
+				is_alive = yes
 				is_abroad = no
 				prisoner = no
 				trait = shy

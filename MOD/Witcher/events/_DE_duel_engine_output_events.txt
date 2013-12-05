@@ -145,6 +145,42 @@ character_event = {
 		# End of friends_rivals_events block
 		#############################
 		
+		###################################################################################
+		# Rivals duel: cheated at tournament friends_rivals_events.txt starts with 100420 #
+		###################################################################################
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = tournament_cheater_duel_accuser
+					has_character_flag = tournament_cheater_duel_accused
+				}
+				has_character_flag = flag_spared_opponent
+			}
+			character_event = { id = dueling.8 } #No wound etc. = clean win for accused
+			clr_character_flag = duel_rival
+			FROM = { clr_character_flag = duel_rival }
+			FROMFROM = { clr_character_flag = duel_rival }
+		}
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = tournament_cheater_duel_accuser
+					has_character_flag = tournament_cheater_duel_accused
+				}
+				OR = {
+					has_character_flag = flag_wounded_opponent
+					has_character_flag = flag_maimed_opponent
+					has_character_flag = flag_killed_opponent
+				}
+			}
+			character_event = { id = dueling.13 } #Killed, wounded, or maimed rival
+			clr_character_flag = duel_rival
+			#winner's flags used to give proper flavour text so not cleared here
+			FROMFROM = { clr_character_flag = tournament_cheater_duel_accuser }
+			FROMFROM = { clr_character_flag = tournament_cheater_duel_accused }
+		}
+		# End of friends_rivals_events block
+		#############################
 				
 		#####################################################
 		# Regency duel regency_events.txt starts with 61215 #
@@ -185,6 +221,34 @@ character_event = {
 		# End of regency_events block
 		#############################
 		
+		#########################
+		# Tournament rival duel #
+		#########################
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = tourny_duel_defender
+					has_character_flag = tourny_duel_agressor
+				}
+				has_character_flag = flag_spared_opponent
+			}
+			character_event = { id = joust.20 } #Draw
+		}
+		if = {
+			limit = {
+				has_character_flag = duel_rival
+				OR = {
+					has_character_flag = flag_wounded_opponent
+					has_character_flag = flag_maimed_opponent
+					has_character_flag = flag_killed_opponent
+				}
+			}
+			character_event = { id = joust.21 } #Killed, wounded, or maimed rival
+		}
+		# Flags for this are cleared in the followup events since I use them to track of agressor/defender
+		# End of Tournament rival duel block
+		####################################
+		
 		#############################
 		# Special Context Flag Cleanup
 		#############################
@@ -192,6 +256,8 @@ character_event = {
 		FROM = { clr_character_flag = flag_duel_friendly }
 		clr_character_flag = flag_duel_to_the_death
 		FROM = { clr_character_flag = flag_duel_to_the_death }
+		clr_character_flag = flag_duel_tourney
+		FROM = { clr_character_flag = flag_duel_tourney }
 		#############################
 		# Clear kill/mercy flags
 		clr_character_flag = flag_killed_opponent
@@ -202,6 +268,67 @@ character_event = {
 		FROM = { clr_character_flag = flag_maimed_opponent }
 		clr_character_flag = flag_spared_opponent
 		FROM = { clr_character_flag = flag_spared_opponent }
+	}
+}
+
+# duel_output.2	Collect your output from the duel engine - Tourny joust flavour
+
+character_event = {
+	id = duel_output.2
+	desc = "EVTDESCDUELOUTPUT2"
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTADUELOUTPUT1"
+				
+		#####################
+		# Tournament Jousts #
+		#####################
+		if = {
+			limit = {
+				has_character_flag = tournament_jouster
+				has_character_flag = flag_spared_opponent
+			}
+			character_event = { id = joust.10 } #Clean win
+			clr_character_flag = duelist_courtier
+			FROM = { clr_character_flag = tournament_jouster }
+			FROMFROM = { clr_character_flag = tournament_jouster }
+		}
+		if = {
+			limit = {
+				has_character_flag = tournament_jouster
+				has_character_flag = flag_wounded_opponent
+			}
+			character_event = { id = joust.11 } #Wounded loser
+			clr_character_flag = duelist_courtier
+			FROM = { clr_character_flag = tournament_jouster }
+			FROMFROM = { clr_character_flag = tournament_jouster }
+		}
+		if = {
+			limit = {
+				has_character_flag = tournament_jouster
+				has_character_flag = flag_maimed_opponent
+			}
+			character_event = { id = joust.12 } #Maimed loser
+			clr_character_flag = tournament_jouster
+			FROM = { clr_character_flag = tournament_jouster }
+			FROMFROM = { clr_character_flag = tournament_jouster }
+		}
+		if = {
+			limit = {
+				has_character_flag = tournament_jouster
+				has_character_flag = flag_killed_opponent
+			}
+			character_event = { id = joust.13 } #Killed loser
+			clr_character_flag = tournament_jouster
+			FROM = { clr_character_flag = tournament_jouster }
+			FROMFROM = { clr_character_flag = tournament_jouster }
+		}
+		# End of tournament jousts block
+		################################
+		
 		#############################
 		# Special Context Flag Cleanup
 		#############################
@@ -209,6 +336,8 @@ character_event = {
 		FROM = { clr_character_flag = flag_duel_friendly }
 		clr_character_flag = flag_duel_to_the_death
 		FROM = { clr_character_flag = flag_duel_to_the_death }
+		clr_character_flag = flag_duel_tourney
+		FROM = { clr_character_flag = flag_duel_tourney }
 		#############################
 		# Clear kill/mercy flags
 		clr_character_flag = flag_killed_opponent
@@ -242,6 +371,8 @@ character_event = {
 		FROM = { clr_character_flag = flag_duel_friendly }
 		clr_character_flag = flag_duel_to_the_death
 		FROM = { clr_character_flag = flag_duel_to_the_death }
+		clr_character_flag = flag_duel_tourney
+		FROM = { clr_character_flag = flag_duel_tourney }
 		#############################
 		# Clear kill/mercy flags
 		clr_character_flag = flag_killed_opponent

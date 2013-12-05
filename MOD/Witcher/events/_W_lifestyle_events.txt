@@ -1,0 +1,102 @@
+namespace = lifestyle
+################################################
+# Alchemist
+################################################
+character_event = {
+	id = lifestyle.1
+	desc = EVTDESClifestyle.1
+	picture = GFX_evt_shadowy_cabal
+	
+	min_age = 25
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = no
+		NOT = { lifestyle_traits = 1 }
+		NOT = { has_character_flag = LE_ST }
+	}
+	
+	immediate = {
+		set_character_flag = LE_ST
+	}
+	
+	mean_time_to_happen = {
+		months = 260
+		
+		modifier = { factor = 1.2 trait = content }
+		modifier = { factor = 0.75 learning = 10 }
+		modifier = { factor = 0.75 learning = 9 }
+		modifier = { factor = 0.75 learning = 8 }
+		modifier = { factor = 0.7 trait = cynical }
+		modifier = { factor = 0.5 trait = envious }
+		modifier = { factor = 0.5 trait = greedy }
+		modifier = { factor = 0.9 trait = indulgent_wastrel }
+		modifier = { factor = 0.9 trait = detached_priest }
+		modifier = { factor = 0.9 trait = naive_appeaser }
+		modifier = { factor = 0.9 trait = misguided_warrior }
+		modifier = { factor = 0.9 trait = amateurish_plotter }
+	}
+	
+	option = {
+		name = EVTOPTAlifestyle.1
+		ai_chance = {
+			factor = 50
+			
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 2 trait = envious }
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = ambitious }
+			modifier = { factor = 0.5 trait = zealous }
+			modifier = { factor = 0.5 trait = content }
+			modifier = { factor = 2 trait = diligent }
+		}
+		add_character_modifier = { name = aspiring_alchemist duration = -1 }
+	}
+	option = {
+		name = EVTOPTBlifestyle.1
+		ai_chance = {
+			factor = 50
+			
+			modifier = { factor = 0.5 trait = cynical }
+			modifier = { factor = 0.5 trait = envious }
+			modifier = { factor = 0.5 trait = greedy }
+			modifier = { factor = 0.5 trait = ambitious }
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 trait = slothful }
+		}
+	}
+}
+character_event = {
+	id = lifestyle.2
+	desc = EVTDESClifestyle.1
+	picture = GFX_evt_shadowy_cabal
+	
+	min_age = 25
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = no
+		NOT = { lifestyle_traits = 1 }
+		NOT = { has_character_flag = LE_ST }
+		has_character_modifier = aspiring_alchemist
+	}
+	
+	option = {
+		name = EVTOPTAlifestyle.2
+		ai_chance = {
+			factor = 50
+			
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 2 trait = envious }
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = ambitious }
+			modifier = { factor = 0.5 trait = zealous }
+			modifier = { factor = 0.5 trait = content }
+			modifier = { factor = 2 trait = diligent }
+		}
+		add_character_modifier = { name = aspiring_alchemist duration = -1 }
+	}
+}
