@@ -577,7 +577,7 @@ character_event = {
 			trait = weak
 			factor = 2.5
 		}		
-				modifier = {
+		modifier = {
 			factor = 1.25
 			trait = stressed
 		}
@@ -654,7 +654,10 @@ character_event = {
 
 	option = {
 		name = CURSES
-		add_trait = incapable
+		random_list = {
+			50 = { add_trait = incapable }
+			25 = { add_trait = blinded }
+		}	
 	}
 }
 
@@ -1165,7 +1168,7 @@ character_event = {
 			trait = weak
 			factor = 0.8
 		}		
-				modifier = {
+		modifier = {
 			factor = 0.8
 			trait = stressed
 		}
@@ -1501,7 +1504,7 @@ character_event = {
 			trait = weak
 			factor = 0.8
 		}	
-				modifier = {
+		modifier = {
 			factor = 0.8
 			trait = stressed
 		}
@@ -2017,6 +2020,33 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
+		OR = {
+			NOT = {
+				OR = {
+					trait = rough_terrain_leader
+					trait = flat_terrain_leader
+					trait = mountain_terrain_leader
+					trait = desert_terrain_leader
+				}
+			}
+			NOT = {
+				OR = {
+					trait = cavalry_leader
+					trait = heavy_infantry_leader
+					trait = light_foot_leader
+				}
+			}
+			NOT = {
+				OR = {
+					trait = defensive_leader
+					trait = aggressive_leader
+				}
+			}
+			NOT = {
+				trait = inspiring_leader
+			}
+		}
+		NOT = { trait = incapable }
 	}
 	
 	weight_multiplier = {
@@ -2230,6 +2260,33 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
+		OR = {
+			NOT = {
+				OR = {
+					trait = rough_terrain_leader
+					trait = flat_terrain_leader
+					trait = mountain_terrain_leader
+					trait = desert_terrain_leader
+				}
+			}
+			NOT = {
+				OR = {
+					trait = cavalry_leader
+					trait = heavy_infantry_leader
+					trait = light_foot_leader
+				}
+			}
+			NOT = {
+				OR = {
+					trait = defensive_leader
+					trait = aggressive_leader
+				}
+			}
+			NOT = {
+				trait = inspiring_leader
+			}
+		}
+		NOT = { trait = incapable }
 	}
 	
 	weight_multiplier = {
@@ -2424,6 +2481,15 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
+		NOT = {
+			AND = {
+				trait = organizer
+				trait = experimenter
+				trait = holy_warrior
+				trait = unyielding_leader
+			}
+		}
+		NOT = { trait = incapable }
 	}
 	
 	weight_multiplier = {
@@ -2517,8 +2583,10 @@ character_event = {
 		trigger = {
 			trait = zealous
 			NOT = { 
-				trait = holy_warrior
-				trait = cynical
+				OR = {
+					trait = holy_warrior
+					trait = cynical
+				}
 			}
 		}
 		add_trait = holy_warrior

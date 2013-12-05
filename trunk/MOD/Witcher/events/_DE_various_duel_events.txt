@@ -105,3 +105,145 @@ character_event = {
 		}
 	}
 }
+#tournament cheat duel results
+character_event = { #hidden selector to pick proper flavour text
+	id = dueling.8
+	desc = EVTDESCdueling.1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAdueling.3
+		trigger = { FROM = { has_character_flag = tournament_cheater_duel_accused } }
+		FROM = { character_event = { id = dueling.9 } }
+		FROMFROM = { character_event = { id = dueling.10 } }
+	}
+	option = {
+		name = EVTOPTAdueling.3
+		trigger = { FROM = { has_character_flag = tournament_cheater_duel_accuser } }
+		FROM = { character_event = { id = dueling.11 } }
+		FROMFROM = { character_event = { id = dueling.12 } }
+	}
+}
+character_event = { #accused beat accuser
+	id = dueling.9
+	desc = EVTDESC100428
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTB100428
+		prestige = 10
+		clr_character_flag = tournament_cheater_duel_accused
+	}
+}
+character_event = { #accuser lost to accused
+	id = dueling.10
+	desc = EVTDESCdueling.10
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100428
+	}
+}
+character_event = { #accuser beat cheater
+	id = dueling.11
+	desc = EVTDESCdueling.10
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdueling.11
+		prestige = 10
+		clr_character_flag = tournament_cheater_duel_accuser
+	}
+}
+character_event = { #cheater lost to accused
+	id = dueling.12
+	desc = EVTDESC100428
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100428
+	}
+}
+character_event = { #hidden selector to pick proper flavour text
+	id = dueling.13
+	desc = EVTDESCDUELOUTPUT1
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdueling.3
+		trigger = { FROM = { has_character_flag = tournament_cheater_duel_accused } }
+		FROM = { character_event = { id = dueling.14 } }
+		FROMFROM = { 
+			character_event = { id = dueling.15 }
+			opinion = {
+				modifier = opinion_revenge_seeker
+				who = FROM
+				years = 50
+			}
+		}
+	}
+	option = {
+		name = EVTOPTAdueling.3
+		trigger = { FROM = { has_character_flag = tournament_cheater_duel_accuser } }
+		FROM = { character_event = { id = dueling.16 } }
+		FROMFROM = { 
+			character_event = { id = dueling.17 }
+			opinion = {
+				modifier = opinion_revenge_seeker
+				who = FROM
+				years = 50
+			}
+		}
+	}
+}
+character_event = { #accused beat accuser
+	id = dueling.14
+	desc = EVTDESC100428
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTC100428
+		prestige = 10
+		clr_character_flag = tournament_cheater_duel_accused
+	}
+}
+character_event = { #accuser lost to accused
+	id = dueling.15
+	desc = EVTDESCdueling.10
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100428
+	}
+}
+character_event = { #accuser beat cheater
+	id = dueling.16
+	desc = EVTDESCdueling.10
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdueling.16
+		prestige = 10
+		clr_character_flag = tournament_cheater_duel_accuser
+	}
+}
+character_event = { #cheater lost to accused
+	id = dueling.17
+	desc = EVTDESC100428
+	picture = GFX_evt_battle
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100428
+	}
+}

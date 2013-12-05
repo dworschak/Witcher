@@ -729,6 +729,11 @@ character_event = {
 				chance = 5
 				
 				add_trait = wounded
+				hidden_tooltip = {
+					character_event = {
+						id = 38280 #Notify Wounded
+					}
+				}
 			}
 		}
 	}
@@ -759,6 +764,11 @@ character_event = {
 				chance = 5
 				
 				add_trait = wounded
+				hidden_tooltip = {
+					character_event = {
+						id = 38280 #Notify Wounded
+					}
+				}
 			}
 		}
 	}
@@ -772,6 +782,11 @@ character_event = {
 			chance = 5
 			
 			add_trait = wounded
+			hidden_tooltip = {
+				character_event = {
+					id = 38280 #Notify Wounded
+				}
+			}
 		}
 	}
 	option = {
@@ -880,7 +895,7 @@ character_event = {
 	id = 72010
 	desc = EVTDESC72010
 	picture = GFX_evt_feast
-	
+
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
@@ -1028,7 +1043,7 @@ character_event = {
 		set_character_flag = host_feast_started
 		any_vassal = {
 			limit = {
-				has_character_flag =  coming_to_feast
+				has_character_flag = coming_to_feast
 			}
 			character_event = {
 				id = 72016
@@ -1875,64 +1890,122 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA72031 #Accept
-		random_list = {
-			35 = {
-				add_trait = wounded
-				hidden_tooltip = {
-					FROM = {
-						set_character_flag = wounded_opponent
-						character_event = {
-							id = 72032
-							days = 1
-						}
-					}
-				}
+
+		set_character_flag = feast_dueller
+		FROM = { set_character_flag = feast_dueller }
+		
+		# Begin duel
+		hidden_tooltip = { e_rebels = { holder_scope = { character_event = { id = duel.1 } } } }
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2
+				trait = poor_warrior
 			}
-			35 = {
-				add_trait = maimed
-				hidden_tooltip = {
-					FROM = {
-						set_character_flag = maimed_opponent
-						character_event = {
-							id = 72032
-							days = 1
-						}
-					}
-				}
+			modifier = {
+				factor = 3
+				trait = trained_warrior
 			}
-			10 = {
-				death = {
-					death_reason = death_duel
-					killer = FROM
-				}
-				hidden_tooltip = {
-					FROM = {
-						set_character_flag = killed_opponent
-						character_event = {
-							id = 72033
-							days = 1
-						}
-					}
-				}
+			modifier = {
+				factor = 4
+				trait = skilled_warrior
 			}
-			20 = {
-				any_liege = {
-					limit = {
-						has_character_flag = host_feast_started
-						has_character_modifier = holding_large_feast
-					}
-					character_event = {
-						id = 72034
-						days = 1
-						tooltip = EVTTOOLTIP72034
-					}
-				}
+			modifier = {
+				factor = 5
+				trait = master_warrior
+			}
+			modifier = {
+				factor = 5
+				trait = duelist
+			}
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 2
+				trait = proud
+			}
+			modifier = {
+				factor = 1.5
+				trait = wroth
+			}
+			modifier = {
+				factor = 1.5
+				trait = strong
 			}
 		}
 	}
 	option = {
 		name = EVTOPTB72031 #Decline
 		prestige = -10
+		if = {
+			limit = { NOT = { trait = craven } }
+			random = {
+				chance = 25
+				add_trait = craven
+			}
+		}
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2
+				FROM = { trait = poor_warrior }
+			}
+			modifier = {
+				factor = 3
+				FROM = { trait = trained_warrior }
+			}
+			modifier = {
+				factor = 4
+				FROM = { trait = skilled_warrior }
+			}
+			modifier = {
+				factor = 5
+				FROM = { trait = master_warrior }
+			}
+			modifier = {
+				factor = 5
+				FROM = { trait = duelist }
+			}
+			modifier = {
+				factor = 2
+				FROM = { trait = strong }
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 2
+				trait = paranoid
+			}
+			modifier = {
+				factor = 2
+				trait = weak
+			}
+			modifier = {
+				factor = 2
+				trait = dwarf
+			}
+			modifier = {
+				factor = 2
+				trait = hunchback
+			}
+			modifier = {
+				factor = 2
+				trait = leper
+			}
+			modifier = {
+				factor = 2
+				trait = wounded
+			}
+			modifier = {
+				factor = 4
+				trait = maimed
+			}
+		}
+
 		hidden_tooltip = {
 			FROM = {
 				any_liege = {
@@ -1950,135 +2023,6 @@ character_event = {
 		}
 	}
 }
-
-#Duel: Opponent is killed/maimed/wounded/nothing
-#character_event = {
-#	id = 72032
-#	desc = EVTDESC72032
-#	picture = GFX_evt_melee
-#	
-#	is_triggered_only = yes
-#	
-#	option = {
-#		name = EVTOPTA72032
-#		trigger = {
-#			has_character_flag = wounded_opponent
-#		}
-#		tooltip = {
-#			FROM = {
-#				character_event = {
-#					id = 72033
-#					tooltip = EVTTOOLTIP72033
-#				}
-#			}
-#		}
-#		random_list = {
-#			10 = {
-#				death = {
-#					death_reason = death_duel
-#					killer = FROM
-#				}
-#				hidden_tooltip = {
-#					FROM = {
-#						set_character_flag = killed_opponent
-#						character_event = {
-#							id = 72033
-#							tooltip = EVTTOOLTIP72033
-#						}
-#					}
-#				}
-#			}
-#			20 = {
-#				add_trait = maimed
-#				hidden_tooltip = {
-#					FROM = {
-#						set_character_flag = maimed_opponent
-#						character_event = {
-#							id = 72033
-#						}
-#					}
-#				}
-#			}
-#			30 = {
-#				add_trait = wounded
-#				hidden_tooltip = {
-#					FROM = {
-#						set_character_flag = wounded_opponent
-#						character_event = {
-#							id = 72033
-#						}
-#					}
-#				}
-#			}
-#			40 = {
-#				any_liege = {
-#					limit = {
-#						has_character_flag = host_feast_started
-#						has_character_modifier = holding_large_feast
-#					}
-#					character_event = {
-#						id = 72034
-#						tooltip = EVTTOOLTIP72034
-#					}
-#				}
-#			}
-#		}
-#	}
-#
-#	option = {
-#		name = EVTOPTB72032
-#		trigger = {
-#			has_character_flag = maimed_opponent
-#		}
-#		random_list = {
-#			1 = {
-#				death = {
-#					death_reason = death_duel
-#					killer = FROM
-#				}
-#				FROM = {
-#					set_character_flag = killed_opponent
-#					character_event = {
-#						id = 72033
-#						tooltip = EVTTOOLTIP72033
-#					}
-#				}
-#			}
-#			10 = {
-#				add_trait = maimed
-#				FROM = {
-#					set_character_flag = maimed_opponent
-#					character_event = {
-#						id = 72033
-#						tooltip = EVTTOOLTIP72033
-#					}
-#				}
-#			}
-#			19 = {
-#				add_trait = wounded
-#				FROM = {
-#					set_character_flag = wounded_opponent
-#					character_event = {
-#						id = 72033
-#						tooltip = EVTTOOLTIP72033
-#					}
-#				}
-#			}
-#			70 = {
-#				any_liege = {
-#					limit = {
-#						has_character_flag = host_feast_started
-#						has_character_modifier = holding_large_feast
-#					}
-#					character_event = {
-#						id = 72034
-#						tooltip = EVTTOOLTIP72034
-#					}
-#				}
-#			}
-#		}
-#	}
-#}
 
 #Duel
 character_event = {
@@ -2350,12 +2294,13 @@ character_event = {
 					NOT = {
 						age = 40
 					}
-					opinion = { who = ROOT value = 20 }				
+					opinion = { who = ROOT value = 20 }
 					NOT = { is_close_relative = ROOT }
 					
 					OR = {
 						AND = {
 							is_female = yes
+							is_pregnant = no
 							ROOT = {
 								is_female = no
 							}
@@ -2364,6 +2309,7 @@ character_event = {
 							is_female = no
 							ROOT = {
 								is_female = yes
+								is_pregnant = no
 							}
 						}
 					}
@@ -2443,6 +2389,7 @@ character_event = {
 						OR = {
 							AND = {
 								is_female = yes
+								is_pregnant = no
 								ROOT = {
 									is_female = no
 								}
@@ -2451,6 +2398,7 @@ character_event = {
 								is_female = no
 								ROOT = {
 									is_female = yes
+									is_pregnant = no
 								}
 							}
 						}
@@ -4259,7 +4207,7 @@ character_event = {
 	id = 72087
 	desc = EVTDESC72087
 	picture = GFX_evt_feast
-		
+
 	is_triggered_only = yes
 	
 	option = {
@@ -5150,7 +5098,7 @@ character_event = {
 	id = 4160
 	desc = EVTDESC4160
 	picture = GFX_evt_jugglers
-		
+	
 	trigger = {
 		war = no
 		in_command = no
@@ -5359,7 +5307,7 @@ character_event = {
 	id = 4165
 	desc = EVTDESC4165
 	picture = GFX_evt_jugglers
-	
+
 	trigger = {
 		war = no
 		in_command = no
