@@ -863,13 +863,14 @@ character_event = {
 		}
 		any_courtier = {
 			is_female = yes
+			NOT = { is_close_relative = ROOT }
 			NOT = {
 				trait = homosexual
 			}
 			NOT = {
 				trait = celibate
 			}
-			age = 15
+			is_adult = yes
 			NOT = {
 				age = 50
 			}
@@ -926,13 +927,14 @@ character_event = {
 		random_courtier = {
 			limit = {
 				is_female = yes
+				NOT = { is_close_relative = ROOT }
 				NOT = {
 					trait = homosexual
 				}
 				NOT = {
 					trait = celibate
 				}
-				age = 15
+				is_adult = yes
 				NOT = {
 					age = 50
 				}
@@ -968,13 +970,14 @@ character_event = {
 		random_courtier = {
 			limit = {
 				is_female = yes
+				NOT = { is_close_relative = ROOT }
 				NOT = {
 					trait = homosexual
 				}
 				NOT = {
 					trait = celibate
 				}
-				age = 15
+				is_adult = yes
 				NOT = {
 					age = 50
 				}
@@ -1109,6 +1112,18 @@ character_event = {
 	option = {
 		name = "EVTOPTA64018"
 		add_lover = FROM
+		FROM = {
+			add_character_modifier = {
+				name = "new_love"
+				duration = 90
+				hidden = yes
+			}
+		}
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
+		}
 	}
 }
 
@@ -1254,6 +1269,16 @@ character_event = {
 		clr_character_flag = poet_spouse_muse
 		spouse = {
 			add_lover = ROOT
+			add_character_modifier = {
+				name = "new_love"
+				duration = 90
+				hidden = yes
+			}
+		}
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
 		}
 	}
 	option = {
@@ -1527,6 +1552,7 @@ character_event = {
 	
 	trigger = {
 		has_lover = yes
+		NOT = { has_character_modifier = new_love }
 		OR = {
 			lover = {
 				NOT = {
@@ -1539,12 +1565,42 @@ character_event = {
 				}
 			}
 			has_character_flag = lost_loving_feeling
+			trait = lustful
+			lover = { NOT = { same_realm = ROOT } }
 		}
 	}
 	
 	mean_time_to_happen = {
-		months = 120
+		months = 360
 		
+		modifier = {
+			factor = 0.5
+			lover = {
+				NOT = {
+					opinion = { who = ROOT value = 25 }
+				}
+			}
+		}	
+		modifier = {
+			factor = 0.5			
+			lover = {
+				NOT = {
+					reverse_opinion = { who = ROOT value = 25 }
+				}
+			}	
+		}
+		modifier = {
+			factor = 0.05
+			has_character_flag = lost_loving_feeling
+		}
+		modifier = {
+			factor = 0.05
+			lover = { NOT = { same_realm = ROOT } }
+		}	
+		modifier = {
+			factor = 0.8
+			trait = lustful
+		}		
 		modifier = {
 			factor = 0.8
 			trait = wroth
@@ -1560,6 +1616,26 @@ character_event = {
 		modifier = {
 			factor = 0.8
 			trait = drunkard
+		}
+		modifier = {
+			factor = 1.5
+			trait = chaste
+		}
+		modifier = {
+			factor = 1.5
+			trait = kind
+		}
+		modifier = {
+			factor = 1.5
+			trait = trusting
+		}
+		modifier = {
+			factor = 1.5
+			trait = patient
+		}
+		modifier = {
+			factor = 1.5
+			trait = humble
 		}
 	}
 	
@@ -1686,6 +1762,18 @@ character_event = {
 	option = {
 		name = "EVTOPTA64051"
 		add_lover = FROM
+		FROM = {
+			add_character_modifier = {
+				name = "new_love"
+				duration = 90
+				hidden = yes
+			}
+		}
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
+		}
 	}
 }
 
@@ -1837,12 +1925,22 @@ character_event = {
 					has_opinion_modifier = { who = PREV modifier = teenage_infatuation }
 					reverse_has_opinion_modifier = { who = PREV modifier = teenage_infatuation }
 				}
-				add_trait = stressed
+				if = {
+					limit = {
+						NOT = { trait = depressed }
+					}
+					add_trait = stressed
+				}
 				remove_opinion = { who = PREV modifier = teenage_infatuation }
 				reverse_remove_opinion = { who = PREV modifier = teenage_infatuation }
 				clr_character_flag = teenage_infatuation
 			}
-			add_trait = stressed
+			if = {
+				limit = {
+					NOT = { trait = depressed }
+				}
+				add_trait = stressed
+			}
 			opinion = {
 				modifier = opinion_angry
 				who = ROOT
@@ -2026,7 +2124,12 @@ character_event = {
 					trait = stressed
 				}
 			}
-			add_trait = stressed
+			if = {
+				limit = {
+					NOT = { trait = depressed }
+				}
+				add_trait = stressed
+			}
 			hidden_tooltip = {
 				character_event = {
 					id = 38282 #Notify Stressed
@@ -2109,7 +2212,12 @@ character_event = {
 			50 = {
 			}
 			30 = {
-				add_trait = stressed
+				if = {
+					limit = {
+						NOT = { trait = depressed }
+					}
+					add_trait = stressed
+				}
 				hidden_tooltip = {
 					character_event = {
 						id = 38282 #Notify Stressed
@@ -2958,17 +3066,8 @@ character_event = {
 		name = "EVTOPTB64100" #I can have her in my castle
 		random_list = {
 			50 = {
-				if = {
-					limit = { NOT = { trait = stressed } }
-					add_trait = stressed
-					hidden_tooltip = {
-						character_event ={
-							id = 38282 #Notify
-						}
-					}
-				}
+				remove_trait = stressed
 			}
-			
 			25 = {
 				if = {
 					limit = { lover = { is_female = yes } }

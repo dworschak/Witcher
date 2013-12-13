@@ -616,13 +616,28 @@ character_event = {
 		witcher = { limit = { has_character_flag = witcher_count_13 } clr_character_flag = witcher_count_13 }
 		witcher = { limit = { has_character_flag = witcher_count_14 } clr_character_flag = witcher_count_14 }
 		witcher = { limit = { has_character_flag = witcher_count_15 } clr_character_flag = witcher_count_15 }
+		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
+		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
+		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
+		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 }
+		witcher = { limit = { has_character_flag = witcher_count_5 } clr_character_flag = witcher_count_5 }
+		witcher = { limit = { has_character_flag = witcher_count_6 } clr_character_flag = witcher_count_6 }
+		witcher = { limit = { has_character_flag = witcher_count_7 } clr_character_flag = witcher_count_7 }
+		witcher = { limit = { has_character_flag = witcher_count_8 } clr_character_flag = witcher_count_8 }
+		witcher = { limit = { has_character_flag = witcher_count_9 } clr_character_flag = witcher_count_9 }
+		witcher = { limit = { has_character_flag = witcher_count_10 } clr_character_flag = witcher_count_10 }
+		witcher = { limit = { has_character_flag = witcher_count_11 } clr_character_flag = witcher_count_11 }
+		witcher = { limit = { has_character_flag = witcher_count_12 } clr_character_flag = witcher_count_12 }
+		witcher = { limit = { has_character_flag = witcher_count_13 } clr_character_flag = witcher_count_13 }
+		witcher = { limit = { has_character_flag = witcher_count_14 } clr_character_flag = witcher_count_14 }
+		witcher = { limit = { has_character_flag = witcher_count_15 } clr_character_flag = witcher_count_15 }
 	}
 }
 
 ################################################
 # Witcher generic monster hunting
 ################################################
-#Witcher
+# Witcher
 character_event = {
 	id = witcher.200
 	desc = "Hunt monsters"
@@ -678,7 +693,7 @@ character_event = {
 		}
 	}
 }
-#Province
+# Province
 province_event = {
 	id = witcher.201
 	desc = EVTDESCwitcher.201
@@ -696,10 +711,154 @@ province_event = {
 		remove_province_modifier = rotfiends
 		remove_province_modifier = drowners
 		remove_province_modifier = nekkers
-		add_province_modifier = { name = monster_purge duration = 360 }
+		add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
 		FROM = { add_character_modifier = { name = recent_witcher_work duration = 180 } }
 	}
 	option = {
 		name = OK
+	}
+}
+
+################################################
+# Spawning witcher
+################################################
+#Yearly - count witchers
+character_event = {
+	id = witcher.300
+	desc = "Random"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		any_courtier = { NOT = { trait = witcher } }
+	}
+	
+	immediate = {
+		witcher = {
+			limit = {
+				is_alive = yes
+			}
+			set_character_flag = witcher_count_1
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+			}
+			set_character_flag = witcher_count_2
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+			}
+			set_character_flag = witcher_count_3
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+			}
+			set_character_flag = witcher_count_4
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+			}
+			set_character_flag = witcher_count_5
+		}
+		set_global_flag = create_random_witcher
+	}
+	
+	option = {
+		name = "OK"
+		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
+		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
+		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
+		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 }
+		witcher = { limit = { has_character_flag = witcher_count_5 } clr_character_flag = witcher_count_5 clr_global_flag = create_random_witcher }
+	}
+}
+# Ruler - create witcher
+character_event = {
+	id = witcher.301
+	desc = "Spawn a witcher"
+	picture = GFX_evt_lunatic
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		has_global_flag = create_random_witcher
+		any_courtier = { NOT = { trait = witcher } }
+		witcher = { is_alive = yes }
+	}
+	
+	weight_multiplier = { 
+		days = 100
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = vampires } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = werewolves } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = kikimoras } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = hellhounds } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = rotfiends } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = drowners } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = vampires } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = nekkers } }
+		modifier = { factor = 0.7 trait = tolerant }
+		modifier = { factor = 1.5 trait = racist }
+		modifier = { factor = 1.5 has_province_modifier = monster_purge }
+		modifier = { factor = 0.1 has_character_flag = invited_witcher }
+		
+	}
+	
+	option = {
+		name = "OK"
+		create_random_soldier = {
+			random_traits = yes
+			culture = witcher
+			dynasty = none
+			female = no
+			trait = witcher
+		}
+		new_character = {
+			random_list = {
+				50 = { add_trait = trained_warrior }
+				50 = { add_trait = skilled_warrior }
+			}
+			character_event = { id = witcher.302 }
+		}
+		clr_global_flag = create_random_witcher
+	}
+}
+#Ping witcher
+character_event = {
+	id = witcher.302
+	desc = "Ping"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "OK"
+		FROM = { character_event = { id = witcher.9 } }
 	}
 }

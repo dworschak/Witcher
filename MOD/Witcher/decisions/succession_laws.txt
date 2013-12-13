@@ -18,7 +18,6 @@ succession_laws = {
 						}
 					}
 				}
-				NOT = { religion_group = muslim }
 				is_merchant_republic = no
 				is_patrician = no
 			}
@@ -672,9 +671,6 @@ gender_laws = {
 					}
 					is_merchant_republic = yes
 				}
-				NOT = { religion_group = muslim }
-				NOT = { religion = tengri_pagan_reformed }
-				NOT = { religion = tengri_pagan }
 				has_horde_culture = no
 				is_merchant_republic = no
 				is_patrician = no
@@ -683,10 +679,6 @@ gender_laws = {
 			is_landless_type_title = no
 			
 			AND = {
-				OR =  {
-					is_female = yes
-					trait = kind
-				}
 				OR = {
 					AND = {
 						tier = baron
@@ -697,18 +689,32 @@ gender_laws = {
 			}
 			
 			is_primary_type_title = no
+			
+			NOT = {
+				culture = dryad
+				religion = nature
+			}
+		}
+		allow = {
+			always = yes
 		}
 		effect = {
 			gender_succ = cognatic
 		}
 		revoke_allowed = {
 			always = no
-		}			
+		}
 	}
 	agnatic_succession = {
 		female_dynasty_opinion = -10
-	
+		
 		potential = {
+			NOT = {
+				culture = dryad
+				religion = nature
+			}
+		}
+		allow = {
 			always = yes
 		}
 		effect = {
@@ -716,16 +722,14 @@ gender_laws = {
 		}
 		revoke_allowed = {
 			always = no
-		}			
+		}
 	}
 	true_cognatic_succession = {
 		male_dynasty_opinion = -10
+		female_dynasty_opinion = 10
 		
 		potential = {
-			holder_scope = { 
-				NOT = { religion_group = muslim }
-				NOT = { religion = tengri_pagan_reformed }
-				NOT = { religion = tengri_pagan }
+			holder_scope = {
 				has_horde_culture = no
 				is_merchant_republic = no
 				is_patrician = no
@@ -742,10 +746,14 @@ gender_laws = {
 			}
 			
 			is_primary_type_title = no
+			
+			NOT = {
+				culture = dryad
+				religion = nature
+			}
 		}
 		allow = {
 			OR = {
-				holder_scope = { culture = basque }
 				holder_scope = {
 					is_female = yes
 					NOT = { trait = content }
@@ -784,43 +792,37 @@ gender_laws = {
 		}
 		revoke_allowed = {
 			always = no
-		}			
+		}
 	}
 	
 	enatic_succession = {
-		male_dynasty_opinion = -20
-		female_dynasty_opinion = 20
-		
 		potential = {
-			always = yes # For modders only
+			culture = dryad
+			raligion = nature
 		}
 		allow = {
-			always=yes
+			always = yes
 		}
 		effect = {
 			gender_succ = enatic
 		}
 		revoke_allowed = {
 			always = no
-		}			
+		}
 	}
 	
 	enatic_cognatic_succession = {
-		male_dynasty_opinion = -15
-		female_dynasty_opinion = 10
-		
 		potential = {
-			always = yes # For modders only
+			always = no
 		}
 		allow = {
-			always=yes
+			always = yes
 		}
 		effect = {
 			gender_succ = enatic_cognatic
 		}
 		revoke_allowed = {
 			always = no
-		}			
+		}
 	}
-	
 }

@@ -1,12 +1,30 @@
 decisions = {
 	
-	convert_to_liege_religion = {
+	convert_to_liege_religion = { # only if the same race as liege or a half
 		potential = {
 			is_playable = yes
 			liege = {
 				NOT = { character = ROOT }
 				NOT = { religion = ROOT }
 				religion_group = ROOT
+			}
+			OR = {
+				AND = { 
+					OR = { trait = elven trait = halfelf }
+					liege = { trait = elven }
+				}
+				AND = { 
+					OR = { trait = dwarven trait = halfdwarf }
+					liege = { trait = dwarven }
+				}
+				AND = { 
+					OR = { trait = human trait = halfelf trait = halfdwarf }
+					liege = { trait = human }
+				}
+				AND = { 
+					trait = dryad
+					liege = { trait = dryad }
+				}
 			}
 		}
 		allow = {
@@ -37,16 +55,38 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 0.05
+			modifier = {
+				factor = 2
+				trait = content
+			}
 		}
 	}
 	
-	convert_to_liege_culture = {
+	convert_to_liege_culture = { # only if the same race as liege or a half
 		potential = {
 			is_playable = yes
 			liege = {
 				NOT = { character = ROOT }
 				NOT = { culture = ROOT }
+			}
+			OR = {
+				AND = { 
+					OR = { trait = elven trait = halfelf }
+					liege = { trait = elven }
+				}
+				AND = { 
+					OR = { trait = dwarven trait = halfdwarf }
+					liege = { trait = dwarven }
+				}
+				AND = { 
+					OR = { trait = human trait = halfelf trait = halfdwarf }
+					liege = { trait = human }
+				}
+				AND = { 
+					trait = dryad
+					liege = { trait = dryad }
+				}
 			}
 		}
 		allow = {
@@ -62,7 +102,11 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 0.05
+			modifier = {
+				factor = 2
+				trait = content
+			}
 		}
 	}
 	
@@ -71,6 +115,7 @@ decisions = {
 			is_playable = yes
 			independent = yes
 			is_heretic = yes
+			
 		}
 		allow = {
 			NOT = { trait = zealous }
