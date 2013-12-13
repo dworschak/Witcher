@@ -56,6 +56,7 @@ de_jure_laws = {
 		feudal_opinion = -5
 		
 		allow = {
+			holder_scope = { is_republic = no }
 			OR = {
 				has_law = centralization_0
 				has_law = centralization_2
@@ -128,19 +129,7 @@ de_jure_laws = {
 		feudal_opinion = -10
 		
 		allow = {
-			holder_scope = {
-				is_republic = no 
-				
-				custom_tooltip = { 
-					text = TT_NOT_UNREFORMED_PAGAN
-					hidden_tooltip = {
-						NOT = { religion = freya }
-						NOT = { religion = kreve }
-						NOT = { religion = melitele }
-						NOT = { religion = lebioda }
-					}
-				}
-			}
+			holder_scope = { is_republic = no }
 			OR = {
 				has_law = centralization_1
 				has_law = centralization_3
@@ -216,20 +205,29 @@ de_jure_laws = {
 		feudal_opinion = -20
 		
 		allow = {
-			holder_scope = {
-				is_republic = no 
-				custom_tooltip = { 
-					text = TT_NOT_UNREFORMED_PAGAN
-					hidden_tooltip = {
-						NOT = { religion = freya }
-						NOT = { religion = kreve }
-						NOT = { religion = melitele }
-						NOT = { religion = lebioda }
+			holder_scope = { is_republic = no }
+			OR = {
+				AND = {
+					has_law = centralization_2
+					holder_scope = {
+						OR = {
+							has_landed_title = e_nilfgaard
+							OR = {
+								trait = ambitious
+								trait = diligent
+								trait = proud
+								trait = lunatic
+								trait = greedy
+								trait = just
+							}
+						}
+						NOT = { trait = content }
+						NOT = { trait = slothful }
+						NOT = { trait = imbecile }
+						NOT = { trait = humble }
+						NOT = { trait = craven }
 					}
 				}
-			}
-			OR = {
-				has_law = centralization_2
 				has_law = centralization_4
 			}
 		}
@@ -307,19 +305,26 @@ de_jure_laws = {
 		feudal_opinion = -30
 		
 		allow = {
+			holder_scope = { is_republic = no }
+			has_law = centralization_3
 			holder_scope = {
-				is_republic = no 
-				custom_tooltip = { 
-					text = TT_NOT_UNREFORMED_PAGAN
-					hidden_tooltip = {
-						NOT = { religion = freya }
-						NOT = { religion = kreve }
-						NOT = { religion = melitele }
-						NOT = { religion = lebioda }
+				OR = {
+					has_landed_title = e_nilfgaard
+					OR = {
+						trait = ambitious
+						trait = diligent
+						trait = proud
+						trait = lunatic
+						trait = greedy
+						trait = just
 					}
 				}
+				NOT = { trait = content }
+				NOT = { trait = slothful }
+				NOT = { trait = imbecile }
+				NOT = { trait = humble }
+				NOT = { trait = craven }
 			}
-			has_law = centralization_3
 		}
 		revoke_allowed = {
 			always = no
@@ -336,8 +341,7 @@ de_jure_laws = {
 					NOT = { ruled_years = 20 }
 				}
 			}
-		}
-		
+		}		
 		ai_will_revoke = {
 			factor = 0
 		}
@@ -395,8 +399,7 @@ de_jure_laws = {
 		group = investiture_law
 		default = yes
 		potential = {
-			year = 1350
-			holder_scope = { religion = catholic }
+			always = no
 		}
 		revoke_allowed = {
 			always = no
@@ -423,7 +426,7 @@ de_jure_laws = {
 		temple_all_opinion = 10 # Bishops will tend to be more loyal to the Crown
 		group = investiture_law
 		potential = {
-			holder_scope = { religion = catholic }
+			always = no
 		}
 		revoke_allowed = {
 			always = no
