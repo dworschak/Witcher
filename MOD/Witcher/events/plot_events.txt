@@ -9,7 +9,7 @@
 # Blackmail									7250-7270
 # Drunken Plot Member						7040-7045
 #
-# Ultimatum event series					8000-8040
+# Ultimatum event series					8000-8099
 # Plot to kill character 					8220-8227
 #
 # Assassination notification events			8250-8299
@@ -273,7 +273,7 @@ character_event = {
 			trait = slow
 		}
 		modifier = {
-			factor = 5.0
+			factor = 10.0
 			trait = temperate
 		}
 		modifier = {
@@ -392,7 +392,7 @@ character_event = {
 			trait = slow
 		}
 		modifier = {
-			factor = 5.0
+			factor = 10.0
 			trait = temperate
 		}
 		modifier = {
@@ -406,7 +406,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "EVTOPTA7040"
+		name = EVTOPTA7040
 		random_backed_character = {
 			limit = {
 				OR = {
@@ -475,21 +475,6 @@ character_event = {
 				months = 60
 			}
 			
-			if = {
-				limit = {
-					employer = {
-						NOT = { character = ROOT }
-						NOT = { character = PREV }
-					}
-				}
-				employer = {
-					opinion = {
-						who = ROOT
-						modifier = opinion_dishonorable
-						months = 60
-					}
-				}
-			}
 			hidden_tooltip = {
 				any_dynasty_member = {
 					limit = {
@@ -497,6 +482,27 @@ character_event = {
 						NOT = { character = ROOT }
 						NOT = { character = PREV }
 					}
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+				top_liege = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+					any_realm_lord = {
+						opinion = {
+							who = ROOT
+							modifier = opinion_dishonorable
+							months = 60
+						}
+					}
+				}
+				religion_head = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -3813,7 +3819,7 @@ character_event = {
 # Poisoned Wine - the murder attempt
 character_event = {
 	id = 8155
-	desc = "EVTDESC8155"
+	desc = EVTDESC8155
 	picture = GFX_evt_feast
 	border = GFX_event_normal_frame_intrigue
 	
@@ -3835,15 +3841,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -3942,20 +3946,41 @@ character_event = {
 # Poisoned Wine - Dies, murderer(s) discovered
 character_event = {
 	id = 8156
-	desc = "EVTDESC8156"
+	desc = EVTDESC8156
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA8156"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		name = EVTOPTA8156
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
-	
 }
 
 # Poisoned Wine - Dies, murderer NOT discovered
@@ -3972,9 +3997,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA8157"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -4096,21 +4143,6 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
-			}
-			FROM = {
-				employer = {
-					opinion = {
-						who = ROOT
-						modifier = opinion_dishonorable
-						months = 60
-					}
-				}
-			}
-		}
 		FROM = {
 			any_dynasty_member = {
 				limit = {
@@ -4123,7 +4155,29 @@ character_event = {
 					months = 60
 				}
 			}
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+			}
+			religion_head = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+			}
 		}
+		
 		if = {
 			limit = {
 				FROM = { mother = { NOT = { character = ROOT } } }
@@ -4957,15 +5011,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -5062,9 +5114,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA8176"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -5084,9 +5158,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA8177"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -5228,13 +5324,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -5242,13 +5350,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -6581,15 +6683,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -6696,9 +6796,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7706"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -6718,9 +6840,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7707"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -6843,13 +6987,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -6857,13 +7013,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -7698,15 +7848,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -7813,9 +7961,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7726"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -7835,9 +8005,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7727"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -7960,13 +8152,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -7974,13 +8178,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -8811,20 +9009,18 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
 	}
-	
+
 	option = {
 		name = "EVTOPTA7745" # Smothered
 		trigger = {
@@ -8926,9 +9122,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7746"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -8948,9 +9166,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7747"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -9073,21 +9313,6 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
-			}
-			FROM = {
-				employer = {
-					opinion = {
-						who = ROOT
-						modifier = opinion_dishonorable
-						months = 60
-					}
-				}
-			}
-		}
 		FROM = {
 			any_dynasty_member = {
 				limit = {
@@ -9100,7 +9325,29 @@ character_event = {
 					months = 60
 				}
 			}
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+			}
+			religion_head = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+			}
 		}
+		
 		if = {
 			limit = {
 				FROM = { mother = { NOT = { character = ROOT } } }
@@ -9926,20 +10173,18 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
 	}
-	
+
 	option = {
 		name = "EVTOPTA7765" # Tries to escape
 		trigger = {
@@ -10041,9 +10286,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7766"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -10063,9 +10330,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7767"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -10188,13 +10477,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -10202,13 +10503,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -11043,20 +11338,18 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
 	}
-	
+
 	option = {
 		name = "EVTOPTA7785" # Drowns
 		trigger = {
@@ -11158,9 +11451,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7786"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -11180,9 +11495,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7787"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -11305,13 +11642,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -11319,13 +11668,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -12131,15 +12474,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -12246,9 +12587,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7806"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -12268,9 +12631,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7807"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -12393,13 +12778,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -12407,13 +12804,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -13248,20 +13639,18 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
 	}
-	
+
 	option = {
 		name = "EVTOPTA7825" # Drowns
 		trigger = {
@@ -13363,9 +13752,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7826"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -13385,9 +13796,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7827"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -13510,13 +13943,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -13524,13 +13969,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -14365,15 +14804,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -14480,9 +14917,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7846"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -14502,9 +14961,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7847"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -14627,13 +15108,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -14641,13 +15134,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -15484,15 +15971,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -15599,9 +16084,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7866"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -15621,9 +16128,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7867"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -15746,21 +16275,6 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
-			}
-			FROM = {
-				employer = {
-					opinion = {
-						who = ROOT
-						modifier = opinion_dishonorable
-						months = 60
-					}
-				}
-			}
-		}
 		FROM = {
 			any_dynasty_member = {
 				limit = {
@@ -15773,7 +16287,29 @@ character_event = {
 					months = 60
 				}
 			}
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+			}
+			religion_head = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+			}
 		}
+		
 		if = {
 			limit = {
 				FROM = { mother = { NOT = { character = ROOT } } }
@@ -16601,20 +17137,18 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
 	}
-	
+
 	option = {
 		name = "EVTOPTA7885" # Drowns
 		trigger = {
@@ -16716,9 +17250,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7886"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -16738,9 +17294,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7887"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -16863,21 +17441,6 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
-			}
-			FROM = {
-				employer = {
-					opinion = {
-						who = ROOT
-						modifier = opinion_dishonorable
-						months = 60
-					}
-				}
-			}
-		}
 		FROM = {
 			any_dynasty_member = {
 				limit = {
@@ -16890,7 +17453,29 @@ character_event = {
 					months = 60
 				}
 			}
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
+					opinion = {
+						who = ROOT
+						modifier = opinion_dishonorable
+						months = 60
+					}
+				}
+			}
+			religion_head = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+			}
 		}
+		
 		if = {
 			limit = {
 				FROM = { mother = { NOT = { character = ROOT } } }
@@ -17718,15 +18303,13 @@ character_event = {
 					character = ROOT
 				}
 			}
-			FROM = {
-				FROM = {
-					OR = {
-						has_plot = plot_kill_character
-						has_plot = plot_kill_spouse
-					}
-					plot_target_char = {
-						character = ROOT
-					}
+			FROMFROM = {
+				OR = {
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+				}
+				plot_target_char = {
+					character = ROOT
 				}
 			}
 		}
@@ -17833,9 +18416,31 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA7906"
-		death = {
-			death_reason = death_murder
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 	
@@ -17855,9 +18460,31 @@ character_event = {
 	option = {
 		name = "EVTOPTA7907"
 		
-		death = {
-			death_reason = death_murder_unknown
-			killer = FROMFROM
+		if = {
+			limit = {
+				FROMFROMFROM = {
+					OR = {
+						has_plot = plot_kill_character
+						has_plot = plot_kill_spouse
+					}
+					plot_target_char = {
+						character = ROOT
+					}
+				}
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROMFROM
+			}
+		}
+		if = {
+			limit = {
+				is_alive = yes
+			}
+			death = {
+				death_reason = death_murder
+				killer = FROMFROM
+			}
 		}
 	}
 }
@@ -17980,13 +18607,25 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = { 
-				NOT = { FROM = { employer = { character = FROM } } }
-				NOT = { FROM = { employer = { character = ROOT } } }
+		FROM = {
+			any_dynasty_member = {
+				limit = {
+					is_alive = yes
+					NOT = { character = ROOT }
+				}
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
 			}
-			FROM = {
-				employer = {
+			top_liege = {
+				opinion = {
+					who = ROOT
+					modifier = opinion_dishonorable
+					months = 60
+				}
+				any_realm_lord = {
 					opinion = {
 						who = ROOT
 						modifier = opinion_dishonorable
@@ -17994,13 +18633,7 @@ character_event = {
 					}
 				}
 			}
-		}
-		FROM = {
-			any_dynasty_member = {
-				limit = {
-					is_alive = yes
-					NOT = { character = ROOT }
-				}
+			religion_head = {
 				opinion = {
 					who = ROOT
 					modifier = opinion_dishonorable
@@ -18191,6 +18824,347 @@ character_event = {
 				}
 			}
 			clr_character_flag = murder_in_motion
+		}
+	}
+}
+
+
+
+# Ultimatum - crown authority
+letter_event = {
+	id = 8200
+	desc = EVTDESC8200
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		FROM = { in_faction = faction_antiking }
+	}
+	
+	immediate = {
+		FROM = {
+			diplomatic_immunity = yes 
+			any_faction_backer = {
+				faction = faction_antiking
+				diplomatic_immunity = yes
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA8000
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 1.25
+				trait = weak
+			}
+			modifier = {
+				factor = 1.25
+				trait = craven
+			}
+			modifier = {
+				factor = 1.25
+				trait = humble
+			}
+			modifier = {
+				factor = 1.25
+				trait = kind
+			}
+			modifier = {
+				factor = 1.25
+				trait = charitable
+			}
+			modifier = {
+				factor = 1.25
+				trait = patient
+			}
+			modifier = {
+				factor = 1.25
+				trait = content
+			}
+			modifier = {
+				factor = 0.001
+				FROM = {
+					NOT = {
+						faction_power = 
+						{
+							faction = faction_antiking
+							power = 0.25
+						}
+					}
+				}
+			}
+		}
+		
+		hidden_tooltip = {
+			any_vassal = {
+				limit = {
+					ai = no
+					NOT = { in_faction = faction_antiking }
+				}
+				character_event = { id = 8202 }
+			}
+			FROM = {
+				letter_event = { id = 8203 }
+				any_faction_backer = {
+					faction = faction_antiking
+					letter_event = { id = 8201 }
+					diplomatic_immunity = no
+				}
+				diplomatic_immunity = no
+			}
+		}
+		FROM = {
+			religion_authority = {
+				modifier = deposed_antipope
+				years = 50
+			}
+			faction_antiking = { # The target (title) of the faction
+				if = {
+					limit = { has_law = investiture_law_1 }
+					add_law_w_cooldown = investiture_law_0
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						religion = catholic
+					}
+					k_papal_state = {
+						holder_scope = {
+							opinion = {
+								who = PREVPREV
+								modifier = opinion_deposed_antipope
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						religion = fraticelli
+					}
+					d_fraticelli = {
+						holder_scope = {
+							opinion = {
+								who = PREVPREV
+								modifier = opinion_deposed_antipope
+							}
+						}
+					}
+				}
+			}
+		}
+		hidden_tooltip = {
+			rightful_religious_head_scope = {
+				remove_claim = k_papal_state
+				remove_claim = d_fraticelli
+			}
+		}
+		
+		primary_title = {
+			usurp_title = FROM
+		}
+	}
+	
+	option = {
+		name = "EVTOPTB8000"
+		ai_chance = {
+			factor = 90
+			modifier = {
+				factor = 1.25
+				trait = strong
+			}
+			modifier = {
+				factor = 1.25
+				trait = brave
+			}
+			modifier = {
+				factor = 1.25
+				trait = proud
+			}
+			modifier = {
+				factor = 1.25
+				trait = envious
+			}
+			modifier = {
+				factor = 1.25
+				trait = greedy
+			}
+			modifier = {
+				factor = 1.25
+				trait = wroth
+			}
+			modifier = {
+				factor = 1.25
+				trait = ambitious
+			}
+			
+			modifier = {
+				factor = 0
+				FROM = {
+					faction_power = 
+					{
+						faction = faction_antiking
+						power = 2.0
+					}
+				}
+			}
+			modifier = {
+				factor = 0.75
+				FROM = {
+					faction_power = 
+					{
+						faction = faction_antiking
+						power = 0.8
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					faction_power = 
+					{
+						faction = faction_antiking
+						power = 1.0
+					}
+				}
+			}
+		}
+		hidden_tooltip = {
+			if = {
+				limit = {
+					FROM = { faction_power = { faction = faction_antiking power = 1.0 } }
+				}
+				random = {
+					chance = 25
+					character_event = { id = 45002 days = 120 } # Loyalists flock to the liege's banner
+				}
+			}
+		}
+		FROM = {
+			letter_event = { id = 8204 days = 3 tooltip = "EVTTOOLTIP8100" }
+			tooltip = {
+				any_faction_backer = {
+					faction = faction_antiking
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = {
+						NOT = { faction_power = { faction = faction_antiking power = 0.75 } }
+					}
+					random_list = {
+						50 = {
+						}
+						30 = {
+							character_event = { id = 45000 days = 17 } # A great number of rebels flock to the revolter's banner
+						}
+						20 = {
+							character_event = { id = 45004 days = 17 } # Rebels flock to the revolter's banner
+						}
+					}
+				}
+				if = {
+					limit = {
+						faction_power = { faction = faction_antiking power = 0.75 }
+						NOT = { faction_power = { faction = faction_antiking power = 1.5 } }
+					}
+					random_list = {
+						75 = {
+						}
+						5 = {
+							character_event = { id = 45000 days = 17 } # A great number of rebels flock to the revolter's banner
+						}
+						20 = {
+							character_event = { id = 45004 days = 17 } # Rebels flock to the revolter's banner
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Inform faction backer - antiking
+letter_event = {
+	id = 8201
+	desc = EVTDESC8201
+	
+	show_from_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "GOOD"
+		reverse_opinion = {
+			modifier = opinion_grateful
+			who = FROMFROM
+			years = 5
+		}
+		
+		add_character_modifier = {
+			name = faction_antiking_ultimatum_timer
+			hidden = yes
+			duration = 3650
+		}
+	}
+}
+
+# Inform other vassals - antiking
+character_event = {
+	id = 8202
+	desc = EVTDESC8202
+	
+	picture = GFX_evt_council
+	border = GFX_event_normal_frame_intrigue
+	
+	show_from_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "I_SEE"
+	}
+}
+
+# Demand accepted - antiking
+letter_event = {
+	id = 8203
+	desc = EVTDESC8203
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EXCELLENT"
+		clr_character_flag = faction_install_antiking_ultimatum_taken
+		
+		add_character_modifier = {
+			name = faction_antiking_ultimatum_timer
+			hidden = yes
+			duration = 3650
+		}
+	}
+}
+
+# Demand rejected - antiking
+letter_event = {
+	id = 8204
+	desc = EVTDESC8100
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA8100
+		
+		clr_character_flag = faction_install_antiking_ultimatum_taken
+		
+		faction_antiking = { # The target (title) of the faction
+			reverse_war = {
+				target = ROOT
+				casus_belli = cb_install_antiking
+				faction = faction_antiking
+			}
 		}
 	}
 }

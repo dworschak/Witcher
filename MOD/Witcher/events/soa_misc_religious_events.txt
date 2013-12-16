@@ -26,7 +26,7 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 
 	min_age = 16
-	only_rulers = yes
+	only_playable = yes
 	
 	trigger = {
 		has_dlc = "Sons of Abraham"
@@ -66,7 +66,7 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 
 	min_age = 16
-	only_rulers = yes
+	only_playable = yes
 
 	trigger = {
 		has_dlc = "Sons of Abraham"
@@ -111,7 +111,7 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 
 	min_age = 16
-	only_rulers = yes
+	only_playable = yes
 
 	trigger = {
 		has_dlc = "Sons of Abraham"
@@ -747,6 +747,7 @@ character_event = {
 		has_dlc = "Sons of Abraham"
 		#religion_group = christian
 		any_child = {
+			is_ruler = no
 			age = 13
 			NOT = { age = 16 }
 			NOT = { trait = cynical }
@@ -763,6 +764,7 @@ character_event = {
 	immediate = {
 		random_child = {
 			limit = {
+				is_ruler = no
 				age = 13
 				NOT = { age = 16 }
 				NOT = { trait = cynical }
@@ -1150,6 +1152,8 @@ character_event = {
 		NOT = { diplomacy = 3 }
 		is_priest = yes
 		religion_group = christian
+		NOT = { trait = incapable }
+		NOT = { trait = bad_priest_christian }
 		OR = {
 			trait = cynical
 			trait = lustful
@@ -1222,6 +1226,8 @@ character_event = {
 		}
 		NOT = { intrigue = 3 }
 		NOT = { diplomacy = 3 }
+		NOT = { trait = incapable }
+		NOT = { trait = bad_priest_muslim }
 		OR = {
 			trait = cynical
 			trait = lustful
@@ -1290,6 +1296,8 @@ character_event = {
 		}
 		NOT = { intrigue = 3 }
 		NOT = { diplomacy = 3 }
+		NOT = { trait = incapable }
+		NOT = { trait = bad_priest_norse }
 		OR = {
 			trait = cynical
 			trait = gluttonous
@@ -1355,6 +1363,8 @@ character_event = {
 		}
 		NOT = { intrigue = 3 }
 		NOT = { diplomacy = 3 }
+		NOT = { trait = incapable }
+		NOT = { trait = bad_priest_tengri }
 		OR = {
 			trait = cynical
 			trait = lunatic
@@ -1418,6 +1428,8 @@ character_event = {
 		}
 		NOT = { intrigue = 3 }
 		NOT = { diplomacy = 3 }
+		NOT = { trait = incapable }
+		NOT = { trait = bad_priest_zoroastrian }
 		OR = {
 			trait = cynical
 			trait = arbitrary
@@ -1478,6 +1490,8 @@ character_event = {
 		is_priest = yes
 		NOT = { intrigue = 3 }
 		NOT = { diplomacy = 3 }
+		NOT = { trait = incapable }
+		NOT = { trait = bad_priest_aztec }
 		OR = {
 			trait = cynical
 			trait = craven
@@ -1534,7 +1548,7 @@ character_event = {
 					trait = kind
 				}
 			}
-			give_nickname = nick_the_mad
+			give_nickname = nick_the_kind
 		}
 	}
 }
@@ -2451,10 +2465,7 @@ character_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		if = {
-			limit = { is_alive = yes }
-			FROM = { narrative_event = { id = SoA.5355 } }
-		}
+		liege = { narrative_event = { id = SoA.5355 } }
 	}
 }
 	
@@ -2499,6 +2510,10 @@ narrative_event = {
 		}
 		prestige = 10
 		tooltip_info = diplomacy
+		any_courtier = {
+			limit = { has_character_flag = is_jeanne_darc }
+			hidden_tooltip = { character_event = { id = SoA.5356 days = 90 random = 60 } }
+		}
 	}
 	option = {
 		name = EVTOPTC_SoA_5355
@@ -2558,10 +2573,12 @@ narrative_event = {
 	option = {
 		name = EVTOPTD_SoA_5357
 		tooltip_info = lustful
+		tooltip_info = cynical
 		tooltip_info = intrigue
 		trigger = {
 			trait = lustful
-			intrigue = 12
+			trait = cynical
+			intrigue = 10
 			is_female = no
 		}
 		random_list = {
@@ -2673,7 +2690,6 @@ narrative_event = {
 		}
 	}
 }
-
 
 # Peasants like Jeanne
 character_event = {
@@ -2982,7 +2998,7 @@ narrative_event = {
 				has_character_flag = is_jeanne_darc
 			}
 			prestige = -100
-			character_event = { id = SoA.5396 days = 1460 }
+			hidden_tooltip = { character_event = { id = SoA.5396 days = 1460 } }
 		}
 	}
 	option = {
@@ -2994,7 +3010,7 @@ narrative_event = {
 			}
 			prestige = 200
 			dynasty = 849 # New dynasty
-			character_event = { id = SoA.5396 days = 1460 }
+			hidden_tooltip = { character_event = { id = SoA.5396 days = 1460 } }
 		}
 		any_courtier = {
 			limit = {
@@ -3004,7 +3020,7 @@ narrative_event = {
 			prestige = 100
 			give_nickname = nick_the_maid
 			dynasty = 848 # d'Arc
-			character_event = { id = SoA.5396 days = 1460 }
+			hidden_tooltip = { character_event = { id = SoA.5396 days = 1460 } }
 		}
 	}
 	option = {
@@ -3174,10 +3190,28 @@ narrative_event = {
 	
 	option = {
 		name = EVTOPTA_SoA_5391
-		hidden_tooltip = { narrative_event = { id = SoA.5392 days = 30 random = 30 } }
+		hidden_tooltip = {
+			any_courtier = {
+				limit = { has_character_flag = is_jeanne_darc }
+				character_event = { id = SoA.5450 days = 30 random = 30 }
+			}
+		}
 	}
 }
 
+character_event = {
+	id = SoA.5450
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+
+	immediate = {
+		liege = {
+			narrative_event = { id = SoA.5392 }
+		}
+	}
+}
 # Trial of Jeanne d'Arc - give verdict
 narrative_event = {
 	id = SoA.5392
@@ -3305,7 +3339,11 @@ province_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		FROMFROM = { narrative_event = { id = SoA.5398 } }
+		FROM = {
+			liege = {
+				narrative_event = { id = SoA.5398 }
+			}
+		}
 	}
 }
 
@@ -3417,7 +3455,7 @@ narrative_event = {
 	picture = GFX_evt_peasants
 	border = GFX_event_narrative_frame_war
 	
-	only_rulers = yes
+	only_playable = yes
 	
 	trigger = {
 		has_dlc = "Sons of Abraham"
@@ -3492,7 +3530,6 @@ province_event = {
 			set_character_flag = shepherds_crusade_leader
 			set_character_flag = special_marshal
 			give_nickname = nick_the_master_of_hungary
-			wealth = 5000
 			prestige = 50
 			piety = 200
 			create_title = {
@@ -3561,6 +3598,9 @@ character_event = {
 
 	immediate = {
 		any_war = {
+			limit = {
+				attacker = { character = ROOT }
+			}
 			end_war = invalid
 		}
 		death = {
@@ -3917,13 +3957,15 @@ character_event = {
 	picture = GFX_evt_bishop
 	border = GFX_event_normal_frame_religion
 
+	min_age = 15
+	
 	trigger = {
 		religion_group = muslim
 		NOT = { trait = zealous }
 	}
 	
 	mean_time_to_happen = {
-		months = 1000
+		months = 1200
 	}
 	
 	option = {

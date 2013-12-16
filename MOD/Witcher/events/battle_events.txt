@@ -2024,30 +2024,19 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
-		OR = {
-			NOT = {
-				OR = {
-					trait = rough_terrain_leader
-					trait = flat_terrain_leader
-					trait = mountain_terrain_leader
-					trait = desert_terrain_leader
-				}
+		NOT = {
+			OR = {
+				trait = rough_terrain_leader
+				trait = flat_terrain_leader
+				trait = mountain_terrain_leader
+				trait = desert_terrain_leader
 			}
-			NOT = {
-				OR = {
-					trait = cavalry_leader
-					trait = heavy_infantry_leader
-					trait = light_foot_leader
-				}
-			}
-			NOT = {
-				OR = {
-					trait = defensive_leader
-					trait = aggressive_leader
-				}
-			}
-			NOT = {
-				trait = inspiring_leader
+		}
+		NOT = {
+			OR = {
+				trait = cavalry_leader
+				trait = heavy_infantry_leader
+				trait = light_foot_leader
 			}
 		}
 		NOT = { trait = incapable }
@@ -2221,6 +2210,227 @@ character_event = {
 		}
 		add_trait = heavy_infantry_leader
 	}
+}
+
+
+# Event 2
+character_event = {
+	id = 96501
+	desc = EVTDESC96500
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = { 
+		can_have_more_leadership_traits = yes
+		is_alive = yes
+		NOT = { trait = organizer }
+		NOT = { trait = experimenter }
+		NOT = { trait = holy_warrior }
+		NOT = { trait = unyielding_leader }
+		NOT = { trait = incapable }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 1.5
+			trait = brave
+		}
+		modifier = {
+			factor = 0.5
+			trait = craven
+		}
+		modifier = {
+			trait = genius
+			factor = 1.5
+		}
+		modifier = {
+			trait = quick
+			factor = 1.2
+		}	
+		modifier = {
+			trait = slow
+			factor = 0.5
+		}
+		modifier = {
+			trait = imbecile
+			factor = 0.1
+		}
+		modifier = {
+			trait = inbred
+			factor = 0.7
+		}
+		modifier = {
+			trait = strong
+			factor = 1.2
+		}
+		modifier = {
+			trait = weak
+			factor = 0.8
+		}		
+		modifier = {
+			factor = 0.85
+			trait = stressed
+		}
+		modifier = {
+			factor = 0.85
+			trait = depressed
+		}
+		modifier = {
+			factor = 0.5
+			trait = lunatic
+		}
+		modifier = {
+			factor = 0.5
+			trait = possessed
+		}
+		modifier = {
+			factor = 0.9
+			trait = ill
+		}
+		modifier = {
+			factor = 0.6
+			trait = infirm
+		}
+		modifier = {
+			factor = 0.9
+			trait = drunkard
+		}
+	}
+
+	option = { # Organizer
+		name = EVTOPTA96502
+		trigger = {
+			NOT = { 
+				trait = organizer
+			}
+		}
+		add_trait = organizer
+	}
+	option = { # Experimenter
+		name = EVTOPTB96502
+		trigger = {
+			NOT = { 
+				trait = experimenter
+			}
+		}
+		add_trait = experimenter
+	}
+	option = { # Holy Warrior
+		name = EVTOPTC96502
+		trigger = {
+			trait = zealous
+			NOT = { 
+				trait = holy_warrior
+				trait = cynical
+			}
+		}
+		add_trait = holy_warrior
+	}
+	option = { # Unyielding
+		name = EVTOPTD96502
+		trigger = {
+			NOT = { 
+				trait = unyielding_leader
+			}
+		}
+		add_trait = unyielding_leader
+	}
+}
+
+# Event 3
+character_event = {
+	id = 96502
+	desc = EVTDESC96500
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = { 
+		can_have_more_leadership_traits = yes
+		is_alive = yes
+		NOT = {
+			OR = {
+				trait = defensive_leader
+				trait = aggressive_leader
+			}
+		}
+		NOT = { trait = inspiring_leader }
+		NOT = { trait = trickster }
+		NOT = { trait = incapable }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 1.5
+			trait = brave
+		}
+		modifier = {
+			factor = 0.5
+			trait = craven
+		}
+		modifier = {
+			trait = genius
+			factor = 1.5
+		}
+		modifier = {
+			trait = quick
+			factor = 1.2
+		}	
+		modifier = {
+			trait = slow
+			factor = 0.5
+		}
+		modifier = {
+			trait = imbecile
+			factor = 0.1
+		}
+		modifier = {
+			trait = inbred
+			factor = 0.7
+		}
+		modifier = {
+			trait = strong
+			factor = 1.2
+		}
+		modifier = {
+			trait = weak
+			factor = 0.8
+		}		
+		modifier = {
+			factor = 0.85
+			trait = stressed
+		}
+		modifier = {
+			factor = 0.85
+			trait = depressed
+		}
+		modifier = {
+			factor = 0.5
+			trait = lunatic
+		}
+		modifier = {
+			factor = 0.5
+			trait = possessed
+		}
+		modifier = {
+			factor = 0.9
+			trait = ill
+		}
+		modifier = {
+			factor = 0.6
+			trait = infirm
+		}
+		modifier = {
+			factor = 0.9
+			trait = drunkard
+		}
+	}
+	
 	option = {
 		name = EVTOPTH96500 # Aggressive
 		trigger = {
@@ -2250,11 +2460,20 @@ character_event = {
 		}
 		add_trait = inspiring_leader
 	}
+	option = { # Trickster
+		name = EVTOPTH96501
+		trigger = {
+			NOT = { 
+				trait = trickster
+			}
+		}
+		add_trait = trickster
+	}
 }
 
-# Event 2
+# Event 4
 character_event = {
-	id = 96501
+	id = 96503
 	desc = EVTDESC96500
 	picture = GFX_evt_battle
 	border = GFX_event_normal_frame_war
@@ -2264,32 +2483,17 @@ character_event = {
 	trigger = { 
 		can_have_more_leadership_traits = yes
 		is_alive = yes
-		OR = {
-			NOT = {
-				OR = {
-					trait = rough_terrain_leader
-					trait = flat_terrain_leader
-					trait = mountain_terrain_leader
-					trait = desert_terrain_leader
-				}
-			}
-			NOT = {
-				OR = {
-					trait = cavalry_leader
-					trait = heavy_infantry_leader
-					trait = light_foot_leader
-				}
-			}
-			NOT = {
-				OR = {
-					trait = defensive_leader
-					trait = aggressive_leader
-				}
-			}
-			NOT = {
-				trait = inspiring_leader
+		NOT = {
+			OR = {
+				trait = rough_terrain_leader
+				trait = flat_terrain_leader
+				trait = mountain_terrain_leader
+				trait = desert_terrain_leader
 			}
 		}
+		NOT = { trait = flanker }
+		NOT = { trait = narrow_flank_leader }
+		NOT = { trait = siege_leader }
 		NOT = { trait = incapable }
 	}
 	
@@ -2420,48 +2624,6 @@ character_event = {
 		}
 		add_trait = desert_terrain_leader
 	}
-	option = {
-		name = EVTOPTE96500 # Cavalry
-		trigger = {
-			NOT = { 
-				trait = cavalry_leader
-				trait = heavy_infantry_leader
-				trait = light_foot_leader
-			}
-		}
-		add_trait = cavalry_leader
-	}
-	option = {
-		name = EVTOPTF96500 # Light Infantry
-		trigger = {
-			NOT = { 
-				trait = cavalry_leader
-				trait = heavy_infantry_leader
-				trait = light_foot_leader
-			}
-		}
-		add_trait = light_foot_leader
-	}
-	option = {
-		name = EVTOPTG96500 # Heavy Infantry
-		trigger = {
-			NOT = { 
-				trait = cavalry_leader
-				trait = heavy_infantry_leader
-				trait = light_foot_leader
-			}
-		}
-		add_trait = heavy_infantry_leader
-	}
-	option = { # Trickster
-		name = EVTOPTH96501
-		trigger = {
-			NOT = { 
-				trait = trickster
-			}
-		}
-		add_trait = trickster
-	}
 	option = { # Flanker
 		name = EVTOPTI96501
 		trigger = {
@@ -2471,137 +2633,30 @@ character_event = {
 		}
 		add_trait = flanker
 	}
-}
-
-# Event 3
-character_event = {
-	id = 96502
-	desc = EVTDESC96500
-	picture = GFX_evt_battle
-	border = GFX_event_normal_frame_war
-	
-	is_triggered_only = yes
-	
-	trigger = { 
-		can_have_more_leadership_traits = yes
-		is_alive = yes
-		NOT = {
-			AND = {
-				trait = organizer
-				trait = experimenter
-				trait = holy_warrior
-				trait = unyielding_leader
-			}
-		}
-		NOT = { trait = incapable }
-	}
-	
-	weight_multiplier = {
-		days = 1
-		modifier = {
-			factor = 1.5
-			trait = brave
-		}
-		modifier = {
-			factor = 0.5
-			trait = craven
-		}
-		modifier = {
-			trait = genius
-			factor = 1.5
-		}
-		modifier = {
-			trait = quick
-			factor = 1.2
-		}	
-		modifier = {
-			trait = slow
-			factor = 0.5
-		}
-		modifier = {
-			trait = imbecile
-			factor = 0.1
-		}
-		modifier = {
-			trait = inbred
-			factor = 0.7
-		}
-		modifier = {
-			trait = strong
-			factor = 1.2
-		}
-		modifier = {
-			trait = weak
-			factor = 0.8
-		}		
-		modifier = {
-			factor = 0.85
-			trait = stressed
-		}
-		modifier = {
-			factor = 0.85
-			trait = depressed
-		}
-		modifier = {
-			factor = 0.5
-			trait = lunatic
-		}
-		modifier = {
-			factor = 0.5
-			trait = possessed
-		}
-		modifier = {
-			factor = 0.9
-			trait = ill
-		}
-		modifier = {
-			factor = 0.6
-			trait = infirm
-		}
-		modifier = {
-			factor = 0.9
-			trait = drunkard
-		}
-	}
-
-	option = { # Organizer
-		name = EVTOPTA96502
+	option = { # Narrow flank leader
+		name = EVTOPTJ96501
 		trigger = {
+			OR = {
+				location = { terrain = mountain }
+				location = { terrain = hills }
+				location = { terrain = forest }
+			}
 			NOT = { 
-				trait = organizer
+				trait = narrow_flank_leader
 			}
 		}
-		add_trait = organizer
+		add_trait = narrow_flank_leader
 	}
-	option = { # Experimenter
-		name = EVTOPTB96502
+	option = { # Siege leader
+		name = EVTOPTK96501
 		trigger = {
+			siege = {
+				is_attacker = yes
+			}
 			NOT = { 
-				trait = experimenter
+				trait = siege_leader
 			}
 		}
-		add_trait = experimenter
-	}
-	option = { # Holy Warrior
-		name = EVTOPTC96502
-		trigger = {
-			trait = zealous
-			NOT = { 
-				OR = {
-					trait = holy_warrior
-					trait = cynical
-				}
-			}
-		}
-		add_trait = holy_warrior
-	}
-	option = { # Unyielding
-		name = EVTOPTD96502
-		trigger = {
-			NOT = { 
-				trait = unyielding_leader
-			}
-		}
-		add_trait = unyielding_leader
+		add_trait = siege_leader
 	}
 }
