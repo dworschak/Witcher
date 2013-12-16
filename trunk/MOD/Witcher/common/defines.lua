@@ -494,6 +494,9 @@ NTitle = {
 	ENFORCE_ONE_OF_EACH_HOLDING = 1,			-- Require players to build at least one City, Temple and Castle in each province
 	MAX_REPUBLIC_COUNTIES_IN_REALM = 0.1,		-- 10% of a feudal realm is allowed to be under vassal republics (affects title grants)
 	MAX_THEOCRACY_COUNTIES_IN_REALM = 0.1,		-- 10% of a feudal realm is allowed to be under vassal theocracies/bishoprics (affects title grants)
+	THEOCRACY_COUNTIES_CAN_BORDER = 1,			-- Can feudal lords create neighboring theocracy counties?
+	REPUBLIC_COUNTIES_CAN_BORDER = 1,				-- Can feudal lords create neighboring republic counties?
+	MIN_REVOKE_MONTHS_AFTER_GRANT = 12,			-- Months that must pass before you can revoke the title off someone you granted it to
 
 -- Title creation and usurpation requirements	
 	DEJURE_COUNTY_LIMIT_TO_CREATE = 0.51,			-- Fraction of de jure counties that you must control to create a non-imperial title
@@ -693,6 +696,8 @@ NMilitary = {
 	CAPTURED_CLOSE_MALE_RELATIVE_WAR_SCORE = 5.0,	-- War score for holding a close male relative prisoner
 	CAPTURED_HEIR_WAR_SCORE = 50.0,					-- War score for holding the heir prisoner
 	
+	EVENT_TROOPS_SIZE_MULT = 1.0,							-- Applied to match_mult to determine size of troops spawned from events & history
+	
 	OCCUPATION_PENALTY_MONTHS = 12,					-- This and below are different modifier lengths applied to settlements upon conquest
 	OCCUPATION_PENALTY_MONTHS_DIFFERENT_RELIGION = 90,
 	OCCUPATION_PENALTY_MONTHS_DIFFERENT_RELIGIONGROUP = 180,
@@ -813,6 +818,7 @@ NMilitary = {
 	BOTTLENECK_ATTACKER_MARTIAL_MODIFIER = 1.0,
 	BOTTLENECK_CHANCE_LEADER_CAP = 95,
 	BOTTLENECK_CHANCE_MAX = 100,
+	BOTTLENECK_CHOKE_TROOP_CAP = 300,		-- THIS IS SPARTAAAAAAAAA!!!!
 	
 	CAPITAL_COUNTY_VASSAL_COUNT_LEVY_MULT = 1,	-- Used instead of CAPITAL_COUNTY_LEVY_MULT for vassal counts
 	CAPITAL_COUNTY_VASSAL_LEVY_MULT = 1.25,		-- Used instead of CAPITAL_COUNTY_LEVY_MULT for non-count vassals
@@ -886,11 +892,11 @@ NDisease = {
 
 NGraphics = {
 	PORT_SHIP_OFFSET = 3.0,
-	CITY_SPRAWL_SHRINK_DISTANCE = 150.0, -- Start shrinking at this distance
-	CITY_SPRAWL_DRAW_DISTANCE = 200.0, -- Remove at this distance
-	CITY_SPRAWL_AMOUNT = 1, -- Size of cities, higher gives larger cities
+	CITY_SPRAWL_SHRINK_DISTANCE = 190.0, -- Start shrinking at this distance
+	CITY_SPRAWL_DRAW_DISTANCE = 230.0, -- Remove at this distance
+	CITY_SPRAWL_AMOUNT = 1.2, -- Size of cities, higher gives larger cities
 	CITY_SPRAWL_NUDGE_TAX_VALUE = 50, -- Debug flag
-	PROVINCE_NAME_DRAW_DISTANCE = 500.0, -- Remove province names beyond this distance
+	PROVINCE_NAME_DRAW_DISTANCE = 700.0, -- Remove province names beyond this distance
 },
 
 NEngine = {

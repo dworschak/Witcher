@@ -913,6 +913,7 @@ character_event = {
 			any_child = { 
 				ai = yes
 				is_alive = yes
+				is_female = no
 				is_adult = no
 				mother = { NOT = { character = ROOT } }
 				is_primary_heir = no
@@ -992,8 +993,13 @@ character_event = {
 			}
 			50 = {
 				spouse = {
-					any_child = {
-						limit = { has_character_flag = victim_son }
+					random_child = {
+						limit = {
+							is_adult = no
+							is_female = no
+							mother = { NOT = { character = ROOT } }
+							is_primary_heir = no
+						}
 						character_event = { id = 89031 days = 4 tooltip = "EVTTOOLTIP89021" }
 					}
 					hidden_tooltip = {
