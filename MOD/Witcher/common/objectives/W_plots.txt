@@ -1,0 +1,76 @@
+###############
+# PLOTS
+###############
+
+# Curse a character
+plot_curse_character = {
+	type = realm_characters_plus # All characters in the same realm, plus rivals and relatives of self, parents, children and spouse
+	intrigue_plot = yes
+	
+	# Plotter scope
+	potential = {
+		prisoner = no
+		age = 15
+		NOT = { trait = incapable }
+		OR = {
+			religion = spider
+			AND = {
+				trait = witch
+				NOT = { has_character_modifier = drained }
+			}
+			job_mage = { 
+				trait = witch
+				NOT = { has_character_modifier = drained }
+			}
+		}
+	}
+	
+	player_allow = {
+		NOT = { 
+			has_character_flag = cursed
+			has_character_modifier = bad_luck
+		}
+	}
+	allow = {
+		
+	}
+	
+	chance = {
+		factor = 1
+		# No sacrifice
+		modifier = { factor = 0.01 FROM = { NOT = { has_characer_flag = made_sacrifice } } }
+		# Traits
+		modifier = { factor = 2.0 FROM = { trait = mystic } }
+		modifier = { factor = 1.5 FROM = { trait = arbitrary } }
+		modifier = { factor = 1.5 FROM = { trait = cruel } }
+		modifier = { factor = 1.5 FROM = { trait = deceitful } }
+		modifier = { factor = 1.5 FROM = { trait = lunatic } }
+		modifier = { factor = 1.5 FROM = { trait = possessed } }
+		modifier = { factor = 1.5 FROM = { trait = paranoid } }
+		# Opinions
+		modifier = { factor = 0 their_opinion = { who = FROM value = 75 } }
+		modifier = { factor = 0.25 their_opinion = { who = FROM value = 50 } }
+		modifier = { factor = 1.5 NOT = { their_opinion = { who = FROM value = -25 } } }
+		modifier = { factor = 2.0 NOT = { their_opinion = { who = FROM value = -50 } } }
+		modifier = { factor = 2.0 NOT = { their_opinion = { who = FROM value = -75 } } }
+	}
+	
+	success = {
+		OR = {
+			has_character_flag = cursed
+			has_character_modifier = bad_luck
+		}
+	}
+	
+	abort = {
+		OR = {
+			is_alive = no
+			FROM = { has_character_flag = abort_curse }
+		}
+	}
+	abort_effect = {
+		FROM = { clr_character_flag = abort_curse }
+	}
+	
+	effect = { }
+}
