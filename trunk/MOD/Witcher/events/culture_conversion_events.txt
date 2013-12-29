@@ -285,7 +285,7 @@
 	# }
 # }
 
-# A ruler is assimilated by the local culture
+# A ruler is assimilated by the local culture  - not for elves or dwarves
 character_event = {
 	id = 55010
 	desc = "EVTDESC55010"
@@ -297,6 +297,7 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
+		trait = human
 		primary_title = { 
 			NOT = { conquest_culture = ROOT } 
 			NOT = { culture = ROOT }
@@ -306,20 +307,8 @@ character_event = {
 		}
 		capital_scope = {
 			NOT = { culture = ROOT }
-			OR = {
-				NOT = { culture = saxon }
-				NOT = { ROOT = { culture = norman } }
-			}
-			
-			OR = { # Not when Norman culture should appear
-				ROOT = { NOT = { culture = norse } }
-				AND = {
-					NOT = { culture = frankish }
-					NOT = {	culture = breton }
-					NOT = { culture = occitan }
-				}
-				NOT = { has_dlc = "The Old Gods" }
-			}
+			NOT = { culture = elven }
+			NOT = { culture = dwarven }
 		}
 		top_liege = {
 			OR = {

@@ -1,0 +1,776 @@
+namespace = health
+
+################################################
+# Sick from VIET
+################################################
+# Vassal has to visit sick liege
+character_event = {
+	id = health.1 
+	desc = EVTDESChealth.1
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		independent = no
+		liege = {
+			NOT = { trait = incapable }
+			in_command = no
+			trait = ill
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when ill (for liege)
+			factor = 3
+			liege = {
+				trait = ill
+			}
+		}		
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 1.5
+			trait = just
+		}
+		modifier = {
+			factor = 1.2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.6
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.9
+			trait = content
+		}
+		modifier = {
+			factor = 0.9
+			trait = gluttonous
+		}
+	}
+	
+	option = { #Let's go visit the sick liege
+		name = EVTOPTAhealth.1
+		random_list = {
+			75 = { }
+			25 = { character_event = { id = 6060 days = 2 tooltip = EVTTOOLTIPhealth.1 } }
+		}
+	}
+	option = { #Don't want to get near sick liege
+		name = EVTOPTBhealth.1
+		liege = {
+			reverse_opinion = {
+				modifier = opinion_confused
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
+# Sick character can't do duties anymore
+character_event = {
+	id = health.2
+	desc = EVTDESChealth.2
+	picture = GFX_evt_tuscan_country
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = no
+		trait = ill
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when ill
+			factor = 3
+			trait = ill
+		}
+		modifier = {
+			factor = 3
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.2
+			trait = stressed
+		}
+		modifier = {
+			factor = 1.1
+			trait = just
+		}
+		modifier = {
+			factor = 1.1
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.9
+			trait = shy
+		}
+		modifier = {
+			factor = 0.9
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.7
+			trait = content
+		}
+		modifier = {
+			factor = 0.6
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.9
+			trait = gluttonous
+		}
+	}
+	
+	option = { #Grrrr
+		name = EVTOPTAhealth.2
+		prestige = 2
+		if = {
+			limit = {
+				NOT = {
+					trait = stressed
+					trait = slothful
+					trait = gluttonous
+				}
+			}
+			random_list = {
+				80 = { }
+				20 = { add_trait = stressed }
+			}
+		}
+	}
+	option = { #Pray
+		name = EVTOPTBhealth.2
+		piety = 5
+		if = {
+			limit = {
+				NOT = {
+					trait = zealous
+				}
+			}
+			random_list = {
+				80 = { }
+				20 = { add_trait = zealous }
+			}
+		}
+	}
+	option = { #Excuse to slack off
+		name = EVTOPTChealth.2
+		tooltip_info = slothful
+		trigger = { 
+			trait = slothful
+		}
+		ai_chance = {
+			factor = 20
+		}
+		random_list = {
+			50 = { }
+			25 = { add_trait = gluttonous }
+			25 = { add_trait = content }
+		}
+	}
+	option = { #Must try to work
+		name = EVTOPTDhealth.2
+		tooltip_info = diligent
+		trigger = { 
+			trait = diligent
+		}
+		ai_chance = {
+			factor = 20
+		}
+		prestige = 10
+		random_list = {
+			50 = { }
+			50 = { add_trait = stressed }
+		}
+	}
+	option = { #Don't have to deal with people
+		name = EVTOPTEhealth.2
+		tooltip_info = cynical
+		trigger = { 
+			trait = cynical
+		}
+		ai_chance = {
+			factor = 20
+		}
+		random_list = {
+			50 = { }
+			50 = { add_trait = content }
+		}
+	}
+}
+
+################################################
+# Leper from VIET
+################################################
+# Lonely Leper
+character_event = {
+	id = health.10
+	desc = EVTDESChealth.10
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = leper
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when leper
+			factor = 3
+			trait = leper
+		}		
+		modifier = {
+			factor = 2
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.2
+			trait = lustful
+		}
+		modifier = {
+			factor = 1.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.2
+			trait = wroth
+		}
+		modifier = {
+			factor = 1.2
+			trait = envious
+		}
+		modifier = {
+			factor = 0.7
+			trait = patient
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.6
+			trait = content
+		}
+		modifier = {
+			factor = 0.7
+			trait = kind
+		}		
+		modifier = {
+			factor = 0.8
+			trait = diligent
+		}
+	}
+	
+	option = { #Woe is me
+		name = EVTOPTAhealth.10
+		piety = 5
+		random_list = {
+			80 = { }
+			10 = { add_trait = zealous }
+			10 = { add_trait = depressed }
+		}
+	}
+	option = { #Getting used to it
+		name = EVTOPTBhealth.10
+		prestige = 2
+	}
+	option = { #Shy
+		name = EVTOPTChealth.10
+		ai_chance = {
+			factor = 25
+		}
+		tooltip_info = shy
+		trigger = {
+			trait = shy
+		}
+		change_diplomacy = -1
+		piety = 10
+	}
+	option = { #No more sin
+		name = EVTOPTDhealth.10
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = lustful
+		trigger = {
+			trait = lustful
+		}
+		piety = 5
+		random_list = {
+			50 = { piety = 5 }
+			50 = { 
+				remove_trait = lustful 
+				piety = 5
+			}
+		}
+	}
+}
+# Religious Leper
+character_event = {
+	id = health.11
+	desc = EVTDESChealth.11
+	picture = GFX_evt_knight_kneeling
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		trait = leper
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when leper
+			factor = 3
+			trait = leper
+		}
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 1.2
+			trait = scholar
+		}
+		modifier = {
+			factor = 1.2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.7
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.9
+			trait = hedonist
+		}
+	}
+	
+	option = { #Live a pure life
+		name = EVTOPTAhealth.11
+		piety = 5
+		random_list = {
+			25 = { add_trait = kind }
+			25 = { add_trait = chaste }
+			25 = { add_trait = temperate }
+			25 = { piety = 5 }
+		}
+	}
+	option = { #Devote itme to studying spiritual matters
+		name = EVTOPTBhealth.11
+		piety = 5
+		random_list = {
+			25 = { add_trait = zealous }
+			25 = { add_trait = diligent }
+			25 = { change_learning = 1 }
+			25 = { piety = 5}
+		}
+	}
+}
+# Living as a Leper is miserable
+character_event = {
+	id = health.12
+	desc = EVTDESChealth.12
+	picture = GFX_evt_tuscan_country
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		trait = leper
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when leper
+			factor = 3
+			trait = leper
+		}
+		modifier = {
+			factor = 1.5
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.5
+			trait = stressed
+		}
+		modifier = {
+			factor = 1.2
+			trait = wroth
+		}
+		modifier = {
+			factor = 1.2
+			trait = envious
+		}
+		modifier = {
+			factor = 0.7
+			trait = patient
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.9
+			trait = kind
+		}
+	}
+	
+	option = { #Pray
+		name = EVTOPTAhealth.12
+		piety = 5
+		random_list = {
+			80 = { }
+			10 = { add_trait = zealous }
+			5 = { add_trait = stressed }
+			5 = { add_trait = depressed }
+		}
+	}
+	option = { #Must still work
+		name = EVTOPTBhealth.12
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = diligent
+		trigger = {
+			trait = diligent
+		}
+		piety = 5
+		prestige = 5
+	}
+	option = { #A friend in need is a friend indeed
+		name = EVTOPTChealth.12
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = trusting
+		trigger = {
+			trait = trusting
+		}
+		piety = 5
+		prestige = 5
+	}
+}
+
+################################################
+# Blind from VIET
+################################################
+# Blind character trips down the stairs
+character_event = {
+	id = health.20
+	desc = EVTDESChealth.20
+	picture = GFX_evt_castle_construction
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		trait = blinded
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when leper
+			factor = 3
+			trait = blinded
+		}
+		modifier = {
+			factor = 1.5
+			trait = imbecile
+		}
+		modifier = {
+			factor = 1.5
+			trait = slow
+		}
+		modifier = {
+			factor = 1.2
+			trait = weak
+		}
+		modifier = {
+			factor = 1.2
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 1.1
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.7
+			trait = strong
+		}
+		modifier = {
+			factor = 0.7
+			trait = patient
+		}
+		modifier = {
+			factor = 0.8
+			trait = paranoid
+		}
+	}
+	
+	option = { #Ouch
+		name = EVTOPTAhealth.20
+		trigger = {
+			NOT = { trait = strong }
+		}
+		random_list = {
+			80 = { }
+			15 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			4 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+			1 = {
+				death = {
+					death_reason = death_accident
+				}
+			}
+		}
+	}
+	option = { #Strong
+		name = EVTOPTBhealth.20
+		tooltip_info = strong
+		trigger = {
+			trait = strong
+		}
+		random_list = {
+			95 = { }
+			5 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+		}
+	}
+}
+# Blind character worries
+character_event = {
+	id = health.21
+	desc = EVTDESChealth.21
+	picture = GFX_evt_whispers
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		trait = blinded
+		is_married = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when leper
+			factor = 3
+			trait = blinded
+		}
+		modifier = {
+			factor = 1.5
+			trait = paranoid
+		}
+		modifier = {
+			factor = 1.3
+			trait = cynical
+		}
+		modifier = {
+			factor = 1.1
+			trait = envious
+		}
+		modifier = {
+			factor = 1.1
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.6
+			trait = trusting
+		}
+		modifier = {
+			factor = 0.7
+			trait = patient
+		}
+		modifier = {
+			factor = 0.8
+			trait = kind
+		}
+	}
+	
+	option = { #Paranoia
+		name = EVTOPTAhealth.21
+		random_list = {
+			50 = { }
+			25 = { change_intrigue = 1 }
+			25 = { add_trait = paranoid }
+		}
+	}
+	option = { #Friends
+		name = EVTOPTBhealth.21
+		trigger = {
+			NOT = { trait = paranoid }
+		}
+		random_list = {
+			50 = { }
+			25 = { change_diplomacy = 1 }
+			25 = { add_trait = trusting }
+		}
+	}
+	option = { #God will deliver
+		name = EVTOPTChealth.21
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		piety = 10
+	}
+	option = { #All fear me
+		name = EVTOPTDhealth.21
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = martial
+		trigger = {
+			martial = 13
+		}
+		prestige = 10
+	}
+}
+# Blind character contemplates blindness
+character_event = {
+	id = health.22
+	desc = EVTDESChealth.22
+	picture = GFX_evt_tuscan_country
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = blinded
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { #slightly increase the chance when leper
+			factor = 3
+			trait = blinded
+		}
+		modifier = {
+			factor = 1.5
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.3
+			trait = poet
+		}
+		modifier = {
+			factor = 1.1
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.1
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.1
+			trait = lustful
+		}
+		modifier = {
+			factor = 1.1
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.6
+			trait = content
+		}
+		modifier = {
+			factor = 0.8
+			trait = shy
+		}
+		modifier = {
+			factor = 0.8
+			trait = chaste
+		}
+	}
+	
+	option = { #Sad
+		name = EVTOPTAhealth.22
+		random_list = {
+			75 = { }
+			25 = { add_trait = depressed }
+		}
+	}
+	option = { #Brain fry
+		name = EVTOPTBhealth.22
+		random_list = {
+			75 = { }
+			25 = { add_trait = stressed }
+		}
+	}
+	option = { #Poetry
+		name = EVTOPTChealth.22
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = poet
+		trigger = {
+			trait = poet
+		}
+		prestige = 10
+	}
+}

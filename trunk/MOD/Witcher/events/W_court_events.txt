@@ -1,0 +1,638 @@
+namespace = court
+
+################################################
+# Drinking events from VIET
+################################################
+# Drinking contest
+character_event = {
+	id = court.1
+	desc = EVTDESCcourt.1
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		is_female = no
+		war = no
+		in_command = no
+		any_courtier = {
+			ai = no
+			is_adult = yes
+			is_female = no
+			OR = {
+				trait = gregarious
+				trait = hedonist
+				trait = drunkard
+				trait = gluttonous
+				trait = poet
+				trait = slothful
+				trait = dwarven
+			}
+			NOT = {
+				trait = temperate
+				trait = zealous
+				trait = incapable
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = drunkard
+		}
+		modifier = {
+			factor = 0.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 0.5
+			trait = temperate
+		}
+		modifier = {
+			factor = 2
+			trait = dwarven
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.1  #Sure!
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				trait = drunkard
+			}
+			modifier = {
+				factor = 0.5
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = slothful
+			}
+			modifier = {
+				factor = 0.5
+				trait = diligent
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				trait = dwarven
+			}
+		}
+		random_list = {
+			50 = {
+				character_event = { #lose
+					id = court.3
+					tooltip = EVTTOOLTIPcourt.3
+				}
+			}
+			50 = {
+				character_event = { #win
+					id = court.2
+					tooltip = EVTTOOLTIPcourt.2
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBcourt.1  #No
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				trait = drunkard
+			}
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 0.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+			modifier = {
+				factor = 0.5
+				trait = slothful
+			}
+			modifier = {
+				factor = 2
+				trait = diligent
+			}
+			modifier = {
+				factor = 0.5
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 2
+				trait = temperate
+			}
+		}
+		piety = 5
+	}
+}
+#Character wins drinking contest
+character_event = {
+	id = court.2
+	desc = EVTDESCcourt.2
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = { #Great
+		name = EVTOPTAcourt.2
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				is_female = no
+				OR = {
+					trait = gregarious
+					trait = hedonist
+					trait = drunkard
+					trait = gluttonous
+					trait = poet
+					trait = slothful
+					trait = dwarven
+				}
+				NOT = {
+					trait = temperate
+					trait = zealous
+					trait = incapable
+				}
+			}
+			opinion = {
+				modifier = opinion_gained_respect
+				who = FROM
+				years = 10
+			}
+		}
+		prestige = 5
+		random_list = {
+			5 = { add_trait = drunkard }
+			15 = { add_trait = gregarious }
+			80 = { }
+		}
+	}
+	option = { #Never again
+		name = EVTOPTBcourt.2
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+			modifier = {
+				factor = 0.1
+				trait = drunkard
+			}
+			modifier = {
+				factor = 0.1
+				trait = hedonist
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				is_female = no
+				OR = {
+					trait = gregarious
+					trait = hedonist
+					trait = drunkard
+					trait = gluttonous
+					trait = poet
+					trait = slothful
+					trait = dwarven
+				}
+				NOT = {
+					trait = temperate
+					trait = zealous
+					trait = incapable
+				}
+			}
+			opinion = {
+				modifier = opinion_gained_respect
+				who = FROM
+				years = 10
+			}
+		}
+		prestige = 5
+		if = {
+			limit = {
+				trait = drunkard
+			}
+			random_list = {
+				50 = { }
+				50 = { remove_trait = drunkard }
+			}
+		}
+		if = {
+			limit = {
+				trait = gregarious
+			}
+			random_list = {
+				50 = { }
+				50 = { remove_trait = gregarious }
+			}
+		}
+	}
+}
+#Character loses drinking contest
+character_event = {
+	id = court.3
+	desc = EVTDESCcourt.3
+	picture = GFX_evt_feast
+
+	is_triggered_only = yes
+
+	option = { #Great
+		name = EVTOPTAcourt.3
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				is_female = no
+				OR = {
+					trait = gregarious
+					trait = hedonist
+					trait = drunkard
+					trait = gluttonous
+					trait = poet
+					trait = slothful
+					trait = dwarven
+				}
+				NOT = {
+					trait = temperate
+					trait = zealous
+					trait = incapable
+				}
+			}
+			opinion = {
+				modifier = opinion_gained_respect
+				who = FROM
+				years = 10
+			}
+		}
+		prestige = -2
+	}
+}
+# Drunk courtier interrupts court
+character_event = {
+	id = court.4
+	desc = EVTDESCcourt.4
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		any_courtier = {
+			ai = no
+			is_adult = yes
+			trait = drunkard
+			NOT = { trait = incapable }
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.4  #Punish
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = diligent
+			}
+			modifier = {
+				factor = 0.5
+				trait = slothful
+			}
+			modifier = {
+				factor = 2
+				trait = patient
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+		}
+		prestige = 5
+		wealth = 2
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				trait = drunkard
+				NOT = {	trait = incapable }
+			}
+			opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBcourt.4  #Funny
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+			modifier = {
+				factor = 0.5
+				trait = just
+			}
+			modifier = {
+				factor = 2
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 0.5
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+		}
+		prestige = -5
+		any_courtier = {
+			limit = {
+				NOT = { trait = drunkard }
+				NOT = { trait = zealous }
+				OR = {
+					trait = gregarious
+					trait = hedonist
+				}
+			}
+			opinion = {
+				modifier = opinion_amused
+				who = ROOT
+				years = 1
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				trait = drunkard
+				NOT = {	trait = incapable }
+			}
+			opinion = {
+				modifier = opinion_confused
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_disapprove
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
+
+################################################
+# Misc. court from VIET
+################################################
+# Innocent man executed
+character_event = {
+	id = court.10
+	desc = EVTDESCcourt.10
+	picture = GFX_evt_beheading
+	
+	is_triggered_only = yes
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+		modifier = {
+			factor = 2
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.5
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2
+			trait = paranoid
+		}
+		modifier = {
+			factor = 0.5
+			trait = trusting
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.10  #whoops
+		prestige = -5
+	}
+}

@@ -1,0 +1,162 @@
+namespace = racial
+
+################################################
+# Racial trait assignment
+################################################
+character_event = {
+	id = racial.1
+	desc = "Your race is..."
+	picture = GFX_evt_comet
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = human }
+		NOT = { trait = dwarven }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "Dryad"
+		trigger = {
+			graphical_culture = dryadgfx
+		}
+		add_trait = dryad
+	}
+	option = {
+		name = "Elf or halfelf"
+		trigger = {
+			graphical_culture = elvengfx
+		}
+		add_trait = elven
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { NOT = { graphical_culture = elvengfx } }
+					mother_even_if_dead = { NOT = { graphical_culture = elvengfx } }
+				}
+			}
+			remove_trait = elven
+			add_trait = halfelf
+		}
+	}
+	option = {
+		name= "Dwarf or halfdwarf"
+		trigger = {
+			graphical_culture = dwarvengfx
+		}
+		add_trait = dwarven
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { NOT = { graphical_culture = dwarvengfx } }
+					mother_even_if_dead = { NOT = { graphical_culture = dwarvengfx } }
+				}
+			}
+			remove_trait = dwarven
+			add_trait = halfdwarf
+		}
+	}
+	option = {
+		name= "Human or halfelf or halfdwarf"
+		trigger = {
+			NOT = {
+				graphical_culture = dwarvengfx
+				graphical_culture = elvengfx
+				graphical_culture = dryadgfx
+			}
+		}
+		add_trait = human
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { graphical_culture = elvengfx }
+					mother_even_if_dead = { graphical_culture = elvengfx }
+				}
+			}
+			remove_trait = human
+			add_trait = halfelf
+		}
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { graphical_culture = dwarvengfx }
+					mother_even_if_dead = { graphical_culture = dwarvengfx }
+				}
+			}
+			remove_trait = human
+			add_trait = halfdwarf
+		}
+	}
+}
+
+################################################
+# Dryad reproduction
+################################################
+# Pregnancy - should better be triggered by some flavor events
+character_event = {
+	id = racial.2
+	desc = EVTDESCracial.2
+	picture = GFX_evt_pregnancy
+	
+	min_age = 15
+	max_age = 45
+	capable_only = yes
+	only_women = yes
+	
+	trigger = {
+		trait = dryad
+		NOT = { trait = pregnant }
+		is_landed = yes
+	}
+	
+	mean_time_to_happen = {
+		months = 50
+		modifier = { factor = 1.5 num_of_children = 2 }
+		modifier = { factor = 1.5 num_of_children = 3 }
+		modifier = { factor = 1.5 num_of_children = 4 }
+		modifier = { factor = 1.5 num_of_children = 5 }
+		modifier = { factor = 2 trait = homosexual }
+		modifier = { factor = 4 trait = celibate }
+	}
+	
+	option = {
+		name = OK
+		add_trait = pregnant
+		prestige = 10
+		hidden_tooltip = {
+			character_event = { id = racial.3 days = 90 random = 5 }
+		}
+	}
+}
+# Birth
+character_event = {
+	id = racial.3
+	desc = EVTDESCracial.3
+	picture = GFX_evt_birth
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+		
+		create_character = {
+			age = 0
+			female = yes
+			dynasty = ROOT
+			trait = dryad
+		}
+		new_character = {
+			set_mother = ROOT
+			character_event = { id = 313 } # Vanillabirth complication event
+		}
+	}
+}

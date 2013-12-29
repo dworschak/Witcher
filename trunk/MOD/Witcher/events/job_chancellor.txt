@@ -90,6 +90,14 @@ character_event = {
 			factor = 0.75
 			diplomacy = 18
 		}
+		modifier = {
+			factor = 0.75
+			diplomacy = 22
+		}
+		modifier = {
+			factor = 0.75
+			diplomacy = 27
+		}
 	}
 	
 	option = {
@@ -212,6 +220,14 @@ character_event = {
 			factor = 1.25
 			diplomacy = 13
 		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 15
+		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 18
+		}
 	}
 	
 	option = {
@@ -303,7 +319,7 @@ character_event = {
 								NOT = { character = ROOT }
 								NOT = {
 									AND = {
-										religion = catholic
+										religion = eternal_fire
 										ROOT = { liege = { religion_head = { character = PREVPREVPREV } } }
 									}
 								}
@@ -317,7 +333,7 @@ character_event = {
 									NOT = { character = ROOT }
 									NOT = {
 										AND = {
-											religion = catholic
+											religion = eternal_fire
 											ROOT = { liege = { religion_head = { character = PREVPREVPREV } } }
 										}
 									}
@@ -393,6 +409,26 @@ character_event = {
 		modifier = {
 			factor = 0.95
 			diplomacy = 20
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 21
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 22
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 24
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 26
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 29
 		}
 	}
 	
@@ -584,7 +620,7 @@ letter_event = {
 	
 	option = {	# Emperor or King
 		name = "EVTOPTA20131" #Press the Claim
-		trigger = { primary_title = { higher_tier_than = DUKE }	}
+		trigger = { primary_title = { higher_tier_than = DUKE } }
 		ai_chance = {
 			factor = 90
 			modifier = {
@@ -944,6 +980,14 @@ character_event = {
 			factor = 1.25
 			diplomacy = 13
 		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 15
+		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 18
+		}
 	}
 	
 	option = {
@@ -969,12 +1013,26 @@ character_event = {
 
 	option = {
 		name = "EVTOPTA20140" #Make him disappear...
-		ai_chance = { factor = 40 }
+		ai_chance = {
+			factor = 40
+			modifier = { factor = 0.5 job_spymaster = { NOT = { intrigue = 10 } } }
+			modifier = { factor = 1.5 job_spymaster = { intrigue = 14 } }
+		}
 		piety = -10
 		random_list = {
-			50 = {
+			30 = {
 				FROM = {
 					character_event = { id = 20141 days = 7 tooltip = "EVTTOOLTIP20141" }
+				}
+			}
+			20 = {
+				if = {
+					limit = { job_spymaster = { intrigue = 14 } }
+					FROM = { character_event = { id = 20141 days = 7 tooltip = "EVTTOOLTIP20141" } }
+				}
+				if = {
+					limit = { job_spymaster = { NOT = { intrigue = 14 } } }
+					FROM = { character_event = { id = 20143 days = 7 tooltip = "EVTTOOLTIP20143" } }
 				}
 			}
 			50 = {
@@ -984,7 +1042,10 @@ character_event = {
 	}
 	option = {
 		name = "EVTOPTB20140" #Send him an offer
-		ai_chance = { factor = 30 }
+		ai_chance = {
+			factor = 40
+			modifier = { factor = 0.5 NOT = { wealth = 100 } }
+		}
 		treasury = -50
 		FROM = {
 			letter_event = { id = 20144 days = 7 tooltip = "EVTTOOLTIP20144" }
@@ -1065,11 +1126,22 @@ letter_event = {
 				hidden = yes
 			}
 		}
+		ai_chance = {
+			factor = 40
+			modifier = { factor = 0.5 NOT = { opinion = { who = liege value = -20 } } }
+			modifier = { factor = 0.5 NOT = { opinion = { who = liege value = -60 } } }
+		}
 	}
 	option = {
 		name = "EVTOPTB20144"
 		prestige = 5
 		FROM = { letter_event = { id = 20146 days = 7 tooltip = "EVTTOOLTIP20146" } }
+		ai_chance = {
+			factor = 40
+			modifier = { factor = 2 has_opinion_modifier = { who = liege modifier = opinion_friend } }
+			modifier = { factor = 1.5 opinion = { who = liege value = 20 } }
+			modifier = { factor = 1.5 opinion = { who = liege value = 60 } }
+		}
 	}
 }
 
@@ -1185,6 +1257,22 @@ character_event = {
 		modifier = {
 			factor = 0.75
 			diplomacy = 13
+		}
+		modifier = {
+			factor = 0.75
+			diplomacy = 14
+		}
+		modifier = {
+			factor = 0.75
+			diplomacy = 15
+		}
+		modifier = {
+			factor = 0.75
+			diplomacy = 17
+		}
+		modifier = {
+			factor = 0.75
+			diplomacy = 19
 		}
 	}
 	
@@ -1335,6 +1423,22 @@ character_event = {
 		modifier = {
 			factor = 1.25
 			diplomacy = 13
+		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 14
+		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 15
+		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 17
+		}
+		modifier = {
+			factor = 1.25
+			diplomacy = 19
 		}
 	}
 	

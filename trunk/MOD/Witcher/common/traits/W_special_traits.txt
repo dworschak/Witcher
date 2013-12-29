@@ -32,15 +32,32 @@ witch = {
 	same_opinion = 10
 	learning = 2
 	intrigue = 2
-	
+	health = 2
 	general_opinion = -10
 	
+	customizer = no
+}
+################################################
+# REBEL LEADER
+################################################
+scoiatael_leader = {
+	same_opinion = 20
+	
+	rebel_inherited = yes
 	customizer = no
 }
 ################################################
 # RACE
 ################################################
 elven = {
+	potential = {
+		NOT = { trait = human }
+		NOT = { trait = dwarven }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = dryad }
+		NOT = { trait = halfling }
+	}
+	
 	same_opinion = 15
 	general_opinion = -10
 	intrigue = 2
@@ -56,6 +73,15 @@ elven = {
 	customizer = no
 }
 halfelf = {
+	potential = {
+		NOT = { trait = human }
+		NOT = { trait = elven }
+		NOT = { trait = dwarven }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = dryad }
+		NOT = { trait = halfling }
+	}
+	
 	same_opinion = 5
 	general_opinion = -5
 	fertility = -0.10
@@ -67,6 +93,15 @@ elven_blood = {
 	health = 0.5
 }
 dwarven = {
+	potential = {
+		NOT = { trait = human }
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = dryad }
+		NOT = { trait = halfling }
+	}
+	
 	same_opinion = 15
 	general_opinion = -10
 	
@@ -80,6 +115,15 @@ dwarven = {
 	customizer = no
 }
 halfdwarf = {
+	potential = {
+		NOT = { trait = human }
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = dwarven }
+		NOT = { trait = dryad }
+		NOT = { trait = halfling }
+	}
+	
 	same_opinion = 5
 	general_opinion = -5
 	
@@ -90,8 +134,26 @@ halfdwarf = {
 		terrain = hills
 	}
 }
-halfling = { }
+halfling = {
+	potential = {
+		NOT = { trait = human }
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = dwarven }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = dryad }
+	}
+}
 dryad = {
+	potential = {
+		NOT = { trait = human }
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = dwarven }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = halfling }
+	}
+	
 	same_opinion = 10
 	general_opinion = -10
 	
@@ -105,9 +167,17 @@ dryad = {
 	}
 	customizer = no
 }
-human = { }
+human = {
+	potential = {
+		NOT = { trait = elven }
+		NOT = { trait = halfelf }
+		NOT = { trait = dwarven }
+		NOT = { trait = halfdwarf }
+		NOT = { trait = dryad }
+		NOT = { trait = halfling }
+	}
+}
 kind2 = { # secret dragon trait
-
 	intrigue = -2
 	diplomacy = 2
 	
@@ -136,6 +206,25 @@ deithwen = {
 	vassal_opinion = 40
 	fertility = -0.10
 }
+veteran = {
+	martial = 1
+	same_opinion = 10
+	monthly_character_prestige = 0.01
+}
+raider = {
+	potential = {
+		religion = freya
+	}
+	martial = 1
+	same_opinion = 10
+	monthly_character_prestige = 0.01
+	
+	religious = yes
+}
+
+################################################
+# HISTORICAL RULER
+################################################
 hist_skellige = {
 	agnatic = yes # Always inherited from fathers
 	

@@ -7,10 +7,6 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	trigger = {
-		NOT = { trait = berserker }
-	}
-
 	weight_multiplier = {
 		days = 1
 		modifier = {
@@ -141,11 +137,14 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_measles
-		}		
+		}
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
+		}
+		modifier = { factor = 0.5 trait = witcher }
+		modifier = { factor = 0.5 trait = sorcerer }
+		modifier = { factor = 0.8 trait = dwarven }
 	}
 	
 	immediate = {
@@ -170,7 +169,7 @@ character_event = {
 	
 	option = {
 		name = ALAS
-	}	
+	}
 }
 
 #On-action combat event: Wounded in action
@@ -185,7 +184,6 @@ character_event = {
 	trigger = {
 		NOT = { trait = wounded }
 		NOT = { trait = maimed }
-		NOT = { trait = berserker }
 		is_alive = yes
 	}
 	
@@ -325,8 +323,11 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
+		}
 		
+		modifier = { factor = 0.5 trait = witcher }
+		modifier = { factor = 0.5 trait = sorcerer }
+		modifier = { factor = 0.8 trait = dwarven }
 	}
 	
 	option = {
@@ -347,7 +348,6 @@ character_event = {
 	
 	trigger = {
 		NOT = { trait = maimed }
-		NOT = { trait = berserker }
 		is_alive = yes
 	}
 	
@@ -483,12 +483,15 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_measles
-		}		
+		}
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
-
+		}
+		
+		modifier = { factor = 0.5 trait = witcher }
+		modifier = { factor = 0.5 trait = sorcerer }
+		modifier = { factor = 0.8 trait = dwarven }
 	}
 	
 	option = {
@@ -644,12 +647,15 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_measles
-		}		
+		}
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
-
+		}
+		
+		modifier = { factor = 0.5 trait = witcher }
+		modifier = { factor = 0.5 trait = sorcerer }
+		modifier = { factor = 0.8 trait = dwarven }
 	}
 
 	option = {
@@ -948,13 +954,13 @@ character_event = {
 		modifier = {
 			factor = 0.5
 			trait = has_measles
-		}		
+		}
 		modifier = {
 			factor = 0.5
 			trait = has_small_pox
 		}
 	}
-
+	
 	option = {
 		name = EXCELLENT
 		change_martial = 1
@@ -1095,7 +1101,7 @@ character_event = {
 				name = war_knowledge
 				duration = 365
 			}
-		}		
+		}
 	}
 }
 
@@ -1240,12 +1246,11 @@ character_event = {
 		modifier = {
 			factor = 0.5
 			trait = has_measles
-		}		
+		}
 		modifier = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-
 	}
 
 	option = {
@@ -1396,7 +1401,7 @@ character_event = {
 		modifier = {
 			factor = 1.1
 			trait = has_small_pox
-		}		
+		}
 	}
 
 	option = {
@@ -1622,23 +1627,23 @@ character_event = {
 		modifier = {
 			factor = 1.5
 			trait = patient
-		}		
+		}
 		modifier = {
 			factor = 1.5
 			trait = just
-		}		
+		}
 		modifier = {
 			factor = 1.5
 			trait = diligent
-		}		
+		}
 		modifier = {
 			factor = 0.2
 			trait = deceitful
-		}		
+		}
 		modifier = {
 			factor = 0.2
 			trait = arbitrary
-		}		
+		}
 	}
 
 	option = {
@@ -1649,7 +1654,7 @@ character_event = {
 			female = no
 			religion = ROOT
 			culture = ROOT
-		}		
+		}
 		new_character = {
 			random_list = {
 				75 = { add_trait = trained_warrior }
@@ -1878,7 +1883,6 @@ character_event = {
 			factor = 0.125
 			tier = emperor
 		}
-		
 	}
 
 	option = {
@@ -1944,7 +1948,10 @@ character_event = {
 		war = yes
 		in_command = yes
 		has_job_title = job_marshal
-		trait = cruel
+		OR = {
+			trait = cruel
+			trait = impaler
+		}
 	}
 	
 	weight_multiplier = {

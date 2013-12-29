@@ -1,0 +1,854 @@
+namespace = witcher
+
+################################################
+# Witcher moving around
+################################################
+# Witcher  - Ask ask the liege permision to leave his court
+character_event = {
+	id = witcher.1
+	desc = "It's time to move on."
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = witcher
+		in_command = no
+		NOT = { has_character_modifier = recent_witcher_work }
+	}
+	
+	mean_time_to_happen = { 
+		months = 12
+		modifier = { factor = 2 has_minor_title = title_court_witcher }
+		modifier = { factor = 2 war = yes }
+		modifier = {
+			factor = 0.9
+			liege = { NOT = { reverse_opinion = { who = ROOT value = -25 } } }
+		}
+		modifier = {
+			factor = 0.9
+			liege = { NOT = { reverse_opinion = { who = ROOT value = -50 } } }
+		}
+		modifier = {
+			factor = 0.9
+			liege = { NOT = { reverse_opinion = { who = ROOT value = -75 } } }
+		}
+		modifier = {
+			factor = 1.4
+			liege = { reverse_opinion = { who = ROOT value = 25 } }
+		}
+		modifier = {
+			factor = 1.4
+			liege = { reverse_opinion = { who = ROOT value = 50 } }
+		}
+		modifier = {
+			factor = 1.4
+			liege = { reverse_opinion = { who = ROOT value = 75 } }
+		}
+		modifier = {
+			factor = 3
+			liege = { reverse_has_opinion_modifier = { who = ROOT modifier = opinion_asked_to_stay } }
+		}
+		modifier = {
+			factor = 10
+			liege = {
+				any_demesne_province = {
+					OR = {
+						has_province_modifier = vampires
+						has_province_modifier = werewolves
+						has_province_modifier = kikimoras
+						has_province_modifier = hellhounds
+						has_province_modifier = rotfiends
+						has_province_modifier = drowners
+						has_province_modifier = nekkers
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0.5
+			any_playable_ruler = { has_character_flag = invited_witcher }
+		}
+	}
+	
+	option = {
+		name = "Ask liege."
+		liege = { character_event = { id = witcher.2 } }
+	}
+}
+# Liege - The witcher has informed you of his desire to leave your court
+character_event = {
+	id = witcher.2
+	desc = EVTDESCwitcher.2 
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = { # Convince the witcher to stay
+		name = EVTOPTAwitcher.2
+		FROM = { character_event = { id = witcher.3 } }
+	}
+	option = { # Bribe the witcher to stay
+		name = EVTOPTBwitcher.2
+		FROM = { character_event = { id = witcher.4 } }
+		transfer_scaled_wealth = {
+			to = FROM
+			value = 0.20
+		}
+	}
+	option = { # Let him leave
+		name = EVTOPTCwitcher.2
+		FROM = { character_event = { id = witcher.5 } }
+	}
+}
+# Witcher - Your liege wishes you to stay
+character_event = {
+	id = witcher.3
+	desc = "Liege wants me to stay."
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "Stay"
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 trait = slothful }
+			modifier = { factor = 2 trait = patient }
+			modifier = { factor = 3 has_opinion_modifier = { who = FROM modifier = opinion_friend } }
+		}
+		opinion = {
+			who = FROM
+			modifier = opinion_asked_to_stay
+			months = 12
+		}
+		FROM = { character_event = { id = witcher.6 days = 3 } }
+	}
+	option = {
+		name = "Leave"
+		ai_chance = {
+			factor = 3
+		}
+		character_event = { id = witcher.5 days = 3 }
+	}
+}
+# Witcher - Your liege offers a bribe if you stay
+character_event = {
+	id = witcher.4
+	desc = EVTDESCwitcher.4
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "Stay"
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 trait = slothful }
+			modifier = { factor = 2 trait = patient }
+			modifier = { factor = 3 has_opinion_modifier = { who = FROM modifier = opinion_friend } }
+		}
+		opinion = {
+			who = FROM
+			modifier = opinion_asked_to_stay
+			months = 12
+		}
+		FROM = { character_event = { id = witcher.7 days = 3 } }
+	}
+	option = {
+		name = "Leave"
+		ai_chance = {
+			factor = 3
+		}
+		character_event = { id = witcher.5 days = 3 }
+	}
+}
+# Witcher - Leave to ...
+character_event = {
+	id = witcher.5
+	desc = "Leave to..."
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		liege = { character_event = { id = witcher.8 } }
+	}
+	
+	option = {
+		name = "... neighbor province with monster problems"
+		trigger = {
+			liege = {
+				any_demesne_province = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						OR = {
+							has_province_modifier = vampires
+							has_province_modifier = werewolves
+							has_province_modifier = kikimoras
+							has_province_modifier = hellhounds
+							has_province_modifier = rotfiends
+							has_province_modifier = drowners
+							has_province_modifier = nekkers
+						}
+					}
+				}
+			}
+		}
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						OR = {
+							has_province_modifier = vampires
+							has_province_modifier = werewolves
+							has_province_modifier = kikimoras
+							has_province_modifier = hellhounds
+							has_province_modifier = rotfiends
+							has_province_modifier = drowners
+							has_province_modifier = nekkers
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						OR = {
+							has_province_modifier = vampires
+							has_province_modifier = werewolves
+							has_province_modifier = kikimoras
+							has_province_modifier = hellhounds
+							has_province_modifier = rotfiends
+							has_province_modifier = drowners
+							has_province_modifier = nekkers
+						}
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = { id = witcher.9 }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = { 
+		name = "... random neighbor province where any witcher haven't recently visited"
+		trigger = {
+			liege = {
+				any_demesne_province = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						NOT = { has_province_modifier = monster_purge }
+					}
+				}
+			}
+		}
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						NOT = { has_province_modifier = monster_purge }
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+						NOT = { has_province_modifier = monster_purge }
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = { id = witcher.9 }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = {
+		name = "... random neighbor province"
+		liege = {
+			random_demesne_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							NOT = { character = liege }
+							any_courtier = { NOT = { trait = witcher } }
+						}
+					}
+					owner = {
+						reverse_banish = ROOT
+						character_event = { id = witcher.9 }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "... the court of a ruler who invited witcher"
+		trigger = {
+			any_playable_ruler = { has_character_flag = invited_witcher }
+		}
+		random_playable_ruler = {
+			limit = {
+				has_character_flag = invited_witcher
+				any_courtier = { NOT = { trait = witcher } }
+			}
+			reverse_banish = ROOT
+			character_event = { id = witcher.9 }
+		}
+		ai_chance = { factor = 1000 }
+	}
+}
+# Liege informed - The witcher stayed
+character_event = { 
+	id = witcher.6
+	desc = EVTDESCwitcher.6
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}
+# Liege informed - The witcher took the money and stayed
+character_event = {
+	id = witcher.7
+	desc = EVTDESCwitcher.7
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}
+# Liege informed - The witcher left your court to seek employment elsewhere
+character_event = {
+	id = witcher.8
+	desc = EVTDESCwitcher.8
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}
+# Liege - A witcher has arrived in your court
+character_event = {
+	id = witcher.9
+	desc = EVTDESCwitcher.9
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAwitcher.9 # OK
+		clr_character_flag = invited_witcher
+	}
+	option = {
+		name = EVTOPTBwitcher.9 # I have no need for the witcher
+		trigger = { NOT = { has_character_flag = invited_witcher } }
+		FROM = { character_event = { id = witcher.5 } }
+	}
+}
+################################################
+# Witcher info decision
+################################################
+character_event = {
+	id = witcher.100
+	desc = EVTDESCwitcher.100
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	immediate = {
+		witcher = {
+			limit = {
+				is_alive = yes
+			}
+			set_character_flag = witcher_count_1
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+			}
+			set_character_flag = witcher_count_2
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+			}
+			set_character_flag = witcher_count_3
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+			}
+			set_character_flag = witcher_count_4
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+			}
+			set_character_flag = witcher_count_5
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+			}
+			set_character_flag = witcher_count_6
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+			}
+			set_character_flag = witcher_count_7
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+			}
+			set_character_flag = witcher_count_8
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+			}
+			set_character_flag = witcher_count_9
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+				NOT = { has_character_flag = witcher_count_9 }
+			}
+			set_character_flag = witcher_count_10
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+				NOT = { has_character_flag = witcher_count_9 }
+				NOT = { has_character_flag = witcher_count_10 }
+			}
+			set_character_flag = witcher_count_11
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+				NOT = { has_character_flag = witcher_count_9 }
+				NOT = { has_character_flag = witcher_count_10 }
+				NOT = { has_character_flag = witcher_count_11 }
+			}
+			set_character_flag = witcher_count_12
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+				NOT = { has_character_flag = witcher_count_9 }
+				NOT = { has_character_flag = witcher_count_10 }
+				NOT = { has_character_flag = witcher_count_11 }
+				NOT = { has_character_flag = witcher_count_12 }
+			}
+			set_character_flag = witcher_count_13
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+				NOT = { has_character_flag = witcher_count_9 }
+				NOT = { has_character_flag = witcher_count_10 }
+				NOT = { has_character_flag = witcher_count_11 }
+				NOT = { has_character_flag = witcher_count_12 }
+				NOT = { has_character_flag = witcher_count_13 }
+			}
+			set_character_flag = witcher_count_14
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+				NOT = { has_character_flag = witcher_count_4 }
+				NOT = { has_character_flag = witcher_count_5 }
+				NOT = { has_character_flag = witcher_count_6 }
+				NOT = { has_character_flag = witcher_count_7 }
+				NOT = { has_character_flag = witcher_count_8 }
+				NOT = { has_character_flag = witcher_count_9 }
+				NOT = { has_character_flag = witcher_count_10 }
+				NOT = { has_character_flag = witcher_count_11 }
+				NOT = { has_character_flag = witcher_count_12 }
+				NOT = { has_character_flag = witcher_count_13 }
+				NOT = { has_character_flag = witcher_count_14 }
+			}
+			set_character_flag = witcher_count_15
+		}
+	}
+	
+	option = {
+		name = EVTOPTAwitcher.100
+		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
+		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
+		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
+		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 }
+		witcher = { limit = { has_character_flag = witcher_count_5 } clr_character_flag = witcher_count_5 }
+		witcher = { limit = { has_character_flag = witcher_count_6 } clr_character_flag = witcher_count_6 }
+		witcher = { limit = { has_character_flag = witcher_count_7 } clr_character_flag = witcher_count_7 }
+		witcher = { limit = { has_character_flag = witcher_count_8 } clr_character_flag = witcher_count_8 }
+		witcher = { limit = { has_character_flag = witcher_count_9 } clr_character_flag = witcher_count_9 }
+		witcher = { limit = { has_character_flag = witcher_count_10 } clr_character_flag = witcher_count_10 }
+		witcher = { limit = { has_character_flag = witcher_count_11 } clr_character_flag = witcher_count_11 }
+		witcher = { limit = { has_character_flag = witcher_count_12 } clr_character_flag = witcher_count_12 }
+		witcher = { limit = { has_character_flag = witcher_count_13 } clr_character_flag = witcher_count_13 }
+		witcher = { limit = { has_character_flag = witcher_count_14 } clr_character_flag = witcher_count_14 }
+		witcher = { limit = { has_character_flag = witcher_count_15 } clr_character_flag = witcher_count_15 }
+		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
+		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
+		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
+		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 }
+		witcher = { limit = { has_character_flag = witcher_count_5 } clr_character_flag = witcher_count_5 }
+		witcher = { limit = { has_character_flag = witcher_count_6 } clr_character_flag = witcher_count_6 }
+		witcher = { limit = { has_character_flag = witcher_count_7 } clr_character_flag = witcher_count_7 }
+		witcher = { limit = { has_character_flag = witcher_count_8 } clr_character_flag = witcher_count_8 }
+		witcher = { limit = { has_character_flag = witcher_count_9 } clr_character_flag = witcher_count_9 }
+		witcher = { limit = { has_character_flag = witcher_count_10 } clr_character_flag = witcher_count_10 }
+		witcher = { limit = { has_character_flag = witcher_count_11 } clr_character_flag = witcher_count_11 }
+		witcher = { limit = { has_character_flag = witcher_count_12 } clr_character_flag = witcher_count_12 }
+		witcher = { limit = { has_character_flag = witcher_count_13 } clr_character_flag = witcher_count_13 }
+		witcher = { limit = { has_character_flag = witcher_count_14 } clr_character_flag = witcher_count_14 }
+		witcher = { limit = { has_character_flag = witcher_count_15 } clr_character_flag = witcher_count_15 }
+	}
+}
+
+################################################
+# Witcher generic monster hunting
+################################################
+# Witcher
+character_event = {
+	id = witcher.200
+	desc = "Hunt monsters"
+	picture = GFX_evt_lunatic
+		
+	ai = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = witcher
+		in_command = no
+		liege = {
+			any_demesne_province = {
+				OR = {
+					has_province_modifier = vampires
+					has_province_modifier = werewolves
+					has_province_modifier = kikimoras
+					has_province_modifier = hellhounds
+					has_province_modifier = rotfiends
+					has_province_modifier = drowners
+					has_province_modifier = nekkers
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = { 
+		days = 30
+		modifier = { factor = 0.8 has_minor_title = title_court_witcher }
+		modifier = { factor = 0.8 trait = diligent }
+		modifier = { factor = 2 trait = slothful }
+	}
+	
+	option = {
+		name = "OK"
+		liege = {
+			random_demesne_province = {
+				limit = {
+					OR = {
+						has_province_modifier = vampires
+						has_province_modifier = werewolves
+						has_province_modifier = kikimoras
+						has_province_modifier = hellhounds
+						has_province_modifier = rotfiends
+						has_province_modifier = drowners
+						has_province_modifier = nekkers
+					}
+				}
+				province_event = { id = witcher.201 }
+			}
+		}
+	}
+}
+# Province
+province_event = {
+	id = witcher.201
+	desc = EVTDESCwitcher.201
+	picture = GFX_evt_lunatic
+	
+	notification = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		remove_province_modifier = vampires
+		remove_province_modifier = werewolves
+		remove_province_modifier = kikimoras
+		remove_province_modifier = hellhounds
+		remove_province_modifier = rotfiends
+		remove_province_modifier = drowners
+		remove_province_modifier = nekkers
+		add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
+		FROM = { add_character_modifier = { name = recent_witcher_work duration = 180 } }
+	}
+	option = {
+		name = OK
+	}
+}
+
+################################################
+# Spawning witcher
+################################################
+# Every 5  years - count witchers
+character_event = {
+	id = witcher.300
+	desc = "Random"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	hide_window = yes
+	
+	trigger = { ai = no }
+	
+	immediate = {
+		witcher = {
+			limit = {
+				is_alive = yes
+			}
+			set_character_flag = witcher_count_1
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+			}
+			set_character_flag = witcher_count_2
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+			}
+			set_character_flag = witcher_count_3
+		}
+		witcher = {
+			limit = {
+				is_alive = yes
+				NOT = { has_character_flag = witcher_count_1 }
+				NOT = { has_character_flag = witcher_count_2 }
+				NOT = { has_character_flag = witcher_count_3 }
+			}
+			set_character_flag = witcher_count_4
+		}
+		set_global_flag = create_random_witcher
+	}
+	
+	option = {
+		name = "OK"
+		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
+		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
+		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
+		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 clr_global_flag = create_random_witcher }
+	}
+}
+# Ruler - create witcher
+character_event = {
+	id = witcher.301
+	desc = "Spawn a witcher"
+	picture = GFX_evt_lunatic
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		has_global_flag = create_random_witcher
+		any_courtier = { NOT = { trait = witcher } }
+		witcher = { is_alive = yes }
+	}
+	
+	weight_multiplier = { 
+		days = 100
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = vampires } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = werewolves } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = kikimoras } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = hellhounds } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = rotfiends } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = drowners } }
+		modifier = { factor = 0.7 any_demesne_province = { has_province_modifier = nekkers } }
+		modifier = { factor = 0.7 trait = tolerant }
+		modifier = { factor = 1.5 trait = racist }
+		modifier = { factor = 1.5 has_province_modifier = monster_purge }
+		modifier = { factor = 0.1 has_character_flag = invited_witcher }
+		
+	}
+	
+	option = {
+		name = "OK"
+		create_random_soldier = {
+			random_traits = yes
+			culture = witcher
+			dynasty = none
+			female = no
+			trait = witcher
+		}
+		new_character = {
+			random_list = {
+				50 = { add_trait = trained_warrior }
+				40 = { add_trait = skilled_warrior }
+				10 = { add_trait = master_warrior }
+			}
+			remove_trait = weak
+			remove_trait = imbecile
+			remove_trait = dwarf
+			remove_trait = clubfooted
+			remove_trait = hunchback
+			remove_trait = inbred
+			character_event = { id = witcher.302 }
+		}
+		clr_global_flag = create_random_witcher
+	}
+}
+#Ping witcher
+character_event = {
+	id = witcher.302
+	desc = "Ping"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "OK"
+		FROM = { character_event = { id = witcher.9 } }
+	}
+}
