@@ -1,0 +1,112 @@
+namespace = religious
+
+################################################
+# Spider Cult sacrifices a prisoner
+################################################
+# Liege Informed of Sacrifice
+character_event = {
+	id = religious.1
+	desc = EVTDESCreligious.1
+	
+	picture = GFX_evt_heretic
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAreligious.1
+	}
+}
+# Sacrifice Prisoner 
+character_event = {
+	id = religious.2
+	desc = EVTDESCreligious.2
+	
+	picture = GFX_evt_heretic
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAreligious.2
+		set_character_flag = made_sacrifice
+	}
+}
+
+################################################
+# Prayers from VIET
+################################################
+# Church Prayer
+character_event = {
+	id = religious.10
+	desc = EVTDESCreligious.10
+	picture = GFX_evt_bishop
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 1.5
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.5
+			trait = stressed
+		}
+	}
+	
+	option = {
+		name = EVTOPTAreligious.10  #healing
+		ai_chance = {
+			factor = 1
+		}
+		piety = 3
+		if = {
+			limit = {
+				trait = stressed
+			}
+			remove_trait = stressed
+		}
+		if = {
+			limit = {
+				trait = depressed
+			}
+			remove_trait = depressed
+		}
+	}
+}

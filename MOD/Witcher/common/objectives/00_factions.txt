@@ -2131,9 +2131,7 @@ faction_lower_crown_authority = {
 			}
 			AND = {
 				liege = {
-					OR = {
-						has_landed_title = e_nilfgaard
-					}
+					has_landed_title = e_nilfgaard
 				}
 				OR = {
 					trait = ambitious
@@ -2165,9 +2163,7 @@ faction_lower_crown_authority = {
 		
 		NOT = {
 			liege = {
-				OR = {
-					has_landed_title = e_nilfgaard
-				}
+				has_landed_title = e_nilfgaard
 				has_law = centralization_1
 				has_law = centralization_2
 			}
@@ -2824,7 +2820,7 @@ faction_independence = {
 				distance = { who = ROOT distance = 400 }
 			}
 		}
-		
+
 		modifier = {
 			factor = 2.0
 			religion_group = pagan_group
@@ -2832,14 +2828,14 @@ faction_independence = {
 		}
 		
 		modifier = {
-			factor = 2.0
+			factor = 4.0
 			liege = {
 				NOT = { religion_group = ROOT }
 			}
 		}
 		
 		modifier = {
-			factor = 1.5
+			factor = 3.0
 			liege = {
 				NOT = { culture_group = ROOT }
 			}
@@ -4254,393 +4250,393 @@ faction_claimant = {
 	}
 }
 
-# Antiking Faction
-faction_antiking = {
-	type = liege_titles
+# # Antiking Faction
+# faction_antiking = {
+	# type = liege_titles
 	
-	rel_head_loyalist = yes # Members consider the "real" pope to be the rightful religious head
-	cancel_on_leader_death = yes # The faction will not automatically continue under a new leader
+	# rel_head_loyalist = yes # Members consider the "real" pope to be the rightful religious head
+	# cancel_on_leader_death = yes # The faction will not automatically continue under a new leader
 	
-	# Plotter scope
-	potential = {
-		is_ruler = yes
-		independent = no
-		is_landed = yes
-		is_adult = yes
-		OR = {
-			religion = catholic
-			religion = fraticelli
-		}
-		NOT = { trait = incapable }
-		primary_title = { higher_tier_than = COUNT }
-		liege = {
-			religion = ROOT
-			rightful_religious_head_scope = {
-				OR = {
-					has_claim = k_papal_state
-					has_claim = d_fraticelli
-				}
-			}
-		}
+	# # Plotter scope
+	# potential = {
+		# is_ruler = yes
+		# independent = no
+		# is_landed = yes
+		# is_adult = yes
+		# OR = {
+			# religion = catholic
+			# religion = fraticelli
+		# }
+		# NOT = { trait = incapable }
+		# primary_title = { higher_tier_than = COUNT }
+		# liege = {
+			# religion = ROOT
+			# rightful_religious_head_scope = {
+				# OR = {
+					# has_claim = k_papal_state
+					# has_claim = d_fraticelli
+				# }
+			# }
+		# }
 		
-		NOT = { has_character_modifier = faction_antiking_ultimatum_timer }
-	}
+		# NOT = { has_character_modifier = faction_antiking_ultimatum_timer }
+	# }
 	
-	# Target scope
-	allow = {
-		higher_tier_than = DUKE
-		is_primary_holder_title = yes
+	# # Target scope
+	# allow = {
+		# higher_tier_than = DUKE
+		# is_primary_holder_title = yes
 
-		holder_scope = {
-			independent = yes
-			NOT = {
-				any_war = {
-					war_title = ROOT
-					using_cb = cb_install_antiking
-				}
-			}
+		# holder_scope = {
+			# independent = yes
+			# NOT = {
+				# any_war = {
+					# war_title = ROOT
+					# using_cb = cb_install_antiking
+				# }
+			# }
 			
-			NOT = {
-				reverse_has_opinion_modifier = {
-					who = FROM
-					modifier = opinion_coerced_into_leaving_faction
-				}
-			}
-		}
+			# NOT = {
+				# reverse_has_opinion_modifier = {
+					# who = FROM
+					# modifier = opinion_coerced_into_leaving_faction
+				# }
+			# }
+		# }
 		
-		OR = {
-			culture = FROM
-			holder_scope = {
-				culture = FROM
-			}
-		}
-	}
+		# OR = {
+			# culture = FROM
+			# holder_scope = {
+				# culture = FROM
+			# }
+		# }
+	# }
 	
-	# If false, shows the faction entry for players, but disabled
-	player_allow = {
-		FROM = {
-			piety = 500
-		}
-	}
+	# # If false, shows the faction entry for players, but disabled
+	# player_allow = {
+		# FROM = {
+			# piety = 500
+		# }
+	# }
 	
-	# AI creation weight
-	chance = {
-		factor = 1
+	# # AI creation weight
+	# chance = {
+		# factor = 1
 		
-		modifier = {
-			factor = 0
-			FROM = { prisoner = yes }
-		}
+		# modifier = {
+			# factor = 0
+			# FROM = { prisoner = yes }
+		# }
 		
-		modifier = {
-			factor = 0
-			holder_scope = {
-				any_spouse = { character = FROM }
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# holder_scope = {
+				# any_spouse = { character = FROM }
+			# }
+		# }
 		
-		modifier = {
-			factor = 0
-			current_heir = {
-				character = FROM
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# current_heir = {
+				# character = FROM
+			# }
+		# }
 		
-		modifier = {
-			factor = 0
-			FROM = {
-				OR = {
-					AND = {
-						NOT = { leads_faction = faction_antiking }
-						opinion = { who = LIEGE value = 25 } 
-					}
-					AND = {
-						leads_faction = faction_antiking
-						opinion = { who = LIEGE value = 50 } 
-					}
-				}
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# FROM = {
+				# OR = {
+					# AND = {
+						# NOT = { leads_faction = faction_antiking }
+						# opinion = { who = LIEGE value = 25 } 
+					# }
+					# AND = {
+						# leads_faction = faction_antiking
+						# opinion = { who = LIEGE value = 50 } 
+					# }
+				# }
+			# }
+		# }
 		
-		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 5 } }
-		}
+		# modifier = {
+			# factor = 0.2
+			# FROM = { opinion = { who = LIEGE value = 5 } }
+		# }
 		
-		modifier = {
-			factor = 1.5
-			NOT = { FROM = { opinion = { who = LIEGE value = -10 } } }
-		}
-		modifier = {
-			factor = 2.0
-			NOT = { FROM = { opinion = { who = LIEGE value = -50 } } }
-		}
-		modifier = {
-			factor = 4.0
-			NOT = { FROM = { opinion = { who = LIEGE value = -75 } } }
-		}
+		# modifier = {
+			# factor = 1.5
+			# NOT = { FROM = { opinion = { who = LIEGE value = -10 } } }
+		# }
+		# modifier = {
+			# factor = 2.0
+			# NOT = { FROM = { opinion = { who = LIEGE value = -50 } } }
+		# }
+		# modifier = {
+			# factor = 4.0
+			# NOT = { FROM = { opinion = { who = LIEGE value = -75 } } }
+		# }
 		
-		modifier = {
-			factor = 0.25
-			NOT = { claimed_by = FROM }
-		}
+		# modifier = {
+			# factor = 0.25
+			# NOT = { claimed_by = FROM }
+		# }
 		
-		modifier = {
-			factor = 0.01
-			FROM = { trait = content }
-		}
-		modifier = {
-			factor = 0.01
-			FROM = { trait = imbecile }
-		}
-		modifier = {
-			factor = 0.1
-			FROM = { trait = inbred }
-		}
-		modifier = {
-			factor = 0.1
-			FROM = { trait = craven }
-		}
-		modifier = {
-			factor = 0.2
-			FROM = { trait = slow }
-		}
-		modifier = {
-			factor = 0.5
-			FROM = { trait = kind }
-		}
-		modifier = {
-			factor = 0.5
-			FROM = { trait = charitable }
-		}
-		modifier = {
-			factor = 0.5
-			FROM = { trait = honest }
-		}
-		modifier = {
-			factor = 0.75
-			FROM = { trait = humble }
-		}
-		modifier = {
-			factor = 0.75
-			FROM = { trait = just }
-		}
-		modifier = {
-			factor = 1.5
-			FROM = { trait = proud }
-		}
-		modifier = {
-			factor = 1.5
-			FROM = { trait = brave }
-		}
-		modifier = {
-			factor = 1.5
-			FROM = { trait = arbitrary }
-		}
-		modifier = {
-			factor = 2.0
-			FROM = { trait = envious }
-		}
-		modifier = {
-			factor = 2.0
-			FROM = { trait = greedy }
-		}
-		modifier = {
-			factor = 2.0
-			FROM = { trait = impaler }
-		}
-		modifier = {
-			factor = 2.0
-			FROM = { trait = deceitful }
-		}
-		modifier = {
-			factor = 4.0
-			FROM = { trait = ambitious }
-		}
-	}
+		# modifier = {
+			# factor = 0.01
+			# FROM = { trait = content }
+		# }
+		# modifier = {
+			# factor = 0.01
+			# FROM = { trait = imbecile }
+		# }
+		# modifier = {
+			# factor = 0.1
+			# FROM = { trait = inbred }
+		# }
+		# modifier = {
+			# factor = 0.1
+			# FROM = { trait = craven }
+		# }
+		# modifier = {
+			# factor = 0.2
+			# FROM = { trait = slow }
+		# }
+		# modifier = {
+			# factor = 0.5
+			# FROM = { trait = kind }
+		# }
+		# modifier = {
+			# factor = 0.5
+			# FROM = { trait = charitable }
+		# }
+		# modifier = {
+			# factor = 0.5
+			# FROM = { trait = honest }
+		# }
+		# modifier = {
+			# factor = 0.75
+			# FROM = { trait = humble }
+		# }
+		# modifier = {
+			# factor = 0.75
+			# FROM = { trait = just }
+		# }
+		# modifier = {
+			# factor = 1.5
+			# FROM = { trait = proud }
+		# }
+		# modifier = {
+			# factor = 1.5
+			# FROM = { trait = brave }
+		# }
+		# modifier = {
+			# factor = 1.5
+			# FROM = { trait = arbitrary }
+		# }
+		# modifier = {
+			# factor = 2.0
+			# FROM = { trait = envious }
+		# }
+		# modifier = {
+			# factor = 2.0
+			# FROM = { trait = greedy }
+		# }
+		# modifier = {
+			# factor = 2.0
+			# FROM = { trait = impaler }
+		# }
+		# modifier = {
+			# factor = 2.0
+			# FROM = { trait = deceitful }
+		# }
+		# modifier = {
+			# factor = 4.0
+			# FROM = { trait = ambitious }
+		# }
+	# }
 	
-	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
-	membership = {
-		factor = 1
+	# # AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
+	# membership = {
+		# factor = 1
 		
-		modifier = {
-			factor = 0
-			OR = {
-				prisoner = yes
-				trait = incapable
-				is_adult = no
-				is_landed = no
-				preparing_invasion = yes
-				NOT = { religion = FROM }
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# OR = {
+				# prisoner = yes
+				# trait = incapable
+				# is_adult = no
+				# is_landed = no
+				# preparing_invasion = yes
+				# NOT = { religion = FROM }
+			# }
+		# }
 		
-		modifier = {
-			factor = 0
-			FROMFROM = {
-				current_heir = {
-					character = ROOT
-				}
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# FROMFROM = {
+				# current_heir = {
+					# character = ROOT
+				# }
+			# }
+		# }
 		
-		modifier = {
-			factor = 0
-			has_character_modifier = faction_antiking_ultimatum_timer
-		}
+		# modifier = {
+			# factor = 0
+			# has_character_modifier = faction_antiking_ultimatum_timer
+		# }
 		
-		modifier = {
-			factor = 0
+		# modifier = {
+			# factor = 0
 			
-			OR = {
-				AND = {
-					NOT = { in_faction = faction_antiking }
-					opinion = { who = LIEGE value = 25 } 
-				}
-				AND = {
-					in_faction = faction_antiking
-					opinion = { who = LIEGE value = 50 } 
-				}
-			}
+			# OR = {
+				# AND = {
+					# NOT = { in_faction = faction_antiking }
+					# opinion = { who = LIEGE value = 25 } 
+				# }
+				# AND = {
+					# in_faction = faction_antiking
+					# opinion = { who = LIEGE value = 50 } 
+				# }
+			# }
 			
-			NOT = {	
-				has_opinion_modifier = {
-					who = FROM
-					modifier = opinion_coerced_into_joining_faction
-				}
-			}
-		}
+			# NOT = {	
+				# has_opinion_modifier = {
+					# who = FROM
+					# modifier = opinion_coerced_into_joining_faction
+				# }
+			# }
+		# }
 		
-		modifier = {
-			factor = 0
-			NOT = { opinion = { who = FROM value = -40 } }
-			NOT = {	
-				has_opinion_modifier = {
-					who = FROM
-					modifier = opinion_coerced_into_joining_faction
-				}
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# NOT = { opinion = { who = FROM value = -40 } }
+			# NOT = {	
+				# has_opinion_modifier = {
+					# who = FROM
+					# modifier = opinion_coerced_into_joining_faction
+				# }
+			# }
+		# }
 		
-		modifier = {
-			factor = 0
-			has_opinion_modifier = {
-				who = LIEGE
-				modifier = opinion_coerced_into_leaving_faction
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# has_opinion_modifier = {
+				# who = LIEGE
+				# modifier = opinion_coerced_into_leaving_faction
+			# }
+		# }
 		
-		modifier = {
-			factor = 0.2
-			opinion = { who = LIEGE value = 5 }
-		}
+		# modifier = {
+			# factor = 0.2
+			# opinion = { who = LIEGE value = 5 }
+		# }
 		
-		modifier = {
-			factor = 10000
-			has_opinion_modifier = {
-				who = FROM
-				modifier = opinion_coerced_into_joining_faction
-			}
-		}
+		# modifier = {
+			# factor = 10000
+			# has_opinion_modifier = {
+				# who = FROM
+				# modifier = opinion_coerced_into_joining_faction
+			# }
+		# }
 		
-		modifier = {
-			factor = 1.5
-			NOT = { opinion = { who = LIEGE value = -10 } }
-		}
-		modifier = {
-			factor = 2.0
-			NOT = { opinion = { who = LIEGE value = -50 } }
-		}
-		modifier = {
-			factor = 4.0
-			NOT = { opinion = { who = LIEGE value = -75 } }
-		}
+		# modifier = {
+			# factor = 1.5
+			# NOT = { opinion = { who = LIEGE value = -10 } }
+		# }
+		# modifier = {
+			# factor = 2.0
+			# NOT = { opinion = { who = LIEGE value = -50 } }
+		# }
+		# modifier = {
+			# factor = 4.0
+			# NOT = { opinion = { who = LIEGE value = -75 } }
+		# }
 		
-		modifier = {
-			factor = 0.01
-			trait = content
-		}
-		modifier = {
-			factor = 0.01
-			trait = imbecile
-		}
-		modifier = {
-			factor = 0.1
-			trait = inbred
-		}
-		modifier = {
-			factor = 0.1
-			trait = craven
-		}
-		modifier = {
-			factor = 0.2
-			trait = slow
-		}
-		modifier = {
-			factor = 0.5
-			trait = kind
-		}
-		modifier = {
-			factor = 0.5
-			trait = charitable
-		}
-		modifier = {
-			factor = 0.5
-			trait = honest
-		}
-		modifier = {
-			factor = 0.75
-			trait = humble
-		}
-		modifier = {
-			factor = 0.75
-			trait = just
-		}
-		modifier = {
-			factor = 1.5
-			trait = proud
-		}
-		modifier = {
-			factor = 1.5
-			trait = brave
-		}
-		modifier = {
-			factor = 1.5
-			trait = arbitrary
-		}
-		modifier = {
-			factor = 2.0
-			trait = envious
-		}
-		modifier = {
-			factor = 2.0
-			trait = greedy
-		}
-		modifier = {
-			factor = 2.0
-			trait = impaler
-		}
-		modifier = {
-			factor = 2.0
-			trait = deceitful
-		}
-		modifier = {
-			factor = 4.0
-			trait = ambitious
-		}
-	}
+		# modifier = {
+			# factor = 0.01
+			# trait = content
+		# }
+		# modifier = {
+			# factor = 0.01
+			# trait = imbecile
+		# }
+		# modifier = {
+			# factor = 0.1
+			# trait = inbred
+		# }
+		# modifier = {
+			# factor = 0.1
+			# trait = craven
+		# }
+		# modifier = {
+			# factor = 0.2
+			# trait = slow
+		# }
+		# modifier = {
+			# factor = 0.5
+			# trait = kind
+		# }
+		# modifier = {
+			# factor = 0.5
+			# trait = charitable
+		# }
+		# modifier = {
+			# factor = 0.5
+			# trait = honest
+		# }
+		# modifier = {
+			# factor = 0.75
+			# trait = humble
+		# }
+		# modifier = {
+			# factor = 0.75
+			# trait = just
+		# }
+		# modifier = {
+			# factor = 1.5
+			# trait = proud
+		# }
+		# modifier = {
+			# factor = 1.5
+			# trait = brave
+		# }
+		# modifier = {
+			# factor = 1.5
+			# trait = arbitrary
+		# }
+		# modifier = {
+			# factor = 2.0
+			# trait = envious
+		# }
+		# modifier = {
+			# factor = 2.0
+			# trait = greedy
+		# }
+		# modifier = {
+			# factor = 2.0
+			# trait = impaler
+		# }
+		# modifier = {
+			# factor = 2.0
+			# trait = deceitful
+		# }
+		# modifier = {
+			# factor = 4.0
+			# trait = ambitious
+		# }
+	# }
 	
-	success = {
-		always = no
-	}
+	# success = {
+		# always = no
+	# }
 	
-	abort = {
-		always = no
-	}
+	# abort = {
+		# always = no
+	# }
 	
-	abort_effect = {
-	}
+	# abort_effect = {
+	# }
 	
-	effect = {
-	}
-}
+	# effect = {
+	# }
+# }

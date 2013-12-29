@@ -1037,628 +1037,628 @@ character_event = {
 
 ### Lord Spiritual ###
 
-#Lord Spiritual finds infidel
-character_event = {
-	id = 75040
-	desc = "EVTDESC75040"
-	picture = GFX_evt_heretic
+# #Lord Spiritual finds infidel
+# character_event = {
+	# id = 75040
+	# desc = "EVTDESC75040"
+	# picture = GFX_evt_heretic
 	
-	capable_only = yes
+	# capable_only = yes
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	trigger = {
-		independent = no
-		has_job_title = job_spiritual
-		trait = zealous
-		liege = {
-			religion = ROOT
-			NOT = {
-				character = ROOT
-			}
-			any_courtier = {
-				age = 15
-				NOT = {
-					religion_group = ROOT
-				}
-				NOT = {
-					has_character_flag = banished_religion
-				}
-				NOT = {
-					character = ROOT
-				}
-				prisoner = no
-			}
-		}
-	}
+	# trigger = {
+		# independent = no
+		# has_job_title = job_spiritual
+		# trait = zealous
+		# liege = {
+			# religion = ROOT
+			# NOT = {
+				# character = ROOT
+			# }
+			# any_courtier = {
+				# age = 15
+				# NOT = {
+					# religion_group = ROOT
+				# }
+				# NOT = {
+					# has_character_flag = banished_religion
+				# }
+				# NOT = {
+					# character = ROOT
+				# }
+				# prisoner = no
+			# }
+		# }
+	# }
 	
-	weight_multiplier = {
-		days = 1
-	}
+	# weight_multiplier = {
+		# days = 1
+	# }
 	
-	option = {
-		name = "EVTOPTA75040" #Demand to liege that vassal should be burned at the stake
-		liege = {
-			character_event = {
-				id = 75041
-				days = 1
-				random = 2
-				tooltip = "EVTTOOLTIP75041"
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB75040" #Demand to liege that X should be exiled.
-		liege = {
-			character_event = {
-				id = 75042
-				days = 1
-				random = 2
-				tooltip = "EVTTOOLTIP75042"
-			}
-		}
-	}
-}
+	# option = {
+		# name = "EVTOPTA75040" #Demand to liege that vassal should be burned at the stake
+		# liege = {
+			# character_event = {
+				# id = 75041
+				# days = 1
+				# random = 2
+				# tooltip = "EVTTOOLTIP75041"
+			# }
+		# }
+	# }
+	# option = {
+		# name = "EVTOPTB75040" #Demand to liege that X should be exiled.
+		# liege = {
+			# character_event = {
+				# id = 75042
+				# days = 1
+				# random = 2
+				# tooltip = "EVTTOOLTIP75042"
+			# }
+		# }
+	# }
+# }
 
-#Liege burns infidel?
-character_event = {
-	id = 75041
-	desc = "EVTDESC75041"
-	picture = GFX_evt_heretic
+# #Liege burns infidel?
+# character_event = {
+	# id = 75041
+	# desc = "EVTDESC75041"
+	# picture = GFX_evt_heretic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75041"
-		random_courtier = {
-			limit = {
-				age = 15
-				NOT = {
-					religion_group = ROOT
-				}
-				NOT = {
-					has_character_flag = banished_religion
-				}
-				NOT = {
-					character = ROOT
-				}
-				prisoner = no
-			}
-			any_courtier = {
-				limit = {
-					religion = PREV
-					prisoner = no
-					NOT = {
-						character = ROOT
-					}
-					NOT = {
-						character = PREV
-					}				
-				}
-				opinion = {
-					modifier = opinion_burned_same_faith
-					who = ROOT
-					years = 5
-				}
-			}
-			death = {
-				death_reason = death_execution
-				killer = ROOT
-			}
-		}
-		FROM = {
-			opinion = {
-				modifier = opinion_satisfied
-				who = ROOT
-				years = 2
-			}
-			hidden_tooltip = {
-				character_event = {
-					id = 75043
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB75041"
-		random_courtier = {
-			limit = {
-				age = 15
-				NOT = {
-					religion = ROOT
-				}
-				NOT = {
-					has_character_flag = banished_religion
-				}
-				prisoner = no
-			}
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 2
-			}
-		}
-		any_courtier = {
-			limit = {
-				trait = zealous
-				religion = ROOT
-				NOT = {
-					character = ROOT
-				}
-				prisoner = no
-			}
-			opinion = {
-				modifier = opinion_ignored_infidel
-				who = ROOT
-				years = 5
-			}
-		}
-		FROM = {
-			hidden_tooltip = {
-				character_event = {
-					id = 75044
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-}
+	# option = {
+		# name = "EVTOPTA75041"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# NOT = {
+					# religion_group = ROOT
+				# }
+				# NOT = {
+					# has_character_flag = banished_religion
+				# }
+				# NOT = {
+					# character = ROOT
+				# }
+				# prisoner = no
+			# }
+			# any_courtier = {
+				# limit = {
+					# religion = PREV
+					# prisoner = no
+					# NOT = {
+						# character = ROOT
+					# }
+					# NOT = {
+						# character = PREV
+					# }				
+				# }
+				# opinion = {
+					# modifier = opinion_burned_same_faith
+					# who = ROOT
+					# years = 5
+				# }
+			# }
+			# death = {
+				# death_reason = death_execution
+				# killer = ROOT
+			# }
+		# }
+		# FROM = {
+			# opinion = {
+				# modifier = opinion_satisfied
+				# who = ROOT
+				# years = 2
+			# }
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75043
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+	# option = {
+		# name = "EVTOPTB75041"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# NOT = {
+					# religion = ROOT
+				# }
+				# NOT = {
+					# has_character_flag = banished_religion
+				# }
+				# prisoner = no
+			# }
+			# opinion = {
+				# modifier = opinion_grateful
+				# who = ROOT
+				# years = 2
+			# }
+		# }
+		# any_courtier = {
+			# limit = {
+				# trait = zealous
+				# religion = ROOT
+				# NOT = {
+					# character = ROOT
+				# }
+				# prisoner = no
+			# }
+			# opinion = {
+				# modifier = opinion_ignored_infidel
+				# who = ROOT
+				# years = 5
+			# }
+		# }
+		# FROM = {
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75044
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+# }
 
-#Liege banish infidel?
-character_event = {
-	id = 75042
-	desc = "EVTDESC75042"
-	picture = GFX_evt_heretic
+# #Liege banish infidel?
+# character_event = {
+	# id = 75042
+	# desc = "EVTDESC75042"
+	# picture = GFX_evt_heretic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75042"
-		random_courtier = {
-			limit = {
-				age = 15
-				NOT = {
-					religion = ROOT
-				}
-				NOT = {
-					has_character_flag = banished_religion
-				}
-				prisoner = no
-			}
-			banish = yes
-			any_courtier = {
-				limit = {
-					religion = PREV
-					NOT = {
-						character = ROOT
-					}
-					NOT = {
-						character = PREV
-					}
-					prisoner = no
-				}
-				opinion = {
-					modifier = opinion_banished_same_faith
-					who = ROOT
-					years = 5
-				}
-			}
-		}
-		FROM = {
-			opinion = {
-				modifier = opinion_satisfied
-				who = ROOT
-				years = 2
-			}
-			hidden_tooltip = {
-				character_event = {
-					id = 75045
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB75042"
-		random_courtier = {
-			limit = {
-				age = 15
-				NOT = {
-					religion = ROOT
-				}
-				NOT = {
-					has_character_flag = banished_religion
-				}
-				prisoner = no
-			}
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 2
-			}
-		}
-		any_courtier = {
-			limit = {
-				trait = zealous
-				religion = ROOT
-				prisoner = no
-				NOT = {
-					character = ROOT
-				}
-			}
-			opinion = {
-				modifier = opinion_ignored_infidel
-				who = ROOT
-				years = 5
-			}
-		}
-		FROM = {
-			hidden_tooltip = {
-				character_event = {
-					id = 75046
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-}
+	# option = {
+		# name = "EVTOPTA75042"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# NOT = {
+					# religion = ROOT
+				# }
+				# NOT = {
+					# has_character_flag = banished_religion
+				# }
+				# prisoner = no
+			# }
+			# banish = yes
+			# any_courtier = {
+				# limit = {
+					# religion = PREV
+					# NOT = {
+						# character = ROOT
+					# }
+					# NOT = {
+						# character = PREV
+					# }
+					# prisoner = no
+				# }
+				# opinion = {
+					# modifier = opinion_banished_same_faith
+					# who = ROOT
+					# years = 5
+				# }
+			# }
+		# }
+		# FROM = {
+			# opinion = {
+				# modifier = opinion_satisfied
+				# who = ROOT
+				# years = 2
+			# }
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75045
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+	# option = {
+		# name = "EVTOPTB75042"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# NOT = {
+					# religion = ROOT
+				# }
+				# NOT = {
+					# has_character_flag = banished_religion
+				# }
+				# prisoner = no
+			# }
+			# opinion = {
+				# modifier = opinion_grateful
+				# who = ROOT
+				# years = 2
+			# }
+		# }
+		# any_courtier = {
+			# limit = {
+				# trait = zealous
+				# religion = ROOT
+				# prisoner = no
+				# NOT = {
+					# character = ROOT
+				# }
+			# }
+			# opinion = {
+				# modifier = opinion_ignored_infidel
+				# who = ROOT
+				# years = 5
+			# }
+		# }
+		# FROM = {
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75046
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+# }
 
-#Lord Spiritual: Liege burned X
-character_event = {
-	id = 75043
-	desc = "EVTDESC75043"
-	picture = GFX_evt_beheading
+# #Lord Spiritual: Liege burned X
+# character_event = {
+	# id = 75043
+	# desc = "EVTDESC75043"
+	# picture = GFX_evt_beheading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75043"
-		prestige = 10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75043"
+		# prestige = 10
+	# }
+# }
 
-#Lord Spiritual: Liege ignored demands
-character_event = {
-	id = 75044
-	desc = "EVTDESC75044"
-	picture = GFX_evt_lunatic
+# #Lord Spiritual: Liege ignored demands
+# character_event = {
+	# id = 75044
+	# desc = "EVTDESC75044"
+	# picture = GFX_evt_lunatic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75044"
-		prestige = -10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75044"
+		# prestige = -10
+	# }
+# }
 
-#Lord Spiritual: Liege banished X
-character_event = {
-	id = 75045
-	desc = "EVTDESC75045"
-	picture = GFX_evt_carriage
+# #Lord Spiritual: Liege banished X
+# character_event = {
+	# id = 75045
+	# desc = "EVTDESC75045"
+	# picture = GFX_evt_carriage
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75045"
-		prestige = 10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75045"
+		# prestige = 10
+	# }
+# }
 
-#Lord Spiritual: Liege ignored demands
-character_event = {
-	id = 75046
-	desc = "EVTDESC75046"
-	picture = GFX_evt_lunatic
+# #Lord Spiritual: Liege ignored demands
+# character_event = {
+	# id = 75046
+	# desc = "EVTDESC75046"
+	# picture = GFX_evt_lunatic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75046"
-		prestige = -10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75046"
+		# prestige = -10
+	# }
+# }
 
-#Lord Spiritual finds a heretic
-character_event = {
-	id = 75050
-	desc = "EVTDESC75050"
-	picture = GFX_evt_heretic
+# #Lord Spiritual finds a heretic
+# character_event = {
+	# id = 75050
+	# desc = "EVTDESC75050"
+	# picture = GFX_evt_heretic
 	
-	capable_only = yes
+	# capable_only = yes
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	trigger = {
-		independent = no
-		has_job_title = job_spiritual
-		trait = zealous
-		liege = {
-			religion = ROOT
-			NOT = {
-				character = ROOT
-			}
-			any_courtier = {
-				age = 15
-				is_heresy_of = ROOT
-				prisoner = no
-			}
-		}
-	}
+	# trigger = {
+		# independent = no
+		# has_job_title = job_spiritual
+		# trait = zealous
+		# liege = {
+			# religion = ROOT
+			# NOT = {
+				# character = ROOT
+			# }
+			# any_courtier = {
+				# age = 15
+				# is_heresy_of = ROOT
+				# prisoner = no
+			# }
+		# }
+	# }
 	
-	weight_multiplier = {
-		days = 1
-	}
+	# weight_multiplier = {
+		# days = 1
+	# }
 	
-	option = {
-		name = "EVTOPTA75050" #Demand to liege that vassal should be burned at the stake
-		liege = {
-			character_event = {
-				id = 75051
-				days = 1
-				random = 2
-				tooltip = "EVTTOOLTIP75051"
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB75050" #Demand to liege that X should be exiled.
-		liege = {
-			character_event = {
-				id = 75052
-				days = 1
-				random = 2
-				tooltip = "EVTTOOLTIP75052"
-			}
-		}
-	}
-}
+	# option = {
+		# name = "EVTOPTA75050" #Demand to liege that vassal should be burned at the stake
+		# liege = {
+			# character_event = {
+				# id = 75051
+				# days = 1
+				# random = 2
+				# tooltip = "EVTTOOLTIP75051"
+			# }
+		# }
+	# }
+	# option = {
+		# name = "EVTOPTB75050" #Demand to liege that X should be exiled.
+		# liege = {
+			# character_event = {
+				# id = 75052
+				# days = 1
+				# random = 2
+				# tooltip = "EVTTOOLTIP75052"
+			# }
+		# }
+	# }
+# }
 
-#Liege burns heretic?
-character_event = {
-	id = 75051
-	desc = "EVTDESC75051"
-	picture = GFX_evt_heretic
+# #Liege burns heretic?
+# character_event = {
+	# id = 75051
+	# desc = "EVTDESC75051"
+	# picture = GFX_evt_heretic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75051"
-		random_courtier = {
-			limit = {
-				age = 15
-				is_heresy_of = ROOT
-				prisoner = no
-			}
-			any_courtier = {
-				limit = {
-					religion = PREV
-					NOT = {
-						character = ROOT
-					}
-					NOT = {
-						character = PREV
-					}
-					prisoner = no
-				}
-				opinion = {
-					modifier = opinion_burned_same_faith
-					who = ROOT
-					years = 5
-				}
-			}
-			death = {
-				death_reason = death_execution
-				killer = ROOT
-			}
-		}
-		FROM = {
-			opinion = {
-				modifier = opinion_satisfied
-				who = ROOT
-				years = 2
-			}
-			hidden_tooltip = {
-				character_event = {
-					id = 75053
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB75051"
-		random_courtier = {
-			limit = {
-				age = 15
-				is_heresy_of = ROOT
-				prisoner = no
-			}
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 2
-			}
-		}
-		any_courtier = {
-			limit = {
-				trait = zealous
-				religion = ROOT
-				prisoner = no
-				NOT = {
-					character = ROOT
-				}
-			}
-			opinion = {
-				modifier = opinion_ignored_infidel
-				who = ROOT
-				years = 5
-			}
-		}
-		FROM = {
-			hidden_tooltip = {
-				character_event = {
-					id = 75054
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-}
+	# option = {
+		# name = "EVTOPTA75051"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# is_heresy_of = ROOT
+				# prisoner = no
+			# }
+			# any_courtier = {
+				# limit = {
+					# religion = PREV
+					# NOT = {
+						# character = ROOT
+					# }
+					# NOT = {
+						# character = PREV
+					# }
+					# prisoner = no
+				# }
+				# opinion = {
+					# modifier = opinion_burned_same_faith
+					# who = ROOT
+					# years = 5
+				# }
+			# }
+			# death = {
+				# death_reason = death_execution
+				# killer = ROOT
+			# }
+		# }
+		# FROM = {
+			# opinion = {
+				# modifier = opinion_satisfied
+				# who = ROOT
+				# years = 2
+			# }
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75053
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+	# option = {
+		# name = "EVTOPTB75051"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# is_heresy_of = ROOT
+				# prisoner = no
+			# }
+			# opinion = {
+				# modifier = opinion_grateful
+				# who = ROOT
+				# years = 2
+			# }
+		# }
+		# any_courtier = {
+			# limit = {
+				# trait = zealous
+				# religion = ROOT
+				# prisoner = no
+				# NOT = {
+					# character = ROOT
+				# }
+			# }
+			# opinion = {
+				# modifier = opinion_ignored_infidel
+				# who = ROOT
+				# years = 5
+			# }
+		# }
+		# FROM = {
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75054
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+# }
 
-#Liege banish X
-character_event = {
-	id = 75052
-	desc = "EVTDESC75052"
-	picture = GFX_evt_carriage
+# #Liege banish X
+# character_event = {
+	# id = 75052
+	# desc = "EVTDESC75052"
+	# picture = GFX_evt_carriage
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75052"
-		random_courtier = {
-			limit = {
-				age = 15
-				is_heresy_of = ROOT
-				prisoner = no
-			}
-			banish = yes
-			any_courtier = {
-				limit = {
-					religion = PREV
-					prisoner = no
-					NOT = {
-						character = ROOT
-					}
-					NOT = {
-						character = PREV
-					}				
-				}
-				opinion = {
-					modifier = opinion_banished_same_faith
-					who = ROOT
-					years = 5
-				}
-			}
-		}
-		FROM = {
-			opinion = {
-				modifier = opinion_satisfied
-				who = ROOT
-				years = 2
-			}
-			hidden_tooltip = {
-				character_event = {
-					id = 75055
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-	option = {
-		name = "EVTOPTB75052"
-		random_courtier = {
-			limit = {
-				age = 15
-				is_heresy_of = ROOT
-				prisoner = no
-			}
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 2
-			}
-		}
-		any_courtier = {
-			limit = {
-				trait = zealous
-				religion = ROOT
-				prisoner = no
-				NOT = {
-					character = ROOT
-				}
-			}
-			opinion = {
-				modifier = opinion_ignored_infidel
-				who = ROOT
-				years = 5
-			}
-		}
-		FROM = {
-			hidden_tooltip = {
-				character_event = {
-					id = 75056
-					days = 1
-					random = 2
-				}
-			}
-		}
-	}
-}
+	# option = {
+		# name = "EVTOPTA75052"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# is_heresy_of = ROOT
+				# prisoner = no
+			# }
+			# banish = yes
+			# any_courtier = {
+				# limit = {
+					# religion = PREV
+					# prisoner = no
+					# NOT = {
+						# character = ROOT
+					# }
+					# NOT = {
+						# character = PREV
+					# }				
+				# }
+				# opinion = {
+					# modifier = opinion_banished_same_faith
+					# who = ROOT
+					# years = 5
+				# }
+			# }
+		# }
+		# FROM = {
+			# opinion = {
+				# modifier = opinion_satisfied
+				# who = ROOT
+				# years = 2
+			# }
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75055
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+	# option = {
+		# name = "EVTOPTB75052"
+		# random_courtier = {
+			# limit = {
+				# age = 15
+				# is_heresy_of = ROOT
+				# prisoner = no
+			# }
+			# opinion = {
+				# modifier = opinion_grateful
+				# who = ROOT
+				# years = 2
+			# }
+		# }
+		# any_courtier = {
+			# limit = {
+				# trait = zealous
+				# religion = ROOT
+				# prisoner = no
+				# NOT = {
+					# character = ROOT
+				# }
+			# }
+			# opinion = {
+				# modifier = opinion_ignored_infidel
+				# who = ROOT
+				# years = 5
+			# }
+		# }
+		# FROM = {
+			# hidden_tooltip = {
+				# character_event = {
+					# id = 75056
+					# days = 1
+					# random = 2
+				# }
+			# }
+		# }
+	# }
+# }
 
-#Lord Spiritual: Liege burned X
-character_event = {
-	id = 75053
-	desc = "EVTDESC75053"
-	picture = GFX_evt_beheading
+# #Lord Spiritual: Liege burned X
+# character_event = {
+	# id = 75053
+	# desc = "EVTDESC75053"
+	# picture = GFX_evt_beheading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75053"
-		prestige = 10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75053"
+		# prestige = 10
+	# }
+# }
 
-#Lord Spiritual: Liege ignored demands
-character_event = {
-	id = 75054
-	desc = "EVTDESC75054"
-	picture = GFX_evt_lunatic
+# #Lord Spiritual: Liege ignored demands
+# character_event = {
+	# id = 75054
+	# desc = "EVTDESC75054"
+	# picture = GFX_evt_lunatic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75054"
-		prestige = -10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75054"
+		# prestige = -10
+	# }
+# }
 
-#Lord Spiritual: Liege banished X
-character_event = {
-	id = 75055
-	desc = "EVTDESC75055"
-	picture = GFX_evt_carriage
+# #Lord Spiritual: Liege banished X
+# character_event = {
+	# id = 75055
+	# desc = "EVTDESC75055"
+	# picture = GFX_evt_carriage
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75055"
-		prestige = 10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75055"
+		# prestige = 10
+	# }
+# }
 
-#Lord Spiritual: Liege ignored demands
-character_event = {
-	id = 75056
-	desc = "EVTDESC75056"
-	picture = GFX_evt_lunatic
+# #Lord Spiritual: Liege ignored demands
+# character_event = {
+	# id = 75056
+	# desc = "EVTDESC75056"
+	# picture = GFX_evt_lunatic
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = "EVTOPTA75056"
-		prestige = -10
-	}
-}
+	# option = {
+		# name = "EVTOPTA75056"
+		# prestige = -10
+	# }
+# }
 
 ### Steward ###
 

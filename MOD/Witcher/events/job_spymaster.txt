@@ -86,6 +86,22 @@ character_event = {
 			factor = 0.75
 			intrigue = 13
 		}
+		modifier = {
+			factor = 0.75
+			intrigue = 14
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 15
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 17
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 19
+		}
 	}
 	
 	option = {
@@ -142,14 +158,30 @@ character_event = {
 				factor = 2.0
 				NOT = { opinion = { who = FROM value = -50 } }
 			}
+			modifier = { factor = 0.5 job_spymaster = { NOT = { intrigue = 10 } } }
+			modifier = { factor = 1.5 job_spymaster = { intrigue = 14 } }
 		}
 		FROM = {
 			random_list = {
-				50 = {
+				30 = {
 					set_character_flag = was_murdered_by_plot
 					death = {
 						death_reason = death_murder
 						killer = ROOT
+					}
+				}
+				20 = {
+					if = {
+						limit = { job_spymaster = { intrigue = 14 } }
+						set_character_flag = was_murdered_by_plot
+						death = {
+							death_reason = death_murder
+							killer = ROOT
+						}
+					}
+					if = {
+						limit = { job_spymaster = { NOT = { intrigue = 14 } } }
+						FROM = { character_event = { id = 20291 days = 7 tooltip = "EVTTOOLTIP20143" } }
 					}
 				}
 				50 = {
@@ -307,6 +339,22 @@ character_event = {
 		modifier = {
 			factor = 1.25
 			intrigue = 13
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 14
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 15
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 17
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 19
 		}
 	}
 	
@@ -516,6 +564,18 @@ character_event = {
 			factor = 0.75
 			intrigue = 16
 		}
+		modifier = {
+			factor = 0.75
+			intrigue = 19
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 22
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 26
+		}
 	}
 	
 	immediate = {
@@ -657,7 +717,7 @@ letter_event = {
 		}
 		random_vassal = {
 			limit = { has_character_flag = faction_member }
-			letter_event = { id = 9008 days = 7 tooltip = EVTTOOLTIP9008 }
+			letter_event = { id = 9003 days = 7 tooltip = EVTTOOLTIP9003 }
 		}	
 	}
 	option = { # Do Nothing
@@ -1036,7 +1096,7 @@ letter_event = {
 	
 	is_triggered_only = yes
 	
-		option = { # Agree (Craven)
+	option = { # Agree (Craven)
 		name = "EVTOPTA9008"
 		tooltip_info = craven
 		trigger = { trait = craven }
@@ -1239,6 +1299,18 @@ character_event = {
 			factor = 0.75
 			intrigue = 16
 		}
+		modifier = {
+			factor = 0.75
+			intrigue = 19
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 22
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 26
+		}
 	}
 	
 	immediate = {
@@ -1303,7 +1375,7 @@ letter_event = {
 		liege = {
 			any_vassal = {
 				limit = { has_character_flag = faction_recruit }
-				letter_event = { id = 9025 days = 7 tooltip = EVTTOOLTIP9025 }
+				letter_event = { id = 9028 days = 7 tooltip = EVTTOOLTIP9028 }
 			}
 		}
 	}
@@ -1334,7 +1406,7 @@ letter_event = {
 		liege = {
 			any_vassal = {
 				limit = { has_character_flag = faction_recruit }
-				letter_event = { id = 9028 days = 7 tooltip = EVTTOOLTIP9028 }
+				letter_event = { id = 9023 days = 7 tooltip = EVTTOOLTIP9023 }
 			}
 		}
 	}
@@ -1478,34 +1550,8 @@ letter_event = {
 			}
 		}
 	}
-}
-
-# Faction Member Confronted: Ask Nicely (AI Only)
-letter_event = {
-	id = 9023
-	desc = "EVTDESC9003"
-	picture = GFX_evt_council
-	border = GFX_event_letter_frame_intrigue
-	
-	is_triggered_only = yes
-	
-	option = { # Agree
-		name = "EVTOPTA9004"
-		FROM = {
-			opinion = {
-				modifier = opinion_pleased
-				who = ROOT
-				years = 2
-			}
-		}
-		hidden_tooltip = {
-			FROM = {
-				character_event = { id = 9027 days = 7 }
-			}
-		}
-	}
-	option = { # Never!
-		name = "EVTOPTA9004"
+	option = { # Disagree
+		name = "EVTOPTB9003"
 		FROM = {
 			opinion = {
 				modifier = opinion_angry
@@ -1513,9 +1559,66 @@ letter_event = {
 				years = 2
 			}
 		}
-		hidden_tooltip = {
-			FROM = {
-				character_event = { id = 9026 days = 7 }
+		custom_tooltip = {
+			text = EVTTOOLTIP9003
+			hidden_tooltip = {
+				FROM = {
+					character_event = { id = 9026 days = 7 }
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 }
+			modifier = { factor = 4 has_opinion_modifier = { who = liege modifier = opinion_friend } }
+			modifier = { factor = 4 opinion = { who = liege value = 100 } }
+			modifier = { factor = 2 opinion = { who = liege value = 70 } }
+		}
+	}
+}
+
+# Faction Member Confronted: Ask Nicely
+letter_event = {
+	id = 9023
+	desc = "EVTDESC9023"
+	picture = GFX_evt_council
+	border = GFX_event_letter_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	option = { # Agree
+		name = "EVTOPTA9003"
+		FROM = {
+			opinion = {
+				modifier = opinion_pleased
+				who = ROOT
+				years = 2
+			}
+		}
+		custom_tooltip = {
+			text = EVTTOOLTIP9004
+			hidden_tooltip = {
+				FROM = {
+					character_event = { id = 9027 days = 7 }
+				}
+			}
+		}
+	}
+	option = { # Never!
+		name = "EVTOPTB9003"
+		FROM = {
+			opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 2
+			}
+		}
+		custom_tooltip = {
+			text = EVTTOOLTIP9003
+			hidden_tooltip = {
+				FROM = {
+					character_event = { id = 9026 days = 7 }
+				}
 			}
 		}
 	}
@@ -1596,6 +1699,26 @@ letter_event = {
 	
 	is_triggered_only = yes
 	
+	option = { # Agree (Craven)
+		name = "EVTOPTA9008"
+		tooltip_info = craven
+		trigger = { trait = craven }
+		FROM = {
+			opinion = {
+				modifier = opinion_pleased
+				who = ROOT
+				years = 2
+			}
+		}
+		custom_tooltip = {
+			text = EVTTOOLTIP9004
+			hidden_tooltip = {
+				FROM = {
+					character_event = { id = 9030 days = 7 }
+				}
+			}
+		}
+	}
 	option = { # Agree (Paranoid)
 		name = "EVTOPTB9008"
 		tooltip_info = paranoid
@@ -1674,6 +1797,31 @@ letter_event = {
 					character_event = { id = 9030 days = 7 }
 				}
 			}
+		}
+	}
+	option = { # Disagree
+		name = "EVTOPTB9003"
+		FROM = {
+			opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 2
+			}
+		}
+		custom_tooltip = {
+			text = EVTTOOLTIP9003
+			hidden_tooltip = {
+				FROM = {
+					character_event = { id = 9026 days = 7 }
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 }
+			modifier = { factor = 4 has_opinion_modifier = { who = liege modifier = opinion_friend } }
+			modifier = { factor = 4 opinion = { who = liege value = 100 } }
+			modifier = { factor = 2 opinion = { who = liege value = 70 } }
 		}
 	}
 }
@@ -1755,6 +1903,22 @@ character_event = {
 		modifier = {
 			factor = 0.75
 			intrigue = 13
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 14
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 15
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 17
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 19
 		}
 	}
 
@@ -1844,6 +2008,22 @@ character_event = {
 		modifier = {
 			factor = 1.25
 			intrigue = 13
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 14
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 15
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 17
+		}
+		modifier = {
+			factor = 1.25
+			intrigue = 19
 		}
 	}
 
@@ -2010,6 +2190,22 @@ character_event = {
 		modifier = {
 			factor = 0.75
 			intrigue = 13
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 14
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 15
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 17
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 19
 		}
 	}
 	
@@ -2604,6 +2800,22 @@ character_event = {
 		modifier = {
 			factor = 0.75
 			intrigue = 13
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 14
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 15
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 17
+		}
+		modifier = {
+			factor = 0.75
+			intrigue = 19
 		}
 	}
 	
