@@ -1,3 +1,50 @@
 decisions = {
 	
 }
+
+vassal_decisions = {
+	send_child_to_aretuza = {
+		potential = {
+			is_ruler = no
+			is_female = yes
+			OR = {
+				is_child_of = FROM
+				guardian = { character = FROM }
+			}
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+			has_character_modifier = magic_talent
+		}
+		effect = {
+			add_trait = magic_adept
+			remove_character_modifier = magic_talent
+			set_variable = { which = learning_magic value = 0 }
+			b_aretuza = {
+				holder_scope = {
+					ROOT = { move_character = PREV }
+				}
+			}
+		}
+	}
+	send_child_to_ban_ard = {
+		potential = {
+			is_ruler = no
+			is_female = no
+			OR = {
+				is_child_of = FROM
+				guardian = { character = FROM }
+			}
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+			has_character_modifier = magic_talent
+		}
+		effect = {
+			add_trait = magic_adept
+			remove_character_modifier = magic_talent
+			set_variable = { which = learning_magic value = 0 }
+			b_akademia = {
+				holder_scope = {
+					ROOT = { move_character = PREV }
+				}
+			}
+		}
+	}
+}
