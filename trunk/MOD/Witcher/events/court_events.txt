@@ -1781,8 +1781,7 @@ character_event = {
 	id = 73230
 	desc = EVTDESC73230	#I want to be lord_spiritual, I am better...
 	picture = GFX_evt_spymaster
-
-	only_men = yes
+	
 	min_age = 15
 	capable_only = yes
 	prisoner = no
@@ -1791,6 +1790,22 @@ character_event = {
 		OR = {
 			is_theocracy = yes
 			is_ruler = no
+		}
+		OR = {
+			AND = {
+				is_female = yes
+				OR = {
+					religion =  melitele
+					religion =  kreve
+				}
+			}
+			AND = {
+				is_female = no
+				NOT = {
+					religion =  melitele
+					religion =  kreve
+				}
+			}
 		}
 		independent = no
 		is_councillor = no
