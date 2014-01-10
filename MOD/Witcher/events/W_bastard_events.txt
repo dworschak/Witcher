@@ -1,18 +1,18 @@
 namespace = bastard
 
 ################################################
-# Legitamize bastard from VIET
+# Legitamize hidden bastard from VIET
 ################################################
-#Legitimize a hidden bastard if old and childless?
+# Legitimize a hidden bastard if old and childless?
 character_event = {
 	id = bastard.1
 	desc = EVTDESCbastard.1
-	picture = GFX_evt_courtiers_talking
+	picture = GFX_evt_son_asking_father
 	
-	min_age = 50
 	only_rulers = yes
 	
 	trigger = {
+		has_character_modifier = old_age
 		NOT = { has_law = succ_feudal_elective }
 		is_feudal = yes
 		current_heir = { NOT = { dynasty = ROOT } }
@@ -37,6 +37,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA301 # Legitimize the child
+		recalc_succession = yes
 		ai_chance = { factor = 80 }
 		random_child = {
 			limit = {
@@ -80,7 +81,7 @@ character_event = {
 character_event = {
 	id = bastard.2
 	desc = EVTDESCbastard.2
-	picture = GFX_evt_birth
+	picture = GFX_evt_courtiers_talking
 	
 	is_triggered_only = yes 
 	
@@ -90,6 +91,70 @@ character_event = {
 			who = FROM
 			modifier = legitimized_child
 			years = 10
+		}
+	}
+}
+
+################################################
+# Legitamize bastard
+################################################
+# AI - Legitimize a bastard if old and childless?
+character_event = {
+	id = bastard.3
+	desc = "AI is stupid and doesn't want to use the decision"
+	picture = GFX_evt_son_asking_father
+	
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		has_character_modifier = old_age
+		NOT = { has_law = succ_feudal_elective }
+		is_feudal = yes
+		current_heir = { NOT = { dynasty = ROOT } }
+		NOT = {
+			any_child = {
+				dynasty = ROOT
+				is_female = no
+			}
+		}
+		any_child = {
+			trait = bastard
+			is_female = no
+		}
+	}
+	
+	mean_time_to_happen = { years = 1 }
+	
+	option = {
+		name = " Magical legitimization"
+		recalc_succession = yes
+		random_child = {
+			limit = {
+				trait = bastard
+				is_female = no
+			}
+			character_event = { id = 302 tooltip = EVTTOOLTIP302 } # The child gets the father's dynasty
+			mother = {
+				character_event = { id = bastard.2 tooltip = EVTTOOLTIP303 } # The child's mother is very pleased
+				spouse = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's husband is pissed off
+				}
+				consort = {
+					character_event = { id = 304 tooltip = EVTTOOLTIP304 } # The child's mother's lord is pissed off
+				}
+			}
+		}
+		any_child = {
+			limit = {
+				dynasty = ROOT
+				was_conceived_a_bastard = no
+			}
+			opinion = {
+				who = ROOT
+				modifier = legitimized_bastard
+				months = 12
+			}
 		}
 	}
 }

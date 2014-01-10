@@ -1,11 +1,14 @@
 decisions = {
-
 	employ_priest = {
 		potential = {
 			is_ruler = yes
 			OR = {
 				ai = no
 				higher_tier_than = count
+			}
+			NOT = {
+				religion = melitele
+				religion = freya
 			}
 		}
 		allow = {
@@ -17,6 +20,61 @@ decisions = {
 				random_traits = yes
 				dynasty = random
 				female = no
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				job_spiritual = {
+					learning = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				any_vassal = {
+					learning = 10
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+			modifier = {
+				factor = 0
+				any_courtier = {
+					learning = 10
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+	}
+	
+	employ_priest_female = {
+		potential = {
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+			OR = {
+				religion = melitele
+				religion = freya
+			}
+		}
+		allow = {
+			piety = 5
+		}
+		effect = {
+			piety = -5
+			create_random_priest = {
+				random_traits = yes
+				dynasty = random
+				female = yes
 			}
 		}
 		revoke_allowed = {
