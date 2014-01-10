@@ -27,60 +27,6 @@ action_fabricate_claims = {
 		any_province_lord = {
 			NOT = { character = FROM }
 		}
-		OR = {
-			owner = { same_realm = FROM }
-			any_neighbor_province = {
-				owner = {
-					OR = {
-						any_liege = { character = FROM }
-						character = FROM
-					}
-				}
-			}
-			any_neighbor_province = {
-				is_land = no
-				any_neighbor_province = {
-					owner = {
-						OR = {
-							any_liege = { character = FROM }
-							character = FROM
-						}
-					}
-				}
-			}
-		}
-		OR = {
-			county = {
-				NOT = { claimed_by = FROM }
-				holder_scope = {
-					NOT = { is_liege_of = FROM }
-					NOT = { character = FROM }
-				}
-			}
-			AND = {
-				duchy = {
-					NOT = { claimed_by = FROM }
-					holder_scope = {
-						NOT = { is_liege_of = FROM }
-						NOT = { character = FROM }
-					}
-				}
-				FROM = { ai = no }
-			}
-		}
-		kingdom = { always = yes }
-		NOT = {
-			AND = {
-				owner = { is_merchant_republic = yes }
-				is_capital = yes
-			}
-		}
-		OR = {
-			FROM = { ai = no }
-			FROM = { independent = yes }
-			FROM = { tier = king }
-			owner = { same_realm = FROM }
-		}
 	}
 	
 	events = { 913 914 }
@@ -307,7 +253,7 @@ action_advance_cul_tech = {
 	
 	tech_growth_modifier_culture = 0.05
 	
-	events = { 926 927 }
+	events = { 926 }
 }
 
 action_charity = {
