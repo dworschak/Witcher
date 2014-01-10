@@ -9,32 +9,391 @@
 # Written by Chris King
 #
 # Rewritten by Niklas Strid
+#
+# edited for AGOT by Knuckey
+#
+# ported back to CK2 and Duel Engine stuff added by jordarkelf
 
+###
+# Setup events
+###
 # Invitation
-character_event = {
+letter_event = {
 	id = 70000
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE2
 	desc = EVTDESC70000
 	picture = GFX_evt_courier
 
 	is_triggered_only = yes
 
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+
+	trigger = {
+		is_feudal = yes
+		war = no
+		is_pregnant = no
+		OR = {
+			trait = skilled_warrior
+			trait = master_warrior
+			trait = tough_soldier
+			trait = skilled_tactician
+			trait = brilliant_strategist
+			trait = martial_cleric
+			trait = duelist
+			has_job_title = job_marshal
+			is_ruler = yes
+		}
+		NOT = { has_job_title = job_spiritual }
+		OR = {
+			is_female = no
+			trait = strong
+		}
+		OR = {
+			trait = master_warrior
+			trait = skilled_warrior
+			trait = duelist
+			NOT = { has_character_modifier = old_age }
+		}
+		NOT = { has_character_flag = attending_tournament }
+		NOT = { has_character_flag = do_not_disturb }
+	}
+
+	immediate = {
+		clr_character_flag = medal_assigned
+		clr_character_flag = jousted_tournament
+		clr_character_flag = no_more_jousts
+		set_variable = { which = tournament_rounds value = 0 }
+		set_variable = { which = tournament_win value = 0 }
+		set_variable = { which = tournament_loss value = 0 }
+	}
+
 	option = {
 		name = EVTOPTA70000
-		prestige = 50
+		ai_chance = {
+			factor = 75
+			
+			modifier = {
+				factor = 2
+				is_ruler = yes
+			}
+			modifier = {
+				factor = 1.4
+				OR = {
+					has_character_flag = normal_tourny_2nd
+					has_character_flag = normal_tourny_3rd
+				}
+			}
+			modifier = {
+				factor = 2
+				has_character_flag = normal_tourny_1st
+			}
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 1.5
+				trait = duelist
+			}
+			modifier = {
+				factor = 1.2
+				trait = strong
+			}
+			modifier = {
+				factor = 1.2
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.2
+				trait = wroth
+			}
+			modifier = {
+				factor = 1.2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.2
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  20 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  40 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  60 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  80 }
+			}
+		}
+		if = { 
+			limit = { FROM = { tier = EMPEROR } }
+			prestige = 50
+		}	
+		if = { 
+			limit = { FROM = { tier = KING } }
+			prestige = 30
+		}
 		set_character_flag = attending_tournament
 		set_character_flag = do_not_disturb
+		hidden_tooltip = {
+			opinion = {
+				modifier = opinion_attending_tournament
+				who = FROM
+				years = 100
+			}
+			any_dynasty_member = {
+				limit = {
+					is_close_relative = ROOT
+					same_realm = ROOT
+					is_alive = yes
+				}
+				letter_event = { id = 70086 days = 7 }
+			}
+		}
 	}
 	option = {
 		name = EVTOPTB70000
-		prestige = -100
+		ai_chance = {
+			factor = 25
+			
+			modifier = {
+				factor = 0.5
+				is_ruler = yes
+			}
+			modifier = {
+				factor = 2
+				trait = craven
+			}
+			modifier = {
+				factor = 1.2
+				trait = weak
+			}
+			modifier = {
+				factor = 1.2
+				trait = slothful
+			}
+			modifier = {
+				factor = 1.2
+				trait = shy
+			}
+			modifier = {
+				factor = 1.2
+				trait = content
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value =  -20 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value =  -40 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value =  -60 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value =  -80 } }
+			}
+			modifier = {
+				factor = 2
+				trait = dwarf
+			}
+			modifier = {
+				factor = 2
+				is_ill = yes
+			}
+		}
+		if = { 
+			limit = { FROM = { tier = EMPEROR } }
+			prestige = -100
+		}	
+		if = { 
+			limit = { FROM = { tier = KING } }
+			prestige = -60
+		}
 	}
-}	
+}
+
+# uneligible lords Invited to spectate
+letter_event = {
+	id = 70086
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70086
+	picture = GFX_evt_courier
+
+	is_triggered_only = yes
+
+	prisoner = no
+	capable_only = yes
+
+	trigger = {
+		is_feudal = yes
+		war = no
+		NOT = { has_job_title = job_spiritual }
+		NOT = { has_character_flag = attending_tournament }
+		NOT = { has_character_flag = do_not_disturb }
+	}
+
+	immediate = {
+		clr_character_flag = medal_assigned
+		clr_character_flag = jousted_tournament
+		clr_character_flag = no_more_jousts
+		set_variable = { which = tournament_rounds value = 0 }
+		set_variable = { which = tournament_win value = 0 }
+		set_variable = { which = tournament_loss value = 0 }
+	}
+
+	option = {
+		name = EVTOPTA70086
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 1.4
+				OR = {
+					has_character_flag = normal_tourny_2nd
+					has_character_flag = normal_tourny_3rd
+				}
+			}
+			modifier = {
+				factor = 2
+				has_character_flag = normal_tourny_1st
+			}
+			modifier = {
+				factor = 1.2
+				trait = diligent
+			}
+			modifier = {
+				factor = 1.2
+				trait = wroth
+			}
+			modifier = {
+				factor = 1.4
+				trait = proud
+			}
+			modifier = {
+				factor = 1.4
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.4
+				trait = ambitious
+			}
+			modifier = {
+				factor = 1.4
+				opinion = { who = FROM value =  20 }
+			}
+			modifier = {
+				factor = 1.4
+				opinion = { who = FROM value =  40 }
+			}
+			modifier = {
+				factor = 1.4
+				opinion = { who = FROM value =  60 }
+			}
+			modifier = {
+				factor = 1.4
+				opinion = { who = FROM value =  80 }
+			}
+		}
+		set_character_flag = attending_tournament
+		set_character_flag = tournament_spectator
+		set_character_flag = do_not_disturb
+		hidden_tooltip = {
+			opinion = {
+				modifier = opinion_spectating_tournament
+				who = FROM
+				years = 100
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70086
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 1.2
+				trait = slothful
+			}
+			modifier = {
+				factor = 1.4
+				trait = shy
+			}
+			modifier = {
+				factor = 1.2
+				trait = content
+			}
+			modifier = {
+				factor = 1.4
+				NOT = { opinion = { who = FROM value =  -20 } }
+			}
+			modifier = {
+				factor = 1.4
+				NOT = { opinion = { who = FROM value =  -40 } }
+			}
+			modifier = {
+				factor = 1.4
+				NOT = { opinion = { who = FROM value =  -60 } }
+			}
+			modifier = {
+				factor = 1.4
+				NOT = { opinion = { who = FROM value =  -80 } }
+			}
+			modifier = {
+				factor = 2
+				is_ill = yes
+			}
+		}
+		if = { 
+			limit = { FROM = { tier = EMPEROR } }
+			prestige = -50
+		}	
+		if = { 
+			limit = { FROM = { tier = KING } }
+			prestige = -30
+		}
+	}
+}
+
+# Invitations have gone out
+character_event = {
+	id = 70033
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70033
+	picture = GFX_evt_courier
+
+	is_triggered_only = yes
+
+	immediate = {
+		clr_character_flag = medal_assigned
+		clr_character_flag = jousted_tournament
+		clr_character_flag = no_more_jousts
+		set_variable = { which = tournament_rounds value = 0 }
+		set_variable = { which = tournament_win value = 0 }
+		set_variable = { which = tournament_loss value = 0 }
+	}
+
+	option = {
+		name = EVTOPTA70033
+		set_character_flag = attending_tournament
+		set_character_flag = do_not_disturb
+	}
+}
 
 # Start of tournament
 character_event = {
 	id = 70001
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE3
 	desc = EVTDESC70001
 	picture = GFX_evt_joust
 
@@ -61,51 +420,267 @@ character_event = {
 		wealth = 200
 		prestige = -100
 		hidden_tooltip = {
-			any_realm_character = {
-				limit = {
-					has_character_flag = attending_tournament
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}	
+					}
+					character_event = { id = 70037 }
 				}
-				character_event = { id = 70037 }
 			}
 		}
+		clr_character_flag = attending_tournament
+		clr_character_flag = tournament_spectator
 		clr_character_flag = epic_tournament
 		clr_character_flag = do_not_disturb
+		clr_character_flag = tourny_outcome_1
+		clr_character_flag = tourny_outcome_2
+		clr_character_flag = tourny_outcome_3
+		clr_character_flag = tourny_outcome_4
 	}
 }
 
 # Tournament has been cancelled
 character_event = {
 	id = 70037
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE2
 	desc = EVTDESC70037
 	picture = GFX_evt_joust
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = EVTOPTA70037
-		prestige = -50
+		if = { 
+			limit = { 
+				FROM = { tier = EMPEROR } 
+				has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+			}
+			prestige = -50
+		}	
+		if = { 
+			limit = { 
+				FROM = { tier = KING } 
+				has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+			}
+			prestige = -30
+		}
 		clr_character_flag = attending_tournament
+		clr_character_flag = tournament_spectator
 		clr_character_flag = do_not_disturb
+		clr_character_flag = tourny_outcome_1
+		clr_character_flag = tourny_outcome_2
+		clr_character_flag = tourny_outcome_3
+		clr_character_flag = tourny_outcome_4
+		hidden_tooltip = {
+			remove_opinion = {
+				modifier = opinion_attending_tournament
+				who = FROM
+			}
+			remove_opinion = {
+				modifier = opinion_spectating_tournament
+				who = FROM
+			}
+		}
+	}
+}
+
+# Ruler has died, the tournament is over
+character_event = {
+	id = 70041
+	title = TOURNAMENTTITLE
+	desc = EVTDESC70041
+	picture = GFX_evt_death
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_character_flag = tournament_begins
+	}
+
+	option = {
+		name = EVTOPTA70041
+		capital_scope = { clr_province_flag = tournament_60_days }
+		clr_character_flag = tournament_begins
+		clr_character_flag = winner
+		clr_character_flag = second_place
+		clr_character_flag = third_place
+		clr_character_flag = random_first
+		clr_character_flag = random_second
+		clr_character_flag = random_third
+		clr_character_flag = attending_tournament
+		clr_character_flag = attending_tournament_event
+		clr_character_flag = tournament_third_place
+		clr_character_flag = tournament_second_place
+		clr_character_flag = tournament_winner
+		clr_character_flag = tournament_spectator
+		clr_character_flag = do_not_disturb
+		clr_character_flag = tourny_outcome_1
+		clr_character_flag = tourny_outcome_2
+		clr_character_flag = tourny_outcome_3
+		clr_character_flag = tourny_outcome_4
+		clr_character_flag = jousted_tournament
+		clr_character_flag = no_more_jousts
+		set_variable = { which = tournament_rounds value = 0 }
+		set_variable = { which = tournament_win value = 0 }
+		set_variable = { which = tournament_loss value = 0 }
+		top_liege = {
+			any_realm_character = {
+				limit = {
+					has_character_flag = attending_tournament
+					OR = {
+						has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+						has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+					}
+				}
+				letter_event = { id = 70042 }
+			}
+		}
+	}
+}
+
+#The tournament has been cancelled due to Ruler's death
+letter_event = {
+	id = 70042
+	title = TOURNAMENTTITLE
+	desc = EVTDESC70042
+	picture = GFX_evt_death
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70042
+		hidden_tooltip = {
+			clr_character_flag = attending_tournament
+			clr_character_flag = tournament_spectator
+			clr_character_flag = do_not_disturb
+			clr_character_flag = tourny_outcome_1
+			clr_character_flag = tourny_outcome_2
+			clr_character_flag = tourny_outcome_3
+			clr_character_flag = tourny_outcome_4
+			clr_character_flag = jousted_tournament
+			clr_character_flag = no_more_jousts
+			set_variable = { which = tournament_rounds value = 0 }
+			set_variable = { which = tournament_win value = 0 }
+			set_variable = { which = tournament_loss value = 0 }
+			remove_opinion = {
+				modifier = opinion_attending_tournament
+				who = FROM
+			}
+			remove_opinion = {
+				modifier = opinion_spectating_tournament
+				who = FROM
+			}
+		}
+	}
+}
+
+###
+# Joust results handlers
+###
+# Character is killed
+character_event = {
+	id = 70009
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70009
+	picture = GFX_evt_death
+
+	is_triggered_only = yes
+
+	immediate = {
+		clr_character_flag = attending_tournament
+	}
+
+	option = {
+		name = EVTOPTA70009
+		#death = {
+		#	death_reason = death_battle
+		#}
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70038 } }
+		}
+	}
+}
+
+# Character is maimed
+character_event = {
+	id = 70010
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70010
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	immediate = {
+		clr_character_flag = attending_tournament
+	}
+
+	option = {
+		name = EVTOPTA70010
+		add_trait = maimed
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70039 } }
+		}
+	}
+}
+
+# Character is wounded
+character_event = {
+	id = 70011
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70011
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+	}
+
+	option = {
+		name = EVTOPTA70011
+		add_trait = wounded
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70040 } }
+		}
 	}
 }
 
 # Message about death
 character_event = {
 	id = 70038
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE3
 	desc = EVTDESC70038
 	picture = GFX_evt_death
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		NOT = { has_character_flag = no_msg_death }
 		NOT = { has_character_flag = tournament_has_ended }
 	}
-	
+
 	option = {
 		name = EVTOPTA70038
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}	
+					}
+					character_event = { id = 70089 }  
+				}
+			}	
+		}
 	}
 	option = {
 		name = EVTOPTB70038
@@ -116,19 +691,34 @@ character_event = {
 # Message about maimed
 character_event = {
 	id = 70039
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE3
 	desc = EVTDESC70039
 	picture = GFX_evt_emissary
-	
+
 	is_triggered_only = yes
 
 	trigger = {
 		NOT = { has_character_flag = no_msg_maimed }
 		NOT = { has_character_flag = tournament_has_ended }
 	}
-	
+
 	option = {
 		name = EVTOPTA70038
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}	
+					}
+					character_event = { id = 70090 }  
+				}
+			}	
+		}
 	}
 	option = {
 		name = EVTOPTB70038
@@ -139,7 +729,7 @@ character_event = {
 # Message about wounded
 character_event = {
 	id = 70040
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE3
 	desc = EVTDESC70040
 	picture = GFX_evt_emissary
 
@@ -147,11 +737,26 @@ character_event = {
 		NOT = { has_character_flag = no_msg_wounded }
 		NOT = { has_character_flag = tournament_has_ended }
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = EVTOPTA70038
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}	
+					}
+					character_event = { id = 70091 }  
+				}
+			}
+		}
 	}
 	option = {
 		name = EVTOPTB70038
@@ -159,10 +764,13 @@ character_event = {
 	}
 }
 
+###
+# End of Tournament
+###
 # Tournament is over
 province_event = {
 	id = 70002
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE3
 	desc = EVTDESC70002
 	picture = GFX_evt_joust
 
@@ -177,11 +785,11 @@ province_event = {
 			has_character_flag = third_place
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		days = 1
 	}
-	
+
 	option = {
 		name = EVTOPTA70002
 		clr_province_flag = tournament_60_days
@@ -196,85 +804,525 @@ province_event = {
 			clr_character_flag = tournament_third_place
 			clr_character_flag = tournament_second_place
 			clr_character_flag = tournament_winner
+			clr_character_flag = no_msg_death
+			clr_character_flag = no_msg_maimed
+			clr_character_flag = no_msg_wounded
+			clr_character_flag = no_msg_knight
+			clr_character_flag = jousted_tournament
+			clr_character_flag = no_more_jousts
+			set_variable = { which = tournament_rounds value = 0 }
+			set_variable = { which = tournament_win value = 0 }
+			set_variable = { which = tournament_loss value = 0 }
 			set_character_flag = tournament_has_ended
-			any_realm_character = {
-				limit = {
-					has_character_flag = attending_tournament
-					OR = {
-						has_character_flag = tournament_third_place
-						has_character_flag = tournament_second_place
-						has_character_flag = tournament_winner
-					}
-				}
-				set_character_flag = tournament_has_ended
-				clr_character_flag = tournament_third_place
-				clr_character_flag = tournament_second_place
-				clr_character_flag = tournament_winner
-				reverse_opinion = {
-					modifier = opinion_tournament_participant
-					who = PREV
-					years = 2
-				}
-				clr_character_flag = attending_tournament
-				clr_character_flag = attending_tournament_event
-				clr_character_flag = do_not_disturb
-			}
-			any_realm_character = {
-				limit = {
-					has_character_flag = attending_tournament
-					NOT = {
-						character = PREV
-					}
-					NOT = {
-						has_character_flag = tournament_third_place
-					}
-					NOT = {
-						has_character_flag = tournament_second_place
-					}
-					NOT = {
-						has_character_flag = tournament_winner
-					}
-				}
-				hidden_tooltip = {
-					random_list = {
-						10 = {
-							character_event = { id = 70003 }
+			hidden_tooltip = {
+				any_realm_character = {
+					limit = {
+						has_character_flag = attending_tournament
+				#		has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+						OR = {
+							has_character_flag = tournament_third_place
+							has_character_flag = tournament_second_place
+							has_character_flag = tournament_winner
 						}
-						10 = {
+					}
+					set_character_flag = tournament_has_ended
+					clr_character_flag = tournament_third_place
+					clr_character_flag = tournament_second_place
+					clr_character_flag = tournament_winner
+					clr_character_flag = jousted_tournament
+					clr_character_flag = no_more_jousts
+					set_variable = { which = tournament_rounds value = 0 }
+					set_variable = { which = tournament_win value = 0 }
+					set_variable = { which = tournament_loss value = 0 }
+					reverse_opinion = {
+						modifier = opinion_tournament_participant
+						who = ROOT
+						years = 2
+					}
+					clr_character_flag = attending_tournament
+					clr_character_flag = attending_tournament_event
+					clr_character_flag = do_not_disturb
+					clr_character_flag = tourny_outcome_1
+					clr_character_flag = tourny_outcome_2
+					clr_character_flag = tourny_outcome_3
+					clr_character_flag = tourny_outcome_4
+					hidden_tooltip = {
+						remove_opinion = {
+							modifier = opinion_attending_tournament
+							who = ROOT
+						}
+					}
+				}
+				any_realm_character = {
+					limit = {
+						has_character_flag = attending_tournament
+				#		has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+						NOT = { owner = ROOT }
+						NOT = { has_character_flag = tournament_third_place }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { has_character_flag = tournament_winner }
+					}
+					hidden_tooltip = {
+						if = {
+							limit = { ai = yes }
+							character_event = { id = 70093 }
+						}
+						if = {
+							limit = {
+								ai = no
+								has_character_flag = tourny_outcome_1
+							}
 							character_event = { id = 70004 }
 						}
-						10 = {
+						if = {
+							limit = {
+								ai = no
+								has_character_flag = tourny_outcome_2
+							}
+							character_event = { id = 70003 }
+						}
+						if = {
+							limit = {
+								ai = no
+								has_character_flag = tourny_outcome_3
+							}
 							character_event = { id = 70005 }
 						}
-						10 = {
+						if = {
+							limit = {
+								ai = no
+								has_character_flag = tourny_outcome_4
+							}
 							character_event = { id = 70006 }
 						}
-						10 = {
-							character_event = { id = 70007 }
-						}
-						10 = {
-							character_event = { id = 70008 }
+					}
+					set_character_flag = tournament_has_ended
+					reverse_opinion = {
+						modifier = opinion_tournament_participant
+						who = ROOT
+						years = 2
+					}
+					hidden_tooltip = {
+						remove_opinion = {
+							modifier = opinion_attending_tournament
+							who = ROOT
 						}
 					}
+					clr_character_flag = do_not_disturb
+					clr_character_flag = attending_tournament
+					clr_character_flag = attending_tournament_event
+					clr_character_flag = tourny_outcome_1
+					clr_character_flag = tourny_outcome_2
+					clr_character_flag = tourny_outcome_3
+					clr_character_flag = tourny_outcome_4
 				}
-				set_character_flag = tournament_has_ended
-				reverse_opinion = {
-					modifier = opinion_tournament_participant
-					who = PREV
-					years = 2
+				any_realm_character = {
+					limit = {
+						has_character_flag = attending_tournament
+				#		has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						NOT = { owner = ROOT }
+					}
+					set_character_flag = tournament_has_ended
+					reverse_opinion = {
+						modifier = opinion_tournament_spectator
+						who = ROOT
+						years = 2
+					}
+					hidden_tooltip = {
+						character_event = { id = 70092 days = 3 }
+					}
+					hidden_tooltip = {
+						remove_opinion = {
+							modifier = opinion_spectating_tournament
+							who = ROOT
+						}
+					}
+					clr_character_flag = do_not_disturb
+					clr_character_flag = attending_tournament
+					clr_character_flag = tournament_spectator
+					clr_character_flag = attending_tournament_event
 				}
-				clr_character_flag = attending_tournament
-				clr_character_flag = attending_tournament_event
-				clr_character_flag = do_not_disturb
+			}
+			if = {
+				top_liege = {
+					any_realm_character = {
+						limit = {
+							is_female = yes
+							OR = {
+								has_character_flag = queen_love_beauty_1
+								has_character_flag = queen_love_beauty_2
+								has_character_flag = queen_love_beauty_3
+								has_character_flag = queen_love_beauty_4
+							}
+						}
+						clr_character_flag = queen_love_beauty_1
+						clr_character_flag = queen_love_beauty_2
+						clr_character_flag = queen_love_beauty_3
+						clr_character_flag = queen_love_beauty_4
+					}
+				}
 			}
 		}
 	}
 }
 
-# End of tournament event
+# Tournament is over for spectator
+character_event = {
+	id = 70093
+	title = TOURNAMENTTITLE2
+	desc = AI_EVENT
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = OUTCOME_1 #Great Outcome
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 1.05
+				has_character_flag = normal_tourny_2nd
+			}
+			modifier = {
+				factor = 1.1
+				has_character_flag = normal_tourny_1st
+			}
+			modifier = {
+				factor = 1.35
+				OR = {
+					trait = skilled_warrior
+					trait = master_warrior
+				}
+			}
+			modifier = {
+				factor = 1.3
+				trait = master_warrior
+			}
+			modifier = {
+				factor = 1.1
+				martial = 11
+			}
+			modifier = {
+				factor = 1.1
+				martial = 14
+			}
+			modifier = {
+				factor = 1.1
+				martial = 17
+			}
+			modifier = {
+				factor = 1.1
+				martial = 20
+			}
+			modifier = {
+				factor = 1.1
+				martial = 24
+			}
+			modifier = {
+				factor = 1.1
+				trait = brave
+			}
+			modifier = {
+				factor = 1.1
+				trait = strong
+			}
+			modifier = {
+				factor = 1.1
+				trait = duelist
+			}
+			modifier = {
+				factor = 1.1
+				any_ward = {
+					OR = {
+						trait = poor_warrior
+						trait = trained_warrior
+					}
+				}
+			}
+			modifier = {
+				factor = 1.2
+				any_ward = {
+					OR = {
+						trait = skilled_warrior
+						trait = master_warrior
+					}
+				}
+			}
+		}
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = 60
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = 35
+		}
+		any_dynasty_member = {
+			limit = {
+				is_close_relative = ROOT
+				has_character_flag = tournament_spectator
+				has_character_flag = attending_tournament
+		#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+			}
+			character_event = { id = 70095 }
+		}
+	}
+
+	option = {
+		name = OUTCOME_2 #Modest Outcome
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 1.02
+				has_character_flag = normal_tourny_3rd
+			}
+			modifier = {
+				factor = 1.05
+				has_character_flag = normal_tourny_2nd
+			}
+			modifier = {
+				factor = 1.17
+				OR = {
+					trait = skilled_warrior
+					trait = master_warrior
+				}
+			}
+			modifier = {
+				factor = 1.15
+				trait = master_warrior
+			}
+			modifier = {
+				factor = 1.1
+				martial = 11
+			}
+			modifier = {
+				factor = 1.1
+				martial = 14
+			}
+			modifier = {
+				factor = 1.1
+				martial = 17
+			}
+			modifier = {
+				factor = 1.1
+				martial = 20
+			}
+			modifier = {
+				factor = 1.1
+				martial = 24
+			}
+			modifier = {
+				factor = 1.1
+				trait = brave
+			}
+			modifier = {
+				factor = 1.1
+				trait = strong
+			}
+			modifier = {
+				factor = 1.1
+				trait = duelist
+			}
+			modifier = {
+				factor = 1.1
+				any_ward = {
+					OR = {
+						trait = poor_warrior
+						trait = trained_warrior
+					}
+				}
+			}
+			modifier = {
+				factor = 1.2
+				any_ward = {
+					OR = {
+						trait = skilled_warrior
+						trait = master_warrior
+					}
+				}
+			}
+		}
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = 30
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = 20
+		}
+		any_dynasty_member = {
+			limit = {
+				is_close_relative = ROOT
+				has_character_flag = tournament_spectator
+				has_character_flag = attending_tournament
+		#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+			}
+			character_event = { id = 70096 }
+		}
+	}
+
+	option = {
+		name = OUTCOME_3 #Bad outcome
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 1.15
+				age = 40
+			}
+			modifier = {
+				factor = 1.15
+				age = 50
+			}
+			modifier = {
+				factor = 1.5
+				age = 60
+			}
+			modifier = {
+				factor = 1.5
+				age = 70
+			}
+			modifier = {
+				factor = 1.5
+				NOT = {
+					OR = {
+						trait = poor_warrior
+						trait = trained_warrior
+						trait = skilled_warrior
+						trait = master_warrior
+					}
+				}
+			}
+			modifier = {
+				factor = 1.25
+				trait = poor_warrior
+			}
+			modifier = {
+				factor = 1.25
+				NOT = { martial = 7 }
+			}
+			modifier = {
+				factor = 1.25
+				NOT = { martial = 5 }
+			}
+			modifier = {
+				factor = 1.25
+				NOT = { martial = 3 }
+			}
+			modifier = {
+				factor = 1.25
+				NOT = { martial = 1 }
+			}
+			modifier = {
+				factor = 1.1
+				trait = craven
+			}
+			modifier = {
+				factor = 1.1
+				trait = weak
+			}
+		}
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = -30
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = -20
+		}
+		any_dynasty_member = {
+			limit = {
+				is_close_relative = ROOT
+				has_character_flag = tournament_spectator
+				has_character_flag = attending_tournament
+		#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+			}
+			character_event = { id = 70097 }
+		}
+	}
+	option = {
+		name = OUTCOME_4 #very bad outcome
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 1.3
+				age = 40
+			}
+			modifier = {
+				factor = 1.3
+				age = 50
+			}
+			modifier = {
+				factor = 2
+				age = 60
+			}
+			modifier = {
+				factor = 2
+				age = 70
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					OR = {
+						trait = poor_warrior
+						trait = trained_warrior
+						trait = skilled_warrior
+						trait = master_warrior
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				trait = poor_warrior
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { martial = 7 }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { martial = 5 }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { martial = 3 }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { martial = 1 }
+			}
+			modifier = {
+				factor = 1.1
+				trait = craven
+			}
+			modifier = {
+				factor = 1.1
+				trait = weak
+			}
+		}
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = -60
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = -40
+		}
+		any_dynasty_member = {
+			limit = {
+				is_close_relative = ROOT
+				has_character_flag = tournament_spectator
+				has_character_flag = attending_tournament
+		#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+			}
+			character_event = { id = 70098 }
+		}
+	}
+}
+
+# End of tournament events
 character_event = {
 	id = 70003
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE2
 	desc = EVTDESC70003
 	picture = GFX_evt_joust
 
@@ -282,14 +1330,32 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70003
-		prestige = 50
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = 30
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = 20
+		}
+		hidden_tooltip = {
+			any_dynasty_member = {
+				limit = {
+					is_close_relative = ROOT
+					has_character_flag = tournament_spectator
+					has_character_flag = attending_tournament
+			#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+				}
+				character_event = { id = 70096 }
+			}
+		}
 	}
 }
 
-# End of tournament event
+# Outcome events
 character_event = {
 	id = 70004
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE2
 	desc = EVTDESC70004
 	picture = GFX_evt_joust
 
@@ -297,14 +1363,31 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70004
-		prestige = 100
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = 60
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = 35
+		}
+		hidden_tooltip = {
+			any_dynasty_member = {
+				limit = {
+					is_close_relative = ROOT
+					has_character_flag = tournament_spectator
+					has_character_flag = attending_tournament
+			#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+				}
+				character_event = { id = 70095 }
+			}
+		}
 	}
 }
 
-# End of tournament event
 character_event = {
 	id = 70005
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE2
 	desc = EVTDESC70005
 	picture = GFX_evt_joust
 
@@ -312,14 +1395,31 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70005
-		prestige = -50
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = -30
+		}
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = -20
+		}
+		hidden_tooltip = {
+			any_dynasty_member = {
+				limit = {
+					is_close_relative = ROOT
+					has_character_flag = tournament_spectator
+					has_character_flag = attending_tournament
+			#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
+				}
+				character_event = { id = 70097 }
+			}
+		}
 	}
 }
 
-# End of tournament event
 character_event = {
 	id = 70006
-	title = TOURNAMENTTITLE
+	title = TOURNAMENTTITLE2
 	desc = EVTDESC70006
 	picture = GFX_evt_joust
 
@@ -327,359 +1427,60 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70006
-		prestige = -100
-	}
-}
-
-# End of tournament event
-character_event = {
-	id = 70007
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70007
-	picture = GFX_evt_joust
-
-	is_triggered_only = yes
-
-	option = {
-		name = EVTOPTA70007
-		change_martial = 1
-	}
-}
-
-# End of tournament event
-character_event = {
-	id = 70008
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70008
-	picture = GFX_evt_joust
-
-	is_triggered_only = yes
-
-	option = {
-		name = EVTOPTA70008
-		change_martial = -1
-	}
-}	
-
-# Character is killed
-character_event = {
-	id = 70009
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70009
-	picture = GFX_evt_death
-
-	min_age = 15
-	only_men = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = attending_tournament
-		NOT = {
-			has_character_flag = tournament_has_ended
+		if = {
+			limit = { FROM = { owner = { tier = EMPEROR } } }
+			prestige = -60
 		}
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 1000
-		modifier = {
-			factor = 1.25
-			martial = 8
-		}
-		modifier = {
-			factor = 1.25
-			martial = 10
-		}
-		modifier = {
-			factor = 1.25
-			martial = 12
-		}
-		modifier = {
-			factor = 1.25
-			martial = 14
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 7 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 3 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 1 }
-		}
-		modifier = {
-			factor = 2
-			trait = craven
-		}
-		modifier = {
-			factor = 0.5
-			trait = brave
-		}
-		modifier = {
-			factor = 0.5
-			trait = maimed
-		}
-	}
-
-	immediate = {
-		clr_character_flag = attending_tournament
-	}
-	
-	option = {
-		name = EVTOPTA70009
-		death = {
-			death_reason = death_battle
+		if = {
+			limit = { FROM = { owner = { tier = KING } } }
+			prestige = -40
 		}
 		hidden_tooltip = {
-			if = {
+			any_dynasty_member = {
 				limit = {
-					top_liege = {
-						NOT = {
-							character = ROOT
-						}
-					}
+					is_close_relative = ROOT
+					has_character_flag = tournament_spectator
+					has_character_flag = attending_tournament
+			#		has_opinion_modifier = { who = FROM modifier = opinion_spectating_tournament }
 				}
-				top_liege = { character_event = { id = 70038 } }
+				character_event = { id = 70098 }
 			}
 		}
 	}
 }
 
-# Character is maimed
-character_event = {
-	id = 70010
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70010
-	picture = GFX_evt_melee
-
-	min_age = 15
-	only_men = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = attending_tournament
-		NOT = {
-			trait = maimed
-		}
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 800
-		modifier = {
-			factor = 1.25
-			martial = 8
-		}
-		modifier = {
-			factor = 1.25
-			martial = 10
-		}
-		modifier = {
-			factor = 1.25
-			martial = 12
-		}
-		modifier = {
-			factor = 1.25
-			martial = 14
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 7 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 3 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 1 }
-		}
-		modifier = {
-			factor = 2
-			trait = craven
-		}
-		modifier = {
-			factor = 0.5
-			trait = brave
-		}
-		modifier = {
-			factor = 0.5
-			trait = wounded
-		}
-	}
-	
-	immediate = {
-		clr_character_flag = attending_tournament
-		clr_character_flag = do_not_disturb
-	}
-
-	option = {
-		name = EVTOPTA70010
-		add_trait = maimed
-		hidden_tooltip = {
-			if = {
-				limit = {
-					top_liege = {
-						NOT = {
-							character = ROOT
-						}
-					}
-				}
-				top_liege = { character_event = { id = 70039 } }
-			}
-		}
-	}
-}
-
-# Character is wounded
-character_event = {
-	id = 70011
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70011
-	picture = GFX_evt_melee
-
-	min_age = 15
-	only_men = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = attending_tournament
-		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		NOT = {
-			trait = wounded
-		}
-		NOT = {
-			trait = maimed
-		}
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 500
-		modifier = {
-			factor = 1.25
-			martial = 8
-		}
-		modifier = {
-			factor = 1.25
-			martial = 10
-		}
-		modifier = {
-			factor = 1.25
-			martial = 12
-		}
-		modifier = {
-			factor = 1.25
-			martial = 14
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 7 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 3 }
-		}
-		modifier = {
-			factor = 0.75
-			NOT = { martial = 1 }
-		}
-		modifier = {
-			factor = 2
-			trait = craven
-		}
-		modifier = {
-			factor = 0.5
-			trait = brave
-		}
-	}
-
-	immediate = {
-		set_character_flag = attending_tournament_event
-	}
-	
-	option = {
-		name = EVTOPTA70011
-		add_trait = wounded
-		hidden_tooltip = {
-			if = {
-				limit = {
-					top_liege = {
-						NOT = {
-							character = ROOT
-						}
-					}
-				}
-				top_liege = { character_event = { id = 70040 } }
-			}
-		}
-	}
-}	
-
+###
+# Random stuff during tournament
+###
 # Character becomes craven
 character_event = {
 	id = 70012
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70012
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
-		has_character_flag = attending_tournament
-		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
 		NOT = {
 			trait = craven
 		}
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = attending_tournament_event }
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
@@ -687,35 +1488,61 @@ character_event = {
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 1.25
-			martial = 8
+			factor = 0.6
+			NOT = {
+				OR = {
+					trait = poor_warrior
+					trait = trained_warrior
+					trait = skilled_warrior
+					trait = master_warrior
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			trait = poor_warrior
 		}
 		modifier = {
 			factor = 1.25
-			martial = 10
+			trait = master_warrior
 		}
 		modifier = {
-			factor = 1.25
-			martial = 12
+			factor = 1.35
+			OR = {
+				trait = skilled_warrior
+				trait = master_warrior
+			}
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.1
+			martial = 11
+		}
+		modifier = {
+			factor = 1.1
 			martial = 14
 		}
 		modifier = {
-			factor = 0.75
+			factor = 1.1
+			martial = 17
+		}
+		modifier = {
+			factor = 1.1
+			martial = 20
+		}
+		modifier = {
+			factor = 0.8
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 1 }
 		}
 	}
@@ -723,7 +1550,7 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70012
 		add_trait = craven
@@ -733,28 +1560,32 @@ character_event = {
 # Character becomes brave
 character_event = {
 	id = 70013
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70013
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
-		has_character_flag = attending_tournament
-		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
 		NOT = {
 			trait = brave
 		}
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = attending_tournament_event }
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
@@ -762,42 +1593,68 @@ character_event = {
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 0.75
-			martial = 8
+			factor = 1.4
+			NOT = {
+				OR = {
+					trait = poor_warrior
+					trait = trained_warrior
+					trait = skilled_warrior
+					trait = master_warrior
+				}
+			}
+		}
+		modifier = {
+			factor = 1.2
+			trait = poor_warrior
 		}
 		modifier = {
 			factor = 0.75
-			martial = 10
+			trait = master_warrior
 		}
 		modifier = {
-			factor = 0.75
-			martial = 12
+			factor = 0.65
+			OR = {
+				trait = skilled_warrior
+				trait = master_warrior
+			}
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.9
+			martial = 11
+		}
+		modifier = {
+			factor = 0.9
 			martial = 14
 		}
 		modifier = {
-			factor = 1.25
+			factor = 0.9
+			martial = 17
+		}
+		modifier = {
+			factor = 0.9
+			martial = 20
+		}
+		modifier = {
+			factor = 1.2
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 1 }
 		}
 	}
 
 	immediate = {
 		set_character_flag = attending_tournament_event
-	}	
+	}
 
 	option = {
 		name = EVTOPTA70013
@@ -805,65 +1662,88 @@ character_event = {
 	}
 }
 
-# Character becomes tough soldier
+# Character gets a combat trait if he has none (ID reused)
 character_event = {
-	id = 70014
-	title = TOURNAMENTTITLE
+	id = 70007
+	#title = TOURNAMENTTITLE2
 	desc = EVTDESC70014
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		NOT = { trait = poor_warrior }
+		NOT = { trait = trained_warrior }
+		NOT = { trait = skilled_warrior }
+		NOT = { trait = master_warrior }
 		has_character_flag = attending_tournament
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		trait = misguided_warrior
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 0.75
-			martial = 8
+			factor = 1.3
+			trait = craven
 		}
 		modifier = {
-			factor = 0.75
-			martial = 10
+			factor = 0.7
+			trait = brave
 		}
 		modifier = {
-			factor = 0.75
-			martial = 12
+			factor = 1.3
+			trait = weak
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.7
+			trait = strong
+		}
+		modifier = {
+			factor = 0.9
+			martial = 11
+		}
+		modifier = {
+			factor = 0.9
 			martial = 14
 		}
 		modifier = {
-			factor = 1.25
+			factor = 0.9
+			martial = 17
+		}
+		modifier = {
+			factor = 0.9
+			martial = 20
+		}
+		modifier = {
+			factor = 1.2
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 1 }
 		}
 	}
@@ -874,34 +1754,37 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70014
-		remove_trait = misguided_warrior
-		add_trait = tough_soldier 
+		add_trait = poor_warrior
 	}
 }
 
-# Character becomes skilled tactician
+# Character becomes trained warrior (good)
 character_event = {
-	id = 70015
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70015
+	id = 70014
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70014
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		trait = poor_warrior
 		has_character_flag = attending_tournament
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		trait = tough_soldier 
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
@@ -909,35 +1792,144 @@ character_event = {
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 0.75
-			martial = 8
+			factor = 1.3
+			trait = craven
 		}
 		modifier = {
-			factor = 0.75
-			martial = 10
+			factor = 0.7
+			trait = brave
 		}
 		modifier = {
-			factor = 0.75
-			martial = 12
+			factor = 1.3
+			trait = weak
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.7
+			trait = strong
+		}
+		modifier = {
+			factor = 0.9
+			martial = 11
+		}
+		modifier = {
+			factor = 0.9
 			martial = 14
 		}
 		modifier = {
-			factor = 1.25
+			factor = 0.9
+			martial = 17
+		}
+		modifier = {
+			factor = 0.9
+			martial = 20
+		}
+		modifier = {
+			factor = 1.2
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
+			NOT = { martial = 1 }
+		}
+	}
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+	}
+
+	option = {
+		name = EVTOPTA70014
+		add_trait = trained_warrior
+	}
+}
+
+# Character becomes skilled warrior (good)
+character_event = {
+	id = 70015
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70015
+	picture = GFX_evt_melee
+
+	min_age = 15
+	#only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		trait = trained_warrior
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = attending_tournament_event }
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 300
+		modifier = {
+			factor = 1.3
+			trait = craven
+		}
+		modifier = {
+			factor = 0.7
+			trait = brave
+		}
+		modifier = {
+			factor = 1.3
+			trait = weak
+		}
+		modifier = {
+			factor = 0.7
+			trait = strong
+		}
+		modifier = {
+			factor = 0.9
+			martial = 11
+		}
+		modifier = {
+			factor = 0.9
+			martial = 14
+		}
+		modifier = {
+			factor = 0.9
+			martial = 17
+		}
+		modifier = {
+			factor = 0.9
+			martial = 20
+		}
+		modifier = {
+			factor = 1.2
+			NOT = { martial = 7 }
+		}
+		modifier = {
+			factor = 1.2
+			NOT = { martial = 5 }
+		}
+		modifier = {
+			factor = 1.2
+			NOT = { martial = 3 }
+		}
+		modifier = {
+			factor = 1.2
 			NOT = { martial = 1 }
 		}
 	}
@@ -948,70 +1940,89 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70015
-		remove_trait = tough_soldier 
-		add_trait = skilled_tactician 
+		add_trait = skilled_warrior
 	}
 }
 
-# Character becomes brilliant strategist
+# Character becomes master_warrior (good)
 character_event = {
 	id = 70016
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70016
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		trait = skilled_warrior
 		has_character_flag = attending_tournament
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		trait = skilled_tactician 
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
 
 	mean_time_to_happen = {
-		months = 250
+		months = 350
 		modifier = {
-			factor = 0.75
-			martial = 8
+			factor = 1.3
+			trait = craven
 		}
 		modifier = {
-			factor = 0.75
-			martial = 10
+			factor = 0.7
+			trait = brave
 		}
 		modifier = {
-			factor = 0.75
-			martial = 12
+			factor = 1.3
+			trait = weak
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.7
+			trait = strong
+		}
+		modifier = {
+			factor = 0.9
+			martial = 11
+		}
+		modifier = {
+			factor = 0.9
 			martial = 14
 		}
 		modifier = {
-			factor = 1.25
+			factor = 0.9
+			martial = 17
+		}
+		modifier = {
+			factor = 0.9
+			martial = 20
+		}
+		modifier = {
+			factor = 1.2
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.2
 			NOT = { martial = 1 }
 		}
 	}
@@ -1022,34 +2033,37 @@ character_event = {
 
 	option = {
 		name = EVTOPTA70016
-		remove_trait = skilled_tactician 
-		add_trait = brilliant_strategist 
+		add_trait = master_warrior
 	}
 }
 
-# Character becomes skilled tactician
+# Character becomes skilled_warrior (bad)
 character_event = {
 	id = 70017
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70017
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		trait = master_warrior
 		has_character_flag = attending_tournament
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		trait = brilliant_strategist 
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
@@ -1057,73 +2071,92 @@ character_event = {
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 1.25
-			martial = 8
+			factor = 0.7
+			trait = craven
 		}
 		modifier = {
-			factor = 1.25
-			martial = 10
+			factor = 1.3
+			trait = brave
 		}
 		modifier = {
-			factor = 1.25
-			martial = 12
+			factor = 0.7
+			trait = weak
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.3
+			trait = strong
+		}
+		modifier = {
+			factor = 1.1
+			martial = 11
+		}
+		modifier = {
+			factor = 1.1
 			martial = 14
 		}
 		modifier = {
-			factor = 0.75
+			factor = 1.1
+			martial = 17
+		}
+		modifier = {
+			factor = 1.1
+			martial = 20
+		}
+		modifier = {
+			factor = 0.8
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 1 }
 		}
 	}
-	
+
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
 
 	option = {
 		name = EVTOPTA70017
-		remove_trait = brilliant_strategist
-		add_trait = skilled_tactician  
+		add_trait = skilled_warrior
 	}
 }
 
-# Character becomes tough soldier
+# Character becomes trained_warrior (bad)
 character_event = {
 	id = 70018
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70018
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		trait = skilled_warrior
 		has_character_flag = attending_tournament
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		trait = skilled_tactician 
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
@@ -1131,73 +2164,92 @@ character_event = {
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 1.25
-			martial = 8
+			factor = 0.7
+			trait = craven
 		}
 		modifier = {
-			factor = 1.25
-			martial = 10
+			factor = 1.3
+			trait = brave
 		}
 		modifier = {
-			factor = 1.25
-			martial = 12
+			factor = 0.7
+			trait = weak
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.3
+			trait = strong
+		}
+		modifier = {
+			factor = 1.1
+			martial = 11
+		}
+		modifier = {
+			factor = 1.1
 			martial = 14
 		}
 		modifier = {
-			factor = 0.75
+			factor = 1.1
+			martial = 17
+		}
+		modifier = {
+			factor = 1.1
+			martial = 20
+		}
+		modifier = {
+			factor = 0.8
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 1 }
 		}
 	}
-	
+
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
 
 	option = {
 		name = EVTOPTA70018
-		remove_trait = skilled_tactician
-		add_trait = tough_soldier
+		add_trait = trained_warrior
 	}
 }
 
-# Character becomes misguided warrior
+# Character becomes poor_warrior (bad)
 character_event = {
 	id = 70019
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70019
 	picture = GFX_evt_melee
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		trait = trained_warrior
 		has_character_flag = attending_tournament
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		trait = tough_soldier
-		top_liege = {
-			has_character_flag = tournament_begins
-			NOT = {
-				has_character_flag = tournament_has_ended
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+			top_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = { has_character_flag = tournament_has_ended }
 			}
 		}
 	}
@@ -1205,391 +2257,69 @@ character_event = {
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
-			factor = 1.25
-			martial = 8
+			factor = 0.7
+			trait = craven
 		}
 		modifier = {
-			factor = 1.25
-			martial = 10
+			factor = 1.3
+			trait = brave
 		}
 		modifier = {
-			factor = 1.25
-			martial = 12
+			factor = 0.7
+			trait = weak
 		}
 		modifier = {
-			factor = 1.25
+			factor = 1.3
+			trait = strong
+		}
+		modifier = {
+			factor = 1.1
+			martial = 11
+		}
+		modifier = {
+			factor = 1.1
 			martial = 14
 		}
 		modifier = {
-			factor = 0.75
+			factor = 1.1
+			martial = 17
+		}
+		modifier = {
+			factor = 1.1
+			martial = 20
+		}
+		modifier = {
+			factor = 0.8
 			NOT = { martial = 7 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 5 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 3 }
 		}
 		modifier = {
-			factor = 0.75
+			factor = 0.8
 			NOT = { martial = 1 }
 		}
 	}
-	
+
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
 
 	option = {
 		name = EVTOPTA70019
-		remove_trait = tough_soldier
-		add_trait = misguided_warrior
-	}
-}
-
-# Character wins the tournament
-character_event = {
-	id = 70020
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70020
-	picture = GFX_evt_melee
-
-	min_age = 15
-	only_men = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = attending_tournament
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
-		top_liege = {
-			had_character_flag = { flag = tournament_begins days = 50 }
-			NOT = {
-				has_character_flag = winner
-			}
-			NOT = {
-				has_character_flag = tournament_has_ended
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 10
-		modifier = {
-			factor = 0.75
-			martial = 8
-		}
-		modifier = {
-			factor = 0.75
-			martial = 10
-		}
-		modifier = {
-			factor = 0.75
-			martial = 12
-		}
-		modifier = {
-			factor = 0.75
-			martial = 14
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 7 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 3 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 1 }
-		}
-	}
-
-	immediate = {
-		set_character_flag = attending_tournament_event
-		set_character_flag = tournament_winner
-		top_liege = {
-			set_character_flag = winner
-		}
-	}
-	
-	option = {
-		name = EVTOPTA70020
-		wealth = 100
-		prestige = 300
-		hidden_tooltip = {
-			if = {
-				limit = {
-					top_liege = {
-						NOT = {
-							character = ROOT
-						}
-					}
-				}
-				top_liege = { character_event = { id = 70034 } }
-			}
-		}
-	}
-}
-
-# Inform about winner
-character_event = {
-	id = 70034
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70034
-	picture = GFX_evt_joust
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA70034
-		FROM = {
-			opinion = {
-				modifier = opinion_tournament_winner
-				who = ROOT
-				years = 20
-			}
-		}
-	}
-}
-
-# Character wins second place in the tournament
-character_event = {
-	id = 70021
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70021
-	picture = GFX_evt_melee
-
-	min_age = 15
-	only_men = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = attending_tournament
-		NOT = {
-			has_character_flag = tournament_has_ended
-			has_character_flag = tournament_winner
-		}
-		top_liege = {
-			had_character_flag = { flag = tournament_begins days = 50 }
-			had_character_flag = { flag = winner days = 1 }
-			NOT = { has_character_flag = second_place }
-			NOT = {
-				has_character_flag = tournament_has_ended
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 10
-		modifier = {
-			factor = 0.75
-			martial = 8
-		}
-		modifier = {
-			factor = 0.75
-			martial = 10
-		}
-		modifier = {
-			factor = 0.75
-			martial = 12
-		}
-		modifier = {
-			factor = 0.75
-			martial = 14
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 7 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 3 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 1 }
-		}
-	}
-
-	immediate = {
-		set_character_flag = attending_tournament_event
-		set_character_flag = tournament_second_place
-		top_liege = {
-			set_character_flag = second_place
-		}
-	}
-	
-	option = {
-		name = EVTOPTA70021
-		wealth = 75
-		prestige = 250
-		hidden_tooltip = {
-			if = {
-				limit = {
-					top_liege = {
-						NOT = {
-							character = ROOT
-						}
-					}
-				}
-				top_liege = { character_event = { id = 70035 } }
-			}
-		}
-	}
-}
-
-# Inform about second place
-character_event = {
-	id = 70035
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70035
-	picture = GFX_evt_joust
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA70035
-		FROM = {
-			opinion = {
-				modifier = opinion_tournament_second_place
-				who = ROOT
-				years = 15
-			}
-		}
-	}
-}
-
-# Character wins third place in the tournament
-character_event = {
-	id = 70022
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70022
-	picture = GFX_evt_melee
-
-	min_age = 15
-	only_men = yes
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		has_character_flag = attending_tournament
-		NOT = {
-			has_character_flag = tournament_has_ended
-			has_character_flag = tournament_winner
-			has_character_flag = tournament_second_place
-		}
-		top_liege = {
-			had_character_flag = { flag = tournament_begins days = 50 }
-			had_character_flag = { flag = second_place days = 1 }
-			NOT = { has_character_flag = third_place }
-			NOT = {
-				has_character_flag = tournament_has_ended
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 10
-		modifier = {
-			factor = 0.75
-			martial = 8
-		}
-		modifier = {
-			factor = 0.75
-			martial = 10
-		}
-		modifier = {
-			factor = 0.75
-			martial = 12
-		}
-		modifier = {
-			factor = 0.75
-			martial = 14
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 7 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 3 }
-		}
-		modifier = {
-			factor = 1.25
-			NOT = { martial = 1 }
-		}
-	}
-
-	immediate = {
-		set_character_flag = attending_tournament_event
-		set_character_flag = tournament_third_place
-		top_liege = {
-			set_character_flag = third_place
-		}
-	}
-	
-	option = {
-		name = EVTOPTA70022
-		wealth = 50
-		prestige = 200
-		hidden_tooltip = {
-			if = {
-				limit = {
-					top_liege = {
-						NOT = {
-							character = ROOT
-						}
-					}
-				}
-				top_liege = { character_event = { id = 70036 } }
-			}
-		}
-	}
-}
-
-# Inform about third place
-character_event = {
-	id = 70036
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70036
-	picture = GFX_evt_joust
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA70036
-		FROM = {
-			opinion = {
-				modifier = opinion_tournament_third_place
-				who = ROOT
-				years = 10
-			}
-		}
+		add_trait = poor_warrior
 	}
 }
 
 # Character becomes homosexual
 character_event = {
 	id = 70023
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70023
 	picture = GFX_evt_shadowy_cabal
 
@@ -1597,20 +2327,19 @@ character_event = {
 	only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		NOT = { trait = homosexual }
 		has_character_flag = attending_tournament
+		NOT = { has_character_flag = tournament_spectator }
 		NOT = {
 			has_character_flag = tournament_has_ended
 		}
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			trait = homosexual
-		}
 	}
 
 	mean_time_to_happen = {
-		months = 800
+		months = 1600
 		modifier = {
 			factor = 0.9
 			trait = drunkard
@@ -1656,39 +2385,69 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70023
 		add_trait = homosexual
 	}
 }
 
-# Character becomes syphilitic
+# Character is infatuated with another attendee (id reused)
 character_event = {
-	id = 70024
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70024
+	id = 70008
+	#title = TOURNAMENTTITLE2
+	desc = EVTDESC70008
 	picture = GFX_evt_lovers
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		has_lover = no
 		has_character_flag = attending_tournament
-		NOT = {
-			has_character_flag = tournament_has_ended
-		}
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			trait = syphilitic
-			trait = celibate
+		NOT = { has_character_flag = tournament_has_ended }
+		top_liege = {
+			any_realm_character = {
+				is_adult = yes
+				has_lover = no
+				NOT = { is_close_relative = ROOT }
+				OR = {
+					AND = {
+						ROOT = { is_female = no }
+						is_female = yes
+						NOT = { trait = homosexual }
+					}
+					AND = {
+						ROOT = { is_female = yes }
+						is_female = no
+						NOT = { trait = homosexual }
+					}
+					AND = {
+						ROOT = { is_female = no }
+						is_female = no
+						trait = homosexual
+						ROOT = { trait = homosexual }
+					}
+					AND = {
+						ROOT = { is_female = yes }
+						is_female = yes
+						trait = homosexual
+						ROOT = { trait = homosexual }
+					}
+				}
+				has_character_flag = attending_tournament
+				has_opinion_modifier = { who = PREV modifier = opinion_spectating_tournament }
+				NOT = { has_character_flag = attending_tournament_event }
+				NOT = { character = ROOT }
+			}
 		}
 	}
 
 	mean_time_to_happen = {
-		months = 800
+		months = 1200
 		modifier = {
 			factor = 1.5
 			trait = ugly
@@ -1718,7 +2477,175 @@ character_event = {
 			trait = zealous
 		}
 	}
-	
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+	}
+
+	option = {
+		name = EVTOPTA70008
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					is_female = no
+					is_adult = yes
+					has_lover = no
+					NOT = { is_close_relative = ROOT }
+					OR = {
+						AND = {
+							is_female = no
+							NOT = { trait = homosexual }
+						}
+						AND = {
+							is_female = yes
+							trait = homosexual
+							ROOT = { trait = homosexual }
+						}
+					}
+					has_character_flag = attending_tournament
+					has_opinion_modifier = { who = PREV modifier = opinion_spectating_tournament }
+					NOT = { character = ROOT }
+				}
+				character_event = { id = 70050 days = 1 }
+			}
+		}
+	}
+}
+# Character gets a chance to accept FROM as lover (id reused)
+character_event = {
+	id = 70050
+	#title = TOURNAMENTTITLE2
+	desc = EVTDESC70050
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+	}
+
+	option = {
+		name = EVTOPTA70050
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				FROM = { trait = fair }
+			}
+			modifier = {
+				factor = 2
+				trait = hedonist
+			}
+			modifier = {
+				factor = 2
+				trait = lustful
+			}
+		}
+		add_lover = FROM
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
+		}
+		FROM = { character_event = { id = 70051 days = 1 } }
+	}
+	option = {
+		name = EVTOPTA70050
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				FROM = { trait = ugly }
+			}
+			modifier = {
+				factor = 2
+				trait = impaler
+			}
+			modifier = {
+				factor = 2
+				trait = lustful
+			}
+		}
+		FROM = { character_event = { id = 70052 days = 1 } }
+	}
+}
+# Love accepted (id reused)
+character_event = {
+	id = 70051
+	#title = TOURNAMENTTITLE2
+	desc = EVTDESC70051
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70051
+		add_lover = FROM
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
+		}
+	}
+}
+
+# Character becomes syphilitic
+character_event = {
+	id = 70024
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70024
+	picture = GFX_evt_lovers
+
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		NOT = {
+			trait = syphilitic
+			trait = celibate
+		}
+		has_character_flag = attending_tournament
+		NOT = {
+			has_character_flag = tournament_has_ended
+		}
+		NOT = { has_character_flag = attending_tournament_event }
+		has_global_flag = aztec_syphilis #Syphilis must be active
+	}
+
+	mean_time_to_happen = {
+		months = 1200
+		modifier = {
+			factor = 1.5
+			trait = ugly
+		}
+		modifier = {
+			factor = 0.9
+			trait = fair
+		}
+		modifier = {
+			factor = 0.9
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.5
+			trait = impaler
+		}
+		modifier = {
+			factor = 0.9
+			trait = lustful
+		}
+		modifier = {
+			factor = 2
+			trait = chaste
+		}
+		modifier = {
+			factor = 3
+			trait = zealous
+		}
+	}
+
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
@@ -1732,28 +2659,26 @@ character_event = {
 # Character becomes drunkard
 character_event = {
 	id = 70025
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70025
 	picture = GFX_evt_drunk
-	
+
 	min_age = 15
 	only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		NOT = { trait = drunkard }
 		has_character_flag = attending_tournament
 		NOT = {
 			has_character_flag = tournament_has_ended
 		}
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			trait = drunkard
-		}
 	}
 
 	mean_time_to_happen = {
-		months = 500
+		months = 700
 		modifier = {
 			factor = 0.5
 			trait = depressed
@@ -1783,7 +2708,7 @@ character_event = {
 			trait = greedy
 		}
 	}
-	
+
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
@@ -1797,28 +2722,27 @@ character_event = {
 # Character becomes duelist
 character_event = {
 	id = 70026
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70026
 	picture = GFX_evt_melee
-	
+
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
+		NOT = { lifestyle_traits = 1 }
 		has_character_flag = attending_tournament
+		NOT = { has_character_flag = tournament_spectator }
 		NOT = {
 			has_character_flag = tournament_has_ended
 		}
 		NOT = { has_character_flag = attending_tournament_event }
-		NOT = {
-			lifestyle_traits = 1
-		}
 	}
-	
+
 	mean_time_to_happen = {
-		months = 500
+		months = 700
 		modifier = {
 			factor = 0.9
 			trait = wroth
@@ -1856,25 +2780,25 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70026
 		add_trait = duelist
 	}
 }
 
-# Character gains diplomacy
+# Character gains intrigue
 character_event = {
 	id = 70027
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70027
 	picture = GFX_evt_whispers
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
 		has_character_flag = attending_tournament
 		NOT = {
@@ -1882,7 +2806,7 @@ character_event = {
 		}
 		NOT = { has_character_flag = attending_tournament_event }
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
@@ -1931,29 +2855,29 @@ character_event = {
 			}
 		}
 	}
-	
+
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
 
 	option = {
 		name = EVTOPTA70027
-		change_diplomacy = 1
+		change_intrigue = 1
 	}
 }
 
-# Character loses diplomacy
+# Character loses intrigue
 character_event = {
 	id = 70028
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70028
 	picture = GFX_evt_whispers
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
 		has_character_flag = attending_tournament
 		NOT = {
@@ -1961,7 +2885,7 @@ character_event = {
 		}
 		NOT = { has_character_flag = attending_tournament_event }
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
@@ -2014,25 +2938,25 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70028
-		change_diplomacy = -1
+		change_intrigue = -1
 	}
 }
 
 # Character gains stewardship
 character_event = {
 	id = 70029
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70029
 	picture = GFX_evt_market
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
 		has_character_flag = attending_tournament
 		NOT = {
@@ -2040,7 +2964,7 @@ character_event = {
 		}
 		NOT = { has_character_flag = attending_tournament_event }
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
@@ -2053,7 +2977,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.1
-			trait = thrifty_clerk 
+			trait = thrifty_clerk
 		}
 		modifier = {
 			factor = 1.5
@@ -2063,16 +2987,16 @@ character_event = {
 			factor = 1.5
 			NOT = {
 				OR = {
-					trait = midas_touched 
+					trait = midas_touched
 					trait = fortune_builder
-					trait = thrifty_clerk 
+					trait = thrifty_clerk
 					trait = indulgent_wastrel
 				}
 			}
 		}
 		modifier = {
 			factor = 0.9
-			trait = diligent 
+			trait = diligent
 		}
 		modifier = {
 			factor = 1.5
@@ -2093,7 +3017,7 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70029
 		change_stewardship = 1
@@ -2103,15 +3027,15 @@ character_event = {
 # Character loses stewardship
 character_event = {
 	id = 70030
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70030
 	picture = GFX_evt_market
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
 		has_character_flag = attending_tournament
 		NOT = {
@@ -2119,12 +3043,12 @@ character_event = {
 		}
 		NOT = { has_character_flag = attending_tournament_event }
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
 			factor = 1.5
-			trait = midas_touched 
+			trait = midas_touched
 		}
 		modifier = {
 			factor = 1.1
@@ -2132,7 +3056,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.9
-			trait = thrifty_clerk 
+			trait = thrifty_clerk
 		}
 		modifier = {
 			factor = 0.8
@@ -2144,14 +3068,14 @@ character_event = {
 				OR = {
 					trait = midas_touched
 					trait = fortune_builder
-					trait = thrifty_clerk 
+					trait = thrifty_clerk
 					trait = indulgent_wastrel
 				}
 			}
 		}
 		modifier = {
 			factor = 1.5
-			trait = diligent 
+			trait = diligent
 		}
 		modifier = {
 			factor = 0.9
@@ -2172,7 +3096,7 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70030
 		change_stewardship = -1
@@ -2182,15 +3106,15 @@ character_event = {
 # Character gains diplomacy
 character_event = {
 	id = 70031
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70031
 	picture = GFX_evt_council
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
 		has_character_flag = attending_tournament
 		NOT = {
@@ -2198,12 +3122,12 @@ character_event = {
 		}
 		NOT = { has_character_flag = attending_tournament_event }
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
 			factor = 0.8
-			trait = grey_eminence 
+			trait = grey_eminence
 		}
 		modifier = {
 			factor = 0.9
@@ -2221,7 +3145,7 @@ character_event = {
 			factor = 1.5
 			NOT = {
 				OR = {
-					trait = grey_eminence 
+					trait = grey_eminence
 					trait = charismatic_negotiator
 					trait = underhanded_rogue
 					trait = naive_appeaser
@@ -2251,7 +3175,7 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70031
 		change_diplomacy = 1
@@ -2261,15 +3185,15 @@ character_event = {
 # Character loses diplomacy
 character_event = {
 	id = 70032
-	title = TOURNAMENTTITLE
+	#title = TOURNAMENTTITLE
 	desc = EVTDESC70032
 	picture = GFX_evt_council
 
 	min_age = 15
-	only_men = yes
+	#only_men = yes
 	capable_only = yes
 	prisoner = no
-	
+
 	trigger = {
 		has_character_flag = attending_tournament
 		NOT = {
@@ -2277,12 +3201,12 @@ character_event = {
 		}
 		NOT = { has_character_flag = attending_tournament_event }
 	}
-	
+
 	mean_time_to_happen = {
 		months = 250
 		modifier = {
 			factor = 1.5
-			trait = grey_eminence 
+			trait = grey_eminence
 		}
 		modifier = {
 			factor = 1.1
@@ -2300,7 +3224,7 @@ character_event = {
 			factor = 1.5
 			NOT = {
 				OR = {
-					trait = grey_eminence 
+					trait = grey_eminence
 					trait = charismatic_negotiator
 					trait = underhanded_rogue
 					trait = naive_appeaser
@@ -2330,112 +3254,2625 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_tournament_event
 	}
-	
+
 	option = {
 		name = EVTOPTA70032
 		change_diplomacy = -1
 	}
 }
 
-# Invitations have gone out
-character_event = {
-	id = 70033
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70033
-	picture = GFX_evt_courier
+###
+# Drunkard at tournament
+###
+character_event = { #drunkard embarasses himself
+	id = 70082
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70082
+	picture = GFX_evt_drunk
 
-	is_triggered_only = yes
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		trait = drunkard
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = attending_tournament_event }
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { has_character_flag = tournament_third_place }
+		NOT = { has_character_flag = tournament_second_place }
+		NOT = { has_character_flag = tournament_winner }
+		NOT = { trait = wounded	}
+		NOT = {	trait = maimed }
+		OR = {
+			any_liege = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = tournament_begins
+				NOT = {
+					has_character_flag = tournament_has_ended
+				}
+			}
+			top_liege = {
+				any_realm_character = {
+					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+					has_character_flag = tournament_begins
+					NOT = {
+						has_character_flag = tournament_has_ended
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 500
+		modifier = {
+			factor = 1.25
+			trait = quick #knows when not to drink
+		}
+		modifier = {
+			factor = 1.50
+			trait = genius #knows when not to drink
+		}
+		modifier = {
+			factor = 1.50
+			trait = slow #will mess up things
+		}
+		modifier = { #
+			factor = 2
+			trait = craven
+		}
+		modifier = {
+			factor = 0.5 #bravery clouds his mind
+			trait = brave
+		}
+	}
+
+	immediate = {
+		set_character_flag = embarrased_drunkard
+	}
 
 	option = {
-		name = EVTOPTA70033
+		name = EVTOPTA70082
+		top_liege = { character_event = { id = 70083 } }
 	}
 }
 
-# Ruler has died, the tournament is over
-character_event = {
-	id = 70041
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70041
-	picture = GFX_evt_death
+character_event = { #liege decide on drunkard fate
+	id = 70083
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70083
+	picture = GFX_evt_drunk
 
 	is_triggered_only = yes
-	
-	trigger = {
-		has_character_flag = tournament_begins
-	}
-	
+
 	option = {
-		name = EVTOPTA70041
-		clr_character_flag = tournament_begins
-		clr_character_flag = winner
-		clr_character_flag = second_place
-		clr_character_flag = third_place
+		name = EVTOPTA70083 #tournament host likes you or is drunkard. a good laugh, but prestige lost
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				trait = drunkard
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  0 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  20 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  40 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  60 }
+			}
+			modifier = {
+				factor = 1.2
+				opinion = { who = FROM value =  80 }
+			}
+		}
+		FROM = {
+			hidden_tooltip =  {
+				character_event = { id = 70085 }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70083 #tournament host is wroth or proud. he's very pissed and kick you out of the tournament.
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				OR = {
+					trait = wroth
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value = -100 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value = -80 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value = -60 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value = -40 } }
+			}
+			modifier = {
+				factor = 1.2
+				NOT = { opinion = { who = FROM value = -20 } }
+			}
+		}
+		FROM = {
+			hidden_tooltip =  {
+				character_event = { id = 70084 }
+			}
+		}
+	}
+}
+
+character_event = { #tournament is over for you #bad
+	id = 70084
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70084
+	picture = GFX_evt_drunk
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70084 #
+		hidden_tooltip = {
+			remove_opinion = {
+				modifier = opinion_attending_tournament
+				who = FROM
+			}
+		}
+		prestige = -20
+		add_character_modifier = {
+			name = drunken_tournament
+			duration = -1
+		}
 		clr_character_flag = attending_tournament
 		clr_character_flag = attending_tournament_event
-		clr_character_flag = tournament_third_place
-		clr_character_flag = tournament_second_place
-		clr_character_flag = tournament_winner
-		any_vassal = {
-			limit = {
-				has_character_flag = attending_tournament
-				NOT = {
-					character = PREV
-				}
-				NOT = {
-					has_character_flag = tournament_third_place
-				}
-				NOT = {
-					has_character_flag = tournament_second_place
-				}
-				NOT = {
-					has_character_flag = tournament_winner
-				}
-			}
-			set_character_flag = tournament_has_ended
-			clr_character_flag = attending_tournament
-			clr_character_flag = attending_tournament_event
-			letter_event = {
-				id = 70042
-				days = 2
-				random = 2
-				tooltip = EVTTOOLTIP70042
+		clr_character_flag = king_tourny
+		clr_character_flag = grand_tourny
+		clr_character_flag = normal_tourny
+		clr_character_flag = small_tourny
+	}
+}
+
+character_event = { #tournament is over for you #not so bad
+	id = 70085
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70085
+	picture = GFX_evt_drunk
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70085 #
+		hidden_tooltip = {
+			remove_opinion = {
+				modifier = opinion_attending_tournament
+				who = FROM
 			}
 		}
-		any_vassal = {
-			limit = {
-				has_character_flag = attending_tournament
-				OR = {
-					has_character_flag = tournament_third_place
-					has_character_flag = tournament_second_place
-					has_character_flag = tournament_winner
+		prestige = -10
+		add_character_modifier = {
+			name = drunken_tournament
+			duration = -1
+		}
+		clr_character_flag = attending_tournament
+		clr_character_flag = attending_tournament_event
+		clr_character_flag = king_tourny
+		clr_character_flag = grand_tourny
+		clr_character_flag = normal_tourny
+		clr_character_flag = small_tourny
+	}
+}
+
+###
+# Queen of love and beauty
+###
+# Choose queen of love and beauty
+character_event = {
+	id = 70053
+	desc = EVTDESC70053
+	title = TOURNAMENTTITLE2
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			is_female = no
+			trait = homosexual
+		}
+	}
+
+	option = {
+		name = EVTOPTA70053
+		ai_chance = { factor = 30 }
+		trigger = {
+			top_liege = {
+				any_realm_character = {
+					has_character_flag = queen_love_beauty_1
 				}
 			}
-			letter_event = {
-				id = 70042
-				days = 2
-				random = 2
-				tooltip = EVTTOOLTIP70042
+		}
+		top_liege = {
+			random_realm_character = {
+				limit = { has_character_flag = queen_love_beauty_1 }
+				reverse_opinion = {
+					modifier = opinion_queen_love_beauty
+					who = ROOT
+					years = 20
+				}
+				character_event = { id = 70057 days = 1 tooltip = EVTTOOLTIP70057 }
 			}
-			set_character_flag = tournament_has_ended
-			clr_character_flag = tournament_third_place
-			clr_character_flag = tournament_second_place
-			clr_character_flag = tournament_winner
-			clr_character_flag = attending_tournament
-			clr_character_flag = attending_tournament_event
+		}
+	}
+	option = {
+		name = EVTOPTB70053
+		ai_chance = { factor = 30 }
+		trigger = {
+			top_liege = {
+				any_realm_character = {
+					has_character_flag = queen_love_beauty_2
+				}
+			}
+		}
+		top_liege = {
+			random_realm_character = {
+				limit = { has_character_flag = queen_love_beauty_2 }
+				reverse_opinion = {
+					modifier = opinion_queen_love_beauty
+					who = ROOT
+					years = 20
+				}
+				character_event = { id = 70057 days = 1 tooltip = EVTTOOLTIP70057 }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC70053
+		ai_chance = { factor = 30 }
+		trigger = {
+			top_liege = {
+				any_realm_character = {
+					has_character_flag = queen_love_beauty_3
+				}
+			}
+		}
+		top_liege = {
+			random_realm_character = {
+				limit = { has_character_flag = queen_love_beauty_3 }
+				reverse_opinion = {
+					modifier = opinion_queen_love_beauty
+					who = ROOT
+					years = 20
+				}
+				character_event = { id = 70057 days = 1 tooltip = EVTTOOLTIP70057 }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTD70053
+		ai_chance = { factor = 10 }
+		top_liege = {
+			random_realm_character = {
+				limit = { has_character_flag = queen_love_beauty_4 }
+				reverse_opinion = {
+					modifier = opinion_queen_love_beauty
+					who = ROOT
+					years = 20
+				}
+				character_event = { id = 70057 days = 1 tooltip = EVTTOOLTIP70057 }
+			}
 		}
 	}
 }
 
-#The tournament has been cancelled due to Ruler's death
-letter_event = {
-	id = 70042
-	title = TOURNAMENTTITLE
-	desc = EVTDESC70042
-	picture = GFX_evt_death
-	
+# queen is informed
+character_event = {
+	id = 70057
+	desc = EVTDESC70057
+	picture = GFX_evt_lovers
+
 	is_triggered_only = yes
-	
+
 	option = {
-		name = EVTOPTA70042
+		name = EVTOPTA70057
+		prestige = 50
+		opinion = {
+			modifier = opinion_queen_love_beauty_chosen
+			who = FROM
+			years = 20
+		}
+		hidden_tooltip = {
+			any_liege = {
+				limit = {
+					has_character_flag = epic_tournament
+				}
+				character_event = { id = 70058 days = 1 }
+			}
+			IF = {
+				limit = {
+					OR = {
+						trait = lustful
+						trait = poet
+						trait = hedonist
+					}
+				}
+				FROM = { character_event = { id = 70074 days = 1 } }
+			}
+			IF = {
+				limit = {
+					NOT = { trait = lustful }
+					NOT = { trait = poet }
+					NOT = { trait = hedonist }
+				}
+				random = {
+					chance = 50
+					FROM = { character_event = { id = 70074 days = 1 } }
+				}
+			}
+		}
+	}
+}
+
+# tourny holder is informed
+character_event = {
+	id = 70058
+	desc = EVTDESC70058
+	title = TOURNAMENTTITLE3
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70058
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROMFROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}
+					}
+					character_event = { id = 70059 }
+				}
+			}
+		}
+	}
+}
+
+# tourny participant is informed
+character_event = {
+	id = 70059
+	desc = EVTDESC70059
+	title = TOURNAMENTTITLE2
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70058
+		trigger = {
+			NOT = {
+				FROM = {
+					FROM = {
+						dynasty = ROOT
+						is_close_relative = ROOT
+					}
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70059
+		trigger = {
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					is_close_relative = ROOT
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = 10
+	}
+}
+
+# pursue queen of love and beauty?
+character_event = {
+	id = 70074
+	desc = EVTDESC70074
+	picture = GFX_evt_feast
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { trait = chaste }
+		NOT = { trait = celibate }
+		OR = {
+			is_female = no
+			trait = homosexual
+		}
+	}
+
+	option = {
+		name = EVTOPTA70074 #pursue
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 5
+				trait = lustful
+			}
+			modifier = {
+				factor = 4
+				is_married = no
+			}
+			modifier = {
+				factor = 2
+				FROM = { trait = fair }
+			}
+			modifier = {
+				factor = 2
+				trait = homosexual
+				FROM = { trait = homosexual }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { age = 40 }
+			}
+			modifier = {
+				factor = 1.5
+				opinion = { who = FROM value =  30 }
+			}
+			modifier = {
+				factor = 1.5
+				opinion = { who = FROM value =  60 }
+			}
+			modifier = {
+				factor = 1.5
+				opinion = { who = FROM value =  90 }
+			}
+		}
+		FROM = { character_event = { id = 70075 tooltip = EVTTOOLTIP70075 } }
+	}
+	option = {
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				is_married = yes
+			}
+			modifier = {
+				factor = 2
+				is_betrothed = yes
+			}
+			modifier = {
+				factor = 2
+				FROM = { trait = ugly }
+			}
+			modifier = {
+				factor = 2
+				is_close_relative = FROM
+			}
+			modifier = {
+				factor = 1.5
+				age = 40
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { opinion = { who = FROM value =  0 } }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { opinion = { who = FROM value =  -30 } }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { opinion = { who = FROM value =  -60 } }
+			}
+		}
+		name = EVTOPTB70074 #no thanks
+	}
+}
+
+# queen responds
+character_event = {
+	id = 70075
+	desc = EVTDESC70075
+	picture = GFX_evt_feast
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70075 #accept
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 5
+				trait = lustful
+			}
+			modifier = {
+				factor = 2
+				FROM = { trait = fair }
+			}
+			modifier = {
+				factor = 2
+				trait = homosexual
+				FROM = { is_female = yes }
+			}
+			modifier = {
+				factor = 1.5
+				FROM = { NOT = { age = 40 } }
+			}
+			modifier = {
+				factor = 1.5
+				opinion = { who = FROM value =  30 }
+			}
+			modifier = {
+				factor = 1.5
+				opinion = { who = FROM value =  60 }
+			}
+			modifier = {
+				factor = 1.5
+				opinion = { who = FROM value =  90 }
+			}
+		}
+		FROM = { character_event = { id = 70076 tooltip = EVTTOOLTIP70076 } }
+		add_lover = FROM
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
+		}
+	}
+	option = {
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 1.5
+				FROM = { age = 40 }
+			}
+			modifier = {
+				factor = 2
+				FROM = { trait = ugly }
+			}
+			modifier = {
+				factor = 2
+				trait = homosexual
+				FROM = { is_female = no }
+			}
+			modifier = {
+				factor = 2
+				NOT = { trait = homosexual }
+				FROM = { is_female = yes }
+			}
+			modifier = {
+				factor = 2
+				is_close_relative = FROM
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { opinion = { who = FROM value =  0 } }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { opinion = { who = FROM value =  -30 } }
+			}
+			modifier = {
+				factor = 1.5
+				NOT = { opinion = { who = FROM value =  -60 } }
+			}
+		}
+		name = EVTOPTB70075 #no thanks
+		FROM = {
+			character_event = { id = 70077 tooltip = EVTTOOLTIP70077 }
+			opinion = {
+				modifier = opinion_spurned
+				who = ROOT
+				years = 10
+			}
+		}
+	}
+}
+
+# character informed of new lover
+character_event = {
+	id = 70076
+	desc = EVTDESC70076
+	picture = GFX_evt_lovers
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70076
+		add_lover = FROM
+		add_character_modifier = {
+			name = "new_love"
+			duration = 90
+			hidden = yes
+		}
+	}
+}
+
+# character informed of rejection
+character_event = {
+	id = 70077
+	desc = EVTDESC70077
+	picture = GFX_evt_quarrel
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70077
+	}
+}
+
+###
+# Winner selection
+###
+# Character wins the tournament
+character_event = {
+	id = 70020
+	title = TOURNAMENTTITLE
+	desc = EVTDESC70020
+	picture = GFX_evt_melee
+
+	min_age = 15
+	#only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { has_character_flag = tournament_spectator }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				had_character_flag = { flag = tournament_begins days = 50 }
+				NOT = { has_character_flag = winner }
+			}
+			top_liege = {
+				had_character_flag = { flag = tournament_begins days = 50 }
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				NOT = { has_character_flag = winner }
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+		}
+		OR = {
+			AND = {
+				check_variable = { which = tournament_win value = 5 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { check_variable = { which = tournament_win value = 4 } }
+						NOT = { has_character_flag = tournament_winner }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 4 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { check_variable = { which = tournament_win value = 3 } }
+						NOT = { has_character_flag = tournament_winner }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 3 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { check_variable = { which = tournament_win value = 2 } }
+						NOT = { has_character_flag = tournament_winner }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 2 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { check_variable = { which = tournament_win value = 1 } }
+						NOT = { has_character_flag = tournament_winner }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 1 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_winner }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 10
+		modifier = {
+			factor = 0.75
+			martial = 8
+		}
+		modifier = {
+			factor = 0.75
+			martial = 10
+		}
+		modifier = {
+			factor = 0.75
+			martial = 12
+		}
+		modifier = {
+			factor = 0.75
+			martial = 14
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { martial = 7 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { martial = 5 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { martial = 3 }
+		}
+		modifier = {
+			factor = 1.25
+			NOT = { martial = 1 }
+		}
+	}
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+		set_character_flag = tournament_winner
+		top_liege = {
+			set_character_flag = winner
+			clr_character_flag = random_first
+			character_event = { id = 70034 days = 1 }
+		}
+		if = {
+			limit = {
+				NOT = { has_character_modifier = normal_tourny_1st_1 }
+				NOT = { has_character_flag = normal_tourny_1st }
+			}
+			add_character_modifier = {
+				name = normal_tourny_1st_1
+				duration = -1
+			}
+			set_character_flag = normal_tourny_1st
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_1st_1
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_1st_2
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_1st_1
+				set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_1st_2
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_1st_3
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_1st_2
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_1st_3
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_1st_4
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_1st_3
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_1st_4
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_1st_5
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_1st_4
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				check_variable = { which = tournament_rounds value = 2 }
+				NOT = { check_variable = { which = tournament_rounds value = 3 } }
+			}
+			top_liege = {
+				set_character_flag = random_second
+				character_event = { id = 70055 days = 2 }
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { which = tournament_rounds value = 1 }
+				NOT = { check_variable = { which = tournament_rounds value = 2 } }
+			}
+			top_liege = {
+				set_character_flag = random_third
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTA70020
+		wealth = 50
+		prestige = 100
+	}
+}
+
+# Inform about winner
+character_event = {
+	id = 70034
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70034
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_tooltip = {
+			if = {
+				top_liege = {
+					random_realm_character = { #attractive
+						limit = {
+							is_female = yes
+							age = 15
+							NOT = { age = 30 }
+							is_married = no
+							is_betrothed = no
+							trait = fair
+						}
+						set_character_flag = queen_love_beauty_1
+					}
+					random_realm_character = { #prestigious family
+						limit = {
+							is_female = yes
+							age = 15
+							NOT = { age = 30 }
+							is_married = no
+							is_betrothed = no
+							OR = {
+								any_dynasty_member = {
+									is_close_relative = PREV
+									prestige = 1500
+								}
+								any_dynasty_member = {
+									is_close_relative = PREV
+									primary_title = { higher_tier_than = DUKE }
+								}
+							}
+							NOT = { has_character_flag = queen_love_beauty_1 }
+						}
+						set_character_flag = queen_love_beauty_2
+					}
+					random_realm_character = { #high dynasty
+						limit = {
+							is_female = yes
+							age = 15
+							NOT = { age = 30 }
+							is_married = no
+							is_betrothed = no
+							any_dynasty_member = { primary_title = { higher_tier_than = BARON } }
+							NOT = { trait = ugly }
+							NOT = { trait = dwarf }
+							NOT = { trait = inbred }
+							NOT = { trait = hunchback }
+							NOT = { trait = harelip }
+							NOT = { has_character_flag = queen_love_beauty_1 }
+							NOT = { has_character_flag = queen_love_beauty_2 }
+						}
+						set_character_flag = queen_love_beauty_3
+					}
+					random_realm_character = { #other random
+						limit = {
+							is_female = yes
+							age = 15
+							NOT = { age = 30 }
+							is_married = no
+							is_betrothed = no
+							NOT = { trait = ugly }
+							NOT = { trait = dwarf }
+							NOT = { trait = inbred }
+							NOT = { trait = hunchback }
+							NOT = { trait = harelip }
+							NOT = { has_character_flag = queen_love_beauty_1 }
+							NOT = { has_character_flag = queen_love_beauty_2 }
+							NOT = { has_character_flag = queen_love_beauty_3 }
+						}
+						set_character_flag = queen_love_beauty_4
+					}
+					FROM = {
+						character_event = { id = 70053 days = 1 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTA70034
+		FROM = {
+			opinion = {
+				modifier = opinion_tournament_winner
+				who = ROOT
+				years = 20
+			}
+			clr_character_flag = medal_assigned
+		}
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}
+					}
+					character_event = { id = 70052 }
+				}
+			}
+		}
+	}
+}
+
+# Character wins second place in the tournament
+character_event = {
+	id = 70021
+	title = TOURNAMENTTITLE
+	desc = EVTDESC70021
+	picture = GFX_evt_melee
+
+	min_age = 15
+	#only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = tournament_winner }
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { has_character_flag = tournament_spectator }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				had_character_flag = { flag = tournament_begins days = 50 }
+				has_character_flag = winner
+				NOT = { has_character_flag = second_place }
+			}
+			top_liege = {
+				had_character_flag = { flag = tournament_begins days = 50 }
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = winner
+				NOT = { has_character_flag = second_place }
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+		}
+		OR = {
+			AND = {
+				check_variable = { which = tournament_win value = 4 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { check_variable = { which = tournament_win value = 3 } }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 3 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { check_variable = { which = tournament_win value = 2 } }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 2 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { check_variable = { which = tournament_win value = 1 } }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 1 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_second_place }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+		set_character_flag = tournament_second_place
+		top_liege = {
+			set_character_flag = second_place
+			clr_character_flag = random_second
+			character_event = { id = 70035 days = 1 }
+		}
+		if = {
+			limit = {
+				NOT = { has_character_modifier = normal_tourny_2nd_1 }
+				NOT = { has_character_flag = normal_tourny_2nd }
+			}
+			add_character_modifier = {
+				name = normal_tourny_2nd_1
+				duration = -1
+			}
+			set_character_flag = normal_tourny_2nd
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_2nd_1
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_2nd_2
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_2nd_1
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_2nd_2
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_2nd_3
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_2nd_2
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_2nd_3
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_2nd_4
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_2nd_3
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_2nd_4
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_2nd_5
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_2nd_4
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				check_variable = { which = tournament_rounds value = 1 }
+				NOT = { check_variable = { which = tournament_rounds value = 2 } }
+			}
+			top_liege = {
+				set_character_flag = random_third
+				character_event = { id = 70056 days = 2 }
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTA70021
+		wealth = 25
+		prestige = 50
+	}
+}
+
+# Inform about second place
+character_event = {
+	id = 70035
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70035
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70035
+		FROM = {
+			opinion = {
+				modifier = opinion_tournament_second_place
+				who = ROOT
+				years = 15
+			}
+			clr_character_flag = medal_assigned
+		}
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}
+					}
+					character_event = { id = 70087 }
+				}
+			}
+		}
+	}
+}
+
+# Character wins third place in the tournament
+character_event = {
+	id = 70022
+	title = TOURNAMENTTITLE
+	desc = EVTDESC70022
+	picture = GFX_evt_melee
+
+	min_age = 15
+	#only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = tournament_winner }
+		NOT = { has_character_flag = tournament_second_place }
+		NOT = { has_character_flag = tournament_third_place }
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { has_character_flag = tournament_spectator }
+		OR = {
+			AND = {
+				higher_tier_than = DUKE
+				had_character_flag = { flag = tournament_begins days = 50 }
+				has_character_flag = winner
+				has_character_flag = second_place
+				NOT = { has_character_flag = third_place }
+			}
+			top_liege = {
+				had_character_flag = { flag = tournament_begins days = 50 }
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+				has_character_flag = winner
+				has_character_flag = second_place
+				NOT = { has_character_flag = third_place }
+				NOT = { has_character_flag = tournament_has_ended }
+			}
+		}
+		OR = {
+			AND = {
+				check_variable = { which = tournament_win value = 3 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_winner }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { has_character_flag = tournament_third_place }
+						NOT = { check_variable = { which = tournament_win value = 2 } }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 2 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_winner }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { has_character_flag = tournament_third_place }
+						NOT = { check_variable = { which = tournament_win value = 1 } }
+					}
+				}
+			}
+			AND = {
+				check_variable = { which = tournament_win value = 1 }
+				top_liege = {
+					any_realm_character = {
+						NOT = { character = ROOT }
+						NOT = { has_character_flag = tournament_winner }
+						NOT = { has_character_flag = tournament_second_place }
+						NOT = { has_character_flag = tournament_third_place }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+		set_character_flag = tournament_third_place
+		top_liege = { 
+			set_character_flag = third_place
+			clr_character_flag = random_third
+		}
+		if = {
+			limit = {
+				NOT = { has_character_modifier = normal_tourny_3rd_1 }
+				NOT = { has_character_flag = normal_tourny_3rd }
+			}
+			add_character_modifier = {
+				name = normal_tourny_3rd_1
+				duration = -1
+			}
+			set_character_flag = normal_tourny_3rd
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_3rd_1
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_3rd_2
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_3rd_1
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_3rd_2
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_3rd_3
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_3rd_2
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_3rd_3
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_3rd_4
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_3rd_3
+			set_character_flag = medal_assigned
+		}
+		if = {
+			limit = {
+				has_character_modifier = normal_tourny_3rd_4
+				NOT = { has_character_flag = medal_assigned }
+			}
+			add_character_modifier = {
+				name = normal_tourny_3rd_5
+				duration = -1
+			}
+			remove_character_modifier = normal_tourny_3rd_4
+			set_character_flag = medal_assigned
+		}
+	}
+
+	option = {
+		name = EVTOPTA70022
+		wealth = 15
+		prestige = 25
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70036 } }
+		}
+	}
+}
+
+# Inform about third place
+character_event = {
+	id = 70036
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70036
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70036
+		FROM = {
+			opinion = {
+				modifier = opinion_tournament_third_place
+				who = ROOT
+				years = 10
+			}
+			clr_character_flag = medal_assigned
+		}
+		hidden_tooltip = {
+			top_liege = {
+				any_realm_character = {
+					limit = {
+						NOT = { character = FROM }
+						has_character_flag = attending_tournament
+						OR = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_attending_tournament }
+							has_opinion_modifier = { who = ROOT modifier = opinion_spectating_tournament }
+						}
+					}
+					character_event = { id = 70088 }
+				}
+			}
+		}
+	}
+}
+
+# Unknown Character wins the tournament
+character_event = {
+	id = 70054
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70054
+	picture = GFX_evt_melee
+
+	only_rulers = yes
+
+	trigger = {
+		OR = {
+			tier = king
+			tier = emperor
+		}
+		OR = {
+			has_character_flag = random_first
+			AND = {
+				had_character_flag = { flag = tournament_begins days = 80 }
+				NOT = { any_realm_character = { check_variable = { which = tournament_rounds value = 1 } } }
+			}
+			had_character_flag = { flag = tournament_begins days = 365 }
+		}
+		NOT = { has_character_flag = winner }
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { any_realm_character = { has_character_flag = tournament_winner } }
+	}
+
+	mean_time_to_happen = {
+		days = 5
+	}
+
+	immediate = {
+		set_character_flag = winner
+		clr_character_flag = random_first
+		set_character_flag = random_second
+		set_character_flag = random_third
+		character_event = { id = 70055 days = 2 }
+	}
+
+	option = {
+		name = EVTOPTA70054
+		ai_chance = { factor = 95 }
+	}
+	option = {
+		name = EVTOPTB70054
+		ai_chance = {
+			factor = 5
+			modifier = {
+				factor = 20
+				top_liege = {
+					any_realm_character = {
+						NOT = { check_variable = { which = tournament_win value = 3 } }
+					}
+				}
+			}
+		}
+		create_random_soldier = {
+			random_traits = yes
+			dynasty = random
+			culture = ROOT
+			female = no
+		}
+		new_character = {
+			remove_trait = weak
+			remove_trait = imbecile
+			remove_trait = clubfooted
+			remove_trait = inbred
+			set_character_flag = tournament_winner
+			set_character_flag = attending_tournament
+			set_character_flag = attending_tournament_event
+			opinion = {
+				modifier = opinion_attending_tournament
+				who = ROOT
+				years = 100
+			}
+			reverse_opinion = {
+				modifier = opinion_tournament_winner
+				who = ROOT
+				years = 20
+			}
+			random_list = {
+				75 = { add_trait = trained_warrior }
+				15 = { add_trait = poor_warrior }
+				10 = { add_trait = skilled_warrior }
+			}
+			wealth = 50
+			prestige = 100
+			add_character_modifier = {
+				name = normal_tourny_1st_1
+				duration = -1
+			}
+			set_character_flag = normal_tourny_1st
+	}
+}
+}
+
+# random_character comes second
+character_event = {
+	id = 70055
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70055
+	picture = GFX_evt_melee
+
+	only_rulers = yes
+
+	trigger = {
+		OR = {
+			tier = king
+			tier = emperor
+		}
+		has_character_flag = random_second
+		has_character_flag = winner
+		NOT = { has_character_flag = second_place }
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { any_realm_character = { has_character_flag = tournament_second_place } }
+	}
+
+	mean_time_to_happen = {
+		days = 5
+	}
+
+	immediate = {
+		set_character_flag = second_place
+		clr_character_flag = random_second
+		set_character_flag = random_third
+		character_event = { id = 70056 days = 2 }
+	}
+
+	option = {
+		name = EVTOPTA70054
+		ai_chance = { factor = 90 }
+	}
+	option = {
+		name = EVTOPTB70054
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 10
+				top_liege = {
+					any_realm_character = {
+						NOT = { check_variable = { which = tournament_win value = 1 } }
+					}
+				}
+			}
+		}
+		create_random_soldier = {
+			random_traits = yes
+			dynasty = random
+			culture = ROOT
+			female = no
+		}
+		new_character = {
+			remove_trait = weak
+			remove_trait = imbecile
+			remove_trait = clubfooted
+			remove_trait = inbred
+			set_character_flag = tournament_second_place
+			set_character_flag = attending_tournament
+			set_character_flag = attending_tournament_event
+			opinion = {
+				modifier = opinion_attending_tournament
+				who = ROOT
+				years = 100
+			}
+			reverse_opinion = {
+				modifier = opinion_tournament_second_place
+				who = ROOT
+				years = 15
+			}
+			random_list = {
+				75 = { add_trait = trained_warrior }
+				15 = { add_trait = poor_warrior }
+				10 = { add_trait = skilled_warrior }
+			}
+			wealth = 25
+			prestige = 50
+			add_character_modifier = {
+				name = normal_tourny_2nd_1
+				duration = -1
+			}
+			set_character_flag = normal_tourny_2nd
+		}
+	}
+}
+
+# random_character comes third
+character_event = {
+	id = 70056
+	title = TOURNAMENTTITLE3
+	desc = EVTDESC70056
+	picture = GFX_evt_melee
+
+	only_rulers = yes
+
+	trigger = {
+		OR = {
+			tier = king
+			tier = emperor
+		}
+		has_character_flag = random_third
+		has_character_flag = winner
+		has_character_flag = second_place
+		NOT = { has_character_flag = third_place }
+		NOT = { has_character_flag = tournament_has_ended }
+		NOT = { any_realm_character = { has_character_flag = tournament_third_place } }
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		set_character_flag = third_place
+		clr_character_flag = random_third
+	}
+
+	option = {
+		name = EVTOPTA70054
+		ai_chance = { factor = 80 }
+	}
+	option = {
+		name = EVTOPTB70054
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 5
+				top_liege = {
+					any_realm_character = {
+						NOT = { check_variable = { which = tournament_win value = 1 } }
+					}
+				}
+			}
+		}
+		create_random_soldier = {
+			random_traits = yes
+			dynasty = random
+			culture = ROOT
+			female = no
+		}
+		new_character = {
+			remove_trait = weak
+			remove_trait = imbecile
+			remove_trait = clubfooted
+			remove_trait = inbred
+			set_character_flag = tournament_third_place
+			set_character_flag = attending_tournament
+			set_character_flag = attending_tournament_event
+			opinion = {
+				modifier = opinion_attending_tournament
+				who = ROOT
+				years = 100
+			}
+			reverse_opinion = {
+				modifier = opinion_tournament_third_place
+				who = ROOT
+				years = 10
+			}
+			random_list = {
+				75 = { add_trait = trained_warrior }
+				15 = { add_trait = poor_warrior }
+				10 = { add_trait = skilled_warrior }
+			}
+			wealth = 15
+			prestige = 25
+			add_character_modifier = {
+				name = normal_tourny_3rd_1
+				duration = -1
+			}
+			set_character_flag = normal_tourny_3rd
+		}
+	}
+}
+
+###
+#more information for participants
+###
+
+# Inform participant about winner
+character_event = {
+	id = 70052
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70052
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70052
+		trigger = {
+			OR = {
+				NOT = { has_character_flag = tournament_spectator }
+				FROM = {
+					FROM = {
+						NOT = { dynasty = ROOT }
+					}
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70087
+		trigger = {
+			has_character_flag = tournament_spectator
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					NOT = { is_close_relative = ROOT }
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC70087
+		trigger = {
+			has_character_flag = tournament_spectator
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					is_close_relative = ROOT
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = 25
+	}
+}
+
+# Inform participant about second place
+character_event = {
+	id = 70087
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70087
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70087
+		trigger = {
+			OR = {
+				NOT = { has_character_flag = tournament_spectator }
+				FROM = {
+					FROM = {
+						NOT = { dynasty = ROOT }
+					}
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70087
+		trigger = {
+			has_character_flag = tournament_spectator
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					NOT = { is_close_relative = ROOT }
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC70087
+		trigger = {
+			has_character_flag = tournament_spectator
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					is_close_relative = ROOT
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = 10
+	}
+}
+
+# Inform participant about third place
+character_event = {
+	id = 70088
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70088
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70088
+		trigger = {
+			OR = {
+				NOT = { has_character_flag = tournament_spectator }
+				FROM = {
+					FROM = {
+						NOT = { dynasty = ROOT }
+					}
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70087
+		trigger = {
+			has_character_flag = tournament_spectator
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					NOT = { is_close_relative = ROOT }
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC70087
+		trigger = {
+			has_character_flag = tournament_spectator
+			FROM = {
+				FROM = {
+					dynasty = ROOT
+					is_close_relative = ROOT
+				}
+			}
+		}
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = 10
+	}
+}
+
+# Inform participant about death
+character_event = {
+	id = 70089
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70089
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_character_flag = no_msg_death }
+	}
+
+	option = {
+		name = EVTOPTA70089
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70038
+		set_character_flag = no_msg_death
+	}
+}
+
+# Inform participant about maimed
+character_event = {
+	id = 70090
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70090
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_character_flag = no_msg_maimed }
+	}
+
+	option = {
+		name = EVTOPTA70089
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70038
+		set_character_flag = no_msg_maimed
+	}
+}
+
+# Inform participant about wounded
+character_event = {
+	id = 70091
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70091
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_character_flag = no_msg_wounded }
+	}
+
+	option = {
+		name = EVTOPTA70089
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70038
+		set_character_flag = no_msg_wounded
+	}
+}
+
+###
+# information for spectators
+###
+# Inform spectator tourney finished
+character_event = {
+	id = 70092
+	title = TOURNAMENTTITLE2
+	desc = EVTDESC70092
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70092
+		hidden_tooltip = {
+			remove_opinion = {
+				modifier = opinion_spectating_tournament
+				who = ROOT
+			}
+		}
+		clr_character_flag = attending_tournament
+		clr_character_flag = tournament_spectator
+		clr_character_flag = attending_tournament_event
+		clr_character_flag = do_not_disturb
+	}
+}
+
+# Inform spectator of relative's great outcome
+character_event = {
+	id = 70095
+	title = TOURNAMENTTITLE4
+	desc = EVTDESC70095
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTC70095
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = 8
+	}
+}
+
+# Inform spectator of relative's good outcome
+character_event = {
+	id = 70096
+	title = TOURNAMENTTITLE4
+	desc = EVTDESC70096
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTC70096
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = 5
+	}
+}
+
+# Inform spectator of relative's bad outcome
+character_event = {
+	id = 70097
+	title = TOURNAMENTTITLE4
+	desc = EVTDESC70097
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTC70097
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = -5
+	}
+}
+
+# Inform spectator of relative's very bad outcome
+character_event = {
+	id = 70098
+	title = TOURNAMENTTITLE4
+	desc = EVTDESC70098
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTC70098
+		FROM = {
+			FROM = {
+				tooltip = { }
+			}
+		}
+		prestige = -8
+	}
+}
+
+###
+# Medal ceremony (decision)
+###
+#show me the medal winners
+#normal tourny medals
+character_event = {
+	id = 70078 #was 80
+	desc = EVTDESC70080
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70079 #1st
+		top_liege = {
+			any_realm_character = {
+				limit = {
+					has_character_flag = normal_tourny_1st
+					OR = {
+						any_liege = { character = ROOT }
+						any_liege = {
+							tier = KING
+							any_realm_lord = { character = ROOT }
+						}
+						AND = {
+							NOT = { any_liege = { tier = KING } }
+							NOT = { tier = KING }
+							any_liege = {
+								tier = EMPEROR
+								any_realm_lord = { character = ROOT }
+							}
+						}
+					}
+				}
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70079 #2nd
+		top_liege = {
+			any_realm_character = {
+				limit = {
+					has_character_flag = normal_tourny_2nd
+					NOT = { has_character_flag = normal_tourny_1st }
+					OR = {
+						any_vassal = { character = ROOT }
+						any_liege = { character = ROOT }
+						any_liege = {
+							tier = KING
+							any_realm_lord = { character = ROOT }
+						}
+						AND = {
+							NOT = { any_liege = { tier = KING } }
+							NOT = { tier = KING }
+							any_liege = {
+								tier = EMPEROR
+								any_realm_lord = { character = ROOT }
+							}
+						}
+					}
+				}
+				tooltip = { }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC70079 #3rd
+		top_liege = {
+			any_realm_character = {
+				limit = {
+					has_character_flag = normal_tourny_3rd
+					NOT = { has_character_flag = normal_tourny_1st }
+					NOT = { has_character_flag = normal_tourny_2nd }
+					OR = {
+						any_liege = { character = ROOT }
+						any_liege = {
+							tier = KING
+							any_realm_lord = { character = ROOT }
+						}
+						AND = {
+							NOT = { any_liege = { tier = KING } }
+							NOT = { tier = KING }
+							any_liege = {
+								tier = EMPEROR
+								any_realm_lord = { character = ROOT }
+							}
+						}
+					}
+				}
+				tooltip = { }
+			}
+		}
+	}
+}
+
+###
+# Rivals duel
+###
+#Tourney Rival drama
+character_event = {
+	id = 70061
+	#title = TOURNAMENTTITLE
+	desc = EVTDESC70061
+	picture = GFX_evt_joust
+
+	min_age = 15
+	#only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		has_character_flag = attending_tournament
+		NOT = { has_character_flag = attending_tournament_event }
+		NOT = { has_character_flag = tournament_has_ended }
+		OR = {
+			has_character_flag = normal_tourny_2nd
+			has_character_flag = normal_tourny_3rd
+		}
+		NOT = { has_character_flag = normal_tourny_1st }
+		has_character_modifier = normal_tourny_1st_1
+		top_liege = {
+			any_realm_character = {
+				has_character_flag = attending_tournament
+				OR = {
+					has_character_modifier = normal_tourny_1st_2
+					has_character_modifier = normal_tourny_1st_3
+					has_character_modifier = normal_tourny_1st_4
+					has_character_modifier = normal_tourny_1st_5
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 250
+	}
+
+	immediate = {
+		set_character_flag = attending_tournament_event
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					has_character_flag = attending_tournament
+					ROOT = {
+						OR = {
+							AND = {
+								OR = {
+									has_character_flag = normal_tourny_2nd
+									has_character_flag = normal_tourny_3rd
+								}
+								NOT = { has_character_flag = normal_tourny_1st }
+							}
+							has_character_modifier = normal_tourny_1st_1
+						}
+					}
+					OR = {
+						has_character_modifier = normal_tourny_1st_2
+						has_character_modifier = normal_tourny_1st_3
+						has_character_modifier = normal_tourny_1st_4
+						has_character_modifier = normal_tourny_1st_5
+					}
+				}
+				reverse_opinion = {
+					modifier = opinion_potential_tourny_rival
+					who = ROOT
+					years = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = EVTOPTA70061 #he just jests
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.5
+				trait = craven
+			}
+		}
+		if = {
+			limit = { NOT = { trait = gregarious } }
+			random = {
+				chance = 25
+				add_trait = gregarious
+				hidden_tooltip = {
+					character_event = { id = 38265 }
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { trait = craven } }
+			random = {
+				chance = 10
+				add_trait = craven
+				hidden_tooltip = {
+					character_event = { id = 38257 }
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB70061 #I will show him
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 1.5
+				trait = proud
+			}
+			modifier = {
+				factor = 1.5
+				trait = craven
+			}
+		}
+		if = {
+			limit = { NOT = { trait = proud } }
+			random = {
+				chance = 25
+				add_trait = proud
+				hidden_tooltip = {
+					character_event = { id = 38261 }
+				}
+			}
+		}
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_potential_tourny_rival
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+						}
+					}
+					reverse_opinion = {
+						modifier = opinion_rival
+						who = ROOT
+						years = 100
+					}
+				}
+				character_event = { id = 70062 tooltip = EVTTOOLTIP70062 }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTC70061 #Single combat!
+		trigger = {
+			NOT = { trait = craven }
+			NOT = { trait = weak }
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+		}
+		if = {
+			limit = { NOT = { trait = wroth } }
+			random = {
+				chance = 25
+				add_trait = wroth
+				hidden_tooltip = {
+					character_event = { id = 38254 }
+				}
+			}
+		}
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					reverse_has_opinion_modifier = {
+						who = ROOT modifier = opinion_potential_tourny_rival
+					}
+				}
+				character_event = { id = 70063 tooltip = EVTTOOLTIP70063 }
+			}
+		}
+	}
+}
+
+#other character is informed of rivalry
+character_event = {
+	id = 70062
+	desc = EVTDESC70062
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70062
+		if = {
+			limit = {
+				NOT = {
+					has_opinion_modifier = { who = FROM modifier = opinion_rival }
+				}
+			}
+			opinion = {
+				modifier = opinion_rival
+				who = FROM
+				years = 100
+			}
+		}
+	}
+}
+
+#other character is informed of challenge to single combat!
+character_event = {
+	id = 70063
+	desc = EVTDESC70063
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70063 #apologise profusely
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 1.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 1.5
+				trait = craven
+			}
+		}
+		prestige = -30
+		if = {
+			limit = { NOT = { trait = craven } }
+			random = {
+				chance = 25
+				add_trait = craven
+				hidden_tooltip = {
+					character_event = { id = 38257 }
+				}
+			}
+		}
+		FROM = { character_event = { id = 70064 tooltip = EVTTOOLTIP70064 } }
+	}
+	option = {
+		name = EVTOPTB70063 #I accept!
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = wroth
+			}
+		}
+		set_character_flag = tourny_duel_defender
+		set_character_flag = flag_duel_friendly
+		FROM = { set_character_flag = tourny_duel_agressor }
+		FROM = { set_character_flag = flag_duel_friendly }
+		hidden_tooltip = { e_rebels = { holder_scope = { character_event = { id = duel.1 } } } }
+	}
+}
+
+#inform root of apology
+character_event = {
+	id = 70064
+	desc = EVTDESC70064
+	picture = GFX_evt_joust
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70064
+		prestige = 30
+	}
+}
+
+#inform root of win
+character_event = {
+	id = 70065
+	desc = EVTDESC70065
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70065
+		prestige = 30
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70071 } }
+			clr_character_flag = tourny_duel_agressor
+		}
+	}
+}
+
+#inform root of draw
+character_event = {
+	id = 70066
+	desc = EVTDESC70066
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70066
+		prestige = -5
+		if = {
+			limit = {
+				NOT = {
+					has_opinion_modifier = { who = FROM modifier = opinion_rival }
+				}
+			}
+			opinion = {
+				modifier = opinion_rival
+				who = FROM
+				years = 100
+			}
+		}
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70072 } }
+			clr_character_flag = tourny_duel_agressor
+		}
+	}
+}
+
+#inform root of loss
+character_event = {
+	id = 70067
+	desc = EVTDESC70067
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70067
+		prestige = -30
+		hidden_tooltip = {
+			top_liege = { character_event = { id = 70073 } }
+			clr_character_flag = tourny_duel_agressor
+		}
+	}
+}
+
+#inform from of loss
+character_event = {
+	id = 70068
+	desc = EVTDESC70068
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70068
+		prestige = -30
+		hidden_tooltip = { clr_character_flag = tourny_duel_defender }
+	}
+}
+
+#inform from of draw
+character_event = {
+	id = 70069
+	desc = EVTDESC70069
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70066
+		prestige = -5
+		hidden_tooltip = { clr_character_flag = tourny_duel_defender }
+	}
+}
+
+#inform from of win
+character_event = {
+	id = 70070
+	desc = EVTDESC70070
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70065
+		prestige = 30
+		hidden_tooltip = { clr_character_flag = tourny_duel_defender }
+	}
+}
+
+#inform tourny holder of duel
+character_event = {
+	id = 70071
+	desc = EVTDESC70071
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70071
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					character = FROMFROM
+				}
+				tooltip = { }
+			}
+		}
+	}
+}
+
+#inform tourny holder of duel
+character_event = {
+	id = 70072
+	desc = EVTDESC70072
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70071
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					character = FROMFROM
+				}
+				tooltip = { }
+			}
+		}
+	}
+}
+
+#inform tourny holder of duel
+character_event = {
+	id = 70073
+	desc = EVTDESC70073
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA70071
+		top_liege = {
+			random_realm_character = {
+				limit = {
+					character = FROMFROM
+				}
+				tooltip = { }
+			}
+		}
 	}
 }
