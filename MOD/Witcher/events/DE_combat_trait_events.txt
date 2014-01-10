@@ -8,12 +8,9 @@
 #5550101 - Learning the sword from your guardian. (lvl-2)
 #5550102 - Learning the sword from your guardian. (lvl-3)
 #5550103 - Learning the sword from your guardian. (lvl-4)
-#5550114 - Maintenance, Dealing with multiple combat skill traits. [Disabled]
-###Oga Stuff###
-#5550105 - Guardian Notification. (For all lvl's)
+#5550105 - Guardian Notification. (For all lvls)
 ###Demotions
 #5550112 - Getting old.
-
 ##################################
 
 #5550100 - Learning the sword from your guardian
@@ -286,30 +283,6 @@ character_event = {
 	option = { name = "OK" }
 }
 
-#5550114 - Maintenance, Dealing with multiple combat skill traits.
-#character_event = {
-#	id = 5550114
-#	name = "Maintenance"
-#
-#	trigger = {
-#		trait = master_warrior
-#		OR = {
-#			trait = trained_warrior
-#			trait = skilled_warrior
-#			trait = poor_warrior
-#		}
-#	}
-#
-#	mean_time_to_happen = { days = 1 }
-#
-#	option = {
-#		name = "Just so."
-#		remove_trait = poor_warrior
-#		remove_trait = trained_warrior
-#		remove_trait = skilled_warrior
-#	}
-#}
-
 ###Demotions###
 #5550112 - Getting old.
 character_event = {
@@ -320,16 +293,14 @@ character_event = {
 	min_age = 45
 
 	trigger = {
-		OR= {
+		OR = {
 			trait = poor_warrior
 			trait = trained_warrior
 			trait = skilled_warrior
 			trait = master_warrior
 		}
+		has_character_modifier = old_age
 		NOT = { has_character_flag = demoted }
-		NOT = { trait = witcher }
-		NOT = { trait = elven }
-		NOT = { trait = sorcerer }
 	}
 
 	mean_time_to_happen = {
