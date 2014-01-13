@@ -1,7 +1,12 @@
 decisions = {
-	invite_witcher_to_court = {
+	employ_witcher = {
 		is_high_prio = yes
 		potential = {
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
 			witcher = { is_alive = yes }
 			any_demesne_province = { 
 				OR = {
@@ -17,17 +22,17 @@ decisions = {
 		}
 		allow = {
 			NOT = { any_courtier = { trait = witcher } }
-			wealth = 50
+			scaled_wealth = 0.5
 			NOT = { has_character_flag = invited_witcher }
 		}
 		effect = {
-			wealth = -50
+			scaled_wealth = -0.5
 			set_character_flag = invited_witcher
 		}
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0 trait = racist }
-			modifier = { factor = 0 NOT = { wealth = 200 } }
+			modifier = { factor = 0 NOT = { scaled_wealth = 1.0 } }
 		}
 	}
 	list_witchers = {
