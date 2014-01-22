@@ -636,3 +636,223 @@ character_event = {
 		prestige = -5
 	}
 }
+
+################################################
+# Replace mage
+################################################
+# Character - I would make better court mage
+character_event = {
+	id = court.20
+	desc = EVTDESCcourt.20
+	picture = GFX_evt_spymaster
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		independent = no
+		is_councillor = no
+		NOT = { liege = { has_character_flag = asked_mage_petition } }
+		NOT = { has_character_flag = asked_for_job }
+		liege = {
+			job_mage = {
+				same_liege = ROOT
+				NOT = { stewardship = ROOT }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_nifgaard_academy }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		NOT = { liege = { has_landed_title = d_thanedd } }
+		NOT = { liege = { has_landed_title = d_nifgaard_academy } }
+		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.25
+			trait = ambitious
+		}
+	}
+	immediate = {
+		set_character_flag = asked_for_job
+		liege = {  set_character_flag = asked_mage_petition }
+	}
+	
+	option = {
+		name = EVTOPTAcourt.20
+		liege = { letter_event = { id = court.21 tooltip = EVTTOOLTIPcourt.21 } }
+	}
+}
+# Liege - Someone wants to be my mage
+letter_event = {
+	id = court.21
+	desc = EVTDESCcourt.21
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.21
+		job_mage = {
+			opinion = {
+				modifier = opinion_fired_from_council
+				who = ROOT
+				years = 5
+			}
+			remove_title = job_mage
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			give_job_title = job_mage
+			hidden_tooltip = {  letter_event = { id = court.25 } }
+		}
+		clr_character_flag = asked_mage_petition
+		
+	}
+	option = {
+		name = EVTOPTBcourt.21
+		trigger = {
+			job_mage = { 
+				NOT = { trait = stressed } 
+				NOT = { trait = depressed } 
+			}
+		}
+		job_mage = {
+			letter_event = { id = court.22 tooltip = EVTTOOLTIPcourt.22 }
+		}
+		hidden_tooltip = { FROM  = { character_event = { id = court.23 days = 128 random = 63 } } }
+	}
+	option = {
+		name = EVTOPTCcourt.21
+		FROM = {
+			prestige = -10
+		}
+		FROM = {
+			opinion = {
+				who = ROOT
+				modifier = opinion_refused_council
+			}
+		}
+		clr_character_flag = asked_mage_petition
+	}
+}
+# Court Mage - I am being replaced...
+letter_event = {
+	id = court.22
+	desc = EVTDESCcourt.22
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_job_title = job_mage
+	}
+	
+	option = {
+		name = EVTOPTAcourt.22
+		random_list = {
+			50 = {}
+			30 = { change_learning = 1 }
+			20 = { add_trait = stressed hidden_tooltip = { character_event = { id = 38282 }} }
+		}
+	}
+	option = {
+		name = EVTOPTBcourt.22
+		trigger = {
+			NOT = { trait = ambitious }
+			NOT = { trait = proud }
+		}
+		prestige = -5
+	}
+}
+# Character - Ask again
+character_event = {
+	id = court.23
+	desc = EVTDESCcourt.23
+	picture = GFX_evt_spymaster
+	
+	prisoner = no
+	capable_only = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = asked_for_job
+		independent = no
+		NOT = { has_job_title = job_mage }
+		liege = {
+			job_mage = { 
+				NOT = { stewardship = prev }
+				same_liege = ROOT
+				NOT = {
+					ROOT = {
+						is_liege_of = PREV
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.23
+		liege = { letter_event = { id = court.24 tooltip = EVTTOOLTIPcourt.24 } }
+	}
+}
+# Liege - Asking again...
+letter_event = {
+	id = court.24
+	desc = EVTDESCcourt.24
+	picture = GFX_evt_spymaster
+		
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.24 
+		job_mage = {
+			opinion = {
+				modifier = opinion_fired_from_council
+				who = ROOT
+				years = 5
+			}
+			remove_title = job_mage
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			give_job_title = job_mage
+			hidden_tooltip = { letter_event = { id = court.25 } }
+		}
+		clr_character_flag = asked_mage_petition
+		
+	}
+	option = {
+		name = EVTOPTBcourt.24
+		FROM = {
+			prestige = -10
+		}
+		FROM = {
+			opinion = {
+				who = ROOT
+				modifier = opinion_refused_council
+			}
+		}
+		clr_character_flag = asked_mage_petition
+	}
+}
+# Character - We are replaced
+letter_event = {
+	id = court.25
+	desc = EVTDESCcourt.25
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.25
+		prestige = -5
+	}
+}

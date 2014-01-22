@@ -5017,6 +5017,7 @@ character_event = {
 			has_ambition = obj_become_treasurer
 			has_ambition = obj_become_spymaster
 			has_ambition = obj_become_spiritual
+			has_ambition = obj_become_mage
 		}
 		NOT = {
 			num_of_friends = 5
@@ -5026,7 +5027,6 @@ character_event = {
 		}
 		liege = {
 			any_courtier = {
-				is_female = no
 				is_abroad = no
 				prisoner = no
 				is_councillor = yes
@@ -5072,6 +5072,12 @@ character_event = {
 						has_job_title = job_spiritual
 						ROOT = {
 							has_ambition = obj_become_spiritual
+						}
+					}
+					AND = {
+						has_job_title = job_mage
+						ROOT = {
+							has_ambition = obj_become_mage
 						}
 					}
 				}
@@ -5187,6 +5193,12 @@ character_event = {
 							has_job_title = job_spiritual
 							ROOT = {
 								has_ambition = obj_become_spiritual
+							}
+						}
+						AND = {
+							has_job_title = job_mage
+							ROOT = {
+								has_ambition = obj_become_mage
 							}
 						}
 					}
@@ -5462,7 +5474,57 @@ character_event = {
 					}
 				}
 			}
-		}		
+		}
+	}
+	option = {
+		name = EVTOPTG100110
+		trigger = {
+			has_ambition = obj_become_mage
+			any_courtier = {
+				has_job_title = job_mage
+				is_alive = yes
+				is_abroad = no
+				prisoner = no
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					num_of_traits = 5
+				}
+				NOT = {
+					trait = honest
+				}
+			}
+			random = {
+				chance = 15
+				add_trait = honest
+				hidden_tooltip = {
+					character_event = {
+						id = 38262 #Notify Honest
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					num_of_traits = 5
+				}
+				NOT = {
+					trait = diligent
+				}
+			}
+			random = {
+				chance = 15
+				add_trait = diligent
+				hidden_tooltip = {
+					character_event = {
+						id = 38256 #Notify Diligent
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -5583,6 +5645,15 @@ character_event = {
 					has_job_title = job_spiritual
 				}
 				has_ambition = obj_become_spiritual
+			}
+			change_learning = 1
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_job_title = job_mage
+				}
+				has_ambition = obj_become_mage
 			}
 			change_learning = 1
 		}

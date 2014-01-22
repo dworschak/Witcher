@@ -21,9 +21,8 @@ character_event = {
 	}
 	
 	mean_time_to_happen = { 
-		months = 12
+		months = 18
 		modifier = { factor = 2 has_minor_title = title_court_witcher }
-		modifier = { factor = 2 war = yes }
 		modifier = {
 			factor = 0.9
 			liege = { NOT = { reverse_opinion = { who = ROOT value = -25 } } }
@@ -49,7 +48,7 @@ character_event = {
 			liege = { reverse_opinion = { who = ROOT value = 75 } }
 		}
 		modifier = {
-			factor = 3
+			factor = 4
 			liege = { reverse_has_opinion_modifier = { who = ROOT modifier = opinion_asked_to_stay } }
 		}
 		modifier = {
@@ -127,7 +126,7 @@ character_event = {
 			modifier = opinion_asked_to_stay
 			months = 12
 		}
-		FROM = { character_event = { id = witcher.6 days = 3 } }
+		FROM = { letter_event = { id = witcher.6 days = 3 } }
 	}
 	option = {
 		name = "Leave"
@@ -149,8 +148,8 @@ character_event = {
 	option = {
 		name = "Stay"
 		ai_chance = {
-			factor = 1
-			modifier = { factor = 2 trait = greedy }
+			factor = 1.5
+			modifier = { factor = 5 trait = greedy }
 			modifier = { factor = 2 trait = content }
 			modifier = { factor = 2 trait = slothful }
 			modifier = { factor = 2 trait = patient }
@@ -161,7 +160,7 @@ character_event = {
 			modifier = opinion_asked_to_stay
 			months = 12
 		}
-		FROM = { character_event = { id = witcher.7 days = 3 } }
+		FROM = { letter_event = { id = witcher.7 days = 3 } }
 	}
 	option = {
 		name = "Leave"
@@ -181,7 +180,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	immediate = {
-		liege = { character_event = { id = witcher.8 } }
+		liege = { letter_event = { id = witcher.8 } }
 	}
 	
 	option = {
@@ -244,7 +243,7 @@ character_event = {
 					}
 					owner = {
 						reverse_banish = ROOT
-						character_event = { id = witcher.9 }
+						letter_event = { id = witcher.9 }
 					}
 				}
 			}
@@ -287,7 +286,7 @@ character_event = {
 					}
 					owner = {
 						reverse_banish = ROOT
-						character_event = { id = witcher.9 }
+						letter_event = { id = witcher.9 }
 					}
 				}
 			}
@@ -315,7 +314,7 @@ character_event = {
 					}
 					owner = {
 						reverse_banish = ROOT
-						character_event = { id = witcher.9 }
+						letter_event = { id = witcher.9 }
 					}
 				}
 			}
@@ -333,13 +332,13 @@ character_event = {
 				any_courtier = { NOT = { trait = witcher } }
 			}
 			reverse_banish = ROOT
-			character_event = { id = witcher.9 }
+			letter_event = { id = witcher.9 }
 		}
 		ai_chance = { factor = 1000 }
 	}
 }
 # Liege informed - The witcher stayed
-character_event = { 
+letter_event = { 
 	id = witcher.6
 	desc = EVTDESCwitcher.6
 	picture = GFX_evt_lunatic
@@ -351,7 +350,7 @@ character_event = {
 	}
 }
 # Liege informed - The witcher took the money and stayed
-character_event = {
+letter_event = {
 	id = witcher.7
 	desc = EVTDESCwitcher.7
 	picture = GFX_evt_lunatic
@@ -363,7 +362,7 @@ character_event = {
 	}
 }
 # Liege informed - The witcher left your court to seek employment elsewhere
-character_event = {
+letter_event = {
 	id = witcher.8
 	desc = EVTDESCwitcher.8
 	picture = GFX_evt_lunatic
@@ -375,7 +374,7 @@ character_event = {
 	}
 }
 # Liege - A witcher has arrived in your court
-character_event = {
+letter_event = {
 	id = witcher.9
 	desc = EVTDESCwitcher.9
 	picture = GFX_evt_lunatic
@@ -698,12 +697,11 @@ character_event = {
 # Province
 province_event = {
 	id = witcher.201
-	desc = EVTDESCwitcher.201
+	desc = "Province ping"
 	picture = GFX_evt_lunatic
 	
-	notification = yes
-	
 	is_triggered_only = yes
+	hide_window = yes
 	
 	immediate = {
 		remove_province_modifier = vampires
@@ -716,11 +714,24 @@ province_event = {
 		add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
 		FROM = { add_character_modifier = { name = recent_witcher_work duration = 180 } }
 	}
+	
+	option = {
+		name = "OK"
+		letter_event = { id = witcher.202 }
+	}
+}
+# Liege
+letter_event = {
+	id = witcher.202
+	desc = EVTDESCwitcher.202
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
 	option = {
 		name = OK
 	}
 }
-
 ################################################
 # Spawning witcher
 ################################################
@@ -849,6 +860,6 @@ character_event = {
 	
 	option = {
 		name = "OK"
-		FROM = { character_event = { id = witcher.9 } }
+		FROM = { letter_event = { id = witcher.9 } }
 	}
 }
