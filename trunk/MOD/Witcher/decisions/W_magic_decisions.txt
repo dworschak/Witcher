@@ -1,5 +1,276 @@
 decisions = {
-	
+	spell_heal = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				trait = ill
+				trait = pneumonic
+				trait = syphilitic
+				trait = leper
+				trait = has_tuberculosis
+				trait = has_typhoid_fever
+				trait = has_typhus
+				trait = has_bubonic_plague
+				trait = has_measles
+				trait = has_small_pox
+				trait = has_aztec_disease
+				trait = wounded
+				trait = maimed
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+			}
+			OR = {
+				AND = {
+					OR = {
+						trait = sorcerer
+						trait = witch
+					}
+					prisoner = no
+				}
+				job_mage = {
+					OR = {
+						trait = sorcerer
+						trait = witch
+					}
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					OR = {
+						trait = sorcerer
+						trait = witch
+					}
+					NOT = { has_character_modifier = drained }
+				}
+				job_mage = {
+					OR = {
+						trait = sorcerer
+						trait = witch
+					}
+					NOT = { has_character_modifier = drained }
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = {
+				if = {
+					limit = { job_mage = { always = yes } }
+					character_event = { id = magic.200 }
+				}
+				if = {
+					limit = { job_mage = { NOT = { always = yes } } }
+					character_event = { id = magic.201 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 5 NOT = { health = 2 } }
+			modifier = { factor = 2 NOT = { health = 3 } }
+			modifier = { factor = 2 NOT = { health = 4 } }
+		}
+	}
+	spell_druid_heal = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				trait = ill
+				trait = wounded
+				trait = stressed
+				trait = depressed
+			}
+			OR = {
+				AND = {
+					trait = druid
+					prisoner = no
+				}
+				job_mage = {
+					trait = druid
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					trait = druid
+					NOT = { has_character_modifier = drained }
+				}
+				job_mage = {
+					trait = druid
+					NOT = { has_character_modifier = drained }
+				}
+			}
+		
+		}
+		effect = {
+			custom_tooltip = { text = spell_druid_heal_tooltip }
+			hidden_tooltip = {
+				if = {
+					limit = { job_mage = { always = yes } }
+					character_event = { id = magic.210 }
+				}
+				if = {
+					limit = { job_mage = { NOT = { always = yes } } }
+					character_event = { id = magic.211 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 5 NOT = { health = 2 } }
+			modifier = { factor = 2 NOT = { health = 3 } }
+			modifier = { factor = 2 NOT = { health = 4 } }
+		}
+	}
+	spell_beautify = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				NOT = { trait = fair }
+				trait = harelip
+				trait = hunchback
+				trait = lisp
+				trait = stutter
+				trait = ugly
+				trait = dwarf
+			}
+			AND = {
+				trait = sorcerer
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			AND = {
+				trait = sorcerer
+				NOT = { has_character_modifier = drained }
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_beautify_tooltip }
+			 hidden_tooltip = { character_event = { id = magic.220 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 2 trait = envious }
+			modifier = { factor = 0.01 is_female = no }
+			modifier = { factor = 5.0 culture_group = northern_group }
+			modifier = { factor = 0.01 location = { county = { de_jure_liege_or_above = e_nilfgaard } } }
+			modifier = { factor = 0.1 }
+		}
+	}
+	spell_siege = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				AND = {
+					trait = sorcerer
+					prisoner = no
+					siege = { is_attacker = yes }
+				}
+				job_mage = {
+					trait = sorcerer
+					prisoner = no
+					NOT = { trait = incapable }
+					siege = { is_attacker = yes }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+				job_mage = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+			}
+		}
+		effect = {
+			hidden_tooltip = {
+				if = {
+					limit = { job_mage = { always = yes } }
+					character_event = { id = magic.230 }
+				}
+				if = {
+					limit = { job_mage = { NOT = { always = yes } } }
+					character_event = { id = magic.231 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 2 trait = wroth }
+		}
+	}
+}
+
+decisions = {
+	employ_sorcerer = {
+		is_high_prio = yes
+		potential = {
+			is_ruler = yes
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+			OR = {
+				b_aretuza = {
+					holder_scope = {
+						any_courtier = {
+							trait = sorcerer
+							is_adult = yes
+							NOT = { any_ward = { always = yes } }
+							is_ruler = no
+						}
+					}
+				}
+				b_akademia = {
+					holder_scope = {
+						any_courtier = {
+							trait = sorcerer
+							is_adult = yes
+							NOT = { any_ward = { always = yes } }
+							is_ruler = no
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			scaled_wealth = 1.0
+			NOT = { any_courtier = { trait = sorcerer } }
+			NOT = { any_vassal = { trait = sorcerer } }
+		}
+		effect = {
+			scaled_wealth = -1.0
+			hidden_tooltip = { character_event = { id = magic.100 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { scaled_wealth = 2.0 } }
+		}
+	}
 }
 
 vassal_decisions = {
@@ -14,8 +285,9 @@ vassal_decisions = {
 			location = { county = { de_jure_liege_or_above = e_the_north } }
 			has_character_modifier = magic_talent
 		}
+		allow = { scaled_wealth = 0.5 }
 		effect = {
-			add_trait = magic_adept
+			add_trait = apprentice_sorcerer
 			remove_character_modifier = magic_talent
 			set_variable = { which = learning_magic value = 0 }
 			b_aretuza = {
@@ -23,7 +295,9 @@ vassal_decisions = {
 					ROOT = { move_character = PREV }
 				}
 			}
+			scaled_wealth = -0.5
 		}
+		ai_will_do = { factor = 0 }
 	}
 	send_child_to_ban_ard = {
 		potential = {
@@ -36,8 +310,9 @@ vassal_decisions = {
 			location = { county = { de_jure_liege_or_above = e_the_north } }
 			has_character_modifier = magic_talent
 		}
+		allow = { scaled_wealth = 0.5 }
 		effect = {
-			add_trait = magic_adept
+			add_trait = apprentice_sorcerer
 			remove_character_modifier = magic_talent
 			set_variable = { which = learning_magic value = 0 }
 			b_akademia = {
@@ -45,6 +320,8 @@ vassal_decisions = {
 					ROOT = { move_character = PREV }
 				}
 			}
+			scaled_wealth = -0.5
 		}
+		ai_will_do = { factor = 0 }
 	}
 }

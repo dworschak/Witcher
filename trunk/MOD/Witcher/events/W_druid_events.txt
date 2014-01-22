@@ -1,0 +1,74 @@
+namespace = druid
+
+###########################################
+# Maintenance
+###########################################
+# Hidden - give druid trait to landed nature religion priests except dryads
+character_event = {
+	id = druid.1
+	desc = "Druid"
+	picture = GFX_evt_shadowy_cabal
+	
+	hide_window = yes
+	
+	trigger = {
+		is_theocracy = yes
+		demesne_size = 1
+		religion = nature
+		NOT = {
+			trait = druid
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "I am a druid"
+		add_trait = druid
+	}
+}
+
+###########################################
+# Spawn random druid
+###########################################
+# Spwan druid
+character_event = {
+	id = druid.10
+	desc = EVTDESCdruid.10
+	picture = GFX_evt_emissary
+	
+	min_age = 15
+	prisoner = no
+	only_playable = yes
+	capable_only = yes
+	
+	trigger = {
+		any_courtier = { NOT = { trait = druid } }
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		months = 1400
+		modifier = { factor = 0.5 religion = nature }
+	}
+	
+	option = {
+		name = EVTOPTAdruid.10
+		add_trait = druid
+		create_character = {
+			random_traits = yes
+			dynasty = none
+			religion = nature
+			age = 50
+			trait = human
+			trait = druid
+		}
+		new_character = {
+			change_learning = 2
+			remove_trait = inbred
+			remove_trait = imbecile
+		}
+	}
+}
