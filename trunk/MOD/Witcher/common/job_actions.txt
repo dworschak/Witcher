@@ -23,10 +23,17 @@ action_improve_relations = {
 action_fabricate_claims = {
 	attribute = diplomacy
 	
+	potential = {
+		FROM ={
+			NOT = { has_landed_title = k_dryads }
+		}
+	}
+	
 	trigger = {
 		any_province_lord = {
 			NOT = { character = FROM }
 		}
+		owner = { top_liege = { NOT = { has_landed_title = k_dryads } } }
 	}
 	
 	events = { 913 914 }

@@ -1,0 +1,171 @@
+namespace = nilfgaard
+
+################################################
+# Deithwen Trait Gained
+################################################
+character_event = {
+	id = nilfgaard.1
+	desc = EVTDESCnilfgaard.1
+	picture = GFX_evt_victory_arch_byzantine
+	
+	trigger = {
+		has_landed_title = e_nilfgaard
+		NOT = { trait = deithwen }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAnilfgaard.1
+		add_trait = deithwen
+	}
+}
+
+################################################
+# Declared Imperial Expansion War
+################################################
+# Target - Recieved DoW
+character_event = {
+	id = nilfgaard.100
+	desc = EVTDESCnilfgaard.100
+	picture = GFX_evt_large_army
+	
+	is_triggered_only = yes
+	
+	option = { # Surrender
+		name = EVTOPTAnilfgaard.100
+		any_war = {
+			limit = {
+				using_cb = nilfgaard_invasion
+				defender = { character = ROOT }
+				attacker = { has_landed_title = e_nilfgaard }
+			}
+			end_war = invalid
+		}
+		prestige = -200
+		e_nilfgaard = {
+			owner = {
+				set_defacto_vassal = ROOT
+				character_event = { id = nilfgaard.101 }
+			}
+		}
+		ai_chance = {
+			factor = 10
+			modifier = { factor = 2 trait = craven }
+			modifier = {
+				factor = 2
+				e_nilfgaard = { owner = { reverse_opinion = { who = ROOT value = 50 } } }
+			}
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 200 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 250 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 300 } } }
+			modifier = { factor = 2 e_nilfgaard = { owner = { realm_size = 350 } } }
+		}
+	}
+	option = { # Call allies
+		name = EVTOPTBnilfgaard.100
+		any_independent_ruler = {
+			limit = {
+				culture_group = northern_group
+				tier = KING
+				independent = yes
+				NOT = { has_landed_title = k_eternal_fire }
+			}
+			character_event = { id = nilfgaard.102 }
+		}
+		ai_chance = {
+			factor = 35
+			modifier = { factor = 2 trait = brave }
+		}
+	}
+	option = { # Fight alone
+		name = EVTOPTCnilfgaard.100
+		prestige = 20
+		if = {
+			limit = { NOT = { trait = brave } }
+			add_trait = brave
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 4 trait = brave }
+			modifier = { factor = 4 trait = arbitrary }
+		}
+	}
+}
+# Emperor - Target surrenderes
+character_event = {
+	id = nilfgaard.101
+	desc = EVTDESCnilfgaard.101
+	picture = GFX_evt_victory_arch_byzantine
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.101
+		prestige = 200
+	}
+}
+# Independant Northern Kings - Join in war against Nilfgaard
+character_event = {
+	id = nilfgaard.102
+	desc = EVTDESCnilfgaard.102
+	picture = GFX_evt_large_army
+	
+	is_triggered_only = yes
+	
+	option = { # Join
+		name = EVTOPTAnilfgaard.102
+		join_defender_wars = FROM
+		ai_chance = {
+			factor = 3
+			modifier = { # Neighbors Nilfgaard
+				factor = 4
+				any_realm_province = {
+					any_neighbor_province = {
+						owner = {
+							top_liege = { has_landed_title = e_nilfgaard }
+						}
+					}
+				}
+			}
+			modifier = { factor = 2 trait = brave }
+			modifier = { factor = 0.5 trait = craven }
+			modifier = { factor = 2 wealth = 500 }
+		}
+	}
+	option = { # Don't join
+		name = EVTOPTBnilfgaard.102
+		prestige = -20
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
+			modifier ={ factor = 4 war =  yes }
+			modifier ={ factor = 2 NOT = { wealth =  0 } }
+			modifier = { factor = 1.2 e_nilfgaard = { owner = { realm_size = 200 } } }
+			modifier = { factor = 1.2 e_nilfgaard = { owner = { realm_size = 250 } } }
+			modifier = { factor = 1.2 e_nilfgaard = { owner = { realm_size = 300 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 350 } } }
+		}
+	}
+}
+# Emperor - Victory, what should do with title
+character_event = {
+	id = nilfgaard.110
+	desc = EVTDESCnilfgaard.110
+	picture = GFX_evt_victory_arch_byzantine
+	
+	is_triggered_only = yes
+	
+	option = { # Keep the title
+		name = EVTOPTAnilfgaard.110
+	}
+	option = { # Grant title - AI
+		name = EVTOPTBnilfgaard.110
+	}
+	option = { # Destroy title
+		name = EVTOPTCnilfgaard.110
+		prestige = 100
+	}
+}

@@ -22,6 +22,7 @@ obj_become_chancellor = {
 		}
 		is_female = no
 		NOT = { trait = incapable }
+		NOT = { trait = witcher }
 	}
 	chance = {
 		factor = 100
@@ -148,6 +149,7 @@ obj_become_marshal = {
 		is_female = no
 		NOT = { trait = incapable }
 		martial = 8
+		NOT = { trait = witcher }
 	}
 	chance = {
 		factor = 100
@@ -273,6 +275,7 @@ obj_become_treasurer = {
 		is_female = no
 		NOT = { trait = incapable }
 		stewardship = 8
+		NOT = { trait = witcher }
 	}
 	chance = {
 		factor = 100
@@ -409,6 +412,7 @@ obj_become_spymaster = {
 		}
 		NOT = { trait = incapable }
 		intrigue = 8
+		NOT = { trait = witcher }
 	}
 	chance = {
 		factor = 100
@@ -540,37 +544,35 @@ obj_become_spiritual = {
 		is_councillor = no
 		independent = no
 		OR = {
-			is_female = no
 			AND = {
-				religion_group = pagan_group
-				NOT = { religion = aztec }
-				NOT = { religion = aztec_reformed}
-				NOT = { religion = tengri_pagan }
-				NOT = { religion = tengri_pagan_reformed}
+				is_female = no
+				NOT = { religion = melitele }
+				NOT = { religion = freya }
+				NOT = { religion = nature }
+			}
+			AND = {
+				is_female = yes
+				religion = melitele
+			}
+			AND = {
+				is_female = yes
+				religion = freya
+			}
+			AND = {
+				religion = nature
+				OR = {
+					culture = dryad
+					trait = druid
+				}
 			}
 		}
 		learning = 8
 		
 		OR = {
-			NOT = { religion_group = muslim }
 			trait = detached_priest
 			trait = martial_cleric
 			trait = scholarly_theologian
 			trait = mastermind_theologian
-			NOT = { liege = { religion_group = muslim } }
-		}
-		
-		OR = {
-			is_theocracy = yes
-			liege = { religion_group = muslim }
-#			liege = { lower_tier_than = KING }
-			AND = {
-				is_ruler = no
-				NOT = { religion = orthodox }
-				NOT = { is_heresy_of = orthodox }
-				NOT = { religion = miaphysite }
-				NOT = { is_heresy_of = miaphysite }
-			}
 		}
 		
 		liege = {
@@ -582,6 +584,7 @@ obj_become_spiritual = {
 			is_theocracy = yes
 		}
 		NOT = { trait = incapable }
+		NOT = { trait = witcher }
 	}
 	chance = {
 		factor = 100
@@ -934,11 +937,14 @@ obj_get_married = {
 		is_betrothed = no
 		is_consort = no
 		can_marry = yes
-		NOT = { has_landed_title = k_papal_state }
+		NOT = { has_landed_title = k_eternal_fire }
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
 		NOT = { trait = eunuch }
 		NOT = { trait = homosexual }
+		NOT = { trait = witcher }
+		NOT = { trait = druid }
+		NOT = { trait = kind2 }
 		OR = {
 			is_female = no
 			NOT = { age = 40 }
@@ -984,12 +990,16 @@ obj_get_married = {
 			mercenary = yes
 		}
 		modifier = {
-			factor = 0.01
+			factor = 0
 			trait = witcher
 		}
 		modifier = {
-			factor = 0.01
+			factor = 0.05
 			trait = druid
+		}
+		modifier = {
+			factor = 0.05
+			trait = sorcerer
 		}
 	}
 	success = {
@@ -1079,6 +1089,14 @@ obj_marry_ruler = {
 			factor = 5.0
 			trait = ambitious
 		}
+		modifier = {
+			factor = 0.05
+			trait = druid
+		}
+		modifier = {
+			factor = 0.05
+			trait = sorcerer
+		}
 	}
 	success = {
 		is_married = yes
@@ -1100,6 +1118,7 @@ obj_marry_ruler = {
 			trait = celibate
 			trait = incapable
 		}
+		higher_tier_than = COUNT
 	}
 	abort_effect = {
 	}
@@ -1328,6 +1347,14 @@ obj_wants_landed_title = {
 			factor = 3.0
 			trait = ambitious
 		}
+		modifier = {
+			factor = 0.1
+			trait = witcher
+		}
+		modifier = {
+			factor = 0.1
+			trait = druid
+		}
 	}
 	success = {
 		is_ruler = yes
@@ -1478,7 +1505,7 @@ obj_improve_martial = {
 	abort = {
 		OR = {
 			trait = incapable
-			ttrait = infirm
+			trait = infirm
 		}
 	}
 	abort_effect = {
@@ -1817,11 +1844,7 @@ obj_become_king = {
 		is_adult = yes
 		is_playable = yes
 		is_landed = yes
-		OR = {
-			independent = yes
-			tier = duke
-		}
-		lower_tier_than = KING
+		tier = duke
 		NOT = {
 			any_heir_title = {
 				higher_tier_than = DUKE
@@ -1868,10 +1891,12 @@ obj_become_king = {
 			factor = 0.01
 			trait = slothful
 		}
-		modifier = {
-			factor = 0.1
-			tier = COUNT
-		}
+		modifier = { factor = 2.0 trait = greedy }
+		modifier = { factor = 2.0 trait = envious }
+		modifier = { factor = 10 any_claim = { tier = KING } }
+		modifier = { factor = 1.2 demesne_size = 2 }
+		modifier = { factor = 1.2 demesne_size = 3 }
+		modifier = { factor = 1.2 demesne_size = 4 }
 	}
 	
 	success = {
@@ -1905,7 +1930,7 @@ obj_become_king = {
 	}
 	
 	effect = {
-		prestige = 1000
+		prestige = 500
 	}
 	
 }
