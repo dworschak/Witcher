@@ -160,3 +160,64 @@ character_event = {
 		}
 	}
 }
+
+#force divorce intermarried people
+character_event = {
+    id = racial.4
+    title = "You've married an ugly wench!"
+    desc = "By all that is holy, your new wife is a monster! Not the fair maid you were promised! What cruel joke is this?"
+    picture = "GFX_evt_marriage"
+    
+    trigger = {
+		OR = {
+			AND = {
+				trait = elven
+				spouse = {
+					OR = {
+						trait = human
+						trait = dwarven
+						trait = halfdwarf
+					}
+				}
+			}
+			AND = {
+				trait = dwarven
+				spouse = {
+					OR = {
+						trait = human
+						trait = elven
+						trait = halfelf
+					}
+				}
+			}
+		}
+    }
+    
+	immediate={
+	}
+    
+    option = {
+		name = "Banish her from the realm!"
+		if = {
+			limit = { 	
+				if = {
+					limit = { 
+						spouse = { 
+							is_alive = yes
+						}		
+					}
+					spouse = {
+						remove_spouse = ROOT
+						banish = yes
+					}
+				}
+			}
+		}	
+	}		
+    
+    option = {
+		name = "Actually, I kind of like her..."
+		trigger = { ai = no }
+		set_character_flag = accepted_intermarriage
+    }   
+}
