@@ -30,6 +30,7 @@ claim = {
 	
 	can_use = {
 		FROM = { NOT = { has_landed_title = k_dryads } }
+		ROOT = { NOT = { has_landed_title = k_dryads } }
 	}
 	
 	can_use_title = {
@@ -198,6 +199,7 @@ other_claim = { #check religion controler stuff
 	
 	can_use = {
 		FROM = { NOT = { has_landed_title = k_dryads } }
+		ROOT = { NOT = { has_landed_title = k_dryads } }
 	}
 	
 	can_use_title = {
@@ -522,6 +524,8 @@ claim_on_liege = {
 				}
 			}
 		}
+		FROM = { NOT = { has_landed_title = k_dryads } }
+		ROOT = { NOT = { has_landed_title = k_dryads } }
 	}
 	
 	can_use_title = {
@@ -1330,6 +1334,7 @@ claim_all = {
 	
 	can_use = {
 		FROM = { NOT = { has_landed_title = k_dryads } }
+		ROOT = { NOT = { has_landed_title = k_dryads } }
 		ROOT = {
 			total_claims = {
 				who = FROM
@@ -4663,12 +4668,6 @@ seize_trade_post = {
 	}
 }
 
-# The Prepared Invasion CB of Norse Heathens
-#viking_invasion = { }
-
-# Pagans can subjugate other pagans
-#pagan_subjugation = { }
-
 # The CB used by "Peasant revolter" characters
 peasant_revolt = {
 	name = CB_NAME_PEASANT_CONQUEST
@@ -4777,9 +4776,6 @@ peasant_revolt = {
 		factor = 100
 	}
 }
-
-# The CB used by "Heretic revolter" characters
-#heretic_revolt = { }
 
 # The CB used by "Religious revolter" characters
 religious_revolt = {
@@ -5150,6 +5146,15 @@ dejure_county_claim = {
 	press_claim = yes
 	can_ask_to_join_war = no
 	
+	can_use = {
+		NOT = {
+			AND = {
+				FROM = { has_landed_title = k_eternal_fire }
+				ROOT = { religion_group = FROM }
+			}
+		}
+	}
+	
 	can_use_title = {
 		tier = count
 		OR = {
@@ -5319,6 +5324,15 @@ dejure_barony_claim = {
 	check_all_titles = yes # if permanent, setting this to true will check against all of someones titles, including vassal held titles
 	press_claim = yes
 	can_ask_to_join_war = no
+	
+	can_use = {
+		NOT = {
+			AND = {
+				FROM = { has_landed_title = k_eternal_fire }
+				ROOT = { religion_group = FROM }
+			}
+		}
+	}
 	
 	can_use_title = {
 		tier = baron
