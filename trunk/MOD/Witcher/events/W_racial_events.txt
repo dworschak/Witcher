@@ -167,10 +167,14 @@ character_event = {
 # Check marriage (on_marriage)
 character_event = {
 	id = racial.4
-	desc = "chek if marriage is okay"
+	desc = "Check if marriage is okay"
 	
 	is_triggered_only = yes
 	hide_window = yes
+	
+	trigger = {
+		FROM = { character = ROOT }
+	}
 	
 	option = {
 		name = "Divorce marriage"
@@ -233,25 +237,21 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAracial.5
+		ai_chance = { factor = 100 }
 		if = {
-			limit = {
-				if = {
-					limit = { 
-						spouse = { 
-							is_alive = yes
-						}
-					}
-					spouse = {
-						remove_spouse = ROOT
-						banish = yes
-					}
+			limit = { 
+				spouse = { 
+					is_alive = yes
 				}
+			}
+			spouse = {
+				remove_spouse = ROOT
+				banish = yes
 			}
 		}
 	}
 	option = {
 		name = EVTOPTBracial.5
-		trigger = { ai = no }
 		character_event = { id = 500 } # Royal Marriage Aid Duty 
 	}
 }
