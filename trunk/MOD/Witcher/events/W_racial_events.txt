@@ -161,56 +161,85 @@ character_event = {
 	}
 }
 
-#force divorce intermarried people
+################################################
+# Divorce
+################################################
+# Check marriage (on_marriage)
 character_event = {
-    id = racial.4
-    title = "You've married an ugly wench!"
-    desc = "By all that is holy, your new wife is a monster! Not the fair maid you were promised! What cruel joke is this?"
-    picture = "GFX_evt_marriage"
-    
-    trigger = {
-		OR = {
-			AND = {
-				trait = elven
-				spouse = {
+	id = racial.4
+	desc = "chek if marriage is okay"
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = "Divorce marriage"
+		limit = {
+			OR = {
+				AND = {
 					OR = {
-						trait = human
-						trait = dwarven
-						trait = halfdwarf
-					}
-				}
-			}
-			AND = {
-				trait = dwarven
-				spouse = {
-					OR = {
-						trait = human
 						trait = elven
 						trait = halfelf
 					}
+					spouse = {
+						OR = {
+							trait = dwarven
+							trait = halfdwarf
+						}
+					}
 				}
-			}
-			AND = {
-				trait = human
-				spouse = {
+				AND = {
 					trait = dwarven
+					spouse = {
+						OR = {
+							trait = human
+							trait = elven
+							trait = halfelf
+						}
+					}
+				}
+				AND = {
+					trait = halfdwarf
+					spouse = {
+						OR = {
+							trait = elven
+							trait = halfelf
+						}
+					}
+				}
+				AND = {
+					trait = human
+					spouse = {
+						trait = dwarven
+					}
 				}
 			}
 		}
-    }
-    
-	immediate={
+		ai_chance = { factor = 100 }
+		character_event = { id = racial.5 }
 	}
-    
-    option = {
-		name = "Banish her from the realm!"
+	option = {
+		name = "Marriage is okay"
+		character_event = { id = 500 } # Royal Marriage Aid Duty
+	}
+}
+# Force divorce interracial marriages
+character_event = {
+	id = racial.5
+	desc = EVTDESCracial.5
+	picture = GFX_evt_marriage
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAracial.5
 		if = {
-			limit = { 	
+			limit = {
 				if = {
 					limit = { 
 						spouse = { 
 							is_alive = yes
-						}		
+						}
 					}
 					spouse = {
 						remove_spouse = ROOT
@@ -218,12 +247,11 @@ character_event = {
 					}
 				}
 			}
-		}	
-	}		
-    
-    option = {
-		name = "Actually, I kind of like her..."
+		}
+	}
+	option = {
+		name = EVTOPTBracial.5
 		trigger = { ai = no }
-		set_character_flag = accepted_intermarriage
-    }   
+		character_event = { id = 500 } # Royal Marriage Aid Duty 
+	}
 }
