@@ -1,8 +1,9 @@
 namespace = nilfgaard
 
 ################################################
-# Deithwen Trait Gained
+# Deithwen Trait
 ################################################
+# Deithwen trait gained
 character_event = {
 	id = nilfgaard.1
 	desc = EVTDESCnilfgaard.1
@@ -22,13 +23,35 @@ character_event = {
 		add_trait = deithwen
 	}
 }
+# Deithwen trait lost
+character_event = {
+	id = nilfgaard.2
+	desc = EVTDESCnilfgaard.2
+	picture = GFX_evt_victory_arch_byzantine
+	
+	trigger = {
+		trait = deithwen
+		NOT = { has_landed_title = e_nilfgaard }
+		is_alive = yes
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAnilfgaard.2
+		remove_trait = deithwen
+	}
+}
 
 ################################################
-# Declared Imperial Expansion War
+# Declared Nilfgaard Expansion War
 ################################################
 # Target - Recieved DoW
-character_event = {
+narrative_event = {
 	id = nilfgaard.100
+	title = EVTTITLEnilfgaard.100
 	desc = EVTDESCnilfgaard.100
 	picture = GFX_evt_large_army
 	
@@ -48,20 +71,22 @@ character_event = {
 		e_nilfgaard = {
 			owner = {
 				set_defacto_vassal = ROOT
-				character_event = { id = nilfgaard.101 }
+				letter_event = { id = nilfgaard.101 }
 			}
 		}
 		ai_chance = {
-			factor = 10
+			factor = 5
 			modifier = { factor = 2 trait = craven }
 			modifier = {
-				factor = 2
+				factor = 4
 				e_nilfgaard = { owner = { reverse_opinion = { who = ROOT value = 50 } } }
 			}
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 200 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 250 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 300 } } }
-			modifier = { factor = 2 e_nilfgaard = { owner = { realm_size = 350 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 500 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 600 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 700 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 800 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 900 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Call allies
@@ -73,10 +98,10 @@ character_event = {
 				independent = yes
 				NOT = { has_landed_title = k_eternal_fire }
 			}
-			character_event = { id = nilfgaard.102 }
+			letter_event = { id = nilfgaard.102 tooltip = EVTTOOLTIPnilfgaard.102}
 		}
 		ai_chance = {
-			factor = 35
+			factor = 40
 			modifier = { factor = 2 trait = brave }
 		}
 	}
@@ -88,17 +113,17 @@ character_event = {
 			add_trait = brave
 		}
 		ai_chance = {
-			factor = 1
-			modifier = { factor = 4 trait = brave }
-			modifier = { factor = 4 trait = arbitrary }
+			factor = 5
+			modifier = { factor = 2 trait = brave }
+			modifier = { factor = 3 trait = arbitrary }
+			modifier = { factor = 3 trait = lunatic }
 		}
 	}
 }
 # Emperor - Target surrenderes
-character_event = {
+letter_event = {
 	id = nilfgaard.101
 	desc = EVTDESCnilfgaard.101
-	picture = GFX_evt_victory_arch_byzantine
 	
 	is_triggered_only = yes
 	
@@ -108,10 +133,9 @@ character_event = {
 	}
 }
 # Independant Northern Kings - Join in war against Nilfgaard
-character_event = {
+letter_event = {
 	id = nilfgaard.102
 	desc = EVTDESCnilfgaard.102
-	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
 	
@@ -119,7 +143,7 @@ character_event = {
 		name = EVTOPTAnilfgaard.102
 		join_defender_wars = FROM
 		ai_chance = {
-			factor = 3
+			factor = 4
 			modifier = { # Neighbors Nilfgaard
 				factor = 4
 				any_realm_province = {
@@ -132,40 +156,109 @@ character_event = {
 			}
 			modifier = { factor = 2 trait = brave }
 			modifier = { factor = 0.5 trait = craven }
-			modifier = { factor = 2 wealth = 500 }
 		}
 	}
 	option = { # Don't join
 		name = EVTOPTBnilfgaard.102
 		prestige = -20
+		FROM = { letter_event = { id = nilfgaard.103 days = 5 } }
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
-			modifier ={ factor = 4 war =  yes }
+			modifier ={ factor = 2.5 war =  yes }
 			modifier ={ factor = 2 NOT = { wealth =  0 } }
-			modifier = { factor = 1.2 e_nilfgaard = { owner = { realm_size = 200 } } }
-			modifier = { factor = 1.2 e_nilfgaard = { owner = { realm_size = 250 } } }
-			modifier = { factor = 1.2 e_nilfgaard = { owner = { realm_size = 300 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 350 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 500 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 600 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 700 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 800 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 900 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 1000 } } }
+		}
+	}
+	option = { # Financial support
+		name = EVTOPTCnilfgaard.102
+		transfer_scaled_wealth = { to = FROM value = 10.0 }
+		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
+		ai_chance = {
+			factor = 3
+			modifier = { factor = 2 wealth = 500 }
+			modifier = { factor = 2 scaled_wealth = 10.0 }
+			modifier = { # Don't neighbor Nilfgaard
+				factor = 5
+				any_realm_province = {
+					any_neighbor_province = {
+						owner = {
+							top_liege = { NOT = { has_landed_title = e_nilfgaard } }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# Target - Don't join
+letter_event = {
+	id = nilfgaard.103
+	desc = EVTDESCnilfgaard.103
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.103
+	}
+}
+# Target - Financial support
+letter_event = {
+	id = nilfgaard.104
+	desc = EVTDESCnilfgaard.104
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.104
+	}
+}
+# Province - Ping -Victory, what should do with title
+province_event = {
+	id = nilfgaard.110
+	desc = "Ping through province so I can get the title it belongs to"
+	picture = GFX_evt_victory_arch_byzantine
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = "OK"
+		holder_scope = {
+			top_liege = {
+				character_event = { id = nilfgaard.111 }
+			}
 		}
 	}
 }
 # Emperor - Victory, what should do with title
 character_event = {
-	id = nilfgaard.110
-	desc = EVTDESCnilfgaard.110
+	id = nilfgaard.111
+	desc = EVTDESCnilfgaard.111
 	picture = GFX_evt_victory_arch_byzantine
 	
 	is_triggered_only = yes
 	
 	option = { # Keep the title
-		name = EVTOPTAnilfgaard.110
+		name = EVTOPTAnilfgaard.111
 	}
-	option = { # Grant title - AI
-		name = EVTOPTBnilfgaard.110
+	option = { # Keep the title
+		name = EVTOPTBnilfgaard.111
 	}
 	option = { # Destroy title
-		name = EVTOPTCnilfgaard.110
+		name = EVTOPTCnilfgaard.111
 		prestige = 100
+		FROM = {
+			kingdom = {
+				destroy_landed_title = THIS
+			}
+		}
+		ai_chance = { factor = 0 }
 	}
 }
+
