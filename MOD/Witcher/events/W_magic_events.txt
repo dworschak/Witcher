@@ -1088,6 +1088,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAmagic.69
+		clr_character_flag = learning_from_sorcerer
+		clr_character_flag = learning_from_witch
 		clr_character_flag = learning_from_druid
 		remove_character_modifier = magic_talent
 		hidden_tooltip = {
@@ -1142,6 +1144,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAmagic.72
+		clr_character_flag = learning_from_sorcerer
+		clr_character_flag = learning_from_witch
 		clr_character_flag = learning_from_druid
 		hidden_tooltip = {
 			guardian = { character_event = { id = magic.73 } }
@@ -1188,7 +1192,7 @@ character_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	
-	min_age = 10
+	min_age = 7
 	
 	trigger = {
 		OR = {
@@ -1198,22 +1202,19 @@ character_event = {
 	}
 	
 	immediate = {
-		random = {
-			chance = 90
-			change_variable = { which = learning_magic value = 1 }
-		}
+		change_variable = { which = learning_magic value = 1 }
 	}
 	
 	option = {
 		name = "Not graduate"
 		trigger = {
-			NOT = { check_variable = { which = learning_magic value = 5 } }
+			NOT = { check_variable = { which = learning_magic value = 4 } }
 		}
 	}
 	option = {
 		name = "Graduate - sorcerer"
 		trigger = {
-			check_variable = { which = learning_magic value = 5 }
+			check_variable = { which = learning_magic value = 4 }
 			trait = apprentice_sorcerer
 		}
 		character_event = { id = magic.91 }
@@ -1221,7 +1222,7 @@ character_event = {
 	option = {
 		name = "Graduate - druid"
 		trigger = {
-			check_variable = { which = learning_magic value = 5 }
+			check_variable = { which = learning_magic value = 4 }
 			trait = apprentice_druid
 		}
 		character_event = { id = magic.92 }

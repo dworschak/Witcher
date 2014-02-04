@@ -81,6 +81,7 @@ character_event = {
 	
 	trigger = {
 		trait = elven
+		NOT = { trait = sorcerer }
 		has_character_modifier = old_age
 	}
 	
@@ -92,6 +93,39 @@ character_event = {
 		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
 		modifier = { factor = 0.4 age = 375 NOT = { age = 400 } }
 		modifier = { factor = 0.1 age = 400 }
+		modifier = { factor = 0.01 trait = incapable }
+	}
+	
+	option = {
+		name = "OK"
+		trigger = { NOT = { trait = incapable } }
+		death = { death_reason = death_natural }
+	}
+	option = {
+		name = "OK"
+		trigger = { trait = incapable }
+		death = { death_reason = death_trait }
+	}
+}
+# Incpable elf and sorcerer culling
+character_event = {
+	id = old_age.3
+	desc = "Incapable char dies"
+	picture = GFX_evt_illness
+	
+	hide_window = yes
+	
+	trigger = {
+		OR = {
+			trait = elven
+			trait = sorcerer
+		}
+		trait = incapable
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.1 has_character_modifier = old_age }
 	}
 	
 	option = {
@@ -99,7 +133,6 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
-
 ################################################
 # Old age  flavor events from VIET
 ################################################
