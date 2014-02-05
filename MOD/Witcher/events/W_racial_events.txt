@@ -247,7 +247,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAracial.5
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 1 }
 		if = {
 			limit = { 
 				spouse = { 
@@ -270,5 +270,25 @@ character_event = {
 	option = {
 		name = EVTOPTBracial.5
 		character_event = { id = 500 } # Royal Marriage Aid Duty 
+		ai_chance =  {
+			factor = 100
+			modifier = {
+				factor = 0
+				OR = {
+					trait = elven
+					trait = dwarven
+				}
+				OR = {
+					is_ruler = yes
+					is_primary_heir = yes
+					father = { is_ruler = yes }
+					mother = { is_ruler = yes }
+				}
+			}
+			modifier = {
+				factor = 0
+				random = { chance = 95 }
+			}
+		}
 	}
 }
