@@ -18,6 +18,7 @@ job_mage = {
 	monthly_prestige = 0.015
 	
 	allow = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		prisoner = no
 		OR = {
@@ -29,9 +30,15 @@ job_mage = {
 		NOT = { has_landed_title = d_thanedd }
 		NOT = { has_landed_title = d_nilfgaard_academy }
 		NOT = { has_landed_title = d_ban_ard_academy }
-		NOT = { liege = { has_landed_title = d_thanedd } }
-		NOT = { liege = { has_landed_title = d_nilfgaard_academy } }
-		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
+		liege = {
+			NOT = { has_landed_title = d_thanedd }
+			NOT = { has_landed_title = d_nilfgaard_academy }
+			NOT = { has_landed_title = d_ban_ard_academy }
+		}
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
 	}
 	gain_effect = {
 		if = {
@@ -62,6 +69,7 @@ job_chancellor = {
 	monthly_prestige = 0.015
 	
 	allow = {
+		NOT = { culture = wilderness }
 		OR = {
 			AND = {
 				OR = {
@@ -76,6 +84,10 @@ job_chancellor = {
 		prisoner = no
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
 	}
 	gain_effect = {
 		if = {
@@ -111,6 +123,7 @@ job_marshal = {
 	monthly_prestige = 0.015
 	
 	allow = {
+		NOT = { culture = wilderness }
 		OR = {
 			AND = {
 				OR = {
@@ -125,7 +138,11 @@ job_marshal = {
 		prisoner = no
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
-	}	
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
 	gain_effect = {
 		if = {
 			limit = {
@@ -159,6 +176,7 @@ job_treasurer = {
 	monthly_prestige = 0.015
 	
 	allow = {
+		NOT = { culture = wilderness }
 		OR = {
 			AND = {
 				OR = {
@@ -172,6 +190,10 @@ job_treasurer = {
 		prisoner = no
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
 	}
 	gain_effect = {
 		if = {
@@ -205,6 +227,7 @@ job_spymaster = {
 	monthly_salary = 0.1
 	
 	allow = {
+		NOT = { culture = wilderness }
 		OR = {
 			AND = {
 				OR = {
@@ -224,6 +247,10 @@ job_spymaster = {
 		prisoner = no
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
 	}
 	gain_effect = {
 		if = {
@@ -258,6 +285,7 @@ job_spiritual = {
 	monthly_piety = 0.015
 	
 	allow = {
+		NOT = { culture = wilderness }
 		prisoner = no
 		liege = {
 			religion = ROOT
@@ -291,20 +319,21 @@ job_spiritual = {
 			}
 			has_character_flag = special_spiritual
 		}
-		
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
-		
 		OR = {
 			is_theocracy = yes
 			is_ruler = no
 		}
-		
 		OR = {
 			trait = detached_priest
 			trait = martial_cleric
 			trait = scholarly_theologian
 			trait = mastermind_theologian
+		}
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
 		}
 	}
 	gain_effect = {

@@ -45,8 +45,14 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 	}
 	
 	can_use = {
-		FROM = { NOT = { has_landed_title = k_dryads } }
-		ROOT = { NOT = { has_landed_title = k_dryads } }
+		FROM = {
+			NOT = { has_landed_title = k_dryads }
+			NOT = { culture = wilderness }
+		}
+		ROOT = {
+			NOT = { has_landed_title = k_dryads }
+			NOT = { culture = wilderness }
+		}
 		FROM = {
 			OR = {
 				trait = elven
@@ -274,6 +280,12 @@ scoiatael_revolt = {
 	is_independence = yes
 	
 	can_use = {
+		FROM = {
+			NOT = { culture = wilderness }
+		}
+		ROOT = {
+			NOT = { culture = wilderness }
+		}
 		ROOT = {
 			primary_title = { temporary = yes } # Revolter or adventurer trigger
 			war = no
@@ -682,6 +694,12 @@ nilfgaard_invasion = {
 	check_de_jure_tier = KING # this scans all de jure kingdoms for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	can_use = {
+		FROM = {
+			NOT = { culture = wilderness }
+		}
+		ROOT = {
+			NOT = { culture = wilderness }
+		}
 		ROOT = {
 			has_landed_title = e_nilfgaard
 			NOT = { is_liege_or_above = FROM }
@@ -851,16 +869,16 @@ nilfgaard_invasion = {
 	ai_will_do = { 
 		factor = 1
 		modifier = { factor = 0.5 }
-		modifier = { factor = 0 trait = content }
-		modifier = { factor = 0 trait = weak_emperor }
-		modifier = { factor = 2 trait = ambitious }
-		modifier = { factor = 2 trait = strong_emperor }
-		modifier = { factor = 1.5 trait = greedy }
-		modifier = { factor = 1.5 trait = wroth }
+		modifier = { factor = 0 ROOT = { trait = content } }
+		modifier = { factor = 0 ROOT = { trait = weak_emperor } }
+		modifier = { factor = 2 ROOT = { trait = ambitious } }
+		modifier = { factor = 2 ROOT = { trait = strong_emperor } }
+		modifier = { factor = 1.5 ROOT = { trait = content } }
+		modifier = { factor = 1.5 ROOT = { trait = wroth } }
 		modifier = {
 			factor = 0
 			any_independent_ruler = {
-				culture = southern_group
+				culture_group = southern_group
 				tier = KING
 			}
 		}
@@ -882,7 +900,10 @@ nilfgaard_reconquest = {
 			NOT = { is_liege_or_above = FROM }
 		}
 		FROM ={
-			culture_group = southern_group
+			OR ={
+				culture_group = southern_group
+				culture_group = nilfgaardian_group
+			}
 		}
 	}
 	
@@ -977,15 +998,15 @@ nilfgaard_reconquest = {
 	ai_will_do = { 
 		factor = 1
 		modifier = { factor = 0.5 }
-		modifier = { factor = 0 trait = content }
-		modifier = { factor = 2 trait = ambitious }
-		modifier = { factor = 2 trait = strong_emperor }
-		modifier = { factor = 1.5 trait = greedy }
-		modifier = { factor = 1.5 trait = wroth }
+		modifier = { factor = 0 ROOT = { trait = content } }
+		modifier = { factor = 2 ROOT = { trait = ambitious } }
+		modifier = { factor = 2 ROOT = { trait = strong_emperor } }
+		modifier = { factor = 1.5 ROOT = { trait = greedy } }
+		modifier = { factor = 1.5 ROOT = { trait = wroth } }
 		modifier = {
 			factor = 2
 			any_independent_ruler = {
-				culture = southern_group
+				culture_group = southern_group
 				tier = KING
 			}
 		}

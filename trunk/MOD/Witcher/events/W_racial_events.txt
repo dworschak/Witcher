@@ -16,6 +16,7 @@ character_event = {
 		NOT = { trait = elven }
 		NOT = { trait = halfelf }
 		NOT = { trait = dryad }
+		NOT = { trait = wilderness }
 	}
 	
 	mean_time_to_happen = {
@@ -70,6 +71,7 @@ character_event = {
 				graphical_culture = dwarvengfx
 				graphical_culture = elvengfx
 				graphical_culture = dryadgfx
+				graphical_culture = wildernessgfx
 			}
 		}
 		add_trait = human
@@ -94,6 +96,12 @@ character_event = {
 			add_trait = halfdwarf
 		}
 	}
+	option = {
+		name= "Wilderness"
+		trigger = {
+			graphical_culture = wildernessgfx
+		}
+	}
 }
 
 ################################################
@@ -111,6 +119,7 @@ character_event = {
 	only_women = yes
 	
 	trigger = {
+		NOT = { culture = wilderness }
 		trait = dryad
 		NOT = { trait = pregnant }
 		is_landed = yes
@@ -173,6 +182,7 @@ character_event = {
 	hide_window = yes
 	
 	trigger = {
+		NOT = { culture = wilderness }
 		FROM = { character = ROOT }
 	}
 	
@@ -247,7 +257,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAracial.5
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 10 }
 		if = {
 			limit = { 
 				spouse = { 
@@ -271,7 +281,7 @@ character_event = {
 		name = EVTOPTBracial.5
 		character_event = { id = 500 } # Royal Marriage Aid Duty 
 		ai_chance =  {
-			factor = 100
+			factor = 1
 			modifier = {
 				factor = 0
 				OR = {
@@ -285,10 +295,76 @@ character_event = {
 					mother = { is_ruler = yes }
 				}
 			}
-			modifier = {
-				factor = 0
-				random = { chance = 95 }
-			}
 		}
+	}
+}
+
+################################################
+# Elven fertility
+################################################
+# Elf gets fertile trait
+character_event = {
+	id = racial.10
+	desc = EVTDESCracial.10
+	picture = GFX_evt_marriage
+	
+	trigger = {
+		NOT = { trait = sorcerer }
+		trait = elven
+		age = 40
+		NOT = { age = 200 }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.7 health = 5 }
+		modifier = { factor = 0.6 is_married = yes }
+		modifier = { factor = 0.6 has_lover = yes }
+		modifier = { factor = 0.6 trait = lustful }
+		modifier = { factor = 0.9 trait = hedonist }
+		modifier = { factor = 0.8 trait = strong }
+		modifier = { factor = 1.5 trait = chaste }
+		modifier = { factor = 2.0 trait = celibate }
+		modifier = { factor = 1.4 trait = homosexual }
+		modifier = { factor = 0 age = 100 }
+	}
+	
+	option = {
+		name = EVTOPTAracial.10
+		add_trait = fertile_elf
+	}
+}
+# Elf loses fertile trait
+character_event = {
+	id = racial.11
+	desc = EVTDESCracial.11
+	picture = GFX_evt_marriage
+	
+	trigger = {
+		trait = fertile_elf
+		trait = elven
+		age = 200
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.8 NOT = { health = 3 } }
+		modifier = { factor = 0.8 NOT = { health = 4 } }
+		modifier = { factor = 0.8 NOT = { health = 5 } }
+		modifier = { factor = 1.2 health = 5 }
+		modifier = { factor = 1.2 health = 6 }
+		modifier = { factor = 1.2 health = 7 }
+		modifier = { factor = 1.2 trait = lustful }
+		modifier = { factor = 1.1 trait = hedonist }
+		modifier = { factor = 1.5 trait = strong }
+		modifier = { factor = 0.6 trait = chaste }
+		modifier = { factor = 0.2 trait = celibate }
+		modifier = { factor = 0.9 trait = homosexual }
+		modifier = { factor = 0 age = 250 }
+	}
+	
+	option = {
+		name = EVTOPTAracial.11
+		remove_trait = fertile_elf
 	}
 }
