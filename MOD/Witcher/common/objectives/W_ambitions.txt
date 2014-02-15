@@ -4,6 +4,10 @@ obj_become_mage = {
 	
 	expectation_of_liege = yes
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
 	allow = {
 		NOT = { has_landed_title = d_thanedd }
 		NOT = { has_landed_title = d_nilfgaard_academy }
@@ -71,6 +75,7 @@ obj_become_duke = {
 	can_cancel = no
 
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 		is_landed = yes
@@ -87,9 +92,9 @@ obj_become_duke = {
 	 }
 	 
 	chance = {
-		factor = 20
+		factor = 100
 		modifier = {
-			factor = 0
+			factor = 0.1
 			NOT = { trait = ambitious }
 		}
 		modifier = {
@@ -105,7 +110,7 @@ obj_become_duke = {
 			trait = craven
 		}
 		modifier = {
-			factor = 0.01
+			factor = 0
 			trait = content
 		}
 		modifier = {
@@ -118,6 +123,10 @@ obj_become_duke = {
 		modifier = { factor = 1.2 demesne_size = 2 }
 		modifier = { factor = 1.2 demesne_size = 3 }
 		modifier = { factor = 1.2 demesne_size = 4 }
+		modifier = {
+			factor = 0.01
+			any_demesne_province = { culture = magic }
+		}
 	 }
 	 
 	success = {
@@ -154,6 +163,10 @@ obj_become_duke = {
 # Increase demesne size (from additional objectives mod)
 obj_increase_demesne = {
 	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	
 	allow = {
 		is_ruler = yes
@@ -201,7 +214,11 @@ obj_increase_demesne = {
 		 }
 		modifier = { factor = 1.5 trait = envious }
 		modifier = { factor = 1.5 trait = greedy }
-		modifier = { factor = 10.0 trait = ambitious }
+		modifier = { factor = 5.0 trait = ambitious }
+		modifier = {
+			factor = 0.01
+			any_demesne_province = { culture = magic }
+		}
 	 }
 	 
 	success = {
@@ -259,4 +276,127 @@ obj_increase_demesne = {
 			set_character_flag = obj_demesne_used
 		 }
 	 }
+ }
+# Become strong emperor
+obj_become_strong_emperor = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		has_landed_title = e_nilfgaard
+		trait = weak_emperor
+		prisoner = no
+		is_adult = yes
+		NOT = { trait = incapable }
+	 }
+	 
+	chance = {
+		factor = 100
+	 }
+	 
+	success = {
+		trait = strong_emperor
+	 }
+	 
+	abort = {
+		NOT = { has_landed_title = e_nilfgaard }
+	 }
+	 
+	effect = {
+		remove_trait = weak_emperor
+	}
+ }
+# Gain tower
+obj_gain_tower = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		is_landed = no
+		prisoner = no
+		is_adult = yes
+		trait = sorcerer
+		NOT = { trait = incapable }
+	 }
+	 
+	chance = {
+		factor = 200
+		modifier = { factor = 2 trait = ambitious }
+		modifier = { factor = 0.01 trait = content }
+		modifier = { factor = 5 trait = scholar }
+		modifier = { factor = 3 trait = shy }
+		modifier = { factor = 0.01 trait = gregarious }
+		modifier = { factor = 2 trait = thrifty_clerk }
+		modifier = {
+			factor = 5
+			OR = {
+				trait = fortune_builder
+				trait = midas_touched
+			}
+		}
+		modifier = { factor = 2 wealth = 100 }
+		modifier = { factor = 5 wealth = 500 }
+		modifier = { factor = 0.1 NOT = { yearly_income = 5 } }
+		modifier = { factor = 0.5 NOT = { yearly_income = 10 } }
+	 }
+	 
+	success = {
+		any_demesne_province = {
+			NOT = { culture = magic }
+		}
+	 }
+	 
+	abort = {
+		OR = {
+			trait = incapable
+			any_demesne_province = {
+				NOT = { culture = magic }
+			}
+			higher_tier_than = COUNT
+		}
+	}
+	 
+	effect = {
+		prestige = 100
+	}
+ }
+# Cure infertility
+obj_cure_infertility = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		prisoner = no
+		is_adult = yes
+		trait = sorcerer
+		NOT = { trait = incapable }
+		NOT = { trait = fertile_sorcerer }
+	 }
+	 
+	chance = {
+		factor = 50
+	 }
+	 
+	success = {
+		trait = fertile_sorcerer
+	 }
+	 
+	abort = {
+		OR = {
+			has_character_modifier = old_age
+			trait = incapable
+		}
+	}
+	 
+	effect = {
+	}
  }

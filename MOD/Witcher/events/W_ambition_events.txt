@@ -1,0 +1,375 @@
+namespace = ambition
+
+################################################
+# Cure infertility
+################################################
+# Shady merchant offers a potion to cure infertility - Start
+character_event = {
+	id = ambition.1
+	desc = EVTDESCambition.1
+	picture = GFX_evt_spymaster
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		NOT = { has_character_flag = shady_cure }
+		NOT = { has_character_flag = shady_cure_failed }
+		NOT = { has_character_flag = dangerous_ritual }
+		NOT = { has_character_flag = experimental_potion }
+		NOT = { has_character_flag = expensive_procedure }
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = {
+		name = EVTOPTAambition.1
+		set_character_flag = shady_cure
+		scaled_wealth = -1
+		character_event = { id = ambition.2 days = 3 tooltip = EVTTOOLTIPambition.2 }
+	}
+	option = {
+		name = EVTOPTBambition.1
+		set_character_flag = shady_cure_failed
+	}
+}
+# Shady merchant offers a potion to cure infertility - Potion
+character_event = {
+	id = ambition.2
+	desc = EVTDESCambition.2
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = shady_cure
+	}
+	
+	option = {
+		name = EVTOPTAambition.2
+		custom_tooltip = {
+			text = wait_for_effects_of_potion
+			hidden_tooltip = {
+				random_list = {
+					30 = { character_event = { id = ambition.3 days = 3 } }
+					70 = { character_event = { id = ambition.4 days = 3 } }
+				}
+			}
+		}
+	}
+}
+# Shady merchant offers a potion to cure infertility - Cure
+character_event = {
+	id = ambition.3
+	desc = EVTDESCambition.3
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = shady_cure
+	}
+	
+	option = {
+		name = EVTOPTAambition.3
+		clr_character_flag = shady_cure
+		add_trait = fertile_sorcerer
+	}
+}
+# Shady merchant offers a potion to cure infertility - Water
+character_event = {
+	id = ambition.4
+	desc = EVTDESCambition.4
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = shady_cure
+	}
+	
+	option = {
+		name = EVTOPTAambition.4
+		clr_character_flag = shady_cure
+		set_character_flag = shady_cure_failed
+	}
+}
+# Cast a dangerous ritual to cure infertility - Spellbook
+character_event = {
+	id = ambition.10
+	desc = EVTDESCambition.10
+	picture = GFX_evt_library
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		NOT = { has_character_flag = shady_cure }
+		NOT = { has_character_flag = dangerous_ritual }
+		NOT = { has_character_flag = dangerous_ritual_failed }
+		NOT = { has_character_flag = experimental_potion }
+		NOT = { has_character_flag = expensive_procedure }
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = {
+		name = EVTOPTAambition.10
+		set_character_flag = dangerous_ritual
+		custom_tooltip = {
+			text = prepare_ritual
+			hidden_tooltip = {
+				random_list = {
+					60 = { character_event = { id = ambition.11 days = 3 } }
+					30 = { character_event = { id = ambition.12 days = 3 } }
+					10 = { character_event = { id = ambition.13 days = 3 } }
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBambition.10
+		set_character_flag = dangerous_ritual_failed
+	}
+}
+# Cast a dangerous ritual to cure infertility - Cure
+character_event = {
+	id = ambition.11
+	desc = EVTDESCambition.11
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = dangerous_ritual
+	}
+	
+	option = {
+		name = EVTOPTAambition.11
+		clr_character_flag = dangerous_ritual
+		add_trait = fertile_sorcerer
+	}
+}
+# Cast a dangerous ritual to cure infertility - Madness
+character_event = {
+	id = ambition.12
+	desc = EVTDESCambition.12
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = dangerous_ritual
+	}
+	
+	option = {
+		name = EVTOPTAambition.12
+		clr_character_flag = dangerous_ritual
+		set_character_flag = dangerous_ritual_failed
+		add_trait = lunatic
+	}
+}
+# Cast a dangerous ritual to cure infertility - Possesed
+character_event = {
+	id = ambition.13
+	desc = EVTDESCambition.13
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = dangerous_ritual
+	}
+	
+	option = {
+		name = EVTOPTAambition.13
+		clr_character_flag = dangerous_ritual
+		set_character_flag = dangerous_ritual_failed
+		add_trait = possessed
+	}
+}
+# Alchemist have concocted an experimental potion that could cure infertility - Rumor
+character_event = {
+	id = ambition.20
+	desc = EVTDESCambition.20
+	picture = GFX_evt_throne_room
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		NOT = { has_character_flag = shady_cure }
+		NOT = { has_character_flag = dangerous_ritual }
+		NOT = { has_character_flag = experimental_potion }
+		NOT = { has_character_flag = experimental_potion_failed }
+		NOT = { has_character_flag = expensive_procedure }
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = {
+		name = EVTOPTAambition.20
+		set_character_flag = experimental_potion
+		character_event = { id = ambition.21 tooltip = EVTTOOLTIPambition.21 days = 60 random = 10 }
+	}
+	option = {
+		name = EVTOPTBambition.20
+		set_character_flag = experimental_potion_failed
+	}
+}
+# Alchemist have concocted an experimental potion that could cure infertility - Alchemist Found
+character_event = {
+	id = ambition.21
+	desc = EVTDESCambition.21
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = experimental_potion 
+	}
+	
+	option = {
+		name = EVTOPTAambition.21
+		custom_tooltip = {
+			text = drink_potion
+			hidden_tooltip = {
+				random_list = {
+					50 = { character_event = { id = ambition.22 days = 30 random = 5 } }
+					50 = { character_event = { id = ambition.23 days = 3 } }
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBambition.21
+		custom_tooltip = { text =  dont_drink_potion }
+		set_character_flag = experimental_potion_failed
+		clr_character_flag = experimental_potion
+	}
+}
+# Alchemist have concocted an experimental potion that could cure infertility - Potion worked
+character_event = {
+	id = ambition.22
+	desc = EVTDESCambition.22
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = experimental_potion 
+	}
+	
+	option = {
+		name = EVTOPTAambition.22
+		add_trait = fertile_sorcerer
+		clr_character_flag = experimental_potion
+	}
+}
+# Alchemist have concocted an experimental potion that could cure infertility - Potion didn't work
+character_event = {
+	id = ambition.23
+	desc = EVTDESCambition.23
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = experimental_potion 
+	}
+	
+	option = {
+		name = EVTOPTAambition.23
+		add_trait = ill
+		clr_character_flag = experimental_potion
+		set_character_flag = experimental_potion_failed
+	}
+}
+# An expensive but credible procedure - Start
+character_event = {
+	id = ambition.30
+	desc = EVTDESCambition.30
+	picture = GFX_evt_throne_room
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		NOT = { has_character_flag = shady_cure }
+		NOT = { has_character_flag = dangerous_ritual }
+		NOT = { has_character_flag = experimental_potion }
+		NOT = { has_character_flag = expensive_procedure }
+		NOT = { has_character_flag = expensive_procedure_failed }
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = {
+		name = EVTOPTAambition.30
+		set_character_flag = expensive_procedure
+		scaled_wealth = -5.0
+		character_event = { id = ambition.31 days = 60 random = 10 tooltip = EVTTOOLTIPambition.31 }
+	}
+	option = {
+		name = EVTOPTBambition.30
+		set_character_flag = expensive_procedure_failed
+	}
+}
+# An expensive but credible procedure - Cure
+character_event = {
+	id = ambition.31
+	desc = EVTDESCambition.31
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = expensive_procedure
+	}
+	
+	option = {
+		name = EVTOPTAambition.31
+		clr_character_flag = expensive_procedure
+		add_trait = fertile_sorcerer
+	}
+}

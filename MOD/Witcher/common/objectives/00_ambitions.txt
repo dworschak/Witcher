@@ -11,7 +11,11 @@ obj_become_chancellor = {
 	type = character
 	
 	expectation_of_liege = yes
-
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
 	allow = {
 		prisoner = no
 		is_adult = yes
@@ -141,6 +145,9 @@ obj_become_chancellor = {
 obj_become_marshal = {
 	type = character
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	allow = {
 		prisoner = no
 		is_adult = yes
@@ -267,6 +274,9 @@ obj_become_marshal = {
 obj_become_treasurer = {
 	type = character
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	allow = {
 		prisoner = no
 		is_adult = yes
@@ -400,6 +410,9 @@ obj_become_treasurer = {
 
 obj_become_spymaster = {
 	type = character
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	allow = {
 		prisoner = no
 		is_adult = yes
@@ -537,6 +550,10 @@ obj_become_spymaster = {
 
 obj_become_spiritual = {
 	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	
 	allow = {
 		prisoner = no
@@ -697,6 +714,7 @@ obj_amass_wealth = {
 	type = character
 	
 	potential = {
+		NOT = { culture = wilderness }
 		NOT = { has_character_flag = amassed_wealth }
 	}
 	
@@ -763,6 +781,10 @@ obj_amass_wealth = {
 
 obj_become_paragon_of_virtue = {
 	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	
 	allow = {
 		is_adult = yes
@@ -859,6 +881,10 @@ obj_become_paragon_of_virtue = {
 obj_become_exalted = {
 	type = character
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
 	allow = {
 		is_adult = yes
 		NOT = { prestige = 200 }
@@ -930,6 +956,10 @@ obj_become_exalted = {
 obj_get_married = {
 	type = character
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
 	allow = {
 		prisoner = no
 		is_marriage_adult = yes
@@ -943,11 +973,10 @@ obj_get_married = {
 		NOT = { trait = eunuch }
 		NOT = { trait = homosexual }
 		NOT = { trait = witcher }
-		NOT = { trait = druid }
 		NOT = { trait = kind2 }
 		OR = {
 			is_female = no
-			NOT = { age = 40 }
+			NOT = { has_character_modifier = old_age }
 		}
 		OR = {
 			is_ruler = no
@@ -988,10 +1017,6 @@ obj_get_married = {
 		modifier = {
 			factor = 0.01
 			mercenary = yes
-		}
-		modifier = {
-			factor = 0
-			trait = witcher
 		}
 		modifier = {
 			factor = 0.05
@@ -1047,6 +1072,10 @@ obj_get_married = {
 obj_marry_ruler = {
 	type = character
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
 	allow = {
 		prisoner = no
 		is_marriage_adult = yes
@@ -1054,11 +1083,16 @@ obj_marry_ruler = {
 		is_married = no
 		is_consort = no
 		can_marry = yes
+		NOT = { has_landed_title = k_eternal_fire }
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
+		NOT = { trait = eunuch }
+		NOT = { trait = homosexual }
+		NOT = { trait = witcher }
+		NOT = { trait = kind2 }
 		OR = {
 			is_female = no
-			NOT = { age = 45 }
+			NOT = { has_character_modifier = old_age }
 		}
 		father = {
 			primary_title = {
@@ -1133,6 +1167,10 @@ obj_have_a_daughter = {
 	
 	fertility = 0.25
 	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
 	allow = {
 		prisoner = no
 		is_marriage_adult = yes
@@ -1146,7 +1184,7 @@ obj_have_a_daughter = {
 			}
 		}
 		OR = {
-			NOT = { age = 45 }
+			NOT = { has_character_modifier = old_age }
 			is_female = no
 		}
 		OR = { 
@@ -1154,11 +1192,25 @@ obj_have_a_daughter = {
 			is_female = yes
 			AND = {
 				num_of_children = 2
-				NOT = { age = 45 }
+				NOT = { has_character_modifier = old_age }
 			}
 		}
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
+		OR = {
+			NOT = { trait = elven }
+			AND = {
+				trait = elven
+				trait  = fertile_elf
+			}
+		}
+		OR = {
+			NOT = { trait = sorcerer }
+			AND = {
+				trait = sorcerer
+				trait  = fertile_sorcerer
+			}
+		}
 	}
 	chance = {
 		factor = 50
@@ -1184,7 +1236,7 @@ obj_have_a_daughter = {
 	abort = {
 		OR = {
 			AND = {
-				age = 45
+				has_character_modifier = old_age
 				is_female = yes
 			}
 			trait = celibate
@@ -1203,6 +1255,10 @@ obj_have_a_son = {
 	type = character
 	
 	fertility = 0.25
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	
 	allow = {
 		prisoner = no
@@ -1227,19 +1283,24 @@ obj_have_a_son = {
 			}
 		}
 		NOT = { 
-			OR = {
-				AND = {
-					age = 50
-					is_female = yes
-				}
-				AND = {
-					age = 75
-					is_female = no
-				}
-			}
+			has_character_modifier = old_age
 		}
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
+		OR = {
+			NOT = { trait = elven }
+			AND = {
+				trait = elven
+				trait  = fertile_elf
+			}
+		}
+		OR = {
+			NOT = { trait = sorcerer }
+			AND = {
+				trait = sorcerer
+				trait  = fertile_sorcerer
+			}
+		}
 	}
 	chance = {
 		factor = 50
@@ -1264,16 +1325,7 @@ obj_have_a_son = {
 	}
 	abort = {
 		OR = {
-			OR = {
-				AND = {
-					age = 50
-					is_female = yes
-				}
-				AND = {
-					age = 75
-					is_female = no
-				}
-			}
+			has_character_modifier = old_age
 			trait = celibate
 			trait = incapable
 		}
@@ -1288,6 +1340,10 @@ obj_have_a_son = {
 
 obj_wants_landed_title = {
 	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	
 	allow = {
 		prisoner = no
@@ -1348,11 +1404,11 @@ obj_wants_landed_title = {
 			trait = ambitious
 		}
 		modifier = {
-			factor = 0.1
+			factor = 0.01
 			trait = witcher
 		}
 		modifier = {
-			factor = 0.1
+			factor = 0.01
 			trait = druid
 		}
 	}
@@ -1393,6 +1449,10 @@ obj_wants_landed_title = {
 
 obj_become_heir = {
 	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
 	
 	allow = {
 		prisoner = no
@@ -1465,6 +1525,7 @@ obj_improve_martial = {
 	type = character
 	
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 	}
@@ -1528,6 +1589,7 @@ obj_improve_stewardship = {
 	type = character
 	
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 	}
@@ -1594,6 +1656,7 @@ obj_improve_learning = {
 	type = character
 	
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 	}
@@ -1656,6 +1719,7 @@ obj_improve_diplomacy = {
 	type = character
 	
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 	}
@@ -1718,6 +1782,7 @@ obj_improve_intrigue = {
 	type = character
 	
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 	}
@@ -1841,6 +1906,7 @@ obj_become_king = {
 	ai_capital_kingdom_focus = yes # AI characters with this ambition will actually focus on taking the kingdom
 	
 	potential = {
+		NOT = { culture = wilderness }
 		is_adult = yes
 		is_playable = yes
 		is_landed = yes

@@ -12,16 +12,13 @@ province_event = {
 	hide_window = yes
 	
 	trigger = {
+		owner = { NOT = { culture = wilderness} }
 		has_dlc = "The Old Gods"
 	}
 	
 	immediate = { # Check for any ongoing revolt
 		owner = {
 			top_liege = {
-				clr_character_flag = ongoing_peasant_revolt
-				clr_character_flag = ongoing_religious_revolt
-				clr_character_flag = ongoing_nationalist_revolt
-				clr_character_flag = ongoing_scoiatael_revolt
 				if = { # Peasant revolt
 					limit = {
 						war = yes
@@ -81,7 +78,7 @@ province_event = {
 					set_character_flag = ongoing_scoiatael_revolt
 				}
 				if = {
-					limit = { had_character_flag = { flag = revolt_cooldown years = 5 } }
+					limit = { had_character_flag = { flag = revolt_cooldown days = 1800 } }
 					clr_character_flag = revolt_cooldown
 				}
 			}
@@ -273,6 +270,10 @@ province_event = {
 		name = "Do nothing"
 		ai_chance = {
 			factor = 1
+			modifier = {
+				factor = 10000
+				owner = { top_liege = { has_character_flag = revolt_cooldown } }
+			}
 			modifier = {
 				factor = 10000
 				owner = { top_liege = { has_character_flag = revolt_cooldown } }

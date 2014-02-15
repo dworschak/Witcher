@@ -1,17 +1,23 @@
 namespace = nilfgaard
 
 ################################################
-# Deithwen Trait
+# Emperor Trait
 ################################################
-# Deithwen trait gained
+# Emperor Evaluation
 character_event = {
 	id = nilfgaard.1
-	desc = EVTDESCnilfgaard.1
-	picture = GFX_evt_victory_arch_byzantine
+	desc = "Emperor evaluation"
+	picture = GFX_evt_holy_emperor
+	
+	hide_window = yes
 	
 	trigger = {
+		NOT = { culture = wilderness}
 		has_landed_title = e_nilfgaard
-		NOT = { trait = deithwen }
+		NOT = {
+			trait = strong_emperor
+			trait = weak_emperor
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -19,18 +25,82 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAnilfgaard.1
-		add_trait = deithwen
+		name = "Strong emperor"
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 4 trait = ambitious }
+			modifier = { factor = 3 trait = genius }
+			modifier = { factor = 2 trait = quick }
+			modifier = { factor = 3 trait = diligent }
+			modifier = { factor = 5 religion = solar }
+			modifier = { factor = 5 culture = nilfgaardian }
+			modifier = { factor = 2 trait = elusive_shadow }
+			modifier = { factor = 2 trait = grey_eminence }
+			modifier = { factor = 2 trait = midas_touched }
+			modifier = { factor = 2 trait = brilliant_strategist }
+			modifier = { factor = 2 trait = the_sage }
+			modifier = {
+				factor = 2
+				is_adult = yes
+				NOT = { has_character_modifier = old_age }
+			}
+		}
+		character_event = { id = nilfgaard.2 }
+	}
+	option = {
+		name = "Weak emperor"
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 4 trait = content }
+			modifier = { factor = 2 trait = slow }
+			modifier = { factor = 3 trait = imbecile }
+			modifier = { factor = 3 trait = inbred }
+			modifier = { factor = 2 trait = lunatic }
+			modifier = { factor = 3 trait = infirm }
+			modifier = { factor = 4 trait = incapable }
+			modifier = { factor = 5 is_female = yes }
+			modifier = { factor = 5 NOT = { trait = human } }
+		}
+		character_event = { id = nilfgaard.3 }
 	}
 }
-# Deithwen trait lost
+# Strong emperor trait gained
 character_event = {
 	id = nilfgaard.2
-	desc = EVTDESCnilfgaard.2
-	picture = GFX_evt_victory_arch_byzantine
+	desc = EVTDESCnilfgaard.2
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.2
+		add_trait = strong_emperor
+	}
+}
+# Weak emperor trait gained
+character_event = {
+	id = nilfgaard.3
+	desc = EVTDESCnilfgaard.3
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.3
+		add_trait = weak_emperor
+	}
+}
+# Emperor trait lost
+character_event = {
+	id = nilfgaard.4
+	desc = EVTDESCnilfgaard.4
+	picture = GFX_evt_holy_emperor
 	
 	trigger = {
-		trait = deithwen
+		OR = {
+			trait = strong_emperor
+			trait = weak_emperor
+		}
 		NOT = { has_landed_title = e_nilfgaard }
 		is_alive = yes
 	}
@@ -39,11 +109,162 @@ character_event = {
 		days = 1
 	}
 	
+	immediate = {
+		any_independent_ruler = {
+			any_realm_character = { clr_character_flag = previous_nilfgaard_emperor }
+			clr_character_flag = previous_nilfgaard_emperor
+		}
+		set_character_flag = previous_nilfgaard_emperor
+	}
+	
 	option = {
-		name = EVTOPTAnilfgaard.2
-		remove_trait = deithwen
+		name = EVTOPTAnilfgaard.4
+		trigger = { trait = strong_emperor }
+		remove_trait = strong_emperor
+	}
+	option = {
+		name = EVTOPTAnilfgaard.4
+		trigger = { trait = weak_emperor }
+		remove_trait = weak_emperor
 	}
 }
+
+################################################
+# Hand out claims on weak emperor
+################################################
+# Give strong claim to ambitious direct vassals (on_bi_yearly_pulse)
+character_event = {
+	id = nilfgaard.10
+	desc = EVTDESCnilfgaard.10
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = ambitious
+		liege = { trait = weak_emperor }
+		NOT = { has_claim = e_nilfgaard }
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAnilfgaard.10
+		e_nilfgaard = { add_claim = ROOT }
+	}
+}
+# Give strong claim to awesome unlanded relatives (on_bi_yearly_pulse)
+character_event = {
+	id = nilfgaard.11
+	desc = EVTDESCnilfgaard.11
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		OR = {
+			trait = genius
+			trait = elusive_shadow
+			trait = grey_eminence
+			trait = midas_touched
+			trait = brilliant_strategist
+			trait = the_sage
+		}
+		any_dynasty_member = {
+			has_landed_title = e_nilfgaard
+			trait = weak_emperor
+		}
+		NOT = { has_claim = e_nilfgaard }
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAnilfgaard.10
+		e_nilfgaard = { add_claim = ROOT }
+	}
+}
+#Promote characters with weak claims to strong ones (on_bi_yearly_pulse)
+character_event = {
+	id = nilfgaard.12
+	desc = EVTDESCnilfgaard.12
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		liege = { trait = weak_emperor }
+		has_weak_claim = e_nilfgaard
+		NOT = { has_claim = e_nilfgaard }
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAnilfgaard.12
+		e_nilfgaard = { add_claim = ROOT }
+	}
+}
+
+################################################
+# Become strong emperor ambition
+################################################
+# Placeholder event
+character_event = {
+	id = nilfgaard.20
+	desc = "Placehlder event for becoming strong emperor"
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		has_ambition = obj_become_strong_emperor
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = {
+		name = "OK"
+		change_variable = { which = becoming_strong_emperor value = 1 }
+	}
+}
+# Placeholder event
+character_event = {
+	id = nilfgaard.21
+	desc = "Placehlder event for getting strong emperor trait"
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		has_ambition = obj_become_strong_emperor
+		check_variable = { which = becoming_strong_emperor value = 5 }
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = {
+		name = "OK"
+		add_trait = strong_emperor
+	}
+}
+# One threat less - dispose of a strong claimant
+# Loyal council - all your councilors like you
+# Friends in low places - befriend a councilor
+# Someone to trust - replace a councilor with content family member
+# Your sword and shield - appoint new leader and reform Impera
+# Crowned - have an official coronation
+# Large dreams - gain ambitious trait
+# Large dreams - gain ambitious trait
+# Friends in high places - beferiend one of your vassal kings
+# Consolidate - hand out a spare kingdom title
+# Highest authority - increase the crown authority
+# Traitors - deal with a plot against you
 
 ################################################
 # Declared Nilfgaard Expansion War
@@ -51,8 +272,8 @@ character_event = {
 # Target - Recieved DoW
 narrative_event = {
 	id = nilfgaard.100
-	title = EVTTITLEnilfgaard.100
-	desc = EVTDESCnilfgaard.100
+	title = EVTNAMEnilfgaard.100
+	desc = EVTDESCnilfgaard.100
 	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
@@ -69,7 +290,7 @@ narrative_event = {
 		}
 		prestige = -200
 		e_nilfgaard = {
-			owner = {
+			holder_scope = {
 				set_defacto_vassal = ROOT
 				letter_event = { id = nilfgaard.101 }
 			}
@@ -79,14 +300,14 @@ narrative_event = {
 			modifier = { factor = 2 trait = craven }
 			modifier = {
 				factor = 4
-				e_nilfgaard = { owner = { reverse_opinion = { who = ROOT value = 50 } } }
+				e_nilfgaard = { holder_scope = { reverse_opinion = { who = ROOT value = 50 } } }
 			}
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 500 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 600 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 700 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 800 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 900 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 1000 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Call allies
@@ -123,7 +344,7 @@ narrative_event = {
 # Emperor - Target surrenderes
 letter_event = {
 	id = nilfgaard.101
-	desc = EVTDESCnilfgaard.101
+	desc = EVTDESCnilfgaard.101
 	
 	is_triggered_only = yes
 	
@@ -135,7 +356,7 @@ letter_event = {
 # Independant Northern Kings - Join in war against Nilfgaard
 letter_event = {
 	id = nilfgaard.102
-	desc = EVTDESCnilfgaard.102
+	desc = EVTDESCnilfgaard.102
 	
 	is_triggered_only = yes
 	
@@ -167,12 +388,12 @@ letter_event = {
 			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
 			modifier ={ factor = 2.5 war =  yes }
 			modifier ={ factor = 2 NOT = { wealth =  0 } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 500 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 600 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 700 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { owner = { realm_size = 800 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 900 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { owner = { realm_size = 1000 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Financial support
@@ -199,7 +420,7 @@ letter_event = {
 # Target - Don't join
 letter_event = {
 	id = nilfgaard.103
-	desc = EVTDESCnilfgaard.103
+	desc = EVTDESCnilfgaard.103
 	
 	is_triggered_only = yes
 	
@@ -210,7 +431,7 @@ letter_event = {
 # Target - Financial support
 letter_event = {
 	id = nilfgaard.104
-	desc = EVTDESCnilfgaard.104
+	desc = EVTDESCnilfgaard.104
 	
 	is_triggered_only = yes
 	
@@ -221,7 +442,7 @@ letter_event = {
 # Province - Ping -Victory, what should do with title
 province_event = {
 	id = nilfgaard.110
-	desc = "Ping through province so I can get the title it belongs to"
+	desc = "Ping through province so I can get the title it belongs to"
 	picture = GFX_evt_victory_arch_byzantine
 	
 	is_triggered_only = yes
@@ -239,7 +460,7 @@ province_event = {
 # Emperor - Victory, what should do with title
 character_event = {
 	id = nilfgaard.111
-	desc = EVTDESCnilfgaard.111
+	desc = EVTDESCnilfgaard.111
 	picture = GFX_evt_victory_arch_byzantine
 	
 	is_triggered_only = yes

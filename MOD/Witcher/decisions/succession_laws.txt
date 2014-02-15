@@ -9,6 +9,7 @@ succession_laws = {
 		
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -53,6 +54,7 @@ succession_laws = {
 		
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -122,6 +124,7 @@ succession_laws = {
 		
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -178,6 +181,7 @@ succession_laws = {
 		
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -221,6 +225,7 @@ succession_laws = {
 		
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -264,6 +269,7 @@ succession_laws = {
 		
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -320,6 +326,7 @@ succession_laws = {
 				is_tribal_type_title = yes
 			}
 			holder_scope = {
+				NOT = { culture = wilderness }
 				OR = {
 					independent = yes
 					NOT = {
@@ -362,6 +369,7 @@ succession_laws = {
 	succ_appointment = {
 		potential = {
 			holder_scope = {
+				NOT = { culture = wilderness }
 				is_feudal = yes
 				independent = no
 				any_liege = {
@@ -382,6 +390,7 @@ succession_laws = {
 	
 	succ_open_elective = {
 		potential = {
+			holder_scope = { NOT ={ culture = wilderness } }
 			OR = {
 				is_primary_type_title = yes
 				AND = {
@@ -432,27 +441,32 @@ succession_laws = {
 	
 	succ_catholic_bishopric = { # Only together with investure
 		potential = {
-			is_landless_type_title = no
 			OR = {
+				holder_scope = { culture = wilderness }
 				AND = {
-					tier = baron
-					is_theocracy = yes
-				}
-				holder_scope = { is_theocracy = yes }
-			}
-			holder_scope = {
-				is_merchant_republic = no
-				OR = {
-					independent = yes
-					is_feudal = no
-					NOT = {
-						any_liege = {
-							holy_order = yes
+					is_landless_type_title = no
+					OR = {
+						AND = {
+							tier = baron
+							is_theocracy = yes
+						}
+						holder_scope = { is_theocracy = yes }
+					}
+					holder_scope = {
+						is_merchant_republic = no
+						OR = {
+							independent = yes
+							is_feudal = no
+							NOT = {
+								any_liege = {
+									holy_order = yes
+								}
+							}
 						}
 					}
+					is_primary_type_title = no
 				}
 			}
-			is_primary_type_title = no
 		}
 		
 		effect = {
@@ -466,7 +480,9 @@ succession_laws = {
 	
 	succ_patrician_elective = {
 		potential = {
-			holder_scope = { is_merchant_republic = yes }
+			holder_scope = {
+				is_merchant_republic = yes
+			}
 		}
 		
 		effect = {

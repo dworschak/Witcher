@@ -1,5 +1,9 @@
 namespace = magic
 
+################################################################################################
+# LEARNING MAGIC
+################################################################################################
+
 ################################################
 # Main
 ################################################
@@ -190,7 +194,7 @@ character_event = {
 			modifier = { factor = 10 scaled_wealth = 2.0 }
 		}
 	}
-	option = { # Send to Nilfgaard Academy
+	option = { # Send to Nilfgaard Academy - option 1
 		name = EVTOPTCmagic.30
 		trigger = {
 			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
@@ -1322,6 +1326,10 @@ character_event = {
 	}
 }
 
+################################################################################################
+# MAGIC SPELLS
+################################################################################################
+
 ################################################
 # Decision spells
 ################################################
@@ -1624,5 +1632,1359 @@ character_event = {
 	
 	option = {
 		name = "OK"
+	}
+}
+
+################################################################################################
+# TOWERS AND ACADEMIES
+################################################################################################
+
+################################################
+# Give tower to wilderness (on_death)
+################################################
+character_event = {
+	id = magic.1000
+	desc = "Give tower to wilderness"
+	picture = GFX_evt_peasants
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		any_demesne_province = { culture = magic }
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		NOT = { has_landed_title = d_nilfgaard_academy }
+	}
+	
+	option = {
+		name = "OK"
+		d_wilderness = {
+			holder_scope = {
+				ROOT = {
+					random_demesne_title = {
+						limit = { tier = count } 
+						gain_title = PREVPREV
+					}
+				}
+				set_defacto_liege = THIS
+			}
+		}
+	}
+}
+
+################################################
+# Remove wilderness character traits
+################################################
+character_event = {
+	id = magic.1001
+	desc = "Remove traits"
+	picture = GFX_evt_peasants
+	
+	hide_window = yes
+	
+	trigger = {
+		culture = wilderness
+		OR = {
+			trait = absentminded
+			trait = aggressive_leader
+			trait = agile
+			trait = alchemist
+			trait = amateurish_plotter
+			trait = ambidextrous
+			trait = ambitious
+			trait = apprentice_druid
+			trait = apprentice_sorcerer
+			trait = arbitrary
+			trait = ashari
+			trait = augustus
+			trait = bad_priest_aztec
+			trait = bad_priest_christian
+			trait = bad_priest_muslim
+			trait = bad_priest_norse
+			trait = bad_priest_tengri
+			trait = bad_priest_zoroastrian
+			trait = bastard
+			trait = berserker
+			trait = blinded
+			trait = born_in_the_purple
+			trait = brave
+			trait = brilliant_strategist
+			trait = canon
+			trait = cavalry_leader
+			trait = celibate
+			trait = charismatic_negotiator
+			trait = charitable
+			trait = chaste
+			trait = child_of_consort
+			trait = clubfooted
+			trait = content
+			trait = craven
+			trait = cruel
+			trait = crusader
+			trait = cynical
+			trait = deceitful
+			trait = defensive_leader
+			trait = depressed
+			trait = desert_terrain_leader
+			trait = detached_priest
+			trait = diligent
+			trait = druid
+			trait = drunkard
+			trait = dryad
+			trait = duelist
+			trait = duel_target
+			trait = dwarf
+			trait = dwarven
+			trait = elusive_shadow
+			trait = elven
+			trait = envious
+			trait = eunuch
+			trait = excommunicated
+			trait = experimenter
+			trait = fair
+			trait = falconer
+			trait = faqih
+			trait = fertile_elf
+			trait = fertile_sorcerer
+			trait = flamboyant_schemer	
+			trait = flanker
+			trait = flat_terrain_leader
+			trait = fortune_builder
+			trait = gardener
+			trait = genius
+			trait = gluttonous
+			trait = greedy
+			trait = gregarious
+			trait = grey_eminence
+			trait = hafiz
+			trait = hajjaj
+			trait = halfdwarf
+			trait = halfelf
+			trait = halfling
+			trait = harelip
+			trait = has_aztec_disease
+			trait = has_bubonic_plague
+			trait = has_measles
+			trait = has_small_pox
+			trait = has_tuberculosis
+			trait = has_typhoid_fever
+			trait = has_typhus
+			trait = heavy_infantry_leader
+			trait = hedonist
+			trait = heresiarch
+			trait = holy_warrior
+			trait = homosexual
+			trait = honest
+			trait = human
+			trait = humble
+			trait = hunchback
+			trait = hunter
+			trait = ill
+			trait = imbecile
+			trait = impaler
+			trait = inbred
+			trait = incapable
+			trait = indulgent_wastrel
+			trait = infirm
+			trait = inspiring_leader
+			trait = intricate_webweaver
+			trait = jack_of_all_trades
+			trait = joust_target
+			trait = just
+			trait = kind
+			trait = kind2
+			trait = kinslayer
+			trait = legit_bastard
+			trait = leper
+			trait = light_foot_leader
+			trait = lisp
+			trait = lunatic
+			trait = lustful
+			trait = maimed
+			trait = martial_cleric
+			trait = mastermind_theologian
+			trait = master_warrior
+			trait = melodious_voice
+			trait = midas_touched
+			trait = mirza
+			trait = misguided_warrior
+			trait = monk
+			trait = mountain_terrain_leader
+			trait = mujahid
+			trait = mutazilite
+			trait = mystic
+			trait = naive_appeaser
+			trait = narrow_flank_leader
+			trait = nun
+			trait = on_hajj
+			trait = on_pilgrimage
+			trait = organizer
+			trait = paranoid
+			trait = patient
+			trait = peasant_leader
+			trait = perceptive
+			trait = pilgrim
+			trait = pneumonic
+			trait = poet
+			trait = polymath
+			trait = poor_warrior
+			trait = possessed
+			trait = powerful_voice
+			trait = pregnant
+			trait = proud
+			trait = quick
+			trait = racist
+			trait = raider
+			trait = rough_terrain_leader
+			trait = saoshyant
+			trait = saoshyant_descendant
+			trait = sayyid
+			trait = scarred
+			trait = scatterbrain
+			trait = scholar
+			trait = scholarly_theologian
+			trait = scoiatael_leader
+			trait = shy
+			trait = sickly
+			trait = siege_leader
+			trait = skilled_tactician
+			trait = skilled_warrior
+			trait = slothful
+			trait = slow
+			trait = sorcerer
+			trait = stressed
+			trait = strong
+			trait = strong_emperor
+			trait = stutter
+			trait = sympathy_christendom
+			trait = sympathy_islam
+			trait = sympathy_judaism
+			trait = sympathy_pagans
+			trait = sympathy_zoroastrianism
+			trait = syphilitic
+			trait = tall
+			trait = temperate
+			trait = the_sage
+			trait = thrifty_clerk
+			trait = tolerant
+			trait = tough_soldier
+			trait = trained_warrior
+			trait = trickster
+			trait = trusting
+			trait = twin
+			trait = ugly
+			trait = underhanded_rogue
+			trait = unyielding_leader
+			trait = varangian
+			trait = veteran
+			trait = viking
+			trait = weak
+			trait = weak_emperor
+			trait = witch
+			trait = witcher
+			trait = wounded
+			trait = wroth
+			trait = zealous
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "OK"
+		remove_trait = absentminded
+		remove_trait = aggressive_leader
+		remove_trait = agile
+		remove_trait = alchemist
+		remove_trait = amateurish_plotter
+		remove_trait = ambidextrous
+		remove_trait = ambitious
+		remove_trait = apprentice_druid
+		remove_trait = apprentice_sorcerer
+		remove_trait = arbitrary
+		remove_trait = ashari
+		remove_trait = augustus
+		remove_trait = bad_priest_aztec
+		remove_trait = bad_priest_christian
+		remove_trait = bad_priest_muslim
+		remove_trait = bad_priest_norse
+		remove_trait = bad_priest_tengri
+		remove_trait = bad_priest_zoroastrian
+		remove_trait = bastard
+		remove_trait = berserker
+		remove_trait = blinded
+		remove_trait = born_in_the_purple
+		remove_trait = brave
+		remove_trait = brilliant_strategist
+		remove_trait = canon
+		remove_trait = cavalry_leader
+		remove_trait = celibate
+		remove_trait = charismatic_negotiator
+		remove_trait = charitable
+		remove_trait = chaste
+		remove_trait = child_of_consort
+		remove_trait = clubfooted
+		remove_trait = content
+		remove_trait = craven
+		remove_trait = cruel
+		remove_trait = crusader
+		remove_trait = cynical
+		remove_trait = deceitful
+		remove_trait = defensive_leader
+		remove_trait = depressed
+		remove_trait = desert_terrain_leader
+		remove_trait = detached_priest
+		remove_trait = diligent
+		remove_trait = druid
+		remove_trait = drunkard
+		remove_trait = dryad
+		remove_trait = duelist
+		remove_trait = duel_target
+		remove_trait = dwarf
+		remove_trait = dwarven
+		remove_trait = elusive_shadow
+		remove_trait = elven
+		remove_trait = envious
+		remove_trait = eunuch
+		remove_trait = excommunicated
+		remove_trait = experimenter
+		remove_trait = fair
+		remove_trait = falconer
+		remove_trait = faqih
+		remove_trait = fertile_elf
+		remove_trait = fertile_sorcerer
+		remove_trait = flamboyant_schemer
+		remove_trait = flanker
+		remove_trait = flat_terrain_leader
+		remove_trait = fortune_builder
+		remove_trait = gardener
+		remove_trait = genius
+		remove_trait = gluttonous
+		remove_trait = greedy
+		remove_trait = gregarious
+		remove_trait = grey_eminence
+		remove_trait = hafiz
+		remove_trait = hajjaj
+		remove_trait = halfdwarf
+		remove_trait = halfelf
+		remove_trait = halfling
+		remove_trait = harelip
+		remove_trait = has_aztec_disease
+		remove_trait = has_bubonic_plague
+		remove_trait = has_measles
+		remove_trait = has_small_pox
+		remove_trait = has_tuberculosis
+		remove_trait = has_typhoid_fever
+		remove_trait = has_typhus
+		remove_trait = heavy_infantry_leader
+		remove_trait = hedonist
+		remove_trait = heresiarch
+		remove_trait = holy_warrior
+		remove_trait = homosexual
+		remove_trait = honest
+		remove_trait = human
+		remove_trait = humble
+		remove_trait = hunchback
+		remove_trait = hunter
+		remove_trait = ill
+		remove_trait = imbecile
+		remove_trait = impaler
+		remove_trait = inbred
+		remove_trait = incapable
+		remove_trait = indulgent_wastrel
+		remove_trait = infirm
+		remove_trait = inspiring_leader
+		remove_trait = intricate_webweaver
+		remove_trait = jack_of_all_trades
+		remove_trait = joust_target
+		remove_trait = just
+		remove_trait = kind
+		remove_trait = kind2
+		remove_trait = kinslayer
+		remove_trait = legit_bastard
+		remove_trait = leper
+		remove_trait = light_foot_leader
+		remove_trait = lisp
+		remove_trait = lunatic
+		remove_trait = lustful
+		remove_trait = maimed
+		remove_trait = martial_cleric
+		remove_trait = mastermind_theologian
+		remove_trait = master_warrior
+		remove_trait = melodious_voice
+		remove_trait = midas_touched
+		remove_trait = mirza
+		remove_trait = misguided_warrior
+		remove_trait = monk
+		remove_trait = mountain_terrain_leader
+		remove_trait = mujahid
+		remove_trait = mutazilite
+		remove_trait = mystic
+		remove_trait = naive_appeaser
+		remove_trait = narrow_flank_leader
+		remove_trait = nun
+		remove_trait = on_hajj
+		remove_trait = on_pilgrimage
+		remove_trait = organizer
+		remove_trait = paranoid
+		remove_trait = patient
+		remove_trait = peasant_leader
+		remove_trait = perceptive
+		remove_trait = pilgrim
+		remove_trait = pneumonic
+		remove_trait = poet
+		remove_trait = polymath
+		remove_trait = poor_warrior
+		remove_trait = possessed
+		remove_trait = powerful_voice
+		remove_trait = pregnant
+		remove_trait = proud
+		remove_trait = quick
+		remove_trait = racist
+		remove_trait = raider
+		remove_trait = rough_terrain_leader
+		remove_trait = saoshyant
+		remove_trait = saoshyant_descendant
+		remove_trait = sayyid
+		remove_trait = scarred
+		remove_trait = scatterbrain
+		remove_trait = scholar
+		remove_trait = scholarly_theologian
+		remove_trait = scoiatael_leader
+		remove_trait = shy
+		remove_trait = sickly
+		remove_trait = siege_leader
+		remove_trait = skilled_tactician
+		remove_trait = skilled_warrior
+		remove_trait = slothful
+		remove_trait = slow
+		remove_trait = sorcerer
+		remove_trait = stressed
+		remove_trait = strong
+		remove_trait = strong_emperor
+		remove_trait = stutter
+		remove_trait = sympathy_christendom
+		remove_trait = sympathy_islam
+		remove_trait = sympathy_judaism
+		remove_trait = sympathy_pagans
+		remove_trait = sympathy_zoroastrianism
+		remove_trait = syphilitic
+		remove_trait = tall
+		remove_trait = temperate
+		remove_trait = the_sage
+		remove_trait = thrifty_clerk
+		remove_trait = tolerant
+		remove_trait = tough_soldier
+		remove_trait = trained_warrior
+		remove_trait = trickster
+		remove_trait = trusting
+		remove_trait = twin
+		remove_trait = ugly
+		remove_trait = underhanded_rogue
+		remove_trait = unyielding_leader
+		remove_trait = varangian
+		remove_trait = veteran
+		remove_trait = viking
+		remove_trait = weak
+		remove_trait = weak_emperor
+		remove_trait = witch
+		remove_trait = witcher
+		remove_trait = wounded
+		remove_trait = wroth
+		remove_trait = zealous
+	}
+}
+
+province_event = {
+	id = magic.1002
+	desc = "Give tower to wilderness"
+	picture = GFX_evt_peasants
+	
+	hide_window = yes
+	
+	trigger = {
+		culture = magic
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "OK"
+		add_province_modifier = { name = magic_tower duration = -1 }
+	}
+}
+
+################################################
+# Magician movement
+################################################
+# AI - Non-court mage returns to academy
+character_event = {
+	id = magic.1010
+	desc = "Return to acedmy"
+	picture = GFX_evt_siege
+	
+	
+	trigger = {
+		trait = sorcerer
+		NOT = {
+			has_job_title = job_mage
+			liege = { has_landed_title = d_thanedd }
+			liege = { has_landed_title = d_nilfgaard_academy }
+			liege = { has_landed_title = d_ban_ard_academy }
+			any_ward = { has_character_modifier = magic_talent }
+		}
+		is_landed = no
+		NOT = {
+			trait = elven
+			liege = { trait = elven }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = {
+		name = "Aretuza Academy"
+		trigger = {
+			is_female = yes
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+		}
+		d_thanedd = {
+			holder_scope = {
+				ROOT = { move_character = PREV }
+			}
+		}
+		liege = { letter_event = { id = magic.1011 } }
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Ban Ard Academy"
+		trigger = {
+			is_female = no
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+		}
+		d_ban_ard_academy= {
+			holder_scope = {
+				ROOT = { move_character = PREV }
+			}
+		}
+		liege = { letter_event = { id = magic.1011 } }
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Nilfgaard Academy"
+		trigger = {
+			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+		}
+		d_nilfgaard_academy = {
+			holder_scope = {
+				ROOT = { move_character = PREV }
+			}
+		}
+		liege = { letter_event = { id = magic.1011 } }
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Empty option for other cases"
+		ai_chance = { factor = 1 }
+	}
+}
+# Liege - Notification - Non-court mage returns to Aretuza academy
+letter_event = {
+	id = magic.1011
+	desc = EVTDESCmagic.1011
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAmagic.1011
+	}
+}
+# AI - Mage moves to empty tower in same realm
+character_event = {
+	id = magic.1012
+	desc = "Move to tower in same realm"
+	picture = GFX_evt_siege
+	
+	trigger = {
+		trait = sorcerer
+		is_landed = no
+		NOT = { liege = { has_landed_title = d_thanedd } }
+		NOT = { liege = { has_landed_title = d_nilfgaard_academy } }
+		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
+		d_wilderness = {
+			holder_scope = {
+				any_demesne_title = {
+					dejure_liege_title = {
+						holder_scope = {
+							top_liege = {
+								OR ={
+									character = ROOT
+									any_realm_lord = { character = ROOT }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 0.05 has_ambition = obj_gain_tower }
+		modifier = { factor = 10 NOT = { wealth = 50 } }
+		modifier = { factor = 0.5 wealth = 100 }
+		modifier = { factor = 0.5 wealth = 200 }
+		modifier = { factor = 0.7 trait = ambitious }
+		modifier = { factor = 0.7 trait = shy }
+		modifier = { factor = 0.7 trait = scholar }
+	}
+	
+	option = {
+		name = "Yes"
+		liege = { character_event = { id = magic.1013 } }
+		wealth = -50
+		d_wilderness = {
+			holder_scope = {
+				random_demesne_title = {
+					limit = {
+						dejure_liege_title = {
+							holder_scope = {
+								top_liege = {
+									OR ={
+										character = ROOT
+										any_realm_lord = { character = ROOT }
+									}
+								}
+							}
+						}
+					}
+					ROOT = {
+						if = {
+							limit = {
+								liege = {
+									OR = { 
+										tier = baron
+										tier = count
+									}
+									independent = no
+								}
+							}
+							liege = {
+								liege = { 
+									ROOT = { set_defacto_liege = PREV }
+								}
+							}
+						}
+						if = {
+							limit = { liege = { higher_tier_than = count } }
+							liege = {
+								ROOT = { set_defacto_liege = PREV }
+							}
+						}
+					}
+					gain_title = ROOT
+				}
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "No"
+	}
+}
+# Ping - Old liege - Mage moves to empty tower in same realm
+character_event = {
+	id = magic.1013
+	desc = "Ping"
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = "Ok"
+		if = {
+			limit = {
+				FROM = {
+					liege = { character = ROOT }
+				}
+			}
+			letter_event = { id = magic.1014 }
+		}
+		if = {
+			limit = {
+				FROM = {
+					liege = { NOT = { character = ROOT } }
+				}
+			}
+			letter_event = { id = magic.1015 }
+			FROM = { liege = { letter_event = { id = magic.1016 } } }
+		}
+	}
+}
+# Liege didn't change - Notification - Mage moves to empty tower in same realm
+letter_event = {
+	id = magic.1014
+	desc = EVTDESCmagic.1014
+	
+	is_triggered_only = yes
+	show_from_from = yes
+	
+	option = {
+		name = EVTOPTAmagic.1014
+	}
+}
+# New liege - Notification - Mage moves to empty tower in same realm
+letter_event = {
+	id = magic.1015
+	desc = EVTDESCmagic.1015
+	
+	is_triggered_only = yes
+	show_from_from = yes
+	
+	option = {
+		name = EVTOPTAmagic.1015
+	}
+}
+# Old liege - Notification - Mage moves to empty tower in same realm
+letter_event = {
+	id = magic.1016
+	desc = EVTDESCmagic.1016
+	
+	is_triggered_only = yes
+	show_from_from = yes
+	
+	option = {
+		name = EVTOPTAmagic.1016
+	}
+}
+# AI - Thanedd mage moves to empty tower
+character_event = {
+	id = magic.1017
+	desc = "Leave to empty tower in north"
+	picture = GFX_evt_siege
+	
+	only_women = yes
+	
+	trigger = {
+		trait = sorcerer
+		is_landed = no
+		liege = { has_landed_title = d_thanedd }
+		d_wilderness = {
+			holder_scope = {
+				any_demesne_title = {
+					de_jure_liege_or_above = e_the_north
+					dejure_liege_title = {
+						holder_scope = {
+							always = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 10 NOT = { has_ambition = obj_gain_tower } }
+		modifier = { factor = 0.5 wealth = 100 }
+		modifier = { factor = 0.5 wealth = 200 }
+		modifier = { factor = 0.7 trait = ambitious }
+		modifier = { factor = 0.7 trait = shy }
+		modifier = { factor = 0.7 trait = scholar }
+	}
+	
+	option = {
+		name = "Yes"
+		d_wilderness = {
+			holder_scope = {
+				random_demesne_title = {
+					limit = {
+						de_jure_liege_or_above = e_the_north
+						dejure_liege_title = {
+							holder_scope = {
+								always = yes
+							}
+						}
+					}
+					duchy = {
+						holder_scope = {
+							ROOT = { set_defacto_liege = PREV }
+						}
+					}
+					gain_title = ROOT
+				}
+			}
+		}
+		liege = { letter_event = { id = magic.1020 } }
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "No"
+	}
+}
+# AI - Ban Ard mage moves to empty tower
+character_event = {
+	id = magic.1018
+	desc = "Leave to empty tower in north"
+	picture = GFX_evt_siege
+	
+	only_men = yes
+	
+	trigger = {
+		trait = sorcerer
+		is_landed = no
+		liege = { has_landed_title = d_ban_ard_academy }
+		d_wilderness = {
+			holder_scope = {
+				any_demesne_title = {
+					de_jure_liege_or_above = e_the_north
+					dejure_liege_title = {
+						holder_scope = {
+							always = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 10 NOT = { has_ambition = obj_gain_tower } }
+		modifier = { factor = 0.5 wealth = 100 }
+		modifier = { factor = 0.5 wealth = 200 }
+		modifier = { factor = 0.7 trait = ambitious }
+		modifier = { factor = 0.7 trait = shy }
+		modifier = { factor = 0.7 trait = scholar }
+	}
+	
+	option = {
+		name = "Yes"
+		d_wilderness = {
+			holder_scope = {
+				random_demesne_title = {
+					limit = {
+						de_jure_liege_or_above = e_the_north
+						dejure_liege_title = {
+							holder_scope = {
+								always = yes
+							}
+						}
+					}
+					duchy = {
+						holder_scope = {
+							ROOT = { set_defacto_liege = PREV }
+						}
+					}
+					gain_title = ROOT
+				}
+			}
+		}
+		liege = { letter_event = { id = magic.1020 } }
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "No"
+	}
+}
+# AI - Nilfgaard mage moves to empty tower
+character_event = {
+	id = magic.1019
+	desc = "Leave to empty tower in Nilfgaard"
+	picture = GFX_evt_siege
+	
+	trigger = {
+		trait = sorcerer
+		is_landed = no
+		liege = { has_landed_title = d_nilfgaard_academy }
+		d_wilderness = {
+			holder_scope = {
+				any_demesne_title = {
+					NOT = { de_jure_liege_or_above = e_the_north }
+					dejure_liege_title = {
+						holder_scope = {
+							always = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 10 NOT = { has_ambition = obj_gain_tower } }
+		modifier = { factor = 0.5 wealth = 100 }
+		modifier = { factor = 0.5 wealth = 200 }
+		modifier = { factor = 0.7 trait = ambitious }
+		modifier = { factor = 0.7 trait = shy }
+		modifier = { factor = 0.7 trait = scholar }
+	}
+	
+	option = {
+		name = "Yes"
+		d_wilderness = {
+			holder_scope = {
+				random_demesne_title = {
+					limit = {
+						de_jure_liege_or_above = e_the_north
+						dejure_liege_title = {
+							holder_scope = {
+								always = yes
+							}
+						}
+					}
+					duchy = {
+						holder_scope = {
+							ROOT = { set_defacto_liege = PREV }
+						}
+					}
+					gain_title = ROOT
+				}
+			}
+		}
+		liege = { letter_event = { id = magic.1020 } }
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "No"
+	}
+}
+# Liege - Notification - Academy mage moves to empty tower
+letter_event = {
+	id = magic.1020
+	desc = EVTDESCmagic.1020
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAmagic.1020
+	}
+}
+# AI - Court mage leaves council to tower
+character_event = {
+	id = magic.1021
+	desc = "Leave council and return to tower"
+	picture = GFX_evt_siege
+	
+	trigger = {
+		ai = yes
+		trait = sorcerer
+		has_job_title = job_mage
+		any_demesne_province = { culture = magic }
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 0 NOT = { opinion = { who = liege value = 0 } } }
+		modifier = { factor = 0.5 NOT = { opinion = { who = liege value = -50 } } }
+	}
+	
+	option = {
+		name = "OK"
+		liege = { letter_event = { id = magic.1023 } }
+		remove_title = job_mage
+		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
+	}
+}
+# AI - Court mage leaves council to academy
+character_event = {
+	id = magic.1022
+	desc = "Leave council and return to tower"
+	picture = GFX_evt_siege
+	
+	trigger = {
+		ai = yes
+		trait = sorcerer
+		has_job_title = job_mage
+		NOT = { any_demesne_province = { culture = magic } }
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 0 NOT = { opinion = { who = liege value = 0 } } }
+		modifier = { factor = 0.5 NOT = { opinion = { who = liege value = -50 } } }
+	}
+	
+	option = {
+		name = "Female northern mage"
+		trigger = {
+			is_female = yes
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+		}
+		liege = { letter_event = { id = magic.1023 } }
+		remove_title = job_mage
+		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
+		d_thanedd = {
+			holder_scope = {
+				ROOT = { move_character = PREV }
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Male northern mage"
+		trigger = {
+			is_female = no
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+		}
+		liege = { letter_event = { id = magic.1023 } }
+		remove_title = job_mage
+		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
+		d_ban_ard_academy= {
+			holder_scope = {
+				ROOT = { move_character = PREV }
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Nilfgaard mage"
+		trigger = {
+			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+		}
+		liege = { letter_event = { id = magic.1023 } }
+		remove_title = job_mage
+		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
+		d_nilfgaard_academy = {
+			holder_scope = {
+				ROOT = { move_character = PREV }
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Empty option for other cases"
+		ai_chance = { factor = 1 }
+	}
+}
+
+# Liege - Notification - Court mage leaves council
+letter_event = {
+	id = magic.1023
+	desc = EVTDESCmagic.1023
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAmagic.1023
+	}
+}
+# AI - Abonon tower due to lack of funds
+character_event = {
+	id = magic.1024
+	desc = "Abondon tower"
+	picture = GFX_evt_siege
+	
+	trigger = {
+		ai = yes
+		trait = sorcerer
+		any_demesne_province = { culture = magic }
+		NOT = { wealth = 0 }
+	}
+	
+	mean_time_to_happen = {
+		months = 36
+		modifier = { factor = 0.5 NOT = { wealth = -50 } }
+		modifier = { factor = 0.5 NOT = { wealth = -100 } }
+	}
+	
+	option = {
+		name = "OK"
+		d_wilderness = {
+			holder_scope = {
+				ROOT = {
+					random_demesne_title = {
+						limit = { tier = count } 
+						gain_title = PREVPREV
+					}
+				}
+				set_defacto_liege = THIS
+			}
+		}
+	}
+}
+
+################################################
+# Academies
+################################################
+# AI - Faux Aretuza election (on_death)
+character_event = {
+	id = magic.1030
+	desc = "Aretuza election"
+	picture = GFX_evt_siege
+	
+	hide_window = yes
+	
+	trigger = {
+		has_landed_title = d_thanedd
+	}
+	
+	option = {
+		name = "Old sorcerer from academy"
+		trigger = {
+			any_courtier = {
+				is_female = yes
+				trait = sorcerer
+				age = 150
+			}
+		}
+		random_courtier = {
+			limit = {
+				is_female = yes
+				trait = sorcerer
+				age = 150
+			}
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Sorcerer from academy"
+		trigger = {
+			any_courtier = {
+				is_female = yes
+				trait = sorcerer
+				age = 50
+			}
+		}
+		random_courtier = {
+			limit = {
+				is_female = yes
+				trait = sorcerer
+				age = 50
+			}
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = {
+		name = "Generate sorcerer"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			female = yes
+			age = 50
+			trait = sorcerer
+		}
+		new_character = {
+			random_list = {
+				20 = { culture = temerian }
+				20 = { culture = redanian }
+				20 = { culture = kaedweni }
+				20 = { culture = koviri }
+				10 = { culture = lyrian }
+				10 = { culture = aedirnian }
+			}
+			random_list = {
+				30 = { religion = melitele }
+				30 = { religion = kreve }
+				30 = { religion = lebioda }
+				10 = { religion = eternal_fire }
+			}
+			remove_trait = slow
+			remove_trait = imbecile
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+# AI - Faux Ban Ard Academy election (on_death)
+character_event = {
+	id = magic.1031
+	desc = "Aretuza election"
+	picture = GFX_evt_siege
+	
+	hide_window = yes
+	
+	trigger = {
+		has_landed_title = d_ban_ard_academy
+	}
+	
+	option = {
+		name = "Old sorcerer from academy"
+		trigger = {
+			any_courtier = {
+				is_female = no
+				trait = sorcerer
+				age = 150
+			}
+		}
+		random_courtier = {
+			limit = {
+				is_female = no
+				trait = sorcerer
+				age = 150
+			}
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Sorcerer from academy"
+		trigger = {
+			any_courtier = {
+				is_female = no
+				trait = sorcerer
+				age = 50
+			}
+		}
+		random_courtier = {
+			limit = {
+				is_female = no
+				trait = sorcerer
+				age = 50
+			}
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = {
+		name = "Generate sorcerer"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			age = 50
+			trait = sorcerer
+		}
+		new_character = {
+			random_list = {
+				20 = { culture = temerian }
+				20 = { culture = redanian }
+				20 = { culture = kaedweni }
+				20 = { culture = koviri }
+				10 = { culture = lyrian }
+				10 = { culture = aedirnian }
+			}
+			random_list = {
+				30 = { religion = melitele }
+				30 = { religion = kreve }
+				30 = { religion = lebioda }
+				10 = { religion = eternal_fire }
+			}
+			remove_trait = slow
+			remove_trait = imbecile
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+# AI - Faux Nilfgaard Academy election (on_death)
+character_event = {
+	id = magic.1032
+	desc = "Aretuza election"
+	picture = GFX_evt_siege
+	
+	hide_window = yes
+	
+	trigger = {
+		has_landed_title = d_nilfgaard_academy
+	}
+	
+	option = {
+		name = "Old sorcerer from academy"
+		trigger = {
+			any_courtier = {
+				trait = sorcerer
+				age = 150
+			}
+		}
+		random_courtier = {
+			limit = {
+				trait = sorcerer
+				age = 150
+			}
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "Sorcerer from academy"
+		trigger = {
+			any_courtier = {
+				trait = sorcerer
+				age = 50
+			}
+		}
+		random_courtier = {
+			limit = {
+				trait = sorcerer
+				age = 50
+			}
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = {
+		name = "Generate sorcerer"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			age = 50
+			trait = sorcerer
+		}
+		new_character = {
+			random_list = {
+				50 = { culture = nilfgaardian }
+				10 = { culture = vicovarian }
+				10 = { culture = ebbing }
+				10 = { culture = etolian }
+				10 = { culture = gemmeran }
+				10 = { culture = maechts }
+			}
+			random_list = {
+				70 = { religion = solar }
+				20 = { religion = melitele }
+				10 = { religion = kreve }
+			}
+			remove_trait = slow
+			remove_trait = imbecile
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
 	}
 }
