@@ -396,7 +396,8 @@ character_event = {
 	option = { # Find suitable guardian for child - option 2
 		name = EVTOPTFmagic.30
 		trigger = {
-			any_courtier = { NOT = { has_job_title = job_mage } }
+			
+			NOT = { any_courtier = { has_job_title = job_mage } }
 			NOT = {
 				trait = sorcerer
 				trait = witch
@@ -468,8 +469,22 @@ character_event = {
 			}
 		}
 		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.42 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.42 } } }
+			FROM = {
+				father = {
+					limit = {
+						ai = no
+						NOT = { character = ROOT }
+					}
+					letter_event = { id = magic.42 }
+				}
+				mother = {
+					limit = {
+						ai = no
+						NOT = { character = ROOT }
+					}
+					letter_event = { id = magic.42 }
+				}
+			}
 		}
 		ai_chance = {
 			factor = 1
@@ -526,6 +541,9 @@ character_event = {
 			modifier = { factor = 5 trait = cruel }
 			modifier = { factor = 5 trait = wroth }
 			modifier = { factor = 5 trait = impaler }
+			modifier = { factor = 0.01 trait = sorcerer }
+			modifier = { factor = 0.01 trait = witch }
+			modifier = { factor = 0.01 trait = druid }
 		}
 	}
 }
@@ -1642,6 +1660,7 @@ character_event = {
 ################################################
 # Give tower to wilderness (on_death)
 ################################################
+# Give tower to wilderness (on_death)
 character_event = {
 	id = magic.1000
 	desc = "Give tower to wilderness"
@@ -1663,7 +1682,48 @@ character_event = {
 			holder_scope = {
 				ROOT = {
 					random_demesne_title = {
-						limit = { tier = count } 
+						limit = {
+							tier = count
+							location = { culture = magic }
+						}
+						gain_title = PREVPREV
+					}
+				}
+				set_defacto_liege = THIS
+			}
+		}
+	}
+}
+# Give non-sorcerer held tower to wilderness 
+character_event = {
+	id = magic.1001
+	desc = "Give tower to wilderness"
+	picture = GFX_evt_peasants
+	
+	hide_window = yes
+	
+	trigger = {
+		any_demesne_province = { culture = magic }
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		NOT = { has_landed_title = d_nilfgaard_academy }
+		NOT = { trait = sorcerer }
+	}
+	
+	mean_time_to_happen = {
+		days = 1 
+	}
+	
+	option = {
+		name = "OK"
+		d_wilderness = {
+			holder_scope = {
+				ROOT = {
+					random_demesne_title = {
+						limit = {
+							tier = count
+							location = { culture = magic }
+						}
 						gain_title = PREVPREV
 					}
 				}
@@ -1677,7 +1737,7 @@ character_event = {
 # Remove wilderness character traits
 ################################################
 character_event = {
-	id = magic.1001
+	id = magic.1002
 	desc = "Remove traits"
 	picture = GFX_evt_peasants
 	
@@ -2098,27 +2158,6 @@ character_event = {
 	}
 }
 
-province_event = {
-	id = magic.1002
-	desc = "Give tower to wilderness"
-	picture = GFX_evt_peasants
-	
-	hide_window = yes
-	
-	trigger = {
-		culture = magic
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = "OK"
-		add_province_modifier = { name = magic_tower duration = -1 }
-	}
-}
-
 ################################################
 # Magician movement
 ################################################
@@ -2127,7 +2166,6 @@ character_event = {
 	id = magic.1010
 	desc = "Return to acedmy"
 	picture = GFX_evt_siege
-	
 	
 	trigger = {
 		trait = sorcerer
@@ -2208,7 +2246,7 @@ letter_event = {
 }
 # AI - Mage moves to empty tower in same realm
 character_event = {
-	id = magic.1012
+	id = magic.1020
 	desc = "Move to tower in same realm"
 	picture = GFX_evt_siege
 	
@@ -2221,12 +2259,15 @@ character_event = {
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
+					tier = count
 					dejure_liege_title = {
 						holder_scope = {
 							top_liege = {
-								OR ={
+								OR = {
 									character = ROOT
+									any_courtier = { character = ROOT }
 									any_realm_lord = { character = ROOT }
+									any_realm_lord = { any_courtier = { character = ROOT } }
 								}
 							}
 						}
@@ -2239,7 +2280,6 @@ character_event = {
 	mean_time_to_happen = {
 		months = 1200
 		modifier = { factor = 0.05 has_ambition = obj_gain_tower }
-		modifier = { factor = 10 NOT = { wealth = 50 } }
 		modifier = { factor = 0.5 wealth = 100 }
 		modifier = { factor = 0.5 wealth = 200 }
 		modifier = { factor = 0.7 trait = ambitious }
@@ -2249,49 +2289,60 @@ character_event = {
 	
 	option = {
 		name = "Yes"
-		liege = { character_event = { id = magic.1013 } }
-		wealth = -50
-		d_wilderness = {
-			holder_scope = {
-				random_demesne_title = {
-					limit = {
-						dejure_liege_title = {
-							holder_scope = {
-								top_liege = {
-									OR ={
-										character = ROOT
-										any_realm_lord = { character = ROOT }
+		liege = {
+			d_wilderness = {
+				holder_scope = {
+					random_demesne_title = {
+						limit = {
+							tier = count
+							dejure_liege_title = {
+								holder_scope = {
+									top_liege = {
+										OR = {
+											character = ROOT
+											any_courtier = { character = ROOT }
+											any_realm_lord = { character = ROOT }
+											any_realm_lord = { any_courtier = { character = ROOT } }
+										}
 									}
 								}
 							}
 						}
+						gain_title = ROOT
 					}
-					ROOT = {
-						if = {
-							limit = {
-								liege = {
-									OR = { 
-										tier = baron
-										tier = count
-									}
-									independent = no
-								}
-							}
-							liege = {
-								liege = { 
-									ROOT = { set_defacto_liege = PREV }
-								}
-							}
-						}
-						if = {
-							limit = { liege = { higher_tier_than = count } }
-							liege = {
-								ROOT = { set_defacto_liege = PREV }
-							}
-						}
-					}
-					gain_title = ROOT
 				}
+			}
+			if = {
+				limit = {
+					OR = { 
+						tier = baron
+						tier = count
+					}
+					independent = no
+				}
+				character_event = { id = magic.1022 }
+				liege = {
+					character_event = { id = magic.1023 }
+					ROOT = { set_defacto_liege = PREV }
+				}
+			}
+			if = {
+				limit = {
+					OR = { 
+						tier = baron
+						tier = count
+					}
+					independent = yes
+				}
+				character_event = { id = magic.1022 }
+				ROOT = { set_defacto_liege = THIS }
+			}
+			if = {
+				limit = {
+					higher_tier_than = count
+				}
+				character_event = { id = magic.1021 }
+				ROOT = { set_defacto_liege = PREV }
 			}
 		}
 		ai_chance = { factor = 2 }
@@ -2300,74 +2351,42 @@ character_event = {
 		name = "No"
 	}
 }
-# Ping - Old liege - Mage moves to empty tower in same realm
-character_event = {
-	id = magic.1013
-	desc = "Ping"
-	
-	is_triggered_only = yes
-	hide_window = yes
-	
-	option = {
-		name = "Ok"
-		if = {
-			limit = {
-				FROM = {
-					liege = { character = ROOT }
-				}
-			}
-			letter_event = { id = magic.1014 }
-		}
-		if = {
-			limit = {
-				FROM = {
-					liege = { NOT = { character = ROOT } }
-				}
-			}
-			letter_event = { id = magic.1015 }
-			FROM = { liege = { letter_event = { id = magic.1016 } } }
-		}
-	}
-}
 # Liege didn't change - Notification - Mage moves to empty tower in same realm
 letter_event = {
-	id = magic.1014
-	desc = EVTDESCmagic.1014
+	id = magic.1021
+	desc = EVTDESCmagic.1021
 	
 	is_triggered_only = yes
-	show_from_from = yes
 	
 	option = {
-		name = EVTOPTAmagic.1014
+		name = EVTOPTAmagic.1021
 	}
 }
 # New liege - Notification - Mage moves to empty tower in same realm
 letter_event = {
-	id = magic.1015
-	desc = EVTDESCmagic.1015
+	id = magic.1022
+	desc = EVTDESCmagic.1022
 	
 	is_triggered_only = yes
-	show_from_from = yes
 	
 	option = {
-		name = EVTOPTAmagic.1015
+		name = EVTOPTAmagic.1022
 	}
 }
 # Old liege - Notification - Mage moves to empty tower in same realm
 letter_event = {
-	id = magic.1016
-	desc = EVTDESCmagic.1016
+	id = magic.1023
+	desc = EVTDESCmagic.1023
 	
 	is_triggered_only = yes
-	show_from_from = yes
 	
 	option = {
-		name = EVTOPTAmagic.1016
+		name = EVTOPTAmagic.1023
 	}
 }
 # AI - Thanedd mage moves to empty tower
 character_event = {
-	id = magic.1017
+	id = magic.1030
 	desc = "Leave to empty tower in north"
 	picture = GFX_evt_siege
 	
@@ -2380,6 +2399,7 @@ character_event = {
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
+					tier = count
 					de_jure_liege_or_above = e_the_north
 					dejure_liege_title = {
 						holder_scope = {
@@ -2407,6 +2427,7 @@ character_event = {
 			holder_scope = {
 				random_demesne_title = {
 					limit = {
+						tier = count
 						de_jure_liege_or_above = e_the_north
 						dejure_liege_title = {
 							holder_scope = {
@@ -2414,16 +2435,16 @@ character_event = {
 							}
 						}
 					}
-					duchy = {
+					grant_title_no_opinion = ROOT
+					dejure_liege_title = {
 						holder_scope = {
 							ROOT = { set_defacto_liege = PREV }
 						}
 					}
-					gain_title = ROOT
 				}
 			}
 		}
-		liege = { letter_event = { id = magic.1020 } }
+		character_event = { id = magic.1033 }
 		ai_chance = { factor = 2 }
 	}
 	option = {
@@ -2432,7 +2453,7 @@ character_event = {
 }
 # AI - Ban Ard mage moves to empty tower
 character_event = {
-	id = magic.1018
+	id = magic.1031
 	desc = "Leave to empty tower in north"
 	picture = GFX_evt_siege
 	
@@ -2488,7 +2509,7 @@ character_event = {
 				}
 			}
 		}
-		liege = { letter_event = { id = magic.1020 } }
+		character_event = { id = magic.1033 }
 		ai_chance = { factor = 2 }
 	}
 	option = {
@@ -2497,7 +2518,7 @@ character_event = {
 }
 # AI - Nilfgaard mage moves to empty tower
 character_event = {
-	id = magic.1019
+	id = magic.1032
 	desc = "Leave to empty tower in Nilfgaard"
 	picture = GFX_evt_siege
 	
@@ -2551,27 +2572,40 @@ character_event = {
 				}
 			}
 		}
-		liege = { letter_event = { id = magic.1020 } }
+		character_event = { id = magic.1033 }
 		ai_chance = { factor = 2 }
 	}
 	option = {
 		name = "No"
 	}
 }
-# Liege - Notification - Academy mage moves to empty tower
-letter_event = {
-	id = magic.1020
-	desc = EVTDESCmagic.1020
+# Ping - Academy mage moves to empty tower
+character_event = {
+	id = magic.1033
+	desc = "Ping"
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTAmagic.1020
+		name = "Ok"
+		liege = { letter_event = { id = magic.1034 } }
+	}
+}
+# Liege - Notification - Academy mage moves to empty tower
+letter_event = {
+	id = magic.1034
+	desc = EVTDESCmagic.1034
+	
+	is_triggered_only = yes
+	show_from_from = yes
+	
+	option = {
+		name = EVTOPTAmagic.1034
 	}
 }
 # AI - Court mage leaves council to tower
 character_event = {
-	id = magic.1021
+	id = magic.1040
 	desc = "Leave council and return to tower"
 	picture = GFX_evt_siege
 	
@@ -2590,14 +2624,14 @@ character_event = {
 	
 	option = {
 		name = "OK"
-		liege = { letter_event = { id = magic.1023 } }
+		liege = { letter_event = { id = magic.1042 } }
 		remove_title = job_mage
 		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
 	}
 }
 # AI - Court mage leaves council to academy
 character_event = {
-	id = magic.1022
+	id = magic.1041
 	desc = "Leave council and return to tower"
 	picture = GFX_evt_siege
 	
@@ -2620,7 +2654,7 @@ character_event = {
 			is_female = yes
 			location = { county = { de_jure_liege_or_above = e_the_north } }
 		}
-		liege = { letter_event = { id = magic.1023 } }
+		liege = { letter_event = { id = magic.1024 } }
 		remove_title = job_mage
 		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
 		d_thanedd = {
@@ -2636,7 +2670,7 @@ character_event = {
 			is_female = no
 			location = { county = { de_jure_liege_or_above = e_the_north } }
 		}
-		liege = { letter_event = { id = magic.1023 } }
+		liege = { letter_event = { id = magic.1024 } }
 		remove_title = job_mage
 		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
 		d_ban_ard_academy= {
@@ -2666,21 +2700,20 @@ character_event = {
 		ai_chance = { factor = 1 }
 	}
 }
-
 # Liege - Notification - Court mage leaves council
 letter_event = {
-	id = magic.1023
-	desc = EVTDESCmagic.1023
+	id = magic.1042
+	desc = EVTDESCmagic.1042
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTAmagic.1023
+		name = EVTOPTAmagic.1042
 	}
 }
 # AI - Abonon tower due to lack of funds
 character_event = {
-	id = magic.1024
+	id = magic.1050
 	desc = "Abondon tower"
 	picture = GFX_evt_siege
 	
@@ -2689,6 +2722,7 @@ character_event = {
 		trait = sorcerer
 		any_demesne_province = { culture = magic }
 		NOT = { wealth = 0 }
+		NOT = { has_landed_title = d_thanedd }
 	}
 	
 	mean_time_to_happen = {
@@ -2718,10 +2752,11 @@ character_event = {
 ################################################
 # AI - Faux Aretuza election (on_death)
 character_event = {
-	id = magic.1030
+	id = magic.1060
 	desc = "Aretuza election"
 	picture = GFX_evt_siege
 	
+	is_triggered_only = yes
 	hide_window = yes
 	
 	trigger = {
@@ -2811,10 +2846,11 @@ character_event = {
 }
 # AI - Faux Ban Ard Academy election (on_death)
 character_event = {
-	id = magic.1031
+	id = magic.1061
 	desc = "Aretuza election"
 	picture = GFX_evt_siege
 	
+	is_triggered_only = yes
 	hide_window = yes
 	
 	trigger = {
@@ -2903,10 +2939,11 @@ character_event = {
 }
 # AI - Faux Nilfgaard Academy election (on_death)
 character_event = {
-	id = magic.1032
+	id = magic.1062
 	desc = "Aretuza election"
 	picture = GFX_evt_siege
 	
+	is_triggered_only = yes
 	hide_window = yes
 	
 	trigger = {
@@ -2986,5 +3023,132 @@ character_event = {
 			}
 		}
 		ai_chance = { factor = 1 }
+	}
+}
+# Create random sorcerer (on_five_year_pulse)
+character_event = {
+	id = magic.1063
+	desc = "Spawn sorcerer"
+	picture = GFX_evt_siege
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		OR ={
+			has_landed_title = d_ban_ard_academy
+			has_landed_title = d_thanedd
+			has_landed_title = d_nilfgaard_academy
+	}
+	
+	option = {
+		name = "Ban Ard"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			age = 30
+			trait = sorcerer
+		}
+		new_character = {
+			random_list = {
+				20 = { culture = temerian }
+				20 = { culture = redanian }
+				20 = { culture = kaedweni }
+				20 = { culture = koviri }
+				10 = { culture = lyrian }
+				10 = { culture = aedirnian }
+			}
+			random_list = {
+				30 = { religion = melitele }
+				30 = { religion = kreve }
+				30 = { religion = lebioda }
+				10 = { religion = eternal_fire }
+			}
+			remove_trait = slow
+			remove_trait = imbecile
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				d_ban_ard_academy = {
+					holder_scope = {
+						any_courtier = {
+							NOT ={ trait = sorcerer }
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "Aretuza"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			age = 30
+			female = yes
+			trait = sorcerer
+		}
+		new_character = {
+			random_list = {
+				20 = { culture = temerian }
+				20 = { culture = redanian }
+				20 = { culture = kaedweni }
+				20 = { culture = koviri }
+				10 = { culture = lyrian }
+				10 = { culture = aedirnian }
+			}
+			random_list = {
+				30 = { religion = melitele }
+				30 = { religion = kreve }
+				30 = { religion = lebioda }
+				10 = { religion = eternal_fire }
+			}
+			remove_trait = slow
+			remove_trait = imbecile
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				d_thanedd = {
+					holder_scope = {
+						any_courtier = {
+							NOT ={ trait = sorcerer }
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = "Nilfgaard"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			age = 30
+			trait = sorcerer
+		}
+		new_character = {
+			random_list = {
+				50 = { culture = nilfgaardian }
+				10 = { culture = vicovarian }
+				10 = { culture = ebbing }
+				10 = { culture = etolian }
+				10 = { culture = gemmeran }
+				10 = { culture = maechts }
+			}
+			random_list = {
+				70 = { religion = solar }
+				20 = { religion = melitele }
+				10 = { religion = kreve }
+			}
+			remove_trait = slow
+			remove_trait = imbecile
+		}
+		ai_chance = {
+			factor = 1
+		}
 	}
 }
