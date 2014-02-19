@@ -1,12 +1,13 @@
 namespace = racial
 
 ################################################
-# Racial trait assignment
+# Racial trait assignment (also on_birth)
 ################################################
 character_event = {
 	id = racial.1
 	desc = "Your race is..."
 	picture = GFX_evt_comet
+	
 	hide_window = yes
 	
 	trigger = {
@@ -101,7 +102,7 @@ character_event = {
 		trigger = {
 			graphical_culture = wildernessgfx
 		}
-		add_trait = wildeness
+		add_trait = wilderness
 	}
 }
 
@@ -258,7 +259,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAracial.5
-		ai_chance = { factor = 10 }
+		ai_chance = { factor = 20 }
 		if = {
 			limit = { 
 				spouse = { 
@@ -367,5 +368,30 @@ character_event = {
 	option = {
 		name = EVTOPTAracial.11
 		remove_trait = fertile_elf
+	}
+}
+# Hidden - Elven fertility reduction per birth (on_birth)
+character_event = {
+	id = racial.12
+	desc = "Hidden"
+	picture = GFX_evt_marriage
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = EVTOPTAracial.11
+		father = {
+			if = {
+				limit = { trait = elven }
+				fertility = -0.10
+			}
+		}
+		mother = {
+			if = {
+				limit = { trait = elven }
+				fertility = -0.20
+			}
+		}
 	}
 }

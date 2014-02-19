@@ -1,0 +1,349 @@
+namespace = monster
+
+##########################################################################
+# Drowners have ruined merchant's goods that were left overnight at docks
+##########################################################################
+#Merchant complains
+character_event = {
+	id = monster.1
+	desc = EVTDESCmonster.1
+	picture = GFX_evt_market
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_landed = yes
+		any_demesne_province = { has_province_modifier = drowners }
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	option = { # Send a witcher
+		name = EVTOPTAmonster.1
+		trigger = {
+			any_courtier = { trait = witcher }
+		}
+		custom_tooltip = {
+			text = send_witcher
+			hidden_tooltip = {
+				random_courtier = {
+					limit ={ trait = witcher }
+					character_event = { id = monster.2 }
+				}
+			}
+		}
+	}
+	option = { # Hire witcher and send him
+		name = EVTOPTBmonster.1
+		trigger = {
+			NOT = { any_courtier = { trait = witcher } }
+		}
+		set_character_flag = merchants_drowner
+		if = {
+			limit = { ai = yes }
+			set_character_flag = invited_witcher
+		}
+	}
+	option = { # Send your soldiers
+		name = EVTOPTCmonster.1
+		custom_tooltip = {
+			text = send_your_soldiers
+			hidden_tooltip = {
+				random_list = {
+					50 = { character_event = { id = monster.5 days = 15 } }
+					50 = { character_event = { id = monster.6 days = 15 } }
+				}
+			}
+		}
+	}
+	option = { # Do nothing
+		name = EVTOPTDmonster.1
+		random_demesne_province = {
+			limit = { has_province_modifier = drowners }
+			add_province_modifier = { name = dissatisfied_merchants duration = 360 }
+			random = { chance = 25 remove_province_modifier = drowners }
+		}
+	}
+}
+# Send a witcher - witcher ping
+character_event = {
+	id = monster.2
+	desc = "Ping"
+	picture = GFX_evt_comet
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = "Ok"
+		FROM = { letter_event = { id = monster.3 days = 5 } }
+	}
+}
+# Send a witcher
+letter_event = {
+	id = monster.3
+	desc = EVTDESCmonster.3
+	picture = GFX_evt_comet
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAmonster.3
+		random_demesne_province = {
+			limit = { has_province_modifier = drowners }
+			remove_province_modifier = drowners
+			add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
+		}
+		FROM = { add_character_modifier = { name = recent_witcher_work duration = 180  hidden = yes } }
+	}
+}
+# Hire witcher and send him - asking second time
+character_event = {
+	id = monster.4
+	desc = EVTDESCmonster.4
+	picture = GFX_evt_market
+	
+	hide_from = yes
+	
+	trigger = {
+		has_character_flag = merchants_drowner
+		any_demesne_province = { has_province_modifier = drowners }
+	}
+	mean_time_to_happen = {
+		days = 360
+		modifier = { factor = 0 any_courtier = { trait = witcher } }
+	}
+	
+	option = { # Send witcher
+		name = EVTOPTAmonster.4
+		trigger = {
+			any_courtier = { trait = witcher }
+		}
+		custom_tooltip = {
+			text = send_witcher
+			hidden_tooltip = {
+				random_courtier = {
+					limit ={ trait = witcher }
+					character_event = { id = monster.2 }
+				}
+			}
+		}
+	}
+	option = { # Send your soldiers
+		name = EVTOPTBmonster.4
+		custom_tooltip = {
+			text = send_your_soldiers
+			hidden_tooltip = {
+				random_list = {
+					50 = { character_event = { id = monster.5 days = 15 } }
+					50 = { character_event = { id = monster.6 days = 15 } }
+				}
+			}
+		}
+	}
+	option = { # Do nothing
+		name = EVTOPTCmonster.4
+		random_demesne_province = {
+			limit = { has_province_modifier = drowners }
+			add_province_modifier = { name = dissatisfied_merchants duration = 360 }
+			random = {
+				chance = 25
+				AND = {
+					remove_province_modifier = drowners
+					add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
+				}
+			}
+		}
+	}
+}
+# Send your soldiers success
+character_event = {
+	id = monster.5
+	desc = EVTDESCmonster.5
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAmonster.5
+		random_demesne_province = {
+			limit = { has_province_modifier = drowners }
+			remove_province_modifier = drowners
+		}
+	}
+}
+# Send your soldiers failure
+character_event = {
+	id = monster.6
+	desc = EVTDESCmonster.6
+	picture = GFX_evt_burning_house
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAmonster.6
+		random_demesne_province = {
+			limit = { has_province_modifier = drowners }
+			remove_province_modifier = drowners
+			add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
+			add_province_modifier = { name = dissatisfied_merchants duration = 360 }
+		}
+	}
+}
+
+##########################################################################
+# An ancestors ghost is haunting the castle
+##########################################################################
+# Rumor
+character_event = {
+	id = monster.10
+	desc = EVTDESCmonster.10
+	picture = GFX_evt_comet
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+	}
+	
+	mean_time_to_happen = {
+		months = 18000
+	}
+	
+	option = {
+		name = EVTOPTAmonster.10
+		prestige = 5
+	}
+	option = {
+		name = EVTOPTBmonster.10
+		piety = 5
+	}
+}
+
+##########################################################################
+# Troll has settled near a bridge
+##########################################################################
+# Troll bridge
+province_event = {
+	id = monster.20
+	desc = EVTDESCmonster.20
+	picture = GFX_evt_castle_construction
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { has_province_modifier = trolls }
+		any_province_lord = {
+			is_feudal = yes
+			ROOT = {
+				owner = {
+					NOT = {
+						character = PREVPREV
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 18000
+	}
+	
+	option = { # Leave troll alone
+		name = EVTOPTAmonster.20
+		add_province_modifier = {
+			name = trolls
+		}
+		random_province_lord = {
+			limit = {
+				is_feudal = yes
+				ROOT = {
+					owner = {
+						NOT = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			opinion = {
+				modifier = opinion_dislike
+				who = ROOT
+				years = 2
+			}
+		}
+	}
+	option = { # Hunt troll down
+		name = EVTOPTBmonster.20
+		random_province_lord = {
+			limit = {
+				is_feudal = yes
+				ROOT = {
+					owner = {
+						NOT = {
+							character = PREVPREV
+						}
+					}
+				}
+			}
+			opinion = {
+				modifier = opinion_happy
+				who = ROOT
+				years = 2
+			}
+		}
+	}
+}
+
+##########################################################################
+# Wild Hunt
+##########################################################################
+# Rumors
+character_event = {
+	id = monster.30
+	desc = EVTDESCmonster.30
+	picture = GFX_evt_comet
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = human
+		is_ruler = yes
+		OR = {
+			month = 11
+			NOT = { month = 2 }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 18000
+	}
+	
+	option = {
+		name = EVTOPTAmonster.30
+		piety = 5
+	}
+}
+
+##########################################################################
+# Doppler - NOT WORKING
+##########################################################################
+# Doppler replaces vassal
+# Doppler is disovered
+# Real vassal comes forth
+
+##########################################################################
+# Doppler - NOT WORKING
+##########################################################################
