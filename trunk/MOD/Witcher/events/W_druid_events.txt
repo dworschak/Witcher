@@ -50,7 +50,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1400
+		months = 3000
 		modifier = { factor = 0.5 religion = nature }
 	}
 	
@@ -69,5 +69,96 @@ character_event = {
 			remove_trait = inbred
 			remove_trait = imbecile
 		}
+	}
+}
+
+###########################################
+# Son wishes to become druid
+###########################################
+# Hidden - Son - Son wants to become druid
+character_event = {
+	id = druid.20
+	desc = "Hidden"
+	picture = GFX_evt_child_reading
+	
+	hide_window = yes
+	
+	ai = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_landed = no
+		in_command = no
+		NOT = { 
+			trait = druid 
+			trait = apprentice_druid
+			has_character_modifier = old_age
+		}
+		father = {
+			is_alive = yes
+			is_ruler = yes
+			is_liege_of = ROOT
+			prisoner = no
+			NOT = { trait = incapable }
+			ROOT = { host = { character = PREVPREV } }
+		}
+		top_liege = {
+			any_realm_lord = {
+				religion = nature
+				trait = druid
+				is_theocracy = yes
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.75 trait = celibate }
+		modifier = { factor = 0.75 trait = chaste }
+		modifier = { factor = 0.75 trait = kind }
+		modifier = { factor = 2 trait = lustful }
+		modifier = { factor = 2 is_married = yes }
+		modifier = { factor = 2 trait = hedonist }
+		modifier = { factor = 3 trait = ambitious }
+		modifier = { factor = 0.5 trait = content }
+		modifier = { factor = 5 is_primary_heir = yes }
+	}
+	
+	option = {
+		name = OK
+		father = { character_event = { id = druid.21 } }
+	}
+}
+# Father - Son wants to become druid
+character_event = {
+	id = druid.21
+	desc = EVTDESCdruid.21
+	picture = GFX_evt_viking_throneroom_oldgods
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.21
+		FROM = { opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT } }
+	}
+	option = {
+		name = EVTOPTBdruid.21
+		top_liege = {
+			random_realm_lord = {
+				limit = {
+					religion = nature
+					is_theocracy = yes
+					trait = druid
+				}
+				FROM = {
+					set_variable = { which = learning_magic value = 0 }
+					add_trait = apprentice_druid
+					move_character = PREV
+				}
+			}
+		}
+		piety = 50
 	}
 }
