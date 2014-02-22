@@ -3,7 +3,8 @@
 ## 			 from   97000 - 97999 (deprecated)
 ##	 dynasties from  3000 - 3999
 ############################################
-##  45000 - 45299		Thyssen				3000	1	K
+##  45000 - 45199		Thyssen				3000	1	K
+##  45200 - 45299		Aidinid				3042	1	  C
 ##  45300 - 45499		Trojden				3001	1	K
 ##  45500 - 45699		Niedamir Ademeyn	3002	2	K
 ##  45700 - 45899		Vermuellen	 		3006	1	 D
@@ -22,6 +23,7 @@
 ##  48300 - 48499		Inis Porhoet		3020	1	  C		Lieven
 ##  48500 - 48699		Tiria				3021	1	  C		Chrisren
 ##  48700 - 48899		Skrodh				3013	1	 DC		Rhyd
+##  48900 - 48999		de Creigiau			3005	1	C
 ############################################
 ##  49500 - 49599		Kenter				3022
 ##  49600 - 49699		Nastim				3023
@@ -259,14 +261,18 @@
 	dynasty=3001
 	father=97104
 	culture="koviri" religion="lebioda"
-	#spouse = Gemma, daughter of Aideen, Princess of Aedirn
 	add_trait="canon"
 	1101.1.1={ birth=yes } 
+	1130.1.1={
+		add_spouse=45201	#Gemma, daughter of Aideen, Princess of Aedirn
+	}
 	1146.1.1={ death=yes } 
 } 
+
 97148={ 
 	name="Gerard" #the last male Trojdenid
 	father=97120
+	mother=45201
 	dynasty=3001
 	culture="koviri" religion="lebioda"
 	add_trait="canon"
@@ -277,6 +283,7 @@
 	name="Alicja"
 	dynasty=3001
 	father=97120
+	mother=45201
 	female=yes
 	culture="koviri" religion="lebioda"
 	add_trait="canon"
@@ -1167,40 +1174,6 @@
 	1354.2.3={ death=yes } 
 } 
 ##  45900 		Gyllenstiern 		3011	1	  C
-
-##### Creigiau	97900-97919
-97900={ 
-	name="Anton"
-	dynasty=3005
-	religion="lebioda" culture="koviri"
-	add_trait="canon"
-	1218.12.5={ birth=yes } 
-	1238.06.11={ 
-		add_spouse=48739
-	} 
-	1270.1.1={ death=yes } 
-} 
-97901={ 
-	name="Bryton"
-	dynasty=3005
-	father=97900
-	religion="lebioda" culture="koviri"
-	add_trait="canon"
-	mother=48739
-	1241.12.5={ birth=yes } 
-	1301.5.12={ death=yes } 
-} 
-97902={ 
-	name="Anton"
-	dynasty=3005
-	father=97900
-	religion="lebioda" culture="koviri"
-	add_trait="canon"
-	mother=48739
-	1245.1.1={ birth=yes } 
-	1308.5.12={ death=yes } 
-} 
-##  45001 - 45499		Thyssen	(3000)					END
 
 ##  45700 - 45899		Vermuellen	 		3006	1	 D
 97920={ 
@@ -2473,9 +2446,6 @@
 	father=46522 #Rhyd
 	mother=19018
 	1212.9.15={ birth=yes } 
-	1238.12.10={ 
-		add_spouse=45624
-	} 
 	1267.5.25={ death=yes } 
 } 
 46525={ 
@@ -2524,7 +2494,6 @@
 	martial=7 diplomacy=7 stewardship=7 intrigue=4 learning=6
 	add_trait="grey_eminence" add_trait="proud" add_trait="brave" add_trait="gregarious" add_trait="ambitious" add_trait="cruel" add_trait="envious" add_trait="trained_warrior"
 	father=46524 #Niedamir
-	mother=45624
 	1244.1.13={ birth=yes } 
 	1271.03.08={ 
 		add_spouse=45628
@@ -2539,7 +2508,6 @@
 	martial=8 diplomacy=4 stewardship=7 intrigue=4 learning=6
 	add_trait="martial_cleric" add_trait="humble" add_trait="cruel" add_trait="deceitful" add_trait="patient" add_trait="kind" add_trait="poor_warrior"
 	father=46524 #Niedamir
-	mother=45624
 	1248.6.8={ birth=yes } 
 	1275.8.15={ death=yes } 
 } 
@@ -2551,7 +2519,6 @@
 	martial=8 diplomacy=5 stewardship=4 intrigue=6 learning=5
 	add_trait="grey_eminence" add_trait="craven" add_trait="charitable" add_trait="lustful" add_trait="poor_warrior"
 	father=46524 #Niedamir
-	mother=45624
 	1251.1.23={ birth=yes } 
 	1307.5.5={ death=yes } 
 } 
@@ -2563,7 +2530,6 @@
 	martial=5 diplomacy=6 stewardship=6 intrigue=6 learning=4
 	add_trait="naive_appeaser" add_trait="gregarious" add_trait="charitable" add_trait="proud" add_trait="poor_warrior"
 	father=46524 #Niedamir
-	mother=45624
 	1255.10.8={ birth=yes } 
 	1307.3.24={ death=yes } 
 } 
@@ -9758,3 +9724,497 @@
 	1298.3.5={ birth=yes } 
 	1345.7.23={ death=yes } 
 } 
+
+##  45200 - 45299		Aidiinid			3042	1	C
+45200={ 
+	name="Aideen"
+	dynasty=3042
+	female=yes
+	religion="kreve" culture="kaedweni"
+	martial = 12
+	add_trait="canon" add_trait="bastard" add_trait="skilled_tactician" add_trait="skilled_warrior" 
+	father=89011
+	1084.1.1={ birth=yes } 
+	1109.1.1={
+		add_spouse = 15708
+		effect={ 
+			set_character_flag=no_wedding_event
+			spouse={ 
+				set_character_flag=no_wedding_event
+				remove_spouse=spouse
+				add_spouse_matrilineal=ROOT
+				clr_character_flag=no_wedding_event
+			} 
+			clr_character_flag=no_wedding_event
+		}
+	}
+	1139.1.1={ death=yes } 
+} 
+45201={
+	name = "Gemma"
+	female = yes
+	dynasty = 3042
+	dna = "nhopfpplcmi"
+	culture = koviri religion = kreve
+	add_trait="canon"
+	father = 15708
+	mother = 45200	#Aideen
+	1111.9.3={birth=yes}
+	1173.11.19={death=yes}
+}
+45202={
+	name = "Adem"
+	dynasty = 3042
+	dna = "bkkpnabkbli"
+	culture = koviri religion = kreve
+	martial = 4 diplomacy = 8 stewardship = 7 intrigue = 4 learning = 7
+	add_trait = "elusive_shadow" add_trait = "diligent" add_trait = "proud" add_trait = "content" add_trait = "honest" add_trait = "trained_warrior" 
+	father = 15708
+	mother = 45200	#Aideen
+	1115.9.21={birth=yes}
+	1176.10.21={death=yes}
+}
+
+45203={
+	name = "Uliana"
+	female = yes
+	dynasty = 3042
+	dna = "bkiffjbkami"
+	culture = koviri religion = kreve
+	father = 15708
+	mother = 45200	#Aideen
+	1119.1.4={birth=yes}
+	1172.5.8={death=yes}
+}
+
+45204={
+	name = "Gendrim"
+	dynasty = 3042
+	dna = "mkhpfabkpmi"
+	culture = koviri religion = kreve
+	martial = 8 diplomacy = 7 stewardship = 5 intrigue = 5 learning = 7
+	add_trait = "midas_touched" add_trait = "poet" add_trait = "paranoid" add_trait = "master_warrior" 
+	father = 15708
+	mother = 45200	#Aideen
+	1121.7.12={birth=yes}
+	1149.8.13={death=yes}
+}
+
+45205={
+	name = "Ringail"
+	female = yes
+	dynasty = 3042
+	dna = "nkhpnajkblp"
+	culture = koviri religion = kreve
+	father = 45202	#Adem
+	1141.6.1={birth=yes}
+	1154.7.4={death=yes}
+}
+
+45206={
+	name = "Fredefalk"
+	dynasty = 3042
+	dna = "ckepnakogli"
+	culture = koviri religion = kreve
+	martial = 5 diplomacy = 8 stewardship = 5 intrigue = 7 learning = 8
+	add_trait = "flamboyant_schemer" add_trait = "duelist" add_trait = "cynical" add_trait = "diligent" add_trait = "honest" add_trait = "maimed" add_trait = "trained_warrior" 
+	father = 45202	#Adem
+	1143.1.7={birth=yes}
+	1194.10.22={death=yes}
+}
+
+45207={
+	name = "Vasilisa"
+	female = yes
+	dynasty = 3042
+	dna = "jpkadajbili"
+	culture = koviri religion = kreve
+	father = 45202	#Adem
+	1147.1.19={birth=yes}
+	1208.11.7={death=yes}
+}
+
+45208={
+	name = "Vasilisa"
+	female = yes
+	dynasty = 3042
+	dna = "bknpnalbbki"
+	culture = koviri religion = kreve
+	father = 45202	#Adem
+	1151.3.11={birth=yes}
+	1198.3.28={death=yes}
+}
+
+45209={
+	name = "Liobova"
+	female = yes
+	dynasty = 3042
+	dna = "bkkpnllmmdp"
+	culture = koviri religion = kreve
+	father = 45202	#Adem
+	1153.9.8={birth=yes}
+	1195.8.30={death=yes}
+}
+
+45210={
+	name = "Ksenia"
+	female = yes
+	dynasty = 3042
+	dna = "mkepeebnglb"
+	culture = koviri religion = kreve
+	father = 45206	#Fredefalk
+	1166.10.17={birth=yes}
+	1240.6.12={death=yes}
+}
+
+45211={
+	name = "Gunvald"
+	dynasty = 3042
+	dna = "ckgpcapdkci"
+	culture = koviri religion = kreve
+	martial = 8 diplomacy = 8 stewardship = 6 intrigue = 7 learning = 7
+	add_trait = "elusive_shadow" add_trait = "deceitful" add_trait = "patient" add_trait = "zealous" add_trait = "just" add_trait = "skilled_warrior" 
+	father = 45206	#Fredefalk
+	1168.9.19={birth=yes}
+	1227.1.5={death=yes}
+}
+
+45212={
+	name = "Sprudeik"
+	dynasty = 3042
+	dna = "coejnpbogli"
+	culture = koviri religion = kreve
+	martial = 6 diplomacy = 8 stewardship = 4 intrigue = 7 learning = 8
+	add_trait = "scholarly_theologian" add_trait = "impaler" add_trait = "deceitful" add_trait = "greedy" add_trait = "kind" add_trait = "patient" add_trait = "brave" add_trait = "trained_warrior" 
+	father = 45206	#Fredefalk
+	1170.8.24={birth=yes}
+	1221.6.8={death=yes}
+}
+
+45213={
+	name = "Davins"
+	dynasty = 3042
+	dna = "jkiocjkoglh"
+	culture = koviri religion = kreve
+	martial = 7 diplomacy = 6 stewardship = 6 intrigue = 6 learning = 4
+	add_trait = "elusive_shadow" add_trait = "arbitrary" add_trait = "envious" add_trait = "poor_warrior" 
+	father = 45206	#Fredefalk
+	1173.2.17={birth=yes}
+	1218.4.4={death=yes}
+}
+
+45214={
+	name = "Gualter"
+	dynasty = 3042
+	dna = "cmgpchpjkii"
+	culture = koviri religion = kreve
+	martial = 4 diplomacy = 6 stewardship = 6 intrigue = 6 learning = 8
+	add_trait = "naive_appeaser" add_trait = "shy" add_trait = "zealous" add_trait = "diligent" add_trait = "trained_warrior" 
+	father = 45211	#Gunvald
+	1194.6.15={birth=yes}
+	1267.10.19={death=yes}
+}
+
+45215={
+	name = "Swiendorog"
+	dynasty = 3042
+	dna = "akgppapdiji"
+	culture = koviri religion = kreve
+	martial = 4 diplomacy = 5 stewardship = 7 intrigue = 4 learning = 4
+	add_trait = "detached_priest" add_trait = "shy" add_trait = "cruel" add_trait = "wroth" add_trait = "poor_warrior" 
+	father = 45211	#Gunvald
+	1199.2.24={birth=yes}
+	1240.8.25={death=yes}
+}
+
+45216={
+	name = "Danut"
+	female = yes
+	dynasty = 3042
+	dna = "dkgplajdkci"
+	culture = koviri religion = kreve
+	father = 45211	#Gunvald
+	1202.8.20={birth=yes}
+	1257.6.8={death=yes}
+}
+
+45217={
+	name = "Ako"
+	dynasty = 3042
+	dna = "cbjbcapjjch"
+	culture = koviri religion = kreve
+	martial = 5 diplomacy = 4 stewardship = 4 intrigue = 5 learning = 7
+	add_trait = "midas_touched" add_trait = "brave" add_trait = "shy" add_trait = "trained_warrior" 
+	father = 45211	#Gunvald
+	1204.12.1={birth=yes}
+	1217.10.30={death=yes}
+}
+
+45218={
+	name = "Barba"
+	female = yes
+	dynasty = 3042
+	dna = "cmpccheopje"
+	culture = koviri religion = kreve
+	father = 45214	#Gualter
+	1218.2.22={birth=yes}
+	1278.11.16={death=yes}
+}
+
+45219={
+	name = "Aldona"
+	female = yes
+	dynasty = 3042
+	dna = "mmclghpddii"
+	culture = koviri religion = kreve
+	father = 45214	#Gualter
+	1222.10.3={birth=yes}
+	1281.6.4={death=yes}
+}
+
+45220={
+	name = "Ringail"
+	female = yes
+	dynasty = 3042
+	dna = "kmgpchpgjii"
+	culture = koviri religion = kreve
+	father = 45214	#Gualter
+	1227.6.16={birth=yes}
+	1276.8.5={death=yes}
+}
+
+45221={
+	name = "Soula"
+	female = yes
+	dynasty = 3042
+	dna = "cmmpkppjnij"
+	culture = koviri religion = kreve
+	father = 45214	#Gualter
+	1231.3.20={birth=yes}
+	1284.2.14={death=yes}
+}
+
+45222={
+	name = "Jodok"
+	dynasty = 3042
+	dna = "cmgjfhpjkje"
+	culture = koviri religion = kreve
+	martial = 7 diplomacy = 7 stewardship = 8 intrigue = 4 learning = 4
+	add_trait = "charismatic_negotiator" add_trait = "hunter" add_trait = "envious" add_trait = "trained_warrior" 
+	father = 45214	#Gualter
+	1232.4.26={birth=yes}
+	1302.3.15={death=yes}
+}
+
+45223={
+	name = "Aldona"
+	female = yes
+	dynasty = 3042
+	dna = "cdgjfdpkkbe"
+	culture = koviri religion = kreve
+	father = 45222	#Jodok
+	1254.4.5={birth=yes}
+	1317.8.25={death=yes}
+}
+
+45224={
+	name = "Anday"
+	dynasty = 3042
+	dna = "nmpjfhcjkel"
+	culture = koviri religion = kreve
+	martial = 5 diplomacy = 7 stewardship = 8 intrigue = 6 learning = 4
+	add_trait = "scholarly_theologian" add_trait = "humble" add_trait = "envious" add_trait = "temperate" add_trait = "trained_warrior" 
+	father = 45222	#Jodok
+	1258.2.6={birth=yes}
+	1313.1.17={death=yes}
+}
+##  45200 - 45299		Aidiinid			3042	1	C
+
+##  48900 - 48999		de Creigiau			3005	1	C
+48903={ 
+	name="Joos"
+	dynasty=3005
+	dna="jnehfcpfmcg"
+	culture=redanian religion=lebioda
+	add_trait="bastard"
+	father=756 #Niezamysl Nitert
+	1096.7.18={ birth=yes } 
+	1167.7.18={ death=yes } 
+} 
+48904={
+	name = "Jodok"
+	dynasty = 3005
+	dna = "nkhkfdcffhh"
+	culture = koviri religion = lebioda
+	martial = 7 diplomacy = 6 stewardship = 8 intrigue = 5 learning = 8
+	add_trait = "detached_priest" add_trait = "mystic" add_trait = "just" add_trait = "drunkard" add_trait = "trained_warrior" 
+	father = 48903	#Bukont
+	1121.7.18={birth=yes}
+	1179.5.8={death=yes}
+}
+
+48905={
+	name = "Balodis"
+	dynasty = 3005
+	dna = "dgbnafmflih"
+	culture = koviri religion = lebioda
+	father = 48903	#Bukont
+	1124.11.20={birth=yes}
+	1194.10.15={death=yes}
+}
+
+48906={
+	name = "Ramona"
+	female = yes
+	dynasty = 3005
+	dna = "afhkfllllik"
+	culture = koviri religion = lebioda
+	father = 48903	#Bukont
+	1127.7.18={birth=yes}
+	1188.1.28={death=yes}
+}
+
+48907={
+	name = "Jure"
+	dynasty = 3005
+	dna = "ifhkfainmoa"
+	culture = koviri religion = lebioda
+	father = 48903	#Bukont
+	1131.2.13={birth=yes}
+	1180.6.12={death=yes}
+}
+
+48908={
+	name = "Malgorzata"
+	female = yes
+	dynasty = 3005
+	dna = "gklkimifodp"
+	culture = koviri religion = lebioda
+	father = 48904	#Jodok
+	1146.10.4={birth=yes}
+	1197.2.18={death=yes}
+}
+
+48909={
+	name = "Vasilisa"
+	female = yes
+	dynasty = 3005
+	dna = "gklkflcmnhb"
+	culture = koviri religion = lebioda
+	father = 48904	#Jodok
+	1148.5.13={birth=yes}
+	1188.11.30={death=yes}
+}
+
+48910={
+	name = "Dovyat"
+	dynasty = 3005
+	dna = "kmhmghfbphd"
+	culture = koviri religion = lebioda
+	martial = 8 diplomacy = 4 stewardship = 4 intrigue = 8 learning = 5
+	add_trait = "charismatic_negotiator" add_trait = "duelist" add_trait = "wroth" add_trait = "zealous" add_trait = "slothful" add_trait = "paranoid" add_trait = "gregarious" add_trait = "poor_warrior" 
+	father = 48904	#Jodok
+	1151.11.3={birth=yes}
+	1194.5.7={death=yes}
+}
+
+48911={
+	name = "Anastasia"
+	female = yes
+	dynasty = 3005
+	dna = "nkppfdchfkh"
+	culture = koviri religion = lebioda
+	father = 48904	#Jodok
+	1154.6.8={birth=yes}
+	1204.1.2={death=yes}
+}
+
+48912={
+	name = "Klavess"
+	dynasty = 3005
+	dna = "kmioggfbphd"
+	culture = koviri religion = lebioda
+	martial = 6 diplomacy = 5 stewardship = 6 intrigue = 6 learning = 8
+	add_trait = "intricate_webweaver" add_trait = "mystic" add_trait = "temperate" add_trait = "paranoid" add_trait = "humble" add_trait = "skilled_warrior" 
+	father = 48910	#Dovyat
+	1175.12.24={birth=yes}
+	1243.2.23={death=yes}
+}
+
+48913={
+	name = "Milda"
+	female = yes
+	dynasty = 3005
+	dna = "emkmghfbfgd"
+	culture = koviri religion = lebioda
+	father = 48910	#Dovyat
+	1179.8.20={birth=yes}
+	1242.3.1={death=yes}
+}
+
+48914={
+	name = "Xymena"
+	female = yes
+	dynasty = 3005
+	dna = "fchigkfbpfd"
+	culture = koviri religion = lebioda
+	father = 48910	#Dovyat
+	1182.9.15={birth=yes}
+	1192.8.20={death=yes}
+}
+
+48915={
+	name = "Kordula"
+	female = yes
+	dynasty = 3005
+	dna = "lpiaggabdgb"
+	culture = koviri religion = lebioda
+	father = 48912	#Klavess
+	1201.6.16={birth=yes}
+	1276.4.14={death=yes}
+}
+
+48917={
+	name = "Aleksandra"
+	female = yes
+	dynasty = 3005
+	dna = "kiioggkgphb"
+	culture = koviri religion = lebioda
+	father = 48912	#Klavess
+	1207.9.24={birth=yes}
+	1272.1.7={death=yes}
+}
+
+48900={ 
+	name="Anton"	#Anton 'the Bearded' de Creigiau
+	dynasty=3005
+	religion="lebioda" culture="koviri"
+	add_trait="canon"
+	father = 48912	#Klavess
+	1218.12.5={ birth=yes } 
+	1238.06.11={ 
+		add_spouse=48739
+	} 
+	1270.1.1={ death=yes } 
+} 
+48901={ 
+	name="Bryton"
+	dynasty=3005
+	religion="lebioda" culture="koviri"
+	add_trait="canon"
+	father=48900
+	mother=48739
+	1241.12.5={ birth=yes } 
+	1301.5.12={ death=yes } 
+} 
+48902={ 
+	name="Anton"
+	dynasty=3005
+	religion="lebioda" culture="koviri"
+	add_trait="canon"
+	father=48900
+	mother=48739
+	1245.1.1={ birth=yes } 
+	1308.5.12={ death=yes } 
+} 
+##  48900 - 48999		de Creigiau			3005	1	C
