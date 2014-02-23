@@ -9,6 +9,58 @@
 #	lose_effect: fires when a title is lost if dismissal_trigger evaluates to false
 #	The other fields are all character modifiers.
 
+job_mage = {
+	attribute = learning
+	dignity = 0.15
+	opinion_effect = 15
+	
+	monthly_salary = 0.5
+	monthly_prestige = 0.015
+	
+	allow = {
+		NOT = { culture = wilderness }
+		is_adult = yes
+		prisoner = no
+		OR = {
+			trait = sorcerer
+			trait = witch
+			trait = druid
+		}
+		NOT = { trait = incapable }
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_nilfgaard_academy }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		liege = {
+			NOT = { has_landed_title = d_thanedd }
+			NOT = { has_landed_title = d_nilfgaard_academy }
+			NOT = { has_landed_title = d_ban_ard_academy }
+			mercenary = no
+			NOT ={ any_demesne_province = { culture = magic } }
+		}
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
+	lift_fow = yes
+}
+
 job_chancellor = {
 	is_chancellor = yes
 	attribute = diplomacy
@@ -307,55 +359,5 @@ job_spiritual = {
 	action = action_improve_rel_relations
 	action = action_charity
 
-	lift_fow = yes
-}
-
-job_mage = {
-	attribute = learning
-	dignity = 0.15
-	opinion_effect = 15
-	
-	monthly_salary = 0.5
-	monthly_prestige = 0.015
-	
-	allow = {
-		NOT = { culture = wilderness }
-		is_adult = yes
-		prisoner = no
-		OR = {
-			trait = sorcerer
-			trait = witch
-			trait = druid
-		}
-		NOT = { trait = incapable }
-		NOT = { has_landed_title = d_thanedd }
-		NOT = { has_landed_title = d_nilfgaard_academy }
-		NOT = { has_landed_title = d_ban_ard_academy }
-		liege = {
-			NOT = { has_landed_title = d_thanedd }
-			NOT = { has_landed_title = d_nilfgaard_academy }
-			NOT = { has_landed_title = d_ban_ard_academy }
-		}
-		liege = {
-			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
-			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
-		}
-	}
-	gain_effect = {
-		if = {
-			limit = {
-				has_opinion_modifier = {
-					who = FROM
-					modifier = opinion_fired_from_council
-				}
-			}
-			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
-			opinion = { who = FROM modifier = opinion_job_security_concerns }
-		}
-	}
-	lose_effect = {
-		opinion = { who = FROM modifier = opinion_fired_from_council }
-	}
-	
 	lift_fow = yes
 }
