@@ -54,14 +54,18 @@ character_event = {
 	
 	trigger = {
 		is_ruler = no
-		religion = eternal_fire
-		
-		is_heretic = no
-		
+		OR ={
+			religion = eternal_fire
+			religion = kreve
+			religion = melitele
+			religion = lebioda
+		}
+		NOT ={
+			trait = halfdwarf
+			trait = halfelf
+		}
 		martial = 5
-		
 		is_title_active = d_flaming_rose
-		
 		OR = {
 			father_even_if_dead = {
 				primary_title = { higher_tier_than = BARON }
@@ -70,14 +74,12 @@ character_event = {
 				primary_title = { higher_tier_than = BARON }
 			}
 		}
-		
 		liege = {
 			holy_order = no
 			liege = {
 				holy_order = no
 			}
 		}
-		
 		has_dlc = "Sons of Abraham"
 	}
 	
@@ -137,9 +139,16 @@ character_event = {
 			factor = 2.0
 			is_primary_heir = yes
 		}
+		modifier = { factor = 4 NOT = { culture_group = northern_group } }
+		modifier = { factor = 0.5 trait = racist }
+		modifier = { factor = 2 trait = tolerant }
 		modifier = {
-			factor = 3.0 # Prefer the  Order of Flaming Rose
-			culture_group = northern_group
+			factor = 2.0
+			OR = {
+				religion = kreve
+				religion = melitele
+				religion = lebioda
+			}
 		}
 	}
 	
@@ -172,9 +181,7 @@ character_event = {
 		ai_chance = {
 			factor = 100
 		}
-		
 		piety = 100
-		
 		FROM = {
 			character_event = {
 				id = flaming_rose.32
@@ -185,9 +192,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTBflaming_rose.31 # Refuse
-		
 		piety = -100
-		
 		FROM = {
 			character_event = {
 				id = flaming_rose.33
@@ -207,7 +212,6 @@ character_event = {
 	
 	option = {
 		name = EXCELLENT
-		
 		d_flaming_rose = {
 			holder_scope = {
 				ROOT = {
@@ -291,10 +295,12 @@ character_event = {
 	only_playable = yes
 	
 	trigger = {
-		religion = eternal_fire
-		
-		is_heretic = no
-		
+		OR = {
+			religion = eternal_fire
+			religion = kreve
+			religion = melitele
+			religion = lebioda
+		}
 		d_flaming_rose = {
 			holder_scope = {
 				wealth = 300
@@ -303,14 +309,12 @@ character_event = {
 				}
 			}
 		}
-		
 		any_demesne_province = {
 			has_empty_holding = yes
 			empire = {
 				title = e_the_north
 			}
 		}
-		
 		has_dlc = "Sons of Abraham"
 	}
 	
@@ -333,10 +337,18 @@ character_event = {
 			}
 		}
 		modifier = {
+			factor = 0.5
+			d_flaming_rose = {
+				holder_scope = {
+					NOT = { demesne_size = 3 }
+				}
+			}
+		}
+		modifier = {
 			factor = 2.0
 			d_flaming_rose = {
 				holder_scope = {
-					realm_size = 5
+					realm_size = 10
 				}
 			}
 		}
@@ -422,14 +434,12 @@ letter_event = {
 				has_character_modifier = expelled_flaming_rose
 			}
 		}
-		
 		hidden_tooltip = {
 			FROMFROM = {
 				province_event = { id = flaming_rose.44 }
 			}
 			remove_character_modifier = expelled_flaming_rose
 		}
-		
 		piety = 200
 		wealth = 100
 	}
@@ -492,21 +502,24 @@ character_event = {
 			}
 			usurp_title = FROM
 		}
-	
 		FROM = {
 			letter_event = {
 				id = flaming_rose.51
 			}
 		}
-		
 		opinion = {
 			who = FROM
 			modifier = opinion_expelled_from_realm
+		}
+		if = {
+			limit = { liege = { character = FROM } }
+			set_defacto_liege = ROOT
 		}
 	}
 	
 	option = {
 		name = OK
+		
 	}
 }
 # Notification event when expelling the Order of the Flaming Rose
@@ -517,11 +530,175 @@ letter_event = {
 	
 	is_triggered_only = yes
 	
+	immediate = {
+		
+	}
+	
 	option = {
 		name = EVTOPTAflaming_rose.51
 	}
 }
 
 ################################################
+# Offer to buy castle 
+################################################
+
+################################################
+# misc
+################################################
+# Member converts
+character_event = {
+	id = flaming_rose.70
+	desc = "Courtier of the Order of the Flaming Rose converts to Eternal Fire"
+	picture = GFX_evt_lunatic
+	
+	ai = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { religion = eternal_fire }
+		any_liege = {
+			has_landed_title = d_flaming_rose
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.5 trait = racist }
+		modifier = { factor = 0.5 trait = zealous }
+		modifier = { factor = 0.75 trait = celibate }
+		modifier = { factor = 0.75 trait = chaste }
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 4 NOT = { culture_group = northern_group } }
+	}
+	
+	option = {
+		name = "Convert"
+		religion = eternal_fire
+		piety = 50
+	}
+}
+# Province converts
+
+################################################
 # Order of the Flaming Rose generic monster hunting
 ################################################
+# Owner - Hidden
+character_event = {
+	id = flaming_rose.100
+	desc = "Hunt monsters"
+	picture = GFX_evt_lunatic
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		any_demesne_province = {
+			OR = {
+				has_province_modifier = vampires
+				has_province_modifier = werewolves
+				has_province_modifier = kikimoras
+				has_province_modifier = hellhounds
+				has_province_modifier = rotfiends
+				has_province_modifier = drowners
+				has_province_modifier = nekkers
+			}
+			any_province_lord = {
+				OR = {
+					has_landed_title = d_flaming_rose
+					any_liege = { has_landed_title = d_flaming_rose }
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = { 
+		days = 30
+	}
+	
+	option = {
+		name = "OK"
+		random_demesne_province = {
+			limit ={
+				OR = {
+					has_province_modifier = vampires
+					has_province_modifier = werewolves
+					has_province_modifier = kikimoras
+					has_province_modifier = hellhounds
+					has_province_modifier = rotfiends
+					has_province_modifier = drowners
+					has_province_modifier = nekkers
+				}
+				any_province_lord = {
+					OR = {
+						has_landed_title = d_flaming_rose
+						any_liege = { has_landed_title = d_flaming_rose }
+					}
+				}
+			}
+			province_event = { id = flaming_rose.101 }
+		}
+	}
+}
+# Province - Hidden
+province_event = {
+	id = flaming_rose.101
+	desc = "Province ping"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	immediate = {
+		remove_province_modifier = vampires
+		remove_province_modifier = werewolves
+		remove_province_modifier = kikimoras
+		remove_province_modifier = hellhounds
+		remove_province_modifier = rotfiends
+		remove_province_modifier = drowners
+		remove_province_modifier = nekkers
+		add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
+	}
+	
+	option = {
+		name = "OK"
+		d_flaming_rose = {
+			holder_scope = {
+				character_event = { id = flaming_rose.102 }
+			}
+		}
+	}
+}
+# Order of the Flaming Rose grandmaster - Ping - Hidden
+character_event = {
+	id = flaming_rose.102
+	desc = "Grandmaster ping"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = "OK"
+		FROMFROM = {
+			letter_event = { id = flaming_rose.103 }
+		}
+	}
+}
+# Liege - Notification
+letter_event = {
+	id = flaming_rose.103
+	desc = EVTDESCflaming_rose.103
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAflaming_rose.103
+	}
+}
