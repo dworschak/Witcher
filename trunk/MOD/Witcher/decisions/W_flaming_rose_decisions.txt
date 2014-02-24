@@ -3,13 +3,16 @@ decisions = {
 		potential = {
 			NOT = { culture = wilderness }
 			ai = no
-			religion = eternal_fire
-			is_heretic = no
+			OR = {
+				religion = eternal_fire
+				religion = kreve
+				religion = melitele
+				religion = lebioda
+			}
 			higher_tier_than = DUKE
 			independent = yes
 			is_title_active = d_flaming_rose
 			NOT = { has_character_modifier = expelled_flaming_rose }
-			
 			any_realm_province = {
 				any_province_lord = {
 					d_flaming_rose = {
@@ -22,7 +25,6 @@ decisions = {
 					}
 				}
 			}
-			
 			has_dlc = "Sons of Abraham"
 		}
 		
@@ -32,12 +34,10 @@ decisions = {
 		
 		effect = {
 			piety = -1000
-			
 			religion_authority = {
 				modifier = holy_order_expelled
 				years = 20
 			}
-			
 			hidden_tooltip = {
 				d_flaming_rose = {
 					holder_scope = {
@@ -61,12 +61,14 @@ decisions = {
 	donate_money_to_flaming_rose = {
 		potential = {
 			NOT = { culture = wilderness }
-			religion = eternal_fire
-			is_heretic = no
+			OR = {
+				religion = eternal_fire
+				religion = kreve
+				religion = melitele
+				religion = lebioda
+			}
 			is_title_active = d_flaming_rose
-			
 			has_dlc = "Sons of Abraham"
-			
 			NOT = { primary_title = { title = d_flaming_rose } }
 		}
 		
@@ -84,7 +86,6 @@ decisions = {
 					duration = -1
 				}
 			}
-			
 			hidden_tooltip = {
 				d_flaming_rose = {
 					holder_scope = {
@@ -94,7 +95,6 @@ decisions = {
 					}
 				}
 			}
-			
 			wealth = -300
 			piety = 300
 		}
@@ -112,6 +112,14 @@ decisions = {
 			modifier = {
 				factor = 0.002 # Slow it down
 			}
+			modifier = {
+				factor = 0.5
+				OR = {
+					religion = kreve
+					religion = melitele
+					religion = lebioda
+				}
+			}
 		}
 	}
 	vassalize_flaming_rose = {
@@ -119,22 +127,30 @@ decisions = {
 		
 		potential = {
 			NOT = { culture = wilderness }
-			religion = eternal_fire
-			is_heretic = no
-			
+			OR = {
+				religion = eternal_fire
+				religion = kreve
+				religion = melitele
+				religion = lebioda
+			}
 			is_title_active = d_flaming_rose
-			
 			NOT = { primary_title = { title = d_flaming_rose } }
-			
 			d_flaming_rose = {
 				holder_scope = {
 					liege = {
 						NOT = { character = ROOT }
 					}
+					independent = yes
 				}
-				independent = no
 			}
-			
+			any_demesne_province = {
+				any_province_lord = {
+					OR = {
+						has_landed_title = d_flaming_rose
+						any_liege = { has_landed_title = d_flaming_rose }
+					}
+				}
+			}
 			has_dlc = "Sons of Abraham"
 		}
 		
@@ -144,7 +160,6 @@ decisions = {
 		
 		effect = {
 			wealth = -500
-			
 			hidden_tooltip = {
 				d_flaming_rose = {
 					holder_scope = {
