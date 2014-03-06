@@ -1618,3 +1618,73 @@ narrative_event = {
 		}
 	}
 }
+
+##########################################################################
+# Flavor events
+##########################################################################
+# Elven ruins
+character_event = {
+	id = misc.20
+	desc = EVTDESCmisc.20
+	picture = GFX_evt_busy_trading_dock_republic
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 2 trait = gregarious }
+		modifier = { factor = 0.5 trait = shy }
+		modifier = { factor = 2 trait = diligent }
+		modifier = { factor = 0.5 trait = slothful }
+		modifier = { factor = 2 trait = ambitious }
+		modifier = { factor = 0.5 trait = content }
+		modifier = { factor = 2 trait = just }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 2 trait = strong }
+		modifier = { factor = 0.5 trait = weak }
+	}
+	
+	option = {
+		name = EVTOPTAmisc.20
+		trigger = { 
+			trait = elven
+		}
+		prestige = 5
+	}
+	option = {
+		name = EVTOPTBmisc.20
+		trigger = { 
+			NOT = { trait = elven }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 0.5 trait = humble }
+		}
+		piety = 5
+	}
+	option = {
+		name = EVTOPTCmisc.20
+		trigger = { 
+			NOT = { trait = elven }
+		}
+		ai_chance = {
+			factor = 1
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 trait = proud }
+			modifier = { factor = 2 trait = humble }
+		}
+	}
+}
