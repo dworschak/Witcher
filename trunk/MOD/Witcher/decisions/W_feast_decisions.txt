@@ -1,0 +1,133 @@
+decisions = {
+	feast_dwarf = {
+		potential = {
+			NOT = { culture = wilderness }
+			culture = dwarven # Only dwarfs
+			is_ruler = yes
+			is_feudal = yes
+			prisoner = no
+			NOT = { has_character_modifier = holding_dwarf_feast }
+			NOT = { has_character_modifier = large_feast_timer }
+			NOT = { has_character_modifier = fabulous_feast }
+			NOT = { has_character_flag = guest_feast_started }
+			NOT = { liege = { has_character_modifier = holding_dwarf_feast } }
+			num_of_vassals = 1
+			NOT = { has_character_flag = do_not_disturb }
+		}
+		allow = {
+			war = no
+			any_demesne_title = { is_occupied = no }
+			prisoner = no
+			scaled_wealth = 0.30
+			month = 10
+		}
+		effect = {
+			scaled_wealth = -0.30
+			set_character_flag = do_not_disturb
+			add_character_modifier = { name = holding_dwarf_feast duration = 365 }
+			hidden_tooltip = {
+				character_event = { id = feast.1 days = 25 random = 10 }
+				letter_event = { id = feast.2 }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { scaled_wealth = 4.0 } }
+			modifier = { factor = 0 month = 11 }
+			modifier = { factor = 0 NOT = { age = 30 } }
+		}
+	}
+	
+	hold_velen = {
+		potential = {
+			NOT = { culture = wilderness }
+			OR = { # Only elves and dryads
+				culture = elven
+				culture = dryad
+			}
+			is_ruler = yes
+			is_feudal = yes
+			prisoner = no
+			NOT = { has_character_flag = holding_velen }
+			NOT = { has_character_modifier = held_velen }
+			NOT = { has_character_flag = attending_velen }
+			NOT = { has_character_modifier = attended_velen }
+			num_of_vassals = 1
+			NOT = { has_character_flag = do_not_disturb }
+		}
+		allow = {
+			war = no
+			any_demesne_title = { is_occupied = no }
+			prisoner = no
+			scaled_wealth = 0.20
+			month = 8
+			NOT = { month = 11 }
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = do_not_disturb
+			set_character_flag = holding_velen
+			custom_tooltip = {
+				text = velen_celebrations
+				hidden_tooltip = { 
+					character_event = { id = feast.100 }
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { scaled_wealth = 4.0 } }
+		}
+	}
+	
+	hold_birke = {
+		potential = {
+			NOT = { culture = wilderness }
+			OR = { # Only elves and dryads
+				culture = elven
+				culture = dryad
+			}
+			is_ruler = yes
+			is_feudal = yes
+			prisoner = no
+			NOT = { has_character_flag = holding_birke }
+			NOT = { has_character_modifier = held_birke }
+			NOT = { has_character_flag = attending_birke }
+			NOT = { has_character_modifier = attended_birke }
+			num_of_vassals = 1
+			NOT = { has_character_flag = do_not_disturb }
+		}
+		allow = {
+			war = no
+			any_demesne_title = { is_occupied = no }
+			prisoner = no
+			scaled_wealth = 0.20
+			month = 2
+			NOT = { month = 5 }
+		}
+		effect = {
+			scaled_wealth = -0.20
+			set_character_flag = do_not_disturb
+			set_character_flag = holding_birke
+			custom_tooltip = {
+				text = birke_celebrations
+				hidden_tooltip = { 
+					character_event = { id = feast.120 }
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { scaled_wealth = 4.0 } }
+		}
+	}
+}
