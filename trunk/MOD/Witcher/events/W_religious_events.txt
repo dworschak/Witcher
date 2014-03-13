@@ -170,3 +170,181 @@ character_event = {
 		death = yes
 	}
 }
+##########################################
+# Temple of Melitele in Ellander
+##########################################
+# Temple of Melitele is very influential
+character_event = {
+	id = religious.30
+	desc = "Prestige and piety bonus"
+	hide_window = yes
+	ai = yes
+	only_capable = yes
+	prisoner = no
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		year = 950
+		has_landed_title = b_melitele
+		is_priest = yes
+		religion = melitele
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	immediate = {
+		piety = 50
+		prestige = 25
+	}
+	
+	option = {
+		name = "OK"
+	}
+}
+# Donate to Temple of Melitele
+narrative_event = {
+	id = religious.31
+	title = EVTNAMEreligious.31
+	desc = EVTDESCreligious.31
+	picture = GFX_evt_monastery_monks
+	border = GFX_event_narrative_frame_religion
+	
+	only_rulers = yes
+	only_capable = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		b_melitele = {
+			holder_scope = {
+				is_priest = yes
+				religion = ROOT
+			}
+		}
+		religion = melitele
+		wealth = 200
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+	}
+	
+	option = {
+		name = EVTOPTAreligious.31
+		ai_chance = {
+			factor = 20
+		}
+		if = {
+			limit = { NOT = { wealth = 600 } }
+			wealth = -100
+			prestige = 50
+			piety = 50
+			b_melitele = {
+				holder_scope = {
+					wealth = 100
+				}
+			}
+		}
+		if = {
+			limit = {
+				wealth = 600
+			}
+			wealth = -300
+			prestige = 100
+			piety = 100
+			b_melitele = {
+				holder_scope = {
+					wealth = 300
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBreligious.31
+		ai_chance = {
+			factor = 80
+		}
+	}
+}
+# Visit Temple of Melitele?
+narrative_event = {
+	id = religious.32
+	title = EVTNAMEreligious.32
+	desc = EVTDESCreligious.32
+	picture = GFX_evt_monastery_nuns
+	border = GFX_event_narrative_frame_religion
+	
+	only_rulers = yes
+	only_capable = yes
+	min_age = 15
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		b_melitele = {
+			holder_scope = {
+				is_priest = yes
+				religion = ROOT
+			}
+		}
+		religion = melitele
+		distance = {
+			where = 8	# Ellander
+			value = 300	# Not too far away
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+	}
+	
+	option = {
+		name = EVTOPTAreligious.32
+		wealth = -10
+		hidden_tooltip = { narrative_event = { id = religious.33 days = 10 } }
+	}
+	option = {
+		name = EVTOPTBreligious.32
+		piety = -5
+	}
+}
+# Visiting Temple of Melitele
+narrative_event = {
+	id = religious.33
+	title = EVTNAMEreligious.33
+	desc = EVTDESCreligious.33
+	picture = GFX_evt_monastery_nuns
+	border = GFX_event_narrative_frame_religion
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAreligious.33
+		random = {
+			chance = 20
+			change_stewardship = 1
+		}
+	}
+	option = {
+		name = EVTOPTBreligious.33
+		if = {
+			limit = { NOT = { lifestyle_traits = 1 } }
+			random = {
+				chance = 50
+				add_trait = scholar
+			}
+		}
+		random = {
+			chance = 20
+			change_learning = 1
+		}
+	}
+	option = {
+		name = EVTOPTCreligious.33
+		piety = 30
+		add_character_modifier = {
+			name = the_pious
+			duration = 24
+		}
+	}
+}

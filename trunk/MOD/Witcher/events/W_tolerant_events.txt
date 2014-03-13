@@ -100,7 +100,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAtolerant.1
+		name = EVTOPTAtolerant.2
 		create_random_steward = {
 			random_traits = yes
 			culture = dwarven
@@ -155,7 +155,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAtolerant.1
+		name = EVTOPTAtolerant.3
 		create_random_intriguer = {
 			random_traits = yes
 			culture = elven
@@ -210,7 +210,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAtolerant.1
+		name = EVTOPTAtolerant.4
 		create_character = {
 			random_traits = yes
 			culture = elven
@@ -224,6 +224,94 @@ character_event = {
 		new_character = {
 			remove_trait = inbred
 			remove_trait = imbecile
+		}
+	}
+}
+
+################################################
+# Tolerant character makes a non-human friend
+################################################
+# Tolerant character making dwarf friend
+character_event = {
+	id = tolerant.10
+	desc = EVTDESCtolerant.10
+	picture = GFX_evt_courtiers_talking
+	
+	only_rulers = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = human
+		trait = tolerant
+		any_realm_character = {
+			trait = dwarven
+			NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_friend } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+	}
+	
+	option = {
+		name = EVTOPTAtolerant.10
+		random_realm_character = {
+			limit = {
+				trait = dwarven
+			}
+			opinion = {
+				modifier = opinion_friend
+				who = ROOT
+				years = 100
+			}
+			reverse_opinion = {
+				modifier = opinion_friend
+				who = ROOT
+				years = 100
+			}
+		}
+	}
+}
+# Tolerant character making dwarf friend
+character_event = {
+	id = tolerant.11
+	desc = EVTDESCtolerant.11
+	picture = GFX_evt_courtiers_talking
+	
+	only_rulers = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = human
+		trait = tolerant
+		any_realm_character = {
+			trait = elven
+			NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_friend } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+	}
+	
+	option = {
+		name = EVTOPTAtolerant.11
+		random_realm_character = {
+			limit = {
+				trait = elven
+			}
+			opinion = {
+				modifier = opinion_friend
+				who = ROOT
+				years = 100
+			}
+			reverse_opinion = {
+				modifier = opinion_friend
+				who = ROOT
+				years = 100
+			}
 		}
 	}
 }
