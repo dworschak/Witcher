@@ -24,48 +24,117 @@ character_event = {
 		days = 1
 	}
 	
+	immediate = {
+		strong_emperor = {
+			limit = { is_alive = yes }
+			set_character_flag = previous_emperor
+		}
+		weak_emperor = {
+			limit = { is_alive = yes }
+			set_character_flag = previous_emperor
+		}
+	}
 	option = {
 		name = "Strong emperor"
 		ai_chance = {
 			factor = 1
-			modifier = { factor = 4 trait = ambitious }
-			modifier = { factor = 3 trait = genius }
+			modifier = { factor = 5 trait = ambitious }
+			modifier = { factor = 2 trait = genius }
 			modifier = { factor = 2 trait = quick }
-			modifier = { factor = 3 trait = diligent }
-			modifier = { factor = 5 religion = solar }
-			modifier = { factor = 5 culture = nilfgaardian }
-			modifier = { factor = 2 trait = elusive_shadow }
-			modifier = { factor = 2 trait = grey_eminence }
-			modifier = { factor = 2 trait = midas_touched }
-			modifier = { factor = 2 trait = brilliant_strategist }
-			modifier = { factor = 2 trait = the_sage }
+			modifier = { factor = 2 trait = diligent }
+			modifier = { factor = 2 religion = solar }
+			modifier = { factor = 2 culture = nilfgaardian }
+			modifier = {
+				factor = 2
+				OR ={
+					trait = elusive_shadow
+					trait = grey_eminence
+					trait = midas_touched
+					trait = brilliant_strategist
+					trait = the_sage
+				}
+			}
 			modifier = {
 				factor = 2
 				is_adult = yes
 				NOT = { has_character_modifier = old_age }
 			}
+			modifier = { # new emperor is automatiaclly weak if previous emperor (still alive) was weak
+				factor = 0
+				weak_emperor = { 
+					has_character_flag = previous_emperor
+				}
+			}
+			modifier = { # new emperor is automatiaclly weak if previous emperor (dead) was weak
+				factor = 0
+				has_character_flag = weak_emperor
+			}
+			modifier = { # new emperor is automatiaclly weak if previous emperor (still alive) had different dynasty
+				factor = 0
+				OR ={
+					weak_emperor = { 
+						has_character_flag = previous_emperor
+						NOT = { dynasty = ROOT }
+					}
+					strong_emperor = { 
+						has_character_flag = previous_emperor
+						NOT = { dynasty = ROOT }
+					}
+				}
+			}
+			modifier = { # new emperor is automatiaclly weak if previous emperor (dead) had different dynasty
+				factor = 0
+				has_character_flag = different_dynasty_emperor
+			}
 		}
 		character_event = { id = nilfgaard.2 }
+		hidden_tooltip = {
+			strong_emperor = { 
+				limit = { has_character_flag = previous_emperor }
+				clr_character_flag = previous_emperor
+				remove_trait = strong_emperor
+			}
+			weak_emperor = { 
+				limit = { has_character_flag = previous_emperor }
+				clr_character_flag = previous_emperor
+				remove_trait = weak_emperor
+			}
+			clr_character_flag = weak_emperor
+			clr_character_flag = different_dynasty_emperor
+		}
 	}
 	option = {
 		name = "Weak emperor"
 		ai_chance = {
 			factor = 2
-			modifier = { factor = 4 trait = content }
+			modifier = { factor = 5 trait = content }
 			modifier = { factor = 2 trait = slow }
-			modifier = { factor = 3 trait = imbecile }
-			modifier = { factor = 3 trait = inbred }
+			modifier = { factor = 2 trait = imbecile }
+			modifier = { factor = 2 trait = inbred }
 			modifier = { factor = 2 trait = lunatic }
-			modifier = { factor = 3 trait = infirm }
-			modifier = { factor = 4 trait = incapable }
+			modifier = { factor = 2 trait = infirm }
+			modifier = { factor = 5 trait = incapable }
 			modifier = { factor = 5 is_female = yes }
-			modifier = { factor = 6 NOT = { trait = human } }
-			modifier = { factor = 5 is_adult = no }
-			modifier = { factor = 3 trait = sorcerer }
+			modifier = { factor = 10 NOT = { trait = human } }
+			modifier = { factor = 10 is_adult = no }
+			modifier = { factor = 2 trait = sorcerer }
 			modifier = { factor = 2 has_character_modifier = magic_talent }
-			
 		}
 		character_event = { id = nilfgaard.3 }
+		hidden_tooltip = {
+			strong_emperor = { 
+				limit = { has_character_flag = previous_emperor }
+				clr_character_flag = previous_emperor
+				remove_trait = strong_emperor
+			}
+			weak_emperor = { 
+				limit = { has_character_flag = previous_emperor }
+				clr_character_flag = previous_emperor
+				remove_trait = weak_emperor
+			}
+			clr_character_flag = weak_emperor
+			clr_character_flag = different_dynasty_emperor
+		}
 	}
 }
 # Strong emperor trait gained
@@ -94,42 +163,34 @@ character_event = {
 		add_trait = weak_emperor
 	}
 }
-# Emperor trait lost
+# Check if emperor is weak or heir is non-dynastic (on_death)
 character_event = {
 	id = nilfgaard.4
-	desc = EVTDESCnilfgaard.4
+	desc = "Emperor died"
 	picture = GFX_evt_holy_emperor
+	
+	hide_window = yes
+	is_triggered_only = yes
 	
 	trigger = {
 		OR = {
-			trait = strong_emperor
 			trait = weak_emperor
+			trait = strong_emperor
 		}
-		NOT = { has_landed_title = e_nilfgaard }
-		is_alive = yes
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	immediate = {
-		any_independent_ruler = {
-			any_realm_character = { clr_character_flag = previous_nilfgaard_emperor }
-			clr_character_flag = previous_nilfgaard_emperor
-		}
-		set_character_flag = previous_nilfgaard_emperor
 	}
 	
 	option = {
-		name = EVTOPTAnilfgaard.4
-		trigger = { trait = strong_emperor }
-		remove_trait = strong_emperor
-	}
-	option = {
-		name = EVTOPTAnilfgaard.4
-		trigger = { trait = weak_emperor }
-		remove_trait = weak_emperor
+		name = "OK"
+		current_heir = {
+			if = {
+				limit = { NOT = { dynasty = ROOT } }
+				set_character_flag = different_dynasty_emperor
+			}
+			if = {
+				limit = { ROOT = { trait = weak_emperor } }
+				set_character_flag = weak_emperor
+			}
+		}
 	}
 }
 
@@ -305,12 +366,12 @@ narrative_event = {
 				factor = 4
 				e_nilfgaard = { holder_scope = { reverse_opinion = { who = ROOT value = 50 } } }
 			}
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
+			modifier = { factor = 1.2 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
+			modifier = { factor = 1.4 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.7 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 2 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Call allies
@@ -341,10 +402,11 @@ narrative_event = {
 			modifier = { factor = 2 trait = brave }
 			modifier = { factor = 3 trait = arbitrary }
 			modifier = { factor = 3 trait = lunatic }
+			modifier = { factor = 3 trait = imbecile }
 		}
 	}
 }
-# Emperor - Target surrenderes
+# Emperor - Target surrenders
 letter_event = {
 	id = nilfgaard.101
 	desc = EVTDESCnilfgaard.101
@@ -389,14 +451,14 @@ letter_event = {
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
-			modifier ={ factor = 2.5 war =  yes }
+			modifier ={ factor = 2 war =  yes }
 			modifier ={ factor = 2 NOT = { wealth =  0 } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
-			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
-			modifier = { factor = 2.0 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
+			modifier = { factor = 1.2 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
+			modifier = { factor = 1.4 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.7 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 2 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Financial support
@@ -405,7 +467,7 @@ letter_event = {
 		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
 		ai_chance = {
 			factor = 3
-			modifier = { factor = 0.1 NOT = { wealth = 100 } }
+			modifier = { factor = 0.05 NOT = { wealth = 100 } }
 			modifier = { factor = 2 wealth = 500 }
 			modifier = { factor = 2 scaled_wealth = 10.0 }
 			modifier = { # Don't neighbor Nilfgaard
@@ -454,16 +516,17 @@ province_event = {
 	
 	option = {
 		name = "OK"
-		holder_scope = {
-			top_liege = {
-				character_event = { id = nilfgaard.111 }
+		e_nilfgaard = {
+			holder_scope = {
+				narrative_event = { id = nilfgaard.111 }
 			}
 		}
 	}
 }
 # Emperor - Victory, what should do with title
-character_event = {
+narrative_event = {
 	id = nilfgaard.111
+	title = EVTNAMEnilfgaard.111
 	desc = EVTDESCnilfgaard.111
 	picture = GFX_evt_victory_arch_byzantine
 	
@@ -471,9 +534,26 @@ character_event = {
 	
 	option = { # Keep the title
 		name = EVTOPTAnilfgaard.111
+		FROM = {
+			kingdom = {
+				usurp_title = ROOT
+			}
+		}
 	}
-	option = { # Keep the title
+	option = { # Grant the title
 		name = EVTOPTBnilfgaard.111
+		if = {
+			limit = { ai = yes }
+			character_event = { id = nilfgaard.112 }
+		}
+		if = {
+			limit = { ai = no }
+			FROM = {
+				kingdom = {
+					usurp_title = ROOT
+				}
+			}
+		}
 	}
 	option = { # Destroy title
 		name = EVTOPTCnilfgaard.111
@@ -486,4 +566,200 @@ character_event = {
 		ai_chance = { factor = 0 }
 	}
 }
-
+# Emperor - AI - Granting the title
+character_event = {
+	id = nilfgaard.112
+	desc = "Granting the title"
+	picture = GFX_evt_victory_arch_byzantine
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = "Local duke with claim"
+		trigger = {
+			FROMFROM = {
+				kingdom = {
+					ROOT = {
+						any_vassal = {
+							tier = duke
+							has_claim = PREVPREV
+							dejure_liege_title = {
+								title = PREVPREVPREV
+							}
+						}
+					}
+				}
+			}
+		}
+		FROMFROM = {
+			kingdom = {
+				ROOT = {
+					random_vassal = {
+						limit = {
+							tier = duke
+							has_claim = PREVPREV
+							dejure_liege_title = {
+								title = PREVPREVPREV
+							}
+						}
+						FROMFROM = {
+							kingdom = { 
+								usurp_title = PREVPREV
+							}
+						}
+						character_event = { id = nilfgaard.113 }
+						opinion = { modifier = opinion_granted_kingdom who = ROOT }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "Local duke"
+		trigger = {
+			FROMFROM = {
+				kingdom = {
+					ROOT = {
+						any_vassal = {
+							dejure_liege_title = {
+								title = PREVPREVPREV
+							}
+						}
+					}
+				}
+			}
+		}
+		FROMFROM = {
+			kingdom = {
+				ROOT = {
+					random_vassal = {
+						limit = {
+							tier = duke
+							dejure_liege_title = {
+								title = PREVPREVPREV
+							}
+						}
+						FROMFROM = {
+							kingdom = { 
+								usurp_title = PREVPREV
+							}
+						}
+						character_event = { id = nilfgaard.113 }
+						opinion = { modifier = opinion_granted_kingdom who = ROOT }
+					}
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "Dynasty member"
+		trigger = {
+			any_dynasty_member = {
+				is_landed = no
+				is_female = no
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				is_landed = no
+				is_female = no
+			}
+			FROMFROM = {
+				kingdom = {
+					usurp_title = PREVPREV
+				}
+			}
+			character_event = { id = nilfgaard.113 }
+			opinion = { modifier = opinion_granted_kingdom who = ROOT }
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "Friend"
+		trigger = {
+			any_friend = {
+				is_landed = no
+				is_female = no
+			}
+		}
+		random_friend ={
+			limit = {
+				is_landed = no
+				is_female = no
+			}
+			FROMFROM = {
+				kingdom = {
+					usurp_title = PREVPREV
+				}
+			}
+			character_event = { id = nilfgaard.113 }
+			opinion = { modifier = opinion_granted_kingdom who = ROOT }
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = {
+		name = "Random noble"
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			female = no
+			religion = ROOT
+			culture = ROOT
+		}
+		new_character = {
+			FROMFROM = {
+				kingdom = {
+					usurp_title = PREVPREV
+				}
+			}
+			character_event = { id = nilfgaard.113 }
+			opinion = { modifier = opinion_granted_kingdom who = ROOT }
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+# New Ruler - Getting county and vassals of the title
+character_event = {
+	id = nilfgaard.113
+	desc = EVTDESCnilfgaard.113
+	picture = GFX_evt_victory_arch_byzantine
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.113
+		liege = {
+			any_vassal = {
+				limit = { de_jure_liege = ROOT }
+				set_defacto_liege = ROOT
+				if = {
+					limit = { ai = no }
+					character_event = { id = nilfgaard.114 }
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { num_of_count_titles = 1 } }
+			random_vassal = {
+				random_demesne_title = {
+					limit = { tier = count }
+					usurp_title = ROOT
+				}
+			}
+		}
+	}
+}
+# Vassals -Notification - Getting county and vassals of the title
+character_event = {
+	id = nilfgaard.114
+	desc = EVTDESCnilfgaard.114
+	picture = GFX_evt_victory_arch_byzantine
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.114
+}
