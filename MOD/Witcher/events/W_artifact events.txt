@@ -1,0 +1,339 @@
+namespace = artifact
+
+################################################
+# Passing artifacts (on_death)
+################################################
+# Hidden - Selecting heir and passing artifacts to him
+character_event = {
+	id = artifact.1
+	desc = "Pass artifacts to heir"
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		OR = {
+			trait = gwyhyr_sword
+			trait = nehalenias_mirror
+		}
+	}
+	
+	immediate = { # Select the best heir and give him a temp cached trait
+		if = { # Dynastic heir
+			limit = {
+				is_patrician = no
+				current_heir = { dynasty = ROOT NOT = { character = ROOT } }
+				NOT = { trait = artifact_temp }
+			}
+			current_heir = {
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Child
+			limit = {
+				is_patrician = no
+				any_child = { dynasty = ROOT is_alive = yes }
+				NOT = { trait = artifact_temp }
+			}
+			random_child = {
+				limit = { dynasty = ROOT is_alive = yes }
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Sibling
+			limit = {
+				is_patrician = no
+				any_sibling = { is_alive = yes }
+				NOT = { trait = artifact_temp }
+			}
+			random_sibling = {
+				limit = { is_alive = yes }
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Close dynasty member
+			limit = {
+				is_patrician = no
+				any_dynasty_member = { is_close_relative = ROOT is_alive = yes }
+				NOT = { trait = artifact_temp }
+			}
+			random_dynasty_member = {
+				limit = { is_close_relative = ROOT is_alive = yes }
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Dynasty member
+			limit = {
+				is_patrician = no
+				any_dynasty_member = { NOT = { is_close_relative = ROOT } is_alive = yes }
+				NOT = { trait = artifact_temp }
+			}
+			random_dynasty_member = {
+				limit = { NOT = { is_close_relative = ROOT } is_alive = yes }
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Bastard child
+			limit = {
+				is_patrician = no
+				any_child = { NOT = { dynasty = ROOT } is_alive = yes }
+				NOT = { trait = artifact_temp }
+			}
+			random_child = {
+				limit = { NOT = { dynasty = ROOT } is_alive = yes }
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Spouse
+			limit = {
+				is_patrician = no
+				spouse = { is_alive = yes }
+				NOT = { trait = artifact_temp }
+			}
+			spouse = {
+				limit = { is_alive = yes }
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Non-dynastic heir
+			limit = {
+				is_patrician = no
+				current_heir = { NOT = { dynasty = ROOT } }
+				NOT = { trait = artifact_temp }
+			}
+			current_heir = {
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Liege
+			limit = {
+				is_patrician = no
+				liege = { NOT = { character = ROOT } }
+				NOT = { trait = artifact_temp }
+			}
+			liege = {
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Vassal
+			limit = {
+				is_patrician = no
+				liege = { character = ROOT }
+				NOT = { trait = artifact_temp }
+			}
+			random_vassal = {
+				add_trait = artifact_heir_temp
+			}
+			add_trait = artifact_temp
+		}
+		if = { # Family manor heir
+			limit = {
+				is_patrician = yes
+				NOT = { trait = artifact_temp }
+			}
+			family_palace = {
+				current_heir = {
+					add_trait = artifact_heir_temp
+				}
+			}
+			add_trait = artifact_temp
+		}
+	}
+	
+	option = { # Give
+		name = "OK"
+		artifact_heir_temp = {
+			character_event = { id = artifact.2 }
+		}
+		remove_trait = artifact_temp
+	}
+}
+# Heir - Getting artifacts
+character_event = {
+	id = artifact.2
+	desc = EVTDESCartifact.2
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAartifact.2
+		if = {
+			limit = { FROM = { trait = gwyhyr_sword } }
+			FROM = { remove_trait = gwyhyr_sword }
+			add_trait = gwyhyr_sword
+		}
+		if = {
+			limit = { FROM = { trait = nehalenias_mirror } }
+			FROM = { remove_trait = nehalenias_mirror }
+			add_trait = nehalenias_mirror
+		}
+		hidden_tooltip = { remove_trait = artifact_heir_temp }
+	}
+}
+# Maintenance - Remove targeting traits
+character_event = { 
+	id = artifact.50
+	desc = "Maintenance"
+	picture = GFX_evt_death
+	
+	hide_window = yes
+	
+	trigger = {
+		artifact_heir_temp = { always = yes }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "OK"
+		artifact_heir_temp = { remove_trait = artifact_heir_temp }
+	}
+}
+################################################
+# Confiscating artifacts from prisoner
+################################################
+# Confiscating artifacts from prisoner
+character_event = {
+	id = artifact.100
+	name = EVTDESCartifact.100
+	picture = GFX_evt_death
+	
+	is_triggered_only =  yes
+	
+	option = {
+		name = EVTOPTAartifact.100
+		FROM = { opinion = { modifier = opinion_dishonorable who = ROOT } }
+		# Gwyhyr sword
+		if = {
+			limit = {
+				FROM = { trait = gwyhyr_sword }
+				NOT = { trait = gwyhyr_sword }
+			}
+			FROM = { remove_trait = gwyhyr_sword }
+			ROOT = { add_trait = gwyhyr_sword }
+		}
+		if = {
+			limit = {
+				FROM = { trait = gwyhyr_sword }
+				trait = gwyhyr_sword
+			}
+			FROM = { remove_trait = gwyhyr_sword }
+			character_event = { id = artifact.101 tooltip = EVTTOOLTIPartifact.101 }
+		}
+		# Nehalenia's Mirror
+		if = {
+			limit = {
+				FROM = { trait = nehalenias_mirror }
+				NOT = { trait = nehalenias_mirror }
+			}
+			FROM = { remove_trait = nehalenias_mirror }
+			ROOT = { add_trait = nehalenias_mirror }
+		}
+		if = {
+			limit = {
+				FROM = { trait = nehalenias_mirror }
+				trait = nehalenias_mirror
+			}
+			FROM = { remove_trait = nehalenias_mirror }
+			character_event = { id = artifact.102 tooltip = EVTTOOLTIPartifact.102 }
+		}
+	}
+	option = {
+		name = EVTOPTBartifact.100
+	}
+}
+# Already have Gwyhyr sword
+character_event = {
+	id = artifact.101
+	name = EVTDESCartifact.101
+	picture = GFX_evt_death
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell it
+		name = EVTOPTAartifact.101
+		wealth = 100
+	}
+	option = { # Give it to relative
+		name = EVTOPTBartifact.101
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = gwyhyr_sword }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = gwyhyr_sword }
+				is_close_relative = ROOT
+			}
+			add_trait = gwyhyr_sword
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
+		}
+	}
+	option = { # Give it to marshal
+		name = EVTOPTBartifact.101
+		trigger = {
+			job_marshal = { NOT = { trait = gwyhyr_sword } }
+		}
+		job_marshal = {
+			limit = { NOT = { trait = gwyhyr_sword } }
+			add_trait = gwyhyr_sword
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
+		}
+	}
+}
+# Already have Nehalenia's Mirror
+character_event = {
+	id = artifact.102
+	name = EVTDESCartifact.102
+	picture = GFX_evt_death
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell it
+		name = EVTOPTAartifact.102
+		wealth = 100
+	}
+	option = { # Give it to relative
+		name = EVTOPTBartifact.102
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = nehalenias_mirror }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = nehalenias_mirror }
+				is_close_relative = ROOT
+			}
+			add_trait = nehalenias_mirror
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
+		}
+	}
+	option = { # Give it to spouse
+		name = EVTOPTBartifact.102
+		trigger = {
+			spouse = { NOT = { trait = nehalenias_mirror } }
+		}
+		spouse = {
+			limit = { NOT = { trait = nehalenias_mirror } }
+			add_trait = nehalenias_mirror
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
+		}
+	}
+}
