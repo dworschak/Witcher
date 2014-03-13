@@ -783,30 +783,43 @@ nilfgaard_invasion = {
 	}
 	
 	on_success_title = {
-		custom_tooltip = {
-			text = nilfgaard_invasion_succ_tip_1
-			hidden_tooltip = {
-				ROOT = {
-					# occupy_minors_of_occupied_settlements = FROM
-					gain_all_occupied_titles = FROM
-					vassalize_or_take_under_title = {
-						title = PREV
-						enemy = FROM
-					}
-				}
-			}
-		}
+		# Usurp the target kingdom, if the enemy holds it
 		if = {
 			limit = { holder_scope = { character = FROM } }
 			custom_tooltip = {
-				text = nilfgaard_invasion_succ_tip_2
+				text = nilfgaard_invasion_succ_tip_1
 				hidden_tooltip = {
-					usurp_title_only = ROOT
-					ROOT = {
-						random_realm_province = {
-							limit = { de_jure_liege_or_above = PREVPREV }
-							province_event = { id = nilfgaard.110 }
-						}
+					ROOT = { usurp_title = PREV }
+				}
+			}
+		}
+		custom_tooltip = {
+			text = nilfgaard_invasion_succ_tip_2
+			hidden_tooltip = {
+				# Usurp the enemy's titles within target kingdom
+				FROM = {
+					any_demesne_title = {
+						limit = { de_jure_liege_or_above = PREVPREV }
+						ROOT = { usurp_title = PREV }
+					}
+				}
+				# Vassalize all the target kingdom's direct de jure vassals
+				any_de_jure_vassal_title = {
+					limit = { holder_scope = { liege = { character = FROM } } }
+					holder_scope = { set_defacto_liege = ROOT }
+				}
+				# Take all occupied titles
+				gain_all_occupied_titles = FROM
+			}
+		}
+		# Fire event, if you usurped the target kingdom from enemy
+		if = {
+			limit = { holder_scope = { character = ROOT } }
+			hidden_tooltip = {
+				ROOT = {
+					random_realm_province = {
+						limit = { de_jure_liege_or_above = PREVPREV }
+						province_event = { id = nilfgaard.110 }
 					}
 				}
 			}
