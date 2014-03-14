@@ -1,0 +1,216 @@
+namespace = culture_conversion
+
+################################################
+# Racist conversions
+################################################
+# Racist ruler converts non-human province - Tolerance crownlaw is 2
+province_event = {
+	id = culture_conversion.1
+	desc = EVTDESCculture_conversion.1
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = racist
+			NOT = { trait = tolerant }
+			NOT = { culture = ROOT }
+			liege = { NOT = { culture = ROOT } }
+			crownlaw_title = { NOT = { has_law = tolerance_0 } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.5 owner = { religion = eternal_fire } }
+		modifier = {
+			factor = 0.5
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = { # Slaughter non-humans
+		name = EVTOPTAculture_conversion.1
+		owner = { reverse_culture = ROOT }
+		owner = { reverse_religion = ROOT }
+		add_province_modifier = { name = non_human_slaughter duration = 3650 }
+	}
+	option = { # Take it slow
+		name = EVTOPTBculture_conversion.1
+		add_province_modifier = { name = non_human_oppresion duration = -1 }
+	}
+}
+# Racist ruler converts non-human province - Tolerance crownlaw is 1
+province_event = {
+	id = culture_conversion.2
+	desc = EVTDESCculture_conversion.2
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = racist
+			NOT = { trait = tolerant }
+			NOT = { culture = ROOT }
+			liege = { NOT = { culture = ROOT } }
+			crownlaw_title = { has_law = tolerance_0 }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.5 owner = { religion = eternal_fire } }
+		modifier = {
+			factor = 0.5
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAculture_conversion.2
+		add_province_modifier = { name = non_human_oppresion duration = -1 }
+	}
+}
+# Racist ruler finished slow converts non-human province
+province_event = {
+	id = culture_conversion.3
+	desc = EVTDESCculture_conversion.3
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = racist
+			NOT = { trait = tolerant }
+			NOT = { culture = ROOT }
+		}
+		has_province_modifier = non_human_oppresion
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.7 owner = { religion = eternal_fire } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAculture_conversion.3
+		remove_province_modifier = non_human_oppresion
+		owner = { reverse_culture = ROOT }
+		owner = { reverse_religion = ROOT }
+	}
+}
+
+################################################
+# Eternal Fire zealot conversions
+################################################
+# Non-human slaughter
+province_event = {
+	id = culture_conversion.10
+	desc = EVTDESCculture_conversion.10
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = zealous
+			religion = eternal_fire
+			NOT = { culture = ROOT }
+			liege = { NOT = { culture = ROOT } }
+			crownlaw_title = { NOT = { has_law = tolerance_0 } }
+		}
+		NOT = { has_province_modifier = non_human_oppresion }
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.5 owner = { trait = racist } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAculture_conversion.10
+		owner = { reverse_culture = ROOT }
+		owner = { reverse_religion = ROOT }
+		add_province_modifier = { name = non_human_slaughter duration = 3650 }
+		owner = { piety = 50 }
+	}
+}
+
+################################################
+# Non-human conversions
+################################################

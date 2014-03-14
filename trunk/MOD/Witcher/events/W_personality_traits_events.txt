@@ -3,6 +3,7 @@ namespace = personality
 ################################################
 # Childhood racist event
 ################################################
+# Child event (on_yearly_childhood_pulse)
 character_event = {
 	id = personality.1
 	desc = EVTDESCpersonality.1
@@ -12,7 +13,7 @@ character_event = {
 	
 	min_age = 6
 	max_age = 15
-
+	
 	trigger = {
 		NOT = { culture = wilderness }
 		NOT = { personality_traits = 5 }
@@ -22,89 +23,21 @@ character_event = {
 		has_guardian = yes
 	}
 	
-	mean_time_to_happen = { # TO DO
+	weight_multiplier = {
 		days = 1
-		modifier = {
-			factor = 2
-			trait = envious
-		}
-		modifier = {
-			factor = 0.5
-			trait = kind
-		}
-		modifier = {
-			trait = clubfooted
-			factor = 1.5
-		}
-		modifier = {
-			trait = harelip
-			factor = 1.5
-		}
-		modifier = {
-			trait = hunchback
-			factor = 2.0
-		}
-		modifier = {
-			trait = lisp
-			factor = 1.5
-		}
-		modifier = {
-			trait = stutter
-			factor = 1.5
-		}
-		modifier = {
-			trait = fair
-			factor = 1.5
-		}
-		modifier = {
-			trait = ugly
-			factor = 1.5
-		}
-		modifier = {
-			trait = dwarf
-			factor = 1.05
-		}		
-		modifier = {
-			trait = genius
-			factor = 0.75
-		}
-		modifier = {
-			trait = quick
-			factor = 1.2
-		}	
-		modifier = {
-			trait = slow
-			factor = 0.5
-		}
-		modifier = {
-			trait = imbecile
-			factor = 0.05
-		}
-		modifier = {
-			trait = inbred
-			factor = 0.25
-		}
-		modifier = {
-			trait = strong
-			factor = 1.05
-		}
-		modifier = {
-			trait = weak
-			factor = 1.25
-		}
+		modifier = { factor = 1.2 trait = cruel }
+		modifier = { factor = 1.1 trait = wroth }
+		modifier = { factor = 1.05 trait = shy }
+		modifier = { factor = 1.05 trait = deceitful }
+		modifier = { factor = 1.05 trait = paranoid }
+		modifier = { factor = 1.05 trait = arbitrary }
+		modifier = { factor = 1.2 religion = eternal_fire }
 	}
 	
 	option = {
-		name = "EVTOPTApersonality.1"
+		name = EVTOPTApersonality.1
 		add_trait = racist
-		hidden_tooltip = {
-			guardian = {
-				character_event = {
-					id = personality.2
-					days = 3
-				}
-			}
-		}
+		hidden_tooltip = { guardian = { character_event = { id = personality.2 days = 3 } } }
 	}
 }
 # Guardian's event
@@ -131,20 +64,12 @@ character_event = {
 			modifier = { factor = 2 crownlaw_title = { has_law = tolerance_2 } }
 		}
 		if = {
-			limit = {
-				trait = racist
-			}
+			limit = { trait = racist }
 			prestige = 5
 		}
 		FROM = {
-			tooltip = {
-				add_trait = racist
-			}
-			opinion = {
-				who = ROOT
-				modifier = opinion_happy_with_guardian
-				years = 2
-			}
+			add_trait = racist
+			opinion = { who = ROOT modifier = opinion_happy_with_guardian years = 2 }
 		}
 	}
 	option = { # Discourage
@@ -155,16 +80,11 @@ character_event = {
 			modifier = { factor = 2 trait = kind }
 			modifier = { factor = 2 trait = gregarious }
 		}
-		
 		random = {
 			chance = 50 
 			FROM = { 
 				remove_trait = racist
-				hidden_tooltip = { 
-					character_event = {	
-						id = personality.3
-					}
-				}
+				hidden_tooltip = { character_event = { 	id = personality.3 } }
 			}
 		}
 	}
@@ -184,7 +104,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "EVTOPTApersonality.3"
+		name = EVTOPTApersonality.3
 		remove_trait = racist
 	}
 }
@@ -192,6 +112,7 @@ character_event = {
 ################################################
 # Childhood tolerant event
 ################################################
+# Child event (on_yearly_childhood_pulse)
 character_event = {
 	id = personality.4
 	desc = EVTDESCpersonality.4
@@ -201,7 +122,7 @@ character_event = {
 	
 	min_age = 6
 	max_age = 15
-
+	
 	trigger = {
 		 NOT = { culture = wilderness }
 		NOT = { personality_traits = 5 }
@@ -211,87 +132,22 @@ character_event = {
 		has_guardian = yes
 	}
 	
-	mean_time_to_happen = { # TO DO
+	weight_multiplier = {
 		days = 1
-		modifier = {
-			factor = 2
-			trait = diligent
-		}
-		modifier = {
-			trait = clubfooted
-			factor = 0.8
-		}
-		modifier = {
-			trait = harelip
-			factor = 0.9
-		}
-		modifier = {
-			trait = hunchback
-			factor = 0.7
-		}
-		modifier = {
-			trait = lisp
-			factor = 0.95
-		}
-		modifier = {
-			trait = stutter
-			factor = 0.95
-		}
-		modifier = {
-			trait = fair
-			factor = 0.8
-		}
-		modifier = {
-			trait = ugly
-			factor = 1.25
-		}
-		modifier = {
-			trait = dwarf
-			factor = 0.9
-		}		
-		modifier = {
-			trait = genius
-			factor = 1.05
-		}
-		modifier = {
-			trait = quick
-			factor = 1.05
-		}	
-		modifier = {
-			trait = slow
-			factor = 0.95
-		}
-		
-		modifier = {
-			trait = imbecile
-			factor = 0.5
-		}
-		modifier = {
-			trait = inbred
-			factor = 0.05
-		}
-		modifier = {
-			trait = strong
-			factor = 5.0
-		}
-		modifier = {
-			trait = weak
-			factor = 0.05
-		}
-	
+		modifier = { factor = 1.2 trait = kind }
+		modifier = { factor = 1.2 trait = gregarious }
+		modifier = { factor = 1.05 trait = envious }
+		modifier = { factor = 1.1 trait = just }
+		modifier = { factor = 1.05 trait = trusting }
+		modifier = { factor = 1.05 trait = arbitrary }
+		modifier = { factor = 1.05 trait = charitable }
+		modifier = { factor = 1.05 trait = humble }
 	}
 	
 	option = {
-		name = "EVTOPTApersonality.4"
+		name = EVTOPTApersonality.4
 		add_trait = tolerant
-		hidden_tooltip = {
-			guardian = {
-				character_event = {
-					id = personality.5
-					days = 3
-				}
-			}
-		}
+		hidden_tooltip = { guardian = { character_event = { id = personality.5 days = 3 } } }
 	}
 }
 # Guardian's event
@@ -318,20 +174,12 @@ character_event = {
 			modifier = { factor = 2 crownlaw_title = { has_law = tolerance_0 } }
 		}
 		if = {
-			limit = {
-				trait = tolerant
-			}
+			limit = { trait = tolerant }
 			prestige = 5
 		}
 		FROM = {
-			tooltip = {
-				add_trait = tolerant
-			}
-			opinion = {
-				who = ROOT
-				modifier = opinion_happy_with_guardian
-				years = 2
-			}
+			add_trait = tolerant
+			opinion = { who = ROOT modifier = opinion_happy_with_guardian years = 2 }
 		}
 	}
 	
@@ -343,17 +191,11 @@ character_event = {
 			modifier = { factor = 2 trait = greedy }
 			modifier = { factor = 2 trait = envious }
 		}
-		
-		
 		random = {
 			chance = 50 
 			FROM = { 
 				remove_trait = tolerant
-				hidden_tooltip = { 
-					character_event = {
-						id = personality.6
-					}
-				}
+				hidden_tooltip = {  character_event = { id = personality.6 } }
 			}
 		}
 	}
@@ -373,14 +215,15 @@ character_event = {
 	}
 	
 	option = {
-		name = "EVTOPTApersonality.6"
+		name = EVTOPTApersonality.6
 		remove_trait = tolerant
 	}
 }
 
 ################################################
-# Adult racist/tolerant event
+# Racist/tolerant events
 ################################################
+# Gaining racist or tolerant trait
 character_event = {
 	id = personality.10
 	desc = EVTDESCpersonality.10
@@ -400,11 +243,7 @@ character_event = {
 	
 	mean_time_to_happen = {
 		days = 1
-		
-		modifier = {
-			factor = 2
-			trait = shy
-		}
+		modifier = { factor = 2 trait = shy }
 	}
 	
 	option = {
@@ -503,3 +342,133 @@ character_event = {
 		}
 	}
 }
+# Both traits
+character_event = {
+	id = personality.11
+	desc = EVTDESCpersonality.11
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = racist
+		trait = tolerant
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = {
+		name = EVTOPTApersonality.11
+		remove_trait = racist
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = kind }
+			modifier = { factor = 2 trait = gregarious }
+			modifier = { factor = 2 trait = just }
+		}
+	}
+	option = {
+		name = EVTOPTBpersonality.11
+		remove_trait = tolerant
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = cruel }
+			modifier = { factor = 2 trait = wroth }
+			modifier = { factor = 2 religion = eternal_fire }
+		}
+	}
+}
+# Non-human with racist or tolerant trait
+character_event = {
+	id = personality.12
+	desc = EVTDESCpersonality.12
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		OR = {
+			trait = racist
+			trait = tolerant
+		}
+		OR = {
+			trait = elven
+			trait = dwarven
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = {
+		name = EVTOPTApersonality.12
+		if = {
+			limit = { trait = racist }
+			remove_trait = racist
+		}
+		if = {
+			limit = { trait = tolerant }
+			remove_trait = tolerant
+		}
+	}
+}
+#Eternal fire follower loses tolerant
+character_event = {
+	id = personality.13
+	desc = EVTDESCpersonality.13
+	picture = GFX_evt_bishop
+	
+	min_age = 15
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = tolerant
+		religion = eternal_fire
+		job_spiritual = { religion = ROOT }
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+		modifier = { factor = 10 trait = cynical }
+		modifier = { factor = 2 trait = kind }
+		modifier = { factor = 2 trait = gregarious }
+	}
+	
+	option = {
+		name = EVTOPTApersonality.13
+		remove_trait = tolerant
+	}
+}
+#Eternal fire zealot  gains racist
+character_event = {
+	id = personality.14
+	desc = EVTDESCpersonality.14
+	picture = GFX_evt_bishop
+	
+	min_age = 15
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		NOT = { trait = tolerant }
+		trait = zealous
+		religion = eternal_fire
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+		modifier = { factor = 10 trait = cynical }
+		modifier = { factor = 2 trait = kind }
+		modifier = { factor = 2 trait = gregarious }
+	}
+	
+	option = {
+		name = EVTOPTApersonality.14
+		add_trait = racist
+	}
+}
+
