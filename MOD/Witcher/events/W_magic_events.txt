@@ -19,7 +19,20 @@ character_event = {
 	option = {
 		name = "OK"
 		if = { 
-		limit = { trait = elven }
+			limit = { 
+				OR = {
+					father = {
+						trait = sorcerer
+					}
+					mother = {
+						trait = sorcerer
+					}
+				}
+			}
+			random = { chance = 30 set_character_flag = dormant_magic_talent }
+		}
+		if = { 
+			limit = { trait = elven }
 			random = { chance = 7 set_character_flag = dormant_magic_talent }
 		}
 		if = { 
@@ -32,7 +45,7 @@ character_event = {
 		}
 		if = { 
 			limit = { trait = halfdwarf }
-			random = { chance = 2 set_character_flag = dormant_magic_talent }
+			random = { chance = 3 set_character_flag = dormant_magic_talent }
 		}
 		if = { 
 			limit = { trait = dwarven }

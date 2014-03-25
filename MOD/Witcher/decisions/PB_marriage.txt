@@ -1,0 +1,256 @@
+decisions = {
+	#Marriage decisions
+	toggle_marriage_decisions = {
+		potential = {
+			ai = no
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { has_character_flag = enable_marriage_decisions }
+				}
+				hidden_tooltip = {
+					set_character_flag = enable_marriage_decisions
+					set_character_flag = enable_marriage_decisions_temp
+				}
+			}
+			if = {
+				limit = {
+					has_character_flag = enable_marriage_decisions
+					NOT = { has_character_flag = enable_marriage_decisions_temp }
+				}
+				hidden_tooltip = {
+					clr_character_flag = enable_marriage_decisions
+				}
+			}
+			clr_character_flag = enable_marriage_decisions_temp
+		}
+	}
+	marry_courtiers = {
+		potential = {
+			has_character_flag = enable_marriage_decisions
+		}
+		allow = {
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 16
+				is_female = no
+			}
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 16
+				NOT = { age = 45 }
+				is_female = yes
+			}
+		}
+		effect = {
+			any_courtier = {
+				limit = {
+					NOT = { dynasty = ROOT }
+					is_married = no
+					age = 16
+					NOT = { age = 45 }
+					is_female = yes
+				}
+				ROOT = {
+					random_courtier = {
+						limit = {
+							NOT = { dynasty = ROOT }
+							can_marry = PREVPREV
+							is_married = no
+							age = 16
+							is_female = no
+						}
+						add_spouse = PREVPREV
+					}
+				}
+			}
+		}
+	}
+}
+
+# Vassal decisions are listed for each courtier and direct vassal. The ruler is in the FROM scope.
+vassal_decisions = {
+	marry_courtier = {
+		potential = {
+			liege = { has_character_flag = enable_marriage_decisions }
+			is_ruler = no
+			is_married = no
+			age = 16
+			OR = {
+				is_female = no
+				NOT = { age = 45 }
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					is_female = no
+					NOT = { age = 20 }
+				}
+				create_character = {
+					female = yes
+					age = 16
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 20
+					NOT = { age = 25 }
+				}
+				create_character = {
+					female = yes
+					age = 20
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 25
+					NOT = { age = 30 }
+				}
+				create_character = {
+					female = yes
+					age = 25
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 30
+					NOT = { age = 35 }
+				}
+				create_character = {
+					female = yes
+					age = 30
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 35
+				}
+				create_character = {
+					female = yes
+					age = 35
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					NOT = { age = 20 }
+				}
+				create_character = {
+					female = no
+					age = 20
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 20
+					NOT = { age = 25 }
+				}
+				create_character = {
+					female = no
+					age = 25
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 25
+					NOT = { age = 30 }
+				}
+				create_character = {
+					female = no
+					age = 30
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 30
+					NOT = { age = 35 }
+				}
+				create_character = {
+					female = no
+					age = 35
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					age = 35
+					is_female = yes
+				}
+				create_character = {
+					female = no
+					age = 40
+					dynasty = random
+					random_traits = yes
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+		}
+	}
+}
