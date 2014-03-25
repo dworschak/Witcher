@@ -4,7 +4,7 @@
 
 eunuch = {
 	sex_appeal_opinion = -20
-	fertility = -100.0
+	fertility = -50.0
 
 	customizer = no
 	
@@ -124,7 +124,7 @@ has_aztec_disease = {
 	intrigue = -1
 	learning = -1
 	
-	health = -4
+	health = -3
 	fertility = -0.2
 	
 	customizer = no
@@ -161,8 +161,9 @@ berserker = {
 	martial = 4
 	diplomacy = -2
 	
-	potential = { always = no }
-	
+	potential = {
+		religion = freya
+	}
 	same_opinion = 20
 	
 	ai_rationality = -5
@@ -203,9 +204,6 @@ saoshyant = {
 }
 
 saoshyant_descendant = {
-	agnatic = yes # Always inherited from fathers
-	
-	potential = { always = no }
 	
 	zoroastrian_opinion = 10
 	
@@ -290,6 +288,7 @@ sickly = {
 	
 	customizer = no
 	random = no
+	customizer = no
 }
 
 mutazilite = {
@@ -312,7 +311,6 @@ mutazilite = {
 
 ashari = {
 	monthly_character_piety = 1
-	prevent_decadence = yes
 	
 	religious = yes # Lost immediately on religion change
 	
@@ -343,6 +341,7 @@ sympathy_christendom = {
 }
 
 sympathy_islam = {
+	
 	opposites =  {
 		zealous
 	}
@@ -356,6 +355,7 @@ sympathy_islam = {
 }
 
 sympathy_pagans = {
+	
 	opposites =  {
 		zealous
 	}
@@ -479,5 +479,242 @@ narrow_flank_leader = {
 	
 	command_modifier = {
 		narrow_flank = 0.5
+	}
+}
+
+brahmin = {
+	opposites = {
+		kshatriya
+		vaishya
+	}
+	
+	caste_tier = 3
+
+	monthly_character_piety = 0.1
+
+	customizer = no
+	random = no
+}
+
+kshatriya = {
+	opposites = {
+		brahmin
+		vaishya
+	}
+
+	caste_tier = 2
+
+	monthly_character_prestige = 0.1
+
+	random = no
+}
+
+vaishya = {
+	opposites = {
+		brahmin
+		kshatriya
+	}
+
+	caste_tier = 1
+
+	monthly_character_wealth = 0.03
+	
+	customizer = no
+	random = no
+}
+
+sympathy_indian = {
+	opposites =  {
+		zealous
+	}
+	
+	potential = {
+		NOT = { religion_group = indian_group }
+	}
+
+	tolerates_indian_group = yes		# Tolerates and is tolerated by Indian religions
+
+	customizer = no
+	random = no
+}
+
+shaivist_hindu = {
+	opposites = {
+		vaishnavist_hindu
+		shaktist_hindu
+		smartist_hindu
+	}
+
+	opposite_opinion = -5
+	
+	monthly_character_prestige = 0.5
+	
+	potential = { religion = hindu }
+	religious_branch = hindu
+	random = no
+	religious = yes
+}
+
+vaishnavist_hindu = {
+	opposites = {
+		shaivist_hindu
+		shaktist_hindu
+		smartist_hindu
+	}
+
+	opposite_opinion = -5
+	
+	vassal_opinion = 5
+
+	potential = { religion = hindu }
+	religious_branch = hindu
+	random = no
+	religious = yes
+}
+
+shaktist_hindu = {
+	opposites = {
+		vaishnavist_hindu
+		shaivist_hindu
+		smartist_hindu
+	}
+
+	opposite_opinion = -5
+	
+	fertility = 0.2
+
+	potential = { religion = hindu }
+	religious_branch = hindu
+	random = no
+	religious = yes
+}
+
+smartist_hindu = {
+	opposites = {
+		vaishnavist_hindu
+		shaktist_hindu
+		shaivist_hindu
+	}
+
+	opposite_opinion = -5
+	
+	monthly_character_piety = 0.5
+
+	potential = { religion = hindu }
+	religious_branch = hindu
+	random = no
+	religious = yes
+}
+
+mahayana_buddhist = {
+	opposites = {
+		vajrayana_buddhist
+		theravada_buddhist
+	}
+
+	opposite_opinion = -5
+	
+	vassal_opinion = 5
+
+	potential = { religion = buddhist }
+	religious_branch = buddhist
+	random = no
+	religious = yes
+}
+
+vajrayana_buddhist = {
+	opposites = {
+		mahayana_buddhist
+		theravada_buddhist
+	}
+
+	opposite_opinion = -5
+	
+	health = 1
+
+	potential = { religion = buddhist }
+	religious_branch = buddhist
+	random = no
+	religious = yes
+}
+
+theravada_buddhist = {
+	opposites = {
+		vajrayana_buddhist
+		mahayana_buddhist
+	}
+
+	opposite_opinion = -5
+	
+	learning = 1
+
+	potential = { religion = buddhist }
+	religious_branch = buddhist
+	random = no
+	religious = yes
+}
+
+digambara_jain = {
+	opposites = {
+		svetambara_jain
+	}
+
+	opposite_opinion = -5
+
+	health = 1
+	
+	potential = { religion = jain }
+	religious_branch = jain
+	random = no
+	religious = yes
+}
+
+svetambara_jain = {
+	opposites = {
+		digambara_jain
+	}
+
+	opposite_opinion = -5
+	
+	vassal_opinion = 5
+
+	potential = { religion = jain }
+	religious_branch = jain
+	random = no
+	religious = yes
+}
+
+# Controls Muslim decadence gain
+decadent = {
+	opposites = {
+		zealous
+	}
+	
+	customizer = no
+	random = no
+}
+
+# Character is seen as a reincarnation of another character.
+reincarnation = {
+	customizer = no
+	random = no
+}
+
+war_elephant_leader = {
+	leader = yes
+	random = no
+	
+	command_modifier = {
+		war_elephants = 0.2
+		morale_offence = 0.2
+	}
+}
+
+jungle_terrain_leader = {
+	leader = yes
+	random = no
+	
+	command_modifier = {
+		terrain = jungle
 	}
 }
