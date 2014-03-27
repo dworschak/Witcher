@@ -20,10 +20,18 @@ character_event = {
 	trigger = {
 		is_landed = no
 		in_command = no
+		OR = {
+			location = { empire = { title = e_the_north } }
+			location = { empire = { title = e_nilfgaard } }
+		}
 		NOT = { 
 			trait = academic 
 			has_character_flag = wants_educ_academy
 			has_character_flag = denied_educ_academy
+			trait = military_officer 
+			has_character_flag = wants_mil_academy
+			has_character_flag = denied_mil_academy
+			has_character_flag = studying_mil_academy
 		}
 		father = {
 			is_alive = yes
@@ -67,7 +75,7 @@ character_event = {
 	option = {
 		name = "Nilfgaard academy"
 		trigger =	{
-			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+			location = { empire = { title = e_nilfgaard } }
 		}
 		father = { character_event = { id = academy.2 } }
 		set_character_flag = wants_educ_academy
@@ -75,7 +83,7 @@ character_event = {
 	option = {
 		name = "Oxenfurt univesity"
 		trigger =	{
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { empire = { title = e_the_north } }
 		}
 		father = { character_event = { id = academy.3 } }
 		set_character_flag = wants_educ_academy
@@ -84,7 +92,7 @@ character_event = {
 # Father - Child wants to study in Nilfgaard academy
 character_event = {
 	id = academy.2
-	desc =  EVTDESCacademy.2
+	desc = EVTDESCacademy.2
 	picture = GFX_evt_son_asking_father
 	
 	is_triggered_only = yes
@@ -96,6 +104,7 @@ character_event = {
 				FROM = {
 					move_character = PREV
 				}
+				character_event = { id = academy.4 }
 			}
 		}
 		hidden_tooltip = {
@@ -119,7 +128,7 @@ character_event = {
 # Father - Child wants to study in Oxenfurt academy
 character_event = {
 	id = academy.3
-	desc =  EVTDESCacademy.3
+	desc = EVTDESCacademy.3
 	picture = GFX_evt_son_asking_father
 	
 	is_triggered_only = yes
@@ -154,7 +163,7 @@ character_event = {
 # Child - Studied a few years
 character_event = {
 	id = academy.4
-	desc =  "Son is studying"
+	desc = "Son is studying"
 	picture = GFX_evt_son_asking_father
 	
 	is_triggered_only = yes
@@ -176,7 +185,7 @@ character_event = {
 # Child - Child returns a drunkard
 character_event = {
 	id = academy.10
-	desc =  "Drunkard"
+	desc = "Drunkard"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -205,7 +214,7 @@ character_event = {
 # Father - Child returns a drunkard
 character_event = {
 	id = academy.11
-	desc = EVTDESCacademy.11
+	desc = EVTDESCacademy.11
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -222,7 +231,7 @@ character_event = {
 # Child - Child returns better educated
 character_event = {
 	id = academy.12
-	desc =  "Improve education"
+	desc = "Improve education"
 	picture = GFX_evt_council
 	
 	is_triggered_only = yes
@@ -272,7 +281,7 @@ character_event = {
 # Father - Child returns better educated
 character_event = {
 	id = academy.13
-	desc = EVTDESCacademy.13
+	desc = EVTDESCacademy.13
 	picture = GFX_evt_council
 	
 	is_triggered_only = yes
@@ -363,7 +372,7 @@ character_event = {
 # Child - Child returns depressed
 character_event = {
 	id = academy.14
-	desc =  "Depressed"
+	desc = "Depressed"
 	picture = GFX_evt_shadow
 	
 	is_triggered_only = yes
@@ -392,7 +401,7 @@ character_event = {
 # Father - Child returns depressed
 character_event = {
 	id = academy.15
-	desc = EVTDESCacademy.15
+	desc = EVTDESCacademy.15
 	picture = GFX_evt_shadow
 	
 	is_triggered_only = yes
@@ -409,7 +418,7 @@ character_event = {
 # Child - Child returns married
 character_event = {
 	id = academy.16
-	desc =  "Married"
+	desc = "Married"
 	picture = GFX_evt_marriage
 	
 	is_triggered_only = yes
@@ -438,7 +447,7 @@ character_event = {
 # Father - Child returns married
 character_event = {
 	id = academy.17
-	desc = EVTDESCacademy.17
+	desc = EVTDESCacademy.17
 	picture = GFX_evt_marriage
 	
 	is_triggered_only = yes
@@ -543,7 +552,7 @@ character_event = {
 # Child - Child returns ill
 character_event = {
 	id = academy.18
-	desc =  "Ill"
+	desc = "Ill"
 	picture = GFX_evt_illness
 	
 	is_triggered_only = yes
@@ -572,7 +581,7 @@ character_event = {
 # Father - Child returns ill
 character_event = {
 	id = academy.19
-	desc = EVTDESCacademy.19
+	desc = EVTDESCacademy.19
 	picture = GFX_evt_illness
 	
 	is_triggered_only = yes
@@ -588,7 +597,7 @@ character_event = {
 # Child - Son returns scholar
 character_event = {
 	id = academy.20
-	desc =  "Scholar"
+	desc = "Scholar"
 	picture = GFX_evt_library
 	
 	is_triggered_only = yes
@@ -617,7 +626,7 @@ character_event = {
 # Father - Child returns scholar
 character_event = {
 	id = academy.21
-	desc = EVTDESCacademy.21
+	desc = EVTDESCacademy.21
 	picture = GFX_evt_library
 	
 	is_triggered_only = yes
@@ -633,7 +642,7 @@ character_event = {
 # Child - Child returns hedonist
 character_event = {
 	id = academy.22
-	desc =  "Hedonist"
+	desc = "Hedonist"
 	picture = GFX_evt_brothel
 	
 	is_triggered_only = yes
@@ -662,7 +671,7 @@ character_event = {
 # Father - Child returns hedonist
 character_event = {
 	id = academy.23
-	desc = EVTDESCacademy.23
+	desc = EVTDESCacademy.23
 	picture = GFX_evt_brothel
 	
 	is_triggered_only = yes
@@ -678,7 +687,7 @@ character_event = {
 # Child - Father dies and you are heir
 character_event = {
 	id = academy.30
-	desc = EVTDESCacademy.30
+	desc = EVTDESCacademy.30
 	picture = GFX_evt_death
 	
 	min_age = 15
@@ -729,10 +738,15 @@ character_event = {
 	trigger = {
 		is_landed = no
 		in_command = no
+		location = { empire = { title = e_nilfgaard } }
 		NOT = { 
 			trait = military_officer 
 			has_character_flag = wants_mil_academy
 			has_character_flag = denied_mil_academy
+			trait = academic 
+			has_character_flag = wants_educ_academy
+			has_character_flag = denied_educ_academy
+			has_character_flag = studying_educ_academy
 		}
 		father = {
 			is_alive = yes
@@ -765,9 +779,6 @@ character_event = {
 	
 	option = {
 		name = "Military Academy"
-		trigger =	{
-			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
-		}
 		father = { character_event = { id = academy.101 } }
 		set_character_flag = wants_academy
 	}
@@ -775,7 +786,7 @@ character_event = {
 # Father - Son wants to study in Military academy
 character_event = {
 	id = academy.101
-	desc =  EVTDESCacademy.101
+	desc = EVTDESCacademy.101
 	picture = GFX_evt_son_asking_father
 	
 	is_triggered_only = yes
@@ -810,7 +821,7 @@ character_event = {
 # Son - Studied a few years
 character_event = {
 	id = academy.102
-	desc =  "Son is studying"
+	desc = "Son is studying"
 	picture = GFX_evt_son_asking_father
 	
 	is_triggered_only = yes
@@ -832,7 +843,7 @@ character_event = {
 # Son - Son returns with better education
 character_event = {
 	id = academy.110
-	desc =  "Education"
+	desc = "Education"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -866,7 +877,7 @@ character_event = {
 # Father - Son returns with better education
 character_event = {
 	id = academy.111
-	desc = EVTDESCacademy.111
+	desc = EVTDESCacademy.111
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -897,7 +908,7 @@ character_event = {
 # Son - Son returns strategist
 character_event = {
 	id = academy.112
-	desc =  "Strategist"
+	desc = "Strategist"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -926,7 +937,7 @@ character_event = {
 # Father - Son returns strategist
 character_event = {
 	id = academy.113
-	desc = EVTDESCacademy.113
+	desc = EVTDESCacademy.113
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -992,7 +1003,7 @@ character_event = {
 # Son - Son returns depressed
 character_event = {
 	id = academy.114
-	desc =  "Depressed"
+	desc = "Depressed"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1023,7 +1034,7 @@ character_event = {
 # Father - Son returns depressed
 character_event = {
 	id = academy.115
-	desc = EVTDESCacademy.115
+	desc = EVTDESCacademy.115
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1040,7 +1051,7 @@ character_event = {
 # Son - Son returns injured
 character_event = {
 	id = academy.116
-	desc =  "Injured"
+	desc = "Injured"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1070,7 +1081,7 @@ character_event = {
 # Father - Son returns injured
 character_event = {
 	id = academy.117
-	desc = EVTDESCacademy.117
+	desc = EVTDESCacademy.117
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1090,7 +1101,7 @@ character_event = {
 # Son - Son returns better fighter
 character_event = {
 	id = academy.118
-	desc =  "Fighter"
+	desc = "Fighter"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1124,7 +1135,7 @@ character_event = {
 # Father - Son returns better fighter
 character_event = {
 	id = academy.119
-	desc = EVTDESCacademy.119
+	desc = EVTDESCacademy.119
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1155,7 +1166,7 @@ character_event = {
 # Son - Son returns scarred
 character_event = {
 	id = academy.120
-	desc =  "Scarred"
+	desc = "Scarred"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1184,7 +1195,7 @@ character_event = {
 # Father - Son returns scarred
 character_event = {
 	id = academy.121
-	desc = EVTDESCacademy.121
+	desc = EVTDESCacademy.121
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1201,7 +1212,7 @@ character_event = {
 # Son - Son returns craven
 character_event = {
 	id = academy.122
-	desc =  "Craven"
+	desc = "Craven"
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1230,7 +1241,7 @@ character_event = {
 # Father - Son returns craven
 character_event = {
 	id = academy.123
-	desc = EVTDESCacademy.123
+	desc = EVTDESCacademy.123
 	picture = GFX_evt_feast
 	
 	is_triggered_only = yes
@@ -1247,7 +1258,7 @@ character_event = {
 # Child - Father dies and you are heir
 character_event = {
 	id = academy.130
-	desc = EVTDESCacademy.130
+	desc = EVTDESCacademy.130
 	picture = GFX_evt_death
 	
 	min_age = 15
