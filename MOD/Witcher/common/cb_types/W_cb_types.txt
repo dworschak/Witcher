@@ -31,14 +31,8 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 	can_use_gui = {
 		ROOT = {
 			OR = {
-				AND = {
-					NOT = { same_realm = FROM }
-					trait = racist
-				}
-				AND = {
-					crownlaw_title = { has_law = tolerance_1 }
-					trait = racist
-				}
+				NOT = { same_realm = FROM }
+				crownlaw_title = { has_law = tolerance_1 }
 				crownlaw_title = { has_law = tolerance_2 }
 			}
 		}
@@ -46,12 +40,12 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 	
 	can_use = {
 		FROM = {
-			# NOT = { has_landed_title = k_dryads }
+			NOT = { has_landed_title = k_dryads }
 			NOT = { culture = wilderness }
 		}
 		ROOT = {
 			NOT = { has_landed_title = k_dryads }
-			# NOT = { culture = wilderness }
+			NOT = { culture = wilderness }
 		}
 		FROM = {
 			OR = {
@@ -251,8 +245,8 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 	
 	ai_will_do = {
 		factor = 1
+		modifier = { factor = 0 ROOT = { NOT = { trait = racist } } }
 		modifier = { factor = 0 ROOT = { trait = tolerant } }
-		modifier = { factor = 2 ROOT = { trait = racist } }
 		modifier = { factor = 2 ROOT = { religion = eternal_fire } }
 		modifier = { factor = 1.2 ROOT = { trait = cruel } }
 		modifier = { factor = 1.2 ROOT = { trait = impaler } }
@@ -336,6 +330,10 @@ scoiatael_revolt = {
 				}
 			}
 		}
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 	}
 	
 	on_reverse_demand = {
@@ -362,6 +360,10 @@ scoiatael_revolt = {
 				}
 			}
 		}
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 	}
 	
 	attacker_ai_victory_worth = {
@@ -1027,5 +1029,160 @@ nilfgaard_reconquest = {
 	}
 }
 
+elven_liberation = {
+	name = CB_NAME_ELVEN_LIBERATION
+	war_name = WAR_NAME_ELVEN_LIBERATION
+	sprite = 16
+	truce_days = 1825
+	hostile_against_others = yes
+	is_permanent = yes
+	check_all_titles = yes # if permanent, setting this to true will check against all of someones titles, including vassal held titles
+	press_claim = yes
+	can_ask_to_join_war = no
+	
+	can_use = {
+		ROOT = {
+			NOT = { is_liege_or_above = FROM }
+		}
+	}
+	
+	can_use_title = {
+		tier = count
+		ROOT = {
+			independent = yes
+			trait = elven
+		}
+		FROM = { trait = human }
+		OR = {
+			holder_scope = { # Non-human title holder
+				OR = {
+					trait = elven
+					AND = {
+						trait = halfelf
+						culture = elven
+					}
+				}
+			}
+			culture = elven # Non-human province
+		}
+		OR = {
+			FROM = {
+				has_landed_title = PREV
+			}
+			holder_scope = {
+				is_liege_or_above = FROM
+				NOT = { same_realm = ROOT }
+			}
+		}
+		NOT = {
+			OR = {
+				ROOT = {
+					has_landed_title = PREV
+				}
+				holder_scope = {
+					is_liege_or_above = ROOT
+				}
+			}
+		}
+	}
+	
+	is_valid_title = {
+		OR = {
+			FROM = {
+				has_landed_title = PREV
+			}
+			holder_scope = {
+				is_liege_or_above = FROM
+			}
+		}
+	}
+	
+	on_success_title = {
+		if = {
+			limit = {
+				holder_scope = {
+					trait = elven
+					lower_tier_than = ROOT
+				}
+			}
+			holder_scope = { set_defacto_liege = ROOT }
+		}
+		if = {
+			limit = {
+				holder_scope = {
+					trait = elven
+					ROOT = { tier = count }
+				}
+			}
+			holder_scope = { set_defacto_liege = THIS }
+		}
+		if = {
+			limit = {
+				holder_scope = {
+					NOT = { trait = elven }
+				}
+			}
+			usurp_title_plus_barony_if_unlanded = ROOT
+			any_de_jure_vassal_title = {
+				limit = {
+					has_holder = yes
+					NOT = { de_facto_liege = PREV }
+					holder_scope = {
+						OR = {
+							character = FROM
+							is_liege_or_above = FROM
+						}
+					}
+				}
+				usurp_title_plus_barony_if_unlanded = ROOT
+			}
+		}
+		any_attacker = {
+			limit = { character = ROOT }
+			participation_scaled_prestige = 100
+		}
+		any_attacker = {
+			limit = { NOT = { character = ROOT } }
+			hidden_tooltip = { participation_scaled_prestige = 100 }
+		}
+	}
+	
+	on_fail_title = {
+		ROOT = {
+			prestige = -100
+		}
+		any_defender = {
+			limit = { character = FROM }
+			participation_scaled_prestige = 50
+		}
+		any_defender = {
+			limit = { NOT = { character = FROM } }
+			hidden_tooltip = { participation_scaled_prestige = 50 }
+		}
+	}
+	
+	on_reverse_demand = {
+		ROOT = {
+			prestige = -200
+			transfer_scaled_wealth = {
+				to = FROM
+				value = 4.0
+			}
+		}
+		any_defender = {
+			limit = { character = FROM }
+			participation_scaled_prestige = 100
+		}
+		any_defender = {
+			limit = { NOT = { character = FROM } }
+			hidden_tooltip = { participation_scaled_prestige = 100 }
+		}
+	}
+	
+	attacker_ai_victory_worth = { factor = -1 }
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 }
+	defender_ai_defeat_worth = { factor = 100 }
+}
 #haak_invasion
 #border_conflict

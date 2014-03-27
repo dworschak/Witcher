@@ -16,9 +16,12 @@
 faction_succ_seniority = {
 	type = liege_titles
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
 		NOT = { culture = wilderness }
+		prisoner = no
 		is_ruler = yes
 		independent = no
 		is_landed = yes
@@ -31,12 +34,17 @@ faction_succ_seniority = {
 				NOT = { culture = ROOT }
 				NOT = { religion = ROOT }
 			}
-			OR = {
-				NOT = { religion_group = pagan_group }
-				is_reformed_religion = yes
+			# OR = {
+				# NOT = { religion_group = pagan_group }
+				# is_reformed_religion = yes
+			# }
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
 			}
 		}
-		NOT = { religion_group = muslim }
+		# NOT = { religion_group = muslim }
 		primary_title = { higher_tier_than = BARON }
 		
 		NOT = { in_faction = faction_succ_primogeniture }
@@ -107,9 +115,33 @@ faction_succ_seniority = {
 		NOT = { title = k_solar }
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+			
+			NOT = { religion_group = muslim }	
+			NOT = { in_faction = faction_succ_primogeniture }
+			NOT = { in_faction = faction_succ_feudal_elective }
+			NOT = { in_faction = faction_succ_gavelkind }
+			NOT = { in_faction = faction_succ_ultimogeniture }
+			NOT = { in_faction = faction_succ_tanistry }
+		}		
+	}
+	
 	# AI creation weight
 	chance = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}
 		
 		modifier = {
 			factor = 0
@@ -172,8 +204,27 @@ faction_succ_seniority = {
 		}
 		
 		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 25 } }
+			factor = 0
+			FROM = { 
+				opinion = { who = LIEGE value = 25 } 
+				NOT = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}			
+			}
+		}		
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				opinion = { who = LIEGE value = 50 } 
+				OR = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}				
+			}
 		}
 		
 		modifier = {
@@ -265,6 +316,11 @@ faction_succ_seniority = {
 	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
 	membership = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}			
 		
 		modifier = {
 			factor = 0
@@ -418,8 +474,35 @@ faction_succ_seniority = {
 		}
 		
 		modifier = {
-			factor = 0.2
+			factor = 0
 			opinion = { who = LIEGE value = 25 } 
+			NOT = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
+		}		
+		
+		modifier = {
+			factor = 0
+			opinion = { who = LIEGE value = 50 } 
+			OR = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
 		}
 		
 		modifier = {
@@ -541,9 +624,12 @@ faction_succ_seniority = {
 faction_succ_primogeniture = {
 	type = liege_titles
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
 		NOT = { culture = wilderness }
+		prisoner = no
 		is_ruler = yes
 		independent = no
 		is_landed = yes
@@ -556,12 +642,17 @@ faction_succ_primogeniture = {
 				NOT = { culture = ROOT }
 				NOT = { religion = ROOT }
 			}
-			OR = {
-				NOT = { religion_group = pagan_group }
-				is_reformed_religion = yes
-			}
+			#OR = {
+				#NOT = { religion_group = pagan_group }
+				#is_reformed_religion = yes
+			#}
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
+			}			
 		}
-		NOT = { religion_group = muslim }
+		#NOT = { religion_group = muslim }
 		primary_title = { higher_tier_than = BARON }
 		
 		NOT = { in_faction = faction_succ_seniority }
@@ -632,9 +723,33 @@ faction_succ_primogeniture = {
 		NOT = { title = k_solar }
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+			
+			NOT = { religion_group = muslim }	
+			NOT = { in_faction = faction_succ_seniority }
+			NOT = { in_faction = faction_succ_feudal_elective }
+			NOT = { in_faction = faction_succ_gavelkind }	
+			NOT = { in_faction = faction_succ_ultimogeniture }
+			NOT = { in_faction = faction_succ_tanistry }	
+		}
+	}	
+	
 	# AI creation weight
 	chance = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}		
 		
 		modifier = {
 			factor = 0
@@ -682,8 +797,27 @@ faction_succ_primogeniture = {
 		}
 		
 		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 25 } }
+			factor = 0
+			FROM = { 
+				opinion = { who = LIEGE value = 25 } 
+				NOT = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}			
+			}
+		}		
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				opinion = { who = LIEGE value = 50 } 
+				OR = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}					
+			}
 		}
 		
 		modifier = {
@@ -775,6 +909,11 @@ faction_succ_primogeniture = {
 	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
 	membership = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}			
 		
 		modifier = {
 			factor = 0
@@ -920,8 +1059,35 @@ faction_succ_primogeniture = {
 		}
 		
 		modifier = {
-			factor = 0.2
+			factor = 0
 			opinion = { who = LIEGE value = 25 } 
+			NOT = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
+		}		
+		
+		modifier = {
+			factor = 0
+			opinion = { who = LIEGE value = 50 } 
+			OR = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
 		}
 		
 		modifier = {
@@ -1052,9 +1218,12 @@ faction_succ_primogeniture = {
 faction_succ_gavelkind = {
 	type = liege_titles
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
 		NOT = { culture = wilderness }
+		prisoner = no
 		is_ruler = yes
 		independent = no
 		is_landed = yes
@@ -1067,9 +1236,14 @@ faction_succ_gavelkind = {
 				NOT = { culture = ROOT }
 				NOT = { religion = ROOT }
 			}
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
+			}			
 		}
 		NOT = { religion_group = muslim }
-		primary_title = { higher_tier_than = BARON }
+		#primary_title = { higher_tier_than = BARON }
 		
 		NOT = { in_faction = faction_succ_seniority }
 		NOT = { in_faction = faction_succ_primogeniture }
@@ -1140,9 +1314,33 @@ faction_succ_gavelkind = {
 		NOT = { title = k_solar }
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+			
+			NOT = { religion_group = muslim }	
+			NOT = { in_faction = faction_succ_seniority }
+			NOT = { in_faction = faction_succ_primogeniture }
+			NOT = { in_faction = faction_succ_feudal_elective }
+			NOT = { in_faction = faction_succ_ultimogeniture }
+			NOT = { in_faction = faction_succ_tanistry }
+		}
+	}	
+	
 	# AI creation weight
 	chance = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}		
 		
 		modifier = {
 			factor = 0
@@ -1241,8 +1439,27 @@ faction_succ_gavelkind = {
 		}
 		
 		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 25 } }
+			factor = 0
+			FROM = { 
+				opinion = { who = LIEGE value = 25 } 
+				NOT = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}			
+			}
+		}		
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				opinion = { who = LIEGE value = 50 } 
+				OR = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}					
+			}
 		}
 		
 		modifier = {
@@ -1340,6 +1557,11 @@ faction_succ_gavelkind = {
 	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
 	membership = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}			
 		
 		modifier = {
 			factor = 0
@@ -1445,8 +1667,35 @@ faction_succ_gavelkind = {
 		}
 		
 		modifier = {
-			factor = 0.2
+			factor = 0
 			opinion = { who = LIEGE value = 25 } 
+			NOT = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
+		}		
+		
+		modifier = {
+			factor = 0
+			opinion = { who = LIEGE value = 50 } 
+			OR = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
 		}
 		
 		modifier = {
@@ -1570,9 +1819,11 @@ faction_succ_gavelkind = {
 faction_succ_feudal_elective = {
 	type = liege_titles
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
-		NOT = { culture = wilderness }
+		prisoner = no
 		is_ruler = yes
 		independent = no
 		is_landed = yes
@@ -1585,12 +1836,18 @@ faction_succ_feudal_elective = {
 				NOT = { culture = ROOT }
 				NOT = { religion = ROOT }
 			}
-			OR = {
-				NOT = { religion_group = pagan_group }
-				is_reformed_religion = yes
-			}
+			#OR = {
+				#NOT = { religion_group = pagan_group }
+				#is_reformed_religion = yes
+			#}
+			#NOT = { religion_group = indian_group }
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
+			}			
 		}
-		NOT = { religion_group = muslim }
+		#NOT = { religion_group = muslim }
 		primary_title = { higher_tier_than = BARON }
 		
 		NOT = { in_faction = faction_succ_seniority }
@@ -1664,9 +1921,33 @@ faction_succ_feudal_elective = {
 		NOT = { title = k_solar }
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+			
+			NOT = { religion_group = muslim }	
+			NOT = { in_faction = faction_succ_seniority }
+			NOT = { in_faction = faction_succ_primogeniture }
+			NOT = { in_faction = faction_succ_gavelkind }
+			NOT = { in_faction = faction_succ_ultimogeniture }
+			NOT = { in_faction = faction_succ_tanistry }
+		}
+	}		
+	
 	# AI creation weight
 	chance = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}		
 		
 		modifier = {
 			factor = 0
@@ -1776,8 +2057,27 @@ faction_succ_feudal_elective = {
 		}
 		
 		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 25 } }
+			factor = 0
+			FROM = { 
+				opinion = { who = LIEGE value = 25 } 
+				NOT = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}			
+			}
+		}		
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				opinion = { who = LIEGE value = 50 } 
+				OR = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}				
+			}
 		}
 		
 		modifier = {
@@ -1883,6 +2183,11 @@ faction_succ_feudal_elective = {
 	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
 	membership = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}		
 		
 		modifier = {
 			factor = 0
@@ -1993,8 +2298,35 @@ faction_succ_feudal_elective = {
 		}
 		
 		modifier = {
-			factor = 0.2
+			factor = 0
 			opinion = { who = LIEGE value = 25 } 
+			NOT = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
+		}		
+		
+		modifier = {
+			factor = 0
+			opinion = { who = LIEGE value = 50 } 
+			OR = {
+				trait = deceitful
+				trait = ambitious
+				trait = envious
+			}
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
 		}
 		
 		modifier = {
@@ -2118,6 +2450,8 @@ faction_succ_feudal_elective = {
 faction_lower_crown_authority = {
 	type = liege_titles
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
 		NOT = { culture = wilderness }
@@ -2133,6 +2467,11 @@ faction_lower_crown_authority = {
 				NOT = { culture = ROOT }
 				NOT = { religion = ROOT }
 			}
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
+			}			
 		}
 		primary_title = { higher_tier_than = BARON }
 		
@@ -2143,6 +2482,10 @@ faction_lower_crown_authority = {
 				NOT = {
 					has_landed_title = e_nilfgaard
 				}
+			}
+			liege = {
+				has_landed_title = e_nilfgaard
+				trait = weak_emperor
 			}
 			AND = {
 				liege = {
@@ -2202,9 +2545,26 @@ faction_lower_crown_authority = {
 		}
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+	}		
+	
 	# AI creation weight
 	chance = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}		
 		
 		modifier = {
 			factor = 0
@@ -2267,40 +2627,43 @@ faction_lower_crown_authority = {
 		
 		modifier = {
 			factor = 0
-			FROM = {
-				OR = {
-					AND = {
-						NOT = { leads_faction = faction_lower_crown_authority }
-						opinion = { who = LIEGE value = 25 } 
-					}
-					AND = {
-						leads_faction = faction_lower_crown_authority
-						opinion = { who = LIEGE value = 50 } 
-					}
-				}
-			}
-		}
-		
-		modifier = {
-			factor = 0
 			FROM = { preparing_invasion = yes }
 		}
 		
 		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 5 } }
+			factor = 0
+			FROM = { 
+				opinion = { who = LIEGE value = 25 } 
+				NOT = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}			
+			}
+		}		
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				opinion = { who = LIEGE value = 50 } 
+				OR = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}				
+			}
 		}
 		
 		modifier = {
-			factor = 0.5
+			factor = 0.1
 			has_law = centralization_1
 		}
 		modifier = {
-			factor = 2.0
+			factor = 1.5
 			has_law = centralization_3
 		}
 		modifier = {
-			factor = 2.5
+			factor = 2.25
 			has_law = centralization_4
 		}
 		
@@ -2396,6 +2759,11 @@ faction_lower_crown_authority = {
 		factor = 1
 		
 		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}			
+		
+		modifier = {
 			factor = 0
 			OR = {
 				prisoner = yes
@@ -2427,28 +2795,6 @@ faction_lower_crown_authority = {
 		
 		modifier = {
 			factor = 0
-			
-			OR = {
-				AND = {
-					NOT = { in_faction = faction_lower_crown_authority }
-					opinion = { who = LIEGE value = 25 } 
-				}
-				AND = {
-					in_faction = faction_lower_crown_authority
-					opinion = { who = LIEGE value = 50 } 
-				}
-			}
-			
-			NOT = {	
-				has_opinion_modifier = {
-					who = FROM
-					modifier = opinion_coerced_into_joining_faction
-				}
-			}
-		}
-		
-		modifier = {
-			factor = 0
 			NOT = { opinion = { who = FROM value = -40 } }
 			NOT = {	
 				has_opinion_modifier = {
@@ -2476,8 +2822,8 @@ faction_lower_crown_authority = {
 		}
 		
 		modifier = {
-			factor = 0.2
-			opinion = { who = LIEGE value = 5 }
+			factor = 0
+			opinion = { who = LIEGE value = 25 }
 		}
 		
 		modifier = {
@@ -2502,19 +2848,19 @@ faction_lower_crown_authority = {
 		}
 		
 		modifier = {
-			factor = 0.5
+			factor = 0.1
 			FROMFROM = {
 				has_law = centralization_1
 			}
 		}
 		modifier = {
-			factor = 2.0
+			factor = 1.5
 			FROMFROM = {
 				has_law = centralization_3
 			}
 		}
 		modifier = {
-			factor = 2.5
+			factor = 2.25
 			FROMFROM = {
 				has_law = centralization_4
 			}
@@ -2634,9 +2980,11 @@ faction_lower_crown_authority = {
 faction_independence = {
 	type = character
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
-		NOT = { culture = wilderness }
+		prisoner = no
 		is_ruler = yes
 		independent = no
 		is_landed = yes
@@ -2671,6 +3019,12 @@ faction_independence = {
 					}
 				}
 			}
+			
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
+			}			
 		}
 		
 		NOT = { has_character_modifier = faction_independence_ultimatum_timer }
@@ -2689,9 +3043,26 @@ faction_independence = {
 		}
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+	}	
+	
 	# AI creation weight
 	chance = {
 		factor = 4
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}		
 		
 		modifier = {
 			factor = 0
@@ -2817,14 +3188,14 @@ faction_independence = {
 		}
 		
 		modifier = {
-			factor = 4.0
+			factor = 2.0
 			liege = {
 				NOT = { religion_group = ROOT }
 			}
 		}
 		
 		modifier = {
-			factor = 3.0
+			factor = 1.5
 			liege = {
 				NOT = { culture_group = ROOT }
 			}
@@ -2835,8 +3206,14 @@ faction_independence = {
 			opinion = { who = LIEGE value = 20 } 
 		}
 		modifier = {
-			factor = 0.5
+			factor = 0
 			opinion = { who = LIEGE value = 40 } 
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
 		}
 		modifier = {
 			factor = 1.5
@@ -2924,10 +3301,6 @@ faction_independence = {
 			trait = ambitious
 		}
 		modifier = {
-			factor = 0.5
-			liege = { trait = genius }
-		}
-		modifier = {
 			factor = 0.05
 			culture = nilfgaardian
 			liege = { has_landed_title = e_nilfgaard }
@@ -2950,6 +3323,11 @@ faction_independence = {
 	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
 	membership = {
 		factor = 4
+		
+		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}			
 		
 		modifier = {
 			factor = 0
@@ -2985,15 +3363,6 @@ faction_independence = {
 		
 		modifier = {
 			factor = 0
-			liege = {
-				current_heir = {
-					character = ROOT
-				}
-			}
-		}
-		
-		modifier = {
-			factor = 0
 			lower_tier_than = KING
 			liege = {
 				culture_group = ROOT
@@ -3003,6 +3372,15 @@ faction_independence = {
 					culture = ROOT
 				}
 				NOT = { distance = { who = ROOT distance = 200 } }
+			}
+		}
+		
+		modifier = {
+			factor = 0
+			liege = {
+				current_heir = {
+					character = ROOT
+				}
 			}
 		}
 		
@@ -3154,8 +3532,14 @@ faction_independence = {
 			opinion = { who = LIEGE value = 20 } 
 		}
 		modifier = {
-			factor = 0.5
+			factor = 0
 			opinion = { who = LIEGE value = 40 } 
+			NOT = {	
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_coerced_into_joining_faction
+				}
+			}			
 		}
 		modifier = {
 			factor = 1.5
@@ -3292,21 +3676,29 @@ faction_claimant = {
 	type = liege_titles_w_claimant # 'new_character' is a Claimant, or, if the title is Elective, anyone eligible for election
 	exclusive = yes # Can only lead or be in one faction of this type
 	
+	warning_level = 0.7 # At this level of faction power we give player an alert. Set to 0 for no alerts.
+	
 	# Plotter scope
 	potential = {
 		NOT = { culture = wilderness }
+		prisoner = no
 		is_ruler = yes
 		independent = no
 		is_landed = yes
 		is_adult = yes
 		NOT = { trait = incapable }
 		liege = {
-			is_feudal = yes 
+			is_feudal = yes
 			OR = {
 				primary_title = { is_tribal_type_title = no }
 				NOT = { culture = ROOT }
 				NOT = { religion = ROOT }
-			}
+			}		
+			NOT = {
+				any_demesne_title = {
+					temporary = yes
+				}
+			}			
 		}
 		primary_title = { higher_tier_than = BARON }
 		
@@ -3398,9 +3790,26 @@ faction_claimant = {
 		}
 	}
 	
+	# Faction member scope (ROOT = joiner, FROM = target)
+	allow_join = {
+		ROOT = {
+			is_ruler = yes
+			independent = no
+			is_landed = yes
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+	}	
+	
 	# AI creation weight
 	chance = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}		
 		
 		modifier = {
 			factor = 0
@@ -3411,6 +3820,28 @@ faction_claimant = {
 			factor = 0
 			holder_scope = {
 				any_spouse = { character = FROM }
+			}
+		}
+		
+		# Will not install old women
+		modifier = {
+			factor = 0
+			new_character = {
+				is_female = yes
+				has_character_modifier = old_age
+			}
+		}
+		
+		# Will not install a parent of the current ruler's
+		modifier = {
+			factor = 0
+			new_character = {
+				FROM = {
+					liege = {
+						NOT = { is_father = PREVPREV }
+						NOT = { is_mother = PREVPREV }
+					}
+				}
 			}
 		}
 		
@@ -3636,8 +4067,27 @@ faction_claimant = {
 		}
 		
 		modifier = {
-			factor = 0.2
-			FROM = { opinion = { who = LIEGE value = 25 } }
+			factor = 0
+			FROM = { 
+				opinion = { who = LIEGE value = 25 } 
+				NOT = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}
+			}
+		}		
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				opinion = { who = LIEGE value = 50 } 
+				OR = {
+					trait = deceitful
+					trait = ambitious
+					trait = envious
+				}			
+			}
 		}
 		
 		modifier = {
@@ -3803,6 +4253,11 @@ faction_claimant = {
 	# AI membership weight: ROOT is the prospective member. FROM is the faction leader. FROMFROM is the target title or character.
 	membership = {
 		factor = 1
+		
+		modifier = {
+			factor = 0.2
+			pacifist = yes
+		}			
 		
 		modifier = {
 			factor = 0
@@ -4056,7 +4511,7 @@ faction_claimant = {
 		}
 		
 		modifier = {
-			factor = 0.2
+			factor = 0
 			opinion = { who = LIEGE value = 25 }
 		}
 		

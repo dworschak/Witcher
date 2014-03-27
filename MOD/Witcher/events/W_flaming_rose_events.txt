@@ -81,6 +81,12 @@ character_event = {
 			}
 		}
 		has_dlc = "Sons of Abraham"
+		NOT = { has_character_modifier = expelled_d_flaming_rose }
+		NOT = {
+			any_liege = {
+				has_character_modifier = expelled_d_flaming_rose
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -316,6 +322,12 @@ character_event = {
 			}
 		}
 		has_dlc = "Sons of Abraham"
+		NOT = { has_character_modifier = expelled_d_flaming_rose }
+		NOT = {
+			any_liege = {
+				has_character_modifier = expelled_d_flaming_rose
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -431,14 +443,14 @@ letter_event = {
 			factor = 80
 			modifier = {
 				factor = 0
-				has_character_modifier = expelled_flaming_rose
+				has_character_modifier = expelled_d_flaming_rose
 			}
 		}
 		hidden_tooltip = {
 			FROMFROM = {
 				province_event = { id = flaming_rose.44 }
 			}
-			remove_character_modifier = expelled_flaming_rose
+			remove_character_modifier = expelled_d_flaming_rose
 		}
 		piety = 200
 		wealth = 100
@@ -512,8 +524,10 @@ character_event = {
 			modifier = opinion_expelled_from_realm
 		}
 		if = {
-			limit = { liege = { character = FROM } }
-			set_defacto_liege = ROOT
+			limit = {
+				is_liege_or_above = FROM
+			}
+			set_defacto_liege = THIS
 		}
 	}
 	
@@ -531,7 +545,7 @@ letter_event = {
 	is_triggered_only = yes
 	
 	immediate = {
-		
+		remove_character_modifier = donated_to_holy_order
 	}
 	
 	option = {

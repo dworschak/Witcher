@@ -117,7 +117,7 @@ NDiplomacy = {
 	DEMAND_RELIGIOUS_CONVERSION_INTERACTION_THRESHOLD_FOR_NO = 0,
 	DEMAND_RELIGIOUS_CONVERSION_INTERACTION_THRESHOLD_FOR_YES = 0,
 	DEMAND_RELIGIOUS_CONVERSION_INTERACTION_MUST_HAVE_COST = 1,				-- Is having prestige/piety >= cost required for this action?
-	DEMAND_RELIGIOUS_CONVERSION_INTERACTION_ENABLED = 1,						-- Should this action be used at all?
+	DEMAND_RELIGIOUS_CONVERSION_INTERACTION_ENABLED = 0,						-- Should this action be used at all?
 	
 	INVITE_TO_COURT_INTERACTION_MONEY = 0,
 	INVITE_TO_COURT_INTERACTION_PIETY = 0,
@@ -176,8 +176,8 @@ NDiplomacy = {
 	SEND_ASSASSIN_INTERACTION_ENABLED = 1,						-- Should this action be used at all?
 	
 	DECLARE_WAR_INTERACTION_MONEY = 0,
-	DECLARE_WAR_INTERACTION_PIETY = 50,
-	DECLARE_WAR_INTERACTION_PRESTIGE = 100,
+	DECLARE_WAR_INTERACTION_PIETY = 0,
+	DECLARE_WAR_INTERACTION_PRESTIGE = 0,
 	DECLARE_WAR_INTERACTION_THRESHOLD_FOR_NO = 0,
 	DECLARE_WAR_INTERACTION_THRESHOLD_FOR_YES = 0,
 	DECLARE_WAR_INTERACTION_MUST_HAVE_COST = 1,				-- Is having prestige/piety >= cost required for this action?
@@ -600,12 +600,12 @@ NTitle = {
 	CLAIM_DE_JURE_TITLE_COST_MOD = 0.5,
 	NORMAL_LAW_CHANGE_MONTHS = 60,
 	TITLE_USURP_COOLDOWN_MONTHS = 60,
-	DE_JURE_ASSIMILATION_YEARS = 100,		-- Duchies a under the de facto control of another kingdom will change de jure liege after this many years
-	EMPIRE_DE_JURE_ASSIMILATION_YEARS = 100,		-- Kingdoms under the de facto control of another empire will change de jure liege after this many years
+	DE_JURE_ASSIMILATION_YEARS = 100,			-- Duchies a under the de facto control of another kingdom will change de jure liege after this many years
+	EMPIRE_DE_JURE_ASSIMILATION_YEARS = 100,	-- Kingdoms under the de facto control of another empire will change de jure liege after this many years
 	ALLOW_DE_JURE_ASSIMILATION_ANYWHERE = 0,	-- If set to 0, will only assimilate duchy titles which contain the assimilating Kingdom's capital or border existing de jure land of that title
-	REQ_DUCHIES_FOR_KINGDOM_CREATION = 2, 	-- Number of held duchies required to create a kingdom (for rulers who are not already kings or emperors)
-	REQ_KINGDOMS_FOR_EMPIRE_CREATION = 2, 	-- Number of held kingdoms required to create an Empire (for rulers who are not already emperors)
-	TITULAR_TITLE_CREATION_COST_MULT = 2,	-- Titular titles are more expensive to create
+	REQ_DUCHIES_FOR_KINGDOM_CREATION = 2, 		-- Number of held duchies required to create a kingdom (for rulers who are not already kings or emperors)
+	REQ_KINGDOMS_FOR_EMPIRE_CREATION = 2, 		-- Number of held kingdoms required to create an Empire (for rulers who are not already emperors)
+	TITULAR_TITLE_CREATION_COST_MULT = 2,		-- Titular titles are more expensive to create
 	ENFORCE_ONE_OF_EACH_HOLDING = 1,			-- Require players to build at least one City, Temple and Castle in each province
 	MAX_REPUBLIC_COUNTIES_IN_REALM = 0.15,		-- 10% of a feudal realm is allowed to be under vassal republics (affects title grants)
 	MAX_THEOCRACY_COUNTIES_IN_REALM = 0.15,		-- 10% of a feudal realm is allowed to be under vassal theocracies/bishoprics (affects title grants)
@@ -961,7 +961,7 @@ NTechnology = {
 	TRADEPOST_SPREAD_BONUS = 0.002, 			-- Spread from trade posts
 	SPYACTION_SPREAD_BONUS = 0.006,				-- Spread from the target of the study technology spymaster action
 	
-	IDEAL_YEAR_LEVEL_0 = 800, 					-- the chance to get a progress to this level will increase after this date and decrease before it
+	IDEAL_YEAR_LEVEL_0 = 700, 					-- the chance to get a progress to this level will increase after this date and decrease before it
 	IDEAL_YEAR_LEVEL_8 = 1500,
 	IDEAL_YEAR_AHEAD_PENALTY = -0.2,			-- UNUSED
 	IDEAL_YEAR_AHEAD_PENALTY_INVEST = 0.3,		-- Percent increase in cost pre level ahead of ideal date
