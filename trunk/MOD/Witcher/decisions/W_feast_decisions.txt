@@ -18,13 +18,15 @@ decisions = {
 			war = no
 			any_demesne_title = { is_occupied = no }
 			prisoner = no
-			scaled_wealth = 0.30
+			scaled_wealth = 0.20
 			month = 10
 		}
 		effect = {
-			scaled_wealth = -0.30
+			scaled_wealth = -0.20
+			add_character_modifier = { name = holding_dwarf_feast duration = -1 }
+			set_character_flag = recent_minor_decision
 			set_character_flag = do_not_disturb
-			add_character_modifier = { name = holding_dwarf_feast duration = 365 }
+			hidden_tooltip = { character_event = { id = 72999 days = 150 } } # Safety catch flag clearing
 			hidden_tooltip = {
 				character_event = { id = feast.1 days = 25 random = 10 }
 				letter_event = { id = feast.2 }
@@ -35,9 +37,25 @@ decisions = {
 		}
 		ai_will_do = {
 			factor = 1
-			modifier = { factor = 0 NOT = { scaled_wealth = 4.0 } }
-			modifier = { factor = 0 month = 11 }
-			modifier = { factor = 0 NOT = { age = 30 } }
+			modifier = { factor = 0 NOT = { scaled_wealth = 3.0 } }
+			modifier = {
+				factor = 0
+				trait = shy
+			}
+			modifier = {
+				factor = 0
+				NOT = { diplomacy = 10 }
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
 		}
 	}
 	
@@ -69,7 +87,9 @@ decisions = {
 		effect = {
 			scaled_wealth = -0.20
 			set_character_flag = do_not_disturb
+			set_character_flag = recent_minor_decision
 			set_character_flag = holding_velen
+			hidden_tooltip = { character_event = { id = SoA.599 days = 150 } } # Safety catch flag clearing
 			custom_tooltip = {
 				text = velen_celebrations
 				hidden_tooltip = { 
@@ -82,7 +102,25 @@ decisions = {
 		}
 		ai_will_do = {
 			factor = 1
-			modifier = { factor = 0 NOT = { scaled_wealth = 4.0 } }
+			modifier = { factor = 0 NOT = { scaled_wealth = 3.0 } }
+			modifier = {
+				factor = 0
+				trait = shy
+			}
+			modifier = {
+				factor = 0
+				NOT = { diplomacy = 10 }
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
 		}
 	}
 	
@@ -114,7 +152,9 @@ decisions = {
 		effect = {
 			scaled_wealth = -0.20
 			set_character_flag = do_not_disturb
+			set_character_flag = recent_minor_decision
 			set_character_flag = holding_birke
+			hidden_tooltip = { character_event = { id = SoA.599 days = 150 } } # Safety catch flag clearing
 			custom_tooltip = {
 				text = birke_celebrations
 				hidden_tooltip = { 
@@ -127,7 +167,25 @@ decisions = {
 		}
 		ai_will_do = {
 			factor = 1
-			modifier = { factor = 0 NOT = { scaled_wealth = 4.0 } }
+			modifier = { factor = 0 NOT = { scaled_wealth = 3.0 } }
+			modifier = {
+				factor = 0
+				trait = shy
+			}
+			modifier = {
+				factor = 0
+				NOT = { diplomacy = 10 }
+			}
+			modifier = {
+				factor = 0
+				has_character_flag = recent_minor_decision
+				NOT = {
+					had_character_flag = {
+						flag = recent_minor_decision
+						days = 730
+					}
+				}
+			}
 		}
 	}
 }

@@ -3,11 +3,11 @@ decisions = {
 	hold_a_epic_tournament  = {
 		is_high_prio = yes
 		potential = {
-			NOT = { culture = wilderness }
 			NOT = {
 				has_character_flag = epic_tournament
 			}
 			independent = yes
+			NOT = { is_female = yes	}
 			OR = {
 				tier = king
 				tier = emperor 
@@ -28,101 +28,26 @@ decisions = {
 			set_character_flag = epic_tournament
 			set_character_flag = do_not_disturb
 			clr_character_flag = tournament_has_ended
+			hidden_tooltip = { character_event = { id = 70999 days = 150 } } # Safety catch flag clearing
 			wealth = -200
 			prestige = 100
 			character_event = { id = 70033 tooltip = "tournament_invite" }
 			hidden_tooltip = {
 				character_event = { id = 70001 days = 60 } # Tournament start
-				top_liege = {
-					any_realm_character = { #invite all eligible realm lords and previous winners
-						limit = {
-							NOT = { has_character_flag = do_not_disturb }
-							NOT = { character = ROOT }
-							prisoner = no
-							is_pregnant = no
-							is_alive = yes
-							NOT = { trait = incapable }
-							age = 15
-							OR = {	
-								has_character_flag = normal_tourny_1st
-								has_character_flag = normal_tourny_2nd
-								has_character_flag = normal_tourny_3rd
-								OR = {
-									is_ruler = yes
-									any_dynasty_member = { primary_title = { higher_tier_than = BARON } }
-								}
-								OR = {
-									trait = poor_warrior
-									trait = trained_warrior
-									trait = skilled_warrior
-									trait = master_warrior
-									trait = misguided_warrior
-									trait = tough_soldier
-									trait = skilled_tactician
-									trait = brilliant_strategist
-									trait = martial_cleric
-									has_job_title = job_marshal
-									martial = 10
-									in_command = yes
-								}			
-							}
-							OR = {
-								is_female = no
-								trait = strong
-								trait = misguided_warrior
-								trait = tough_soldier
-								trait = skilled_tactician
-								trait = brilliant_strategist
-							}
-						}
-						clr_character_flag = tournament_has_ended
-						letter_event = { id = 70000 }
+				clr_character_flag = tournament_has_ended
+				any_realm_character = {
+					limit = {
+						is_feudal = yes
+						NOT = { has_job_title = job_spiritual }
+						age = 16
+						NOT = { age = 50 }
+						NOT = { trait = incapable }
+						prisoner = no	
+						is_female = no
 					}
-					any_realm_character = { #invite all non-eligible realm characters to spectate
-						limit = {
-							NOT = { has_character_flag = do_not_disturb }
-							NOT = { character = ROOT }
-							prisoner = no
-							NOT = { trait = incapable }
-							age = 15
-							NOT = {
-								OR = {	
-									has_character_flag = normal_tourny_1st
-									has_character_flag = normal_tourny_2nd
-									has_character_flag = normal_tourny_3rd
-									OR = {
-										is_ruler = yes
-										any_dynasty_member = { primary_title = { higher_tier_than = BARON } }
-									}
-									OR = {
-										trait = poor_warrior
-										trait = trained_warrior
-										trait = skilled_warrior
-										trait = master_warrior
-										trait = misguided_warrior
-										trait = tough_soldier
-										trait = skilled_tactician
-										trait = brilliant_strategist
-										trait = martial_cleric
-										has_job_title = job_marshal
-										martial = 10
-										in_command = yes
-									}			
-								}
-								OR = {
-									is_female = no
-									trait = strong
-									trait = misguided_warrior
-									trait = tough_soldier
-									trait = skilled_tactician
-									trait = brilliant_strategist
-								}
-							}
-						}
-						clr_character_flag = tournament_has_ended
-						letter_event = { id = 70086 }
-					}	
-				}			
+					clr_character_flag = tournament_has_ended
+					character_event = { id = 70000 }
+				}
 			}
 		}
 		ai_will_do = {
@@ -136,22 +61,6 @@ decisions = {
 					}
 				}
 			}
-		}
-	}
-
-	show_me_the_medal_winners = {
-		potential = {
-			NOT = { culture = wilderness }
-			ai = no
-		}
-		allow = {
-				
-		}
-		effect = {
-			character_event = { id = 70078 }
-		}
-		ai_will_do = {
-			factor = 0 
 		}
 	}
 	

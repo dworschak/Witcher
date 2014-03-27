@@ -400,3 +400,931 @@ obj_cure_infertility = {
 	effect = {
 	}
  }
+ # Improve combat trait (no trait to poor warrior)
+ obj_cta_0 = {
+	type = character
+	
+	potential = { 
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies for your liege/yourself (and meet the base criteria),
+		# then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		NOT = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done } # weird things happen (cta_done is not normally set for the 0->1 tier transition)
+	}
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 } # implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	success = {
+		OR = { # CTA only advances 1 level, but external code or console might jump the trait higher
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+		}
+	}
+	abort_effect = {
+		# (optional) possibly notify the player of why the ambition aborted in certain cases (prison, reaching age 50-- the rest is obvious)
+	}
+	effect = {
+		prestige = 25
+	}
+}
+ # Improve combat trait (poor warrior to trained warrior)
+ obj_cta_1 = {
+	type = character
+	
+	potential = { 
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies (and meet the base criteria), then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		trait = poor_warrior
+		NOT = {
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }
+	}
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 } # implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	success = {
+		OR = {
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+			
+			NOT = { # external code might demote a character
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+	}
+	abort_effect = {
+		# (optional) possibly notify the player of why the ambition aborted in certain cases (prison, reaching age 50-- the rest is obvious)
+	}
+	effect = {
+		prestige = 50
+	}
+}
+ # Improve combat trait (trained warrior to skilled warrior)
+obj_cta_2 = {
+	type = character
+	
+	potential = { 
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies (and meet the base criteria), then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		trait = trained_warrior
+		NOT = {
+			trait = poor_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }
+	}
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 0.75
+			age = 40
+		}
+		modifier = {
+			factor = 0.333
+			age = 45
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 } # implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	success = {
+		OR = {
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+			
+			# external code might demote a character
+			trait = poor_warrior
+			NOT = {
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+	}
+	abort_effect = {
+		# (optional) possibly notify the player of why the ambition aborted in certain cases (prison, reaching age 50-- the rest is obvious)
+	}
+	effect = {
+		prestige = 75
+	}
+}
+ # Improve combat trait (skilled warrior to master warrior)
+obj_cta_3 = {
+	type = character
+	
+	potential = { 
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			age = 50
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies (and meet the base criteria), then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		trait = skilled_warrior
+		NOT = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }
+	}
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 0.75
+			age = 40
+		}
+		modifier = {
+			factor = 0.333
+			age = 45
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 } # implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	success = {
+		trait = master_warrior
+	}
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+			
+			# external code might demote a character
+			trait = poor_warrior
+			trait = trained_warrior
+			NOT = {
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+	}
+	abort_effect = {
+		# (optional) possibly notify the player of why the ambition aborted in certain cases (prison, reaching age 50-- the rest is obvious)
+	}
+	effect = {
+		prestige = 100
+	}
+}

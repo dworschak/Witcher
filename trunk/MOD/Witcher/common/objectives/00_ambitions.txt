@@ -21,10 +21,14 @@ obj_become_chancellor = {
 		is_adult = yes
 		is_councillor = no
 		diplomacy = 8
-		liege = {
-			NOT = { character = ROOT }
+		independent = no
+		OR = {
+			is_female = no
+			AND = {
+				is_female = yes
+				liege = { trait = dryad } 
+			}
 		}
-		is_female = no
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
 	}
@@ -121,6 +125,7 @@ obj_become_chancellor = {
 				is_councillor = yes
 				NOT = { has_job_title = job_chancellor }
 			}
+			trait = incapable
 		}
 	}
 	abort_effect = {
@@ -153,7 +158,13 @@ obj_become_marshal = {
 		is_adult = yes
 		is_councillor = no
 		independent = no
-		is_female = no
+		OR = {
+			is_female = no
+			AND = {
+				is_female = yes
+				liege = { trait = dryad } 
+			}
+		}
 		NOT = { trait = incapable }
 		martial = 8
 		NOT = { trait = witcher }
@@ -250,6 +261,7 @@ obj_become_marshal = {
 				is_councillor = yes
 				NOT = { has_job_title = job_marshal }
 			}
+			trait = incapable
 		}
 	}
 	abort_effect = {
@@ -282,7 +294,13 @@ obj_become_treasurer = {
 		is_adult = yes
 		is_councillor = no
 		independent = no
-		is_female = no
+		OR = {
+			is_female = no
+			AND = {
+				is_female = yes
+				liege = { trait = dryad } 
+			}
+		}
 		NOT = { trait = incapable }
 		stewardship = 8
 		NOT = { trait = witcher }
@@ -387,6 +405,7 @@ obj_become_treasurer = {
 				is_councillor = yes
 				NOT = { has_job_title = job_treasurer }
 			}
+			trait = incapable
 		}
 	}
 	abort_effect = {
@@ -422,6 +441,10 @@ obj_become_spymaster = {
 			is_female = no
 			liege = { mother = { character = ROOT } }
 			liege = { spouse = { character = ROOT } }
+			AND = {
+				is_female = yes
+				liege = { trait = dryad } 
+			}
 		}
 		NOT = { trait = incapable }
 		intrigue = 8
@@ -527,6 +550,13 @@ obj_become_spymaster = {
 				is_councillor = yes
 				NOT = { has_job_title = job_spymaster }
 			}
+			AND = { 
+				is_female = yes
+				NOT = { liege = { mother = { character = ROOT } } }
+				NOT = { liege = { spouse = { character = ROOT } } }
+				liege = { NOT = { trait = dryad } }
+			}
+			trait = incapable
 		}
 	}
 	abort_effect = {
@@ -578,7 +608,7 @@ obj_become_spiritual = {
 			AND = {
 				religion = nature
 				OR = {
-					culture = dryad
+					trait = dryad
 					trait = druid
 				}
 			}
@@ -687,6 +717,23 @@ obj_become_spiritual = {
 				is_councillor = yes
 				NOT = { has_job_title = job_spiritual }
 			}
+			AND = {
+				is_female = yes
+				NOT = { religion = melitele }
+				NOT = { religion = freya }
+				NOT = { religion = nature }
+			}
+			AND = {
+				is_female = no
+				religion = melitele
+				religion = freya
+			}
+			AND = {
+				NOT = { trait = druid }
+				religion = nature
+			}
+			NOT = { liege = { religion = ROOT } }
+			trait = incapable
 		}
 	}
 	abort_effect = {
@@ -974,6 +1021,10 @@ obj_get_married = {
 		NOT = { trait = homosexual }
 		NOT = { trait = witcher }
 		NOT = { trait = kind2 }
+		OR = { 
+			NOT = { trait = sorcerer }
+			trait =  fertile_sorcerer
+		}
 		OR = {
 			is_female = no
 			NOT = { has_character_modifier = old_age }
@@ -1039,10 +1090,20 @@ obj_get_married = {
 			AND = {
 				is_female = yes
 				is_ruler = no
-				age = 40
+				has_character_modifier = old_age
 			}
 			trait = celibate
 			trait = incapable
+		}
+		NOT = { has_landed_title = k_eternal_fire }
+		trait = celibate
+		trait = incapable
+		trait = eunuch
+		trait = homosexual
+		trait = witcher
+		AND = { 
+			trait = sorcerer
+			NOT = { trait =  fertile_sorcerer }
 		}
 	}
 	abort_effect = {
@@ -1357,7 +1418,10 @@ obj_wants_landed_title = {
 			is_close_relative = ROOT
 			num_of_extra_landed_titles = 1
 			OR = {
-				NOT = { is_father = ROOT }
+				AND = {
+					NOT = { is_father = ROOT }
+					NOT = { is_mother = ROOT }
+				}
 				NOT = {
 					current_heir = {
 						character = ROOT
@@ -1417,10 +1481,7 @@ obj_wants_landed_title = {
 	}
 	abort = {
 		liege = { 
-			OR = {
-				NOT = { is_close_relative = ROOT }
-				NOT = { num_of_extra_landed_titles = 1 }
-			}
+			trait = incapable
 		}
 	}	
 	abort_effect = {

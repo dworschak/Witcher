@@ -1912,9 +1912,12 @@ character_event = {
 			}
 			if = {
 				limit = {
-					lover = { character = root }
+					any_lover = { character = root }
 				}
-				remove_lover = yes
+				character_event = {
+					id = 64086
+					tooltip = "EVTTOOLTIP64086"
+				}
 			}
 			opinion = {
 				modifier = opinion_denied_love
@@ -2284,7 +2287,7 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		lover = {
+		any_lover = {
 			NOT = {
 				spouse = {
 					character = ROOT
@@ -2302,7 +2305,14 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA69039
-		lover = {
+		random_lover = {
+			limit = {
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}			
+			}
 			opinion = {
 				modifier = opinion_reassured_of_love
 				who = ROOT
