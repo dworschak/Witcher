@@ -1,0 +1,609 @@
+namespace = AoK
+
+################################################
+# Foltest vs Arjan
+################################################
+# Foltet Starting Narrative
+narrative_event = {
+	id = AoK.1
+	desc = EVTDESCAoK.1
+	title = EVTNAMEAoK.1
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAAoK.1
+		set_character_flag = AoK_foltest_start
+	}
+}
+# Arjan Starting Narrative
+narrative_event = {
+	id = AoK.2
+	desc = EVTDESCAoK.2
+	title = EVTNAMEAoK.2
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAAoK.2
+		set_character_flag = AoK_arjan_start
+	}
+}
+# Foltest offer Arjan to surrender during siege
+character_event = {
+	id = AoK.3
+	desc = EVTDESCAoK.3
+	picture = GFX_evt_shadowy_cabal
+	
+	trigger = {
+		has_character_flag = AoK_foltest_start
+		siege = {
+			location = { province_id = 13 } # La Valette
+		}
+	}
+	
+	option = { # Offer
+		name = EVTOPTAAoK.3
+		random_playable_ruler = {
+			limit = { has_character_flag = AoK_arjan_start }
+			character_event = { id = AoK.4 tooltip = EVTTOOLTIPAoK.4 }
+		}
+		clr_character_flag = AoK_foltest_start
+		set_character_flag = AoK_foltest_offers_surrender
+		ai_chance = { factor = 1 }
+	}
+	option = { # Don't offer
+		name = EVTOPTBAoK.3
+		clr_character_flag = AoK_foltest_start
+		set_character_flag = AoK_foltest_siege
+		ai_chance = { factor = 1 }
+	}
+}
+# Arjan decides if surrender
+character_event = {
+	id = AoK.4
+	desc = EVTDESCAoK.4
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = AoK_arjan_start
+	}
+	
+	option = { # Surrender
+		name = EVTOPTAAoK.4
+		ROOT = { imprison = FROM }
+		clr_character_flag = AoK_arjan_start
+		set_character_flag = AoK_arjan_surrender
+		ai_chance = { factor = 1 }
+	}
+	option = { # Don't surrender
+		name = EVTOPTBAoK.4
+		clr_character_flag = AoK_arjan_start
+		set_character_flag = AoK_arjan_fight
+		ai_chance = { factor = 1 }
+	}
+}
+# Foltest wins the siege of La Valette (on_siege_won_leader)
+character_event = {
+	id = AoK.5
+	desc = EVTDESCAoK.5
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			has_character_flag = AoK_foltest_siege
+			AND = {
+				has_character_flag = AoK_foltest_offers_surrender
+				any_playable_ruler = { has_character_flag = AoK_arjan_fight }
+			}
+		}
+		FROM = { title = b_la_valette_castle }
+	}
+	
+	option = {
+		name = EVTOPTAAoK.5
+		clr_character_flag = AoK_foltest_siege
+		clr_character_flag = AoK_foltest_offers_surrender
+		set_character_flag = AoK_foltest_won
+	}
+}
+# Foltest wins the war decide what to do with bastards
+character_event = {
+	id = AoK.6
+	desc = EVTDESCAoK.6
+	picture = GFX_evt_shadowy_cabal
+	
+	trigger = {
+		OR = {
+			has_character_flag = AoK_foltest_won
+			any_playable_ruler = { has_character_flag = AoK_arjan_surrender }
+		}
+	}
+	
+	option = { # Legitimize them
+		name = EVTOPTAAoK.6
+		random_playable_ruler = {
+			limit = { 
+				OR = {
+					has_character_flag = AoK_arjan_surrender
+					has_character_flag = AoK_arjan_fight
+				}
+			}
+			mother_even_if_dead = {
+				any_child = {
+					limit = {
+						trait = bastard
+						father = { character = ROOT }
+					}
+					remove_trait = bastard
+					add_trait = legit_bastard
+					move_character = ROOT
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # Take them with you
+		name = EVTOPTAAoK.6
+		random_playable_ruler = {
+			limit = { 
+				OR = {
+					has_character_flag = AoK_arjan_surrender
+					has_character_flag = AoK_arjan_fight
+				}
+			}
+			mother_even_if_dead = {
+				any_child = {
+					limit = {
+						trait = bastard
+						father = { character = ROOT }
+					}
+					move_character = ROOT
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # Do nothing
+		name = EVTOPTAAoK.6
+		ai_chance = { factor = 1 }
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis
+################################################
+# Henselt Starting Narrative
+narrative_event = {
+	id = AoK.1000
+	desc = EVTDESCAoK.1000
+	title = EVTNAMEAoK.1000
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAAoK.1000
+		set_character_flag = AoK_henselt_start
+	}
+}
+# Saskia Starting Narrative
+narrative_event = {
+	id = AoK.1001
+	desc = EVTDESCAoK.1001
+	title = EVTNAMEAoK.1001
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAAoK.1001
+		set_character_flag = AoK_saskia_start
+	}
+}
+# Sennis Starting Narrative
+narrative_event = {
+	id = AoK.1002
+	desc = EVTDESCAoK.1002
+	title = EVTNAMEAoK.1002
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAAoK.1002
+		set_character_flag = AoK_stennis_start
+	}
+}
+
+################################################
+# Letho
+################################################
+# Choose second assassination target
+character_event = {
+	id = AoK.2000
+	desc = "Choose target"
+	picture = GFX_evt_shadowy_cabal
+	
+	trigger = {
+		has_character_flag = AoK_letho
+	}
+	
+	option = {
+		name = "Foltest"
+		character_event = { id = AoK.2001 }
+		clr_character_flag = AoK_letho
+		set_character_flag = AoK_letho_kill_foltest
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "Henselt"
+		character_event = { id = AoK.2001 }
+		clr_character_flag = AoK_letho
+		set_character_flag = AoK_letho_kill_henselt
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "Meve"
+		character_event = { id = AoK.2001 }
+		clr_character_flag = AoK_letho
+		set_character_flag = AoK_letho_kill_meve
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "Radovid"
+		character_event = { id = AoK.2001 }
+		clr_character_flag = AoK_letho
+		set_character_flag = AoK_letho_kill_radovid
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "Cancle assassination"
+		clr_character_flag = AoK_letho
+		ai_chance = { factor = 1 }
+	}
+}
+# Choose time till assassination
+character_event = {
+	id = AoK.2001
+	desc = "Choose time"
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "Now"
+		character_event = { id = AoK.2002 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "15 days"
+		character_event = { id = AoK.2002 days = 15 random = 2}
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "30 days"
+		character_event = { id = AoK.2002 days = 30 random = 4}
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "90 days"
+		character_event = { id = AoK.2002 days = 90 random = 12}
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = "Cancle assassination"
+		clr_character_flag = AoK_letho_kill_foltest
+		clr_character_flag = AoK_letho_kill_henselt
+		clr_character_flag = AoK_letho_kill_meve
+		clr_character_flag = AoK_letho_kill_radovid
+		ai_chance = { factor = 1 }
+	}
+}
+# Select assassination event
+character_event = {
+	id = AoK.2002
+	desc = "Select suitable assassination event"
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "Foltest"
+		trigger = { has_character_flag = AoK_letho_kill_foltest }
+		clr_character_flag = AoK_letho_kill_foltest
+		clr_character_flag = AoK_letho_kill_henselt
+		clr_character_flag = AoK_letho_kill_meve
+		clr_character_flag = AoK_letho_kill_radovid
+		random_playable_ruler = {
+			limit = { has_landed_title = k_temeria }
+			if = { # Normal assassination
+				limit = {
+					war = no
+					NOT = { has_character_flag = holding_large_feast }
+					NOT = { has_character_flag = holding_grand_hunt }
+				}
+				character_event = { id = AoK.2010 }
+			}
+			if = { # Feast assassination
+				limit = {
+					war = no
+					has_character_flag = holding_large_feast
+				}
+				character_event = { id = AoK.2011 }
+			}
+			if = { # Hunt assassination
+				limit = {
+					war = no
+					has_character_flag = holding_grand_hunt
+				}
+				character_event = { id = AoK.2012 }
+			}
+			if = { # War assassination
+				limit = {
+					war = yes
+					NOT = { siege = { always = yes } }
+				}
+				character_event = { id = AoK.2013 }
+			}
+			if = { # Siege assassination
+				limit = {
+					war = yes
+					siege = { always = yes }
+				}
+				character_event = { id = AoK.2013 }
+			}
+		}
+	}
+	option = {
+		name = "Henselt"
+		trigger = { has_character_flag = AoK_letho_kill_henselt }
+		clr_character_flag = AoK_letho_kill_henselt
+		random_playable_ruler = {
+			limit = { has_landed_title = k_kaedwen }
+			if = { # Normal assassination
+				limit = {
+					war = no
+					NOT = { has_character_flag = holding_large_feast }
+					NOT = { has_character_flag = holding_grand_hunt }
+				}
+				character_event = { id = AoK.2010 }
+			}
+			if = { # Feast assassination
+				limit = {
+					war = no
+					has_character_flag = holding_large_feast
+				}
+				character_event = { id = AoK.2011 }
+			}
+			if = { # Hunt assassination
+				limit = {
+					war = no
+					has_character_flag = holding_grand_hunt
+				}
+				character_event = { id = AoK.2012 }
+			}
+			if = { # War assassination
+				limit = {
+					war = yes
+					NOT = { siege = { always = yes } }
+				}
+				character_event = { id = AoK.2013 }
+			}
+			if = { # Siege assassination
+				limit = {
+					war = yes
+					siege = { always = yes }
+				}
+				character_event = { id = AoK.2013 }
+			}
+		}
+	}
+	option = {
+		name = "Meve"
+		trigger = { has_character_flag = AoK_letho_kill_meve }
+		clr_character_flag = AoK_letho_kill_meve
+		random_playable_ruler = {
+			limit = { has_landed_title = k_lyria_rivia }
+			if = { # Normal assassination
+				limit = {
+					war = no
+					NOT = { has_character_flag = holding_large_feast }
+					NOT = { has_character_flag = holding_grand_hunt }
+				}
+				character_event = { id = AoK.2010 }
+			}
+			if = { # Feast assassination
+				limit = {
+					war = no
+					has_character_flag = holding_large_feast
+				}
+				character_event = { id = AoK.2011 }
+			}
+			if = { # Hunt assassination
+				limit = {
+					war = no
+					has_character_flag = holding_grand_hunt
+				}
+				character_event = { id = AoK.2012 }
+			}
+			if = { # War assassination
+				limit = {
+					war = yes
+					NOT = { siege = { always = yes } }
+				}
+				character_event = { id = AoK.2013 }
+			}
+			if = { # Siege assassination
+				limit = {
+					war = yes
+					siege = { always = yes }
+				}
+				character_event = { id = AoK.2013 }
+			}
+		}
+	}
+	option = {
+		name = "Radovid"
+		trigger = { has_character_flag = AoK_letho_kill_radovid }
+		clr_character_flag = AoK_letho_kill_radovid
+		random_playable_ruler = {
+			limit = { has_landed_title = k_redania }
+			if = { # Normal assassination
+				limit = {
+					war = no
+					NOT = { has_character_flag = holding_large_feast }
+					NOT = { has_character_flag = holding_grand_hunt }
+				}
+				character_event = { id = AoK.2010 }
+			}
+			if = { # Feast assassination
+				limit = {
+					war = no
+					has_character_flag = holding_large_feast
+				}
+				character_event = { id = AoK.2011 }
+			}
+			if = { # Hunt assassination
+				limit = {
+					war = no
+					has_character_flag = holding_grand_hunt
+				}
+				character_event = { id = AoK.2012 }
+			}
+			if = { # War assassination
+				limit = {
+					war = yes
+					NOT = { siege = { always = yes } }
+				}
+				character_event = { id = AoK.2013 }
+			}
+			if = { # Siege assassination
+				limit = {
+					war = yes
+					siege = { always = yes }
+				}
+				character_event = { id = AoK.2014 }
+			}
+		}
+	}
+}
+# Normal assassination
+character_event = {
+	id = AoK.2010
+	desc = EVTDESCAoK.2010
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAAoK.2010
+		hidden_tooltip = {
+			random_playable_ruler = {
+				limit = { has_landed_title = e_nilfgaard }
+				letter_event = { id = AoK.2050 }
+			}
+		}
+		death = { death_reason = death_murder  killer = FROM }
+	}
+}
+# Feast assassination
+character_event = {
+	id = AoK.2011
+	desc = EVTDESCAoK.2011
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAAoK.2011
+		hidden_tooltip = {
+			random_playable_ruler = {
+				limit = { has_landed_title = e_nilfgaard }
+				letter_event = { id = AoK.2050 }
+			}
+		}
+		death = { death_reason = death_murder  killer = FROM }
+	}
+}
+# Hunt assassination
+character_event = {
+	id = AoK.2012
+	desc = EVTDESCAoK.2012
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAAoK.2012
+		hidden_tooltip = {
+			random_playable_ruler = {
+				limit = { has_landed_title = e_nilfgaard }
+				letter_event = { id = AoK.2050 }
+			}
+		}
+		death = { death_reason = death_murder  killer = FROM }
+	}
+}
+# War assassination
+character_event = {
+	id = AoK.2013
+	desc = EVTDESCAoK.2013
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAAoK.2013
+		hidden_tooltip = {
+			random_playable_ruler = {
+				limit = { has_landed_title = e_nilfgaard }
+				letter_event = { id = AoK.2050 }
+			}
+		}
+		death = { death_reason = death_murder  killer = FROM }
+	}
+}
+# Siege assassination
+character_event = {
+	id = AoK.2014
+	desc = EVTDESCAoK.2014
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAAoK.2014
+		hidden_tooltip = {
+			random_playable_ruler = {
+				limit = { has_landed_title = e_nilfgaard }
+				letter_event = { id = AoK.2050 }
+			}
+		}
+		death = { death_reason = death_murder  killer = FROM }
+	}
+}
+#Nilfgaard Notification
+letter_event = {
+	id = AoK.2050
+	desc = EVTDESCAoK.2050
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	show_from_from = yes
+	
+	option = {
+		name = EVTOPTAAoK.2020
+	}
+}
