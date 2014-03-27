@@ -25,13 +25,20 @@ character_event = {
 	
 	option = { #The best food and drinks 
 		name = EVTOPTAfeast.1
+		trigger = { NOT = { trait = temperate } }
 		ai_chance = {
 			factor = 30
 			modifier = { factor = 0.5 trait = greedy }
 			modifier = { factor = 3 trait = hedonist }
+			modifier = { factor = 0.1 trait = temperate }
+			modifier = {
+				factor = 2
+				primary_title = { higher_tier_than = DUKE }
+			}
 		}
 		set_character_flag = lavishly_food
-		scaled_wealth = -0.15
+		treasury = -20
+		prestige = 10
 		hidden_tooltip = {
 			character_event = { id = 72010 days = 2 random = 5 }
 		}
@@ -42,23 +49,32 @@ character_event = {
 			factor = 30
 			modifier = { factor = 0.5 NOT = { trait = greedy } }
 			modifier = { factor = 2 NOT = { trait = hedonist } }
+			modifier = {
+				factor = 2
+				primary_title = { tier = DUKE }
+			}
 		}
 		set_character_flag = medium_food
-		scaled_wealth = -0.10
+		treasury = -10
 		hidden_tooltip = {
 			character_event = { id = 72010 days = 2 random = 5 }
 		}
-		
 	}
 	option = { # The cheapest food and drinks 
 		name = EVTOPTCfeast.1
+		trigger = { NOT = { trait = hedonist } }
 		ai_chance = {
 			factor = 30
 			modifier = { factor = 2.5 trait = greedy }
 			modifier = { factor = 0.5 trait = hedonist }
+			modifier = {
+				factor = 2
+				primary_title = { tier = COUNT }
+			}
 		}
 		set_character_flag = low_food
-		scaled_wealth = -0.05
+		treasury = -5
+		prestige = -5
 		hidden_tooltip = {
 			character_event = { id = 72010 days = 2 random = 5 }
 		}
@@ -71,6 +87,16 @@ letter_event = {
 	desc = EVTDESCfeast.2
 	
 	is_triggered_only = yes
+	
+	immediate = {
+		hidden_tooltip = {
+			character_event = {
+				id =  feast.1
+				days = 25
+				random = 10
+			}
+		}
+	}
 	
 	option = {
 		name = EVTOPTAfeast.2
@@ -88,10 +114,7 @@ character_event = {
 	
 	trigger = {
 		war = no
-		OR = {
-			has_character_modifier = holding_large_feast
-			has_character_modifier = holding_dwarf_feast
-		}
+		has_character_modifier = holding_dwarf_feast
 		has_character_flag = sent_invitations
 		NOT = {
 			has_character_flag = host_feast_started
@@ -144,7 +167,6 @@ character_event = {
 	desc = EVTDESCfeast.5
 	picture = GFX_evt_feast
 	
-	min_age = 15
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
@@ -152,7 +174,13 @@ character_event = {
 	trigger = {
 		war = no
 		has_character_flag = guest_feast_started
-		liege = {
+		any_liege = {
+			NOT = {
+				had_character_flag = {
+					flag = host_feast_started
+					days = 30
+				}
+			}
 			NOT = {
 				has_character_modifier = complain_food_timer
 			}
@@ -160,7 +188,7 @@ character_event = {
 				has_character_modifier = compliment_food_timer
 			}
 			has_character_flag = host_feast_started
-			has_character_modifier = holding_large_feast
+			has_character_modifier = holding_dwarf_feast
 			has_character_flag = lavishly_food
 		}
 	}
@@ -169,49 +197,68 @@ character_event = {
 		days = 180
 		
 		modifier = {
-			factor = 1.1
+			factor = 0.5
+			liege = { trait = hedonist }
+		}
+		modifier = {
+			factor = 2
 			liege = { num_of_vassals = 10 }
 		}
 		modifier = {
-			factor = 1.2
+			factor = 2
 			liege = { num_of_vassals = 20 }
 		}
 		modifier = {
-			factor = 1.3
+			factor = 2
 			liege = { num_of_vassals = 30 }
 		}
 		modifier = {
-			factor = 1.4
+			factor = 2
 			liege = { num_of_vassals = 40 }
 		}
 		modifier = {
-			factor = 1.5
+			factor = 2
 			liege = { num_of_vassals = 50 }
 		}
 		modifier = {
-			factor = 3
+			factor = 2
+			liege = { num_of_vassals = 60 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 70 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 80 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 90 }
+		}
+		modifier = {
+			factor = 2
 			liege = { num_of_vassals = 100 }
 		}
 	}
 	
 	option = {
 		name = EVTOPTAfeast.5 #Approve publicly
+		trigger = {
+			NOT = { trait = temperate }
+		}
 		ai_chance = {
-			factor = 20
+			factor = 40
 			
 			modifier = {
 				factor = 5
 				trait = hedonist
 			}
-			modifier = {
-				factor = 0.1
-				trait = temperate
-			}
 		}
 		any_liege = {
 			limit = {
 				has_character_flag = host_feast_started
-				has_character_modifier = holding_large_feast
+				has_character_modifier = holding_dwarf_feast
 				has_character_flag = lavishly_food
 			}
 			hidden_tooltip = {
@@ -229,13 +276,12 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTBfeast.5 #Disapprove
+		trigger = {
+			NOT = { trait = hedonist }
+		}
 		ai_chance = {
 			factor = 20
 			
-			modifier = {
-				factor = 0.1
-				trait = gluttonous
-			}
 			modifier = {
 				factor = 5
 				trait = temperate
@@ -244,7 +290,7 @@ character_event = {
 		any_liege = {
 			limit = {
 				has_character_flag = host_feast_started
-				has_character_modifier = holding_large_feast
+				has_character_modifier = holding_dwarf_feast
 				has_character_flag = lavishly_food
 			}
 			hidden_tooltip = {
@@ -271,7 +317,6 @@ character_event = {
 	desc = EVTDESCfeast.6
 	picture = GFX_evt_feast
 	
-	min_age = 15
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
@@ -281,13 +326,19 @@ character_event = {
 		has_character_flag = guest_feast_started
 		any_liege = {
 			NOT = {
+				had_character_flag = {
+					flag = host_feast_started
+					days = 30
+				}
+			}
+			NOT = {
 				has_character_modifier = complain_food_timer
 			}
 			NOT = {
 				has_character_modifier = compliment_food_timer
 			}
 			has_character_flag = host_feast_started
-			has_character_modifier = holding_large_feast
+			has_character_modifier = holding_dwarf_feast
 			has_character_flag = medium_food
 		}
 	}
@@ -296,27 +347,43 @@ character_event = {
 		days = 180
 		
 		modifier = {
-			factor = 1.1
+			factor = 2
 			liege = { num_of_vassals = 10 }
 		}
 		modifier = {
-			factor = 1.2
+			factor = 2
 			liege = { num_of_vassals = 20 }
 		}
 		modifier = {
-			factor = 1.3
+			factor = 2
 			liege = { num_of_vassals = 30 }
 		}
 		modifier = {
-			factor = 1.4
+			factor = 2
 			liege = { num_of_vassals = 40 }
 		}
 		modifier = {
-			factor = 1.5
+			factor = 2
 			liege = { num_of_vassals = 50 }
 		}
 		modifier = {
-			factor = 3
+			factor = 2
+			liege = { num_of_vassals = 60 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 70 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 80 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 90 }
+		}
+		modifier = {
+			factor = 2
 			liege = { num_of_vassals = 100 }
 		}
 	}
@@ -326,7 +393,7 @@ character_event = {
 		any_liege = {
 			limit = {
 				has_character_flag = host_feast_started
-				has_character_modifier = holding_large_feast
+				has_character_modifier = holding_dwarf_feast
 				has_character_flag = medium_food
 			}
 			hidden_tooltip = {
@@ -347,7 +414,7 @@ character_event = {
 		any_liege = {
 			limit = {
 				has_character_flag = host_feast_started
-				has_character_modifier = holding_large_feast
+				has_character_modifier = holding_dwarf_feast
 				has_character_flag = medium_food
 			}
 			
@@ -375,7 +442,6 @@ character_event = {
 	desc = EVTDESCfeast.7
 	picture = GFX_evt_feast
 	
-	min_age = 15
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
@@ -385,13 +451,19 @@ character_event = {
 		has_character_flag = guest_feast_started
 		any_liege = {
 			NOT = {
+				had_character_flag = {
+					flag = host_feast_started
+					days = 30
+				}
+			}
+			NOT = {
 				has_character_modifier = complain_food_timer
 			}
 			NOT = {
 				has_character_modifier = compliment_food_timer
 			}
 			has_character_flag = host_feast_started
-			has_character_modifier = holding_large_feast
+			has_character_modifier = holding_dwarf_feast
 			has_character_flag = low_food
 		}
 	}
@@ -400,40 +472,59 @@ character_event = {
 		days = 180
 		
 		modifier = {
-			factor = 1.1
+			factor = 0.5
+			liege = { trait = temperate }
+		}
+		modifier = {
+			factor = 2
 			liege = { num_of_vassals = 10 }
 		}
 		modifier = {
-			factor = 1.2
+			factor = 2
 			liege = { num_of_vassals = 20 }
 		}
 		modifier = {
-			factor = 1.3
+			factor = 2
 			liege = { num_of_vassals = 30 }
 		}
 		modifier = {
-			factor = 1.4
+			factor = 2
 			liege = { num_of_vassals = 40 }
 		}
 		modifier = {
-			factor = 1.5
+			factor = 2
 			liege = { num_of_vassals = 50 }
 		}
 		modifier = {
-			factor = 3
+			factor = 2
+			liege = { num_of_vassals = 60 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 70 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 80 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 90 }
+		}
+		modifier = {
+			factor = 2
 			liege = { num_of_vassals = 100 }
 		}
 	}
 	
 	option = {
 		name = EVTOPTAfeast.7 #Approve publicly
+		trigger = {
+			NOT = { trait = hedonist }
+		}
 		ai_chance = {
 			factor = 20
 			
-			modifier = {
-				factor = 0.1
-				trait = hedonist
-			}
 			modifier = {
 				factor = 5
 				trait = temperate
@@ -442,7 +533,7 @@ character_event = {
 		any_liege = {
 			limit = {
 				has_character_flag = host_feast_started
-				has_character_modifier = holding_large_feast
+				has_character_modifier = holding_dwarf_feast
 				has_character_flag = low_food
 			}
 			hidden_tooltip = {
@@ -460,22 +551,21 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTBfeast.7 #Disapprove
+		trigger = {
+			NOT = { trait = temperate }
+		}
 		ai_chance = {
-			factor = 20
+			factor = 40
 			
 			modifier = {
 				factor = 5
 				trait = gluttonous
 			}
-			modifier = {
-				factor = 0.1
-				trait = temperate
-			}
 		}
 		any_liege = {
 			limit = {
 				has_character_flag = host_feast_started
-				has_character_modifier = holding_large_feast
+				has_character_modifier = holding_dwarf_feast
 				has_character_flag = low_food
 			}
 			hidden_tooltip = {
@@ -509,7 +599,7 @@ character_event = {
 		opinion = {
 			modifier = opinion_happy
 			who = FROM
-			years = 2
+			years = 10
 		}
 	}
 }
@@ -526,7 +616,7 @@ character_event = {
 		opinion = {
 			modifier = opinion_irritated
 			who = FROM
-			years = 2
+			years = 10
 		}
 	}
 }

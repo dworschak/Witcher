@@ -124,8 +124,6 @@ faction_succ_seniority = {
 			is_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
-			
-			NOT = { religion_group = muslim }	
 			NOT = { in_faction = faction_succ_primogeniture }
 			NOT = { in_faction = faction_succ_feudal_elective }
 			NOT = { in_faction = faction_succ_gavelkind }
@@ -732,8 +730,6 @@ faction_succ_primogeniture = {
 			is_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
-			
-			NOT = { religion_group = muslim }	
 			NOT = { in_faction = faction_succ_seniority }
 			NOT = { in_faction = faction_succ_feudal_elective }
 			NOT = { in_faction = faction_succ_gavelkind }	
@@ -1242,8 +1238,8 @@ faction_succ_gavelkind = {
 				}
 			}			
 		}
-		NOT = { religion_group = muslim }
-		#primary_title = { higher_tier_than = BARON }
+		# NOT = { religion_group = muslim }
+		primary_title = { higher_tier_than = BARON }
 		
 		NOT = { in_faction = faction_succ_seniority }
 		NOT = { in_faction = faction_succ_primogeniture }
@@ -1323,8 +1319,6 @@ faction_succ_gavelkind = {
 			is_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
-			
-			NOT = { religion_group = muslim }	
 			NOT = { in_faction = faction_succ_seniority }
 			NOT = { in_faction = faction_succ_primogeniture }
 			NOT = { in_faction = faction_succ_feudal_elective }
@@ -1930,8 +1924,6 @@ faction_succ_feudal_elective = {
 			is_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
-			
-			NOT = { religion_group = muslim }	
 			NOT = { in_faction = faction_succ_seniority }
 			NOT = { in_faction = faction_succ_primogeniture }
 			NOT = { in_faction = faction_succ_gavelkind }
@@ -3755,13 +3747,13 @@ faction_claimant = {
 				}
 			}
 			
-			OR = {
-				is_female = no
-				AND = {
-					NOT = { religion_group = muslim } 
-					NOT = { ROOT = { succ_law_title = { has_law = agnatic_succession } } }
-				}
-			}
+			# OR = {
+				# is_female = no
+				# AND = {
+					# NOT = { religion_group = muslim } 
+					# NOT = { ROOT = { succ_law_title = { has_law = agnatic_succession } } }
+				# }
+			# }
 			
 			OR = {
 				ROOT = { has_law = succ_feudal_elective }
@@ -3974,32 +3966,32 @@ faction_claimant = {
 		}
 		
 		# If there is an antiking faction, prioritize that
-		modifier = {
-			factor = 0
-			FROM = {
-				OR = {
-					religion = catholic
-					religion = fraticelli
-				}
-				top_liege = {
-					FROM = {
-						liege = {
-							character = PREVPREV
-						}
-					}
-					religion = FROM
-					rightful_religious_head_scope = {
-						OR = {
-							has_claim = k_papal_state
-							has_claim = d_fraticelli
-						}
-					}
-					any_realm_lord = {
-						in_faction = faction_antiking
-					}
-				}
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# FROM = {
+				# OR = {
+					# religion = catholic
+					# religion = fraticelli
+				# }
+				# top_liege = {
+					# FROM = {
+						# liege = {
+							# character = PREVPREV
+						# }
+					# }
+					# religion = FROM
+					# rightful_religious_head_scope = {
+						# OR = {
+							# has_claim = k_papal_state
+							# has_claim = d_fraticelli
+						# }
+					# }
+					# any_realm_lord = {
+						# in_faction = faction_antiking
+					# }
+				# }
+			# }
+		# }
 		
 		modifier = {
 			factor = 0
@@ -4142,39 +4134,6 @@ faction_claimant = {
 			factor = 1.5
 			new_character = {
 				dynasty = FROM
-			}
-		}
-		
-		modifier = {
-			factor = 2.0
-			title = e_byzantium
-			FROM = { culture_group = byzantine }
-			holder_scope = {
-				NOT = { trait = born_in_the_purple }
-			}
-		}
-		
-		modifier = {
-			factor = 2.0
-			new_character = {
-				trait = sayyid
-			}
-			holder_scope = {
-				NOT = { trait = sayyid }
-			}
-		}
-		modifier = {
-			factor = 1.5
-			new_character = {
-				trait = mirza
-			}
-			holder_scope = {
-				NOT = {
-					OR = {
-						trait = sayyid 
-						trait = mirza 
-					}
-				}
 			}
 		}
 		
@@ -4395,30 +4354,30 @@ faction_claimant = {
 		}
 		
 		# If there is an antiking faction, prioritize that
-		modifier = {
-			factor = 0
-			OR = {
-				religion = catholic
-				religion = fraticelli
-			}
-			top_liege = {
-				ROOT = {
-					liege = {
-						character = PREVPREV
-					}
-				}
-				religion = ROOT
-				rightful_religious_head_scope = {
-					OR = {
-						has_claim = k_papal_state
-						has_claim = d_fraticelli
-					}
-				}
-				any_realm_lord = {
-					in_faction = faction_antiking
-				}
-			}
-		}
+		# modifier = {
+			# factor = 0
+			# OR = {
+				# religion = catholic
+				# religion = fraticelli
+			# }
+			# top_liege = {
+				# ROOT = {
+					# liege = {
+						# character = PREVPREV
+					# }
+				# }
+				# religion = ROOT
+				# rightful_religious_head_scope = {
+					# OR = {
+						# has_claim = k_papal_state
+						# has_claim = d_fraticelli
+					# }
+				# }
+				# any_realm_lord = {
+					# in_faction = faction_antiking
+				# }
+			# }
+		# }
 		
 		modifier = {
 			factor = 0
