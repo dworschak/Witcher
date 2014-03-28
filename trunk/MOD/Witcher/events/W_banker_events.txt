@@ -57,7 +57,6 @@ character_event = {
 			modifier = { factor = 2 NOT = { trait = greedy } }
 			modifier = { factor = 2 NOT = { trait = envious } }
 			modifier = { factor = 2 trait = racist }
-			modifier = { factor = 4 has_character_flag = refused_repaying_loan }
 			modifier = { factor = 2 has_character_flag = repaid_loan_early }
 			modifier = { factor = 2 stewardship = 10 }
 		}
@@ -73,7 +72,6 @@ character_event = {
 			modifier = { factor = 2  trait = racist }
 			modifier = { factor = 2 trait = greedy }
 			modifier = { factor = 2 trait = envious }
-			modifier = { factor = 10 has_character_flag = refused_repaying_loan }
 			modifier = { factor = 2 NOT = { stewardship = 10 } }
 		}
 		clr_character_flag = repaid_loan_early
@@ -195,7 +193,9 @@ character_event = {
 			}
 		}
 		NOT = { has_character_flag = didnt_repay_loan_early }
-		NOT = { has_character_modifier = refused_repaying_loan }
+		NOT = { has_character_modifier = refused_repaying_loan_100 }
+		NOT = { has_character_modifier = refused_repaying_loan_200 }
+		NOT = { has_character_modifier = refused_repaying_loan_300 }
 	}
 	
 	mean_time_to_happen = {
@@ -239,7 +239,9 @@ character_event = {
 			has_character_modifier = loan_300
 		}
 		NOT = { has_character_flag = delayed_repaying_loan }
-		NOT = { has_character_modifier = refused_repaying_loan }
+		NOT = { has_character_modifier = refused_repaying_loan_100 }
+		NOT = { has_character_modifier = refused_repaying_loan_200 }
+		NOT = { has_character_modifier = refused_repaying_loan_300 }
 	}
 	
 	mean_time_to_happen = {
@@ -315,7 +317,11 @@ character_event = {
 			has_character_modifier = loan_300
 		}
 		has_character_flag = delayed_repaying_loan
-		NOT = { has_character_modifier = refused_repaying_loan }
+		NOT = {
+			has_character_modifier = refused_repaying_loan_100
+			has_character_modifier = refused_repaying_loan_200
+			has_character_modifier = refused_repaying_loan_300
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -369,10 +375,27 @@ character_event = {
 	option = { # Refuse repaying the loan
 		name = EVTOPTCbanker.8
 		set_character_flag = refused_repaying_loan
-		add_character_modifier = { name = refused_repaying_loan duration = -1 inherit = yes }
 		custom_tooltip = { text = bank_is_very_upset }
 		clr_character_flag = didnt_repay_loan_early
 		clr_character_flag = extended_repaying_loan
+		if = {
+			limit = { has_character_modifier = loan_100 }
+			add_character_modifier = { name = refused_repaying_loan_100 duration = -1 inherit = yes }
+			remove_character_modifier = loan_100
+		}
+		if = {
+			limit = { has_character_modifier = loan_200 }
+			add_character_modifier = { name = refused_repaying_loan_200 duration = -1 inherit = yes }
+			remove_character_modifier = loan_200
+		}
+		if = {
+			limit = { has_character_modifier = loan_300 }
+			add_character_modifier = { name = refused_repaying_loan_300 duration = -1 inherit = yes }
+			remove_character_modifier = loan_300
+		}
+		hidden_tooltip = {
+			add_character_modifier = { name = refused_repaying_loan_heir duration = -1 inherit = yes hidden = yes}
+		}
 	}
 }
 # Previous ruler refused to repay the loan
@@ -383,12 +406,12 @@ character_event = {
 	
 	trigger = {
 		OR = {
-			has_character_modifier = loan_100
-			has_character_modifier = loan_200
-			has_character_modifier = loan_300
+			has_character_modifier = refused_repaying_loan_100
+			has_character_modifier = refused_repaying_loan_200
+			has_character_modifier = refused_repaying_loan_300
 		}
+		has_character_modifier = refused_repaying_loan_heir
 		NOT = { has_character_flag = refused_repaying_loan }
-		has_character_modifier = refused_repaying_loan
 	}
 	
 	mean_time_to_happen = {
@@ -398,49 +421,65 @@ character_event = {
 	option = { # Repay whole loan
 		name = EVTOPTAbanker.9
 		if = {
-			limit = { has_character_modifier = loan_100 }
-			remove_character_modifier = loan_100
+			limit = { has_character_modifier = refused_repaying_loan_100 }
+			remove_character_modifier = refused_repaying_loan_100
 			wealth = -120
 		}
 		if = {
-			limit = { has_character_modifier = loan_200 }
-			remove_character_modifier = loan_200
+			limit = { has_character_modifier = refused_repaying_loan_200 }
+			remove_character_modifier = refused_repaying_loan_200
 			wealth = -240
 		}
 		if = {
-			limit = { has_character_modifier = loan_300 }
-			remove_character_modifier = loan_300
+			limit = { has_character_modifier = refused_repaying_loan_300 }
+			remove_character_modifier = refused_repaying_loan_300
 			wealth = -360
 		}
 		clr_character_flag = didnt_repay_loan_early
-		remove_character_modifier = refused_repaying_loan
+		remove_character_modifier = refused_repaying_loan_heir
 	}
 	option = { # Repay 100 gold
 		name = EVTOPTBbanker.9
 		trigger = {
 			OR = {
-				has_character_modifier = loan_200
-				has_character_modifier = loan_300
+				has_character_modifier = refused_repaying_loan_200
+				has_character_modifier = refused_repaying_loan_300
 			}
 		}
 		if = {
-			limit = { has_character_modifier = loan_200 }
-			remove_character_modifier = loan_200
+			limit = { has_character_modifier = refused_repaying_loan_200 }
+			remove_character_modifier = refused_repaying_loan_200
 			add_character_modifier = { name = loan_100 duration = -1 inherit = yes }
 		}
 		if = {
-			limit = { has_character_modifier = loan_300 }
-			remove_character_modifier = loan_300
+			limit = { has_character_modifier = refused_repaying_loan_300 }
+			remove_character_modifier = refused_repaying_loan_300
 			add_character_modifier = { name = loan_200 duration = -1 inherit = yes }
 		}
 		wealth = -120
-		remove_character_modifier = refused_repaying_loan
+		remove_character_modifier = refused_repaying_loan_heir
 	}
 	option = { # Will repay the loan
 		name = EVTOPTCbanker.9
-		remove_character_modifier = refused_repaying_loan
+		if = {
+			limit = { has_character_modifier = refused_repaying_loan_100 }
+			remove_character_modifier = refused_repaying_loan_100
+			add_character_modifier = { name = loan_100 duration = -1 inherit = yes }
+		}
+		if = {
+			limit = { has_character_modifier = refused_repaying_loan_200 }
+			remove_character_modifier = refused_repaying_loan_200
+			add_character_modifier = { name = loan_200 duration = -1 inherit = yes }
+		}
+		if = {
+			limit = { has_character_modifier = refused_repaying_loan_300 }
+			remove_character_modifier = refused_repaying_loan_300
+			add_character_modifier = { name = loan_300 duration = -1 inherit = yes }
+		}
+		remove_character_modifier = refused_repaying_loan_heir
 	}
 	option = { # Will not repay the loan
 		name = EVTOPTDbanker.9
+		remove_character_modifier = refused_repaying_loan_heir
 	}
 }
