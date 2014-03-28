@@ -8,7 +8,6 @@ character_event = {
 	id = religious.1
 	desc = EVTDESCreligious.1
 	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
 	
@@ -21,13 +20,99 @@ character_event = {
 	id = religious.2
 	desc = EVTDESCreligious.2
 	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
 	
 	option = {
 		name = EVTOPTAreligious.2
-		set_character_flag = made_sacrifice
+		piety = 10
+		hidden_tooltip = {
+			random_list = {
+				90 = { }
+				5 = { character_event = { id = religious.5 days = 182 random = 30 } }
+				5 = { character_event = { id = religious.6 days = 182 random = 30 } }
+			}
+		}
+	}
+}
+
+################################################
+# Spider cultist gets impaler, cruel
+################################################
+# Spider cultist enjoys torturing
+character_event = {
+	id = religious.5
+	desc = EVTDESCreligious.5
+	picture = GFX_evt_torture
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		NOT = { lifestyle_traits = 1 }
+		religion = spider
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 3 trait = zealous }
+		modifier = { factor = 1.5 trait = cruel }
+		modifier = { factor = 1.5 trait = envious }
+		modifier = { factor = 1.2 trait = proud }
+		modifier = { factor = 1.5 trait = wroth }
+		modifier = { factor = 0.6 trait = kind }
+		modifier = { factor = 0.9 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAreligious.5
+		add_trait = impaler
+	}
+	option = {
+		name = EVTOPTBreligious.5
+		piety = 20
+	}
+}
+# Spider cultist enjoys cruelity
+character_event = {
+	id = religious.6
+	desc = EVTDESCreligious.6
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		NOT = { trait = cruel }
+		religion = spider
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 3 trait = zealous }
+		modifier = { factor = 1.5 trait = impaler }
+		modifier = { factor = 1.5 trait = envious }
+		modifier = { factor = 1.2 trait = proud }
+		modifier = { factor = 1.5 trait = wroth }
+		modifier = { factor = 0.6 trait = kind }
+		modifier = { factor = 0.9 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAreligious.6
+		random = {
+			chance = 25
+			if = {
+				limit = { trait = kind }
+				remove_trait = kind
+			}
+			add_trait = cruel
+			hidden_tooltip = {
+				character_event = {
+					id = 38259 #Notify Cruel
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBreligious.6
+		prestige = 20
 	}
 }
 
