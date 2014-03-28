@@ -202,6 +202,7 @@ character_event = {
 		artifact_heir_temp = { remove_trait = artifact_heir_temp }
 	}
 }
+
 ################################################
 # Confiscating artifacts from prisoner
 ################################################
@@ -334,6 +335,159 @@ character_event = {
 			limit = { NOT = { trait = nehalenias_mirror } }
 			add_trait = nehalenias_mirror
 			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
+		}
+	}
+}
+
+################################################
+# Gwyhyr swords
+################################################
+# Ping - Courtier offers to sell his sword
+character_event = {
+	id = artifact.1000
+	desc = "Ping"
+	picture = GFX_evt_death
+	
+	capable_only = yes
+	
+	trigger = {
+		trait = gwyhyr_sword
+		NOT = { trait = master_warrior }
+		NOT = { trait = skilled_warrior }
+		NOT = { trait = trained_warrior }
+		liege = {
+			wealth = 100
+			NOT = { trait = gwyhyr_sword }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		modifier = { factor = 0.5 liege = { wealth = 200 } }
+		modifier = { factor = 0.5 liege = { wealth = 300 } }
+		modifier = { factor = 0.5 liege = { wealth = 400 } }
+	}
+	
+	option = {
+		name = "OK"
+		liege = { character_event = { id = artifact.1001 } }
+	}
+}
+# Liege - Courtier offers to sell his sword
+character_event = {
+	id = artifact.1001
+	desc = EVTDESCartifact.1001
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	is_ruler = yes
+	min_age = 15
+	capable_only = yes
+	
+	
+	option = { # Buy
+		name = EVTOPTAartifact.1001
+		FROM = {
+			wealth = 100
+			remove_trait = gwyhyr_sword
+		}
+		wealth = -100
+		add_trait = gwyhyr_sword
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 1.5 trait = master_warrior }
+			modifier = { factor = 1.5 trait = skilled_warrior }
+			modifier = { factor = 2 wealth = 200 }
+		}
+	}
+	option = { # Don't buy
+		name = EVTOPTBartifact.1001
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 war = yes }
+		}
+	}
+}
+# Merchant offers to sell sword
+character_event = {
+	id = artifact.1002
+	desc = EVTDESCartifact.1002
+	picture = GFX_evt_death
+	
+	is_ruler = yes
+	min_age = 15
+	capable_only = yes
+	
+	trigger = {
+		NOT = { trait = gwyhyr_sword }
+		wealth = 150
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+		modifier = { factor = 0.5 wealth = 300 }
+		modifier = { factor = 0.5 wealth = 600 }
+		modifier = { factor = 0.5 wealth = 900 }
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = { factor = 0.9 trait = charitable  }
+		modifier = { factor = 0.9 trait = trusting  }
+		modifier = { factor = 1.1 trait = paranoid  }
+		modifier = { factor = 1.1 trait = greedy  }
+	}
+	
+	option = { # Buy
+		name = EVTOPTAartifact.1002
+		wealth = -150
+		add_trait = gwyhyr_sword
+		hidden_tooltip = {
+			random = {
+				chance = 20
+				character_event = { id = artifacts.1003 days = 365 random = 50 }
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 2 trait = trusting }
+			modifier = { factor = 1.5 trait = master_warrior }
+			modifier = { factor = 1.5 trait = skilled_warrior }
+			modifier = { factor = 2 wealth = 300 }
+		}
+	}
+	option = { # Don't buy
+		name = EVTOPTBartifact.1002
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = paranoid }
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 trait = content }
+			modifier = { factor = 2 war = yes }
+			modifier = { factor = 2 ai = yes }
+		}
+	}
+}
+# Sword sold by merchant turned out to be a fake
+character_event = {
+	id = artifact.1003
+	desc = EVTDESCartifact.1003
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAartifact.1003
+		remove_trait = gwyhyr_sword
+		if = {
+			limit = { NOT = { trait = trusting} }
+			random = {
+				chance = 20
+				add_trait = trusting
+				hidden_tooltip = { character_event = { id = 38250 } }
+			}
 		}
 	}
 }
