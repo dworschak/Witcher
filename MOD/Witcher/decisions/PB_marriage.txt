@@ -26,23 +26,52 @@ decisions = {
 			clr_character_flag = enable_marriage_decisions_temp
 		}
 	}
-	marry_courtiers = {
+	marry_courtiers_human = {
 		potential = {
 			has_character_flag = enable_marriage_decisions
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				is_female = no
+				trait = human
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				NOT = { has_character_modifier = old_age }
+				is_female = yes
+				trait = human
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
 		}
 		allow = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
-				age = 16
+				age = 15
 				is_female = no
+				trait = human
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
 			}
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
-				age = 16
-				NOT = { age = 45 }
+				age = 15
+				NOT = { has_character_modifier = old_age }
 				is_female = yes
+				trait = human
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
 			}
 		}
 		effect = {
@@ -50,9 +79,13 @@ decisions = {
 				limit = {
 					NOT = { dynasty = ROOT }
 					is_married = no
-					age = 16
-					NOT = { age = 45 }
+					age = 15
+					NOT = { has_character_modifier = old_age }
 					is_female = yes
+					trait = human
+					NOT = { trait = witcher }
+					NOT = { trait = druid }
+					NOT = { trait = sorcerer }
 				}
 				ROOT = {
 					random_courtier = {
@@ -60,8 +93,172 @@ decisions = {
 							NOT = { dynasty = ROOT }
 							can_marry = PREVPREV
 							is_married = no
-							age = 16
+							age = 15
 							is_female = no
+							trait = human
+							NOT = { trait = witcher }
+							NOT = { trait = druid }
+							NOT = { trait = sorcerer }
+						}
+						add_spouse = PREVPREV
+					}
+				}
+			}
+		}
+	}
+	marry_courtiers_dwarf = {
+		potential = {
+			has_character_flag = enable_marriage_decisions
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				is_female = no
+				trait = dwarven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				NOT = { has_character_modifier = old_age }
+				is_female = yes
+				trait = dwarven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+		}
+		allow = {
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				is_female = no
+				trait = dwarven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				NOT = { has_character_modifier = old_age }
+				is_female = yes
+				trait = dwarven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+		}
+		effect = {
+			any_courtier = {
+				limit = {
+					NOT = { dynasty = ROOT }
+					is_married = no
+					age = 15
+					NOT = { has_character_modifier = old_age }
+					is_female = yes
+					trait = dwarven
+					NOT = { trait = witcher }
+					NOT = { trait = druid }
+					NOT = { trait = sorcerer }
+				}
+				ROOT = {
+					random_courtier = {
+						limit = {
+							NOT = { dynasty = ROOT }
+							can_marry = PREVPREV
+							is_married = no
+							age = 15
+							is_female = no
+							trait = dwarven
+							NOT = { trait = witcher }
+							NOT = { trait = druid }
+							NOT = { trait = sorcerer }
+						}
+						add_spouse = PREVPREV
+					}
+				}
+			}
+		}
+	}
+	marry_courtiers_elf = {
+		potential = {
+			has_character_flag = enable_marriage_decisions
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				is_female = no
+				trait = elven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				NOT = { has_character_modifier = old_age }
+				is_female = yes
+				trait = elven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+		}
+		allow = {
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				is_female = no
+				trait = elven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+			any_courtier = {
+				NOT = { dynasty = ROOT }
+				is_married = no
+				age = 15
+				NOT = { has_character_modifier = old_age }
+				is_female = yes
+				trait = elven
+				NOT = { trait = witcher }
+				NOT = { trait = druid }
+				NOT = { trait = sorcerer }
+			}
+		}
+		effect = {
+			any_courtier = {
+				limit = {
+					NOT = { dynasty = ROOT }
+					is_married = no
+					age = 15
+					NOT = { has_character_modifier = old_age }
+					is_female = yes
+					trait = elven
+					NOT = { trait = witcher }
+					NOT = { trait = druid }
+					NOT = { trait = sorcerer }
+				}
+				ROOT = {
+					random_courtier = {
+						limit = {
+							NOT = { dynasty = ROOT }
+							can_marry = PREVPREV
+							is_married = no
+							age = 15
+							is_female = no
+							trait = elven
+							NOT = { trait = witcher }
+							NOT = { trait = druid }
+							NOT = { trait = sorcerer }
 						}
 						add_spouse = PREVPREV
 					}
@@ -73,16 +270,22 @@ decisions = {
 
 # Vassal decisions are listed for each courtier and direct vassal. The ruler is in the FROM scope.
 vassal_decisions = {
-	marry_courtier = {
+	marry_courtier_human = {
+		from_potential = {
+			has_character_flag = enable_marriage_decisions
+		}
 		potential = {
-			liege = { has_character_flag = enable_marriage_decisions }
 			is_ruler = no
 			is_married = no
-			age = 16
+			age = 15
 			OR = {
 				is_female = no
-				NOT = { age = 45 }
+				NOT = { has_character_modifier = old_age }
 			}
+			trait = human
+			NOT = { trait = witcher }
+			NOT = { trait = druid }
+			NOT = { trait = sorcerer }
 		}
 		effect = {
 			if = {
@@ -92,9 +295,10 @@ vassal_decisions = {
 				}
 				create_character = {
 					female = yes
-					age = 16
+					age = 15
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					ROOT = {
@@ -113,6 +317,7 @@ vassal_decisions = {
 					age = 20
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					ROOT = {
@@ -131,6 +336,7 @@ vassal_decisions = {
 					age = 25
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					ROOT = {
@@ -149,6 +355,7 @@ vassal_decisions = {
 					age = 30
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					ROOT = {
@@ -166,6 +373,7 @@ vassal_decisions = {
 					age = 35
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					ROOT = {
@@ -183,6 +391,7 @@ vassal_decisions = {
 					age = 20
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					add_spouse = ROOT
@@ -199,6 +408,7 @@ vassal_decisions = {
 					age = 25
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					add_spouse = ROOT
@@ -215,6 +425,7 @@ vassal_decisions = {
 					age = 30
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					add_spouse = ROOT
@@ -231,6 +442,7 @@ vassal_decisions = {
 					age = 35
 					dynasty = random
 					random_traits = yes
+					trait = human
 				}
 				new_character = {
 					add_spouse = ROOT
@@ -246,6 +458,439 @@ vassal_decisions = {
 					age = 40
 					dynasty = random
 					random_traits = yes
+					trait = human
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+		}
+	}
+	marry_courtier_dwarf = {
+		from_potential = {
+			has_character_flag = enable_marriage_decisions
+		}
+		potential = {
+			is_ruler = no
+			is_married = no
+			age = 15
+			OR = {
+				is_female = no
+				NOT = { has_character_modifier = old_age }
+			}
+			trait = dwarven
+			NOT = { trait = witcher }
+			NOT = { trait = druid }
+			NOT = { trait = sorcerer }
+		}
+		effect = {
+			if = {
+				limit = {
+					is_female = no
+					NOT = { age = 20 }
+				}
+				create_character = {
+					female = yes
+					age = 15
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 20
+					NOT = { age = 25 }
+				}
+				create_character = {
+					female = yes
+					age = 20
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 25
+					NOT = { age = 30 }
+				}
+				create_character = {
+					female = yes
+					age = 25
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 30
+					NOT = { age = 35 }
+				}
+				create_character = {
+					female = yes
+					age = 30
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 35
+				}
+				create_character = {
+					female = yes
+					age = 35
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					NOT = { age = 20 }
+				}
+				create_character = {
+					female = no
+					age = 20
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 20
+					NOT = { age = 25 }
+				}
+				create_character = {
+					female = no
+					age = 25
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 25
+					NOT = { age = 30 }
+				}
+				create_character = {
+					female = no
+					age = 30
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 30
+					NOT = { age = 35 }
+				}
+				create_character = {
+					female = no
+					age = 35
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					age = 35
+					is_female = yes
+				}
+				create_character = {
+					female = no
+					age = 40
+					dynasty = random
+					culture = dwarven
+					religion = dwarven
+					random_traits = yes
+					trait = dwarven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+		}
+	}
+	marry_courtier_elf = {
+		from_potential = {
+			has_character_flag = enable_marriage_decisions
+		}
+		potential = {
+			is_ruler = no
+			is_married = no
+			age = 15
+			OR = {
+				is_female = no
+				NOT = { has_character_modifier = old_age }
+			}
+			trait = elven
+			NOT = { trait = witcher }
+			NOT = { trait = druid }
+			NOT = { trait = sorcerer }
+		}
+		effect = {
+			if = {
+				limit = {
+					is_female = no
+					NOT = { age = 35 }
+				}
+				create_character = {
+					female = yes
+					age = 25
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 35
+					NOT = { age = 55 }
+				}
+				create_character = {
+					female = yes
+					age = 45
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 55
+					NOT = { age = 75 }
+				}
+				create_character = {
+					female = yes
+					age = 65
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 75
+					NOT = { age = 95 }
+				}
+				create_character = {
+					female = yes
+					age = 85
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					age = 95
+				}
+				create_character = {
+					female = yes
+					age = 105
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					ROOT = {
+						add_spouse = PREV
+					}
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					NOT = { age = 35 }
+				}
+				create_character = {
+					female = no
+					age = 25
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 35
+					NOT = { age = 55 }
+				}
+				create_character = {
+					female = no
+					age = 45
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 55
+					NOT = { age = 75 }
+				}
+				create_character = {
+					female = no
+					age = 65
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					is_female = yes
+					age = 75
+					NOT = { age = 95 }
+				}
+				create_character = {
+					female = no
+					age = 85
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
+				}
+				new_character = {
+					add_spouse = ROOT
+				}
+			}
+			if = {
+				limit = {
+					age = 95
+					is_female = yes
+				}
+				create_character = {
+					female = no
+					age = 105
+					dynasty = random
+					culture = elven
+					religion = dana_meadbh
+					random_traits = yes
+					trait = elven
 				}
 				new_character = {
 					add_spouse = ROOT
