@@ -178,6 +178,21 @@ character_event = {
 			FROM = { remove_trait = nehalenias_mirror }
 			add_trait = nehalenias_mirror
 		}
+		if = {
+			limit = { FROM = { trait = purple_living_bone } }
+			FROM = { remove_trait = purple_living_bone }
+			add_trait = purple_living_bone
+		}
+		if = {
+			limit = { FROM = { trait = conynhaela } }
+			FROM = { remove_trait = conynhaela }
+			add_trait = conynhaela
+		}
+		if = {
+			limit = { FROM = { trait = purple_living_bone_and_conynhaela } }
+			FROM = { remove_trait = purple_living_bone_and_conynhaela }
+			add_trait = purple_living_bone_and_conynhaela
+		}
 		hidden_tooltip = { remove_trait = artifact_heir_temp }
 	}
 }
@@ -210,7 +225,7 @@ character_event = {
 character_event = {
 	id = artifact.100
 	desc = EVTDESCartifact.100
-	picture = GFX_evt_death
+	picture = GFX_evt_into_the_dungeon
 	
 	is_triggered_only =  yes
 	
@@ -251,6 +266,79 @@ character_event = {
 			FROM = { remove_trait = nehalenias_mirror }
 			character_event = { id = artifact.102 tooltip = EVTTOOLTIPartifact.102 }
 		}
+		# Purple living  bone
+		if = {
+			limit = {
+				FROM = { trait = purple_living_bone }
+				NOT = { trait = purple_living_bone }
+				NOT = { trait = purple_living_bone_and_conynhaela }
+			}
+			FROM = { remove_trait = purple_living_bone }
+			ROOT = { add_trait = purple_living_bone }
+		}
+		if = {
+			limit = {
+				FROM = { trait = purple_living_bone }
+				trait = purple_living_bone
+			}
+			FROM = { remove_trait = purple_living_bone }
+			character_event = { id = artifact.103 tooltip = EVTTOOLTIPartifact.103 }
+		}
+		# Conynhaela
+		if = {
+			limit = {
+				FROM = { trait = conynhaela }
+				NOT = { trait = conynhaela }
+				NOT = { trait = purple_living_bone_and_conynhaela }
+			}
+			FROM = { remove_trait = conynhaela }
+			ROOT = { add_trait = conynhaela }
+		}
+		if = {
+			limit = {
+				FROM = { trait = conynhaela }
+				trait = conynhaela
+			}
+			FROM = { remove_trait = conynhaela }
+			character_event = { id = artifact.105 tooltip = EVTTOOLTIPartifact.105 }
+		}
+		# Living purple bone and Conynhaela
+		if = {
+			limit = {
+				FROM = { trait = purple_living_bone_and_conynhaela }
+				NOT = { trait = purple_living_bone_and_conynhaela }
+				NOT = { trait = purple_living_bone }
+				NOT = { trait = conynhaela }
+			}
+			FROM = { remove_trait = purple_living_bone_and_conynhaela }
+			ROOT = { add_trait = purple_living_bone_and_conynhaela }
+		}
+		if = {
+			limit = {
+				FROM = { trait = purple_living_bone_and_conynhaela }
+				trait = purple_living_bone_and_conynhaela
+			}
+			FROM = { remove_trait = purple_living_bone_and_conynhaela }
+			character_event = { id = artifact.107 tooltip = EVTTOOLTIPartifact.107 }
+		}
+		if = {
+			limit = {
+				FROM = { trait = purple_living_bone_and_conynhaela }
+				NOT = { trait = purple_living_bone_and_conynhaela }
+				trait = purple_living_bone
+			}
+			FROM = { remove_trait = purple_living_bone_and_conynhaela }
+			character_event = { id = artifact.104 tooltip = EVTTOOLTIPartifact.104 }
+		}
+		if = {
+			limit = {
+				FROM = { trait = purple_living_bone_and_conynhaela }
+				NOT = { trait = purple_living_bone_and_conynhaela }
+				trait = conynhaela
+			}
+			FROM = { remove_trait = purple_living_bone_and_conynhaela }
+			character_event = { id = artifact.106 tooltip = EVTTOOLTIPartifact.106 }
+		}
 	}
 	option = {
 		name = EVTOPTBartifact.100
@@ -260,7 +348,7 @@ character_event = {
 character_event = {
 	id = artifact.101
 	desc = EVTDESCartifact.101
-	picture = GFX_evt_death
+	picture = GFX_evt_into_the_dungeon
 	
 	is_triggered_only =  yes
 	
@@ -301,7 +389,7 @@ character_event = {
 character_event = {
 	id = artifact.102
 	desc = EVTDESCartifact.102
-	picture = GFX_evt_death
+	picture = GFX_evt_into_the_dungeon
 	
 	is_triggered_only =  yes
 	
@@ -338,6 +426,160 @@ character_event = {
 		}
 	}
 }
+# Already have Living purple bone
+character_event = {
+	id = artifact.103
+	desc = EVTDESCartifact.103
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell it
+		name = EVTOPTAartifact.103
+		wealth = 50
+	}
+	option = { # Give it to relative
+		name = EVTOPTBartifact.103
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = purple_living_bone }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = purple_living_bone }
+				is_close_relative = ROOT
+			}
+			add_trait = purple_living_bone
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
+		}
+	}
+}
+# Getting both herbs when already have Living purple bone
+character_event = {
+	id = artifact.104
+	desc = EVTDESCartifact.104
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell Living purple bone
+		name = EVTOPTAartifact.104
+		wealth = 50
+		remove_trait = purple_living_bone
+		add_trait = purple_living_bone_and_conynhaela
+	}
+	option = { # Give Living purple bone to relative
+		name = EVTOPTBartifact.104
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = purple_living_bone }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = purple_living_bone }
+				is_close_relative = ROOT
+			}
+			add_trait = purple_living_bone
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
+		}
+	}
+}
+# Already have Conynhaela
+character_event = {
+	id = artifact.105
+	desc = EVTDESCartifact.105
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell it
+		name = EVTOPTAartifact.105
+		wealth = 50
+	}
+	option = { # Give it to relative
+		name = EVTOPTBartifact.105
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = conynhaela }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = conynhaela }
+				is_close_relative = ROOT
+			}
+			add_trait = conynhaela
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
+		}
+	}
+}
+# Getting both herbs when already have Conynhaela
+character_event = {
+	id = artifact.106
+	desc = EVTDESCartifact.106
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell Conynhaela
+		name = EVTOPTAartifact.106
+		wealth = 50
+		remove_trait = conynhaela
+		add_trait = purple_living_bone_and_conynhaela
+	}
+	option = { # Give Conynhaela to relative
+		name = EVTOPTBartifact.106
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = conynhaela }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = conynhaela }
+				is_close_relative = ROOT
+			}
+			add_trait = conynhaela
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
+		}
+	}
+}
+# Already have Living purple bone and Conynhaela
+character_event = {
+	id = artifact.107
+	desc = EVTDESCartifact.107
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only =  yes
+	
+	option = { # Sell it
+		name = EVTOPTAartifact.107
+		wealth = 100
+	}
+	option = { # Give it to relative
+		name = EVTOPTBartifact.107
+		trigger = {
+			any_dynasty_member = {
+				NOT = { trait = purple_living_bone_and_conynhaela }
+				is_close_relative = ROOT
+			}
+		}
+		random_dynasty_member = {
+			limit = {
+				NOT = { trait = purple_living_bone_and_conynhaela }
+				is_close_relative = ROOT
+			}
+			add_trait = purple_living_bone_and_conynhaela
+			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
+		}
+	}
+}
 
 ################################################
 # Gwyhyr swords
@@ -346,7 +588,7 @@ character_event = {
 character_event = {
 	id = artifact.1000
 	desc = "Ping"
-	picture = GFX_evt_death
+	picture = GFX_evt_emissary
 	
 	capable_only = yes
 	
@@ -377,7 +619,7 @@ character_event = {
 character_event = {
 	id = artifact.1001
 	desc = EVTDESCartifact.1001
-	picture = GFX_evt_death
+	picture = GFX_evt_emissary
 	
 	is_triggered_only = yes
 	
@@ -416,7 +658,7 @@ character_event = {
 character_event = {
 	id = artifact.1002
 	desc = EVTDESCartifact.1002
-	picture = GFX_evt_death
+	picture = GFX_evt_emissary
 	
 	is_ruler = yes
 	min_age = 15
@@ -474,7 +716,7 @@ character_event = {
 character_event = {
 	id = artifact.1003
 	desc = EVTDESCartifact.1003
-	picture = GFX_evt_death
+	picture = GFX_evt_bad_news
 	
 	is_triggered_only = yes
 	
@@ -489,5 +731,128 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38250 } }
 			}
 		}
+	}
+}
+
+################################################
+# Living purple bone and Conynhaela
+################################################
+# If own both herbs make them one trait
+character_event = {
+	id = artifact.1010
+	desc = EVTDESCartifact.1010
+	picture = GFX_evt_library
+	
+	trigger = {
+		trait = purple_living_bone
+		trait = conynhaela
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAartifact.1010
+		remove_trait = purple_living_bone
+		remove_trait = conynhaela
+		add_trait = purple_living_bone_and_conynhaela
+	}
+}
+# Event when triggering decision to use the herbs
+character_event = {
+	id = artifact.1011
+	desc = EVTDESCartifact.1011
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAartifact.1011
+		if = {
+			limit = { trait = wounded }
+			remove_trait = wounded
+		}
+		if = {
+			limit = { trait = maimed }
+			remove_trait = maimed
+		}
+		if = {
+			limit = { trait = infirm }
+			remove_trait = infirm
+		}
+		remove_trait = purple_living_bone_and_conynhaela
+	}
+}
+# Finding one of the herbs (on_five_year_pulse)
+character_event = {
+	id = artifact.1012
+	desc = EVTDESCartifact.1012
+	picture = GFX_evt_bandits
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = {trait = purple_living_bone}
+		NOT = {trait = conynhaela}
+		NOT = {trait = purple_living_bone_and_conynhaela}
+		any_demesne_province = { terrain = dryad_forest }
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAartifact.1012
+		random_list = {
+			20 = {
+				if = { 
+					limit = { NOT = { trait = purple_living_bone } }
+					add_trait = purple_living_bone
+					hidden_tooltip = { character_event = { id = artifact.1013 }}
+				}
+			}
+			20 = {
+				if = { 
+					limit = { NOT = { trait = conynhaela } }
+					add_trait = conynhaela
+					hidden_tooltip = { character_event = { id = artifact.1014 }}
+				}
+			}
+			60 = { }
+		}
+	}
+	option = {
+		name = EVTOPTBartifact.1012
+		prestige = 20
+	}
+}
+# Getting Conynhaela
+character_event = {
+	id = artifact.1013
+	desc = EVTDESCartifact.1013
+	picture = GFX_evt_bandits
+	
+	is_triggered_only = yes
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAartifact.1013
+	}
+}
+# Getting Purple living bone
+character_event = {
+	id = artifact.1014
+	desc = EVTDESCartifact.1014
+	picture = GFX_evt_bandits
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAartifact.1014
 	}
 }
