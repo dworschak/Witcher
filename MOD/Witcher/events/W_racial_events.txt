@@ -194,7 +194,7 @@ character_event = {
 			OR = {
 				AND = {
 					trait = elven
-					spouse = {
+					new_character = {
 						OR = {
 							trait = human
 							trait = dwarven
@@ -204,7 +204,7 @@ character_event = {
 				}
 				AND = {
 					trait = halfelf
-					spouse = {
+					new_character = {
 						OR = {
 							trait = dwarven
 							trait = halfdwarf
@@ -213,7 +213,7 @@ character_event = {
 				}
 				AND = {
 					trait = dwarven
-					spouse = {
+					new_character = {
 						OR = {
 							trait = human
 							trait = elven
@@ -223,7 +223,7 @@ character_event = {
 				}
 				AND = {
 					trait = halfdwarf
-					spouse = {
+					new_character = {
 						OR = {
 							trait = elven
 							trait = halfelf
@@ -232,7 +232,7 @@ character_event = {
 				}
 				AND = {
 					trait = human
-					spouse = {
+					new_character = {
 						OR = {
 							trait = elven
 							trait = dwarven
@@ -241,12 +241,13 @@ character_event = {
 				}
 			}
 		}
-		ai_chance = { factor = 100 }
 		character_event = { id = racial.5 }
+		ai_chance = { factor = 100 }
 	}
 	option = {
 		name = "Marriage is okay"
 		character_event = { id = 500 } # Royal Marriage Aid Duty
+		ai_chance = { factor = 1 }
 	}
 }
 # Force divorce interracial marriages
@@ -259,7 +260,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAracial.5
-		ai_chance = { factor = 20 }
 		if = {
 			limit = { 
 				spouse = { 
@@ -282,22 +282,7 @@ character_event = {
 	option = {
 		name = EVTOPTBracial.5
 		character_event = { id = 500 } # Royal Marriage Aid Duty 
-		ai_chance =  {
-			factor = 1
-			modifier = {
-				factor = 0
-				OR = {
-					trait = elven
-					trait = dwarven
-				}
-				OR = {
-					is_ruler = yes
-					is_primary_heir = yes
-					father = { is_ruler = yes }
-					mother = { is_ruler = yes }
-				}
-			}
-		}
+		ai_chance =  { factor = 0 }
 	}
 }
 
