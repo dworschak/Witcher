@@ -159,7 +159,6 @@ character_event = {
 	
 	option = {
 		name = OK
-		
 		create_character = {
 			age = 0
 			female = yes
@@ -312,6 +311,7 @@ character_event = {
 	picture = GFX_evt_marriage
 	
 	trigger = {
+		NOT = { trait = fertile_elf }
 		NOT = { trait = sorcerer }
 		trait = elven
 		age = 40
@@ -381,7 +381,7 @@ character_event = {
 	hide_window = yes
 	
 	option = {
-		name = EVTOPTAracial.11
+		name = "Ok"
 		father = {
 			if = {
 				limit = { trait = elven }
@@ -394,5 +394,41 @@ character_event = {
 				fertility = -0.20
 			}
 		}
+	}
+}
+
+################################################
+# Fertility reduction for non-elves when hitting 50 years
+################################################
+# Hidden - Fertility reduction
+character_event = {
+	id = racial.20
+	desc = "Hidden"
+	picture = GFX_evt_marriage
+	
+	min_age = 50
+	only_women = yes
+	
+	trigger = {
+		NOT = { trait = elven}
+		OR = {
+			trait = human
+			trait = halfelf
+			trait = dwarven
+			trait = halfdwarf
+			trait = dryad
+			trait = halfling
+		}
+		age = 50
+		fertility = 0.1
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "Ok"
+		fertility = -1
 	}
 }
