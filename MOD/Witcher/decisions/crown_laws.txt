@@ -56,7 +56,6 @@ de_jure_laws = {
 		feudal_opinion = -5
 		
 		allow = {
-			holder_scope = { is_republic = no }
 			OR = {
 				has_law = centralization_0
 				has_law = centralization_2
@@ -111,8 +110,8 @@ de_jure_laws = {
 #			set_appoint_regents = no
 			set_the_kings_peace = no
 			set_the_kings_full_peace = no
-			set_protected_inheritance = yes
-			set_allow_title_revokation = no
+			set_protected_inheritance = no
+			set_allow_title_revokation = yes
 			set_allow_free_infidel_revokation = no
 #			set_allow_free_revokation = no
 		}
@@ -129,7 +128,9 @@ de_jure_laws = {
 		feudal_opinion = -10
 		
 		allow = {
-			holder_scope = { is_republic = no }
+			holder_scope = { 
+				is_republic = no 
+			}
 			OR = {
 				has_law = centralization_1
 				has_law = centralization_3
@@ -137,7 +138,7 @@ de_jure_laws = {
 		}
 		revoke_allowed = {
 			always = no
-		}
+		}			
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -187,9 +188,9 @@ de_jure_laws = {
 #			set_appoint_regents = no
 			set_the_kings_peace = yes
 			set_the_kings_full_peace = no
-			set_protected_inheritance = yes
-			set_allow_title_revokation = no
-			set_allow_free_infidel_revokation = no
+			set_protected_inheritance = no
+			set_allow_title_revokation = yes
+			set_allow_free_infidel_revokation = yes
 #			set_allow_free_revokation = no
 		}
 		
@@ -205,29 +206,12 @@ de_jure_laws = {
 		feudal_opinion = -20
 		
 		allow = {
-			holder_scope = { is_republic = no }
-			OR = {
-				AND = {
-					has_law = centralization_2
-					holder_scope = {
-						OR = {
-							has_landed_title = e_nilfgaard
-							OR = {
-								trait = ambitious
-								trait = diligent
-								trait = proud
-								trait = lunatic
-								trait = greedy
-								trait = just
-							}
-						}
-						NOT = { trait = content }
-						NOT = { trait = slothful }
-						NOT = { trait = imbecile }
-						NOT = { trait = humble }
-						NOT = { trait = craven }
-					}
+			holder_scope = { 
+				is_republic = no 
 				}
+			}
+			OR = {
+				has_law = centralization_2
 				has_law = centralization_4
 			}
 		}
@@ -289,7 +273,7 @@ de_jure_laws = {
 			set_the_kings_full_peace = no
 			set_protected_inheritance = yes
 			set_allow_title_revokation = yes
-			set_allow_free_infidel_revokation = no
+			set_allow_free_infidel_revokation = yes
 #			set_allow_free_revokation = no
 		}
 		
@@ -305,26 +289,10 @@ de_jure_laws = {
 		feudal_opinion = -30
 		
 		allow = {
-			holder_scope = { is_republic = no }
-			has_law = centralization_3
-			holder_scope = {
-				OR = {
-					has_landed_title = e_nilfgaard
-					OR = {
-						trait = ambitious
-						trait = diligent
-						trait = proud
-						trait = lunatic
-						trait = greedy
-						trait = just
-					}
-				}
-				NOT = { trait = content }
-				NOT = { trait = slothful }
-				NOT = { trait = imbecile }
-				NOT = { trait = humble }
-				NOT = { trait = craven }
+			holder_scope = { 
+				is_republic = no 
 			}
+			has_law = centralization_3
 		}
 		revoke_allowed = {
 			always = no
@@ -341,7 +309,8 @@ de_jure_laws = {
 					NOT = { ruled_years = 20 }
 				}
 			}
-		}		
+		}
+		
 		ai_will_revoke = {
 			factor = 0
 		}
@@ -394,6 +363,7 @@ de_jure_laws = {
 	
 # INVESTITURE
 
+	# Papal Investiture
 	investiture_law_0 = {
 		show_as_title = yes
 		group = investiture_law
@@ -419,6 +389,7 @@ de_jure_laws = {
 		}
 	}
 	
+	# Free Investiture
 	investiture_law_1 = {
 		show_as_title = yes
 		rel_head_opinion = -30

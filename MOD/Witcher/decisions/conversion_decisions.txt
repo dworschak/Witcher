@@ -1,6 +1,6 @@
 decisions = {
 	
-	convert_to_liege_religion = { # only if the same race as liege or a half
+	convert_to_liege_religion = { # only those with same race as liege or halves
 		potential = {
 			NOT = { culture = wilderness }
 			is_playable = yes
@@ -26,13 +26,17 @@ decisions = {
 					trait = dryad
 					liege = { trait = dryad }
 				}
+				AND = { 
+					trait = halfling
+					liege = { trait = halfelf }
+				}
 			}
 		}
 		allow = {
 			NOT = { trait = zealous }
+			piety = 200
 		}
 		effect = {
-			prestige = -500
 			if = {
 				limit = { higher_tier_than = BARON }
 				religion_authority = {
@@ -50,21 +54,20 @@ decisions = {
 					}
 				}
 			}
-			piety = 200
+			piety = -200
 		}
 		revoke_allowed = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0.05
+			factor = 1
 			modifier = {
-				factor = 2
-				trait = content
+				factor = 0.0001
 			}
 		}
 	}
 	
-	convert_to_liege_culture = { # only if the same race as liege or a half
+	convert_to_liege_culture = { # only those with same race as liege or halves
 		potential = {
 			NOT = { culture = wilderness }
 			is_playable = yes
@@ -89,6 +92,10 @@ decisions = {
 					trait = dryad
 					liege = { trait = dryad }
 				}
+				AND = { 
+					trait = halfling
+					liege = { trait = halfling }
+				}
 			}
 		}
 		allow = {
@@ -104,52 +111,408 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0.05
+			factor = 1
 			modifier = {
-				factor = 2
-				trait = content
+				factor = 0.01
 			}
-		}
-	}
-	
-	convert_to_parent_religion = {
-		potential = {
-			NOT = { culture = wilderness }
-			is_playable = yes
-			independent = yes
-			is_heretic = yes
-			
-		}
-		allow = {
-			NOT = { trait = zealous }
-		}
-		effect = {
-			prestige = -500
-			if = {
-				limit = { higher_tier_than = BARON }
-				religion_authority = {
-					modifier = ruler_converted_from
+			modifier = {
+				factor = 0
+				primary_title = {
+					is_conquered = yes
+					conquest_culture = ROOT
 				}
 			}
-			
-			abandon_heresy = yes
-			
-			if = {
-				limit = { higher_tier_than = BARON }
-				hidden_tooltip = {
-					religion_authority = {
-						modifier = ruler_converted_to
+			modifier = {
+				factor = 0
+				any_vassal = {
+					culture = ROOT
+					OR = {
+						tier = duke
+						tier = king
+						AND = {
+							tier = count
+							ROOT = { tier = duke }
+						}
 					}
 				}
 			}
-			piety = 200
+		}
+	}
+
+	convert_to_local_culture = { # only humans with human culture capital and halves with either human or their race culture capital
+		potential = {
+			NOT = { culture = wilderness }
+			is_playable = yes
+			capital_scope = {
+				NOT = { culture = ROOT }
+			}
+			OR = {
+				independent = yes
+				liege = {
+					NOT = { culture = ROOT }
+				}
+			}
+			holy_order = no
+			has_dlc = "Rajas of India"
+			OR = {
+				AND = {
+					trait = human
+					capital_scope = {
+						OR = {
+							culture_group = northern_group
+							culture_group = southern_group
+							culture_group = nilfgaardian_group
+							culture_group = eastern_group
+						}
+					}
+				}
+				AND = {
+					trait = halfelf
+					capital_scope = {
+						OR = {
+							culture = elven
+							culture_group = northern_group
+							culture_group = southern_group
+							culture_group = nilfgaardian_group
+							culture_group = eastern_group
+						}
+					}
+				}
+				AND = {
+					trait = halfdwarf
+					capital_scope = {
+						OR = {
+							culture = dwarven
+							culture_group = northern_group
+							culture_group = southern_group
+							culture_group = nilfgaardian_group
+							culture_group = eastern_group
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			prestige = 500
+		}
+		effect = {
+			prestige = -500
+			capital_scope = {
+				reverse_culture = ROOT
+			}
 		}
 		revoke_allowed = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0
+				primary_title = {
+					is_conquered = yes
+					conquest_culture = ROOT
+				}
+			}
+			modifier = {
+				factor = 0
+				any_vassal = {
+					culture = ROOT
+					OR = {
+						tier = duke
+						tier = king
+						AND = {
+							tier = count
+							ROOT = { tier = duke }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	convert_to_local_religion = { # only humans with human religion capital and halves with either human or their race religion capital
+		potential = {
+			NOT = { culture = wilderness }
+			is_playable = yes
+			capital_scope = {
+				NOT = { religion = ROOT }
+			}
+			OR = {
+				independent = yes
+				liege = {
+					NOT = { religion = ROOT }
+				}
+			}
+			
+			controls_religion = no
+			holy_order = no
+			
+			has_dlc = "Rajas of India"
+			OR = {
+				AND = {
+					trait = human
+					capital_scope = {
+						OR = {
+							religion_group = northern_religions
+							religion_group = freya_religions
+							religion_group = southern_religions
+							religion_group = eastern_religions
+						}
+					}
+				}
+				AND = {
+					trait = halfelf
+					capital_scope = {
+						OR = {
+							religion_group = elven_religions
+							religion_group = northern_religions
+							religion_group = freya_religions
+							religion_group = southern_religions
+							religion_group = eastern_religions
+						}
+					}
+				}
+				AND = {
+					trait = halfdwarf
+					capital_scope = {
+						OR = {
+							religion_group = dwarven_religions
+							religion_group = northern_religions
+							religion_group = freya_religions
+							religion_group = southern_religions
+							religion_group = eastern_religions
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					piety = 500
+					capital_scope = {
+						religion_group = ROOT
+					}
+				}
+				AND = {
+					piety = 1000
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+				piety = -1000
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						religion_group = ROOT
+					}
+				}
+				piety = -500
+			}
+			religion_authority = {
+				modifier = ruler_converted_from
+			}
+			capital_scope = {
+				reverse_religion = ROOT
+			}
+			hidden_tooltip = {
+				religion_authority = {
+					modifier = ruler_converted_to
+				}
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.0001
+			}
+		}
+	}
+
+	convert_to_dwarf_religion = { # only dwarfs and halfdwarfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { religion = dwarven }
+			OR = {
+				trait = halfdwarf
+				trait = dwarven
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = dwarven
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
 		}
 	}
 	
+	convert_to_dwarf_culture = { # only dwarfs and halfdwarfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { culture = dwarven }
+			OR = {
+				trait = halfdwarf
+				trait = dwarven
+			}
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = dwarven
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_elf_religion = { # only elfs and halfelfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { religion = dana_maedbh }
+			OR = {
+				trait = halfelf
+				trait = elven
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = dana_maedbh
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_elf_culture = { # only elfs and halfelfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { culture = elven }
+			OR = {
+				trait = halfelf
+				trait = elven
+			}
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = elven
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_dryad_religion = { # only dryads
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { religion = nature }
+			trait = dryad
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = nature
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_dryad_culture = { # only dryads
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { culture = dryad }
+			trait = dryad
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = dryad
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
 }
