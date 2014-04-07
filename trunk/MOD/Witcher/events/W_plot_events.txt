@@ -1,160 +1,6 @@
 namespace = plots
 
 ###########################################
-# Curse a character
-###########################################
-# Hidden - decide which narrative event to use
-character_event = {
-	id = plots.1
-	desc = "Decide which narrative event to use"
-	picture = GFX_evt_shadowy_cabal
-	
-	hide_window = yes
-	is_triggered_only = yes
-	
-	option = {
-		name = "Ruler is a Spider cultist"
-		trigger = {
-			religion = spider
-		}
-		ai_chance = {
-			factor = 100
-			modifier = { factor = 100 has_character_flag = made_sacrifice }
-		}
-		character_event = { id = plots.10 }
-	}
-	option = {
-		name = "Ruler is a witch"
-		trigger = { 
-			trait = witch
-		}
-		ai_chance = {
-			factor = 500
-		}
-		character_event = { id = plots.20 }
-	}
-	option = {
-		name = "Court magician is a witch"
-		trigger = {
-			job_mage = { trait = witch }
-		}
-		ai_chance = { factor = 1000 }
-		character_event = { id = plots.30 }
-	}
-	option = {
-		name = "None of the conditions is met any longer"
-		ai_chance = { factor = 1 }
-		character_event = { id = plots.40 }
-	}
-}
-# Ruler is Spider cultist
-character_event = {
-	id = plots.10
-	desc = EVTDESCplots.10
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAplots.10
-		trigger = {
-			has_character_flag = made_sacrifice
-		}
-		clr_character_flag = made_sacrifice
-		plot_target_char = { set_character_flag = cursed }
-	}
-	option = {
-		name = EVTOPTBplots.10
-		trigger = {
-			NOT = { has_character_flag = made_sacrifice }
-		}
-		character_event = { id = plots.11 }
-	}
-}
-# Ruler is Spider cultist - had no sacrifice
-character_event = {
-	id = plots.11
-	desc = EVTDESCplots.11
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAplots.11
-		set_character_flag = cursed
-		set_character_flag = abort_curse
-	}
-}
-# Ruler is a witch
-character_event = {
-	id = plots.20
-	desc = EVTDESCplots.20
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAplots.20
-		add_character_modifier = { name = drained duration = 180 }
-		plot_target_char = { set_character_flag = cursed }
-	}
-}
-# Court magician is a witch
-character_event = {
-	id = plots.30
-	desc = EVTDESCplots.30
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAplots.30
-		job_mage = {
-			add_character_modifier = { name = drained duration = 180 }
-			hidden_tooltip = { character_event = { id = plots.31 } }
-		}
-		plot_target_char = { set_character_flag = cursed }
-	}
-}
-# Court magician notification
-character_event = {
-	id = plots.31
-	desc = EVTDESCplots.31
-	picture = GFX_evt_shadowy_cabal
-	
-	is_triggered_only = yes
-	
-	notification = yes
-	
-	trigger = {
-		ai = no
-	}
-	
-	option = {
-		name = EVTOPTAplots.31
-		add_character_modifier = { name = drained duration = 180 }
-	}
-}
-# None of the conditions is met any longer
-character_event = {
-	id = plots.40
-	desc = EVTDESCplots.40
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAplots.40
-		set_character_flag = abort_curse
-	}
-}
-
-###########################################
 # Charm a character
 ###########################################
 # Hidden - decide which narrative event to use
@@ -271,25 +117,19 @@ character_event = {
 	
 	
 	option = {
-		name = "Court magician is a sorcerer or witch"
+		name = "Court magician is a sorcerer"
 		trigger = {
 			job_mage = {
-				OR = {
-					trait = sorcerer
-					trait = witch
-				}
+				trait = sorcerer
 			}
 		}
 		ai_chance = { factor = 1000 }
 		character_event = { id = plots.111 }
 	}
 	option = {
-		name = "Ruler is a sorcerer or witch"
+		name = "Ruler is a sorcerer"
 		trigger = { 
-			OR = {
-				trait = sorcerer
-				trait = witch
-			}
+			trait = sorcerer
 		}
 		ai_chance = {
 			factor = 500
@@ -312,10 +152,7 @@ character_event = {
 	trigger = {
 		has_plot = plot_heal_character
 		job_mage = {
-			OR = {
-				trait = witch
-				trait = sorcerer
-			}
+			trait = sorcerer
 		}
 	}
 	
@@ -358,10 +195,7 @@ character_event = {
 	
 	trigger = {
 		has_plot = plot_heal_character
-		OR = {
-			trait = witch
-			trait = sorcerer
-		}
+		trait = sorcerer
 	}
 	
 	mean_time_to_happen = {
@@ -408,121 +242,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAplots.113
-		add_character_modifier = { name = drained duration = 180 }
-	}
-}
-
-###########################################
-# Druid heal a character
-###########################################
-# Hidden - decide which narrative event to use
-character_event = {
-	id = plots.120
-	desc = "Decide which narrative event to use"
-	picture = GFX_evt_recovery
-	
-	hide_window = yes
-	is_triggered_only = yes
-	
-	
-	option = {
-		name = "Court magician is a druid"
-		trigger = {
-			job_mage = { trait = druid }
-		}
-		ai_chance = { factor = 1000 }
-		character_event = { id = plots.121 }
-	}
-	option = {
-		name = "Ruler is a druid"
-		trigger = { 
-			trait = druid
-		}
-		ai_chance = {
-			factor = 500
-		}
-		character_event = { id = plots.122 }
-	}
-	option = {
-		name = "An always available option just in case"
-		ai_chance = {
-			factor = 1
-		}
-	}
-}
-# Druid heal spell - court magician
-character_event = {
-	id = plots.121
-	desc = EVTDESCplots.121
-	picture = GFX_evt_recovery
-	
-	trigger = {
-		has_plot = plot_druid_heal_character
-		job_mage = { trait = druid }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = EVTOPTAplots.121
-		job_mage = {
-			add_character_modifier = { name = drained duration = 180 }
-			hidden_tooltip = { character_event = { id = plots.123 } }
-		}
-		plot_target_char = {
-			if = { limit = { trait = ill } remove_trait = ill }
-			if = { limit = { trait = maimed } remove_trait = maimed }
-			if = { limit = { trait = stressed } remove_trait = stressed }
-			if = { limit = { trait = depressed } remove_trait = depressed }
-			opinion = { modifier = opinion_grateful who = ROOT }
-		}
-	}
-}
-# Druid heal spell - character
-character_event = {
-	id = plots.122
-	desc = EVTDESCplots.122
-	picture = GFX_evt_recovery
-	
-	trigger = {
-		has_plot = plot_druid_heal_character
-		trait = druid
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = EVTOPTAplots.122
-		add_character_modifier = { name = drained duration = 180 }
-		plot_target_char = {
-			if = { limit = { trait = ill } remove_trait = ill }
-			if = { limit = { trait = maimed } remove_trait = maimed }
-			if = { limit = { trait = stressed } remove_trait = stressed }
-			if = { limit = { trait = depressed } remove_trait = depressed }
-			opinion = { modifier =  opinion_grateful who = ROOT }
-		}
-	}
-}
-# Druid heal spell - court magician notification
-character_event = {
-	id = plots.123
-	desc = EVTDESCplots.123
-	picture = GFX_evt_recovery
-	
-	is_triggered_only = yes
-	
-	notification = yes
-	
-	trigger = {
-		ai = no
-	}
-	
-	option = {
-		name = EVTOPTAplots.123
 		add_character_modifier = { name = drained duration = 180 }
 	}
 }

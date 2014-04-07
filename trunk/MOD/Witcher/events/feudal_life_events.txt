@@ -644,11 +644,11 @@ character_event = {
 	is_triggered_only = yes
 	
 	min_age = 20
-	max_age = 60
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		war = no
 		in_command = no
 		OR = {
@@ -2842,7 +2842,7 @@ character_event = {
 		}
 		any_vassal = {
 			at_location = ROOT
-			age = 50
+			has_character_modifier = old_age
 			spouse = {
 				is_abroad = no
 				prisoner = no
@@ -2891,7 +2891,7 @@ character_event = {
 		random_vassal = {
 			limit = {
 				at_location = ROOT
-				age = 50
+				has_character_modifier = old_age
 				spouse = {
 					is_abroad = no
 					prisoner = no
@@ -3370,94 +3370,3 @@ character_event = {
 
 #Performing Bear ID 4170 - moved to summer_fair_events.txt
 
-# #Bal des Ardents
-# character_event = {
-	# id = 4175
-	# desc = EVTDESC4175
-	# picture = GFX_evt_feast
-	
-	# is_triggered_only = yes
-	
-	# min_age = 20
-	# only_playable = yes
-	# only_men = yes
-	# capable_only = yes
-	# prisoner = no
-	
-	# trigger = {
-		# war = no
-		# in_command = no
-		# OR = {
-			# trait = lunatic
-			# trait = possessed
-			# trait = infirm
-			# trait = drunkard
-		# }
-		# any_vassal = {
-			# trait = diligent
-		# }
-		# any_vassal = {
-			# trait = ambitious
-			# trait = wroth
-		# }
-	# }
-	
-	# weight_multiplier = {
-		# days = 3
-		
-		# modifier = {
-			# factor = 2
-			# trait = infirm
-		# }
-		# modifier = {
-			# factor = 5
-			# trait = incapable
-		# }
-	# }
-	
-	# option = {
-		# name = EVTOPTA4175
-		# add_trait = maimed
-	# }
-	
-	# option = {
-		# name = EVTOPTB4175
-		# random = {
-			# chance = 60
-			
-			# add_trait = wounded
-			# hidden_tooltip = { character_event = { id = 38280 } }
-		# }
-		# random_vassal = {
-			# limit = {
-				# trait = diligent
-			# }
-			# reverse_opinion = {
-				# modifier = opinion_my_saviour
-				# who = ROOT
-				# years = 2
-			# }
-		# }
-	# }
-	
-	# option = {
-		# name = EVTOPTC4175
-		# random = {
-			# chance = 70
-			
-			# add_trait = wounded
-			# hidden_tooltip = { character_event = { id = 38280 } }
-		# }
-		# random_courtier = {
-			# limit = {
-				# trait = ambitious
-				# trait = wroth
-			# }
-			# reverse_opinion = {
-				# modifier = opinion_fool_courtier
-				# who = ROOT
-				# years = 2
-			# }
-		# }
-	# }
-# }

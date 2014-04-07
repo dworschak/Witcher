@@ -2356,18 +2356,17 @@ character_event = {
 		}
 		clr_character_flag = killed_opponent
 		change_martial = 3
-		hidden_tooltip = {
-			any_liege = {
-				limit = {
-					has_character_flag = host_feast_started
-					OR = {
-						has_character_modifier = holding_large_feast
-						has_character_modifier = holding_dwarf_feast
-					}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				OR = {
+					has_character_modifier = holding_large_feast
+					has_character_modifier = holding_dwarf_feast
 				}
-				character_event = {
-					id = 72035
-				}
+			}
+			character_event = {
+				id = 72035
+				tooltip = "EVTTOOLTIP72035"
 			}
 		}
 	}
@@ -2376,24 +2375,24 @@ character_event = {
 #Duel: The End
 character_event = {
 	id = 72034
-	desc = EVTDESC72034
+	desc = "EVTDESC72034"
 	picture = GFX_evt_melee
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
-		name = EVTOPTA72034
+		name = "EVTOPTA72034"
 		opinion = {
 			modifier = opinion_dislike
 			who = FROM
-			years = 5
+			years = 10
 		}
 		FROM = {
 			FROM = {
 				reverse_opinion = {
 					modifier = opinion_dislike
 					who = ROOT
-					years = 5
+					years = 10
 				}
 			}
 		}
@@ -2403,33 +2402,33 @@ character_event = {
 #Duel: The End
 character_event = {
 	id = 72035
-	desc = EVTDESC72035
+	desc = "EVTDESC72035"
 	picture = GFX_evt_melee
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
-		name = EVTOPTA72035
+		name = "EVTOPTA72035"
 		opinion = {
 			modifier = opinion_dislike
 			who = FROM
-			years = 5
+			years = 10
 		}
 	}
 	option = {
-		name = EVTOPTB72035
+		name = "EVTOPTB72035"
 		opinion = {
 			modifier = opinion_satisfied
 			who = FROM
-			years = 5
+			years = 10
 		}
 	}
 	option = {
-		name = EVTOPTC72035
+		name = "EVTOPTC72035"
 		reverse_opinion = {
 			modifier = opinion_dislike
 			who = FROM
-			years = 5
+			years = 10
 		}
 	}
 }
@@ -2508,12 +2507,12 @@ character_event = {
 	desc = "EVTDESC72040"
 	picture = GFX_evt_feast
 
-	max_age = 60
 	prisoner = no
 	only_rulers = yes
 	capable_only = yes
 
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		war = no
 		has_character_flag = guest_feast_started
 		is_married = yes
@@ -3456,6 +3455,7 @@ character_event = {
 				chance = 20
 
 				add_trait = cruel
+				hidden_tooltip = { character_event = { id = 38259 } } # Notify cruel
 			}
 		}
 		if = {
@@ -3469,6 +3469,7 @@ character_event = {
 				chance = 20
 
 				add_trait = arbitrary
+				hidden_tooltip = { character_event = { id = 38266 } } # Notify arbitrary
 			}
 		}
 		random_courtier = {
@@ -3594,6 +3595,7 @@ character_event = {
 				chance = 25
 
 				add_trait = gregarious
+				hidden_tooltip = { character_event = { id = 38265 } } # Notify gregarious
 			}
 		}
 		if = {
@@ -3609,6 +3611,7 @@ character_event = {
 				chance = 25
 
 				add_trait = charitable
+				hidden_tooltip = { character_event = { id = 38273 } } # Notify charitable
 			}
 		}
 		random_vassal = {
@@ -3690,6 +3693,7 @@ character_event = {
 				chance = 25
 
 				add_trait = gregarious
+				hidden_tooltip = { character_event = { id = 38265 } } # Notify gregarious
 			}
 		}
 		if = {
@@ -3705,6 +3709,7 @@ character_event = {
 				chance = 25
 
 				add_trait = charitable
+				hidden_tooltip = { character_event = { id = 38273 } } # Notify charitable
 			}
 		}
 		prestige = 10
@@ -3787,6 +3792,7 @@ character_event = {
 				chance = 25
 
 				add_trait = gregarious
+				hidden_tooltip = { character_event = { id = 38265 } } # Notify gregarious
 			}
 		}
 		if = {
@@ -3802,6 +3808,7 @@ character_event = {
 				chance = 25
 
 				add_trait = charitable
+				hidden_tooltip = { character_event = { id = 38273 } } # Notify charitable
 			}
 		}
 		prestige = 10
@@ -3884,6 +3891,7 @@ character_event = {
 				chance = 25
 
 				add_trait = gregarious
+				hidden_tooltip = { character_event = { id = 38265 } } # Notify gregarious
 			}
 		}
 		if = {
@@ -3899,6 +3907,7 @@ character_event = {
 				chance = 25
 
 				add_trait = charitable
+				hidden_tooltip = { character_event = { id = 38273 } } # Notify charitable
 			}
 		}
 		prestige = 10
@@ -3981,6 +3990,7 @@ character_event = {
 				chance = 25
 
 				add_trait = gregarious
+				hidden_tooltip = { character_event = { id = 38265 } } # Notify gregarious
 			}
 		}
 		if = {
@@ -3996,6 +4006,7 @@ character_event = {
 				chance = 25
 
 				add_trait = charitable
+				hidden_tooltip = { character_event = { id = 38273 } } # Notify charitable
 			}
 		}
 		prestige = 10
@@ -4036,12 +4047,12 @@ character_event = {
 	picture = GFX_evt_feast
 
 	only_men = yes
-	max_age = 60
 	prisoner = no
 	only_rulers = yes
 	capable_only = yes
 
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		war = no
 		has_character_flag = host_feast_started
 		OR = {
@@ -4068,7 +4079,7 @@ character_event = {
 				is_abroad = no
 				prisoner = no
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = celibate
@@ -4138,7 +4149,7 @@ character_event = {
 					is_abroad = no
 					prisoner = no
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = celibate
@@ -4164,7 +4175,7 @@ character_event = {
 					prisoner = no
 					NOT = { is_close_relative = ROOT }
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = celibate

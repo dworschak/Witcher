@@ -1,4 +1,54 @@
 decisions = {
+	employ_sorcerer = {
+		is_high_prio = yes
+		potential = {
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			mercenary = no
+			NOT = { any_demesne_title = { culture = magic } }
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+			OR = {
+				b_aretuza = {
+					holder_scope = {
+						any_courtier = {
+							trait = sorcerer
+							is_adult = yes
+							NOT = { any_ward = { always = yes } }
+							is_ruler = no
+						}
+					}
+				}
+				b_akademia = {
+					holder_scope = {
+						any_courtier = {
+							trait = sorcerer
+							is_adult = yes
+							NOT = { any_ward = { always = yes } }
+							is_ruler = no
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			scaled_wealth = 1.0
+			NOT = { any_courtier = { trait = sorcerer } }
+			NOT = { any_vassal = { trait = sorcerer } }
+		}
+		effect = {
+			scaled_wealth = -1.0
+			hidden_tooltip = { character_event = { id = magic.100 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { scaled_wealth = 2.0 } }
+		}
+	}
+	
 	spell_heal = {
 		is_high_prio = yes
 		potential = {
@@ -23,17 +73,11 @@ decisions = {
 			}
 			OR = {
 				AND = {
-					OR = {
-						trait = sorcerer
-						trait = witch
-					}
+					trait = sorcerer
 					prisoner = no
 				}
 				job_mage = {
-					OR = {
-						trait = sorcerer
-						trait = witch
-					}
+					trait = sorcerer
 					prisoner = no
 					NOT = { trait = incapable }
 				}
@@ -49,10 +93,7 @@ decisions = {
 					NOT = { has_character_modifier = drained }
 				}
 				job_mage = {
-					OR = {
-						trait = sorcerer
-						trait = witch
-					}
+					trait = sorcerer
 					NOT = { has_character_modifier = drained }
 				}
 			}
@@ -85,66 +126,6 @@ decisions = {
 			modifier = { factor = 2 NOT = { health = 4 } }
 			modifier = { factor = 10 trait = blinded }
 			modifier = { factor = 10 trait = infirm }
-		}
-	}
-	spell_druid_heal = {
-		is_high_prio = yes
-		potential = {
-			NOT = { culture = wilderness }
-			OR = {
-				trait = ill
-				trait = wounded
-				trait = stressed
-				trait = depressed
-			}
-			OR = {
-				AND = {
-					trait = druid
-					prisoner = no
-				}
-				job_mage = {
-					trait = druid
-					prisoner = no
-					NOT = { trait = incapable }
-				}
-			}
-		}
-		allow = {
-			OR = {
-				AND = {
-					trait = druid
-					NOT = { has_character_modifier = drained }
-				}
-				job_mage = {
-					trait = druid
-					NOT = { has_character_modifier = drained }
-				}
-			}
-		
-		}
-		effect = {
-			custom_tooltip = { text = spell_druid_heal_tooltip }
-			hidden_tooltip = {
-				if = {
-					limit = { job_mage = { NOT = { has_character_modifier = drained } } }
-					character_event = { id = magic.210 }
-				}
-				if = {
-					limit = {
-						job_mage = { has_character_modifier = drained }
-						trait = druid
-					}
-					character_event = { id = magic.211 }
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = { factor = 0.1 has_job_title = job_mage }
-			modifier = { factor = 0.1 }
-			modifier = { factor = 5 NOT = { health = 2 } }
-			modifier = { factor = 2 NOT = { health = 3 } }
-			modifier = { factor = 2 NOT = { health = 4 } }
 		}
 	}
 	spell_glamour = {
@@ -238,55 +219,6 @@ decisions = {
 			modifier = { factor = 0.1 }
 			modifier = { factor = 2 trait = proud }
 			modifier = { factor = 2 trait = wroth }
-		}
-	}
-	
-	employ_sorcerer = {
-		potential = {
-			NOT = { culture = wilderness }
-			is_ruler = yes
-			mercenary = no
-			NOT = { any_demesne_title = { culture = magic } }
-			location = { county = { de_jure_liege_or_above = e_the_north } }
-			OR = {
-				ai = no
-				higher_tier_than = count
-			}
-			OR = {
-				b_aretuza = {
-					holder_scope = {
-						any_courtier = {
-							trait = sorcerer
-							is_adult = yes
-							NOT = { any_ward = { always = yes } }
-							is_ruler = no
-						}
-					}
-				}
-				b_akademia = {
-					holder_scope = {
-						any_courtier = {
-							trait = sorcerer
-							is_adult = yes
-							NOT = { any_ward = { always = yes } }
-							is_ruler = no
-						}
-					}
-				}
-			}
-		}
-		allow = {
-			scaled_wealth = 1.0
-			NOT = { any_courtier = { trait = sorcerer } }
-			NOT = { any_vassal = { trait = sorcerer } }
-		}
-		effect = {
-			scaled_wealth = -1.0
-			hidden_tooltip = { character_event = { id = magic.100 } }
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = { factor = 0 NOT = { scaled_wealth = 2.0 } }
 		}
 	}
 }

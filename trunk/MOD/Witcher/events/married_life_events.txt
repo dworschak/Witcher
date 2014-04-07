@@ -15,13 +15,13 @@ character_event = {
 	picture = "GFX_evt_quarrel"
 	
 	min_age = 20
-	max_age = 100
 	capable_only = yes
 	prisoner = no
 	
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		is_married = yes
 		is_pregnant = no
 		prisoner = no
@@ -160,7 +160,6 @@ character_event = {
 	desc = "EVTDESC30001"
 	picture = "GFX_evt_quarrel"
 	
-	max_age = 60
 	only_men = yes
 	capable_only = yes
 	prisoner = no
@@ -168,6 +167,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		is_married = yes
 		num_of_children = 1
 		any_child = {
@@ -814,7 +814,9 @@ character_event = {
 		any_child = {
 			is_primary_heir = yes
 			is_female = no
-			is_adult = no
+			NOT = {
+				age = 15
+			}
 			OR = {
 				trait = ill
 				trait = maimed
@@ -2085,16 +2087,6 @@ character_event = {
 		treasury = -15
 		spouse = {
 			add_lover = ROOT
-			add_character_modifier = {
-				name = "new_love"
-				duration = 90
-				hidden = yes
-			}
-		}
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
 		}
 	}
 	option = {
@@ -2187,16 +2179,6 @@ character_event = {
 		}
 		spouse = {
 			add_lover = ROOT
-			add_character_modifier = {
-				name = "new_love"
-				duration = 90
-				hidden = yes
-			}
-		}
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
 		}
 	}
 	option = {
@@ -2363,13 +2345,11 @@ character_event = {
 				change_diplomacy = 1
 			}
 			80 = {
-				if = {
-					limit = {
-						NOT = {
-							trait = content
-						}
-					}		
-					add_trait = content
+				add_trait = content
+				hidden_tooltip = {
+					character_event = {
+						id = 38279 #Notify Content
+					}
 				}
 			}
 		}
@@ -2459,13 +2439,11 @@ character_event = {
 				change_martial = 1
 			}
 			80 = {
-				if = {
-					limit = {
-						NOT = {
-							trait = content
-						}
-					}		
-					add_trait = content
+				add_trait = content
+				hidden_tooltip = {
+					character_event = {
+						id = 38279 #Notify Content
+					}
 				}
 			}
 		}
@@ -2555,13 +2533,11 @@ character_event = {
 				change_stewardship = 1
 			}
 			80 = {
-				if = {
-					limit = {
-						NOT = {
-							trait = content
-						}
-					}		
-					add_trait = content
+				add_trait = content
+				hidden_tooltip = {
+					character_event = {
+						id = 38279 #Notify Content
+					}
 				}
 			}
 		}
@@ -2653,13 +2629,11 @@ character_event = {
 				change_intrigue = 1
 			}
 			80 = {
-				if = {
-					limit = {
-						NOT = {
-							trait = ambitious
-						}
-					}		
-					add_trait = ambitious
+				add_trait = ambitious
+				hidden_tooltip = {
+					character_event = {
+						id = 38278 #Notify Ambitious
+					}
 				}
 			}
 		}
@@ -2741,13 +2715,11 @@ character_event = {
 				change_learning = 1
 			}
 			80 = {
-				if = {
-					limit = {
-						NOT = {
-							trait = content
-						}
-					}		
-					add_trait = content
+				add_trait = content
+				hidden_tooltip = {
+					character_event = {
+						id = 38279 #Notify Content
+					}
 				}
 			}
 		}
@@ -2794,7 +2766,7 @@ character_event = {
 			}
 			is_councillor = no
 			diplomacy = 10
-			is_adult = yes
+			age = 15
 			is_female = no
 			prisoner = no
 			NOT = { trait = incapable }
@@ -2855,7 +2827,7 @@ character_event = {
 				}
 				is_councillor = no
 				diplomacy = 10
-				is_adult = yes
+				age = 15
 				is_female = no
 				prisoner = no
 				NOT = { trait = incapable }
@@ -2989,7 +2961,7 @@ character_event = {
 			}
 			is_councillor = no
 			martial = 10
-			is_adult = yes
+			age = 15
 			is_female = no
 			prisoner = no
 			NOT = { trait = incapable }
@@ -3048,7 +3020,7 @@ character_event = {
 				}
 				is_councillor = no
 				martial = 10
-				is_adult = yes
+				age = 15
 				is_female = no
 				prisoner = no
 				NOT = { trait = incapable }
@@ -3182,7 +3154,7 @@ character_event = {
 			}
 			is_councillor = no
 			stewardship = 10
-			is_adult = yes
+			age = 15
 			is_female = no
 			prisoner = no
 			NOT = { trait = incapable }
@@ -3243,7 +3215,7 @@ character_event = {
 				}
 				is_councillor = no
 				stewardship = 10
-				is_adult = yes
+				age = 15
 				is_female = no
 				prisoner = no
 				NOT = { trait = incapable }
@@ -3375,7 +3347,7 @@ character_event = {
 			}
 			is_councillor = no
 			intrigue = 10
-			is_adult = yes
+			age = 15
 			is_female = no
 			prisoner = no
 			NOT = { trait = incapable }
@@ -3436,7 +3408,7 @@ character_event = {
 				}
 				is_councillor = no
 				intrigue = 10
-				is_adult = yes
+				age = 15
 				is_female = no
 				prisoner = no
 				NOT = { trait = incapable }
@@ -3570,7 +3542,7 @@ character_event = {
 			}
 			is_councillor = no
 			learning = 10
-			is_adult = yes
+			age = 15
 			is_female = no
 			prisoner = no
 			NOT = { trait = incapable }
@@ -3631,7 +3603,7 @@ character_event = {
 				}
 				is_councillor = no
 				learning = 10
-				is_adult = yes
+				age = 15
 				is_female = no
 				prisoner = no
 				NOT = { trait = incapable }
@@ -3757,7 +3729,7 @@ character_event = {
 		is_married = yes
 		spouse = {
 			is_alive = yes
-			age = 40
+			has_character_modifier = old_age
 			prisoner = no
 			NOT = { fertility = 0.5 }
 		}
@@ -3804,7 +3776,7 @@ character_event = {
 				is_female = no
 				age = 20
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = chaste
@@ -4152,6 +4124,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		has_character_modifier = old_age
 		war = no
 		in_command = no
 		spouse = {
@@ -4160,7 +4133,7 @@ character_event = {
 			is_abroad = no
 			at_location = ROOT
 			NOT = {
-				age = 30
+				has_character_modifier = old_age
 			}
 			NOT = {
 				trait = genius
@@ -4176,7 +4149,7 @@ character_event = {
 			has_character_flag = best_friends_forever
 		}
 		any_courtier = {
-			is_adult = yes
+			age = 15
 			ai = yes
 			family = no
 			is_councillor = no
@@ -4234,7 +4207,7 @@ character_event = {
 		name = "EVTOPTA30086"
 		random_courtier = {
 			limit = {
-				is_adult = yes
+				age = 15
 				is_councillor = no
 				ai = yes
 				spouse = {
@@ -4840,8 +4813,10 @@ character_event = {
 	
 	trigger = {
 		fertility = 0.65
+		NOT = { trait = celibate }
 		spouse = {
-			age = 40
+			NOT = { trait = celibate }
+			has_character_modifier = old_age
 			war = no
 			in_command = no
 			is_abroad = no
@@ -4939,7 +4914,7 @@ character_event = {
 		trigger = {
 			has_character_flag = wild_ride
 			NOT = {
-				age = 55
+				has_character_modifier = old_age
 			}
 		}
 		clr_character_flag = wild_ride
@@ -4957,24 +4932,18 @@ character_event = {
 				}
 			}
 		}
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 40
+		random = {
+			chance = 40
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 	}
 	option = {
 		name = "EVTOPTB30101"
 		trigger = {
 			has_character_flag = wild_ride
-			age = 55
+			has_character_modifier = old_age
 			NOT = {
 				health = 5
 			}
@@ -4994,17 +4963,11 @@ character_event = {
 				}
 			}
 		}
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 40
+		random = {
+			chance = 40
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 	}
 	option = {
@@ -5012,7 +4975,7 @@ character_event = {
 		trigger = {
 			has_character_flag = boss_in_bedchamber
 			NOT = {
-				age = 55
+				has_character_modifier = old_age
 			}
 		}
 		clr_character_flag = boss_in_bedchamber
@@ -5030,24 +4993,18 @@ character_event = {
 				}
 			}
 		}
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 40
+		random = {
+			chance = 40
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 	}
 	option = {
 		name = "EVTOPTD30101"
 		trigger = {
 			has_character_flag = boss_in_bedchamber
-			age = 55
+			has_character_modifier = old_age
 			NOT = {
 				health = 5
 			}
@@ -5067,17 +5024,11 @@ character_event = {
 				}
 			}
 		}
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 40
+		random = {
+			chance = 40
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 	}
 }
@@ -5095,21 +5046,15 @@ character_event = {
 		trigger = {
 			has_character_flag = gentle_loving
 			NOT = {
-				age = 55
+				has_character_modifier = old_age
 			}
 		}
 		clr_character_flag = gentle_loving
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 60
+		random = {
+			chance = 60
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 		random = {
 			chance = 10
@@ -5129,20 +5074,14 @@ character_event = {
 		name = "EVTOPTB30102"
 		trigger = {
 			has_character_flag = gentle_loving
-			age = 55
+			has_character_modifier = old_age
 		}
 		clr_character_flag = gentle_loving
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 40
+		random = {
+			chance = 40
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 		random = {
 			chance = 20
@@ -5163,21 +5102,15 @@ character_event = {
 		trigger = {
 			has_character_flag = sweet_love
 			NOT = {
-				age = 60
+				has_character_modifier = old_age
 			}
 		}
 		clr_character_flag = sweet_love
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 30
+		random = {
+			chance = 30
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 		random = {
 			chance = 20
@@ -5197,20 +5130,14 @@ character_event = {
 		name = "EVTOPTD30102"
 		trigger = {
 			has_character_flag = sweet_love
-			age = 60
+			has_character_modifier = old_age
 		}
 		clr_character_flag = sweet_love
-		if = {
-			limit = {
-				NOT = {
-					trait = lustful
-				}
-			}		
-			random = {
-				chance = 20
+		random = {
+			chance = 20
 			
-				add_trait = lustful
-			}
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } } # Notify lustful
 		}
 		random = {
 			chance = 40
@@ -5277,12 +5204,12 @@ character_event = {
 	only_women = yes
 	capable_only = yes
 	prisoner = no
-	max_age = 40
 	min_age = 20
 	
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		has_lover = no
 		spouse = {
 			war = no
@@ -5366,20 +5293,10 @@ character_event = {
 				has_lover = no
 			}
 			add_lover = ROOT
-			add_character_modifier = {
-				name = "new_love"
-				duration = 90
-				hidden = yes
-			}
 			random = {
 				chance = 15
 				impregnate_cuckoo = ROOT
 			}
-		}
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
 		}
 	}
 	option = {

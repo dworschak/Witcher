@@ -23,298 +23,45 @@
 # JOB: action_inquisition
 ##############################
 
-# # 900: The Lord Spiritual converts a province!
-# character_event = {
-	# id = 900
-	# title = "EVTNAME900"
-	# desc = "EVTDESC900"
-	# picture = GFX_evt_heretic
-	# border = GFX_event_normal_frame_religion
+# 900: The Lord Spiritual converts a province!
 
-	# capable_only = yes
-	# prisoner = no
-	
-	# trigger = {
-		# has_job_action = action_inquisition
-		# NOT = { location = { religion = ROOT } }
-		# location = {
-			# owner = { same_realm = ROOT }
-		# }
-	# }
-	
-	# mean_time_to_happen = {
-		# months = 960
-		# modifier = {
-			# factor = 0.75
-			# location = { culture_group = ROOT }
-		# }
-		# modifier = {
-			# factor = 0.75
-			# location = { culture = ROOT }
-		# }	
-		# modifier = {
-			# factor = 0.5
-			# location = { religion_group = ROOT }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 2 }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 3 }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 4 }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 5 }
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 10
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 11
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 12
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 13
-		# }
-		# modifier = {
-			# factor = 2.0
-			# NOT = { religion_authority = 0.4 }
-		# }
-		# modifier = {
-			# factor = 4.0
-			# NOT = { religion_authority = 0.2 }
-		# }
-		# modifier = {
-			# factor = 0.75
-			# religion_authority = 0.6
-		# }
-		# modifier = {
-			# factor = 0.75
-			# religion_authority = 0.8
-		# }
-		# modifier = {
-			# factor = 3.0
-			# religion_group = pagan_group
-			# is_reformed_religion = no
-			# location = {
-				# OR = {
-					# NOT = { religion_group = pagan_group }
-					# is_reformed_religion = yes
-				# }
-			# }
-		# }
-		# modifier = {
-			# factor = 1.5
-			# is_heresy_of = ROOT
-		# }
-		# modifier = {
-			# factor = 0.75
-			# has_province_modifier = force_converting
-		# }
-		# modifier = {
-			# factor = 2.0
-			# has_province_modifier = heretic_stronghold
-		# }
-	# }
+# 20000: The Lord Spiritual informs his liege of the conversion
 
-	# option = {
-		# name = "EVTOPTA900"
-		# piety = 10
-		# location = { religion = ROOT }
-		# hidden_tooltip = {
-			# if = {
-				# limit = { has_province_modifier = heretic_stronghold }
-				# remove_province_modifier = heretic_stronghold
-			# }
-		# }
-		# liege = {
-			# letter_event = { id = 20000 tooltip = EVTTOOLTIP20000 }
-			# hidden_tooltip = {
-				# if = {
-					# limit = {
-						# top_liege = {
-							# NOT = { character = PREV }
-							# religion = ROOT
-						# }
-					# }
-					# top_liege = { letter_event = { id = 20001 } }
-				# }
-			# }
-		# }
-	# }
-# }
+# 20001: Informs top liege
 
-# # 20000: The Lord Spiritual informs his liege of the conversion
-# letter_event = {
-	# id = 20000
-	# desc = "EVTDESC20000"
-	# border = GFX_event_letter_frame_religion
-	
-	# is_triggered_only = yes
+# 901: The Lord Spiritual converts a subject character
 
-	# option = {
-		# name = "EVTOPTA20000"
-		# piety = 15
-		# if = {
-			# limit = {
-				# is_heretic = no
-				# rightful_religious_head_scope = {
-					# ROOT = {
-						# NOT = { excommunicated_for = PREV }
-					# }
-				# }
-			# }
-			# religion_head = {
-				# opinion = {
-					# modifier = opinion_converted_province
-					# who = ROOT
-					# months = 24
-				# }
-			# }
-		# }
-	# }
-# }
+# 20010: Inform the target character about this
 
-# # 20001: Informs top liege
-# letter_event = {
-	# id = 20001
-	# desc = "EVTDESC20001"
-	# border = GFX_event_letter_frame_religion
-	
-	# is_triggered_only = yes
+# 20011: Inform Lord Spiritual's Liege about this
 
-	# option = {
-		# name = "EXCELLENT"
-	# }
-# }
+# 20012: Inform character's Liege about this
 
-# # 901: The Lord Spiritual converts a subject character
-# character_event = {
-	# id = 901
-	# title = "EVTNAME901"
-	# desc = "EVTDESC901"
-	# picture = GFX_evt_heretic
-	# border = GFX_event_normal_frame_religion
+# 902: The Lord Spiritual is attacked by heathens (Gets away, Is wounded, Is killed)
 
-	# capable_only = yes
-	# prisoner = no
-	
-	# trigger = {
-		# has_job_action = action_inquisition
-		# location = {
-			# any_province_character = {
-				# NOT = { character = ROOT }
-				# NOT = { is_liege_of = ROOT }
-				# NOT = { religion = ROOT }
-				# OR = {
-					# is_ruler = no
-					# primary_title = {
-						# controls_religion = no
-						# mercenary = no
-						# holy_order = no
-					# }
-				# }
-				# same_realm = ROOT
-			# }
-		# }
-	# }
-	
-	# mean_time_to_happen = {
-		# months = 120
-	
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 2 }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 3 }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 4 }
-		# }
-		# modifier = {
-			# factor = 1.25
-			# NOT = { learning = 5 }
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 10
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 11
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 12
-		# }
-		# modifier = {
-			# factor = 0.75
-			# learning = 13
-		# }
-		# modifier = {
-			# factor = 2.0
-			# NOT = { religion_authority = 0.4 }
-		# }
-		# modifier = {
-			# factor = 2.0
-			# NOT = { religion_authority = 0.2 }
-		# }
-		# modifier = {
-			# factor = 0.75
-			# religion_authority = 0.6
-		# }
-		# modifier = {
-			# factor = 0.75
-			# religion_authority = 0.8
-		# }
-		# modifier = {
-			# factor = 3.0
-			# religion_group = pagan_group
-			# is_reformed_religion = no
-		# }
-	# }
-	
-	# option = {
-		# name = "EVTOPTA901"
-		# piety = 5
-		# location = {
-			# random_province_character = {
-				# limit = {
-					# NOT = { character = ROOT }
-					# NOT = { is_liege_of = ROOT }
-					# NOT = { religion = ROOT }
-					# OR = {
-						# is_ruler = no
-						# primary_title = {
-							# controls_religion = no
-							# mercenary = no
-							# holy_order = no
-						# }
-					# }
-					# same_realm = ROOT
-				# }
-				# letter_event = { id = 20010 tooltip = "EVTTOOLTIP20010" }
-			# }
-		# }
-	# }
-# }
+# 20020: Lord Spiritual gets away
 
-# # 20010: Inform the target character about this
+# 20021: Lord Spiritual gets wounded
+
+# 20022: Inform the Liege about wounding
+
+# 20023: Inform the Liege about death
+
+# 903: The Lord Spiritual suspects a subject character of heresy
+
+# 20030: Noble reacts to the accusations
+
+# 20032: Liege: The noble complains
+
+# 20033: Noble: Noble isn't heretic
+
+# 20034: Lord Spiritual: Noble isn't heretic
+
+# 20035: Noble: Noble is heretic
+
+# 901: The Lord Spiritual converts a subject character
+
+# 20010: Inform the target character about this
 # letter_event = {
 	# id = 20010
 	# desc = "EVTDESC20010"

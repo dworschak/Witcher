@@ -561,7 +561,6 @@ character_event = {
 		}
 		NOT = {
 			trait = homosexual
-			trait = stressed
 		}
 	}
 	
@@ -610,14 +609,14 @@ character_event = {
 				trait = chaste
 			}
 			NOT = {
-				age = 40
+				has_character_modifier = old_age
 			}
 			any_sibling = {
 				is_female = yes
 				at_location = ROOT
 				age = 15
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = chaste
@@ -648,7 +647,7 @@ character_event = {
 					trait = chaste
 				}
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -658,7 +657,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -686,7 +685,7 @@ character_event = {
 					trait = chaste
 				}
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -696,7 +695,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -725,7 +724,7 @@ character_event = {
 					trait = chaste
 				}
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -735,7 +734,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -780,7 +779,7 @@ character_event = {
 				is_female = yes
 				age = 15
 				NOT = {
-					age = 50
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = chaste
@@ -943,7 +942,7 @@ character_event = {
 				trait = chaste
 			}
 			NOT = {
-				age = 40
+				has_character_modifier = old_age
 			}
 			any_sibling = {
 				prisoner = no
@@ -951,7 +950,7 @@ character_event = {
 				at_location = ROOT
 				age = 15
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = chaste
@@ -985,7 +984,7 @@ character_event = {
 					trait = chaste
 				}
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -995,7 +994,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -1016,7 +1015,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -1043,7 +1042,7 @@ character_event = {
 					trait = chaste
 				}
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					reverse_opinion = { who = ROOT value = 50 }
@@ -1053,7 +1052,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -1069,7 +1068,7 @@ character_event = {
 					at_location = ROOT
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = chaste
@@ -1097,11 +1096,11 @@ character_event = {
 	
 	only_men = yes
 	min_age = 15
-	max_age = 40
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age}
 		has_character_flag = suspected_of_incest
 		NOT = {
 			has_character_modifier = suspected_of_incest_timer
@@ -1139,11 +1138,11 @@ character_event = {
 	
 	only_men = yes
 	min_age = 15
-	max_age = 40
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		has_character_flag = suspected_of_incest
 		any_sibling = {
 			has_character_flag = sister_suspected_of_incest
@@ -1273,7 +1272,7 @@ character_event = {
 				is_alive = yes
 				is_pregnant = no
 				NOT = {
-					age = 45
+					has_character_modifier = old_age
 				}
 			}
 			NOT = {
@@ -1415,12 +1414,7 @@ character_event = {
 	option = {
 		name = EVTOPTA69021 #Deny
 		set_character_flag = impotent_man
-		if = {
-			limit = {
-				NOT = { trait = stressed }
-			}
-			add_trait = stressed
-		}
+		add_trait = stressed
 		FROM = {
 			opinion = {
 				modifier = denied_impotence_rumour
@@ -1440,8 +1434,9 @@ character_event = {
 			}		
 			random = {
 				chance = 20
-			
+				
 				add_trait = chaste
+				hidden_tooltip = { character_event = { id = 38274 } } # Notify chaste
 			}
 		}
 	}
@@ -1700,7 +1695,7 @@ character_event = {
 				is_female = yes
 				age = 15
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = celibate
@@ -1763,7 +1758,7 @@ character_event = {
 					is_female = yes
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = celibate
@@ -1808,7 +1803,7 @@ character_event = {
 					is_female = yes
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						trait = celibate
@@ -1854,7 +1849,7 @@ character_event = {
 					is_female = yes
 					age = 15
 					NOT = {
-						age = 40
+						has_character_modifier = old_age
 					}
 					NOT = {
 						family = PREV
@@ -1894,7 +1889,7 @@ character_event = {
 				is_female = yes
 				age = 15
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				NOT = {
 					trait = celibate
@@ -2756,18 +2751,11 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA69044
-		trigger = { NOT = { trait = zealous } }
-		if = {
-			limit = {
-				NOT = {
-					trait = cynical
-				}
-			}		
-			random = {
-				chance = 25
+		random = {
+			chance = 25
 			
-				add_trait = cynical
-			}
+			add_trait = cynical
+			hidden_tooltip = { character_event = { id = 38258 } } # Notify cynical
 		}
 	}
 	option = {
@@ -2888,7 +2876,6 @@ character_event = {
 		}
 		NOT = {
 			trait = stressed
-			trait = depressed
 		}
 	}
 	
@@ -2915,23 +2902,12 @@ character_event = {
 		}
 		random_list = {
 			25 = {
-				if = {
-					limit = {
-						NOT = { trait = fair }
-					}
 				add_trait = fair
 				hidden_tooltip = {
 					character_event = {
 						id = 38301 #Notify Fair
 					}
 				}
-			}
-				if = {
-					limit = {
-						trait = fair
-					}
-					change_diplomacy = 1
-				}				
 			}
 			25 = {
 				change_martial = 1
@@ -2962,22 +2938,15 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTC69047
-		tooltip_info = paranoid
 		trigger = {
 			trait = paranoid
 		}
+		tooltip_info = paranoid
 		piety = -5
-		if = {
-			limit = {
-				NOT = {
-					trait = possessed
-				}
-			}
-			random = {
+		random = {
 			chance = 33
 			
 			add_trait = possessed
-			}
 		}
 	}
 }
@@ -3985,17 +3954,11 @@ character_event = {
 				hidden = yes
 			}
 		}
-		if = {
-			limit = {
-				NOT = {
-					trait = cynical
-				}
-			}		
-			random = {
-				chance = 25
+		random = {
+			chance = 25
 			
-				add_trait = cynical
-			}
+			add_trait = cynical
+			hidden_tooltip = { character_event = { id = 38258 } } # Notify cynical
 		}
 		random_child = {
 			limit = {
@@ -4009,6 +3972,7 @@ character_event = {
 				chance = 25
 			
 				add_trait = zealous
+				hidden_tooltip = { character_event = { id = 38269 } } # Notify zealous
 				opinion = {
 					modifier = opinion_dislike
 					who = ROOT
@@ -4024,45 +3988,6 @@ character_event = {
 		change_intrigue = -1
 	}
 }
-
-### Legate from the pope ###
-# character_event = {
-	# id = 69065
-	# desc = EVTDESC69065
-	# picture = GFX_evt_bishop
-	
-	# only_rulers = yes
-	# capable_only = yes
-	# prisoner = no
-	
-	# trigger = {
-		# has_character_flag = flag_unchristian
-		# religion = catholic
-		# NOT = {
-			# piety = 100
-		# }
-	# }
-	
-	# mean_time_to_happen = {
-		# months = 60
-	# }
-	
-	# option = {
-		# name = EVTOPTA69065
-		# scaled_wealth = -0.2
-		# clr_character_flag = flag_unchristian
-	# }
-	# option = {
-		# name = EVTOPTB69065
-		# piety = -10
-		# clr_character_flag = flag_unchristian
-	# }
-	# option = {
-		# name = EVTOPTC69065
-		# prestige = -10
-		# clr_character_flag = flag_unchristian
-	# }
-# }
 
 ### COWARDLINESS ###
 
