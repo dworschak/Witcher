@@ -18,11 +18,7 @@ obj_become_mage = {
 		prisoner = no
 		is_adult = yes
 		is_councillor = no
-		OR = {
-			trait = witch
-			trait = druid
-			trait = sorcerer
-		 }
+		trait = sorcerer
 		liege = {
 			NOT = { character = ROOT }
 		 }
@@ -66,98 +62,6 @@ obj_become_mage = {
 		 }
 		opinion = { who = liege modifier = opinion_ambition_fulfilled months = 24 }
 		set_character_flag = successful_council_ambition
-	 }
- }
-# Become duke
-obj_become_duke = {
-	type = character
-	
-	can_cancel = no
-
-	potential = {
-		NOT = { culture = wilderness }
-		is_adult = yes
-		is_playable = yes
-		is_landed = yes
-		tier = count
-		NOT = {
-			any_heir_title = {
-				higher_tier_than = COUNT
-			}
-		}
-	}
-	
-	allow = {
-		NOT = { trait = incapable }
-	 }
-	 
-	chance = {
-		factor = 100
-		modifier = {
-			factor = 0.1
-			NOT = { trait = ambitious }
-		}
-		modifier = {
-			factor = 3.0
-			trait = ambitious
-		}
-		modifier = {
-			factor = 2.0
-			trait = brave
-		}
-		modifier = {
-			factor = 0.1
-			trait = craven
-		}
-		modifier = {
-			factor = 0
-			trait = content
-		}
-		modifier = {
-			factor = 0.01
-			trait = slothful
-		}
-		modifier = { factor = 2.0 trait = greedy }
-		modifier = { factor = 2.0 trait = envious }
-		modifier = { factor = 10 any_claim = { tier = DUKE } }
-		modifier = { factor = 1.2 demesne_size = 2 }
-		modifier = { factor = 1.2 demesne_size = 3 }
-		modifier = { factor = 1.2 demesne_size = 4 }
-		modifier = {
-			factor = 0.01
-			any_demesne_province = { culture = magic }
-		}
-	 }
-	 
-	success = {
-		custom_tooltip = {
-			text = obj_become_duke_tip
-			hidden_tooltip = {
-				capital_scope = {
-					duchy = {
-						holder_scope = {
-							character = ROOT
-						}
-					}
-				}
-			}
-		}
-	 }
-	 
-	abort = {
-		OR = {
-			trait = incapable
-			is_playable = no
-			is_landed = no
-			higher_tier_than = COUNT
-			any_heir_title = {
-				higher_tier_than = COUNT
-			}
-		}
-	 }
-	 
-	effect = {
-		prestige = 100
 	 }
  }
 # Increase demesne size (from additional objectives mod)

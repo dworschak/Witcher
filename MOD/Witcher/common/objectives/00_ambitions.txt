@@ -82,7 +82,6 @@ obj_become_chancellor = {
 				trait = grey_eminence
 			}
 		}
-		
 		modifier = {
 			factor = 1.25
 			diplomacy = 10
@@ -98,21 +97,6 @@ obj_become_chancellor = {
 		modifier = {
 			factor = 1.5
 			diplomacy = 16
-		}
-		modifier = {
-			factor = 0.5
-			diplomacy = 5
-			NOT = { diplomacy = 8 }
-		}
-		modifier = {
-			factor = 0.2
-			diplomacy = 2
-			NOT = { diplomacy = 5 }
-		}
-		modifier = {
-			factor = 0.1
-			diplomacy = 0
-			NOT = { diplomacy = 2 }
 		}
 	}
 	success = {
@@ -234,21 +218,6 @@ obj_become_marshal = {
 		modifier = {
 			factor = 1.5
 			martial = 16
-		}
-		modifier = {
-			factor = 0.5
-			martial = 5
-			NOT = { martial = 8 }
-		}
-		modifier = {
-			factor = 0.2
-			martial = 2
-			NOT = { martial = 5 }
-		}
-		modifier = {
-			factor = 0.1
-			martial = 0
-			NOT = { martial = 2 }
 		}
 	}
 	success = {
@@ -379,21 +348,6 @@ obj_become_treasurer = {
 			factor = 1.5
 			stewardship = 16
 		}
-		modifier = {
-			factor = 0.5
-			stewardship = 5
-			NOT = { stewardship = 8 }
-		}
-		modifier = {
-			factor = 0.2
-			stewardship = 2
-			NOT = { stewardship = 5 }
-		}
-		modifier = {
-			factor = 0.1
-			stewardship = 0
-			NOT = { stewardship = 2 }
-		}
 	}
 	success = {
 		has_job_title = job_treasurer
@@ -523,21 +477,6 @@ obj_become_spymaster = {
 		modifier = {
 			factor = 1.5
 			intrigue = 16
-		}
-		modifier = {
-			factor = 0.5
-			intrigue = 5
-			NOT = { intrigue = 8 }
-		}
-		modifier = {
-			factor = 0.2
-			intrigue = 2
-			NOT = { intrigue = 5 }
-		}
-		modifier = {
-			factor = 0.1
-			intrigue = 0
-			NOT = { intrigue = 2 }
 		}
 	}
 	success = {
@@ -691,21 +630,6 @@ obj_become_spiritual = {
 			factor = 1.5
 			learning = 16
 		}
-		modifier = {
-			factor = 0.5
-			learning = 5
-			NOT = { learning = 8 }
-		}
-		modifier = {
-			factor = 0.2
-			learning = 2
-			NOT = { learning = 5 }
-		}
-		modifier = {
-			factor = 0.1
-			learning = 0
-			NOT = { learning = 2 }
-		}
 	}
 	success = {
 		has_job_title = job_spiritual
@@ -794,20 +718,8 @@ obj_amass_wealth = {
 			trait = greedy
 		}
 		modifier = {
-			factor = 0.02
+			factor = 0.01
 			trait = content
-		}
-		modifier = {
-			factor = 0.1
-			NOT = { yearly_income = 10 }
-		}
-		modifier = {
-			factor = 0.5
-			NOT = { yearly_income = 15 }
-		}
-		modifier = {
-			factor = 0.5
-			NOT = { yearly_income = 25 }
 		}
 	}
 	success = {
@@ -1020,7 +932,6 @@ obj_get_married = {
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
 		NOT = { trait = eunuch }
-		NOT = { trait = homosexual }
 		NOT = { trait = witcher }
 		NOT = { trait = kind2 }
 		OR = { 
@@ -1040,8 +951,8 @@ obj_get_married = {
 		factor = 100
 		
 		modifier = {
-			factor = 0.1
-			trait = chaste
+			factor = 0.2
+			trait = homosexual
 		}
 		modifier = {
 			factor = 0.5
@@ -1101,8 +1012,8 @@ obj_get_married = {
 		trait = celibate
 		trait = incapable
 		trait = eunuch
-		trait = homosexual
 		trait = witcher
+		trait = kind2
 		AND = { 
 			trait = sorcerer
 			NOT = { trait =  fertile_sorcerer }
@@ -1150,7 +1061,6 @@ obj_marry_ruler = {
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
 		NOT = { trait = eunuch }
-		NOT = { trait = homosexual }
 		NOT = { trait = witcher }
 		NOT = { trait = kind2 }
 		OR = {
@@ -1167,10 +1077,6 @@ obj_marry_ruler = {
 		factor = 100
 		
 		modifier = {
-			factor = 0.1
-			trait = chaste
-		}
-		modifier = {
 			factor = 1.5
 			trait = midas_touched
 		}
@@ -1185,6 +1091,10 @@ obj_marry_ruler = {
 		modifier = {
 			factor = 5.0
 			trait = ambitious
+		}
+		modifier = {
+			factor = 0.01
+			mercenary = yes
 		}
 		modifier = {
 			factor = 0.05
@@ -1215,7 +1125,7 @@ obj_marry_ruler = {
 			trait = celibate
 			trait = incapable
 		}
-		higher_tier_than = COUNT
+		is_ruler = yes
 	}
 	abort_effect = {
 	}
@@ -1304,6 +1214,15 @@ obj_have_a_daughter = {
 			}
 			trait = celibate
 			trait = incapable
+			trait = eunuch
+			AND = {
+				trait = sorcerer
+				NOT = { trait = fertile_sorcerer }
+			}
+			AND = {
+				trait = elven
+				NOT = { trait = fertile_elf }
+			}
 		}
 	}
 	abort_effect = {
@@ -1361,7 +1280,7 @@ obj_have_a_son = {
 			NOT = { trait = sorcerer }
 			AND = {
 				trait = sorcerer
-				trait  = fertile_sorcerer
+				trait = fertile_sorcerer
 			}
 		}
 	}
@@ -1391,6 +1310,15 @@ obj_have_a_son = {
 			has_character_modifier = old_age
 			trait = celibate
 			trait = incapable
+			trait = eunuch
+			AND = {
+				trait = sorcerer
+				NOT = { trait = fertile_sorcerer }
+			}
+			AND = {
+				trait = elven
+				NOT = { trait = fertile_elf }
+			}
 		}
 	}
 	abort_effect = {
@@ -1482,8 +1410,13 @@ obj_wants_landed_title = {
 		is_ruler = yes
 	}
 	abort = {
+		trait = incapable
+		trait = eunuch
 		liege = { 
-			trait = incapable
+			OR = {
+				NOT = { is_close_relative = ROOT }
+				NOT = { num_of_extra_landed_titles = 1 }
+			}
 		}
 	}	
 	abort_effect = {
@@ -1573,6 +1506,7 @@ obj_become_heir = {
 		is_primary_heir = yes
 	}
 	abort = {
+		trait = incapable
 	}
 	abort_effect = {
 	}
@@ -1589,7 +1523,7 @@ obj_improve_martial = {
 	
 	potential = {
 		NOT = { culture = wilderness }
-		is_adult = yes
+		age = 15
 		is_playable = yes
 	}
 	
@@ -1653,7 +1587,7 @@ obj_improve_stewardship = {
 	
 	potential = {
 		NOT = { culture = wilderness }
-		is_adult = yes
+		age = 15
 		is_playable = yes
 	}
 	
@@ -1720,7 +1654,7 @@ obj_improve_learning = {
 	
 	potential = {
 		NOT = { culture = wilderness }
-		is_adult = yes
+		age = 15
 		is_playable = yes
 	}
 	
@@ -1783,7 +1717,7 @@ obj_improve_diplomacy = {
 	
 	potential = {
 		NOT = { culture = wilderness }
-		is_adult = yes
+		age = 15
 		is_playable = yes
 	}
 	
@@ -1846,7 +1780,7 @@ obj_improve_intrigue = {
 	
 	potential = {
 		NOT = { culture = wilderness }
-		is_adult = yes
+		age = 15
 		is_playable = yes
 	}
 	
@@ -1900,63 +1834,6 @@ obj_improve_intrigue = {
 		clr_character_flag = the_necklace
 		clr_character_flag = gossip
 		clr_character_flag = old_spymaster
-	}
-}
-
-# Decadence
-obj_lower_decadence = {
-	type = character
-	
-	potential = {
-		always = no
-	}
-	
-	allow = {
-		always = no
-	}
-	chance = {
-		factor = 100
-		
-		modifier = {
-			factor = 1.25
-			trait = diligent
-		}
-		modifier = {
-			factor = 1.25
-			trait = naive_appeaser
-		}
-		modifier = {
-			factor = 1.5
-			trait = ambitious
-		}
-		modifier = {
-			factor = 0.01
-			trait = content
-		}
-		modifier = {
-			factor = 0.01
-			trait = slothful
-		}
-	}
-	success = {
-		NOT = { decadence = 60 }
-	}
-	abort = {
-		OR = {
-			trait = incapable
-		}
-	}
-	abort_effect = {
-		clr_character_flag = berber_life
-		clr_character_flag = bandit_camp
-		clr_character_flag = dromedary_hunt
-	}
-	effect = {
-		prestige = 100
-		clr_character_flag = lower_decadence_success
-		clr_character_flag = berber_life
-		clr_character_flag = bandit_camp
-		clr_character_flag = dromedary_hunt
 	}
 }
 

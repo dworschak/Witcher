@@ -1639,7 +1639,7 @@ character_event = {
 		any_courtier = {
 			age = 20
 			NOT = {
-				age = 70
+				has_character_modifier = old_age
 			}
 			prisoner = no
 			NOT = {
@@ -1683,7 +1683,7 @@ character_event = {
 			limit = {
 				age = 20
 				NOT = {
-					age = 70
+					has_character_modifier = old_age
 				}
 				prisoner = no
 				NOT = {
@@ -4422,7 +4422,6 @@ character_event = {
 	picture = GFX_evt_bishop
 	
 	min_age = 15
-	max_age = 50
 	capable_only = yes
 	prisoner = no
 	is_triggered_only = yes 
@@ -4432,6 +4431,7 @@ character_event = {
 		war = no
 		NOT = { health = 8 }
 		in_command = no
+		NOT = { has_character_modifier = old_age }
 	}
 	
 	weight_multiplier = {
@@ -7425,7 +7425,6 @@ character_event = {
 				is_priest = yes
 				has_job_title = job_spiritual
 			}
-
 		}				
 	}
 	
@@ -9629,7 +9628,6 @@ character_event = {
 	}
 }
 
-
 ######################################
 # PARANOID EVENTS
 ######################################
@@ -10490,16 +10488,6 @@ character_event = {
 		piety = -10
 		spouse = {
 			add_lover = ROOT
-			add_character_modifier = {
-				name = "new_love"
-				duration = 90
-				hidden = yes
-			}
-		}
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
 		}
 	}
 	option = {
@@ -10525,16 +10513,6 @@ character_event = {
 		piety = -10
 		spouse = {
 			add_lover = ROOT
-			add_character_modifier = {
-				name = "new_love"
-				duration = 90
-				hidden = yes
-			}
-		}
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
 		}
 		random = {
 			chance = 20
@@ -12095,7 +12073,7 @@ character_event = {
 			is_abroad = no
 			prisoner = no
 			NOT = {
-				age = 40
+				has_character_modifier = old_age
 			}
 			opinion = { who = ROOT value = 30 }
 			reverse_opinion = { who = ROOT value = 30 }
@@ -12154,7 +12132,7 @@ character_event = {
 				}
 				age = 20
 				NOT = {
-					age = 40
+					has_character_modifier = old_age
 				}
 				opinion = { who = ROOT value = 30 }
 				reverse_opinion = { who = ROOT value = 30 }
@@ -15703,13 +15681,13 @@ character_event = {
 	picture = GFX_evt_melee
 	
 	min_age = 20
-	max_age = 65
 	only_men = yes
 	capable_only = yes
 	prisoner = no
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT= { has_character_modifier = old_age }
 		trait = duelist
 		war = no
 		in_command = no
@@ -15721,7 +15699,7 @@ character_event = {
 			age = 20
 			is_female = no
 			NOT = {
-				age = 65
+				has_character_modifier = old_age
 			}
 			NOT = {
 				spouse = {
@@ -15753,7 +15731,7 @@ character_event = {
 				age = 20
 				is_female = no
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				NOT = {
 					spouse = {
@@ -15797,7 +15775,7 @@ character_event = {
 				age = 20
 				is_female = no
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				NOT = {
 					spouse = {
@@ -15875,7 +15853,7 @@ character_event = {
 									age = 20
 									is_female = no
 									NOT = {
-										age = 65
+										has_character_modifier = old_age
 									}
 									NOT = {
 										spouse = {
@@ -15905,7 +15883,7 @@ character_event = {
 									age = 20
 									is_female = no
 									NOT = {
-										age = 65
+										has_character_modifier = old_age
 									}
 									NOT = {
 										spouse = {
@@ -15945,7 +15923,7 @@ character_event = {
 									age = 20
 									is_female = no
 									NOT = {
-										age = 65
+										has_character_modifier = old_age
 									}
 									NOT = {
 										spouse = {
@@ -15975,7 +15953,7 @@ character_event = {
 									age = 20
 									is_female = no
 									NOT = {
-										age = 65
+										has_character_modifier = old_age
 									}
 									NOT = {
 										spouse = {
@@ -16167,48 +16145,29 @@ character_event = {
 			name = master_duelist
 			duration = 1825
 		}
-		set_character_flag = combattrait
+		if = { 
+			limit = { trait = skilled_warrior }
+			add_trait = master_warrior
+			remove_trait = skilled_warrior
+		}
+		if = { 
+			limit = { trait = trained_warrior }
+			add_trait = skilled_warrior
+			remove_trait = trained_warrior
+		}
+		if = { 
+			limit = { trait = poor_warrior }
+			add_trait = trained_warrior
+			remove_trait = poor_warrior
+		}
 		if = { 
 			limit = {  
 				NOT = { trait = poor_warrior }
 				NOT = { trait = trained_warrior }
 				NOT = { trait = skilled_warrior }
 				NOT = { trait = master_warrior }
-				has_character_flag = combattrait
 			}
 			add_trait = poor_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = { 
-				trait = poor_warrior
-				has_character_flag = combattrait
-			}
-			add_trait = trained_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = { 
-				trait = trained_warrior 
-				has_character_flag = combattrait
-			}
-			add_trait = skilled_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = { 
-				trait = skilled_warrior
-				has_character_flag = combattrait
-			}
-			add_trait = master_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = {
-				trait = master_warrior
-				has_character_flag = combattrait
-			}
-			clr_character_flag = combattrait
 		}
 	}
 }
@@ -16434,13 +16393,13 @@ character_event = {
 	picture = GFX_evt_melee
 	
 	min_age = 20
-	max_age = 65
 	only_men = yes
 	capable_only = yes
 	prisoner = no
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { has_character_modifier = old_age }
 		trait = duelist
 		war = no
 		in_command = no
@@ -16473,7 +16432,7 @@ character_event = {
 					}
 				}					
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				NOT = {
 					opinion = { who = ROOT value = -10 }
@@ -16528,7 +16487,7 @@ character_event = {
 						trait = maimed
 					}
 					NOT = {
-						age = 65
+						has_character_modifier = old_age
 					}
 					NOT = {
 						opinion = { who = ROOT value = -10 }
@@ -16629,48 +16588,29 @@ character_event = {
 			name = master_duelist
 			duration = 1825
 		}
-		set_character_flag = combattrait
+		if = { 
+			limit = { trait = skilled_warrior }
+			add_trait = master_warrior
+			remove_trait = skilled_warrior
+		}
+		if = { 
+			limit = { trait = trained_warrior }
+			add_trait = skilled_warrior
+			remove_trait = trained_warrior
+		}
+		if = { 
+			limit = { trait = poor_warrior }
+			add_trait = trained_warrior
+			remove_trait = poor_warrior
+		}
 		if = { 
 			limit = {  
 				NOT = { trait = poor_warrior }
 				NOT = { trait = trained_warrior }
 				NOT = { trait = skilled_warrior }
 				NOT = { trait = master_warrior }
-				has_character_flag = combattrait
 			}
 			add_trait = poor_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = { 
-				trait = poor_warrior
-				has_character_flag = combattrait
-			}
-			add_trait = trained_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = { 
-				trait = trained_warrior 
-				has_character_flag = combattrait
-			}
-			add_trait = skilled_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = { 
-				trait = skilled_warrior
-				has_character_flag = combattrait
-			}
-			add_trait = master_warrior
-			clr_character_flag = combattrait
-		}
-		if = { 
-			limit = {
-				trait = master_warrior
-				has_character_flag = combattrait
-			}
-			clr_character_flag = combattrait
 		}
 	}
 	option = {
@@ -18627,16 +18567,6 @@ character_event = {
 				reverse_opinion = { who = ROOT value = 20 }
 			}
 			add_lover = ROOT
-			add_character_modifier = {
-				name = "new_love"
-				duration = 90
-				hidden = yes
-			}
-		}
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
 		}
 		random = {
 			chance = 10
@@ -19039,11 +18969,6 @@ character_event = {
 	option = {
 		name = EVTOPTA3687
 		add_lover = from
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
-		}
 		hidden_tooltip = {
 			FROM = {
 				character_event = {
@@ -19080,11 +19005,6 @@ character_event = {
 	option = {
 		name = EVTOPTA3688
 		add_lover = from
-		add_character_modifier = {
-			name = "new_love"
-			duration = 90
-			hidden = yes
-		}
 	}
 }
 
@@ -19154,7 +19074,6 @@ character_event = {
 		name = EVTOPTA3690
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19180,7 +19099,6 @@ character_event = {
 		}
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19205,7 +19123,6 @@ character_event = {
 		}
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19228,7 +19145,6 @@ character_event = {
 				trait = falconer
 			}
 			any_child = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19383,7 +19299,6 @@ character_event = {
 		change_martial = 1
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19415,7 +19330,6 @@ character_event = {
 		name = EVTOPTA3694
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19455,7 +19369,6 @@ character_event = {
 		prestige = 10
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -19504,7 +19417,6 @@ character_event = {
 		name = EVTOPTA3696
 		random_child = {
 			limit = {
-				is_alive = yes
 				age = 13
 				NOT = {
 					age = 20
@@ -20387,7 +20299,6 @@ character_event = {
 		war = no
 		in_command = no
 		any_child = {
-			is_alive = yes
 			is_abroad = no
 			prisoner = no
 			trait = shy
@@ -20415,7 +20326,6 @@ character_event = {
 		name = EVTOPTA3715
 		random_child = {
 			limit = {
-				is_alive = yes
 				is_abroad = no
 				prisoner = no
 				trait = shy
@@ -20460,7 +20370,6 @@ character_event = {
 		name = EVTOPTB3715
 		random_child = {
 			limit = {
-				is_alive = yes
 				is_abroad = no
 				prisoner = no
 				trait = shy
@@ -20511,7 +20420,6 @@ character_event = {
 		name = EVTOPTC3715
 		random_child = {
 			limit = {
-				is_alive = yes
 				is_abroad = no
 				prisoner = no
 				trait = shy

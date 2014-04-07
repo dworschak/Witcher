@@ -298,27 +298,6 @@ character_event = {
 		}
 	}
 	
-	mean_time_to_happen = {
-		months = 4
-		
-		modifier = {
-			factor = 0.5
-			trait = ambitious
-		}
-		modifier = {
-			factor = 0.5
-			trait = diligent
-		}
-		modifier = {
-			factor = 5.0
-			trait = slothful
-		}
-		modifier = {
-			factor = 5.0
-			trait = content
-		}
-	}
-	
 	option = {
 		name = EVTOPTA37005 # Ask liege for a title
 		liege = { character_event = { id = 37006 tooltip = EVTTOOLTIP37006 } }
@@ -539,9 +518,9 @@ character_event = {
 			opinion = {
 				who = FROMFROM
 				modifier = opinion_targeted_by_adventurer
-				months = 16
+				months = 12
 			}
-			FROMFROM = { character_event = { id = 37015 days = 265 random = 200 } } # The event that actually fires the revolt
+			FROMFROM = { character_event = { id = 37015 days = 365 } } # The event that actually fires the revolt
 		}
 	}
 }
@@ -1136,7 +1115,7 @@ character_event = {
 			any_courtier = {
 				OR = {
 					is_female = no
-					NOT = { age = 45 }
+					NOT = { has_character_modifier = old_age }
 				}
 				can_marry = FROM
 			}
@@ -1147,7 +1126,7 @@ character_event = {
 			limit = {
 				OR = {
 					is_female = no
-					NOT = { age = 45 }
+					NOT = { has_character_modifier = old_age }
 				}
 				can_marry = FROM
 			}
@@ -1227,7 +1206,7 @@ character_event = {
 		has_character_flag = flag_denied_marriage
 		any_courtier = {
 			is_female = yes
-			NOT = { age = 40 }
+			NOT = { has_character_modifier = old_age }
 			can_marry = ROOT
 		}
 	}
@@ -1258,7 +1237,7 @@ character_event = {
 		random_courtier = {
 			limit = {
 				is_female = yes
-				NOT = { age = 40 }
+				NOT = { has_character_modifier = old_age }
 				can_marry = ROOT
 			}
 			add_spouse = ROOT

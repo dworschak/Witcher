@@ -36,7 +36,7 @@ province_event = {
 					}
 				}
 			}
-			set_province_flag = ongoing_peasant_revolt
+			owner = { set_character_flag = ongoing_peasant_revolt }
 		}
 		if = {# Religious revolt
 			limit = {
@@ -53,7 +53,7 @@ province_event = {
 					}
 				}
 			}
-			set_province_flag = ongoing_religious_revolt
+			owner = { set_character_flag = ongoing_religious_revolt }
 		}
 		if = { # Nationalist revolt
 			limit = {
@@ -76,7 +76,7 @@ province_event = {
 					}
 				}
 			}
-			set_province_flag = ongoing_nationalist_revolt
+			owner = { set_character_flag = ongoing_nationalist_revolt }
 		}
 		if = { # Scoitael revolt
 			limit = {
@@ -93,7 +93,7 @@ province_event = {
 					}
 				}
 			}
-			set_province_flag = ongoing_scoiatael_revolt
+			owner = { set_character_flag = ongoing_scoiatael_revolt }
 		}
 	}
 	
@@ -101,13 +101,13 @@ province_event = {
 	option = {
 		name = "Start scoiatael revolt"
 		trigger = {
-			NOT = {
-				has_province_flag = ongoing_peasant_revolt
-				has_province_flag = ongoing_religious_revolt
-				has_province_flag = ongoing_nationalist_revolt
-				has_province_flag = ongoing_scoiatael_revolt
-			}
 			owner = {
+				NOT = {
+					has_character_flag = ongoing_peasant_revolt
+					has_character_flag = ongoing_religious_revolt
+					has_character_flag = ongoing_nationalist_revolt
+					has_character_flag = ongoing_scoiatael_revolt
+				}
 				top_liege = {
 					trait = human # Only against human rulers
 					NOT = {
@@ -135,13 +135,13 @@ province_event = {
 	option = {
 		name = "Start nationalist revolt"
 		trigger = {
-			NOT = {
-				has_province_flag = ongoing_peasant_revolt
-				has_province_flag = ongoing_religious_revolt
-				has_province_flag = ongoing_nationalist_revolt
-				has_province_flag = ongoing_scoiatael_revolt
-			}
 			owner = {
+				NOT = {
+					has_character_flag = ongoing_peasant_revolt
+					has_character_flag = ongoing_religious_revolt
+					has_character_flag = ongoing_nationalist_revolt
+					has_character_flag = ongoing_scoiatael_revolt
+				}
 				top_liege = {
 					NOT = { culture = ROOT }
 				}
@@ -161,13 +161,13 @@ province_event = {
 	option = {
 		name = "Start religious revolt"
 		trigger = {
-			NOT = {
-				has_province_flag = ongoing_peasant_revolt
-				has_province_flag = ongoing_religious_revolt
-				has_province_flag = ongoing_nationalist_revolt
-				has_province_flag = ongoing_scoiatael_revolt
-			}
 			owner = {
+				NOT = {
+					has_character_flag = ongoing_peasant_revolt
+					has_character_flag = ongoing_religious_revolt
+					has_character_flag = ongoing_nationalist_revolt
+					has_character_flag = ongoing_scoiatael_revolt
+				}
 				top_liege = {
 					NOT = { religion_group = ROOT }
 				}
@@ -187,13 +187,13 @@ province_event = {
 	option = {
 		name = "Start peasant revolt"
 		trigger = {
-			NOT = {
-				has_province_flag = ongoing_peasant_revolt
-				has_province_flag = ongoing_religious_revolt
-				has_province_flag = ongoing_nationalist_revolt
-				has_province_flag = ongoing_scoiatael_revolt
-			}
 			owner = {
+				NOT = {
+					has_character_flag = ongoing_peasant_revolt
+					has_character_flag = ongoing_religious_revolt
+					has_character_flag = ongoing_nationalist_revolt
+					has_character_flag = ongoing_scoiatael_revolt
+				}
 				top_liege = {
 					NOT = { # Elves don't get normal peasant revolt in elven culture and religion provinces
 						ROOT = {
@@ -223,42 +223,66 @@ province_event = {
 	option = {
 		name = "Reinforce scoiatael revolt"
 		trigger = {
-			has_province_flag = ongoing_scoiatael_revolt
+			owner = { has_character_flag = ongoing_scoiatael_revolt }
 		}
 		ai_chance = {
 			factor = 10000
 		}
 		province_event = { id = rebels.13 }
+		owner = {
+			clr_character_flag = ongoing_peasant_revolt
+			clr_character_flag = ongoing_religious_revolt
+			clr_character_flag = ongoing_nationalist_revolt
+			clr_character_flag = ongoing_scoiatael_revolt
+		}
 	}
 	option = {
 		name = "Reinforce nationalist revolt"
 		trigger = {
-			has_province_flag = ongoing_nationalist_revolt
+			owner = { has_character_flag = ongoing_nationalist_revolt }
 		}
 		ai_chance = {
 			factor = 1000
 		}
 		province_event = { id = TOG.1050 }
+		owner = {
+			clr_character_flag = ongoing_peasant_revolt
+			clr_character_flag = ongoing_religious_revolt
+			clr_character_flag = ongoing_nationalist_revolt
+			clr_character_flag = ongoing_scoiatael_revolt
+		}
 	}
 	option = {
 		name = "Reinforce religious revolt"
 		trigger = {
-			has_province_flag = ongoing_religious_revolt
+			owner = { has_character_flag = ongoing_religious_revolt }
 		}
 		ai_chance = {
 			factor = 100
 		}
 		province_event = { id = TOG.1070 }
+		owner = {
+			clr_character_flag = ongoing_peasant_revolt
+			clr_character_flag = ongoing_religious_revolt
+			clr_character_flag = ongoing_nationalist_revolt
+			clr_character_flag = ongoing_scoiatael_revolt
+		}
 	}
 	option = {
 		name = "Reinforce peasant revolt"
 		trigger = {
-			has_province_flag = ongoing_peasant_revolt
+			owner = { has_character_flag = ongoing_peasant_revolt }
 		}
 		ai_chance = {
 			factor = 10
 		}
 		province_event = { id = TOG.1010 }
+		owner = {
+			clr_character_flag = ongoing_peasant_revolt
+			clr_character_flag = ongoing_religious_revolt
+			clr_character_flag = ongoing_nationalist_revolt
+			clr_character_flag = ongoing_scoiatael_revolt
+		}
 	}
 }
 
@@ -288,6 +312,37 @@ province_event = {
 			trait = scoiatael_leader
 		}
 		new_character = {
+			# 2 supporters - better revolt leader
+			if = {
+				limit = {
+					owner = {
+						top_liege = {
+							any_playable_ruler = {
+								has_character_flag = supported_scoiatael
+								count = 2
+							}
+						}
+					}
+				}
+				change_martial = 2
+				change_diplomacy = 2
+				change_stewardship = 2
+				change_learning = 2
+				change_intrigue = 2
+				remove_trait = weak
+				remove_trait = inbred
+				remove_trait = imbecile
+				remove_trait = slow
+				add_trait = veteran
+				add_trait = rough_terrain_leader
+				random_list = {
+					20 = { add_trait = inspiring_leader }
+					20 = { add_trait = siege_leader }
+					20 = { add_trait = aggressive_leader }
+					20 = { add_trait = organizer }
+					20 = { add_trait = unyielding_leader }
+				}
+			}
 			create_title = {
 				tier = DUKE
 				landless = yes
@@ -671,6 +726,128 @@ province_event = {
 					}
 				}
 			}
+			# 1 supporter - additional troops
+			if = {
+				limit = {
+					owner = {
+						top_liege = {
+							any_playable_ruler = {
+								has_character_flag = supported_scoiatael
+								count = 1
+							}
+						}
+					}
+				}
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = THIS
+					culture = THIS
+					female = no
+					#age =30
+					trait = scoiatael_leader
+				}
+				new_character = {
+					spawn_unit = {
+						province = ROOT
+						home = ROOT
+						owner = PREV
+						scaled_by_biggest_garrison = 0.75
+						troops = {
+							archers = { 6 6 }
+							light_cavalry = { 4 4 }
+							light_infantry = { 10 10 }
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+					}
+				}
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = THIS
+					culture = THIS
+					female = no
+					#age =31
+					trait = scoiatael_leader
+				}
+				new_character = {
+					spawn_unit = {
+						province = ROOT
+						home = ROOT
+						owner = PREV
+						scaled_by_biggest_garrison = 0.75
+						troops = {
+							archers = { 6 6 }
+							light_cavalry = { 4 4 }
+							light_infantry = { 10 10 }
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+					}
+				}
+			}
+			# 3 supporters - even more additional troops
+			if = {
+				limit = {
+					owner = {
+						top_liege = {
+							any_playable_ruler = {
+								has_character_flag = supported_scoiatael
+								count = 3
+							}
+						}
+					}
+				}
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = THIS
+					culture = THIS
+					female = no
+					#age =30
+					trait = scoiatael_leader
+				}
+				new_character = {
+					spawn_unit = {
+						province = ROOT
+						home = ROOT
+						owner = PREV
+						scaled_by_biggest_garrison = 0.5
+						troops = {
+							archers = { 6 6 }
+							light_cavalry = { 4 4 }
+							light_infantry = { 10 10 }
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+					}
+				}
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = THIS
+					culture = THIS
+					female = no
+					#age =31
+					trait = scoiatael_leader
+				}
+				new_character = {
+					spawn_unit = {
+						province = ROOT
+						home = ROOT
+						owner = PREV
+						scaled_by_biggest_garrison = 0.5
+						troops = {
+							archers = { 6 6 }
+							light_cavalry = { 4 4 }
+							light_infantry = { 10 10 }
+						}
+						attrition = 1.0
+						disband_on_peace = yes
+					}
+				}
+			}
 			# DoW on the province top liege
 			ROOT = {
 				owner = {
@@ -687,8 +864,16 @@ province_event = {
 					}
 				}
 			}
-			# Fire event to get money from supporters
-			character_event = { id = scoiatael.10 }
+			# Opinion modifier against supporters
+			owner = {
+				top_liege = {
+					any_realm_character = {
+						limit = { has_character_flag = supported_scoiatael }
+						reverse_opinion = { modifier = opinion_supported_revolt who = PREVPREVPREV }
+						clr_character_flag = supported_scoiatael
+					}
+				}
+			}
 		}
 		owner = {
 			any_liege = { # Inform the lieges

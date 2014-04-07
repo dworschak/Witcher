@@ -166,32 +166,16 @@ province_event = {
 	picture = "GFX_evt_joust"
 
 	trigger = {
-		OR = {
-			owner = {
-				had_character_flag = {
-					flag = tournament_begins
-					days = 365
-				}
-			}
-			had_province_flag = {
-				flag = tournament_60_days
-				days = 60
-			}
+		had_province_flag = {
+			flag = tournament_60_days
+			days = 60
 		}
-		OR = {
-			owner = {
-				had_character_flag = {
-					flag = tournament_begins
-					days = 365
-				}
-			}
-			owner = {
-				has_character_flag = winner
-				has_character_flag = second_place
-				has_character_flag = third_place
-				has_character_flag = beauty_winner
-				has_character_flag = beauty_second
-				has_character_flag = beauty_third
+		owner = {
+			has_character_flag = winner
+			has_character_flag = second_place
+			had_character_flag = {
+				flag = third_place
+				days = 3
 			}
 		}
 	}
@@ -214,9 +198,6 @@ province_event = {
 			clr_character_flag = tournament_third_place
 			clr_character_flag = tournament_second_place
 			clr_character_flag = tournament_winner
-			clr_character_flag = beauty_winner
-			clr_character_flag = beauty_second
-			clr_character_flag = beauty_third
 			set_character_flag = tournament_has_ended
 			any_realm_character = {
 				limit = {
@@ -2726,13 +2707,11 @@ character_event = {
 	
 	immediate = {
 		clr_character_flag = do_not_disturb
-		clr_character_flag = epic_tournament
 		clr_character_flag = attending_tournament
 		clr_character_flag = no_msg_death
 		clr_character_flag = no_msg_maimed
 		clr_character_flag = no_msg_wounded
 		clr_character_flag = tournament_has_ended
-		clr_character_flag = epic_tournament
 		clr_character_flag = attending_tournament_event
 		clr_character_flag = tournament_winner
 		clr_character_flag = winner
@@ -2740,6 +2719,16 @@ character_event = {
 		clr_character_flag = second_place
 		clr_character_flag = tournament_third_place
 		clr_character_flag = third_place
+		any_realm_character = {
+			limit = {
+				has_character_flag = attending_tournament
+			}
+			clr_character_flag = tournament_third_place
+			clr_character_flag = tournament_second_place
+			clr_character_flag = attending_tournament
+			clr_character_flag = attending_tournament_event
+			clr_character_flag = do_not_disturb
+		}		
 	}
 }
 

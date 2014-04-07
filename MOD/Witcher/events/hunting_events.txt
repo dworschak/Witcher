@@ -24,11 +24,36 @@ character_event = {
 	trigger = {
 		has_character_modifier = holding_grand_hunt
 		NOT = {	health_traits = 1 }
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
+	}
+	
+	immediate = {
+		set_character_flag = hunt_event_happened
 	}
 
 	mean_time_to_happen = {
 		days = 200
-
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}
+		
 		modifier = {
 			factor = 1.5
 			trait = content
@@ -68,6 +93,7 @@ character_event = {
 
 	option = {
 		name = "EVTOPTB36000"
+		tooltip_info = craven
 		trigger = {
 			trait = craven
 		}
@@ -93,7 +119,26 @@ character_event = {
 			NOT = { trait = content }
 		}
 		random_list = {
-			60 = { }
+			50 = { }
+			10 = { 
+				if = {
+					limit = {
+						NOT = { trait = diligent }
+					}
+					add_trait = diligent
+					hidden_tooltip = {
+						character_event = {
+							id = 38256 #Notify Diligent
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = diligent
+					}
+					prestige = 10
+				}						
+			}
 			20 = { change_martial = 1 }
 			14 = {
 				add_trait = wounded
@@ -132,13 +177,35 @@ character_event = {
 				character = ROOT
 			}
 		}
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
-
+	
 	mean_time_to_happen = {
 		days = 200
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 	}
 
 	immediate = {
+		set_character_flag = hunt_event_happened
 		set_character_flag = hunt_paranoia
 	}
 
@@ -303,11 +370,35 @@ character_event = {
 	trigger = {
 		has_character_modifier = holding_grand_hunt
 		NOT = {	health_traits = 1 }
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
 
 	mean_time_to_happen = {
 		days = 100
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.75
@@ -400,7 +491,26 @@ character_event = {
 			NOT = {	trait = craven }
 		}
 		random_list = {
-			75 = {}
+			65 = {}
+			10 = { 
+				if = {
+					limit = {
+						NOT = { trait = diligent }
+					}
+					add_trait = diligent
+					hidden_tooltip = {
+						character_event = {
+							id = 38256 #Notify Diligent
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = diligent
+					}
+					prestige = 10
+				}					
+			}		
 			10 = { change_martial = 1 }
 			10 = {
 				add_trait = wounded
@@ -430,11 +540,35 @@ character_event = {
 	trigger = {
 		has_character_modifier = holding_grand_hunt
 		NOT = {	health_traits = 1 }
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
 
 	mean_time_to_happen = {
 		days = 100
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.75
@@ -501,7 +635,26 @@ character_event = {
 			NOT = { trait = craven }
 		}
 		random_list = {
-			75 = {}
+			65 = {}
+			10 = { 
+				if = {
+					limit = {
+						NOT = { trait = diligent }
+					}
+					add_trait = diligent
+					hidden_tooltip = {
+						character_event = {
+							id = 38256 #Notify Diligent
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = diligent
+					}
+					prestige = 10
+				}						
+			}			
 			10 = { change_martial = 1 }
 			10 = {
 				add_trait = wounded
@@ -534,11 +687,35 @@ character_event = {
 	trigger = {
 		has_character_modifier = holding_grand_hunt
 		NOT = {	health_traits = 1 }
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}	
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
-
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}
+	
 	mean_time_to_happen = {
 		days = 100
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.75
@@ -585,7 +762,26 @@ character_event = {
 			NOT = {	trait = craven }
 		}
 		random_list = {
-			75 = {}
+			65 = {}
+			10 = { 
+				if = {
+					limit = {
+						NOT = { trait = diligent }
+					}
+					add_trait = diligent
+					hidden_tooltip = {
+						character_event = {
+							id = 38256 #Notify Diligent
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = diligent
+					}
+					prestige = 10
+				}					
+			}			
 			10 = { change_martial = 1 }
 			10 = {
 				add_trait = wounded
@@ -603,6 +799,7 @@ character_event = {
 
 	option = {
 		name = "EVTOPTC36020"
+		tooltip_info = craven
 		trigger = {
 			trait = craven
 		}
@@ -636,10 +833,35 @@ character_event = {
 		NOT = { has_character_flag = hunt_good_hounds }
 		NOT = { trait = craven }
 		NOT = { trait = content }
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}	
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
+	
 	mean_time_to_happen = {
 		days = 200
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.75
@@ -666,17 +888,18 @@ character_event = {
 	option = {
 		name = "EVTOPTA36025"
 		set_character_flag = hunt_good_hounds
-		prestige = 5
+		prestige = 10
 		random = {
 			chance = 15
 			add_trait = wounded
+			hidden_tooltip = { character_event = { id = 38280 } }
 		}
 	}
 
 	option = {
 		name = "EVTOPTC36025"
 		set_character_flag = hunt_good_hounds
-		prestige = 5
+		prestige = 10
 		random = {
 			chance = 25
 			character_event = { id = 36026 days = 1 random = 2 tooltip = "EVTTOOLTIP36026" }
@@ -685,7 +908,7 @@ character_event = {
 
 	option = {
 		name = "EVTOPTD36025"
-		prestige = -5
+		prestige = -10
 	}
 }
 
@@ -722,10 +945,35 @@ character_event = {
 
 	trigger = {
 		has_character_modifier = holding_grand_hunt
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
+	
 	mean_time_to_happen = {
 		days = 100
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.75
@@ -751,12 +999,12 @@ character_event = {
 		trigger = {
 			NOT = { trait = slothful }
 		}
-
 		piety = 10
 	}
 
 	option = {
 		name = "EVTOPTB36030"
+		tooltip_info = slothful
 		trigger = {
 			trait = slothful
 		}
@@ -775,10 +1023,35 @@ character_event = {
 
 	trigger = {
 		has_character_modifier = holding_grand_hunt
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}		
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
+	
 	mean_time_to_happen = {
 		days = 100
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.75
@@ -824,11 +1097,31 @@ character_event = {
 		NOT = { martial = 8 }
 		NOT = { trait = hunter }
 		NOT = { has_character_flag = hunt_killed_something }
-
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
-
+	
 	mean_time_to_happen = {
 		days = 100
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.8
@@ -858,7 +1151,7 @@ character_event = {
 
 	immediate = {
 		set_character_flag = hunt_killed_something
-
+		set_character_flag = hunt_event_happened
 	}
 
 	option = {
@@ -901,11 +1194,31 @@ character_event = {
 		martial = 10
 		NOT = {	health_traits = 1 }
 		NOT = { has_character_flag = hunt_killed_something }
-
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
-
+	
 	mean_time_to_happen = {
 		days = 400
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.8
@@ -927,14 +1240,33 @@ character_event = {
 	}
 
 	immediate = {
+		set_character_flag = hunt_event_happened
 		set_character_flag = hunt_killed_something
-
 	}
 
 	option = {
 		name = "EVTOPTA36045"
 		random_list = {
-			60 = {}
+			50 = {}
+			10 = { 
+				if = {
+					limit = {
+						NOT = { trait = diligent }
+					}
+					add_trait = diligent
+					hidden_tooltip = {
+						character_event = {
+							id = 38256 #Notify Diligent
+						}
+					}
+				}
+				if = {
+					limit = {
+						trait = diligent
+					}
+					prestige = 10
+				}						
+			}			
 			25 = {
 				add_trait = wounded
 				hidden_tooltip = { character_event = { id = 38280 } }
@@ -976,10 +1308,35 @@ character_event = {
 		war = no
 		NOT = { liege = { has_character_flag = hunt_killed_something } }
 		NOT = {	health_traits = 1 }
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
+	
 	mean_time_to_happen = {
 		days = 200
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 
 		modifier = {
 			factor = 0.8
@@ -1082,10 +1439,10 @@ character_event = {
 	desc = "EVTDESC36080"
 	
 	is_triggered_only = yes
-
+	
 	immediate = {
-		character_event = { id = 36090 days = 16 random = 25 }
-	}
+		set_character_flag = hunt_begin
+	}	
 
 	option = {
 		name = "EVTOPTA36080"
@@ -1113,6 +1470,8 @@ character_event = {
 		clr_character_flag = hunt_good_hounds
 		clr_character_flag = hunt_killed_something
 		clr_character_flag = do_not_disturb
+		clr_character_flag = hunt_event_happened
+		clr_character_flag = hunt_begin
 	}
 
 	option = {
@@ -1134,15 +1493,17 @@ character_event = {
 
 	immediate = {
 		remove_character_modifier = holding_grand_hunt
-		clr_character_flag = do_not_disturb
 		clr_character_flag = hunt_paranoia
 		clr_character_flag = hunt_good_hounds
 		clr_character_flag = hunt_killed_something
+		clr_character_flag = do_not_disturb
+		clr_character_flag = hunt_event_happened
+		clr_character_flag = hunt_begin
 	}
 
 	option = {
 		name = "EVTOPTA36090"
-		prestige = 5
+		prestige = 10
 	}
 }
 
@@ -1171,10 +1532,35 @@ character_event = {
 				trait = deceitful
 			}
 		}
+		OR = {
+			NOT = { has_character_flag = hunt_event_happened }
+			had_character_flag = {
+				flag = hunt_event_happened
+				days = 3
+			}
+		}	
+		had_character_flag = {
+			flag = hunt_begin
+			days = 3
+		}
 	}
+	
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
 
 	mean_time_to_happen = {
 		days = 200
+		
+		modifier = {
+			factor = 0.33
+			NOT = { has_character_flag = hunt_event_happened }
+		}	
+		
+		modifier = {
+			factor = 1.5
+			has_character_flag = hunt_event_happened
+		}		
 		
 		modifier = {
 			factor = 0.5
@@ -1265,7 +1651,12 @@ character_event = {
 	is_triggered_only = yes
 	
 	immediate = {
+		remove_character_modifier = holding_grand_hunt
+		clr_character_flag = hunt_paranoia
+		clr_character_flag = hunt_good_hounds
+		clr_character_flag = hunt_killed_something
 		clr_character_flag = do_not_disturb
-		clr_character_flag = holding_grand_hunt
+		clr_character_flag = hunt_event_happened
+		clr_character_flag = hunt_begin
 	}
 }

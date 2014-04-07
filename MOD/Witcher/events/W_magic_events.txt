@@ -413,7 +413,6 @@ character_event = {
 			NOT = { any_courtier = { has_job_title = job_mage } }
 			NOT = {
 				trait = sorcerer
-				trait = witch
 				trait = druid
 			}
 		}
@@ -443,17 +442,12 @@ character_event = {
 		trigger = {
 			OR = {
 				trait = sorcerer
-				trait = witch
 				trait = druid
 			}
 		}
 		if = {
 			limit = { trait = sorcerer }
 			FROM = { set_character_flag = learning_from_sorcerer }
-		}
-		if = {
-			limit = { trait = witch }
-			FROM = { set_character_flag = learning_from_witch }
 		}
 		if = {
 			limit = { trait = druid }
@@ -477,7 +471,6 @@ character_event = {
 		trigger = {
 			NOT = {
 				trait = sorcerer
-				trait = witch
 				trait = druid
 			}
 		}
@@ -555,7 +548,6 @@ character_event = {
 			modifier = { factor = 5 trait = wroth }
 			modifier = { factor = 5 trait = impaler }
 			modifier = { factor = 0.01 trait = sorcerer }
-			modifier = { factor = 0.01 trait = witch }
 			modifier = { factor = 0.01 trait = druid }
 		}
 	}
@@ -573,13 +565,11 @@ character_event = {
 		has_guardian = yes
 		NOT = {
 			has_character_flag = learning_from_sorcerer
-			has_character_flag = learning_from_witch
 			has_character_flag = learning_from_druid
 		}
 		guardian = {
 			OR = {
 				trait = sorcerer
-				trait = witch
 				trait = druid
 			}
 		}
@@ -598,11 +588,6 @@ character_event = {
 		name = "Guardian is sorcerer"
 		trigger = { guardian = { trait = sorcerer } }
 		set_character_flag = learning_from_sorcerer
-	}
-	option = {
-		name = "Guardian is witch"
-		trigger = { guardian = { trait = witch } }
-		set_character_flag = learning_from_witch
 	}
 	option = {
 		name = "Guardian is druid"
@@ -646,7 +631,6 @@ character_event = {
 			any_realm_character = {
 				OR = {
 					trait = sorcerer
-					trait = witch
 					trait = druid
 				}
 			}
@@ -655,7 +639,6 @@ character_event = {
 			limit = {
 				OR = {
 					trait = sorcerer
-					trait = witch
 					trait = druid
 				}
 			}
@@ -671,13 +654,11 @@ character_event = {
 					any_realm_character = {
 						OR = {
 							trait = sorcerer
-							trait = witch
 							trait = druid
 						}
 						NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
 					}
 					trait = sorcerer
-					trait = witch
 					trait = druid
 					NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
 				}
@@ -688,7 +669,6 @@ character_event = {
 				limit = {
 					OR = {
 						trait = sorcerer
-						trait = witch
 						trait = druid
 					}
 					NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
@@ -699,7 +679,6 @@ character_event = {
 				limit = {
 					NOT = {
 						trait = sorcerer
-						trait = witch
 						trait = druid
 					}
 				}
@@ -707,7 +686,6 @@ character_event = {
 					limit = {
 						OR = {
 							trait = sorcerer
-							trait = witch
 							trait = druid
 						}
 						NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
@@ -797,10 +775,6 @@ letter_event = {
 				set_character_flag = learning_from_sorcerer
 			}
 			if = {
-				limit = { ROOT = { trait = witch } }
-				set_character_flag = learning_from_witch
-			}
-			if = {
 				limit = { ROOT = { trait = druid } }
 				set_character_flag = learning_from_druid
 			}
@@ -823,10 +797,6 @@ letter_event = {
 			if = {
 				limit = { ROOT = { trait = sorcerer } }
 				set_character_flag = learning_from_sorcerer
-			}
-			if = {
-				limit = { ROOT = { trait = witch } }
-				set_character_flag = learning_from_witch
 			}
 			if = {
 				limit = { ROOT = { trait = druid } }
@@ -997,57 +967,6 @@ letter_event = {
 		name = EVTOPTAmagic.62
 	}
 }
-# Child - Become witch
-character_event = {
-	id = magic.63
-	desc = EVTDESCmagic.63
-	picture = GFX_evt_child_reading
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		has_character_modifier = magic_talent
-		has_character_flag = learning_from_witch
-		check_variable = { which = learning_magic value = 2 } 
-	}
-	
-	option = {
-		name = EVTOPTAmagic.63
-		clr_character_flag = learning_from_witch
-		remove_character_modifier = magic_talent
-		add_trait = witch
-		hidden_tooltip = {
-			guardian = { character_event = { id = magic.64 } }
-		}
-	}
-}
-# Guardian - Notification - Child became witch
-character_event = {
-	id = magic.64
-	desc = EVTDESCmagic.64
-	picture = GFX_evt_child_reading
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAmagic.64
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.65 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.65 } } }
-		}
-	}
-}
-# Parent - Notification - Child became witch
-letter_event = {
-	id = magic.65
-	desc = EVTDESCmagic.65
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAmagic.65
-	}
-}
 # Child - Become druid
 character_event = {
 	id = magic.66
@@ -1111,7 +1030,6 @@ character_event = {
 		has_character_modifier = magic_talent
 		OR = { 
 			has_character_flag = learning_from_sorcerer
-			has_character_flag = learning_from_witch
 			has_character_flag = learning_from_druid
 		}
 		check_variable = { which = learning_magic value = 1 }
@@ -1121,7 +1039,6 @@ character_event = {
 	option = {
 		name = EVTOPTAmagic.69
 		clr_character_flag = learning_from_sorcerer
-		clr_character_flag = learning_from_witch
 		clr_character_flag = learning_from_druid
 		remove_character_modifier = magic_talent
 		hidden_tooltip = {
@@ -1167,8 +1084,7 @@ character_event = {
 	trigger = {
 		has_character_modifier = magic_talent
 		OR = { 
-			has_character_flag = learning_from_sorcerer
-			has_character_flag = learning_from_witch
+			has_character_flag = learning_from_sorcere
 			has_character_flag = learning_from_druid
 		}
 		NOT = { check_variable = { which = learning_magic value = 1 } }
@@ -1177,7 +1093,6 @@ character_event = {
 	option = {
 		name = EVTOPTAmagic.72
 		clr_character_flag = learning_from_sorcerer
-		clr_character_flag = learning_from_witch
 		clr_character_flag = learning_from_druid
 		hidden_tooltip = {
 			guardian = { character_event = { id = magic.73 } }
@@ -1672,7 +1587,7 @@ character_event = {
 ################################################################################################
 
 ################################################
-# Give tower to wilderness (on_death)
+# Wilderness
 ################################################
 # Give tower to wilderness (on_death)
 character_event = {
@@ -1746,10 +1661,7 @@ character_event = {
 		}
 	}
 }
-
-################################################
 # Remove wilderness character traits
-################################################
 character_event = {
 	id = magic.1002
 	desc = "Remove traits"
@@ -1955,7 +1867,6 @@ character_event = {
 			trait = viking
 			trait = weak
 			trait = weak_emperor
-			trait = witch
 			trait = witcher
 			trait = wounded
 			trait = wroth
@@ -2164,11 +2075,65 @@ character_event = {
 		remove_trait = viking
 		remove_trait = weak
 		remove_trait = weak_emperor
-		remove_trait = witch
 		remove_trait = witcher
 		remove_trait = wounded
 		remove_trait = wroth
 		remove_trait = zealous
+	}
+}
+# Change magic culture
+character_event = {
+	id = magic.1003
+	desc = "Change culture for magic characters"
+	picture = GFX_evt_peasants
+	
+	hide_window = yes
+	
+	trigger = {
+		culture = magic
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = "to elven culture"
+		trigger = {
+			trait = elven
+		}
+		culture = elven
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "to dwarven culture"
+		trigger = {
+			trait = dwarven
+		}
+		culture = dwarven
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = "to liege's culture"
+		trigger = {
+			liege = { NOT = { culture = magic } }
+		}
+		liege = { reverse_culture = ROOT }
+		ai_chance = { factor = 10 }
+	}
+	option = {
+		name = "to neighbor's culture"
+		location = {
+			random_neighbor_province = { 
+				limit = {
+					NOT = { culture = magic }
+					NOT = { culture = elven }
+					NOT = { culture = dwarven }
+				}
+				reverse_culture = ROOT
+			}
+		}
+		ai_chance = { factor = 1 }
 	}
 }
 
