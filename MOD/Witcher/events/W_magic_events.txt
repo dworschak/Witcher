@@ -1,505 +1,148 @@
 namespace = magic
 
-################################################################################################
-# LEARNING MAGIC
-################################################################################################
+# ################################################################################################
+# # LEARNING MAGIC
+# ################################################################################################
 
-################################################
-# Main
-################################################
-# Hidden - Child - Get dormant magic talent flag (on_birth)
-character_event = {
-	id = magic.1
-	desc = "Magic"
-	picture = GFX_evt_lovers
+# ################################################
+# # Main
+# ################################################
+# # Hidden - Child - Get dormant magic talent flag (on_birth)
+# character_event = {
+	# id = magic.1
+	# desc = "Magic"
+	# picture = GFX_evt_lovers
 	
-	is_triggered_only = yes
-	hide_window = yes
+	# is_triggered_only = yes
+	# hide_window = yes
 	
-	option = {
-		name = "OK"
-		if = { 
-			limit = { 
-				OR = {
-					father = {
-						trait = sorcerer
-					}
-					mother = {
-						trait = sorcerer
-					}
-				}
-			}
-			random = { chance = 30 set_character_flag = dormant_magic_talent }
-		}
-		if = { 
-			limit = { trait = elven }
-			random = { chance = 7 set_character_flag = dormant_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfelf }
-			random = { chance = 6 set_character_flag = dormant_magic_talent }
-		}
-		if = { 
-			limit = { trait = human }
-			random = { chance = 5 set_character_flag = dormant_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfdwarf }
-			random = { chance = 3 set_character_flag = dormant_magic_talent }
-		}
-		if = { 
-			limit = { trait = dwarven }
-			random = { chance = 1 set_character_flag = dormant_magic_talent }
-		}
-	}
-}
-# Hidden - Child - Clear unnecessary flags (on_adulthood)
-character_event = {
-	id = magic.2
-	desc = "Hidden"
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = "OK"
+		# if = { 
+			# limit = { 
+				# OR = {
+					# father = {
+						# trait = sorcerer
+					# }
+					# mother = {
+						# trait = sorcerer
+					# }
+				# }
+			# }
+			# random = { chance = 30 set_character_flag = dormant_magic_talent }
+		# }
+		# if = { 
+			# limit = { trait = elven }
+			# random = { chance = 7 set_character_flag = dormant_magic_talent }
+		# }
+		# if = { 
+			# limit = { trait = halfelf }
+			# random = { chance = 6 set_character_flag = dormant_magic_talent }
+		# }
+		# if = { 
+			# limit = { trait = human }
+			# random = { chance = 5 set_character_flag = dormant_magic_talent }
+		# }
+		# if = { 
+			# limit = { trait = halfdwarf }
+			# random = { chance = 3 set_character_flag = dormant_magic_talent }
+		# }
+		# if = { 
+			# limit = { trait = dwarven }
+			# random = { chance = 1 set_character_flag = dormant_magic_talent }
+		# }
+	# }
+# }
+# # Hidden - Child - Clear unnecessary flags (on_adulthood)
+# character_event = {
+	# id = magic.2
+	# desc = "Hidden"
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
-	hide_window = yes
+	# is_triggered_only = yes
+	# hide_window = yes
 	
-	option = {
-		name = "OK"
-		clr_character_flag = dormant_magic_talent
-		clr_character_flag = looking_for_magic_teacher
-		random = {
-			chance = 10
-			character_event = { id = 6020 }
-		}
-	}
-}
+	# option = {
+		# name = "OK"
+		# clr_character_flag = dormant_magic_talent
+		# clr_character_flag = looking_for_magic_teacher
+		# random = {
+			# chance = 10
+			# character_event = { id = 6020 }
+		# }
+	# }
+# }
 
-################################################
-# Child shows magic talent
-################################################
-# Child - Show magic talent (on_yearly_childhood_pulse)
-character_event = {
-	id = magic.10
-	desc = EVTDESCmagic.10
-	picture = GFX_evt_child_reading
+# ################################################
+# # Child shows magic talent
+# ################################################
+# # Child - Show magic talent (on_yearly_childhood_pulse)
+# character_event = {
+	# id = magic.10
+	# desc = EVTDESCmagic.10
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	max_age = 15
+	# max_age = 15
 	
-	trigger = {
-		has_character_flag = dormant_magic_talent
-		NOT = { has_character_modifier = magic_talent }
-	}
+	# trigger = {
+		# has_character_flag = dormant_magic_talent
+		# NOT = { has_character_modifier = magic_talent }
+	# }
 	
-	option = {
-		name = EVTOPTAmagic.10
-		add_character_modifier = { name = magic_talent duration = -1 }
-		clr_character_flag = dormant_magic_talent
-		hidden_tooltip = {
-			if = {
-				limit = { has_guardian = yes }
-				guardian = {
-					character_event = {
-						id = magic.30
-						days = 3
-					}
-				}
-			}
-			if = {
-				limit = { has_guardian = no }
-				liege = {
-					character_event = {
-						id = magic.30
-						days = 3
-					}
-				}
-			}
-		}
-	}
-}
+	# option = {
+		# name = EVTOPTAmagic.10
+		# add_character_modifier = { name = magic_talent duration = -1 }
+		# clr_character_flag = dormant_magic_talent
+		# hidden_tooltip = {
+			# if = {
+				# limit = { has_guardian = yes }
+				# guardian = {
+					# character_event = {
+						# id = magic.30
+						# days = 3
+					# }
+				# }
+			# }
+			# if = {
+				# limit = { has_guardian = no }
+				# liege = {
+					# character_event = {
+						# id = magic.30
+						# days = 3
+					# }
+				# }
+			# }
+		# }
+	# }
+# }
 
-################################################
-# Guardian decision
-################################################
-# Guardian - Child shows magic talent
-character_event = {
-	id = magic.30
-	desc = EVTDESCmagic.30
-	picture = GFX_evt_child_reading
+# ################################################
+# # Guardian decision
+# ################################################
+# # Guardian - Child shows magic talent
+# character_event = {
+	# id = magic.30
+	# desc = EVTDESCmagic.30
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = { # Send to Ban Ard academy - option 1
-		name = EVTOPTAmagic.30
-		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
-			FROM = {
-				is_ruler = no
-				is_female = no
-			}
-			NOT = { religion = nature }
-		}
-		d_ban_ard_academy = {
-			holder_scope = {
-				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = {
-			e_rebels = {
-				create_character = { dynasty = none }
-				new_character = {
-					FROM = { set_guardian = THIS }
-					death = yes
-				}
-			}
-		}
-		FROM = {
-			add_trait = apprentice_sorcerer
-			remove_character_modifier = magic_talent
-			set_variable = { which = learning_magic value = 0 }
-		}
-		scaled_wealth = -0.5
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.36 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.36 days = 15 } } }
-		} 
-		ai_chance = {
-			factor = 10
-			modifier = { factor = 10 scaled_wealth = 2.0 }
-		}
-	}
-	option = { # Send to Aretuza academy - option 1
-		name = EVTOPTBmagic.30
-		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
-			FROM = {
-				is_ruler = no
-				is_female = yes
-			}
-			NOT = { religion = nature }
-		}
-		d_thanedd = {
-			holder_scope = {
-				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = {
-			e_rebels = {
-				create_character = { dynasty = none }
-				new_character = {
-					FROM = { set_guardian = THIS }
-					death = yes
-				}
-			}
-		}
-		FROM = {
-			add_trait = apprentice_sorcerer
-			remove_character_modifier = magic_talent
-			set_variable = { which = learning_magic value = 0 }
-		}
-		scaled_wealth = -0.5
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.37 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.37 days = 15 } } }
-		} 
-		ai_chance = {
-			factor = 10
-			modifier = { factor = 10 scaled_wealth = 2.0 }
-		}
-	}
-	option = { # Send to Nilfgaard Academy - option 1
-		name = EVTOPTCmagic.30
-		trigger = {
-			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
-			NOT = { religion = nature }
-		}
-		d_nilfgaard_academy = {
-			holder_scope = {
-				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = {
-			e_rebels = {
-				create_character = { dynasty = none }
-				new_character = {
-					FROM = { set_guardian = THIS }
-					death = yes
-				}
-			}
-		}
-		FROM = {
-			add_trait = apprentice_sorcerer
-			remove_character_modifier = magic_talent
-			set_variable = { which = learning_magic value = 0 }
-		}
-		scaled_wealth = -0.5
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.38 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.38 days = 15 } } }
-		} 
-		ai_chance = {
-			factor = 10
-			modifier = { factor = 10 scaled_wealth = 2.0 }
-		}
-	}
-	option = { # Send to druid circle (duke or higher druid) - option 1
-		name = EVTOPTDmagic.30
-		trigger = {
-			religion = nature
-			any_realm_lord = {
-				religion = nature
-				is_theocracy = yes
-				trait = druid
-				higher_tier_than = count
-			}
-		}
-		random_realm_lord = {
-			limit = {
-				religion = nature
-				is_theocracy = yes
-				trait = druid
-				higher_tier_than = count
-			}
-			FROM = { move_character = PREV }
-		}
-		hidden_tooltip = {
-			e_rebels = {
-				create_character = { dynasty = none }
-				new_character = {
-					FROM = { set_guardian = THIS }
-					death = yes
-				}
-			}
-		}
-		FROM = {
-			add_trait = apprentice_druid
-			remove_character_modifier = magic_talent
-			set_variable = { which = learning_magic value = 0 }
-		}
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
-		} 
-		ai_chance = {
-			factor = 100
-		}
-	}
-	option = { # Send to druid circle (count druid) - option 1
-		name = EVTOPTDmagic.30
-		trigger = {
-			religion = nature # do to only 4 possible options for event
-			any_realm_lord = {
-				religion = nature
-				is_theocracy = yes
-				trait = druid
-				tier = count
-			}
-			NOT = {
-				any_realm_lord = {
-					religion = nature
-					is_theocracy = yes
-					trait = druid
-					higher_tier_than = count
-				}
-			}
-		}
-		random_realm_lord = {
-			limit = {
-				religion = nature
-				is_theocracy = yes
-				trait = druid
-				tier = count
-			}
-			FROM = { move_character = PREV }
-		}
-		hidden_tooltip = {
-			e_rebels = {
-				create_character = { dynasty = none }
-				new_character = {
-					FROM = { set_guardian = THIS }
-					death = yes
-				}
-			}
-		}
-		FROM = {
-			add_trait = apprentice_druid
-			remove_character_modifier = magic_talent
-			set_variable = { which = learning_magic value = 0 }
-		}
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
-		} 
-		ai_chance = {
-			factor = 100
-		}
-	}
-	option = { # Send to druid circle (baron druid) - option 1
-		name = EVTOPTDmagic.30
-		trigger = {
-			religion = nature # do to only 4 possible options for event
-			any_realm_lord = {
-				religion = nature
-				is_theocracy = yes
-				trait = druid
-				tier = baron
-			}
-			NOT = {
-				any_realm_lord = {
-					religion = nature
-					is_theocracy = yes
-					trait = druid
-					higher_tier_than = baron
-				}
-			}
-		}
-		random_realm_lord = {
-			limit = {
-				religion = nature
-				is_theocracy = yes
-				trait = druid
-				tier = baron
-			}
-			FROM = { move_character = PREV }
-		}
-		hidden_tooltip = {
-			e_rebels = {
-				create_character = { dynasty = none }
-				new_character = {
-					FROM = { set_guardian = THIS }
-					death = yes
-				}
-			}
-		}
-		FROM = {
-			add_trait = apprentice_druid
-			remove_character_modifier = magic_talent
-			set_variable = { which = learning_magic value = 0 }
-		}
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
-		} 
-		ai_chance = {
-			factor = 100
-		}
-	}
-	option = { # Leave the child in court mage's care - option 2
-		name = EVTOPTEmagic.30
-		trigger = {
-			any_courtier = { has_job_title = job_mage }
-		}
-		random_courtier = {
-			limit = { has_job_title = job_mage }
-			letter_event = { id = magic.34 }
-		}
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.40 days = 15 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.40 days = 15 } } }
-		}
-		ai_chance = {
-			factor = 1000
-			modifier = {
-				factor = 10
-				any_child = { character = ROOT }
-				num_of_children = 1
-			}
-		}
-	}
-	option = { # Find suitable guardian for child - option 2
-		name = EVTOPTFmagic.30
-		trigger = {
-			
-			NOT = { any_courtier = { has_job_title = job_mage } }
-			NOT = {
-				trait = sorcerer
-				trait = druid
-			}
-		}
-		hidden_tooltip = {
-			if = {
-				limit = { ai = yes }
-				FROM = { character_event = { id = magic.32 days = 10 } }
-			}
-			if = {
-				limit = { ai = no }
-				FROM = { set_character_flag = looking_for_magic_teacher }
-			}
-		}
-		ai_chance = {
-			factor = 10
-			modifier = { factor = 5 scaled_wealth = 2.0 }
-			modifier = { factor = 10 scaled_wealth = 5.0 }
-			modifier = {
-				factor = 10
-				any_child = { character = ROOT }
-				num_of_children = 1
-			}
-		}
-	}
-	option = { # Teach the child magic yourself - option 3
-		name = EVTOPTGmagic.30
-		trigger = {
-			OR = {
-				trait = sorcerer
-				trait = druid
-			}
-		}
-		if = {
-			limit = { trait = sorcerer }
-			FROM = { set_character_flag = learning_from_sorcerer }
-		}
-		if = {
-			limit = { trait = druid }
-			FROM = { set_character_flag = learning_from_druid }
-		}
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.42 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.42 } } }
-		}
-		ai_chance = {
-			factor = 1000
-			modifier = {
-				factor = 10
-				any_child = { character = ROOT }
-				num_of_children = 1
-			}
-		}
-	}
-	option = { # Do nothing - option 3
-		name = EVTOPTHmagic.30
-		trigger = {
-			NOT = {
-				trait = sorcerer
-				trait = druid
-			}
-		}
-		hidden_tooltip = {
-			FROM = {
-				father = {
-					limit = {
-						ai = no
-						NOT = { character = ROOT }
-					}
-					letter_event = { id = magic.42 }
-				}
-				mother = {
-					limit = {
-						ai = no
-						NOT = { character = ROOT }
-					}
-					letter_event = { id = magic.42 }
-				}
-			}
-		}
-		ai_chance = {
-			factor = 1
-		}
-	}
-	# option = { # Refuse guardianship - option 4
-		# name = EVTOPTImagic.30
+	# option = { # Send to Ban Ard academy - option 1
+		# name = EVTOPTAmagic.30
 		# trigger = {
-			# NOT = { dynasty = FROM }
+			# location = { county = { de_jure_liege_or_above = e_the_north } }
+			# FROM = {
+				# is_ruler = no
+				# is_female = no
+			# }
+			# NOT = { religion = nature }
+		# }
+		# d_ban_ard_academy = {
+			# holder_scope = {
+				# FROM = { move_character = PREV }
+			# }
 		# }
 		# hidden_tooltip = {
 			# e_rebels = {
@@ -510,622 +153,979 @@ character_event = {
 				# }
 			# }
 		# }
+		# FROM = {
+			# add_trait = apprentice_sorcerer
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# scaled_wealth = -0.5
 		# hidden_tooltip = {
-			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.41 } } }
-			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.41 } } }
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.36 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.36 days = 15 } } }
 		# } 
-		# FROM = { character_event = { id = magic.43 } }
 		# ai_chance = {
-			# factor = 1
-			# modifier = { factor = 1000 is_ruler = no }
-			# modifier = { factor = 100 tier = baron }
+			# factor = 10
+			# modifier = { factor = 10 scaled_wealth = 2.0 }
 		# }
 	# }
-	option = { # Kill child - option 4
-		name = EVTOPTJmagic.30
-		trigger = { dynasty = FROM }
-		add_trait = kinslayer
-		FROM = {
-			if = {
-				limit = { father = { NOT = { character = ROOT } } }
-				FROM = { father = { opinion = { who = ROOT modifier = opinion_executed_child } } }
-			}
-			if = {
-				limit = { mother = { NOT = { character = ROOT } } }
-				FROM = { mother = { opinion = { who = ROOT modifier = opinion_executed_child } } }
-			}
-			death = {
-				death_reason = death_murder
-				killer = ROOT
-			}
-		}
-		ai_chance = {
-			factor = 1
-			modifier = { factor = 10 trait = kinslayer }
-			modifier = { factor = 5 trait = zealous }
-			modifier = { factor = 5 trait = racist }
-			modifier = { factor = 5 trait = cruel }
-			modifier = { factor = 5 trait = wroth }
-			modifier = { factor = 5 trait = impaler }
-			modifier = { factor = 0.01 trait = sorcerer }
-			modifier = { factor = 0.01 trait = druid }
-		}
-	}
-}
-# Hidden - Child - Have gotten a magic user guardian
-character_event = {
-	id = magic.31
-	desc = "Hidden"
-	picture = GFX_evt_child_reading
+	# option = { # Send to Aretuza academy - option 1
+		# name = EVTOPTBmagic.30
+		# trigger = {
+			# location = { county = { de_jure_liege_or_above = e_the_north } }
+			# FROM = {
+				# is_ruler = no
+				# is_female = yes
+			# }
+			# NOT = { religion = nature }
+		# }
+		# d_thanedd = {
+			# holder_scope = {
+				# FROM = { move_character = PREV }
+			# }
+		# }
+		# hidden_tooltip = {
+			# e_rebels = {
+				# create_character = { dynasty = none }
+				# new_character = {
+					# FROM = { set_guardian = THIS }
+					# death = yes
+				# }
+			# }
+		# }
+		# FROM = {
+			# add_trait = apprentice_sorcerer
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# scaled_wealth = -0.5
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.37 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.37 days = 15 } } }
+		# } 
+		# ai_chance = {
+			# factor = 10
+			# modifier = { factor = 10 scaled_wealth = 2.0 }
+		# }
+	# }
+	# option = { # Send to Nilfgaard Academy - option 1
+		# name = EVTOPTCmagic.30
+		# trigger = {
+			# location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+			# NOT = { religion = nature }
+		# }
+		# d_nilfgaard_academy = {
+			# holder_scope = {
+				# FROM = { move_character = PREV }
+			# }
+		# }
+		# hidden_tooltip = {
+			# e_rebels = {
+				# create_character = { dynasty = none }
+				# new_character = {
+					# FROM = { set_guardian = THIS }
+					# death = yes
+				# }
+			# }
+		# }
+		# FROM = {
+			# add_trait = apprentice_sorcerer
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# scaled_wealth = -0.5
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.38 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.38 days = 15 } } }
+		# } 
+		# ai_chance = {
+			# factor = 10
+			# modifier = { factor = 10 scaled_wealth = 2.0 }
+		# }
+	# }
+	# option = { # Send to druid circle (duke or higher druid) - option 1
+		# name = EVTOPTDmagic.30
+		# trigger = {
+			# religion = nature
+			# any_realm_lord = {
+				# religion = nature
+				# is_theocracy = yes
+				# trait = druid
+				# higher_tier_than = count
+			# }
+		# }
+		# random_realm_lord = {
+			# limit = {
+				# religion = nature
+				# is_theocracy = yes
+				# trait = druid
+				# higher_tier_than = count
+			# }
+			# FROM = { move_character = PREV }
+		# }
+		# hidden_tooltip = {
+			# e_rebels = {
+				# create_character = { dynasty = none }
+				# new_character = {
+					# FROM = { set_guardian = THIS }
+					# death = yes
+				# }
+			# }
+		# }
+		# FROM = {
+			# add_trait = apprentice_druid
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
+		# } 
+		# ai_chance = {
+			# factor = 100
+		# }
+	# }
+	# option = { # Send to druid circle (count druid) - option 1
+		# name = EVTOPTDmagic.30
+		# trigger = {
+			# religion = nature # do to only 4 possible options for event
+			# any_realm_lord = {
+				# religion = nature
+				# is_theocracy = yes
+				# trait = druid
+				# tier = count
+			# }
+			# NOT = {
+				# any_realm_lord = {
+					# religion = nature
+					# is_theocracy = yes
+					# trait = druid
+					# higher_tier_than = count
+				# }
+			# }
+		# }
+		# random_realm_lord = {
+			# limit = {
+				# religion = nature
+				# is_theocracy = yes
+				# trait = druid
+				# tier = count
+			# }
+			# FROM = { move_character = PREV }
+		# }
+		# hidden_tooltip = {
+			# e_rebels = {
+				# create_character = { dynasty = none }
+				# new_character = {
+					# FROM = { set_guardian = THIS }
+					# death = yes
+				# }
+			# }
+		# }
+		# FROM = {
+			# add_trait = apprentice_druid
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
+		# } 
+		# ai_chance = {
+			# factor = 100
+		# }
+	# }
+	# option = { # Send to druid circle (baron druid) - option 1
+		# name = EVTOPTDmagic.30
+		# trigger = {
+			# religion = nature # do to only 4 possible options for event
+			# any_realm_lord = {
+				# religion = nature
+				# is_theocracy = yes
+				# trait = druid
+				# tier = baron
+			# }
+			# NOT = {
+				# any_realm_lord = {
+					# religion = nature
+					# is_theocracy = yes
+					# trait = druid
+					# higher_tier_than = baron
+				# }
+			# }
+		# }
+		# random_realm_lord = {
+			# limit = {
+				# religion = nature
+				# is_theocracy = yes
+				# trait = druid
+				# tier = baron
+			# }
+			# FROM = { move_character = PREV }
+		# }
+		# hidden_tooltip = {
+			# e_rebels = {
+				# create_character = { dynasty = none }
+				# new_character = {
+					# FROM = { set_guardian = THIS }
+					# death = yes
+				# }
+			# }
+		# }
+		# FROM = {
+			# add_trait = apprentice_druid
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.39 days = 15 } } }
+		# } 
+		# ai_chance = {
+			# factor = 100
+		# }
+	# }
+	# option = { # Leave the child in court mage's care - option 2
+		# name = EVTOPTEmagic.30
+		# trigger = {
+			# any_courtier = { has_job_title = job_mage }
+		# }
+		# random_courtier = {
+			# limit = { has_job_title = job_mage }
+			# letter_event = { id = magic.34 }
+		# }
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.40 days = 15 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.40 days = 15 } } }
+		# }
+		# ai_chance = {
+			# factor = 1000
+			# modifier = {
+				# factor = 10
+				# any_child = { character = ROOT }
+				# num_of_children = 1
+			# }
+		# }
+	# }
+	# option = { # Find suitable guardian for child - option 2
+		# name = EVTOPTFmagic.30
+		# trigger = {
+			
+			# NOT = { any_courtier = { has_job_title = job_mage } }
+			# NOT = {
+				# trait = sorcerer
+				# trait = druid
+			# }
+		# }
+		# hidden_tooltip = {
+			# if = {
+				# limit = { ai = yes }
+				# FROM = { character_event = { id = magic.32 days = 10 } }
+			# }
+			# if = {
+				# limit = { ai = no }
+				# FROM = { set_character_flag = looking_for_magic_teacher }
+			# }
+		# }
+		# ai_chance = {
+			# factor = 10
+			# modifier = { factor = 5 scaled_wealth = 2.0 }
+			# modifier = { factor = 10 scaled_wealth = 5.0 }
+			# modifier = {
+				# factor = 10
+				# any_child = { character = ROOT }
+				# num_of_children = 1
+			# }
+		# }
+	# }
+	# option = { # Teach the child magic yourself - option 3
+		# name = EVTOPTGmagic.30
+		# trigger = {
+			# OR = {
+				# trait = sorcerer
+				# trait = druid
+			# }
+		# }
+		# if = {
+			# limit = { trait = sorcerer }
+			# FROM = { set_character_flag = learning_from_sorcerer }
+		# }
+		# if = {
+			# limit = { trait = druid }
+			# FROM = { set_character_flag = learning_from_druid }
+		# }
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.42 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.42 } } }
+		# }
+		# ai_chance = {
+			# factor = 1000
+			# modifier = {
+				# factor = 10
+				# any_child = { character = ROOT }
+				# num_of_children = 1
+			# }
+		# }
+	# }
+	# option = { # Do nothing - option 3
+		# name = EVTOPTHmagic.30
+		# trigger = {
+			# NOT = {
+				# trait = sorcerer
+				# trait = druid
+			# }
+		# }
+		# hidden_tooltip = {
+			# FROM = {
+				# father = {
+					# limit = {
+						# ai = no
+						# NOT = { character = ROOT }
+					# }
+					# letter_event = { id = magic.42 }
+				# }
+				# mother = {
+					# limit = {
+						# ai = no
+						# NOT = { character = ROOT }
+					# }
+					# letter_event = { id = magic.42 }
+				# }
+			# }
+		# }
+		# ai_chance = {
+			# factor = 1
+		# }
+	# }
+	# # option = { # Refuse guardianship - option 4
+		# # name = EVTOPTImagic.30
+		# # trigger = {
+			# # NOT = { dynasty = FROM }
+		# # }
+		# # hidden_tooltip = {
+			# # e_rebels = {
+				# # create_character = { dynasty = none }
+				# # new_character = {
+					# # FROM = { set_guardian = THIS }
+					# # death = yes
+				# # }
+			# # }
+		# # }
+		# # hidden_tooltip = {
+			# # FROM = { father = { limit = { ai = no } letter_event = { id = magic.41 } } }
+			# # FROM = { mother = { limit = { ai = no } letter_event = { id = magic.41 } } }
+		# # } 
+		# # FROM = { character_event = { id = magic.43 } }
+		# # ai_chance = {
+			# # factor = 1
+			# # modifier = { factor = 1000 is_ruler = no }
+			# # modifier = { factor = 100 tier = baron }
+		# # }
+	# # }
+	# option = { # Kill child - option 4
+		# name = EVTOPTJmagic.30
+		# trigger = { dynasty = FROM }
+		# add_trait = kinslayer
+		# FROM = {
+			# if = {
+				# limit = { father = { NOT = { character = ROOT } } }
+				# FROM = { father = { opinion = { who = ROOT modifier = opinion_executed_child } } }
+			# }
+			# if = {
+				# limit = { mother = { NOT = { character = ROOT } } }
+				# FROM = { mother = { opinion = { who = ROOT modifier = opinion_executed_child } } }
+			# }
+			# death = {
+				# death_reason = death_murder
+				# killer = ROOT
+			# }
+		# }
+		# ai_chance = {
+			# factor = 1
+			# modifier = { factor = 10 trait = kinslayer }
+			# modifier = { factor = 5 trait = zealous }
+			# modifier = { factor = 5 trait = racist }
+			# modifier = { factor = 5 trait = cruel }
+			# modifier = { factor = 5 trait = wroth }
+			# modifier = { factor = 5 trait = impaler }
+			# modifier = { factor = 0.01 trait = sorcerer }
+			# modifier = { factor = 0.01 trait = druid }
+		# }
+	# }
+# }
+# # Hidden - Child - Have gotten a magic user guardian
+# character_event = {
+	# id = magic.31
+	# desc = "Hidden"
+	# picture = GFX_evt_child_reading
 	
-	hide_window = yes
+	# hide_window = yes
 	
-	trigger = {
-		has_character_flag = looking_for_magic_teacher
-		has_guardian = yes
-		NOT = {
-			has_character_flag = learning_from_sorcerer
-			has_character_flag = learning_from_druid
-		}
-		guardian = {
-			OR = {
-				trait = sorcerer
-				trait = druid
-			}
-		}
-	}
+	# trigger = {
+		# has_character_flag = looking_for_magic_teacher
+		# has_guardian = yes
+		# NOT = {
+			# has_character_flag = learning_from_sorcerer
+			# has_character_flag = learning_from_druid
+		# }
+		# guardian = {
+			# OR = {
+				# trait = sorcerer
+				# trait = druid
+			# }
+		# }
+	# }
 	
-	mean_time_to_happen = {
-		days = 1
-	}
+	# mean_time_to_happen = {
+		# days = 1
+	# }
 	
-	immediate = {
-		clr_character_flag = looking_for_magic_teacher
-		set_variable = { which = learning_magic value = 0 }
-	}
+	# immediate = {
+		# clr_character_flag = looking_for_magic_teacher
+		# set_variable = { which = learning_magic value = 0 }
+	# }
 	
-	option = {
-		name = "Guardian is sorcerer"
-		trigger = { guardian = { trait = sorcerer } }
-		set_character_flag = learning_from_sorcerer
-	}
-	option = {
-		name = "Guardian is druid"
-		trigger = { guardian = { trait = druid } }
-		set_character_flag = learning_from_druid
-	}
-}
-# Hidden - Child Ping - Find a magic teacher for child
-character_event = {
-	id = magic.32
-	desc = "Ping"
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = "Guardian is sorcerer"
+		# trigger = { guardian = { trait = sorcerer } }
+		# set_character_flag = learning_from_sorcerer
+	# }
+	# option = {
+		# name = "Guardian is druid"
+		# trigger = { guardian = { trait = druid } }
+		# set_character_flag = learning_from_druid
+	# }
+# }
+# # Hidden - Child Ping - Find a magic teacher for child
+# character_event = {
+	# id = magic.32
+	# desc = "Ping"
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
-	hide_window = yes
+	# is_triggered_only = yes
+	# hide_window = yes
 	
-	option = {
-		name = "Pong"
-		if = {
-				limit = { has_guardian = yes }
-				guardian = { character_event = { id = magic.33 } }
-			}
-			if = {
-				limit = { has_guardian = no }
-				liege = { character_event = { id = magic.33 } }
-			}
-	}
-}
-# Hidden - Guardian - AI - Find a magic teacher for child
-character_event = {
-	id = magic.33
-	desc = "Hidden"
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = "Pong"
+		# if = {
+				# limit = { has_guardian = yes }
+				# guardian = { character_event = { id = magic.33 } }
+			# }
+			# if = {
+				# limit = { has_guardian = no }
+				# liege = { character_event = { id = magic.33 } }
+			# }
+	# }
+# }
+# # Hidden - Guardian - AI - Find a magic teacher for child
+# character_event = {
+	# id = magic.33
+	# desc = "Hidden"
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
-	hide_window = yes
+	# is_triggered_only = yes
+	# hide_window = yes
 	
-	option = { # Any character below you is magician
-		name = "Any character below you is magician"
-		trigger = {
-			any_realm_character = {
-				OR = {
-					trait = sorcerer
-					trait = druid
-				}
-			}
-		}
-		random_realm_character = {
-			limit = {
-				OR = {
-					trait = sorcerer
-					trait = druid
-				}
-			}
-			letter_event = { id = magic.34 }
-		}
-		ai_chance = { factor = 100 }
-	}
-	option = { # Any character in same realm is magician
-		name = "Any character in same realm is magician"
-		trigger = {
-			top_liege = {
-				OR = {
-					any_realm_character = {
-						OR = {
-							trait = sorcerer
-							trait = druid
-						}
-						NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
-					}
-					trait = sorcerer
-					trait = druid
-					NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
-				}
-			}
-		}
-		top_liege = {
-			if = {
-				limit = {
-					OR = {
-						trait = sorcerer
-						trait = druid
-					}
-					NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
-				}
-				letter_event = { id = magic.35 }
-			}
-			if = {
-				limit = {
-					NOT = {
-						trait = sorcerer
-						trait = druid
-					}
-				}
-				random_realm_character = {
-					limit = {
-						OR = {
-							trait = sorcerer
-							trait = druid
-						}
-						NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
-					}
-					letter_event = { id = magic.35 }
-				}
-			}
-		}
-		ai_chance = { factor = 10 }
-	}
-	option = { # Check if you can hire magician from Ban Ard academy
-		name = "Check if you can hire magician from Ban Ard academy"
-		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
-			b_akademia = {
-				holder_scope = {
-					any_courtier = {
-						trait = sorcerer
-						is_adult = yes
-						NOT = { any_ward = { always = yes } }
-					}
-				}
-			}
-		}
-		b_akademia = {
-			holder_scope = {
-				random_courtier = {
-					limit = {
-						trait = sorcerer
-						is_adult = yes
-						NOT = { any_ward = { always = yes } }
-					}
-					ROOT = { move_character = THIS }
-				}
-			}
-		}
-		scaled_wealth = -1.0
-		ai_chance = { factor = 10 }
-	}
-	option = { # Check if you can hire magician from Aretuza academy
-		name = "Check if you can hire magician from Aretuza academy"
-		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
-			b_aretuza = {
-				holder_scope = {
-					any_courtier = {
-						trait = sorcerer
-						is_adult = yes
-						NOT = { any_ward = { always = yes } }
-					}
-				}
-			}
-		}
-		b_aretuza = {
-			holder_scope = {
-				random_courtier = {
-					limit = {
-						trait = sorcerer
-						is_adult = yes
-						NOT = { any_ward = { always = yes } }
-					}
-					ROOT = { move_character = THIS }
-				}
-			}
-		}
-		scaled_wealth = -1.0
-		ai_chance = { factor = 10 }
-	}
-	option = { # No other option is available
-		name = "No other option is available"
-		ai_chance = { factor = 1 }
-	}
-}
-# Guardian's vassal or court magician- Notification - Order to take child as ward
-letter_event = {
-	id = magic.34
-	desc = EVTDESCmagic.34
+	# option = { # Any character below you is magician
+		# name = "Any character below you is magician"
+		# trigger = {
+			# any_realm_character = {
+				# OR = {
+					# trait = sorcerer
+					# trait = druid
+				# }
+			# }
+		# }
+		# random_realm_character = {
+			# limit = {
+				# OR = {
+					# trait = sorcerer
+					# trait = druid
+				# }
+			# }
+			# letter_event = { id = magic.34 }
+		# }
+		# ai_chance = { factor = 100 }
+	# }
+	# option = { # Any character in same realm is magician
+		# name = "Any character in same realm is magician"
+		# trigger = {
+			# top_liege = {
+				# OR = {
+					# any_realm_character = {
+						# OR = {
+							# trait = sorcerer
+							# trait = druid
+						# }
+						# NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
+					# }
+					# trait = sorcerer
+					# trait = druid
+					# NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
+				# }
+			# }
+		# }
+		# top_liege = {
+			# if = {
+				# limit = {
+					# OR = {
+						# trait = sorcerer
+						# trait = druid
+					# }
+					# NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
+				# }
+				# letter_event = { id = magic.35 }
+			# }
+			# if = {
+				# limit = {
+					# NOT = {
+						# trait = sorcerer
+						# trait = druid
+					# }
+				# }
+				# random_realm_character = {
+					# limit = {
+						# OR = {
+							# trait = sorcerer
+							# trait = druid
+						# }
+						# NOT = { has_opinion_modifier = { who = THIS modifier = opinion_refused_guardianship } }
+					# }
+					# letter_event = { id = magic.35 }
+				# }
+			# }
+		# }
+		# ai_chance = { factor = 10 }
+	# }
+	# option = { # Check if you can hire magician from Ban Ard academy
+		# name = "Check if you can hire magician from Ban Ard academy"
+		# trigger = {
+			# location = { county = { de_jure_liege_or_above = e_the_north } }
+			# b_akademia = {
+				# holder_scope = {
+					# any_courtier = {
+						# trait = sorcerer
+						# is_adult = yes
+						# NOT = { any_ward = { always = yes } }
+					# }
+				# }
+			# }
+		# }
+		# b_akademia = {
+			# holder_scope = {
+				# random_courtier = {
+					# limit = {
+						# trait = sorcerer
+						# is_adult = yes
+						# NOT = { any_ward = { always = yes } }
+					# }
+					# ROOT = { move_character = THIS }
+				# }
+			# }
+		# }
+		# scaled_wealth = -1.0
+		# ai_chance = { factor = 10 }
+	# }
+	# option = { # Check if you can hire magician from Aretuza academy
+		# name = "Check if you can hire magician from Aretuza academy"
+		# trigger = {
+			# location = { county = { de_jure_liege_or_above = e_the_north } }
+			# b_aretuza = {
+				# holder_scope = {
+					# any_courtier = {
+						# trait = sorcerer
+						# is_adult = yes
+						# NOT = { any_ward = { always = yes } }
+					# }
+				# }
+			# }
+		# }
+		# b_aretuza = {
+			# holder_scope = {
+				# random_courtier = {
+					# limit = {
+						# trait = sorcerer
+						# is_adult = yes
+						# NOT = { any_ward = { always = yes } }
+					# }
+					# ROOT = { move_character = THIS }
+				# }
+			# }
+		# }
+		# scaled_wealth = -1.0
+		# ai_chance = { factor = 10 }
+	# }
+	# option = { # No other option is available
+		# name = "No other option is available"
+		# ai_chance = { factor = 1 }
+	# }
+# }
+# # Guardian's vassal or court magician- Notification - Order to take child as ward
+# letter_event = {
+	# id = magic.34
+	# desc = EVTDESCmagic.34
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.34
-		FROMFROM = {
-			set_guardian = ROOT
-			if = {
-				limit = { ROOT = { trait = sorcerer } }
-				set_character_flag = learning_from_sorcerer
-			}
-			if = {
-				limit = { ROOT = { trait = druid } }
-				set_character_flag = learning_from_druid
-			}
-			set_variable = { which = learning_magic value = 0 }
-		}
-		opinion = { who = FROM modifier = opinion_entrusted_ward }
-	}
-}
-# Guardian's realm character - Request to take child as ward
-letter_event = {
-	id = magic.35
-	desc = EVTDESCmagic.35
+	# option = {
+		# name = EVTOPTAmagic.34
+		# FROMFROM = {
+			# set_guardian = ROOT
+			# if = {
+				# limit = { ROOT = { trait = sorcerer } }
+				# set_character_flag = learning_from_sorcerer
+			# }
+			# if = {
+				# limit = { ROOT = { trait = druid } }
+				# set_character_flag = learning_from_druid
+			# }
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# opinion = { who = FROM modifier = opinion_entrusted_ward }
+	# }
+# }
+# # Guardian's realm character - Request to take child as ward
+# letter_event = {
+	# id = magic.35
+	# desc = EVTDESCmagic.35
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.35
-		FROMFROM = {
-			set_guardian = ROOT
-			if = {
-				limit = { ROOT = { trait = sorcerer } }
-				set_character_flag = learning_from_sorcerer
-			}
-			if = {
-				limit = { ROOT = { trait = druid } }
-				set_character_flag = learning_from_druid
-			}
-			set_variable = { which = learning_magic value = 0 }
-		}
-		opinion = { who = FROM modifier = opinion_entrusted_ward }
-	}
-	option = {
-		name = EVTOPTBmagic.35
-		reverse_opinion = { who = FROM modifier = opinion_refused_guardianship }
-		hidden_tooltip = {
-			FROM = { character_event = { id = magic.32 } }
-		}
-	}
-}
-# Parent - Notification - Child sent to Ban Ard
-letter_event = {
-	id = magic.36
-	desc = EVTDESCmagic.36
+	# option = {
+		# name = EVTOPTAmagic.35
+		# FROMFROM = {
+			# set_guardian = ROOT
+			# if = {
+				# limit = { ROOT = { trait = sorcerer } }
+				# set_character_flag = learning_from_sorcerer
+			# }
+			# if = {
+				# limit = { ROOT = { trait = druid } }
+				# set_character_flag = learning_from_druid
+			# }
+			# set_variable = { which = learning_magic value = 0 }
+		# }
+		# opinion = { who = FROM modifier = opinion_entrusted_ward }
+	# }
+	# option = {
+		# name = EVTOPTBmagic.35
+		# reverse_opinion = { who = FROM modifier = opinion_refused_guardianship }
+		# hidden_tooltip = {
+			# FROM = { character_event = { id = magic.32 } }
+		# }
+	# }
+# }
+# # Parent - Notification - Child sent to Ban Ard
+# letter_event = {
+	# id = magic.36
+	# desc = EVTDESCmagic.36
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.36
-	}
-}
-# Parent - Notification - Child sent to Aretuza
-letter_event = {
-	id = magic.37
-	desc = EVTDESCmagic.37
+	# option = {
+		# name = EVTOPTAmagic.36
+	# }
+# }
+# # Parent - Notification - Child sent to Aretuza
+# letter_event = {
+	# id = magic.37
+	# desc = EVTDESCmagic.37
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.37
-	}
-}
-# Parent - Notification - Child sent to Nilfgaard magic academy
-letter_event = {
-	id = magic.38
-	desc = EVTDESCmagic.38
+	# option = {
+		# name = EVTOPTAmagic.37
+	# }
+# }
+# # Parent - Notification - Child sent to Nilfgaard magic academy
+# letter_event = {
+	# id = magic.38
+	# desc = EVTDESCmagic.38
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.38
-	}
-}
-# Parent - Notification - Child sent to druid circle
-letter_event = {
-	id = magic.39
-	desc = EVTDESCmagic.39
+	# option = {
+		# name = EVTOPTAmagic.38
+	# }
+# }
+# # Parent - Notification - Child sent to druid circle
+# letter_event = {
+	# id = magic.39
+	# desc = EVTDESCmagic.39
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.39
-	}
-}
-# Parent - Notification - Child left in court guardians care
-letter_event = {
-	id = magic.40
-	desc = EVTDESCmagic.40
+	# option = {
+		# name = EVTOPTAmagic.39
+	# }
+# }
+# # Parent - Notification - Child left in court guardians care
+# letter_event = {
+	# id = magic.40
+	# desc = EVTDESCmagic.40
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.39
-	}
-}
-# Parent - Notification - Guardian refused guardianship
-letter_event = {
-	id = magic.41
-	desc = EVTDESCmagic.41
+	# option = {
+		# name = EVTOPTAmagic.39
+	# }
+# }
+# # Parent - Notification - Guardian refused guardianship
+# letter_event = {
+	# id = magic.41
+	# desc = EVTDESCmagic.41
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.41
-	}
-}
-# Parent - Notification - Child has magic talent
-letter_event = {
-	id = magic.42
-	desc = EVTDESCmagic.42
+	# option = {
+		# name = EVTOPTAmagic.41
+	# }
+# }
+# # Parent - Notification - Child has magic talent
+# letter_event = {
+	# id = magic.42
+	# desc = EVTDESCmagic.42
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.42
-	}
-}
-# Hidden - Child Ping - Child shows magic talent
-character_event = {
-	id = magic.43
-	desc = "Ping"
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.42
+	# }
+# }
+# # Hidden - Child Ping - Child shows magic talent
+# character_event = {
+	# id = magic.43
+	# desc = "Ping"
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
-	hide_window = yes
+	# is_triggered_only = yes
+	# hide_window = yes
 	
-	option = {
-		name = "Pong"
-		if = {
-				limit = { has_guardian = yes }
-				guardian = { character_event = { id = magic.30 } }
-			}
-			if = {
-				limit = { has_guardian = no }
-				liege = { character_event = { id = magic.30 } }
-			}
-	}
-}
+	# option = {
+		# name = "Pong"
+		# if = {
+				# limit = { has_guardian = yes }
+				# guardian = { character_event = { id = magic.30 } }
+			# }
+			# if = {
+				# limit = { has_guardian = no }
+				# liege = { character_event = { id = magic.30 } }
+			# }
+	# }
+# }
 
-################################################
-# Child learning magic from guardian resolve (on_adulthood)
-################################################
-# Child - Become sorcerer
-character_event = {
-	id = magic.60
-	desc = EVTDESCmagic.60
-	picture = GFX_evt_child_reading
+# ################################################
+# # Child learning magic from guardian resolve (on_adulthood)
+# ################################################
+# # Child - Become sorcerer
+# character_event = {
+	# id = magic.60
+	# desc = EVTDESCmagic.60
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	trigger = {
-		has_character_modifier = magic_talent
-		has_character_flag = learning_from_sorcerer
-		check_variable = { which = learning_magic value = 2 } 
-	}
+	# trigger = {
+		# has_character_modifier = magic_talent
+		# has_character_flag = learning_from_sorcerer
+		# check_variable = { which = learning_magic value = 2 } 
+	# }
 	
-	option = {
-		name = EVTOPTAmagic.60
-		clr_character_flag = learning_from_sorcerer
-		remove_character_modifier = magic_talent
-		add_trait = sorcerer
-		hidden_tooltip = {
-			guardian ={ character_event = { id = magic.61 } }
-		}
-	}
-}
-# Guardian - Notification - Child became sorcerer
-character_event = {
-	id = magic.61
-	desc = EVTDESCmagic.61
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.60
+		# clr_character_flag = learning_from_sorcerer
+		# remove_character_modifier = magic_talent
+		# add_trait = sorcerer
+		# hidden_tooltip = {
+			# guardian ={ character_event = { id = magic.61 } }
+		# }
+	# }
+# }
+# # Guardian - Notification - Child became sorcerer
+# character_event = {
+	# id = magic.61
+	# desc = EVTDESCmagic.61
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.61
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.62 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.62 } } }
-		} 
-	}
-}
-# Parent - Notification - Child became sorcerer
-letter_event = {
-	id = magic.62
-	desc = EVTDESCmagic.62
+	# option = {
+		# name = EVTOPTAmagic.61
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.62 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.62 } } }
+		# } 
+	# }
+# }
+# # Parent - Notification - Child became sorcerer
+# letter_event = {
+	# id = magic.62
+	# desc = EVTDESCmagic.62
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.62
-	}
-}
-# Child - Become druid
-character_event = {
-	id = magic.66
-	desc = EVTDESCmagic.66
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.62
+	# }
+# }
+# # Child - Become druid
+# character_event = {
+	# id = magic.66
+	# desc = EVTDESCmagic.66
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	trigger = {
-		has_character_modifier = magic_talent
-		has_character_flag = learning_from_druid
-		check_variable = { which = learning_magic value = 2 } 
-	}
+	# trigger = {
+		# has_character_modifier = magic_talent
+		# has_character_flag = learning_from_druid
+		# check_variable = { which = learning_magic value = 2 } 
+	# }
 	
-	option = {
-		name = EVTOPTAmagic.66
-		clr_character_flag = learning_from_druid
-		remove_character_modifier = magic_talent
-		add_trait = druid
-		hidden_tooltip = {
-			guardian = { character_event = { id = magic.67 } }
-		}
-	}
-}
-# Guardian - Notification - Child became druid
-character_event = {
-	id = magic.67
-	desc = EVTDESCmagic.67
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.66
+		# clr_character_flag = learning_from_druid
+		# remove_character_modifier = magic_talent
+		# add_trait = druid
+		# hidden_tooltip = {
+			# guardian = { character_event = { id = magic.67 } }
+		# }
+	# }
+# }
+# # Guardian - Notification - Child became druid
+# character_event = {
+	# id = magic.67
+	# desc = EVTDESCmagic.67
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.67
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.68 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.68 } } }
-		}
-	}
-}
-# Parent - Notification - Child became druid
-letter_event = {
-	id = magic.68
-	desc = EVTDESCmagic.68
+	# option = {
+		# name = EVTOPTAmagic.67
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.68 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.68 } } }
+		# }
+	# }
+# }
+# # Parent - Notification - Child became druid
+# letter_event = {
+	# id = magic.68
+	# desc = EVTDESCmagic.68
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.68
-	}
-}
-# Child - Learned to control talent
-character_event = {
-	id = magic.69
-	desc = EVTDESCmagic.69
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.68
+	# }
+# }
+# # Child - Learned to control talent
+# character_event = {
+	# id = magic.69
+	# desc = EVTDESCmagic.69
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	trigger = {
-		has_character_modifier = magic_talent
-		OR = { 
-			has_character_flag = learning_from_sorcerer
-			has_character_flag = learning_from_druid
-		}
-		check_variable = { which = learning_magic value = 1 }
-		NOT = { check_variable = { which = learning_magic value = 2 } }
-	}
+	# trigger = {
+		# has_character_modifier = magic_talent
+		# OR = { 
+			# has_character_flag = learning_from_sorcerer
+			# has_character_flag = learning_from_druid
+		# }
+		# check_variable = { which = learning_magic value = 1 }
+		# NOT = { check_variable = { which = learning_magic value = 2 } }
+	# }
 	
-	option = {
-		name = EVTOPTAmagic.69
-		clr_character_flag = learning_from_sorcerer
-		clr_character_flag = learning_from_druid
-		remove_character_modifier = magic_talent
-		hidden_tooltip = {
-			guardian = { character_event = { id = magic.70 } }
-		}
-	}
-}
-# Guardian - Notification - Child learned to control talent
-character_event = {
-	id = magic.70
-	desc = EVTDESCmagic.70
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.69
+		# clr_character_flag = learning_from_sorcerer
+		# clr_character_flag = learning_from_druid
+		# remove_character_modifier = magic_talent
+		# hidden_tooltip = {
+			# guardian = { character_event = { id = magic.70 } }
+		# }
+	# }
+# }
+# # Guardian - Notification - Child learned to control talent
+# character_event = {
+	# id = magic.70
+	# desc = EVTDESCmagic.70
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.70
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.71 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.71 } } }
-		}
-	}
-}
-# Parent - Notification - Child learned to control talent
-letter_event = {
-	id = magic.71
-	desc = EVTDESCmagic.71
+	# option = {
+		# name = EVTOPTAmagic.70
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.71 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.71 } } }
+		# }
+	# }
+# }
+# # Parent - Notification - Child learned to control talent
+# letter_event = {
+	# id = magic.71
+	# desc = EVTDESCmagic.71
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.71
-	}
-}
-# Child - Didn't learn enough
-character_event = {
-	id = magic.72
-	desc = EVTDESCmagic.72
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.71
+	# }
+# }
+# # Child - Didn't learn enough
+# character_event = {
+	# id = magic.72
+	# desc = EVTDESCmagic.72
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	trigger = {
-		has_character_modifier = magic_talent
-		OR = { 
-			has_character_flag = learning_from_sorcere
-			has_character_flag = learning_from_druid
-		}
-		NOT = { check_variable = { which = learning_magic value = 1 } }
-	}
+	# trigger = {
+		# has_character_modifier = magic_talent
+		# OR = { 
+			# has_character_flag = learning_from_sorcere
+			# has_character_flag = learning_from_druid
+		# }
+		# NOT = { check_variable = { which = learning_magic value = 1 } }
+	# }
 	
-	option = {
-		name = EVTOPTAmagic.72
-		clr_character_flag = learning_from_sorcerer
-		clr_character_flag = learning_from_druid
-		hidden_tooltip = {
-			guardian = { character_event = { id = magic.73 } }
-		}
-	}
-}
-# Guardian - Notification - Child didn't learn enough
-character_event = {
-	id = magic.73
-	desc = EVTDESCmagic.73
-	picture = GFX_evt_child_reading
+	# option = {
+		# name = EVTOPTAmagic.72
+		# clr_character_flag = learning_from_sorcerer
+		# clr_character_flag = learning_from_druid
+		# hidden_tooltip = {
+			# guardian = { character_event = { id = magic.73 } }
+		# }
+	# }
+# }
+# # Guardian - Notification - Child didn't learn enough
+# character_event = {
+	# id = magic.73
+	# desc = EVTDESCmagic.73
+	# picture = GFX_evt_child_reading
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.73
-		hidden_tooltip = {
-			FROM = { father = { limit = { ai = no } letter_event = { id = magic.74 } } }
-			FROM = { mother = { limit = { ai = no } letter_event = { id = magic.74 } } }
-		}
-	}
-}
-# Parent - Notification - Child didn't learn enough
-letter_event = {
-	id = magic.74
-	desc = EVTDESCmagic.74
+	# option = {
+		# name = EVTOPTAmagic.73
+		# hidden_tooltip = {
+			# FROM = { father = { limit = { ai = no } letter_event = { id = magic.74 } } }
+			# FROM = { mother = { limit = { ai = no } letter_event = { id = magic.74 } } }
+		# }
+	# }
+# }
+# # Parent - Notification - Child didn't learn enough
+# letter_event = {
+	# id = magic.74
+	# desc = EVTDESCmagic.74
 	
-	is_triggered_only = yes
+	# is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAmagic.74
-	}
-}
+	# option = {
+		# name = EVTOPTAmagic.74
+	# }
+# }
 
 ################################################
 # Child learning in magic academy or druid circle
