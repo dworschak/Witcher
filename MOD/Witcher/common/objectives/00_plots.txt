@@ -709,6 +709,10 @@ plot_kill_character = {
 	allow = {
 		NOT = { culture = wilderness }
 		NOT = { is_child_of = FROM } # Not my own children
+		OR = {
+			NOT = { character = FROM }  # Not against myself! (unself I am bonkers)
+			trait = lunatic
+		}
 		NOT = { any_spouse = { character = FROM } } # This case is covered by another plot
 		is_within_diplo_range = FROM
 		FROM = {
