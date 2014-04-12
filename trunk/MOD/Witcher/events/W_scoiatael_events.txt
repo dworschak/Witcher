@@ -1,0 +1,95 @@
+namespace = scoiatael
+
+##########################################################################
+# Supporting Scoiatael
+##########################################################################
+# Scoiatael asking support
+character_event = {
+	id = scoiatael.1
+	desc = EVTDESCscoiatael.1
+	picture = GFX_evt_spymaster
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		OR = {
+			trait = elven
+			trait = dwarven
+		}
+		wealth = 100
+		NOT ={ has_character_flag = supported_scoiatael }
+		NOT ={ has_character_flag = refused_supporting_scoiatael }
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Support
+		name = EVTOPTAscoiatael.1
+		wealth = -100
+		set_character_flag = supported_scoiatael
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 }
+			modifier = { factor = 0.1 independent = yes }
+		}
+	}
+	option = { # Don't support
+		name = EVTOPTBscoiatael.1
+		set_character_flag = refused_supporting_scoiatael
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.1 trait = content }
+			modifier = { factor = 0.1 trait = greedy }
+		}
+	}
+}
+
+##########################################################################
+# Scoiatael events
+##########################################################################
+# Scoiatael presence
+province_event = {
+	id = scoiatael.10
+	desc = EVTDESCscoiatael.10
+	picture = GFX_evt_bandits
+	
+	trigger = {
+		NOT = { has_province_modifier = scoiatael_presence }
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		modifier = { factor = 0.5 culture = elven }
+		modifier = { factor = 0.5 culture = dwarven }
+		modifier = { factor = 0.5 religion = dana_meadbh }
+		modifier = { factor = 0.5 religion = dwarven }
+		modifier = { factor = 0.1 has_province_modifier = non_human_slaughter }
+		modifier = { factor = 0.2 has_province_modifier = non_human_oppresion }
+		modifier = {
+			factor = 0.01
+			any_neighbor_province = {
+				owner = { has_character_flag = supported_scoiatael }
+			}
+		}
+		modifier = {
+			factor = 0.5
+			owner = {
+				top_liege = {
+					any_vassal = {
+						has_character_flag = supported_scoiatael
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAscoiatael.10
+		add_province_modifier = { name = scoiatael_presence duration = 3650 }
+	}
+}
