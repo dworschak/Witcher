@@ -9,7 +9,6 @@ character_event = {
 	desc = EVTDESCambition.1
 	picture = GFX_evt_spymaster
 	
-	hide_from = yes
 	capable_only = yes
 	
 	trigger = {
@@ -19,6 +18,7 @@ character_event = {
 		NOT = { has_character_flag = dangerous_ritual }
 		NOT = { has_character_flag = experimental_potion }
 		NOT = { has_character_flag = expensive_procedure }
+		NOT = { has_character_flag = mecopteran_hand_bone }
 	}
 	
 	mean_time_to_happen = {
@@ -43,8 +43,8 @@ character_event = {
 	picture = GFX_evt_spymaster
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
+	
 	capable_only = yes
 	
 	trigger = {
@@ -72,8 +72,8 @@ character_event = {
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
+	
 	capable_only = yes
 	
 	trigger = {
@@ -83,8 +83,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAambition.3
-		clr_character_flag = shady_cure
 		add_trait = fertile_sorcerer
+		hidden_tooltip = { character_event = { id = ambition.44 } } # Clear flags
 	}
 }
 # Shady merchant offers a potion to cure infertility - Water
@@ -94,8 +94,8 @@ character_event = {
 	picture = GFX_evt_throne_room
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
+	
 	capable_only = yes
 	
 	trigger = {
@@ -115,7 +115,6 @@ character_event = {
 	desc = EVTDESCambition.10
 	picture = GFX_evt_library
 	
-	hide_from = yes
 	capable_only = yes
 	
 	trigger = {
@@ -125,6 +124,7 @@ character_event = {
 		NOT = { has_character_flag = dangerous_ritual_failed }
 		NOT = { has_character_flag = experimental_potion }
 		NOT = { has_character_flag = expensive_procedure }
+		NOT = { has_character_flag = mecopteran_hand_bone }
 	}
 	
 	mean_time_to_happen = {
@@ -165,8 +165,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAambition.11
-		clr_character_flag = dangerous_ritual
 		add_trait = fertile_sorcerer
+		hidden_tooltip = { character_event = { id = ambition.44 } } # Clear flags
 	}
 }
 # Cast a dangerous ritual to cure infertility - Madness
@@ -215,7 +215,6 @@ character_event = {
 	desc = EVTDESCambition.20
 	picture = GFX_evt_throne_room
 	
-	hide_from = yes
 	capable_only = yes
 	
 	trigger = {
@@ -225,6 +224,7 @@ character_event = {
 		NOT = { has_character_flag = experimental_potion }
 		NOT = { has_character_flag = experimental_potion_failed }
 		NOT = { has_character_flag = expensive_procedure }
+		NOT = { has_character_flag = mecopteran_hand_bone }
 	}
 	
 	mean_time_to_happen = {
@@ -248,7 +248,6 @@ character_event = {
 	picture = GFX_evt_throne_room
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
 	
 	trigger = {
@@ -282,7 +281,6 @@ character_event = {
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
 	
 	trigger = {
@@ -293,7 +291,7 @@ character_event = {
 	option = {
 		name = EVTOPTAambition.22
 		add_trait = fertile_sorcerer
-		clr_character_flag = experimental_potion
+		hidden_tooltip = { character_event = { id = ambition.44 } } # Clear flags
 	}
 }
 # Alchemist have concocted an experimental potion that could cure infertility - Potion didn't work
@@ -303,7 +301,6 @@ character_event = {
 	picture = GFX_evt_illness
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
 	
 	trigger = {
@@ -324,7 +321,6 @@ character_event = {
 	desc = EVTDESCambition.30
 	picture = GFX_evt_throne_room
 	
-	hide_from = yes
 	capable_only = yes
 	
 	trigger = {
@@ -334,6 +330,7 @@ character_event = {
 		NOT = { has_character_flag = experimental_potion }
 		NOT = { has_character_flag = expensive_procedure }
 		NOT = { has_character_flag = expensive_procedure_failed }
+		NOT = { has_character_flag = mecopteran_hand_bone }
 	}
 	
 	mean_time_to_happen = {
@@ -358,8 +355,8 @@ character_event = {
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
-	
 	hide_from = yes
+	
 	capable_only = yes
 	
 	trigger = {
@@ -369,7 +366,250 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAambition.31
-		clr_character_flag = expensive_procedure
 		add_trait = fertile_sorcerer
+		hidden_tooltip = { character_event = { id = ambition.44 } } # Clear flags
+	}
+}
+# Mecopteran hand bone - Start
+character_event = {
+	id = ambition.40
+	desc = EVTDESCambition.40
+	picture = GFX_evt_throne_room
+	
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		NOT = { has_character_flag = shady_cure }
+		NOT = { has_character_flag = dangerous_ritual }
+		NOT = { has_character_flag = experimental_potion }
+		NOT = { has_character_flag = expensive_procedure }
+		NOT = { has_character_flag = mecopteran_hand_bone }
+		NOT = { has_character_flag = mecopteran_hand_bone_failed }
+	}
+	
+	mean_time_to_happen = {
+		months = 280
+	}
+	
+	option = { # Buy
+		name = EVTOPTAambition.40
+		set_character_flag = mecopteran_hand_bone
+		scaled_wealth = -3.0
+		character_event = { id = ambition.41 days = 60 random = 10 tooltip = EVTTOOLTIPambition.41 }
+	}
+	option = { # Gather yourself
+		name = EVTOPTBambition.40
+		set_character_flag = mecopteran_hand_bone
+		random = { chance = 30 add_trait = wounded }
+		character_event = { id = ambition.41 days = 60 random = 10 tooltip = EVTTOOLTIPambition.41 }
+	}
+	option = {
+		name = EVTOPTCambition.40
+		set_character_flag = mecopteran_hand_bone_failed
+	}
+}
+# Mecopteran hand bone - Got bones 
+character_event = {
+	id = ambition.41
+	desc = EVTDESCambition.41
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = mecopteran_hand_bone 
+	}
+	
+	option = {
+		name = EVTOPTAambition.41
+		custom_tooltip = {
+			text = use_bones
+			hidden_tooltip = {
+				random_list = {
+					30 = { character_event = { id = ambition.42 days = 3} }
+					70 = { character_event = { id = ambition.43 days = 3 } }
+				}
+			}
+		}
+	}
+}
+# Mecopteran hand bone - Cured
+character_event = {
+	id = ambition.42
+	desc = EVTDESCambition.42
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = mecopteran_hand_bone 
+	}
+	
+	option = {
+		name = EVTOPTAambition.42
+		add_trait = fertile_sorcerer
+		hidden_tooltip = { character_event = { id = ambition.44 } } # Clear flags
+	}
+}
+# Mecopteran hand bone - Failed
+character_event = {
+	id = ambition.43
+	desc = EVTDESCambition.43
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	hide_from = yes
+	
+	trigger = {
+		has_ambition = obj_cure_infertility
+		has_character_flag = mecopteran_hand_bone 
+	}
+	
+	option = {
+		name = EVTOPTAambition.43
+		clr_character_flag = mecopteran_hand_bone
+		set_character_flag = mecopteran_hand_bone_failed
+	}
+}
+# Ambition succeded - Clear flags
+character_event = {
+	id = ambition.44
+	desc = "Ccear flags"
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = "OK"
+		clr_character_flag = shady_cure
+		clr_character_flag = shady_cure_failed
+		clr_character_flag = dangerous_ritual
+		clr_character_flag = dangerous_ritual_failed
+		clr_character_flag = experimental_potion
+		clr_character_flag = experimental_potion_failed
+		clr_character_flag = expensive_procedure
+		clr_character_flag = expensive_procedure_failed
+		clr_character_flag = mecopteran_hand_bone
+		clr_character_flag = mecopteran_hand_bone_failed
+	}
+}
+
+################################################
+# Improve abilitites ambition for AI courtiers
+################################################
+# Improve martial by 1 (on_decade_pulse)
+character_event = {
+	id = ambition.50
+	desc = "Increase martial by 1"
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	capable_only = yes
+	
+	trigger = {
+		ai = yes
+		is_landed = no
+		has_ambition = obj_improve_martial
+		prisoner = no
+	}
+	
+	option = {
+		name = "OK"
+		change_martial = 1
+	}
+}
+# Improve stewardship by 1 (on_decade_pulse)
+character_event = {
+	id = ambition.51
+	desc = "Increase stewardship by 1"
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	capable_only = yes
+	
+	trigger = {
+		ai = yes
+		is_landed = no
+		has_ambition = obj_improve_stewardship
+		prisoner = no
+	}
+	
+	option = {
+		name = "OK"
+		change_stewardship = 1
+	}
+}
+# Improve learning by 1 (on_decade_pulse)
+character_event = {
+	id = ambition.52
+	desc = "Increase learning by 1"
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	capable_only = yes
+	
+	trigger = {
+		ai = yes
+		is_landed = no
+		has_ambition = obj_improve_learning
+		prisoner = no
+	}
+	
+	option = {
+		name = "OK"
+		change_learning = 1
+	}
+}
+# Improve diplomacy by 1 (on_decade_pulse)
+character_event = {
+	id = ambition.53
+	desc = "Increase diplomacy by 1"
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	capable_only = yes
+	
+	trigger = {
+		ai = yes
+		is_landed = no
+		has_ambition = obj_improve_diplomacy
+		prisoner = no
+	}
+	
+	option = {
+		name = "OK"
+		change_diplomacy = 1
+	}
+}
+# Improve intrigue by 1 (on_decade_pulse)
+character_event = {
+	id = ambition.54
+	desc = "Increase intrigue by 1"
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	capable_only = yes
+	
+	trigger = {
+		ai = yes
+		is_landed = no
+		has_ambition = obj_improve_intrigue
+		prisoner = no
+	}
+	
+	option = {
+		name = "OK"
+		change_intrigue = 1
 	}
 }
