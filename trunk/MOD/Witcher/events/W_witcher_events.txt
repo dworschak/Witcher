@@ -445,7 +445,6 @@ character_event = {
 	trigger = {
 		NOT = { culture = wilderness }
 		trait = witcher
-		in_command = no
 		liege = {
 			any_demesne_province = {
 				OR = {
@@ -495,8 +494,8 @@ character_event = {
 						province_event = { id = witcher.202 }
 					}
 					5 = { # Witcher died
-						death = { death_reason = death_hashshashin } # localized to death by monsters
-						owner = { character_event = { id = witcher.205 }}
+						ROOT = { death = { death_reason = death_hashshashin } } # localized to death by monsters
+						owner = { character_event = { id = witcher.205 } }
 					}
 				}
 			}
@@ -594,10 +593,9 @@ character_event = {
 	picture = GFX_evt_bloody_man
 	
 	is_triggered_only = yes
-	show_from_from = yes
 	
 	option = {
-		name = OK
+		name = EVTOPTAwitcher.205
 	}
 }
 
@@ -756,3 +754,173 @@ character_event = {
 		FROM = { letter_event = { id = witcher.4 } }
 	}
 }
+
+################################################
+# Witcher flavor events
+################################################
+# Lord - Witcher in prison when have monster infestation
+character_event = {
+	id = witcher.1000
+	desc = EVTDESCwitcher.1000
+	picture = GFX_evt_into_the_dungeon
+	
+	min_age = 15
+	capable_only = yes
+	only_rulers = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		any_courtier ={
+			trait = witcher
+			prisoner = yes
+		}
+		any_demesne_province = {
+			OR = {
+				has_province_modifier = vampires
+				has_province_modifier = werewolves
+				has_province_modifier = kikimoras
+				has_province_modifier = hellhounds
+				has_province_modifier = rotfiends
+				has_province_modifier = drowners
+				has_province_modifier = nekkers
+			}
+		}
+		NOT = { has_character_flag = witcher_rot_in_prison }
+	}
+	
+	mean_time_to_happen = { 
+		months = 12
+	}
+	
+	option = { # There is no need for others to die from monsters when we have a witcher
+		name = EVTOPTAwitcher.1000
+		hidden_tooltip = {
+			random_demesne_province = {
+				limit = {
+					OR = {
+						has_province_modifier = vampires
+						has_province_modifier = werewolves
+						has_province_modifier = kikimoras
+						has_province_modifier = hellhounds
+						has_province_modifier = rotfiends
+						has_province_modifier = drowners
+						has_province_modifier = nekkers
+					}
+				}
+				random_list = {
+					85 = {
+						province_event = { id = witcher.1001 days = 5 }
+					}
+					15 = { # Witcher died
+						ROOT ={
+							random_courtier = {
+								limit = {
+									trait = witcher
+									prisoner = yes
+								}
+								death = { death_reason = death_hashshashin } # localized to death by monsters
+							}
+							character_event = { id = witcher.205 days = 5 }
+						}
+					}
+				}
+			}
+		}
+	}
+	option = { # Let him rot
+		name = EVTOPTBwitcher.1000
+		set_character_flag = witcher_rot_in_prison
+	}
+}
+# Province - Removing monster modifiers
+province_event = {
+	id = witcher.1001
+	desc = "Province ping"
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	immediate = {
+		remove_province_modifier = vampires
+		remove_province_modifier = werewolves
+		remove_province_modifier = kikimoras
+		remove_province_modifier = hellhounds
+		remove_province_modifier = rotfiends
+		remove_province_modifier = drowners
+		remove_province_modifier = nekkers
+		add_province_modifier = { name = monster_purge duration = 365 hidden = yes }
+	}
+	
+	option = {
+		name = "OK"
+		FROM = {
+			character_event = { id = witcher.1002 }
+			random_courtier = {
+				limit = {
+					trait = witcher
+					prisoner = yes
+				}
+				character_event = { id = witcher.3 }
+			}
+		}
+	}
+}
+# Lord - Notification - Witcher cleaned the province and escaped
+character_event = {
+	id = witcher.1002
+	desc = EVTDESCwitcher.1002
+	picture = GFX_evt_courier
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAwitcher.1002
+	}
+}
+# Courtier complaining about employing witcher
+character_event = {
+	id = witcher.1003
+	desc = EVTDESCwitcher.1003
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		trait = human
+		any_courtier = {
+			is_adult = yes
+			trait = human
+			NOT = { trait = witcher }
+		}
+		any_courtier = { trait = witcher }
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+	}
+	
+	option = { # Witcher will stay
+		name = EVTOPTAwitcher.1003
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				trait = human
+				NOT = { trait = witcher }
+			}
+			opinion = { modifier = opinion_dislike who = ROOT years = 2 }
+		}
+	}
+	option = { # Banish witcher
+		name = EVTOPTBwitcher.1003
+		random_courtier = {
+			limit = { trait = witcher }
+			character_event = { id = witcher.3 tooltip = EVTTOOLTIPwitcher.1003 }
+		}
+	}
+}
+# Witcher seduces a woman
