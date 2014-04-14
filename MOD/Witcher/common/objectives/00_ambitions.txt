@@ -1160,14 +1160,6 @@ obj_have_a_daughter = {
 			NOT = { has_character_modifier = old_age }
 			is_female = no
 		}
-		OR = { 
-			ai = no
-			is_female = yes
-			AND = {
-				num_of_children = 2
-				NOT = { has_character_modifier = old_age }
-			}
-		}
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
 		OR = {
@@ -1200,6 +1192,7 @@ obj_have_a_daughter = {
 			factor = 10.0
 			num_of_children = 5
 		}
+		modifier = { factor = 1.2 is_female = yes }
 	}
 	success = {
 		any_child = {
@@ -1245,27 +1238,18 @@ obj_have_a_son = {
 	allow = {
 		prisoner = no
 		is_marriage_adult = yes
-		is_married = yes
+		OR = {
+			is_married = yes
+			is_consort = yes
+		}
 		NOT = {
 			any_child = {
 				is_female = no
 			}
 		}
 		OR = {
-			ai = no
-			# Have at least two daughters
-			any_child = {
-				is_female = yes
-				ROOT = {
-					any_child = {
-						is_female = yes
-						NOT = { character = PREVPREV }
-					}
-				}
-			}
-		}
-		NOT = { 
-			has_character_modifier = old_age
+			NOT = { has_character_modifier = old_age }
+			is_female = no
 		}
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
@@ -1299,6 +1283,7 @@ obj_have_a_son = {
 			factor = 10.0
 			num_of_children = 5
 		}
+		modifier = { factor = 1.2 is_female = no }
 	}
 	success = {
 		any_child = {
@@ -1307,7 +1292,10 @@ obj_have_a_son = {
 	}
 	abort = {
 		OR = {
-			has_character_modifier = old_age
+			AND = {
+				has_character_modifier = old_age
+				is_female = yes
+			}
 			trait = celibate
 			trait = incapable
 			trait = eunuch
@@ -1524,7 +1512,6 @@ obj_improve_martial = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
-		is_playable = yes
 	}
 	
 	allow = {
@@ -1588,7 +1575,6 @@ obj_improve_stewardship = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
-		is_playable = yes
 	}
 	
 	allow = {
@@ -1655,7 +1641,6 @@ obj_improve_learning = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
-		is_playable = yes
 	}
 	
 	allow = {
@@ -1718,7 +1703,6 @@ obj_improve_diplomacy = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
-		is_playable = yes
 	}
 	
 	allow = {
@@ -1781,7 +1765,6 @@ obj_improve_intrigue = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
-		is_playable = yes
 	}
 	
 	allow = {
