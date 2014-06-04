@@ -3,7 +3,7 @@ namespace = druid
 ###########################################
 # Maintenance
 ###########################################
-# Hidden - give druid trait to landed nature religion priests except dryads
+# Hidden - give druid trait to landed druidic religion rulers
 character_event = {
 	id = druid.1
 	desc = "Druid"
@@ -14,10 +14,8 @@ character_event = {
 	trigger = {
 		is_theocracy = yes
 		demesne_size = 1
-		religion = nature
-		NOT = {
-			trait = druid
-		}
+		religion = druidic
+		NOT = { trait = druid }
 	}
 	
 	mean_time_to_happen = {
@@ -29,7 +27,7 @@ character_event = {
 		add_trait = druid
 	}
 }
-# Hidden - make temple barony heir nature religion character (on_death)
+# Hidden - make temple barony heir druidic religion character (on_death)
 character_event = {
 	id = druid.2
 	desc = "Druid"
@@ -40,7 +38,7 @@ character_event = {
 	trigger = {
 		is_theocracy = yes
 		tier = baron
-		location = { religion = nature }
+		location = { religion = druidic }
 	}
 	
 	option = {
@@ -48,7 +46,7 @@ character_event = {
 		create_random_priest = {
 			random_traits = yes
 			dynasty = none
-			religion = nature
+			religion = druidic
 			age = 50
 			trait = human
 			trait = druid
@@ -62,7 +60,7 @@ character_event = {
 		create_random_priest = {
 			random_traits = yes
 			dynasty = none
-			religion = nature
+			religion = druidic
 			age = 30
 			trait = human
 			trait = druid
@@ -77,7 +75,7 @@ character_event = {
 			is_female = yes
 			random_traits = yes
 			dynasty = none
-			religion = nature
+			religion = druidic
 			age = 50
 			trait = human
 			trait = druid
@@ -92,7 +90,7 @@ character_event = {
 			is_female = yes
 			random_traits = yes
 			dynasty = none
-			religion = nature
+			religion = druidic
 			age = 30
 			trait = human
 			trait = druid
@@ -104,9 +102,9 @@ character_event = {
 }
 
 ###########################################
-# Spawn random druid
+# Druid spawning and movement
 ###########################################
-# Spwan druid
+# Spawn druid in court
 character_event = {
 	id = druid.10
 	desc = EVTDESCdruid.10
@@ -123,8 +121,8 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 3000
-		modifier = { factor = 0.5 religion = nature }
+		months = 5000
+		modifier = { factor = 0.5 religion = druidic }
 	}
 	
 	option = {
@@ -132,7 +130,7 @@ character_event = {
 		create_character = {
 			random_traits = yes
 			dynasty = none
-			religion = nature
+			religion = druidic
 			age = 50
 			trait = human
 			trait = druid
@@ -141,6 +139,195 @@ character_event = {
 			change_learning = 2
 			remove_trait = inbred
 			remove_trait = imbecile
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = EVTOPTBdruid.10
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 10 religion = druidic }
+			modifier = { factor = 0.5 trait = zealous }
+		}
+	}
+}
+# Spawn druid apprentice in druid circle
+province_event = {
+	id = druid.11
+	desc = "Hidden"
+	picture = GFX_evt_emissary
+	
+	trigger = {
+		religion = druidic
+		owner = {
+			trait = druid
+			religion = druidic
+			is_theocracy = yes
+			any_courtier = {
+				count = 2
+				NOT = { trait = apprentice_druid }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 3000
+		modifier = { factor = 0.5 religion = druidic }
+	}
+	
+	option = {
+		name = "Male"
+		create_character = {
+			random_traits = yes
+			female = no
+			dynasty = none
+			religion = druidic
+			age = 15
+			trait = human
+			trait = apprentice_druid
+		}
+		new_character = {
+			change_learning = 2
+			remove_trait = inbred
+			remove_trait = imbecile
+			character_event = { id = druid.22 days = 5340 random = 1780 }
+		}
+	}
+	option = {
+		name = "Female"
+		create_character = {
+			random_traits = yes
+			female = yes
+			dynasty = none
+			religion = druidic
+			age = 15
+			trait = human
+			trait = apprentice_druid
+		}
+		new_character = {
+			change_learning = 2
+			remove_trait = inbred
+			remove_trait = imbecile
+			character_event = { id = druid.22 days = 5340 random = 1780 }
+		}
+	}
+}
+# Druid decides to leave a circle with too many druids
+character_event = {
+	id = druid.12
+	desc = "There are too mant druid in the circle"
+	picture = GFX_evt_lunatic
+	
+	min_age = 15
+	prisoner = no
+	only_playable = yes
+	capable_only = yes
+	
+	trigger = {
+		trait = druid
+		is_landed = no
+		liege = {
+			trait = druid
+			religion = druidic
+			is_theocracy = yes
+			any_courtier = {
+				count = 2
+				trait = druid
+			}
+		}
+	}
+	
+	option = {
+		name = "OK"
+		character_event = { id = druid.13 }
+	}
+}
+# Druid leaves the circle
+character_event = {
+	id = druid.13
+	desc = "Leave the circle to semi-random province"
+	picture = GFX_evt_lunatic
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		trait = druid
+		is_landed = no
+		liege = {
+			trait = druid
+			religion = druidic
+			is_theocracy = yes
+			any_courtier = {
+				count = 2
+				trait = druid
+			}
+		}
+	}
+	
+	option = {
+		name = "OK"
+		trigger = {
+			top_liege = {
+				any_realm_province = {
+					any_neighbor_province = {
+						owner = {
+							any_courtier = { NOT = { trait = druid } }
+							NOT = { trait = druid }
+							age = 15
+							prisoner = no
+							NOT = { trait = incapable }
+						}
+					}
+				}
+			}
+		}
+		top_liege = {
+			any_realm_province = {
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							any_courtier = { NOT = { trait = druid } }
+							NOT = { trait = druid }
+							age = 15
+							prisoner = no
+							NOT = { trait = incapable }
+						}
+					}
+					owner = {
+						character_event = { id = druid.14 }
+					}
+				}
+			}
+		}
+	}
+}
+# New liege choses if he wishes a druid
+character_event = {
+	id = druid.14
+	desc = EVTDESCdruid.14
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.14
+		FROM = { move_character = ROOT }
+	}
+	option = {
+		name = EVTOPTBdruid.14
+		hidden_tooltip = { character_event = { id = druid.13 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 10 religion = druidic }
+			modifier = { factor = 0.5 trait = zealous }
 		}
 	}
 }
@@ -179,7 +366,7 @@ character_event = {
 		}
 		top_liege = {
 			any_realm_lord = {
-				religion = nature
+				religion = druidic
 				trait = druid
 				is_theocracy = yes
 			}
@@ -221,18 +408,33 @@ character_event = {
 		top_liege = {
 			random_realm_lord = {
 				limit = {
-					religion = nature
+					religion = druidic
 					is_theocracy = yes
 					trait = druid
 				}
 				FROM = {
-					set_variable = { which = learning_magic value = 0 }
 					add_trait = apprentice_druid
 					move_character = PREV
+					character_event = { id = druid.22 days = 5340 random = 1780 }
 				}
 			}
 		}
 		piety = 50
+	}
+}
+# Son - Become druid notification
+character_event = {
+	id = druid.22
+	desc = EVTDESCdruid.22
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.22
+		remove_trait = apprentice_druid
+		add_trait = druid
+		religion = druidic
 	}
 }
 
@@ -788,7 +990,7 @@ character_event = {
 		opinion = { who = FROM modifier = opinion_grateful }
 	}
 }
-# Druid - Remove plague
+# Druid - Remove plague - Plague disabled
 character_event = {
 	id = druid.118
 	desc = EVTDESCdruid.118
@@ -835,7 +1037,7 @@ character_event = {
 		ai_chance = { factor = 1 }
 	}
 }
-# Character - Remove plague
+# Character - Remove plague - Plague disabled
 character_event = {
 	id = druid.119
 	desc = EVTDESCdruid.119
@@ -1279,10 +1481,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		any_courtier = {
-			trait = druid
-			trait = kind
-		}
+		any_courtier = { trait = druid }
 	}
 	
 	weight_multiplier = {
@@ -1298,13 +1497,72 @@ character_event = {
 	option = {
 		name = EVTOPTAdruid.204
 		piety = 10
+		hidden_tooltip = {
+			random = {
+				chance = 5
+				character_event = { id = druid.205 days = 365 random = 365 }
+			}
+		}
 	}
 	option = {
 		name = EVTOPTBdruid.204
+		tooltip_info = cynical
+		trigger = { trait = cynical }
+	}
+	option = {
+		name = EVTOPTCdruid.204
 		random = {
 			chance = 10
 			add_trait = proud
 			hidden_tooltip = { character_event = { id = 38261 } } # Proud notification
 		}
+	}
+}
+# Druid sharing his views on with you, and you supported them - chance to convert to druidic
+character_event = {
+	id = druid.205
+	desc = EVTDESCdruid.205
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { religion = druidic }
+		any_courtier = {
+			trait = druid
+			religion = druidic
+		}
+	}
+	
+	option = {
+		name = EVTOPTAdruid.205
+		prestige = -100
+		any_vassal = {
+			limit = {
+				religion = ROOT
+				age = 15
+			}
+			opinion = { who = ROOT modifier = opinion_adopted_foreign_beliefs years = 10 }
+			hidden_tooltip = { character_event = { id = druid.206 } }
+		}
+		religion_authority = { modifier = ruler_converted_from }
+		religion = druidic
+		hidden_tooltip = { religion_authority = { modifier = ruler_converted_to } }
+	}
+	option = {
+		name = EVTOPTBdruid.205
+	}
+}
+# A ruler converted by druid - Piss off the appropriate vassals
+character_event = {
+	id = druid.206
+	desc = EVTDESCdruid.206
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.206
+		tooltip = { opinion = { who = FROM modifier = opinion_adopted_foreign_beliefs years = 10 } }
 	}
 }
