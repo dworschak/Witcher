@@ -1469,7 +1469,10 @@ character_event = {
 		name = EVTOPTA61192
 		hidden_tooltip = {
 			random_courtier = {
-				limit = { has_character_flag = regent_schemer }
+				limit = {
+					has_minor_title = title_regent
+					has_character_flag = regent_schemer
+				}
 				character_event = {
 					id = 61195
 					days = 18
@@ -1512,6 +1515,11 @@ character_event = {
 	
 	is_triggered_only = yes
 	
+	trigger = {
+		has_minor_title = title_regent
+		liege = { character = FROM }
+	}
+	
 	option = {
 		name = EVTOPTA61196
 		random_list = {
@@ -1537,7 +1545,10 @@ character_event = {
 		name = EVTOPTA61197
 		hidden_tooltip = {
 			random_courtier = {
-				limit = { has_character_flag = regent_schemer }
+				limit = {
+					has_minor_title = title_regent
+					has_character_flag = regent_schemer
+				}
 				character_event = {
 					id = 61200
 					days = 18
@@ -1556,6 +1567,11 @@ character_event = {
 	picture = GFX_evt_carriage
 	
 	is_triggered_only = yes
+	
+	trigger = {
+		has_minor_title = title_regent
+		liege = { character = FROM }
+	}
 	
 	option = {
 		name = EVTOPTA61200
@@ -1605,7 +1621,10 @@ character_event = {
 		name = EVTOPTA61202
 		hidden_tooltip = {
 			random_courtier = {
-				limit = { has_character_flag = regent_schemer }
+				limit = {
+					has_minor_title = title_regent
+					has_character_flag = regent_schemer
+				}
 				character_event = {
 					id = 61205
 					days = 18
@@ -1625,6 +1644,11 @@ character_event = {
 	
 	is_triggered_only = yes
 	
+	trigger = {
+		has_minor_title = title_regent
+		liege = { character = FROM }
+	}
+
 	option = {
 		name = EVTOPTA61205
 		ai_chance = { factor = 100 }
@@ -1673,7 +1697,10 @@ character_event = {
 		name = EVTOPTA61207
 		hidden_tooltip = {
 			random_courtier = {
-				limit = { has_character_flag = regent_schemer }
+				limit = {
+					has_minor_title = title_regent
+					has_character_flag = regent_schemer
+				}
 				character_event = {
 					id = 61210
 					days = 18
@@ -1692,7 +1719,12 @@ character_event = {
 	picture = GFX_evt_shadow
 	
 	is_triggered_only = yes
-	
+		
+	trigger = {
+		has_minor_title = title_regent
+		liege = { character = FROM }
+	}
+
 	option = {
 		name = EVTOPTA61210
 		ai_chance = { factor = 100 }
@@ -2450,263 +2482,5 @@ character_event = {
 	
 	option = {
 		name = OK
-	}
-}
-
-## The Regent Lowers Crown Authority in a Kingdom
-character_event = {
-	id = 61300
-	desc = EVTDESC61300
-	picture = GFX_evt_courtiers_talking
-	
-	min_age = 15
-	prisoner = no
-	capable_only = yes
-	only_playable = yes # Only titled Regents do this
-	
-	trigger = {
-		is_landed = yes
-		has_minor_title = title_regent
-		NOT = { trait = content }
-		liege = {
-			higher_tier_than = DUKE
-			NOT = { has_character_flag = regent_lowered_CA }
-			any_demesne_title = {
-				tier = KING
-				OR = {
-					has_law = centralization_1
-					has_law = centralization_2
-					has_law = centralization_3
-					has_law = centralization_4
-				}
-				ROOT = {
-					primary_title = {
-						kingdom = {
-							title = PREVPREVPREV
-						}
-					}
-				}
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 120
-		modifier = {
-			factor = 0.25
-			trait = ambitious
-		}
-		modifier = {
-			factor = 0.25
-			trait = greedy
-		}
-		modifier = {
-			factor = 0.5
-			trait = arbitrary
-		}
-		modifier = {
-			factor = 2.0
-			trait = charitable
-		}
-		modifier = {
-			factor = 3.0
-			trait = just
-		}
-	}
-	
-	option = {
-		name = EVTOPTA61300
-		ai_chance = { factor = 100 }
-		liege = {
-			random_demesne_title = {
-				limit = {
-					tier = KING
-					OR = {
-						has_law = centralization_1
-						has_law = centralization_2
-						has_law = centralization_3
-						has_law = centralization_4
-					}
-					ROOT = {
-						primary_title = {
-							kingdom = {
-								title = PREVPREVPREV
-							}
-						}
-					}
-				}
-				if = {
-					limit = { has_law = centralization_1 }
-					add_law = centralization_0
-				}
-				if = {
-					limit = { has_law = centralization_2 }
-					add_law = centralization_1
-				}
-				if = {
-					limit = { has_law = centralization_3 }
-					add_law = centralization_2
-				}
-				if = {
-					limit = { has_law = centralization_4 }
-					add_law = centralization_3
-				}
-			}
-			hidden_tooltip = {
-				character_event = { id = 61301 }
-				set_character_flag = regent_lowered_CA
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTB61300
-		ai_chance = { factor = 0 }
-	}
-}
-
-## Ruler informed that Regent has Lowered CA in a Kingdom
-character_event = {
-	id = 61301
-	desc = EVTDESC61301
-	picture = GFX_evt_courtiers_talking
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA61301
-		opinion = {
-			who = FROM
-			modifier = opinion_regent_lowered_CA
-		}
-	}
-}
-
-## The Regent Lowers Crown Authority in an Empire
-character_event = {
-	id = 61302
-	desc = EVTDESC61302
-	picture = GFX_evt_courtiers_talking
-	
-	min_age = 15
-	prisoner = no
-	capable_only = yes
-	only_playable = yes # Only titled Regents do this
-	
-	trigger = {
-		is_landed = yes
-		has_minor_title = title_regent
-		NOT = { trait = content }
-		liege = {
-			higher_tier_than = DUKE
-			NOT = { has_character_flag = regent_lowered_CA }
-			any_demesne_title = {
-				tier = EMPEROR
-				OR = {
-					has_law = centralization_1
-					has_law = centralization_2
-					has_law = centralization_3
-					has_law = centralization_4
-				}
-				ROOT = {
-					primary_title = {
-						empire = {
-							title = PREVPREVPREV
-						}
-					}
-				}
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 120
-		modifier = {
-			factor = 0.25
-			trait = ambitious
-		}
-		modifier = {
-			factor = 0.25
-			trait = greedy
-		}
-		modifier = {
-			factor = 0.5
-			trait = arbitrary
-		}
-		modifier = {
-			factor = 2.0
-			trait = charitable
-		}
-		modifier = {
-			factor = 3.0
-			trait = just
-		}
-	}
-	
-	option = {
-		name = EVTOPTA61300
-		ai_chance = { factor = 100 }
-		liege = {
-			random_demesne_title = {
-				limit = {
-					tier = EMPEROR
-					OR = {
-						has_law = centralization_1
-						has_law = centralization_2
-						has_law = centralization_3
-						has_law = centralization_4
-					}
-					ROOT = {
-						primary_title = {
-							empire= {
-								title = PREVPREVPREV
-							}
-						}
-					}
-				}
-				if = {
-					limit = { has_law = centralization_1 }
-					add_law = centralization_0
-				}
-				if = {
-					limit = { has_law = centralization_2 }
-					add_law = centralization_1
-				}
-				if = {
-					limit = { has_law = centralization_3 }
-					add_law = centralization_2
-				}
-				if = {
-					limit = { has_law = centralization_4 }
-					add_law = centralization_3
-				}
-			}
-			hidden_tooltip = {
-				character_event = { id = 61303 }
-				set_character_flag = regent_lowered_CA
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTB61300
-		ai_chance = { factor = 0 }
-	}
-}
-
-## Ruler informed that Regent has Lowered CA in an Empire
-character_event = {
-	id = 61303
-	desc = EVTDESC61303
-	picture = GFX_evt_courtiers_talking
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA61301
-		opinion = {
-			who = FROM
-			modifier = opinion_regent_lowered_CA
-		}
 	}
 }

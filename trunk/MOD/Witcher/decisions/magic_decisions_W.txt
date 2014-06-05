@@ -1,0 +1,266 @@
+decisions = {
+	spell_heal = {
+		potential = {
+			NOT = { culture = wilderness }
+			OR = {
+				trait = ill
+				trait = pneumonic
+				trait = syphilitic
+				trait = leper
+				trait = has_tuberculosis
+				trait = has_typhoid_fever
+				trait = has_typhus
+				trait = has_bubonic_plague
+				trait = has_measles
+				trait = has_small_pox
+				trait = has_aztec_disease
+				trait = wounded
+				trait = maimed
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+			}
+			OR = {
+				AND = {
+					trait = sorcerer
+					prisoner = no
+				}
+				job_mage = {
+					trait = sorcerer
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+				job_mage = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = {
+				if = {
+					limit = { job_mage = { NOT = { has_character_modifier = drained } } }
+					character_event = { id = magic.200 }
+				}
+				if = {
+					limit = {
+						job_mage = { has_character_modifier = drained }
+						trait = sorcerer
+					}
+					character_event = { id = magic.201 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 5 NOT = { health = 2 } }
+			modifier = { factor = 2 NOT = { health = 3 } }
+			modifier = { factor = 2 NOT = { health = 4 } }
+			modifier = { factor = 10 trait = blinded }
+			modifier = { factor = 10 trait = infirm }
+		}
+	}
+	spell_glamour = {
+		potential = {
+			NOT = { culture = wilderness }
+			OR = {
+				NOT = { trait = fair }
+				trait = harelip
+				trait = hunchback
+				trait = lisp
+				trait = stutter
+				trait = ugly
+				trait = dwarf
+			}
+			AND = {
+				trait = sorcerer
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			AND = {
+				trait = sorcerer
+				NOT = { has_character_modifier = drained }
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_beautify_tooltip }
+			 hidden_tooltip = { character_event = { id = magic.220 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 2 trait = envious }
+			modifier = { factor = 0.01 is_female = no }
+			modifier = { factor = 5.0 culture_group = northern_group }
+			modifier = { factor = 0.01 location = { county = { de_jure_liege_or_above = e_nilfgaard } } }
+			modifier = { factor = 0.1 }
+		}
+	}
+	spell_siege = {
+		potential = {
+			NOT = { culture = wilderness }
+			OR = {
+				AND = {
+					trait = sorcerer
+					prisoner = no
+					siege = { is_attacker = yes }
+				}
+				job_mage = {
+					trait = sorcerer
+					prisoner = no
+					NOT = { trait = incapable }
+					siege = { is_attacker = yes }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+				job_mage = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+			}
+		}
+		effect = {
+			hidden_tooltip = {
+				if = {
+					limit = { job_mage = { NOT = { has_character_modifier = drained } } }
+					character_event = { id = magic.230 }
+				}
+				if = {
+					limit = {
+						job_mage = { has_character_modifier = drained }
+						trait = sorcerer
+					}
+					character_event = { id = magic.231 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 has_job_title = job_mage }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 2 trait = wroth }
+		}
+	}
+	spell_reveal_plots = {
+		potential = {
+			OR = {
+				AND = {
+					trait = sorcerer
+					prisoner = no
+				}
+				job_mage = {
+					trait = sorcerer
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+		allow = {
+			OR = {
+				AND = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+				job_mage = {
+					trait = sorcerer
+					NOT = { has_character_modifier = drained }
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = {
+				if = {
+					limit = { job_mage = { NOT = { has_character_modifier = drained } } }
+					character_event = { id = magic.240 }
+				}
+				if = {
+					limit = {
+						job_mage = { has_character_modifier = drained }
+						trait = sorcerer
+					}
+					character_event = { id = magic.241 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}
+
+vassal_decisions = {
+	# send_child_to_aretuza = {
+		# potential = {
+			# NOT = { culture = wilderness }
+			# is_ruler = no
+			# is_female = yes
+			# OR = {
+				# is_child_of = FROM
+				# guardian = { character = FROM }
+			# }
+			# location = { county = { de_jure_liege_or_above = e_the_north } }
+			# has_character_modifier = magic_talent
+		# }
+		# allow = { scaled_wealth = 0.5 }
+		# effect = {
+			# add_trait = apprentice_sorcerer
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+			# b_aretuza = {
+				# holder_scope = {
+					# ROOT = { move_character = PREV }
+				# }
+			# }
+			# scaled_wealth = -0.5
+		# }
+		# ai_will_do = { factor = 0 }
+	# }
+	# send_child_to_ban_ard = {
+		# potential = {
+			# NOT = { culture = wilderness }
+			# is_ruler = no
+			# is_female = no
+			# OR = {
+				# is_child_of = FROM
+				# guardian = { character = FROM }
+			# }
+			# location = { county = { de_jure_liege_or_above = e_the_north } }
+			# has_character_modifier = magic_talent
+		# }
+		# allow = { scaled_wealth = 0.5 }
+		# effect = {
+			# add_trait = apprentice_sorcerer
+			# remove_character_modifier = magic_talent
+			# set_variable = { which = learning_magic value = 0 }
+			# b_akademia = {
+				# holder_scope = {
+					# ROOT = { move_character = PREV }
+				# }
+			# }
+			# scaled_wealth = -0.5
+		# }
+		# ai_will_do = { factor = 0 }
+	# }
+}

@@ -1,0 +1,787 @@
+namespace = regency
+
+################################################
+# Regent changes laws in kingdom
+################################################
+# Regent - Lower crown obligation
+character_event = {
+	id = regency.1
+	desc = EVTDESCregency.1
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = KING
+				OR = {
+					has_law = crown_obligation_1
+					has_law = crown_obligation_2
+					has_law = crown_obligation_3
+				}
+				ROOT = {
+					primary_title = {
+						kingdom = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = greedy }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 2.0 trait = charitable }
+		modifier = { factor = 2.0 trait = honest }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.1
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					OR = {
+						has_law = crown_obligation_1
+						has_law = crown_obligation_2
+						has_law = crown_obligation_3
+					}
+					ROOT = {
+						primary_title = {
+							kingdom = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = crown_obligation_1 }
+					add_law = crown_obligation_0
+				}
+				if = {
+					limit = { has_law = crown_obligation_2 }
+					add_law = crown_obligation_1
+				}
+				if = {
+					limit = { has_law = crown_obligation_3 }
+					add_law = crown_obligation_2
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.2 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.1
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent lowered crown obligation
+character_event = {
+	id = regency.2
+	desc = EVTDESCregency.2
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.2
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+# Regent - Lower crown levies
+character_event = {
+	id = regency.3
+	desc = EVTDESCregency.3
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = KING
+				OR = {
+					has_law = crown_levy_1
+					has_law = crown_levy_2
+					has_law = crown_levy_3
+				}
+				ROOT = {
+					primary_title = {
+						kingdom = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = craven }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 2.0 trait = charitable }
+		modifier = { factor = 2.0 trait = honest }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.3
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					OR = {
+						has_law = crown_levy_1
+						has_law = crown_levy_2
+						has_law = crown_levy_3
+					}
+					ROOT = {
+						primary_title = {
+							kingdom = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = crown_levy_1 }
+					add_law = crown_levy_0
+				}
+				if = {
+					limit = { has_law = crown_levy_2 }
+					add_law = crown_levy_1
+				}
+				if = {
+					limit = { has_law = crown_levy_3 }
+					add_law = crown_levy_2
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.4 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.3
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent lowered crown levies
+character_event = {
+	id = regency.4
+	desc = EVTDESCregency.4
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.4
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+# Regent - Raise tolerance
+character_event = {
+	id = regency.5
+	desc = EVTDESCregency.5
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = KING
+				OR = {
+					has_law = tolerance_0
+					has_law = tolerance_1
+				}
+				ROOT = {
+					primary_title = {
+						kingdom = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = tolerant }
+		modifier = { factor = 0.25 trait = elven }
+		modifier = { factor = 0.25 trait = dwarven }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 2.0 trait = racist }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.5
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					OR = {
+						has_law = tolerance_0
+						has_law = tolerance_1
+					}
+					ROOT = {
+						primary_title = {
+							kingdom = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = tolerance_1 }
+					add_law = tolerance_2
+				}
+				if = {
+					limit = { has_law = tolerance_0 }
+					add_law = tolerance_1
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.6 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.5
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent raised tolerance
+character_event = {
+	id = regency.6
+	desc = EVTDESCregency.6
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.6
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+# Regent - Lower tolerance
+character_event = {
+	id = regency.7
+	desc = EVTDESCregency.7
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = KING
+				OR = {
+					has_law = tolerance_1
+					has_law = tolerance_2
+				}
+				ROOT = {
+					primary_title = {
+						kingdom = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = racist }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 2.0 trait = tolerant }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.7
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = KING
+					OR = {
+						has_law = tolerance_1
+						has_law = tolerance_2
+					}
+					ROOT = {
+						primary_title = {
+							kingdom = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = tolerance_1 }
+					add_law = tolerance_0
+				}
+				if = {
+					limit = { has_law = tolerance_2 }
+					add_law = tolerance_1
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.8 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.7
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent lowered tolerance
+character_event = {
+	id = regency.8
+	desc = EVTDESCregency.8
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.8
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+
+################################################
+# Regent changes laws in empire
+################################################
+# Regent - Lower crown obligations
+character_event = {
+	id = regency.10
+	desc = EVTDESCregency.10
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = EMPEROR
+				OR = {
+					has_law = crown_obligation_1
+					has_law = crown_obligation_2
+					has_law = crown_obligation_3
+				}
+				ROOT = {
+					primary_title = {
+						empire = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = greedy }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 2.0 trait = charitable }
+		modifier = { factor = 2.0 trait = honest }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.10
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = EMPEROR
+					OR = {
+						has_law = crown_obligation_1
+						has_law = crown_obligation_2
+						has_law = crown_obligation_3
+					}
+					ROOT = {
+						primary_title = {
+							empire = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = crown_obligation_1 }
+					add_law = crown_obligation_0
+				}
+				if = {
+					limit = { has_law = crown_obligation_2 }
+					add_law = crown_obligation_1
+				}
+				if = {
+					limit = { has_law = crown_obligation_3 }
+					add_law = crown_obligation_2
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.11 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.10
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent lowered crown obligations
+character_event = {
+	id = regency.11
+	desc = EVTDESCregency.11
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.1
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+# Regent - Lower crown levies
+character_event = {
+	id = regency.12
+	desc = EVTDESCregency.12
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = EMPEROR
+				OR = {
+					has_law = crown_levy_1
+					has_law = crown_levy_2
+					has_law = crown_levy_3
+				}
+				ROOT = {
+					primary_title = {
+						empire = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = craven }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 2.0 trait = charitable }
+		modifier = { factor = 2.0 trait = honest }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.12
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = EMPEROR
+					OR = {
+						has_law = crown_levy_1
+						has_law = crown_levy_2
+						has_law = crown_levy_3
+					}
+					ROOT = {
+						primary_title = {
+							empire = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = crown_levy_1 }
+					add_law = crown_levy_0
+				}
+				if = {
+					limit = { has_law = crown_levy_2 }
+					add_law = crown_levy_1
+				}
+				if = {
+					limit = { has_law = crown_levy_3 }
+					add_law = crown_levy_2
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.13 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.12
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent lowered crown levies
+character_event = {
+	id = regency.13
+	desc = EVTDESCregency.13
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.13
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+# Regent - Raise tolerance
+character_event = {
+	id = regency.14
+	desc = EVTDESCregency.14
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = EMPEROR
+				OR = {
+					has_law = tolerance_0
+					has_law = tolerance_1
+				}
+				ROOT = {
+					primary_title = {
+						empire = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = racist }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 2.0 trait = tolerant }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.14
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = EMPEROR
+					OR = {
+						has_law = tolerance_0
+						has_law = tolerance_1
+					}
+					ROOT = {
+						primary_title = {
+							empire = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = tolerance_1 }
+					add_law = tolerance_2
+				}
+				if = {
+					limit = { has_law = tolerance_0 }
+					add_law = tolerance_1
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.15 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.14
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent raises tolerance
+character_event = {
+	id = regency.15
+	desc = EVTDESCregency.15
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.15
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}
+# Regent - Lower tolerance
+character_event = {
+	id = regency.16
+	desc = EVTDESCregency.16
+	picture = GFX_evt_courtiers_talking
+	
+	min_age = 15
+	prisoner = no
+	capable_only = yes
+	only_playable = yes
+	
+	trigger = {
+		is_landed = yes
+		has_minor_title = title_regent
+		NOT = { trait = content }
+		liege = {
+			higher_tier_than = DUKE
+			NOT = { has_character_flag = regent_changed_laws }
+			any_demesne_title = {
+				tier = EMPEROR
+				OR = {
+					has_law = tolerance_1
+					has_law = tolerance_2
+				}
+				ROOT = {
+					primary_title = {
+						empire = { title = PREVPREVPREV }
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+		modifier = { factor = 0.25 trait = ambitious }
+		modifier = { factor = 0.25 trait = racist }
+		modifier = { factor = 0.5 trait = arbitrary }
+		modifier = { factor = 0.5 trait = lunatic }
+		modifier = { factor = 2.0 trait = tolerant }
+		modifier = { factor = 3.0 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAregency.16
+		ai_chance = { factor = 100 }
+		liege = {
+			random_demesne_title = {
+				limit = {
+					tier = EMPEROR
+					OR = {
+						has_law = tolerance_1
+						has_law = tolerance_2
+					}
+					ROOT = {
+						primary_title = {
+							empire = { title = PREVPREVPREV }
+						}
+					}
+				}
+				if = {
+					limit = { has_law = tolerance_1 }
+					add_law = tolerance_0
+				}
+				if = {
+					limit = { has_law = tolerance_2 }
+					add_law = tolerance_1
+				}
+			}
+			hidden_tooltip = {
+				character_event = { id = regency.8 }
+				set_character_flag = regent_changed_laws
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBregency.16
+		ai_chance = { factor = 0 }
+	}
+}
+# Ruler - Regent lowered tolerance
+character_event = {
+	id = regency.17
+	desc = EVTDESCregency.17
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAregency.17
+		opinion = { who = FROM modifier = opinion_regent_changed_laws }
+	}
+}

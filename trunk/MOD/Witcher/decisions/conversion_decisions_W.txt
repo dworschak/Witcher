@@ -1,0 +1,172 @@
+decisions = {
+	convert_to_dwarf_religion = { # only dwarfs and halfdwarfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { religion = dwarven }
+			OR = {
+				trait = halfdwarf
+				trait = dwarven
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = dwarven
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_dwarf_culture = { # only dwarfs and halfdwarfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { culture = dwarven }
+			OR = {
+				trait = halfdwarf
+				trait = dwarven
+			}
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = dwarven
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_elf_religion = { # only elfs and halfelfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { religion = dana_meadbh }
+			OR = {
+				trait = halfelf
+				trait = elven
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = dana_meadbh
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_elf_culture = { # only elfs and halfelfs
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { culture = elven }
+			OR = {
+				trait = halfelf
+				trait = elven
+			}
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = elven
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_dryad_religion = { # only dryads
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { religion = dryad }
+			trait = dryad
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = dryad
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+	
+	convert_to_dryad_culture = { # only dryads
+		potential = {
+			NOT = { culture = wilderness }
+			NOT = { culture = dryad }
+			trait = dryad
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = dryad
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+}
