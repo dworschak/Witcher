@@ -1,34 +1,8 @@
 decisions = {
 	#Marriage decisions
-	toggle_marriage_decisions = {
-		potential = {
-			ai = no
-		}
-		effect = {
-			if = {
-				limit = {
-					NOT = { has_character_flag = enable_marriage_decisions }
-				}
-				hidden_tooltip = {
-					set_character_flag = enable_marriage_decisions
-					set_character_flag = enable_marriage_decisions_temp
-				}
-			}
-			if = {
-				limit = {
-					has_character_flag = enable_marriage_decisions
-					NOT = { has_character_flag = enable_marriage_decisions_temp }
-				}
-				hidden_tooltip = {
-					clr_character_flag = enable_marriage_decisions
-				}
-			}
-			clr_character_flag = enable_marriage_decisions_temp
-		}
-	}
 	marry_courtiers_human = {
 		potential = {
-			has_character_flag = enable_marriage_decisions
+			has_character_flag = marriage_decisions_open
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
@@ -42,6 +16,7 @@ decisions = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
+				is_consort = no
 				age = 15
 				NOT = { has_character_modifier = old_age }
 				is_female = yes
@@ -65,6 +40,7 @@ decisions = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
+				is_consort = no
 				age = 15
 				NOT = { has_character_modifier = old_age }
 				is_female = yes
@@ -108,7 +84,7 @@ decisions = {
 	}
 	marry_courtiers_dwarf = {
 		potential = {
-			has_character_flag = enable_marriage_decisions
+			has_character_flag = marriage_decisions_open
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
@@ -122,6 +98,7 @@ decisions = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
+				is_consort = no
 				age = 15
 				NOT = { has_character_modifier = old_age }
 				is_female = yes
@@ -145,6 +122,7 @@ decisions = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
+				is_consort = no
 				age = 15
 				NOT = { has_character_modifier = old_age }
 				is_female = yes
@@ -188,7 +166,7 @@ decisions = {
 	}
 	marry_courtiers_elf = {
 		potential = {
-			has_character_flag = enable_marriage_decisions
+			has_character_flag = marriage_decisions_open
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
@@ -202,6 +180,7 @@ decisions = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
+				is_consort = no
 				age = 15
 				NOT = { has_character_modifier = old_age }
 				is_female = yes
@@ -225,6 +204,7 @@ decisions = {
 			any_courtier = {
 				NOT = { dynasty = ROOT }
 				is_married = no
+				is_consort = no
 				age = 15
 				NOT = { has_character_modifier = old_age }
 				is_female = yes
@@ -272,7 +252,7 @@ decisions = {
 vassal_decisions = {
 	marry_courtier_human = {
 		from_potential = {
-			has_character_flag = enable_marriage_decisions
+			has_character_flag = marriage_decisions_open
 		}
 		potential = {
 			is_ruler = no
@@ -280,7 +260,10 @@ vassal_decisions = {
 			age = 15
 			OR = {
 				is_female = no
-				NOT = { has_character_modifier = old_age }
+				AND ={
+					NOT = { has_character_modifier = old_age }
+					is_consort = no
+				}
 			}
 			trait = human
 			NOT = { trait = witcher }
@@ -468,7 +451,7 @@ vassal_decisions = {
 	}
 	marry_courtier_dwarf = {
 		from_potential = {
-			has_character_flag = enable_marriage_decisions
+			has_character_flag = marriage_decisions_open
 		}
 		potential = {
 			is_ruler = no
@@ -476,7 +459,10 @@ vassal_decisions = {
 			age = 15
 			OR = {
 				is_female = no
-				NOT = { has_character_modifier = old_age }
+				AND ={
+					NOT = { has_character_modifier = old_age }
+					is_consort = no
+				}
 			}
 			trait = dwarven
 			NOT = { trait = witcher }
@@ -684,7 +670,7 @@ vassal_decisions = {
 	}
 	marry_courtier_elf = {
 		from_potential = {
-			has_character_flag = enable_marriage_decisions
+			has_character_flag = marriage_decisions_open
 		}
 		potential = {
 			is_ruler = no
@@ -692,7 +678,10 @@ vassal_decisions = {
 			age = 15
 			OR = {
 				is_female = no
-				NOT = { has_character_modifier = old_age }
+				AND ={
+					NOT = { has_character_modifier = old_age }
+					is_consort = no
+				}
 			}
 			trait = elven
 			NOT = { trait = witcher }

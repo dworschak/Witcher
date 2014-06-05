@@ -1,98 +1,359 @@
-# Crown level (de jure) laws
-# Laws ending with 0 will be default laws at game start
-
 de_jure_laws = {
-
-# CENTRALIZATION
-
-	centralization_0 = {
+	# CROWN OBLIGATION
+	# Min
+	crown_obligation_0 = { # Default
 		show_as_title = yes
-		group = centralization
+		group = crown_obligation
+		default = yes
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			has_law = crown_obligation_1
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = no
+			set_the_kings_peace = no
+			set_protected_inheritance = no
+		}
+	}
+	# Low
+	crown_obligation_1 = { # Can revoke titles
+		show_as_title = yes
+		group = crown_obligation
+		
+		feudal_opinion = -5
+		city_opinion = -5
+		temple_opinion = -5
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			OR = {
+				has_law = crown_obligation_0
+				has_law = crown_obligation_2
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_obligation_1 } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_obligation_0 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_obligation months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = yes
+			set_the_kings_peace = no
+			set_protected_inheritance = no
+		}
+	}
+	# Medium
+	crown_obligation_2 = { # Can revoke titles, vassals can't go to war with each other
+		show_as_title = yes
+		group = crown_obligation
+		
+		feudal_opinion = -10
+		city_opinion = -10
+		temple_opinion = -10
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			OR = {
+				has_law = crown_obligation_1
+				has_law = crown_obligation_3
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_obligation_1 } }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_obligation_1 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_obligation months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = yes
+			set_the_kings_peace = yes
+			set_protected_inheritance = no
+		}
+	}
+	# High
+	crown_obligation_3 = { # Can revoke titles, vassals can't go to war with each other, inheritnace is locked in realm
+		show_as_title = yes
+		group = crown_obligation
+		
+		feudal_opinion = -15
+		city_opinion = -15
+		temple_opinion = -15
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			has_law = crown_obligation_2
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_obligation_2 } }
+			modifier = { factor = 0.01 }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_obligation_2 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_obligation months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = yes
+			set_the_kings_peace = yes
+			set_protected_inheritance = yes
+		}
+	}
+	
+	# CROWN LEVY
+	# None
+	crown_levy_0 = { # Default
+		show_as_title = yes
+		group = crown_levy
 		default = yes
 		
 		feudal_opinion = 5
+		city_opinion = 5
+		temple_opinion = 5
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
 		
 		allow = {
-			holder_scope = { is_republic = no }
-			has_law = centralization_1
+			has_law = crown_levy_1
 		}
-		revoke_allowed = {
-			always = no
-		}
+		
 		ai_will_do = {
 			factor = 0
 		}
-		ai_will_revoke = {
-			factor = 0
-		}
+		
 		effect = {
 			hidden_tooltip = {
-				revoke_law = centralization_0
-				revoke_law = centralization_1
-				revoke_law = centralization_2
-				revoke_law = centralization_3
-				revoke_law = centralization_4
+				revoke_law = crown_levy_0
+				revoke_law = crown_levy_1
+				revoke_law = crown_levy_2
+				revoke_law = crown_levy_3
 			}
-			
 			set_appoint_generals = no
-#			set_appoint_regents = no
-			set_the_kings_peace = no
-			set_the_kings_full_peace = no
-			set_protected_inheritance = no
-			set_allow_title_revokation = no
-			# set_allow_free_infidel_revokation = no
-#			set_allow_free_revokation = no
 		}
 		
-		city_vassal_min_levy = 0.0
-		castle_vassal_min_levy = 0.0
-		temple_vassal_min_levy = 0.0
+		city_vassal_min_levy = 0
+		castle_vassal_min_levy = 0
+		temple_vassal_min_levy = 0
+		city_vassal_max_levy = 0
+		castle_vassal_max_levy = 0
+		temple_vassal_max_levy = 0
 	}
-	
-	centralization_1 = {
+	# Low
+	crown_levy_1 = { # Can appoint generals
 		show_as_title = yes
-		group = centralization
+		group = crown_levy
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			OR = {
+				has_law = crown_levy_0
+				has_law = crown_levy_2
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_levy_0 } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_levy_0 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_levy months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_levy_0
+				revoke_law = crown_levy_1
+				revoke_law = crown_levy_2
+				revoke_law = crown_levy_3
+			}
+			set_appoint_generals = yes
+		}
+		
+		city_vassal_min_levy = 0.05
+		castle_vassal_min_levy = 0.05
+		temple_vassal_min_levy = 0.05
+		city_vassal_max_levy = 0.00
+		castle_vassal_max_levy = 0.00
+		temple_vassal_max_levy = 0.00
+	}
+	# Medium
+	crown_levy_2 = { # Can appoint generals
+		show_as_title = yes
+		group = crown_levy
 		
 		feudal_opinion = -5
+		city_opinion = -5
+		temple_opinion = -5
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
 		
 		allow = {
 			OR = {
-				has_law = centralization_0
-				has_law = centralization_2
+				has_law = crown_levy_1
+				has_law = crown_levy_3
 			}
 		}
-		revoke_allowed = {
-			always = no
-		}			
+		
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 0
-				NOT = { has_law = centralization_0 }
-			}
-		}
-		ai_will_revoke = {
-			factor = 0
+			modifier = { factor = 0 NOT = { has_law = crown_levy_1 } }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
 			hidden_tooltip = {
 				if = { 
-					limit = {
-						has_law = centralization_0
-					}
+					limit = { has_law = crown_levy_1 }
 					any_de_jure_vassal = {
 						limit = {
-							OR = {
-								religion = ROOT
-								is_liege_or_above = ROOT
-							}
+							is_liege_or_above = ROOT
 						}
-						opinion = {
-							who = ROOT
-							modifier = opinion_increased_authority
-							months = 60
-						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_levy months = 60 }
 					}
 				}
 			}
@@ -100,77 +361,62 @@ de_jure_laws = {
 		
 		effect = {
 			hidden_tooltip = {
-				revoke_law = centralization_0
-				revoke_law = centralization_1
-				revoke_law = centralization_2
-				revoke_law = centralization_3
-				revoke_law = centralization_4
+				revoke_law = crown_levy_0
+				revoke_law = crown_levy_1
+				revoke_law = crown_levy_2
+				revoke_law = crown_levy_3
 			}
 			set_appoint_generals = yes
-#			set_appoint_regents = no
-			set_the_kings_peace = no
-			set_the_kings_full_peace = no
-			set_protected_inheritance = no
-			set_allow_title_revokation = no
-			# set_allow_free_infidel_revokation = no
-#			set_allow_free_revokation = no
 		}
 		
-		city_vassal_min_levy = 0.2
-		castle_vassal_min_levy = 0.2
-		temple_vassal_min_levy = 0.2
+		city_vassal_min_levy = 0.10
+		castle_vassal_min_levy = 0.10
+		temple_vassal_min_levy = 0.10
+		city_vassal_max_levy = 0.05
+		castle_vassal_max_levy = 0.05
+		temple_vassal_max_levy = 0.05
 	}
-	
-	centralization_2 = {
+	# High
+	crown_levy_3 = { # Can appoint generals
 		show_as_title = yes
-		group = centralization
+		group = crown_levy
 		
 		feudal_opinion = -10
+		city_opinion = -10
+		temple_opinion = -10
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
 		
 		allow = {
-			holder_scope = { 
-				is_republic = no 
-			}
-			OR = {
-				has_law = centralization_1
-				has_law = centralization_3
-			}
+			has_law = crown_levy_2
 		}
-		revoke_allowed = {
-			always = no
-		}			
+		
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 0.01
-			}
-			modifier = {
-				factor = 0
-				NOT = { has_law = centralization_1 }
-			}
-		}
-		ai_will_revoke = {
-			factor = 0
+			modifier = { factor = 0 NOT = { has_law = crown_levy_2 } }
+			modifier = { factor = 0.01 }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
 			hidden_tooltip = {
 				if = { 
-					limit = {
-						has_law = centralization_1
-					}
+					limit = { has_law = crown_levy_2 }
 					any_de_jure_vassal = {
 						limit = {
-							OR = {
-								religion = ROOT
-								is_liege_or_above = ROOT
-							}
+							is_liege_or_above = ROOT
 						}
-						opinion = {
-							who = ROOT
-							modifier = opinion_increased_authority
-							months = 60
-						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_levy months = 60 }
 					}
 				}
 			}
@@ -178,160 +424,71 @@ de_jure_laws = {
 		
 		effect = {
 			hidden_tooltip = {
-				revoke_law = centralization_0
-				revoke_law = centralization_1
-				revoke_law = centralization_2
-				revoke_law = centralization_3
-				revoke_law = centralization_4
+				revoke_law = crown_levy_0
+				revoke_law = crown_levy_1
+				revoke_law = crown_levy_2
+				revoke_law = crown_levy_3
 			}
 			set_appoint_generals = yes
-#			set_appoint_regents = no
-			set_the_kings_peace = yes
-			set_the_kings_full_peace = no
-			set_protected_inheritance = no
-			set_allow_title_revokation = yes
-			# set_allow_free_infidel_revokation = yes
-#			set_allow_free_revokation = no
 		}
 		
-		city_vassal_min_levy = 0.4
-		castle_vassal_min_levy = 0.4
-		temple_vassal_min_levy = 0.4
+		city_vassal_min_levy = 0.15
+		castle_vassal_min_levy = 0.15
+		temple_vassal_min_levy = 0.15
+		city_vassal_max_levy = 0.1
+		castle_vassal_max_levy = 0.1
+		temple_vassal_max_levy = 0.1
 	}
 	
-	centralization_3 = {
+	# TOLERANCE
+	# Intolerant
+	tolerance_0 = { # Can revoke infidels freely
 		show_as_title = yes
-		group = centralization
+		group = tolerance
 		
-		feudal_opinion = -20
+		temple_opinion = 10
+		infidel_opinion = -30
+		
+		potential = {
+			holder_scope = {
+				is_republic = no
+				trait = human
+			}
+		}
 		
 		allow = {
-			holder_scope = { 
-				is_republic = no 
-			}
-			OR = {
-				has_law = centralization_2
-				has_law = centralization_4
-			}
+			has_law = tolerance_1
 		}
-		revoke_allowed = {
-			always = no
-		}
+		
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 0.005
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					NOT = { has_law = centralization_2 }
-					NOT = { ruled_years = 20 }
-				}
-			}
-		}
-		ai_will_revoke = {
-			factor = 0
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0 holder_scope = { trait = tolerant } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = racist } }
 		}
 		
 		pass_effect = {
 			hidden_tooltip = {
 				if = { 
-					limit = {
-						has_law = centralization_2
-					}
+					limit = { has_law = tolerance_1 }
 					any_de_jure_vassal = {
 						limit = {
+							is_liege_or_above = ROOT
 							OR = {
-								religion = ROOT
-								is_liege_or_above = ROOT
+								trait = elven
+								trait = dwarven
+								trait = dryad
 							}
 						}
-						opinion = {
-							who = ROOT
-							modifier = opinion_increased_authority
-							months = 60
-						}
-					}
-				}
-			}
-		}
-		
-		effect = {
-		
-			hidden_tooltip = {
-				revoke_law = centralization_0
-				revoke_law = centralization_1
-				revoke_law = centralization_2
-				revoke_law = centralization_3
-				revoke_law = centralization_4
-			}
-			set_appoint_generals = yes
-#			set_appoint_regents = yes
-			set_the_kings_peace = yes
-			set_the_kings_full_peace = no
-			set_protected_inheritance = yes
-			set_allow_title_revokation = yes
-			# set_allow_free_infidel_revokation = yes
-#			set_allow_free_revokation = no
-		}
-		
-		city_vassal_min_levy = 0.6
-		castle_vassal_min_levy = 0.6
-		temple_vassal_min_levy = 0.6
-	}
-	
-	centralization_4 = {
-		show_as_title = yes
-		group = centralization
-		
-		feudal_opinion = -30
-		
-		allow = {
-			holder_scope = { 
-				is_republic = no 
-			}
-			has_law = centralization_3
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.001
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					NOT = { has_law = centralization_3 }
-					NOT = { ruled_years = 20 }
-				}
-			}
-		}
-		
-		ai_will_revoke = {
-			factor = 0
-		}
-		
-		pass_effect = {
-			hidden_tooltip = {
-				if = { 
-					limit = {
-						has_law = centralization_3
-					}
-					any_de_jure_vassal = {
-						limit = {
-							OR = {
-								religion = ROOT
-								is_liege_or_above = ROOT
-							}
-						}
-						opinion = {
-							who = ROOT
-							modifier = opinion_increased_authority
-							months = 60
-						}
+						opinion = { who = ROOT modifier = opinion_decreased_tolerance months = 60 }
 					}
 				}
 			}
@@ -339,46 +496,166 @@ de_jure_laws = {
 		
 		effect = {
 			hidden_tooltip = {
-				revoke_law = centralization_0
-				revoke_law = centralization_1
-				revoke_law = centralization_2
-				revoke_law = centralization_3
-				revoke_law = centralization_4
+				revoke_law = tolerance_0
+				revoke_law = tolerance_1
+				revoke_law = tolerance_2
 			}
-			set_appoint_generals = yes
-#			set_appoint_regents = yes
-			set_the_kings_peace = yes
-			set_the_kings_full_peace = yes
-			set_protected_inheritance = yes
-			set_allow_title_revokation = yes
 			set_allow_free_infidel_revokation = yes
-#			set_allow_free_revokation = yes
+			religion_flex = -0.25
+			culture_flex = -0.25
+			MODIFIER_RELIGION_FLEX = -0.25
+			MODIFIER_CULTURE_FLEX = -0.25
+		}
+	}
+	# Neutral
+	tolerance_1 = { # Default
+		show_as_title = yes
+		group = tolerance
+		default = yes
+		
+		potential = {
+			holder_scope = {
+				is_republic = no
+				trait = human
+			}
 		}
 		
-		city_vassal_min_levy = 0.8
-		castle_vassal_min_levy = 0.8
-		temple_vassal_min_levy = 0.8
+		allow = {
+			OR = {
+				has_law = tolerance_0
+				has_law = tolerance_2
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				holder_scope = { trait = racist }
+				has_law = tolerance_0
+			}
+			modifier = {
+				factor = 0
+				holder_scope = { trait = tolerant }
+				has_law = tolerance_2
+			}
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = tolerance_2 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+							OR = {
+								trait = elven
+								trait = dwarven
+								trait = dryad
+							}
+						}
+						opinion = { who = ROOT modifier = opinion_decreased_tolerance months = 60 }
+					}
+				}
+				if = { 
+					limit = { has_law = tolerance_0 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+							trait = racist
+						}
+						opinion = { who = ROOT modifier = opinion_increased_tolerance months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = tolerance_0
+				revoke_law = tolerance_1
+				revoke_law = tolerance_2
+			}
+			set_allow_free_infidel_revokation = no
+		}
+	}
+	# Tolerant
+	tolerance_2= {
+		show_as_title = yes
+		group = tolerance
+		
+		temple_opinion = -10
+		
+		potential = {
+			holder_scope = {
+				is_republic = no
+				trait = human
+			}
+		}
+		
+		allow = {
+			has_law = tolerance_1
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0 holder_scope = { trait = racist } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 0.8 holder_scope = { trait = greedy } }
+			modifier = { factor = 1.2 holder_scope = { trait = charitable } }
+			modifier = { factor = 0.8 holder_scope = { trait = envious } }
+			modifier = { factor = 1.2 holder_scope = { trait = kind } }
+			modifier = { factor = 0.8 holder_scope = { trait = proud } }
+			modifier = { factor = 1.2 holder_scope = { trait = humble } }
+			modifier = { factor = 4 holder_scope = { trait = tolerant } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = tolerance_1 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+							trait = racist
+						}
+						opinion = { who = ROOT modifier = opinion_increased_tolerance months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = tolerance_0
+				revoke_law = tolerance_1
+				revoke_law = tolerance_2
+			}
+			set_allow_free_infidel_revokation = no
+			RELIGION_FLEX = 0.25
+			CULTURE_FLEX = 0.25
+		}
 	}
 	
-# INVESTITURE
-
-	# Papal Investiture
-	investiture_law_0 = {
+	# INVESTITURE
+	# Papal
+	investiture_law_0 = { # Default
 		show_as_title = yes
 		group = investiture_law
 		default = yes
+		
 		potential = {
 			always = no
 		}
-		revoke_allowed = {
-			always = no
-		}			
+		
 		ai_will_do = {
 			factor = 0
 		}
-		ai_will_revoke = {
-			factor = 0
-		}
+		
 		effect = {
 			hidden_tooltip = {
 				revoke_law = investiture_law_0
@@ -387,26 +664,32 @@ de_jure_laws = {
 			set_investiture = head
 		}
 	}
-	
-	# Free Investiture
+	# Free
 	investiture_law_1 = {
 		show_as_title = yes
-		rel_head_opinion = -30
-		free_invest_vassal_opinion = 10 # vassals with bishops will appreciate this law
-		temple_all_opinion = 10 # Bishops will tend to be more loyal to the Crown
 		group = investiture_law
+		
+		rel_head_opinion = -30
+		free_invest_vassal_opinion = 10
+		temple_all_opinion = 10
+		
 		potential = {
 			always = no
 		}
-		revoke_allowed = {
-			always = no
-		}			
+		
 		ai_will_do = {
-			factor = 0
+			factor = 1
+			modifier = { factor = 0.001 } # Rare to do this
+			
+			modifier = {
+				factor = 0
+				OR = {
+					holder_scope = { NOT = { trait = cynical } }
+					NOT = { has_law = investiture_law_0 }
+				}
+			}
 		}
-		ai_will_revoke = {
-			factor = 0
-		}
+		
 		effect = {
 			hidden_tooltip = {
 				revoke_law = investiture_law_0
@@ -415,204 +698,4 @@ de_jure_laws = {
 			set_investiture = any
 		}
 	}
-	
-#Tolerance
-
-	tolerance_0 = {
-		show_as_title = yes
-		group = tolerance
-		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 0
-		}
-		ai_will_revoke = {
-			factor = 0
-		}
-		effect = {
-			hidden_tooltip = {
-				revoke_law = tolerance_0
-				revoke_law = tolerance_1
-				revoke_law = tolerance_2
-			}
-		}
-	}
-	
-	tolerance_1 = {
-		show_as_title = yes
-		group = tolerance
-		default = yes
-		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		allow = {
-			OR = {
-				holder_scope = {
-					OR = {
-						AND = {
-							lower_tier_than = emperor
-							prestige = 500
-						}
-						prestige = 750
-					}
-					NOT = { trait = content }
-					OR = {
-						trait = arbitrary
-						trait = ambitious
-						trait = elusive_shadow
-						trait = grey_eminence
-						trait = zealous
-		
-					}
-					NOT = {
-						any_vassal = {
-							higher_tier_than = count
-							prisoner = no
-							NOT = { opinion = { who = ROOT value = -15 } }
-						}
-					}
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = { has_law = tolerance_0 }
-			}
-		}
-		ai_will_revoke = {
-			factor = 0
-		}
-		pass_effect = {
-			hidden_tooltip = {
-				if = { 
-					limit = {
-						has_law = tolerance_0
-					}
-					holder_scope = {
-						any_vassal = {
-							limit = {
-								crownlaw_title = { title = ROOT }
-							}
-							opinion = {
-								who = ROOT
-								modifier = opinion_increased_authority
-								months = 150
-							}
-						}
-					}
-				}
-			}
-		}
-		effect = {
-			hidden_tooltip = {
-				revoke_law = tolerance_0
-				revoke_law = tolerance_1
-				revoke_law = tolerance_2
-			}
-		}
-	}
-	
-	tolerance_2 = {
-		show_as_title = yes
-		group = tolerance
-		
-		feudal_opinion = -10
-		temple_opinion = 10
-		infidel_opinion = -25
-		
-		potential = {
-			holder_scope = { is_republic = no }
-		}
-		allow = {
-			holder_scope = {
-				OR = {
-					AND = {
-						lower_tier_than = emperor
-						prestige = 750
-					}
-					prestige = 1000
-				}
-				NOT = { trait = content }
-				NOT = { trait = kind }
-				NOT = { trait = just }
-				NOT = { trait = charitable }
-				OR = {
-					trait = cruel
-					trait = ambitious
-					trait = elusive_shadow
-					trait = grey_eminence
-					trait = zealous
-					trait = arbitrary
-				}
-				NOT = {
-					any_vassal = {
-						religion = ROOT
-						higher_tier_than = count
-						prisoner = no
-						NOT = { opinion = { who = ROOT value = -10 } }
-					}
-				}
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 0
-			modifier = {
-				factor = 1
-				holder_scope = {
-					OR = {
-						trait = cruel
-						trait = lunatic
-						trait = arbitrary
-					}
-				}
-			}
-			modifier = {
-				factor = 0
-				NOT = { any_vassal = { is_heresy_of = ROOT } }
-				NOT = { any_vassal = { is_parent_religion = ROOT } }
-				NOT = { any_vassal = { NOT = { religion_group = ROOT } } }
-			}
-		}
-		ai_will_revoke = {
-			factor = 0
-		}
-		pass_effect = {
-			hidden_tooltip = {
-				holder_scope = {
-					any_vassal = {
-						limit = {
-							crownlaw_title = { title = ROOT }
-						}
-						opinion = {
-							who = ROOT
-							modifier = opinion_increased_authority
-							months = 240
-						}
-					}
-				}
-			}
-		}
-		effect = {
-			hidden_tooltip = {
-				revoke_law = tolerance_0
-				revoke_law = tolerance_1
-				revoke_law = tolerance_2
-			}
-		}
-	}
-	
 }

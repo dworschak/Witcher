@@ -1,0 +1,49 @@
+decisions = {
+	restore_hierarch_in_wiecznego_ognia = {
+		is_high_prio = yes
+	
+		potential = {
+			is_playable = yes
+			independent = yes
+			has_dlc = "Sons of Abraham"
+			religion = eternal_fire
+			controls_religion = no
+			c_wiecznego_ognia = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
+					}
+					k_eternal_fire = {
+						holder_scope = {
+							NOT = { character = PREVPREV }
+							NOT = { is_vassal_or_below = PREVPREV }
+						}
+					}
+				}
+			}
+		}
+		
+		effect = {
+			piety = 1000
+			k_eternal_fire = {
+				holder_scope = {
+					c_wiecznego_ognia = { grant_title = PREV }
+					opinion = { who = ROOT modifier = opinion_restored_to_wiecznego_ognia }
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					any_demesne_province = {
+						NOT = { province_id = 333 }
+					}
+				}
+			}
+		}
+	}
+}

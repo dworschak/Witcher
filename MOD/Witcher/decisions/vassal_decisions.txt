@@ -4,9 +4,8 @@ vassal_decisions = {
 	vassal_castrate_decision = {
 		from_potential = {
 			OR = {
-				trait = cruel
-				trait = lunatic
-				trait = impaler
+				ai = yes
+				has_character_flag = prisoner_decisions_open
 			}
 		}
 		potential = {
@@ -72,43 +71,14 @@ vassal_decisions = {
 				}
 			}
 		}
-		revoke_allowed = {
-			always = no
-		}
 		ai_will_do = {
 			factor = 1
-			
-			modifier = {
+			modifier = { factor = 0.2 FROM = { NOT = { trait = cruel } } }
+			modifier = { factor = 0.2 FROM = { NOT = { trait = impaler } } }
+			modifier = { factor = 0.2 FROM = { NOT = { trait = lunatic } } }
+			modifier = { factor = 0.1 } # Less likely to do it
+			modifier = { #Is your enemy and can enforce a victory
 				factor = 0
-				reverse_opinion = { who = FROM value = 40 }
-			}
-			modifier = {
-				factor = 0
-				FROM = { 
-					OR = {
-						trait = kind 
-						trait = just
-					}
-				}
-			}
-			modifier = {
-				factor = 0.2 # Less likely to do it
-			}
-			modifier = {
-				factor = 0.1 #Enemy has your relative
-				FROM = {
-					any_current_enemy = {
-						dynasty = ROOT
-						is_close_relative = ROOT
-						any_courtier = {
-							is_close_relative = FROM
-							dynasty = FROM
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 0 #Is your enemy and can enforce a victory
 				FROM = {
 					any_current_enemy = {
 						character = ROOT
@@ -121,12 +91,15 @@ vassal_decisions = {
 	vassal_blinding_decision = {
 		from_potential = {
 			OR = {
-				trait = cruel
-				trait = lunatic
-				trait = impaler
+				ai = yes
+				has_character_flag = prisoner_decisions_open
 			}
 		}
 		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = prisoner_decisions_open
+			}
 			NOT = { culture = wilderness }
 			has_dlc = "Legacy of Rome"
 			prisoner = yes
@@ -179,16 +152,9 @@ vassal_decisions = {
 				}
 			}
 		}
-		revoke_allowed = {
-			always = no
-		}
 		ai_will_do = {
 			factor = 1
-			
-			modifier = {
-				factor = 0
-				reverse_opinion = { who = FROM value = 40 }
-			}
+			modifier = { factor = 0 reverse_opinion = { who = FROM value = 40 } }
 			modifier = {
 				factor = 0
 				FROM = { 
@@ -198,11 +164,12 @@ vassal_decisions = {
 					}
 				}
 			}
-			modifier = {
-				factor = 0.4 # Less likely to do it
-			}
-			modifier = {
-				factor = 0.1 #Enemy has your relative
+			modifier = { factor = 0.2 FROM = { NOT = { trait = cruel } } }
+			modifier = { factor = 0.2 FROM = { NOT = { trait = impaler } } }
+			modifier = { factor = 0.2 FROM = { NOT = { trait = lunatic } } }
+			modifier = { factor = 0.1 } # Less likely to do it
+			modifier = { #Enemy has your relative
+				factor = 0.1
 				FROM = {
 					any_current_enemy = {
 						dynasty = ROOT
@@ -214,101 +181,8 @@ vassal_decisions = {
 					}
 				}
 			}
-			modifier = {
-				factor = 2
-				is_pretender = yes
-				FROM = {
-					OR = {
-						is_pretender = yes
-						is_primary_heir = yes
-					}
-				}
-			}
-			modifier = {
-				factor = 0 #Is your enemy and can enforce a victory
-				FROM = {
-					any_current_enemy = {
-						character = ROOT
-					}
-				}
-			}
-		}
-	}
-	
-	vassal_sacrifice_decision = { 
-		from_potential = {
-			religion = spider
-		}
-		potential = {
-			NOT = { culture = wilderness }
-			prisoner = yes
-			age = 15
-			host = { character = FROM }
-		}
-		allow = {
-			prisoner = yes
-		}
-		effect = {
-			any_liege = {
-				limit = { 
-					ai = no
-					NOT = { character = FROM }
-				}
-				character_event = { id = religious.1 } # the liege of poor guy who got sacrificed if he is player
-			}
-			hidden_tooltip = {
-				FROM = {
-					character_event = { id = religious.2 } # the character who made the sacrifice
-				}
-				if = {
-					limit = { FROM = { NOT = { dynasty = ROOT } } }
-					any_dynasty_member = {
-						opinion = {
-							modifier = opinion_sacrificed_family
-							who = FROM
-						}
-					}
-				}
-			}
-			death = {
-				death_reason = death_sacrificed
-				killer = FROM
-			}
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.4 #Decrease chance AI will do this
-			}
-			modifier = {
-				factor = 0.6
-				trait = cynical
-			}
-			modifier = {
-				factor = 0.6
-				trait = slothful
-			}
-			modifier = {
-				factor = 1.2
-				trait = zealous
-			}
-			modifier = {
-				factor = 1.1
-				trait = wroth
-			}
-			modifier = {
-				factor = 1.1
-				trait = cruel
-			}
-			modifier = {
-				factor = 1.1
-				trait = impaler
-			}
-			modifier = {
-				factor = 0 #Is your enemy and can enforce a victory
+			modifier = { #Is your enemy and can enforce a victory
+				factor = 0
 				FROM = {
 					any_current_enemy = {
 						character = ROOT

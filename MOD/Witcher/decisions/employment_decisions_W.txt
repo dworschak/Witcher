@@ -1,0 +1,373 @@
+decisions = {
+	employ_priest_female = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = employment_decisions_open
+			}
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+			OR = {
+				religion = melitele
+				religion = freya
+			}
+		}
+		allow = {
+			piety = 5
+		}
+		effect = {
+			piety = -5
+			create_random_priest = {
+				random_traits = yes
+				dynasty = random
+				female = yes
+			}
+			new_character = {
+				change_learning = 2
+				remove_trait = inbred
+				remove_trait = imbecile
+				character_event = { id = racial.1 }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				job_spiritual = {
+					learning = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				any_vassal = {
+					learning = 10
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+			modifier = {
+				factor = 0
+				any_courtier = {
+					learning = 10
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+	}
+	
+	employ_soldier = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = employment_decisions_open
+			}
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+		}
+		allow = {
+			scaled_wealth = 0.2
+		}
+		effect = {
+			scaled_wealth = -0.2
+			create_random_soldier = {
+				random_traits = yes
+				dynasty = random
+				female = no
+			}
+			new_character = {
+				change_martial = 2
+				remove_trait = inbred
+				remove_trait = imbecile
+				random_list = {
+					50 = { add_trait = trained_warrior }
+					50 = { add_trait = skilled_warrior }
+				}
+				character_event = { id = racial.1 }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { scaled_wealth = 0.6 }
+			}
+			modifier = {
+				factor = 0
+				job_marshal = {
+					martial = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				any_vassal = {
+					martial = 10
+					is_female = no
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+			modifier = {
+				factor = 0
+				any_courtier = {
+					martial = 10
+					is_female = no
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+	}
+	
+	employ_spy = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = employment_decisions_open
+			}
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+		}
+		allow = {
+			scaled_wealth = 0.2
+		}
+		effect = {
+			scaled_wealth = -0.2
+			create_random_intriguer = {
+				random_traits = yes
+				dynasty = random
+			}
+			new_character = {
+				change_intrigue = 2
+				remove_trait = inbred
+				remove_trait = imbecile
+				character_event = { id = racial.1 }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { scaled_wealth = 0.6 }
+			}
+			modifier = {
+				factor = 0
+				job_spymaster = {
+					intrigue = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				any_vassal = {
+					intrigue = 10
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+			modifier = {
+				factor = 0
+				any_courtier = {
+					intrigue = 10
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+	}
+	
+	employ_diplomat = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = employment_decisions_open
+			}
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+		}
+		allow = {
+			scaled_wealth = 0.2
+		}
+		effect = {
+			scaled_wealth = -0.2
+			create_random_diplomat = {
+				random_traits = yes
+				dynasty = random
+				female = no
+			}
+			new_character = {
+				change_diplomacy = 2
+				remove_trait = inbred
+				remove_trait = imbecile
+				character_event = { id = racial.1 }
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { scaled_wealth = 0.6 }
+			}
+			modifier = {
+				factor = 0
+				job_chancellor = {
+					diplomacy = 10
+				}
+			}
+			modifier = {
+				factor = 0
+				any_vassal = {
+					diplomacy = 10
+					is_female = no
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+			modifier = {
+				factor = 0
+				any_courtier = {
+					diplomacy = 10
+					is_female = no
+					age = 15
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+		}
+	}
+	
+	employ_witcher = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = employment_decisions_open
+			}
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+			witcher = { is_alive = yes }
+			any_demesne_province = { 
+				OR = {
+					has_province_modifier = vampires
+					has_province_modifier = werewolves
+					has_province_modifier = kikimoras
+					has_province_modifier = hellhounds
+					has_province_modifier = rotfiends
+					has_province_modifier = drowners
+					has_province_modifier = nekkers
+				}
+			}
+		}
+		allow = {
+			NOT = { any_courtier = { trait = witcher } }
+			scaled_wealth = 0.5
+			custom_tooltip = {
+				text = already_invited_witcher
+				hidden_tooltip = {
+					NOT = { has_character_flag = invited_witcher }
+				}
+			}
+		}
+		effect = {
+			scaled_wealth = -0.5
+			set_character_flag = invited_witcher
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 trait = racist }
+			modifier = { factor = 0 NOT = { scaled_wealth = 1.0 } }
+		}
+	}
+	
+	employ_sorcerer = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = employment_decisions_open
+			}
+			NOT = { culture = wilderness }
+			is_ruler = yes
+			mercenary = no
+			NOT = { any_demesne_title = { culture = magic } }
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+			OR = {
+				ai = no
+				higher_tier_than = count
+			}
+			OR = {
+				b_aretuza = {
+					holder_scope = {
+						any_courtier = {
+							trait = sorcerer
+							is_adult = yes
+							NOT = { any_ward = { always = yes } }
+							is_ruler = no
+						}
+					}
+				}
+				b_akademia = {
+					holder_scope = {
+						any_courtier = {
+							trait = sorcerer
+							is_adult = yes
+							NOT = { any_ward = { always = yes } }
+							is_ruler = no
+						}
+					}
+				}
+			}
+		}
+		allow = {
+			scaled_wealth = 1.0
+			NOT = { any_courtier = { trait = sorcerer } }
+			NOT = { any_vassal = { trait = sorcerer } }
+		}
+		effect = {
+			scaled_wealth = -1.0
+			hidden_tooltip = { character_event = { id = magic.100 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { scaled_wealth = 2.0 } }
+		}
+	}
+}
