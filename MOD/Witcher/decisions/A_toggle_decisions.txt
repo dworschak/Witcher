@@ -1,0 +1,320 @@
+decisions = {
+	open_employment_decisions = {
+		potential = {
+			ai = no
+			NOT = { has_character_flag = employment_decisions_open }
+		}
+		effect = { set_character_flag = employment_decisions_open }
+	}
+	close_employment_decisions = {
+		potential = {
+			ai = no
+			has_character_flag = employment_decisions_open
+		}
+		effect = { clr_character_flag = employment_decisions_open }
+	}
+	
+	open_marriage_decisions = {
+		potential = {
+			ai = no
+			NOT = { has_character_flag = marriage_decisions_open }
+			OR = {
+				AND = {
+					any_courtier = {
+						NOT = { dynasty = ROOT }
+						is_married = no
+						age = 15
+						is_female = no
+						trait = human
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+					any_courtier = {
+						NOT = { dynasty = ROOT }
+						is_married = no
+						is_consort = no
+						age = 15
+						NOT = { has_character_modifier = old_age }
+						is_female = yes
+						trait = human
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+				}
+				AND = {
+					any_courtier = {
+						NOT = { dynasty = ROOT }
+						is_married = no
+						age = 15
+						is_female = no
+						trait = dwarven
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+					any_courtier = {
+						NOT = { dynasty = ROOT }
+						is_married = no
+						is_consort = no
+						age = 15
+						NOT = { has_character_modifier = old_age }
+						is_female = yes
+						trait = dwarven
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+				}
+				AND = {
+					any_courtier = {
+						NOT = { dynasty = ROOT }
+						is_married = no
+						age = 15
+						is_female = no
+						trait = elven
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+					any_courtier = {
+						NOT = { dynasty = ROOT }
+						is_married = no
+						is_consort = no
+						age = 15
+						NOT = { has_character_modifier = old_age }
+						is_female = yes
+						trait = elven
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+				}
+				AND = {
+					any_courtier = {
+						is_ruler = no
+						is_married = no
+						age = 15
+						OR = {
+							is_female = no
+							AND ={
+								NOT = { has_character_modifier = old_age }
+								is_consort = no
+							}
+						}
+						OR = {
+							trait = human
+							trait = dwarven
+							trait = elven
+						}
+						NOT = { trait = witcher }
+						NOT = { trait = druid }
+						NOT = { trait = sorcerer }
+					}
+				}
+			}
+		}
+		effect = { set_character_flag = marriage_decisions_open }
+	}
+	close_marriage_decisions = {
+		potential = {
+			ai = no
+			has_character_flag = marriage_decisions_open
+		}
+		effect = { clr_character_flag = marriage_decisions_open }
+	}
+	
+	open_spell_decisions = {
+		potential = {
+			ai = no
+			NOT = { has_character_flag = spell_decisions_open }
+			OR = {
+				job_mage = {
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+				AND = {
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+					prisoner = no
+					NOT = { trait = incapable }
+				}
+			}
+			OR = {
+				# Heal spell requirements
+				trait = ill
+				trait = pneumonic
+				trait = syphilitic
+				trait = leper
+				trait = has_tuberculosis
+				trait = has_typhoid_fever
+				trait = has_typhus
+				trait = has_bubonic_plague
+				trait = has_measles
+				trait = has_small_pox
+				trait = has_aztec_disease
+				trait = wounded
+				trait = maimed
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+				# Glamour spell requirements
+				AND = {
+					NOT = { trait = fair }
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				AND = {
+					trait = harelip
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				AND = {
+					trait = hunchback
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				AND = {
+					trait = lisp
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				AND = {
+					trait = stutter
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				AND = {
+					trait = ugly
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				AND = {
+					trait = dwarf
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				# Protection spell requirements
+				NOT = { has_character_modifier = protection_spell }
+				# Siege spell requirements
+				AND = {
+					siege = { is_attacker = yes }
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				job_mage = { siege = { is_attacker = yes } }
+				# Battle spell requirements
+				AND = {
+					in_battle = yes
+					OR = {
+						trait = sorcerer
+						trait = source
+					}
+				}
+				job_mage = { in_battle = yes }
+			}
+		}
+		effect = { set_character_flag = spell_decisions_open }
+	}
+	close_spell_decisions = {
+		potential = {
+			ai = no
+			has_character_flag = spell_decisions_open
+		}
+		effect = { clr_character_flag = spell_decisions_open }
+	}
+	
+	open_prisoner_decisions = {
+		potential = {
+			ai = no
+			NOT = { has_character_flag = prisoner_decisions_open }
+			any_courtier = {
+				prisoner = yes
+				host = { character = ROOT }
+				OR = {
+					AND = {
+						has_dlc = "Legacy of Rome"
+						NOT = { trait = blinded }
+					}
+					AND = {
+						has_dlc = "Legacy of Rome"
+						is_female = no
+						NOT = { trait = eunuch }
+					}
+					ROOT = { religion = spider }
+					AND = {
+						any_claim = { 
+							OR = {
+								holder_scope = { character = ROOT }
+								ROOT = { any_claim = { title = PREVPREV } }
+							}
+						}
+					}
+					OR = {
+						trait = gwyhyr_sword
+						trait = nehalenias_mirror
+						trait = purple_living_bone
+						trait = conynhaela
+						trait = purple_living_bone_and_conynhaela
+					}
+				}
+			}
+		}
+		effect = { set_character_flag = prisoner_decisions_open }
+	}
+	close_prisoner_decisions = {
+		potential = {
+			ai = no
+			has_character_flag = prisoner_decisions_open
+		}
+		effect = { clr_character_flag = prisoner_decisions_open }
+	}
+	
+	open_edict_decisions = {
+		potential = {
+			ai = no
+			NOT = { has_character_flag = edict_decisions_open }
+			OR = {
+				trait = elven
+				trait = sorcerer
+			}
+			crownlaw_title = {
+				holder_scope = {
+					character = ROOT
+					is_republic = no
+				}
+			}
+		}
+		effect = { set_character_flag = edict_decisions_open }
+	}
+	close_edict_decisions = {
+		potential = {
+			ai = no
+			has_character_flag = edict_decisions_open
+		}
+		effect = { clr_character_flag = edict_decisions_open }
+	}
+}

@@ -1,0 +1,77 @@
+decisions = {
+	change_crown_obligation = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = edict_decisions_open
+			}
+			OR = { # Only for Immortals
+				trait = elven
+				trait = sorcerer
+			}
+			crownlaw_title = {
+				holder_scope = {
+					character = ROOT
+					is_republic = no
+				}
+			}
+		}
+		allow = {
+			prestige = 100
+			NOT = { has_character_modifier = edict_timer }
+		}
+		effect = {
+			character_event = { id = edict.1 }
+		}
+	}
+	
+	change_crown_levy = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = edict_decisions_open
+			}
+			OR = { # Only for Immortals
+				trait = elven
+				trait = sorcerer
+			}
+			crownlaw_title = {
+				holder_scope = {
+					character = ROOT
+					is_republic = no
+				}
+			}
+		}
+		allow = {
+			prestige = 100
+			NOT = { has_character_modifier = edict_timer }
+		}
+		effect = {
+			character_event = { id = edict.2 }
+		}
+	}
+	
+	change_tolerance = {
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = edict_decisions_open
+			}
+			NOT = { trait = elven } # Non-humans don't have Tolernace Law
+			trait = sorcerer
+			crownlaw_title = {
+				holder_scope = {
+					character = ROOT
+					is_republic = no
+				}
+			}
+		}
+		allow = {
+			prestige = 100
+			NOT = { has_character_modifier = edict_timer }
+		}
+		effect = {
+			character_event = { id = edict.3 }
+		}
+	}
+}
