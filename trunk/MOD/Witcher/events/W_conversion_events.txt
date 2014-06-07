@@ -1,0 +1,670 @@
+namespace = conversion
+
+################################################
+# Culture and religion conversions
+################################################
+# Racist ruler converts non-human province - Massacer or oppression
+province_event = {
+	id = conversion.1
+	desc = EVTDESCconversion.1
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = racist
+			NOT = { trait = tolerant }
+			NOT = { culture = ROOT }
+			liege = { NOT = { culture = ROOT } }
+			crownlaw_title = { NOT = { has_law = tolerance_2 } }
+		}
+		NOT = { has_province_modifier = non_human_slaughter }
+		NOT = { has_province_modifier = non_human_oppresion }
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.5 owner = { religion = eternal_fire } }
+		modifier = {
+			factor = 0.5
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = { # Slaughter non-humans
+		name = EVTOPTAconversion.1
+		owner = { reverse_culture = ROOT }
+		owner = { reverse_religion = ROOT }
+		add_province_modifier = { name = non_human_slaughter duration = 3650 }
+	}
+	option = { # Take it slow
+		name = EVTOPTBconversion.1
+		add_province_modifier = { name = non_human_oppresion duration = -1 }
+	}
+}
+# Racist ruler converts non-human province - Oppression
+province_event = {
+	id = conversion.2
+	desc = EVTDESCconversion.2
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = racist
+			NOT = { trait = tolerant }
+			NOT = { culture = ROOT }
+			liege = { NOT = { culture = ROOT } }
+			crownlaw_title = { has_law = tolerance_2 }
+		}
+		NOT = { has_province_modifier = non_human_oppresion }
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.5 owner = { religion = eternal_fire } }
+		modifier = {
+			factor = 0.5
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAconversion.2
+		add_province_modifier = { name = non_human_oppresion duration = -1 }
+	}
+}
+# Racist ruler's opression yield results
+province_event = {
+	id = conversion.3
+	desc = EVTDESCconversion.3
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = racist
+			NOT = { trait = tolerant }
+			NOT = { culture = ROOT }
+		}
+		has_province_modifier = non_human_oppresion
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.7 owner = { religion = eternal_fire } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAconversion.3
+		remove_province_modifier = non_human_oppresion
+		owner = { reverse_culture = ROOT }
+		owner = { reverse_religion = ROOT }
+	}
+}
+# Eternal Fire zealot purges non-humans
+province_event = {
+	id = conversion.10
+	desc = EVTDESCconversion.10
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		OR = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			trait = zealous
+			religion = eternal_fire
+			NOT = { culture = ROOT }
+			liege = { NOT = { culture = ROOT } }
+			crownlaw_title = { NOT = { has_law = tolerance_2 } }
+		}
+		NOT = { has_province_modifier = non_human_oppresion }
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = { factor = 0.9 owner = { trait = wroth } }
+		modifier = { factor = 0.9 owner = { trait = cruel } }
+		modifier = { factor = 0.9 owner = { trait = proud } }
+		modifier = { factor = 0.5 owner = { trait = racist } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				ROOT = { owner = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAconversion.10
+		owner = { reverse_culture = ROOT }
+		owner = { reverse_religion = ROOT }
+		add_province_modifier = { name = non_human_slaughter duration = 3650 }
+		owner = { piety = 50 }
+	}
+}
+# Elves migrate in province
+province_event = {
+	id = conversion.20
+	desc = EVTDESCconversion.20
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = {
+			culture = elven
+			religion = dana_meadbh
+		}
+		owner = {
+			culture = elven
+			religion = dana_meadbh
+			OR = {
+				trait = elven
+				trait = halfelf
+			}
+			top_liege = {
+				culture = elven
+				religion = dana_meadbh
+				OR = {
+					trait = elven
+					trait = halfelf
+				}
+			}
+		}
+		any_neighbor_province = {
+			culture = elven
+			religion = dana_meadbh
+			has_owner = yes
+			owner = {
+				culture = elven
+				religion = dana_meadbh
+				OR = {
+					trait = elven
+					trait = halfelf
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+	}
+	
+	option = {
+		name = EVTOPTAconversion.20
+		culture = elven
+		religion = dana_meadbh
+	}
+}
+# Dwarven migrate in province
+province_event = {
+	id = conversion.30
+	desc = EVTDESCconversion.30
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = {
+			culture = dwarven
+			religion = dwarven
+		}
+		owner = {
+			culture = dwarven
+			religion = dwarven
+			OR = {
+				trait = dwarven
+				trait = halfdwarf
+			}
+			top_liege = {
+				culture = dwarven
+				religion = dwarven
+				OR = {
+					trait = dwarven
+					trait = halfdwarf
+				}
+			}
+		}
+		any_neighbor_province = {
+			culture = dwarven
+			religion = dwarven
+			has_owner = yes
+			owner = {
+				culture = dwarven
+				religion = dwarven
+				OR = {
+					trait = dwarven
+					trait = halfdwarf
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+	}
+	
+	option = {
+		name = EVTOPTAconversion.30
+		culture = dwarven
+		religion = dwarven
+	}
+}
+
+################################################
+# Culture conversions
+################################################
+# Generic province culture change
+province_event = {
+	id = conversion.100
+	desc = EVTDESCconversion.100
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = {
+			culture = elven
+			culture = dwarven
+		}
+		owner = {
+			top_liege = { culture = PREV }
+			NOT = { culture = ROOT }
+		}
+		any_neighbor_province = {
+			has_owner = yes
+			ROOT = { owner = { culture = PREVPREV } }
+			owner = { ROOT = { owner = { culture = PREVPREV } } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+	}
+	
+	option = {
+		name = EVTOPTAconversion.100
+		owner = {
+			reverse_culture = ROOT
+		}
+	}
+}
+
+################################################
+# Religion conversions
+################################################
+# Generic province religion change
+province_event = {
+	id = conversion.200
+	desc = EVTDESCconversion.200
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = {
+			religion = dana_meadbh
+			religion = dwarven
+		}
+		owner = {
+			top_liege = { religion = PREV }
+			NOT = { religion = ROOT }
+		}
+		any_neighbor_province = {
+			has_owner = yes
+			ROOT = { owner = { religion = PREVPREV } }
+			owner = { ROOT = { owner = { religion = PREVPREV } } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+	}
+	
+	option = {
+		name = EVTOPTAconversion.200
+		owner = {
+			reverse_religion = ROOT
+		}
+	}
+}
+# A ruler swayed by the local religion - not for elves or dwarves
+character_event = {
+	id = conversion.210
+	desc = EVTDESCconversion.210
+	picture = GFX_evt_stone_church
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = human
+		primary_title = { 
+			any_previous_holder = { NOT = { character = ROOT } } # The first holder of a title does not convert
+		}
+		capital_scope = {
+			NOT = { religion = ROOT }
+			NOT = { religion = dana_meadbh }
+			NOT = { religion = dwarven }
+		}
+		top_liege = {
+			OR = {
+				character = ROOT
+				ROOT = { capital_scope = { religion = PREVPREV } }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1600
+		modifier = {
+			factor = 0.5
+			top_liege = {
+				NOT = { character = ROOT }
+				ROOT = { capital_scope = { religion = PREVPREV } }
+			}
+		}
+		modifier = {
+			factor = 0.5
+			primary_title = { ROOT = { capital_scope = { religion = PREVPREV } } }
+		}
+	}
+	
+	option = { # Change religion
+		name = EVTOPTAconversion.210
+		any_vassal = {
+			limit = {
+				religion = ROOT
+				age = 15
+			}
+			opinion = { who = ROOT modifier = opinion_adopted_foreign_beliefs years = 10 }
+			hidden_tooltip = { character_event = { id = conversion.211 } }
+		}
+		religion_authority = { modifier = ruler_converted_from }
+		capital_scope = { reverse_religion = ROOT }
+		hidden_tooltip = { religion_authority = { modifier = ruler_converted_to } }
+	}
+	option = { # Don't change religion
+		name = EVTOPTBconversion.210
+		ai_chance = { factor = 0 }
+	}
+}
+# A ruler swayed by the local religion - Piss off the appropriate vassals
+character_event = {
+	id = conversion.211
+	desc = EVTDESCconversion.211
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAconversion.211
+		tooltip = { opinion = { who = FROM modifier = opinion_adopted_foreign_beliefs years = 10 } }
+	}
+}
+# Solar religion spreads within Empire in Nilfgaard
+province_event = {
+	id = conversion.220
+	desc = EVTDESCconversion.220
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = { religion = solar }
+		owner = {
+			top_liege = {
+				religion = solar
+				has_landed_title = e_nilfgaard
+			}
+		}
+		any_neighbor_province = {
+			religion = solar
+			has_owner = yes
+			owner = { religion = solar }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+	}
+	
+	option = {
+		name = EVTOPTAconversion.220
+		trigger = { owner = { religion = solar } }
+		religion = solar
+	}
+	option = {
+		name = EVTOPTBconversion.220
+		trigger = { owner = { NOT = { religion = solar } } }
+		religion = solar
+	}
+}
+# Eternal Fire religion spreads in Flaming Rose based province
+province_event = {
+	id = conversion.230
+	desc = EVTDESCconversion.230
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = { religion = eternal_fire }
+		any_province_lord = {
+			d_flaming_rose = {
+				holder_scope = {
+					OR = {
+						character = PREVPREV
+						is_vassal_or_below = PREVPREV
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+	}
+	
+	option = {
+		name = EVTOPTAconversion.230
+		trigger = { owner = { religion = eternal_fire } }
+		religion = eternal_fire
+	}
+	option = {
+		name = EVTOPTBconversion.230
+		trigger = { owner = { NOT = { religion = eternal_fire } } }
+		religion = eternal_fire
+	}
+}
+# Eternal Fire religion spreads to neighbouring province
+province_event = {
+	id = conversion.240
+	desc = EVTDESCconversion.240
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = { religion = eternal_fire }
+		any_neighbor_province = {
+			religion = eternal_fire
+			has_owner = yes
+			owner = { religion = eternal_fire }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1600
+	}
+	
+	option = {
+		name = EVTOPTAconversion.240
+		trigger = { owner = { religion = eternal_fire } }
+		religion = eternal_fire
+	}
+	option = {
+		name = EVTOPTBconversion.240
+		trigger = { owner = { NOT = { religion = eternal_fire } } }
+		religion = eternal_fire
+	}
+}
+# Druid religion appears province
+province_event = {
+	id = conversion.250
+	desc = EVTDESCconversion.250
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = { religion = nature }
+	}
+	
+	mean_time_to_happen = {
+		months = 3200
+	}
+
+	option = {
+		name = EVTOPTAconversion.250
+		religion = nature
+	}
+}
+# Ruler ousts Spider religion from province
+province_event = {
+	id = conversion.260
+	desc = EVTDESCconversion.260
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		religion = spider
+		owner = {
+			NOT = { religion = spider }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+	}
+
+	option = {
+		name = EVTOPTAconversion.260
+		owner = {
+			reverse_religion = ROOT
+		}
+	}
+}
+# Ruler becomes a follower of Spider religion
+character_event = {
+	id = conversion.270
+	desc = EVTDESCconversion.270
+	picture = GFX_evt_stone_church
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { religion = spider }
+		OR = {
+			trait = lunatic
+			trait = kinslayer
+			trait = impaler
+			AND = {
+				trait = cruel
+				trait = deceitful
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1600
+	}
+
+	option = { # Change religion
+		name = EVTOPTAconversion.270
+		any_vassal = {
+			limit = {
+				religion = ROOT
+				age = 15
+			}
+			opinion = { who = ROOT modifier = opinion_adopted_foreign_beliefs years = 10 }
+			hidden_tooltip = { character_event = { id = conversion.271 } }
+		}
+		religion_authority = { modifier = ruler_converted_from }
+		religion = spider
+		hidden_tooltip = { religion_authority = { modifier = ruler_converted_to } }
+		ai_chance = { factor = 1 }
+	}
+	option = { # Don't change religion
+		name = EVTOPTBconversion.270
+		ai_chance = { factor = 2 }
+	}
+}
+# Ruler becomes a follower of Spider religion - Piss off the appropriate vassals
+character_event = {
+	id = conversion.271
+	desc = EVTDESCconversion.271
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAconversion.271
+		tooltip = { opinion = { who = FROM modifier = opinion_adopted_foreign_beliefs years = 10 } }
+	}
+}
