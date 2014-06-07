@@ -715,3 +715,140 @@ letter_event = {
 		name = EVTOPTAflaming_rose.103
 	}
 }
+
+################################################
+# Order of the Flaming Rose waant to buy a castle
+################################################
+# Hidden - The Grand Master wishes to buy a castle in your demesne
+character_event = {
+	id = flaming_rose.110
+	desc = "Being Grandmaster ain't fun"
+	picture = GFX_evt_knight_kneeling
+	border = GFX_event_normal_frame_religion
+	
+	hide_window = yes
+	
+	only_playable = yes
+	
+	trigger = {
+		OR = {
+			religion = eternal_fire
+			religion = kreve
+			religion = melitele
+			religion = lebioda
+		}
+		d_flaming_rose = {
+			holder_scope = {
+				wealth = 500
+				NOT = { realm_size = 10 }
+			}
+		}
+		any_demesne_title = {
+			tier = baron
+			holding_type = castle
+			empire = { title = e_the_north }
+			can_be_given_away = yes
+		}
+		NOT = {
+			has_character_modifier = expelled_d_flaming_rose 
+			any_liege = { has_character_modifier = expelled_d_flaming_rose }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.5
+			d_flaming_rose = {
+				holder_scope = { NOT = { demesne_size = 1 } }
+			}
+		}
+		modifier = {
+			factor = 0.5
+			d_flaming_rose = {
+				holder_scope = { NOT = { demesne_size = 2 } }
+			}
+		}
+		modifier = {
+			factor = 0.5
+			d_flaming_rose = {
+				holder_scope = { NOT = { demesne_size = 3 } }
+			}
+		}
+		modifier = {
+			factor = 2.0
+			d_flaming_rose = {
+				holder_scope = { realm_size = 10 }
+			}
+		}
+	}
+	
+	option = {
+		name = "OK"
+		d_flaming_rose = {
+			holder_scope = { character_event = { id = flaming_rose.111 }  }
+		}
+	}
+}
+# Hidden - Grand Master ping
+character_event = {
+	id = flaming_rose.111
+	desc = "Grand Master ping"
+	picture = GFX_evt_knight_kneeling
+	border = GFX_event_normal_frame_religion
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "OK"
+		FROM = { character_event = { id = flaming_rose.112 } }
+	}
+}
+# The Grand Master is asking to buy a castle in your demesne
+letter_event = {
+	id = flaming_rose.121
+	desc = EVTDESCflaming_rose.121
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAflaming_rose.121 # Agree
+		piety = 200
+		wealth = 300
+		FROM = {
+			ROOT = {
+				random_demesne_title = {
+					limit = {
+						tier = baron
+						holding_type = castle
+						empire = { title = e_the_north }
+						can_be_given_away = yes
+					}
+					grant_title = PREVPREV
+				}
+			}
+			hidden_tooltip = { wealth = -300 }
+		}
+		hidden_tooltip = { remove_character_modifier = expelled_d_flaming_rose }
+		ai_chance = {
+			factor = 5
+			modifier = { factor = 0 has_character_modifier = expelled_d_flaming_rose }
+			modifier = { factor = 2 NOT = { wealth = 0 } }
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 religion = eternal_fire }
+			modifier = {
+				factor = 2
+				trait = zealous
+				religion = eternal_fire
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTBflaming_rose.121 # Refuse
+		ai_chance = { factor = 20 }
+	}
+}
