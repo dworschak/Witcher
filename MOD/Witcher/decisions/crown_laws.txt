@@ -1,6 +1,133 @@
 de_jure_laws = {
+	# IMPERIAL AUTHORITY
+	# Weak
+	imperial_authority_0 = { # Default
+		show_as_title = yes
+		group = imperial_authority
+		default = yes
+		
+		potential = {
+			title = e_nilfgaard
+		}
+		
+		allow = {
+			has_law = imperial_authority_1
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = imperial_authority_0
+				revoke_law = imperial_authority_1
+				revoke_law = imperial_authority_2
+				revoke_law = imperial_authority_3
+			}
+		}
+	}
+	# Medium
+	imperial_authority_1 = { # Unlocks Reconquest CB
+		show_as_title = yes
+		group = imperial_authority
+		default = yes
+		
+		potential = {
+			title = e_nilfgaard
+		}
+		
+		allow = {
+			has_law = imperial_authority_0
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = imperial_authority_0 } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = imperial_authority_0
+				revoke_law = imperial_authority_1
+				revoke_law = imperial_authority_2
+				revoke_law = imperial_authority_3
+			}
+			custom_tooltip = { text = imperial_authority_reconquest_tooltip }
+		}
+	}
+	# Strong
+	imperial_authority_2 = { # Unlocks Reconquest CB, unlocks invasion CB
+		show_as_title = yes
+		group = imperial_authority
+		default = yes
+		
+		potential = {
+			title = e_nilfgaard
+		}
+		
+		allow = {
+			has_law = imperial_authority_1
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.5 }
+			modifier = { factor = 0 NOT = { has_law = imperial_authority_1 } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = imperial_authority_0
+				revoke_law = imperial_authority_1
+				revoke_law = imperial_authority_2
+				revoke_law = imperial_authority_3
+			}
+			custom_tooltip = { text = imperial_authority_reconquest_tooltip }
+			custom_tooltip = { text = imperial_authority_invasion_tooltip }
+		}
+	}
+	# Absolute
+	imperial_authority_3 = { # Unlocks Reconquest CB, unlocks invasion CB, gives Strong Emeror trait
+		show_as_title = yes
+		group = imperial_authority
+		default = yes
+		
+		potential = {
+			title = e_nilfgaard
+		}
+		
+		allow = {
+			has_law = imperial_authority_2
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.2 }
+			modifier = { factor = 0 NOT = { has_law = imperial_authority_2 } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = imperial_authority_0
+				revoke_law = imperial_authority_1
+				revoke_law = imperial_authority_2
+				revoke_law = imperial_authority_3
+			}
+			custom_tooltip = { text = imperial_authority_reconquest_tooltip }
+			custom_tooltip = { text = imperial_authority_invasion_tooltip }
+			custom_tooltip = { text = imperial_authority_trait_tooltip }
+		}
+	}
+	
 	# CROWN OBLIGATION
-	# Min
+	# No
 	crown_obligation_0 = { # Default
 		show_as_title = yes
 		group = crown_obligation
@@ -31,7 +158,7 @@ de_jure_laws = {
 		}
 	}
 	# Low
-	crown_obligation_1 = { # Can revoke titles
+	crown_obligation_1 = { # Inheritnace is locked in realm, can revoke titles
 		show_as_title = yes
 		group = crown_obligation
 		
@@ -61,7 +188,6 @@ de_jure_laws = {
 			modifier = { factor = 0.8 holder_scope = { trait = kind } }
 			modifier = { factor = 1.2 holder_scope = { trait = proud } }
 			modifier = { factor = 0.8 holder_scope = { trait = humble } }
-			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
@@ -91,7 +217,7 @@ de_jure_laws = {
 		}
 	}
 	# Medium
-	crown_obligation_2 = { # Can revoke titles, vassals can't go to war with each other
+	crown_obligation_2 = { # Inheritnace is locked in realm, can revoke titles
 		show_as_title = yes
 		group = crown_obligation
 		
@@ -122,7 +248,6 @@ de_jure_laws = {
 			modifier = { factor = 0.8 holder_scope = { trait = kind } }
 			modifier = { factor = 1.2 holder_scope = { trait = proud } }
 			modifier = { factor = 0.8 holder_scope = { trait = humble } }
-			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
@@ -152,7 +277,7 @@ de_jure_laws = {
 		}
 	}
 	# High
-	crown_obligation_3 = { # Can revoke titles, vassals can't go to war with each other, inheritnace is locked in realm
+	crown_obligation_3 = { # Inheritnace is locked in realm, can revoke titles, vassals can't go to war with each other
 		show_as_title = yes
 		group = crown_obligation
 		
@@ -180,7 +305,6 @@ de_jure_laws = {
 			modifier = { factor = 0.8 holder_scope = { trait = kind } }
 			modifier = { factor = 1.2 holder_scope = { trait = proud } }
 			modifier = { factor = 0.8 holder_scope = { trait = humble } }
-			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
@@ -211,7 +335,7 @@ de_jure_laws = {
 	}
 	
 	# CROWN LEVY
-	# None
+	# Low
 	crown_levy_0 = { # Default
 		show_as_title = yes
 		group = crown_levy
@@ -336,13 +460,10 @@ de_jure_laws = {
 			modifier = { factor = 0.1 }
 			modifier = { factor = 2 holder_scope = { trait = ambitious } }
 			modifier = { factor = 0.5 holder_scope = { trait = content } }
-			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
-			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
-			modifier = { factor = 1.2 holder_scope = { trait = envious } }
-			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = brave } }
+			modifier = { factor = 0.8 holder_scope = { trait = craven } }
 			modifier = { factor = 1.2 holder_scope = { trait = proud } }
 			modifier = { factor = 0.8 holder_scope = { trait = humble } }
-			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
@@ -405,7 +526,6 @@ de_jure_laws = {
 			modifier = { factor = 0.8 holder_scope = { trait = kind } }
 			modifier = { factor = 1.2 holder_scope = { trait = proud } }
 			modifier = { factor = 0.8 holder_scope = { trait = humble } }
-			modifier = { factor = 4 holder_scope = { trait = strong_emperor } }
 		}
 		
 		pass_effect = {
@@ -446,9 +566,6 @@ de_jure_laws = {
 		show_as_title = yes
 		group = tolerance
 		
-		temple_opinion = 10
-		infidel_opinion = -30
-		
 		potential = {
 			holder_scope = {
 				is_republic = no
@@ -483,6 +600,7 @@ de_jure_laws = {
 						limit = {
 							is_liege_or_above = ROOT
 							OR = {
+								trait = tolerant
 								trait = elven
 								trait = dwarven
 								trait = dryad
@@ -505,6 +623,10 @@ de_jure_laws = {
 			culture_flex = -0.25
 			MODIFIER_RELIGION_FLEX = -0.25
 			MODIFIER_CULTURE_FLEX = -0.25
+			custom_tooltip = { text = tolernace_non_human_opinion_tooltip }
+			custom_tooltip = { text = tolernace_tolerant_opinion_tooltip }
+			custom_tooltip = { text = tolernace_foreigner_opinion_tooltip }
+			# TO DO - event to change all non-human opinions as long as law is active
 		}
 	}
 	# Neutral
@@ -551,6 +673,7 @@ de_jure_laws = {
 						limit = {
 							is_liege_or_above = ROOT
 							OR = {
+								trait = tolerant
 								trait = elven
 								trait = dwarven
 								trait = dryad
@@ -585,8 +708,6 @@ de_jure_laws = {
 	tolerance_2= {
 		show_as_title = yes
 		group = tolerance
-		
-		temple_opinion = -10
 		
 		potential = {
 			holder_scope = {
@@ -638,6 +759,7 @@ de_jure_laws = {
 			set_allow_free_infidel_revokation = no
 			RELIGION_FLEX = 0.25
 			CULTURE_FLEX = 0.25
+			custom_tooltip = { text = tolernace_racist_opinion_tooltip }
 		}
 	}
 	
