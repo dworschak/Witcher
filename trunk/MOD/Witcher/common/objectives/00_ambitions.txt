@@ -534,23 +534,20 @@ obj_become_spiritual = {
 				is_female = no
 				NOT = { religion = melitele }
 				NOT = { religion = freya }
-				NOT = { religion = nature }
+				NOT = { religion = dryad }
 			}
 			AND = {
 				is_female = yes
-				religion = melitele
-			}
-			AND = {
-				is_female = yes
-				religion = freya
-			}
-			AND = {
-				religion = nature
 				OR = {
-					trait = dryad
-					trait = druid
+					religion = melitele
+					religion = freya
 				}
 			}
+			AND = { 
+				religion = dryad
+				trait = dryad
+			}
+			trait = druid
 		}
 		learning = 8
 		
@@ -559,6 +556,7 @@ obj_become_spiritual = {
 			trait = martial_cleric
 			trait = scholarly_theologian
 			trait = mastermind_theologian
+			trait = druid
 		}
 		
 		liege = {
@@ -645,7 +643,7 @@ obj_become_spiritual = {
 				is_female = yes
 				NOT = { religion = melitele }
 				NOT = { religion = freya }
-				NOT = { religion = nature }
+				NOT = { religion = dryad }
 			}
 			AND = {
 				is_female = no
@@ -655,8 +653,8 @@ obj_become_spiritual = {
 				}
 			}
 			AND = {
-				NOT = { trait = druid }
-				religion = nature
+				NOT = { trait = dryad }
+				religion = dryad
 			}
 			NOT = { liege = { religion = ROOT } }
 			trait = incapable
@@ -683,14 +681,15 @@ obj_become_spiritual = {
 
 # Misc Ambitions
 
-obj_amass_wealth = {
+obj_amass_wealth = { # Wealth 1
 	type = character
 	
 	potential = {
 		NOT = { culture = wilderness }
 		NOT = { has_character_flag = amassed_wealth }
+		NOT = { has_character_flag = amassed_fortune }
+		NOT = { has_character_flag = amassed_hoard }
 	}
-	
 	allow = {
 		is_adult = yes
 		NOT = { wealth = 200 }
@@ -740,16 +739,32 @@ obj_amass_wealth = {
 }
 
 
-obj_become_paragon_of_virtue = {
+obj_become_paragon_of_virtue = { # Piety 3
 	type = character
 	
 	potential = {
 		NOT = { culture = wilderness }
+		NOT = { has_character_flag = paragon_of_virtue }
 	}
 	
 	allow = {
 		is_adult = yes
-		NOT = { piety = 100 }
+		OR = {
+			AND = {
+				piety = 500
+				NOT = { piety = 1000 }
+				NOT = { has_character_flag = publicly_pious }
+			 }
+			AND = {
+				NOT = { piety = 1500 }
+				piety = 700
+				has_character_flag = publicly_pious
+			 }
+			AND = {
+				NOT = { piety = 1500 }
+				has_character_flag = known_for_virtue
+			 }
+		 }
 		is_ruler = yes
 		NOT = { trait = cruel }
 		NOT = { trait = impaler }
@@ -786,7 +801,7 @@ obj_become_paragon_of_virtue = {
 		}
 	}
 	success = {
-		piety = 500
+		piety = 2500
 	}
 	abort = {
 		OR = {
@@ -798,8 +813,18 @@ obj_become_paragon_of_virtue = {
 	abort_effect = {
 	}
 	effect = {
+		if = {
+			limit = { NOT = { has_character_flag = publicly_pious } }
+			change_learning = 1
+			set_character_flag = publicly_pious
+		 }
+		if = {
+			limit = { NOT = { has_character_flag = known_for_virtue } }
+			change_learning = 1
+			set_character_flag = known_for_virtue
+		 }
 		change_learning = 1
-		piety = 100
+		set_character_flag = paragon_of_virtue
 		if = {
 			limit = {
 				has_nickname = no
@@ -828,27 +853,35 @@ obj_become_paragon_of_virtue = {
 				months = 1200
 			}
 		}
-		# Achievement
-		hidden_tooltip = {
-			if = {
-				limit = { ai = no }
-				set_character_flag = achievement_become_paragon_of_virtue
-			}
-		}
 	}
 }
 
 
-obj_become_exalted = {
+obj_become_exalted = { # Prestige 3
 	type = character
 	
 	potential = {
 		NOT = { culture = wilderness }
+		NOT = { has_character_flag = exalted }
 	}
-	
 	allow = {
 		is_adult = yes
-		NOT = { prestige = 200 }
+		OR = {
+			AND = {
+				prestige = 500
+				NOT = { prestige = 1000 }
+				NOT = { has_character_flag = distinguished }
+			 }
+			AND = {
+				NOT = { prestige = 1500 }
+				prestige = 700
+				has_character_flag = distinguished
+			 }
+			AND = {
+				NOT = { prestige = 1500 }
+				has_character_flag = fame_glory
+			 }
+		 }
 		is_ruler = yes
 		NOT = { trait = content }
 		NOT = { trait = humble }
@@ -888,8 +921,18 @@ obj_become_exalted = {
 	abort_effect = {
 	}
 	effect = {
+		if = {
+			limit = { NOT = { has_character_flag = distinguished } }
+			change_learning = 1
+			set_character_flag = distinguished
+		}
+		if = {
+			limit = { NOT = { has_character_flag = fame_glory } }
+			change_learning = 1
+			set_character_flag = fame_glory
+		}
 		change_diplomacy = 1
-		prestige = 100
+		set_character_flag = exalted
 		if = {
 			limit = {
 				has_nickname = no
@@ -901,13 +944,6 @@ obj_become_exalted = {
 				who = ROOT
 				modifier = opinion_exalted
 				months = 1200
-			}
-		}
-		# Achievement
-		hidden_tooltip = {
-			if = {
-				limit = { ai = no }
-				set_character_flag = achievement_become_exalted
 			}
 		}
 	}
@@ -1818,114 +1854,4 @@ obj_improve_intrigue = {
 		clr_character_flag = gossip
 		clr_character_flag = old_spymaster
 	}
-}
-
-# Become King
-obj_become_king = {
-	type = character
-	
-	can_cancel = no
-	
-	ai_capital_kingdom_focus = yes # AI characters with this ambition will actually focus on taking the kingdom
-	
-	potential = {
-		NOT = { culture = wilderness }
-		is_adult = yes
-		is_playable = yes
-		is_landed = yes
-		tier = duke
-		NOT = {
-			any_heir_title = {
-				higher_tier_than = DUKE
-			}
-		}
-	}
-	
-	allow = {
-		NOT = { trait = incapable }
-	}
-	
-	chance = {
-		factor = 100
-		
-		modifier = {
-			factor = 0
-			NOT = { trait = ambitious }
-		}
-		modifier = {
-			factor = 3.0
-			capital_scope = {
-				kingdom = {
-					has_holder = no
-				}
-			}
-		}
-		modifier = {
-			factor = 3.0
-			trait = ambitious
-		}
-		modifier = {
-			factor = 2.0
-			trait = brave
-		}
-		modifier = {
-			factor = 0.1
-			trait = craven
-		}
-		modifier = {
-			factor = 0.01
-			trait = content
-		}
-		modifier = {
-			factor = 0.01
-			trait = slothful
-		}
-		modifier = { factor = 2.0 trait = greedy }
-		modifier = { factor = 2.0 trait = envious }
-		modifier = { factor = 10 any_claim = { tier = KING } }
-		modifier = { factor = 1.2 demesne_size = 2 }
-		modifier = { factor = 1.2 demesne_size = 3 }
-		modifier = { factor = 1.2 demesne_size = 4 }
-	}
-	
-	success = {
-		custom_tooltip = {
-			text = obj_become_king_tip
-			hidden_tooltip = {
-				capital_scope = {
-					kingdom = {
-						holder_scope = {
-							character = ROOT
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	abort = {
-		OR = {
-			trait = incapable
-			is_playable = no
-			is_landed = no
-			AND = {
-				higher_tier_than = DUKE
-				primary_title = {
-					temporary = no
-				}
-			}
-			any_heir_title = {
-				higher_tier_than = DUKE
-				temporary = no
-			}
-		}
-	}
-	
-	abort_effect = {
-	}
-	
-	effect = {
-		prestige = 500
-	}
-	
 }

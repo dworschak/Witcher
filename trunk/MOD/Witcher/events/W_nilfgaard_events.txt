@@ -1,9 +1,10 @@
 namespace = nilfgaard
 
 ################################################
-# Emperor Trait
+# Evaluate Imperial Authority on succession
 ################################################
-# Emperor Evaluation
+# Hidden - Emperor Evaluation
+# TO DO - need to consider if title got by war and if same dynasty as previous emperor, it will be easier to do with modding improvements in next patch (08.06.2014)
 character_event = {
 	id = nilfgaard.1
 	desc = "Emperor evaluation"
@@ -14,39 +15,26 @@ character_event = {
 	trigger = {
 		NOT = { culture = wilderness}
 		has_landed_title = e_nilfgaard
-		NOT = {
-			trait = strong_emperor
-			trait = weak_emperor
-		}
+		NOT = { has_character_flag = authority_evaluated }
 	}
 	
 	mean_time_to_happen = {
 		days = 1
 	}
 	
-	immediate = {
-		strong_emperor = {
-			limit = { is_alive = yes }
-			set_character_flag = previous_emperor
-		}
-		weak_emperor = {
-			limit = { is_alive = yes }
-			set_character_flag = previous_emperor
-		}
-	}
 	option = {
-		name = "Strong emperor"
+		name = "Increase authority"
+		trigger = {
+			NOT = { e_nilfgaard = { has_law = imperial_authority_3 } }
+		}
+		set_character_flag = authority_evaluated
 		ai_chance = {
-			factor = 1
-			modifier = { factor = 5 trait = ambitious }
-			modifier = { factor = 2 trait = genius }
-			modifier = { factor = 2 trait = quick }
-			modifier = { factor = 2 trait = diligent }
-			modifier = { factor = 2 religion = solar }
-			modifier = { factor = 2 culture = nilfgaardian }
+			factor = 10
+			# Increase chance for increase
 			modifier = {
-				factor = 2
-				OR ={
+				factor = 0
+				NOT = {
+					trait = genius
 					trait = elusive_shadow
 					trait = grey_eminence
 					trait = midas_touched
@@ -55,89 +43,79 @@ character_event = {
 				}
 			}
 			modifier = {
-				factor = 2
-				is_adult = yes
-				NOT = { has_character_modifier = old_age }
-			}
-			modifier = { # new emperor is automatiaclly weak if previous emperor (still alive) was weak
 				factor = 0
-				weak_emperor = { 
-					has_character_flag = previous_emperor
+				NOT = {
+					martial = 20
+					diplomacy = 20
+					stewardship = 20
+					intrigue = 20
+					learning = 20
 				}
 			}
-			modifier = { # new emperor is automatiaclly weak if previous emperor (dead) was weak
-				factor = 0
-				has_character_flag = weak_emperor
-			}
-			modifier = { # new emperor is automatiaclly weak if previous emperor (still alive) had different dynasty
-				factor = 0
-				OR ={
-					weak_emperor = { 
-						has_character_flag = previous_emperor
-						NOT = { dynasty = ROOT }
-					}
-					strong_emperor = { 
-						has_character_flag = previous_emperor
-						NOT = { dynasty = ROOT }
-					}
-				}
-			}
-			modifier = { # new emperor is automatiaclly weak if previous emperor (dead) had different dynasty
-				factor = 0
-				has_character_flag = different_dynasty_emperor
-			}
-		}
-		character_event = { id = nilfgaard.2 }
-		hidden_tooltip = {
-			strong_emperor = { 
-				limit = { has_character_flag = previous_emperor }
-				clr_character_flag = previous_emperor
-				remove_trait = strong_emperor
-			}
-			weak_emperor = { 
-				limit = { has_character_flag = previous_emperor }
-				clr_character_flag = previous_emperor
-				remove_trait = weak_emperor
-			}
-			clr_character_flag = weak_emperor
-			clr_character_flag = different_dynasty_emperor
+			# Increase chance for decrease
+			modifier = { factor = 0.5 trait = bastard }
+			modifier = { factor = 0.75 trait = lunatic }
+			modifier = { factor = 0.5 trait = incapable }
+			modifier = { factor = 0.75 trait = infirm }
+			modifier = { factor = 0.9 trait = drunkard }
+			modifier = { factor = 0.75 trait = kinslayer }
+			modifier = { factor = 0.75 trait = imbecile }
+			modifier = { factor = 0.9 trait = slow }
+			modifier = { factor = 0.9 trait = content }
 		}
 	}
 	option = {
-		name = "Weak emperor"
+		name = "Don't change authority"
+		set_character_flag = authority_evaluated
 		ai_chance = {
 			factor = 2
-			modifier = { factor = 5 trait = content }
-			modifier = { factor = 2 trait = slow }
-			modifier = { factor = 2 trait = imbecile }
-			modifier = { factor = 2 trait = inbred }
-			modifier = { factor = 2 trait = lunatic }
-			modifier = { factor = 2 trait = infirm }
-			modifier = { factor = 5 trait = incapable }
-			modifier = { factor = 5 is_female = yes }
-			modifier = { factor = 10 NOT = { trait = human } }
-			modifier = { factor = 10 is_adult = no }
-			modifier = { factor = 2 trait = sorcerer }
-			modifier = { factor = 2 has_character_modifier = magic_talent }
+			# Increase chance for no change
+			modifier = { factor = 2 trait = ambitious }
+			modifier = { factor = 2 trait = genius }
+			modifier = { factor = 1.5 trait = quick }
 		}
-		character_event = { id = nilfgaard.3 }
-		hidden_tooltip = {
-			strong_emperor = { 
-				limit = { has_character_flag = previous_emperor }
-				clr_character_flag = previous_emperor
-				remove_trait = strong_emperor
+	}
+	option = {
+		name = "Decrease authority"
+		trigger = {
+			e_nilfgaard = { has_law = imperial_authority_1 }
+		}
+		set_character_flag = authority_evaluated
+		ai_chance = {
+			factor = 1
+			# Increase chance for decrease
+			modifier = { factor = 2 trait = bastard }
+			modifier = { factor = 1.5 trait = lunatic }
+			modifier = { factor = 2 trait = incapable }
+			modifier = { factor = 1.5 trait = infirm }
+			modifier = { factor = 1.25 trait = drunkard }
+			modifier = { factor = 1.5 trait = kinslayer }
+			modifier = { factor = 1.5 trait = imbecile }
+			modifier = { factor = 1.25 trait = slow }
+			modifier = { factor = 1.25 trait = content }
+			# Increase chance for increase
+			modifier = {
+				factor = 0.1
+				OR = {
+					trait = genius
+					trait = elusive_shadow
+					trait = grey_eminence
+					trait = midas_touched
+					trait = brilliant_strategist
+					trait = the_sage
+				}
+				OR = {
+					martial = 20
+					diplomacy = 20
+					stewardship = 20
+					intrigue = 20
+					learning = 20
+				}
 			}
-			weak_emperor = { 
-				limit = { has_character_flag = previous_emperor }
-				clr_character_flag = previous_emperor
-				remove_trait = weak_emperor
-			}
-			clr_character_flag = weak_emperor
-			clr_character_flag = different_dynasty_emperor
 		}
 	}
 }
-# Strong emperor trait gained
+# Notification - Authority increased
 character_event = {
 	id = nilfgaard.2
 	desc = EVTDESCnilfgaard.2
@@ -147,10 +125,23 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAnilfgaard.2
-		add_trait = strong_emperor
+		e_nilfgaard = {
+			if = {
+				limit = { has_law = imperial_authority_2 }
+				add_law = imperial_authority_3
+			}
+			if = {
+				limit = { has_law = imperial_authority_1 }
+				add_law = imperial_authority_2
+			}
+			if = {
+				limit = { has_law = imperial_authority_0 }
+				add_law = imperial_authority_1
+			}
+		}
 	}
 }
-# Weak emperor trait gained
+# Notification - Authority decreased
 character_event = {
 	id = nilfgaard.3
 	desc = EVTDESCnilfgaard.3
@@ -160,44 +151,69 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAnilfgaard.3
-		add_trait = weak_emperor
+		e_nilfgaard = {
+			if = {
+				limit = { has_law = imperial_authority_1 }
+				add_law = imperial_authority_0
+			}
+			if = {
+				limit = { has_law = imperial_authority_2 }
+				add_law = imperial_authority_1
+			}
+			if = {
+				limit = { has_law = imperial_authority_3 }
+				add_law = imperial_authority_2
+			}
+		}
 	}
 }
-# Check if emperor is weak or heir is non-dynastic (on_death)
+# Give strong emperor trait
 character_event = {
 	id = nilfgaard.4
-	desc = "Emperor died"
+	desc = EVTDESCnilfgaard.4
 	picture = GFX_evt_holy_emperor
 	
-	hide_window = yes
-	is_triggered_only = yes
-	
 	trigger = {
-		OR = {
-			trait = weak_emperor
-			trait = strong_emperor
-		}
+		has_landed_title = e_nifgaard
+		e_nilfgaard = { has_law = imperial_authority_3 }
+		NOT = { trait = strong_emperor }
+		has_character_flag = authority_evaluated
+	}
+	
+	mean_time_to_happen = {
+		days = 1
 	}
 	
 	option = {
-		name = "OK"
-		current_heir = {
-			if = {
-				limit = { NOT = { dynasty = ROOT } }
-				set_character_flag = different_dynasty_emperor
-			}
-			if = {
-				limit = { ROOT = { trait = weak_emperor } }
-				set_character_flag = weak_emperor
-			}
+		name = EVTOPTAnilfgaard.4
+		add_trait = strong_emperor
+	}
+}
+# Remove strong emperor trait
+character_event = {
+	id = nilfgaard.5
+	desc = EVTDESCnilfgaard.5
+	picture = GFX_evt_holy_emperor
+	
+	trigger = {
+		trait = strong_emperor
+		OR = {
+			NOT = { has_landed_title = e_nifgaard }
+			e_nilfgaard = { NOT = { has_law = imperial_authority_3 } }
 		}
+		has_character_flag = authority_evaluated
+	}
+	
+	option = {
+		name = EVTOPTAnilfgaard.4
+		remove_trait = strong_emperor
 	}
 }
 
 ################################################
-# Hand out claims on weak emperor
+# Hand out claims on emperors with low Imperial Authority
 ################################################
-# Give strong claim to ambitious direct vassals (on_bi_yearly_pulse)
+# Give strong claim to ambitious direct vassals 
 character_event = {
 	id = nilfgaard.10
 	desc = EVTDESCnilfgaard.10
@@ -205,13 +221,62 @@ character_event = {
 	
 	trigger = {
 		NOT = { culture = wilderness}
+		NOT = { e_nilfgaard = { has_law = imperial_authority_3 } }
+		liege = { has_landed_title = e_nilfgaard }
 		trait = ambitious
-		liege = { trait = weak_emperor }
 		NOT = { has_claim = e_nilfgaard }
 	}
 	
-	weight_multiplier = {
-		days = 1
+	mean_time_to_happen = {
+		months = 1200
+		# Imperial Authority
+		modifier = { factor = 10 has_law = imperial_authority_2 }
+		modifier = { factor = 0.5 NOT = { has_law = imperial_authority_1 } }
+		# Liege traits
+		modifier = { factor = 5 liege = { trait = genius } }
+		modifier = { factor = 0.2 liege = { trait = imbecile } }
+		modifier = { factor = 2 liege = { trait = quick } }
+		modifier = { factor = 0.5 liege = { trait = slow } }
+		modifier = { factor = 2 liege = { trait = ambitious } }
+		modifier = { factor = 0.75 liege = { trait = content } }
+		modifier = { factor = 0.5 liege = { trait = inbred } }
+		modifier = { factor = 0.5 liege = { trait = kinslayer } }
+		modifier = { factor = 0.2 liege = { trait = incapable } }
+		modifier = { factor = 0.5 liege = { trait = bastard } }
+		modifier = { factor = 0.75 liege = { trait = drunkard } }
+		modifier = { factor = 0.75 liege = { trait = arbitrary } }
+		modifier = { factor = 0.5 liege = { trait = lunatic } }
+		modifier = { factor = 0.5 liege = { trait = infirm } }
+		modifier = { factor = 0.5 liege = { trait = depressed } }
+		modifier = { factor = 1.5 liege = { trait = diligent } }
+		modifier = { factor = 2 liege = { trait = elusive_shadow } }
+		modifier = { factor = 0.5 liege = { trait = amateurish_plotter } }
+		modifier = { factor = 2 liege = { trait = grey_eminence } }
+		modifier = { factor = 0.5 liege = { trait = naive_appeaser } }
+		modifier = { factor = 2 liege = { trait = midas_touched } }
+		modifier = { factor = 0.5 liege = { trait = indulgent_wastrel } }
+		modifier = { factor = 2 liege = { trait = brilliant_strategist } }
+		modifier = { factor = 0.5 liege = { trait = misguided_warrior } }
+		modifier = { factor = 2 liege = { trait = mastermind_theologian } }
+		modifier = { factor = 0.5 liege = { trait = detached_priest } }
+		modifier = { factor = 2 liege = { trait = the_sage } }
+		modifier = { factor = 0.5 liege = { trait = scatterbrain } }
+		# Traits
+		modifier = { factor = 0.75 trait = proud }
+		modifier = { factor = 0.75 trait = greedy }
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.5 trait = kind }
+		modifier = { factor = 0.75 trait = envious }
+		modifier = { factor = 1.5 trait = honest }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 1.5 trait = craven }
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 0.5 trait = genius }
+		modifier = { factor = 0.75 trait = quick }
+		modifier = { factor = 2 trait = imbecile }
+		modifier = { factor = 1.5 trait = infirm }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 2 trait = bastard }
 	}
 	
 	option = {
@@ -219,7 +284,7 @@ character_event = {
 		e_nilfgaard = { add_claim = ROOT }
 	}
 }
-# Give strong claim to awesome unlanded relatives (on_bi_yearly_pulse)
+# Give strong claim to awesome relatives
 character_event = {
 	id = nilfgaard.11
 	desc = EVTDESCnilfgaard.11
@@ -235,15 +300,69 @@ character_event = {
 			trait = brilliant_strategist
 			trait = the_sage
 		}
-		any_dynasty_member = {
-			has_landed_title = e_nilfgaard
-			trait = weak_emperor
+		OR = {
+			martial = 20
+			diplomacy = 20
+			stewardship = 20
+			intrigue = 20
+			learning = 20
 		}
+		any_dynasty_member = { has_landed_title = e_nilfgaard }
+		NOT = { e_nilfgaard = { has_law = imperial_authority_3 } }
 		NOT = { has_claim = e_nilfgaard }
 	}
 	
-	weight_multiplier = {
-		days = 1
+	mean_time_to_happen = {
+		months = 1200
+		# Imperial Authority
+		modifier = { factor = 10 has_law = imperial_authority_2 }
+		modifier = { factor = 0.5 NOT = { has_law = imperial_authority_1 } }
+		# Liege traits
+		modifier = { factor = 5 e_nilfgaard = { holder_scope = { trait = genius } } }
+		modifier = { factor = 0.2 e_nilfgaard = { holder_scope = { trait = imbecile } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = quick } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = slow } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = ambitious } } }
+		modifier = { factor = 0.75 e_nilfgaard = { holder_scope = { trait = content } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = inbred } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = kinslayer } } }
+		modifier = { factor = 0.2 e_nilfgaard = { holder_scope = { trait = incapable } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = bastard } } }
+		modifier = { factor = 0.75 e_nilfgaard = { holder_scope = { trait = drunkard } } }
+		modifier = { factor = 0.75 e_nilfgaard = { holder_scope = { trait = arbitrary } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = lunatic } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = infirm } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = depressed } } }
+		modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { trait = diligent } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = elusive_shadow } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = amateurish_plotter } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = grey_eminence } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = naive_appeaser } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = midas_touched } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = indulgent_wastrel } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = brilliant_strategist } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = misguided_warrior } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = mastermind_theologian } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = detached_priest } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = the_sage } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = scatterbrain } } }
+		# Traits
+		modifier = { factor = 0.75 trait = proud }
+		modifier = { factor = 0.75 trait = greedy }
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.5 trait = kind }
+		modifier = { factor = 0.75 trait = envious }
+		modifier = { factor = 1.5 trait = honest }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 1.5 trait = craven }
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 0.5 trait = genius }
+		modifier = { factor = 0.75 trait = quick }
+		modifier = { factor = 2 trait = imbecile }
+		modifier = { factor = 1.5 trait = infirm }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 2 trait = bastard }
+		modifier = { factor = 0.5 trait = ambitious }
 	}
 	
 	option = {
@@ -251,7 +370,7 @@ character_event = {
 		e_nilfgaard = { add_claim = ROOT }
 	}
 }
-#Promote characters with weak claims to strong ones (on_bi_yearly_pulse)
+#Promote characters with weak claims to strong ones
 character_event = {
 	id = nilfgaard.12
 	desc = EVTDESCnilfgaard.12
@@ -259,13 +378,61 @@ character_event = {
 	
 	trigger = {
 		NOT = { culture = wilderness}
-		liege = { trait = weak_emperor }
+		NOT = { e_nilfgaard = { has_law = imperial_authority_3 } }
 		has_weak_claim = e_nilfgaard
-		NOT = { has_claim = e_nilfgaard }
 	}
 	
-	weight_multiplier = {
-		days = 1
+	mean_time_to_happen = {
+		months = 1200
+		# Imperial Authority
+		modifier = { factor = 10 has_law = imperial_authority_2 }
+		modifier = { factor = 0.5 NOT = { has_law = imperial_authority_1 } }
+		# Liege traits
+		modifier = { factor = 5 e_nilfgaard = { holder_scope = { trait = genius } } }
+		modifier = { factor = 0.2 e_nilfgaard = { holder_scope = { trait = imbecile } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = quick } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = slow } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = ambitious } } }
+		modifier = { factor = 0.75 e_nilfgaard = { holder_scope = { trait = content } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = inbred } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = kinslayer } } }
+		modifier = { factor = 0.2 e_nilfgaard = { holder_scope = { trait = incapable } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = bastard } } }
+		modifier = { factor = 0.75 e_nilfgaard = { holder_scope = { trait = drunkard } } }
+		modifier = { factor = 0.75 e_nilfgaard = { holder_scope = { trait = arbitrary } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = lunatic } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = infirm } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = depressed } } }
+		modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { trait = diligent } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = elusive_shadow } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = amateurish_plotter } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = grey_eminence } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = naive_appeaser } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = midas_touched } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = indulgent_wastrel } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = brilliant_strategist } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = misguided_warrior } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = mastermind_theologian } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = detached_priest } } }
+		modifier = { factor = 2 e_nilfgaard = { holder_scope = { trait = the_sage } } }
+		modifier = { factor = 0.5 e_nilfgaard = { holder_scope = { trait = scatterbrain } } }
+		# Traits
+		modifier = { factor = 0.75 trait = proud }
+		modifier = { factor = 0.75 trait = greedy }
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.5 trait = kind }
+		modifier = { factor = 0.75 trait = envious }
+		modifier = { factor = 1.5 trait = honest }
+		modifier = { factor = 0.75 trait = deceitful }
+		modifier = { factor = 1.5 trait = craven }
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 0.5 trait = genius }
+		modifier = { factor = 0.75 trait = quick }
+		modifier = { factor = 2 trait = imbecile }
+		modifier = { factor = 1.5 trait = infirm }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 2 trait = bastard }
+		modifier = { factor = 0.5 trait = ambitious }
 	}
 	
 	option = {
@@ -273,62 +440,6 @@ character_event = {
 		e_nilfgaard = { add_claim = ROOT }
 	}
 }
-
-################################################
-# Become strong emperor ambition
-################################################
-# Placeholder event
-character_event = {
-	id = nilfgaard.20
-	desc = "Placehlder event for becoming strong emperor"
-	picture = GFX_evt_lunatic
-	
-	trigger = {
-		NOT = { culture = wilderness}
-		has_ambition = obj_become_strong_emperor
-	}
-	
-	mean_time_to_happen = {
-		months = 280
-	}
-	
-	option = {
-		name = "OK"
-		change_variable = { which = becoming_strong_emperor value = 1 }
-	}
-}
-# Placeholder event
-character_event = {
-	id = nilfgaard.21
-	desc = "Placehlder event for getting strong emperor trait"
-	picture = GFX_evt_lunatic
-	
-	trigger = {
-		NOT = { culture = wilderness}
-		has_ambition = obj_become_strong_emperor
-		check_variable = { which = becoming_strong_emperor value = 5 }
-	}
-	
-	mean_time_to_happen = {
-		months = 280
-	}
-	
-	option = {
-		name = "OK"
-		add_trait = strong_emperor
-	}
-}
-# One threat less - dispose of a strong claimant
-# Loyal council - all your councilors like you
-# Friends in low places - befriend a councilor
-# Someone to trust - replace a councilor with content family member
-# Your sword and shield - appoint new leader and reform Impera
-# Crowned - have an official coronation
-# Large dreams - gain ambitious trait
-# Friends in high places - beferiend one of your vassal kings
-# Consolidate - hand out a spare kingdom title
-# Highest authority - increase the crown authority
-# Traitors - deal with a plot against you
 
 ################################################
 # Declared Nilfgaard Expansion War
@@ -361,17 +472,18 @@ narrative_event = {
 		}
 		ai_chance = {
 			factor = 5
+			modifier = { factor = 0 trait = brave }
 			modifier = { factor = 2 trait = craven }
 			modifier = {
 				factor = 4
 				e_nilfgaard = { holder_scope = { reverse_opinion = { who = ROOT value = 50 } } }
 			}
 			modifier = { factor = 1.2 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
-			modifier = { factor = 1.4 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
-			modifier = { factor = 1.7 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
-			modifier = { factor = 2 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
-			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
-			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.9 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 4 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Call allies
@@ -398,11 +510,12 @@ narrative_event = {
 			add_trait = brave
 		}
 		ai_chance = {
-			factor = 5
+			factor = 10
 			modifier = { factor = 2 trait = brave }
 			modifier = { factor = 3 trait = arbitrary }
 			modifier = { factor = 3 trait = lunatic }
 			modifier = { factor = 3 trait = imbecile }
+			modifier = { factor = 2 trait = slow }
 		}
 	}
 }
@@ -432,10 +545,10 @@ letter_event = {
 			factor = 4
 			modifier = { # Neighbors Nilfgaard
 				factor = 4
-				any_realm_province = {
+				e_nilfgaard = {
 					any_neighbor_province = {
 						owner = {
-							top_liege = { has_landed_title = e_nilfgaard }
+							top_liege = { character = ROOT }
 						}
 					}
 				}
@@ -454,28 +567,28 @@ letter_event = {
 			modifier ={ factor = 2 war =  yes }
 			modifier ={ factor = 2 NOT = { wealth =  0 } }
 			modifier = { factor = 1.2 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
-			modifier = { factor = 1.4 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
-			modifier = { factor = 1.7 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
-			modifier = { factor = 2 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
-			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
-			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.9 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 4 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
 	option = { # Financial support
 		name = EVTOPTCnilfgaard.102
-		transfer_scaled_wealth = { to = FROM value = 5.0 }
+		transfer_scaled_wealth = { to = FROM value = 3.0 }
 		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
 		ai_chance = {
 			factor = 3
 			modifier = { factor = 0.05 NOT = { wealth = 100 } }
 			modifier = { factor = 2 wealth = 500 }
-			modifier = { factor = 2 scaled_wealth = 5.0 }
+			modifier = { factor = 2 scaled_wealth = 3.0 }
 			modifier = { # Don't neighbor Nilfgaard
 				factor = 5
-				any_realm_province = {
+				e_nilfgaard = {
 					any_neighbor_province = {
 						owner = {
-							top_liege = { NOT = { has_landed_title = e_nilfgaard } }
+							top_liege = { NOT = { character = ROOT } }
 						}
 					}
 				}
