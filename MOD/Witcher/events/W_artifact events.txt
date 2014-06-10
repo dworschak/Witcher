@@ -1,12 +1,12 @@
 namespace = artifact
 
 ################################################
-# Passing artifacts (on_death)
+# Passing artifacts (breaks if more than 3 characters with artifacts die at same time)
 ################################################
-# Hidden - Selecting heir and passing artifacts to him
+# Hidden - Selecting heir for artifacts (on_death)
 character_event = {
 	id = artifact.1
-	desc = "Pass artifacts to heir"
+	desc = "Select heir for artifacts"
 	picture = GFX_evt_death
 	
 	is_triggered_only = yes
@@ -27,138 +27,340 @@ character_event = {
 			limit = {
 				is_patrician = no
 				current_heir = { dynasty = ROOT NOT = { character = ROOT } }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			current_heir = {
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Child
 			limit = {
 				is_patrician = no
 				any_child = { dynasty = ROOT is_alive = yes }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			random_child = {
 				limit = { dynasty = ROOT is_alive = yes }
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Sibling
 			limit = {
 				is_patrician = no
 				any_sibling = { is_alive = yes }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			random_sibling = {
 				limit = { is_alive = yes }
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Close dynasty member
 			limit = {
 				is_patrician = no
 				any_dynasty_member = { is_close_relative = ROOT is_alive = yes }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			random_dynasty_member = {
 				limit = { is_close_relative = ROOT is_alive = yes }
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Dynasty member
 			limit = {
 				is_patrician = no
 				any_dynasty_member = { NOT = { is_close_relative = ROOT } is_alive = yes }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			random_dynasty_member = {
 				limit = { NOT = { is_close_relative = ROOT } is_alive = yes }
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Bastard child
 			limit = {
 				is_patrician = no
 				any_child = { NOT = { dynasty = ROOT } is_alive = yes }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			random_child = {
 				limit = { NOT = { dynasty = ROOT } is_alive = yes }
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Spouse
 			limit = {
 				is_patrician = no
 				spouse = { is_alive = yes }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			spouse = {
 				limit = { is_alive = yes }
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Non-dynastic heir
 			limit = {
 				is_patrician = no
 				current_heir = { NOT = { dynasty = ROOT } }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			current_heir = {
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Liege
 			limit = {
 				is_patrician = no
 				liege = { NOT = { character = ROOT } }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			liege = {
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
 		if = { # Vassal
 			limit = {
 				is_patrician = no
 				liege = { character = ROOT }
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			random_vassal = {
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+					set_character_flag = artifact_heir_temp_3
+					ROOT = { add_trait = artifact_temp_3 }
+				}
+				if = {
+					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+					set_character_flag = artifact_heir_temp_2
+					ROOT = { add_trait = artifact_temp_2 }
+				}
+				if = {
+					limit = { NOT = { artifact_heir_temp = { always = yes } } }
+					set_character_flag = artifact_heir_temp_1
+					ROOT = { add_trait = artifact_temp_1 }
+				}
 				add_trait = artifact_heir_temp
 			}
-			add_trait = artifact_temp
 		}
-		if = { # Family manor heir
+		if = { # Family manor heir for republics
 			limit = {
 				is_patrician = yes
-				NOT = { trait = artifact_temp }
+				NOT = {
+					trait = artifact_temp_1
+					trait = artifact_temp_2
+					trait = artifact_temp_3
+				}
 			}
 			family_palace = {
 				current_heir = {
+					if = {
+						limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
+						set_character_flag = artifact_heir_temp_3
+						ROOT = { add_trait = artifact_temp_3 }
+					}
+					if = {
+						limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
+						set_character_flag = artifact_heir_temp_2
+						ROOT = { add_trait = artifact_temp_2 }
+					}
+					if = {
+						limit = { NOT = { artifact_heir_temp = { always = yes } } }
+						set_character_flag = artifact_heir_temp_1
+						ROOT = { add_trait = artifact_temp_1 }
+					}
 					add_trait = artifact_heir_temp
 				}
 			}
-			add_trait = artifact_temp
 		}
 	}
 	
-	option = { # Give
+	option = { # Character with cached trait gets event
 		name = "OK"
-		artifact_heir_temp = {
-			character_event = { id = artifact.2 }
+		if = {
+			limit = { ai = no }
+			artifact_heir_temp = { character_event = { id = artifact.2 days = 1 } }
 		}
-		remove_trait = artifact_temp
+		if = {
+			limit = { ai = yes }
+			artifact_heir_temp = { character_event = { id = artifact.2 } }
+		}
 	}
 }
 # Heir - Getting artifacts
@@ -168,6 +370,23 @@ character_event = {
 	picture = GFX_evt_death
 	
 	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			AND = {
+				FROM = { trait = artifact_temp_1 }
+				has_character_flag = artifact_heir_temp_1
+			}
+			AND = {
+				FROM = { trait = artifact_temp_2 }
+				has_character_flag = artifact_heir_temp_2
+			}
+			AND = {
+				FROM = { trait = artifact_temp_3 }
+				has_character_flag = artifact_heir_temp_3
+			}
+		}
+	}
 	
 	option = {
 		name = EVTOPTAartifact.2
@@ -196,28 +415,17 @@ character_event = {
 			FROM = { remove_trait = purple_living_bone_and_conynhaela }
 			add_trait = purple_living_bone_and_conynhaela
 		}
-		hidden_tooltip = { remove_trait = artifact_heir_temp }
-	}
-}
-# Maintenance - Remove targeting traits
-character_event = { 
-	id = artifact.50
-	desc = "Maintenance"
-	picture = GFX_evt_death
-	
-	hide_window = yes
-	
-	trigger = {
-		artifact_heir_temp = { always = yes }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = "OK"
-		artifact_heir_temp = { remove_trait = artifact_heir_temp }
+		hidden_tooltip = {
+			remove_trait = artifact_heir_temp
+			clr_character_flag = artifact_heir_temp_1
+			clr_character_flag = artifact_heir_temp_2
+			clr_character_flag = artifact_heir_temp_3
+			FROM = {
+				remove_trait = artifact_temp_1
+				remove_trait = artifact_temp_2
+				remove_trait = artifact_temp_3
+			}
+		}
 	}
 }
 
@@ -230,7 +438,7 @@ character_event = {
 	desc = EVTDESCartifact.100
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = {
 		name = EVTOPTAartifact.100
@@ -269,7 +477,7 @@ character_event = {
 			FROM = { remove_trait = nehalenias_mirror }
 			character_event = { id = artifact.102 tooltip = EVTTOOLTIPartifact.102 }
 		}
-		# Purple living  bone
+		# Purple living bone
 		if = {
 			limit = {
 				FROM = { trait = purple_living_bone }
@@ -353,7 +561,7 @@ character_event = {
 	desc = EVTDESCartifact.101
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell it
 		name = EVTOPTAartifact.101
@@ -394,7 +602,7 @@ character_event = {
 	desc = EVTDESCartifact.102
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell it
 		name = EVTOPTAartifact.102
@@ -435,7 +643,7 @@ character_event = {
 	desc = EVTDESCartifact.103
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell it
 		name = EVTOPTAartifact.103
@@ -465,7 +673,7 @@ character_event = {
 	desc = EVTDESCartifact.104
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell Living purple bone
 		name = EVTOPTAartifact.104
@@ -497,7 +705,7 @@ character_event = {
 	desc = EVTDESCartifact.105
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell it
 		name = EVTOPTAartifact.105
@@ -527,7 +735,7 @@ character_event = {
 	desc = EVTDESCartifact.106
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell Conynhaela
 		name = EVTOPTAartifact.106
@@ -559,7 +767,7 @@ character_event = {
 	desc = EVTDESCartifact.107
 	picture = GFX_evt_into_the_dungeon
 	
-	is_triggered_only =  yes
+	is_triggered_only = yes
 	
 	option = { # Sell it
 		name = EVTOPTAartifact.107
@@ -678,10 +886,10 @@ character_event = {
 		modifier = { factor = 0.5 wealth = 600 }
 		modifier = { factor = 0.5 wealth = 900 }
 		modifier = { factor = 0.5 trait = ambitious }
-		modifier = { factor = 0.9 trait = charitable  }
-		modifier = { factor = 0.9 trait = trusting  }
-		modifier = { factor = 1.1 trait = paranoid  }
-		modifier = { factor = 1.1 trait = greedy  }
+		modifier = { factor = 0.9 trait = charitable }
+		modifier = { factor = 0.9 trait = trusting }
+		modifier = { factor = 1.1 trait = paranoid }
+		modifier = { factor = 1.1 trait = greedy }
 	}
 	
 	option = { # Buy
