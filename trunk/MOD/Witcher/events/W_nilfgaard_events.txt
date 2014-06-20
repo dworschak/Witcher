@@ -3,8 +3,7 @@ namespace = nilfgaard
 ################################################
 # Evaluate Imperial Authority on succession
 ################################################
-# Hidden - Emperor Evaluation
-# TO DO - need to consider if title got by war and if same dynasty as previous emperor, it will be easier to do with modding improvements in next patch (08.06.2014)
+# Hidden - Imperial Authority evaluation
 character_event = {
 	id = nilfgaard.1
 	desc = "Emperor evaluation"
@@ -15,11 +14,6 @@ character_event = {
 	trigger = {
 		NOT = { culture = wilderness}
 		has_landed_title = e_nilfgaard
-		NOT = { has_character_flag = authority_evaluated }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	option = {
@@ -27,7 +21,6 @@ character_event = {
 		trigger = {
 			NOT = { e_nilfgaard = { has_law = imperial_authority_3 } }
 		}
-		set_character_flag = authority_evaluated
 		ai_chance = {
 			factor = 10
 			# Increase chance for increase
@@ -62,17 +55,34 @@ character_event = {
 			modifier = { factor = 0.75 trait = imbecile }
 			modifier = { factor = 0.9 trait = slow }
 			modifier = { factor = 0.9 trait = content }
+			modifier = { factor = 0.5 NOT = { age = 15 } }
+			modifier = { factor = 0.75 is_female = yes }
+			modifier = { factor = 0.9 trait = child_of_consort }
+			modifier = { factor = 0.5 NOT = { dynasty = FROMFROM } }
 		}
 	}
 	option = {
 		name = "Don't change authority"
-		set_character_flag = authority_evaluated
 		ai_chance = {
 			factor = 2
 			# Increase chance for no change
 			modifier = { factor = 2 trait = ambitious }
 			modifier = { factor = 2 trait = genius }
 			modifier = { factor = 1.5 trait = quick }
+			# Increase chance for decrease
+			modifier = { factor = 0.5 trait = bastard }
+			modifier = { factor = 0.75 trait = lunatic }
+			modifier = { factor = 0.5 trait = incapable }
+			modifier = { factor = 0.75 trait = infirm }
+			modifier = { factor = 0.9 trait = drunkard }
+			modifier = { factor = 0.75 trait = kinslayer }
+			modifier = { factor = 0.75 trait = imbecile }
+			modifier = { factor = 0.9 trait = slow }
+			modifier = { factor = 0.9 trait = content }
+			modifier = { factor = 0.5 NOT = { age = 15 } }
+			modifier = { factor = 0.75 is_female = yes }
+			modifier = { factor = 0.9 trait = child_of_consort }
+			modifier = { factor = 0.5 NOT = { dynasty = FROMFROM } }
 		}
 	}
 	option = {
@@ -80,7 +90,6 @@ character_event = {
 		trigger = {
 			e_nilfgaard = { has_law = imperial_authority_1 }
 		}
-		set_character_flag = authority_evaluated
 		ai_chance = {
 			factor = 1
 			# Increase chance for decrease
@@ -93,6 +102,10 @@ character_event = {
 			modifier = { factor = 1.5 trait = imbecile }
 			modifier = { factor = 1.25 trait = slow }
 			modifier = { factor = 1.25 trait = content }
+			modifier = { factor = 2 NOT = { age = 15 } }
+			modifier = { factor = 1.5 is_female = yes }
+			modifier = { factor = 1.5 trait = child_of_consort }
+			modifier = { factor = 2 NOT = { dynasty = FROMFROM } }
 			# Increase chance for increase
 			modifier = {
 				factor = 0.1
@@ -174,10 +187,9 @@ character_event = {
 	picture = GFX_evt_holy_emperor
 	
 	trigger = {
-		has_landed_title = e_nifgaard
+		has_landed_title = e_nilfgaard
 		e_nilfgaard = { has_law = imperial_authority_3 }
 		NOT = { trait = strong_emperor }
-		has_character_flag = authority_evaluated
 	}
 	
 	mean_time_to_happen = {
@@ -198,10 +210,9 @@ character_event = {
 	trigger = {
 		trait = strong_emperor
 		OR = {
-			NOT = { has_landed_title = e_nifgaard }
+			NOT = { has_landed_title = e_nilfgaard }
 			e_nilfgaard = { NOT = { has_law = imperial_authority_3 } }
 		}
-		has_character_flag = authority_evaluated
 	}
 	
 	option = {

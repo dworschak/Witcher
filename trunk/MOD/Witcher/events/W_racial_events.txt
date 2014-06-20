@@ -1,8 +1,10 @@
 namespace = racial
+# TO DO - flavour events for dryad pregnancy
 
 ################################################
-# Racial trait assignment (also on_birth)
+# Racial trait assignment
 ################################################
+# Racial trait assignment (normal and on_birth)
 character_event = {
 	id = racial.1
 	desc = "Your race is..."
@@ -110,7 +112,7 @@ character_event = {
 ################################################
 # Dryad reproduction
 ################################################
-# Pregnancy - should better be triggered by some flavor events
+# Pregnancy
 character_event = {
 	id = racial.2
 	desc = EVTDESCracial.2
@@ -188,6 +190,11 @@ character_event = {
 		FROM = { character = ROOT }
 	}
 	
+	immediate = { # Race assignment just in case
+		ROOT = { character_event = { id = racial.1} }
+		new_character = { character_event = { id = racial.1} }
+	}
+	
 	option = {
 		name = "Divorce marriage"
 		trigger = {
@@ -242,7 +249,7 @@ character_event = {
 			}
 		}
 		character_event = { id = racial.5 }
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 1000 }
 	}
 	option = {
 		name = "Marriage is okay"

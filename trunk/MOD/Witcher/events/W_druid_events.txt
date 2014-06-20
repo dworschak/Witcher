@@ -35,9 +35,10 @@ character_event = {
 	
 	hide_window = yes
 	
+	is_triggered_only = yes
+	
 	trigger = {
 		is_theocracy = yes
-		tier = baron
 		location = { religion = druidic }
 	}
 	
@@ -52,7 +53,11 @@ character_event = {
 			trait = druid
 		}
 		new_character = {
-			
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
 		}
 	}
 	option = {
@@ -66,7 +71,11 @@ character_event = {
 			trait = druid
 		}
 		new_character = {
-			
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
 		}
 	}
 	option = {
@@ -81,7 +90,11 @@ character_event = {
 			trait = druid
 		}
 		new_character = {
-			
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
 		}
 	}
 	option = {
@@ -96,7 +109,11 @@ character_event = {
 			trait = druid
 		}
 		new_character = {
-			
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
 		}
 	}
 }
@@ -154,70 +171,9 @@ character_event = {
 		}
 	}
 }
-# Spawn druid apprentice in druid circle
-province_event = {
-	id = druid.11
-	desc = "Hidden"
-	picture = GFX_evt_emissary
-	
-	trigger = {
-		religion = druidic
-		owner = {
-			trait = druid
-			religion = druidic
-			is_theocracy = yes
-			any_courtier = {
-				count = 2
-				NOT = { trait = apprentice_druid }
-			}
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 3000
-		modifier = { factor = 0.5 religion = druidic }
-	}
-	
-	option = {
-		name = "Male"
-		create_character = {
-			random_traits = yes
-			female = no
-			dynasty = none
-			religion = druidic
-			age = 15
-			trait = human
-			trait = apprentice_druid
-		}
-		new_character = {
-			change_learning = 2
-			remove_trait = inbred
-			remove_trait = imbecile
-			character_event = { id = druid.22 days = 5340 random = 1780 }
-		}
-	}
-	option = {
-		name = "Female"
-		create_character = {
-			random_traits = yes
-			female = yes
-			dynasty = none
-			religion = druidic
-			age = 15
-			trait = human
-			trait = apprentice_druid
-		}
-		new_character = {
-			change_learning = 2
-			remove_trait = inbred
-			remove_trait = imbecile
-			character_event = { id = druid.22 days = 5340 random = 1780 }
-		}
-	}
-}
-# Druid decides to leave a circle with too many druids
+# Hidden - Druid decides to leave a circle with too many druids
 character_event = {
-	id = druid.12
+	id = druid.11
 	desc = "There are too mant druid in the circle"
 	picture = GFX_evt_lunatic
 	
@@ -225,37 +181,6 @@ character_event = {
 	prisoner = no
 	only_playable = yes
 	capable_only = yes
-	
-	trigger = {
-		trait = druid
-		is_landed = no
-		liege = {
-			trait = druid
-			religion = druidic
-			is_theocracy = yes
-			any_courtier = {
-				count = 2
-				trait = druid
-			}
-		}
-	}
-	
-	option = {
-		name = "OK"
-		character_event = { id = druid.13 }
-	}
-}
-# Druid leaves the circle
-character_event = {
-	id = druid.13
-	desc = "Leave the circle to semi-random province"
-	picture = GFX_evt_lunatic
-	
-	min_age = 15
-	prisoner = no
-	capable_only = yes
-	
-	is_triggered_only = yes
 	
 	trigger = {
 		trait = druid
@@ -300,9 +225,7 @@ character_event = {
 							NOT = { trait = incapable }
 						}
 					}
-					owner = {
-						character_event = { id = druid.14 }
-					}
+					owner = { character_event = { id = druid.12 } }
 				}
 			}
 		}
@@ -310,24 +233,27 @@ character_event = {
 }
 # New liege choses if he wishes a druid
 character_event = {
-	id = druid.14
-	desc = EVTDESCdruid.14
+	id = druid.12
+	desc = EVTDESCdruid.12
 	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTAdruid.14
+		name = EVTOPTAdruid.12
 		FROM = { move_character = ROOT }
-	}
-	option = {
-		name = EVTOPTBdruid.14
-		hidden_tooltip = { character_event = { id = druid.13 } }
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 0.1 }
 			modifier = { factor = 10 religion = druidic }
 			modifier = { factor = 0.5 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTBdruid.12
+		hidden_tooltip = { character_event = { id = druid.11 } }
+		ai_chance = {
+			factor = 1
 		}
 	}
 }
@@ -353,7 +279,6 @@ character_event = {
 		in_command = no
 		NOT = { 
 			trait = druid 
-			trait = apprentice_druid
 			has_character_modifier = old_age
 		}
 		father = {
@@ -413,9 +338,8 @@ character_event = {
 					trait = druid
 				}
 				FROM = {
-					add_trait = apprentice_druid
 					move_character = PREV
-					character_event = { id = druid.22 days = 5340 random = 1780 }
+					character_event = { id = druid.22 days = 5475 random = 1825 }
 				}
 			}
 		}
@@ -432,7 +356,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAdruid.22
-		remove_trait = apprentice_druid
 		add_trait = druid
 		religion = druidic
 	}

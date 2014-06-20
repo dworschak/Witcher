@@ -56,10 +56,7 @@ faction_succ_tanistry = {
 			# The Crown Law title allows vassal infighting
 			crownlaw_title = {
 				NOT = {
-					OR = {
-						has_law = crown_obligation_2
-						has_law = crown_obligation_3
-					}
+					has_law = crown_obligation_3
 				}
 			}
 		}
@@ -91,8 +88,6 @@ faction_succ_tanistry = {
 				}
 			}
 		}
-		
-		NOT = { title = k_solar }
 	}
 	
 	# Faction member scope (ROOT = joiner, FROM = target)
@@ -587,10 +582,7 @@ faction_succ_ultimogeniture = {
 			# The Crown Law title allows vassal infighting
 			crownlaw_title = {
 				NOT = {
-					OR = {
-						has_law = crown_obligation_2
-						has_law = crown_obligation_3
-					}
+					has_law = crown_obligation_3
 				}
 			}
 		}
@@ -622,8 +614,6 @@ faction_succ_ultimogeniture = {
 				}
 			}
 		}
-		
-		NOT = { title = k_solar }
 	}
 	
 	# Faction member scope (ROOT = joiner, FROM = target)
@@ -1941,10 +1931,12 @@ faction_raise_tolerance = {
 		# Creator's traits
 		modifier = {
 			factor = 0
-			NOT = {
-				trait = tolerant
-				trait = elven
-				trait = dwarven
+			FROM = {
+				NOT = {
+					trait = tolerant
+					trait = elven
+					trait = dwarven
+				}
 			}
 		}
 		modifier = { factor = 0.01 FROM = { trait = content } }
