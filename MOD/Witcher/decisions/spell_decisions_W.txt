@@ -1,0 +1,618 @@
+decisions = {
+	spell_heal_court_mage = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+			}
+			OR = {
+				trait = ill
+				trait = pneumonic
+				trait = syphilitic
+				trait = leper
+				trait = has_tuberculosis
+				trait = has_typhoid_fever
+				trait = has_typhus
+				trait = has_bubonic_plague
+				trait = has_measles
+				trait = has_small_pox
+				trait = has_aztec_disease
+				trait = wounded
+				trait = maimed
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = { character_event = { id = spell.1 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 4 NOT = { health = 2 } }
+			modifier = { factor = 3 NOT = { health = 3 } }
+			modifier = { factor = 2 NOT = { health = 4 } }
+			modifier = { factor = 5 trait = blinded }
+			modifier = { factor = 5 trait = infirm }
+		}
+	}
+	spell_heal = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			prisoner = no
+			NOT = { trait = incapable }
+		}
+		allow = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			NOT = { has_character_modifier = drained }
+			OR = {
+				trait = ill
+				trait = pneumonic
+				trait = syphilitic
+				trait = leper
+				trait = has_tuberculosis
+				trait = has_typhoid_fever
+				trait = has_typhus
+				trait = has_bubonic_plague
+				trait = has_measles
+				trait = has_small_pox
+				trait = has_aztec_disease
+				trait = wounded
+				trait = maimed
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = { character_event = { id = spell.2 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0.01 has_job_title = job_mage } 
+			modifier = { factor = 4 NOT = { health = 2 } }
+			modifier = { factor = 3 NOT = { health = 3 } }
+			modifier = { factor = 2 NOT = { health = 4 } }
+			modifier = { factor = 5 trait = blinded }
+			modifier = { factor = 5 trait = infirm }
+		}
+	}
+	spell_glamour = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			prisoner = no
+			NOT = { trait = incapable }
+		}
+		allow = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			NOT = { has_character_modifier = drained }
+			OR = {
+				NOT = { trait = fair }
+				trait = harelip
+				trait = hunchback
+				trait = lisp
+				trait = stutter
+				trait = ugly
+				trait = dwarf
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_glamour_tooltip }
+			hidden_tooltip = { character_event = { id = spell.10 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.01 }
+			modifier = { factor = 0.01 has_job_title = job_mage }
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 2 trait = envious }
+			modifier = { factor = 0.01 is_female = no }
+			modifier = { factor = 2 culture_group = northern_group }
+			modifier = { factor = 0.01 location = { county = { de_jure_liege_or_above = e_nilfgaard } } }
+		}
+	}
+	spell_foresight_court_mage = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_foresight_tooltip }
+			hidden_tooltip = { character_event = { id = spell.20 } }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	spell_foresight = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			prisoner = no
+			NOT = { trait = incapable }
+		}
+		allow = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			NOT = { has_character_modifier = drained }
+		}
+		effect = {
+			custom_tooltip = { text = spell_foresight_tooltip }
+			hidden_tooltip = { character_event = { id = spell.21 } }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	spell_protection_court_mage = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+			}
+			NOT = { has_character_modifier = protection_spell }
+		}
+		effect = {
+			custom_tooltip = { text = spell_protection_tooltip }
+			hidden_tooltip = { character_event = { id = spell.30 } }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	spell_protection = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			prisoner = no
+			NOT = { trait = incapable }
+		}
+		allow = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			NOT = { has_character_modifier = drained }
+			NOT = { has_character_modifier = protection_spell }
+		}
+		effect = {
+			custom_tooltip = { text = spell_protection_tooltip }
+			hidden_tooltip = { character_event = { id = spell.31 } }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+	spell_siege_court_mage = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+				OR = {
+					siege = { is_attacker = yes } # The caster of spell needs to be a commander
+					hidden_tooltip = { # AI can cast the spell if court mage isn't commander but ROOT is
+						ROOT = {
+							ai = yes
+							siege = { is_attacker = yes }
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_siege_tooltip }
+			hidden_tooltip = {
+				random_list = { # Flavor variations
+					1 = { character_event = { id = spell.100 } } # Meteors
+					1 = { character_event = { id = spell.110 } } # Fire
+					1 = { character_event = { id = spell.120 } } # Earthquake
+					1 = { character_event = { id = spell.130 } } # Storm
+					1 = { character_event = { id = spell.140 } } # Ice
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	spell_siege = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			prisoner = no
+			NOT = { trait = incapable }
+		}
+		allow = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			NOT = { has_character_modifier = drained }
+			siege = { is_attacker = yes } # The caster of spell needs to be a commander
+		}
+		effect = {
+			custom_tooltip = { text = spell_siege_tooltip }
+			hidden_tooltip = {
+				random_list = { # Flavor variations
+					1 = { character_event = { id = spell.101 } } # Meteors
+					1 = { character_event = { id = spell.111 } } # Fire
+					1 = { character_event = { id = spell.121 } } # Earthquake
+					1 = { character_event = { id = spell.131 } } # Storm
+					1 = { character_event = { id = spell.141 } } # Ice
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.01 has_job_title = job_mage }
+		}
+	}
+	spell_battle_court_mage = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+		allow = {
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+				OR = {
+					in_battle = yes # The caster of spell needs to be a commander
+					hidden_tooltip = { # AI can cast the spell if court mage isn't commander but ROOT is
+						ROOT = {
+							ai = yes
+							in_battle = yes
+						}
+					}
+				}
+				OR = {
+					AND = {
+						is_ruler = yes
+						war = yes
+						any_playable_ruler = {
+							war_with = ROOT
+							OR = {
+								AND = {
+									OR = {
+										at_location = PREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									prisoner = no
+									in_command = yes
+								}
+								any_realm_lord = {
+									OR = {
+										at_location = PREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									prisoner = no
+									in_command = yes
+								}
+								any_courtier = {
+									OR = {
+										at_location = PREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									prisoner = no
+									in_command = yes
+								}
+							}
+						}
+					}
+					AND = {
+						war = no
+						any_liege = {
+							any_playable_ruler = {
+								war_with = PREV
+								OR = {
+									AND = {
+										OR = {
+											at_location = PREVPREV
+											AND = {
+												ROOT = { ai = yes }
+												at_location = ROOT
+											}
+										}
+										prisoner = no
+										in_command = yes
+									}
+									any_realm_lord = {
+										OR = {
+											at_location = PREVPREVPREV
+											AND = {
+												ROOT = { ai = yes }
+												at_location = ROOT
+											}
+										}
+										prisoner = no
+										in_command = yes
+									}
+									any_courtier = {
+										OR = {
+											at_location = PREVPREVPREV
+											AND = {
+												ROOT = { ai = yes }
+												at_location = ROOT
+											}
+										}
+										prisoner = no
+										in_command = yes
+									}
+								}
+							}
+						}
+					}
+					any_independent_ruler = {
+						mercenary = yes
+						OR = {
+							at_location = PREV
+							AND = {
+								ROOT = { ai = yes }
+								at_location = ROOT
+							}
+						}
+						in_command = yes
+						prisoner = no
+					}
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_battle_tooltip }
+			hidden_tooltip = {
+				random_list = { # Flavor variations
+					1 = { character_event = { id = spell.200 } } # Meteors
+					1 = { character_event = { id = spell.210 } } # Fire
+					1 = { character_event = { id = spell.220 } } # Earthquake
+					1 = { character_event = { id = spell.230 } } # Storm
+					1 = { character_event = { id = spell.240 } } # Ice
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	spell_battle = { # Toggled
+		potential = {
+			OR = {
+				ai = yes
+				has_character_flag = spell_decisions_open
+			}
+			NOT = { culture = wilderness }
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			prisoner = no
+			NOT = { trait = incapable }
+		}
+		allow = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+			NOT = { has_character_modifier = drained }
+			in_battle = yes # The caster of spell needs to be a commander
+			OR = {
+				AND = {
+					is_ruler = yes
+					war = yes
+					any_playable_ruler = {
+						war_with = ROOT
+						OR = {
+							AND = {
+								at_location = ROOT
+								prisoner = no
+								in_command = yes
+							}
+							any_realm_lord = {
+								at_location = ROOT
+								prisoner = no
+								in_command = yes
+							}
+							any_courtier = {
+								at_location = ROOT
+								prisoner = no
+								in_command = yes
+							}
+						}
+					}
+				}
+				AND = {
+					war = no
+					any_liege = {
+						any_playable_ruler = {
+							war_with = PREV
+							OR = {
+								AND = {
+									at_location = ROOT
+									prisoner = no
+									in_command = yes
+								}
+								any_realm_lord = {
+									at_location = ROOT
+									prisoner = no
+									in_command = yes
+								}
+								any_courtier = {
+									at_location = ROOT
+									prisoner = no
+									in_command = yes
+								}
+							}
+						}
+					}
+				}
+				any_independent_ruler = {
+					mercenary = yes
+					at_location = ROOT
+					in_command = yes
+					prisoner = no
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = { text = spell_battle_tooltip }
+			hidden_tooltip = {
+				random_list = { # Flavor variations
+					1 = { character_event = { id = spell.201 } } # Meteors
+					1 = { character_event = { id = spell.211 } } # Fire
+					1 = { character_event = { id = spell.221 } } # Earthquake
+					1 = { character_event = { id = spell.231 } } # Storm
+					1 = { character_event = { id = spell.241 } } # Ice
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.01 has_job_title = job_mage }
+		}
+	}
+}

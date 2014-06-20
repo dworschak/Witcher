@@ -3,45 +3,48 @@ namespace = plots
 ###########################################
 # Charm a character
 ###########################################
-# Hidden - decide which narrative event to use
+# Hidden - decide who casts the spell
 character_event = {
-	id = plots.100
-	desc = "Decide which narrative event to use"
+	id = plots.1
+	desc = "Decide who casts the spell"
 	picture = GFX_evt_holy_emperor
 	
 	hide_window = yes
 	is_triggered_only = yes
 	
-	
 	option = {
 		name = "Court magician is a sorcerer"
 		trigger = {
-			job_mage = { trait = sorcerer }
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+			}
 		}
 		ai_chance = { factor = 1000 }
-		character_event = { id = plots.101 }
+		character_event = { id = plots.2 }
 	}
 	option = {
 		name = "Ruler is a sorcerer"
-		trigger = { 
-			trait = sorcerer
+		trigger = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
 		}
-		ai_chance = {
-			factor = 500
-		}
-		character_event = { id = plots.102 }
+		ai_chance = { factor = 1 }
+		character_event = { id = plots.3 }
 	}
 	option = {
 		name = "An always available option just in case"
-		ai_chance = {
-			factor = 1
-		}
+		ai_chance = { factor = 0 }
 	}
 }
-# Charm spell - court magician
+# Court mage casts charm spell
 character_event = {
-	id = plots.101
-	desc = EVTDESCplots.101
+	id = plots.2
+	desc = EVTDESCplots.2
 	picture = GFX_evt_holy_emperor
 	
 	trigger = {
@@ -54,18 +57,18 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAplots.101
+		name = EVTOPTAplots.2
 		job_mage = {
 			add_character_modifier = { name = drained duration = 180 }
-			hidden_tooltip = { character_event = { id = plots.103 } }
+			hidden_tooltip = { character_event = { id = plots.4 } }
 		}
 		plot_target_char = { opinion = { modifier = opinion_charmed who = ROOT } }
 	}
 }
-# Charm spell - character
+# You cast charm spell
 character_event = {
-	id = plots.102
-	desc = EVTDESCplots.102
+	id = plots.3
+	desc = EVTDESCplots.3
 	picture = GFX_evt_holy_emperor
 	
 	trigger = {
@@ -78,15 +81,15 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAplots.102
+		name = EVTOPTAplots.3
 		add_character_modifier = { name = drained duration = 180 }
 		plot_target_char = { opinion = { modifier = opinion_charmed who = ROOT } }
 	}
 }
-# Charm spell - court magician notification
+# Court mage notification
 character_event = {
-	id = plots.103
-	desc = EVTDESCplots.103
+	id = plots.4
+	desc = EVTDESCplots.4
 	picture = GFX_evt_holy_emperor
 	
 	is_triggered_only = yes
@@ -98,7 +101,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAplots.103
+		name = EVTOPTAplots.4
 		add_character_modifier = { name = drained duration = 180 }
 	}
 }
@@ -106,47 +109,48 @@ character_event = {
 ###########################################
 # Heal a character
 ###########################################
-# Hidden - decide which narrative event to use
+# Hidden -  decide who casts the spell
 character_event = {
-	id = plots.110
-	desc = "Decide which narrative event to use"
+	id = plots.10
+	desc = "Decide who casts the spell"
 	picture = GFX_evt_recovery
 	
 	hide_window = yes
 	is_triggered_only = yes
 	
-	
 	option = {
 		name = "Court magician is a sorcerer"
 		trigger = {
 			job_mage = {
-				trait = sorcerer
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
 			}
 		}
 		ai_chance = { factor = 1000 }
-		character_event = { id = plots.111 }
+		character_event = { id = plots.11 }
 	}
 	option = {
 		name = "Ruler is a sorcerer"
-		trigger = { 
-			trait = sorcerer
+		trigger = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
 		}
-		ai_chance = {
-			factor = 500
-		}
-		character_event = { id = plots.112 }
+		ai_chance = { factor = 1 }
+		character_event = { id = plots.12 }
 	}
 	option = {
 		name = "An always available option just in case"
-		ai_chance = {
-			factor = 1
-		}
+		ai_chance = { factor = 0 }
 	}
 }
-# Heal spell - court magician
+# Court mage casts heal spell
 character_event = {
-	id = plots.111
-	desc = EVTDESCplots.111
+	id = plots.11
+	desc = EVTDESCplots.11
 	picture = GFX_evt_recovery
 	
 	trigger = {
@@ -161,10 +165,10 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAplots.111
+		name = EVTOPTAplots.11
 		job_mage = {
 			add_character_modifier = { name = drained duration = 180 }
-			hidden_tooltip = { character_event = { id = plots.113 } }
+			hidden_tooltip = { character_event = { id = plots.13 } }
 		}
 		plot_target_char = {
 			if = { limit = { trait = ill } remove_trait = ill }
@@ -187,10 +191,10 @@ character_event = {
 		}
 	}
 }
-# Heal spell - character
+# You cast heal spell
 character_event = {
-	id = plots.112
-	desc = EVTDESCplots.112
+	id = plots.12
+	desc = EVTDESCplots.12
 	picture = GFX_evt_recovery
 	
 	trigger = {
@@ -203,7 +207,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAplots.112
+		name = EVTOPTAplots.12
 		add_character_modifier = { name = drained duration = 180 }
 		plot_target_char = {
 			if = { limit = { trait = ill } remove_trait = ill }
@@ -226,10 +230,10 @@ character_event = {
 		}
 	}
 }
-# Heal spell - court magician notification
+# Court mage notification
 character_event = {
-	id = plots.113
-	desc = EVTDESCplots.113
+	id = plots.13
+	desc = EVTDESCplots.13
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
@@ -241,7 +245,127 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAplots.113
+		name = EVTOPTAplots.13
+		add_character_modifier = { name = drained duration = 180 }
+	}
+}
+
+###########################################
+# Protect a character
+###########################################
+# Hidden - decide who casts the spell
+character_event = {
+	id = plots.20
+	desc = "Decide who casts the spell"
+	picture = GFX_evt_recovery
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = "Court magician is a sorcerer"
+		trigger = {
+				job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+			}
+		}
+		ai_chance = { factor = 1000 }
+		character_event = { id = plots.21 }
+	}
+	option = {
+		name = "Ruler is a sorcerer"
+		trigger = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+		}
+		ai_chance = { factor = 1 }
+		character_event = { id = plots.22 }
+	}
+	option = {
+		name = "An always available option just in case"
+		ai_chance = { factor = 0 }
+	}
+}
+# Court mage casts protect spell
+character_event = {
+	id = plots.21
+	desc = EVTDESCplots.21
+	picture = GFX_evt_recovery
+	
+	trigger = {
+		has_plot = plot_protect_character
+		job_mage = {
+			OR = {
+				trait = sorcerer
+				trait = source
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAplots.21
+		job_mage = {
+			add_character_modifier = { name = drained duration = 180 }
+			hidden_tooltip = { character_event = { id = plots.23 } }
+		}
+		plot_target_char = {
+			add_character_modifier = { name = protection_spell duration = -1 }
+			opinion = { modifier = opinion_grateful who = ROOT }
+		}
+	}
+}
+#  You cast protect spell
+character_event = {
+	id = plots.22
+	desc = EVTDESCplots.22
+	picture = GFX_evt_recovery
+	
+	trigger = {
+		has_plot = plot_protect_character
+		OR = {
+			trait = sorcerer
+			trait = source
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAplots.22
+		add_character_modifier = { name = drained duration = 180 }
+		plot_target_char = {
+			add_character_modifier = { name = protection_spell duration = -1 }
+			opinion = { modifier = opinion_grateful who = ROOT }
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = plots.23
+	desc = EVTDESCplots.23
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	notification = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAplots.23
 		add_character_modifier = { name = drained duration = 180 }
 	}
 }

@@ -774,3 +774,329 @@ character_event = {
 		prestige = 10
 	}
 }
+
+################################################
+# Lunatic events
+################################################
+# Become lunatic without need for stressed or depressed
+character_event = {
+	id = health.100
+	desc = EVTDESChealth.100
+	picture = GFX_evt_recovery
+	
+	min_age = 15
+	
+	trigger = {
+		NOT = { trait = lunatic }
+		OR = {
+			trait = sorcerer
+			trait = magic_talent
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 6000
+		modifier = { factor = 0.2 trait = syphilitic }
+		modifier = { factor = 0.5 trait = zealous }
+		modifier = { factor = 0.5 trait = paranoid }
+		modifier = { factor = 0.5 trait = inbred }
+		modifier = { factor = 0.5 trait = genius }
+		modifier = { factor = 0.75 has_character_flag = hidden_magic_talent }
+		modifier = { factor = 0.5 trait = magic_talent }
+	}
+	
+	option = {
+		name = EVTOPTAhealth.100
+		add_trait = lunatic
+	}
+}
+# Random personality swings
+character_event = {
+	id = health.101
+	desc = EVTDESChealth.101
+	picture = GFX_evt_lunatic
+	
+	min_age = 10
+	
+	trigger = {
+		trait = lunatic
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+		modifier = { factor = 0.75 has_character_flag = hidden_magic_talent }
+		modifier = { factor = 0.5 trait = magic_talent }
+	}
+	
+	option = {
+		name = EVTOPTAhealth.101
+		if = {
+			limit = { trait = lustful }
+			random = {
+				chance = 5
+				remove_trait = lustful
+				add_trait = chaste
+			}
+		}
+		if = {
+			limit = { trait = chaste }
+			random = {
+				chance = 5
+				remove_trait = chaste
+				add_trait = lustful
+			}
+		}
+		if = {
+			limit = { trait = gluttonous }
+			random = {
+				chance = 5
+				remove_trait = gluttonous
+				add_trait = temperate
+			}
+		}
+		if = {
+			limit = { trait = temperate }
+			random = {
+				chance = 5
+				remove_trait = temperate
+				add_trait = gluttonous
+			}
+		}
+		if = {
+			limit = { trait = greedy }
+			random = {
+				chance = 5
+				remove_trait = greedy
+				add_trait = charitable
+			}
+		}
+		if = {
+			limit = { trait = charitable }
+			random = {
+				chance = 5
+				remove_trait = charitable
+				add_trait = greedy
+			}
+		}
+		if = {
+			limit = { trait = slothful }
+			random = {
+				chance = 5
+				remove_trait = slothful
+				add_trait = diligent
+			}
+		}
+		if = {
+			limit = { trait = diligent }
+			random = {
+				chance = 5
+				remove_trait = diligent
+				add_trait = slothful
+			}
+		}
+		if = {
+			limit = { trait = envious }
+			random = {
+				chance = 5
+				remove_trait = envious
+				add_trait = kind
+			}
+		}
+		if = {
+			limit = { trait = kind }
+			random = {
+				chance = 5
+				remove_trait = kind
+				add_trait = envious
+			}
+		}
+		if = {
+			limit = { trait = wroth }
+			random = {
+				chance = 5
+				remove_trait = wroth
+				add_trait = patient
+			}
+		}
+		if = {
+			limit = { trait = patient }
+			random = {
+				chance = 5
+				remove_trait = patient
+				add_trait = wroth
+			}
+		}
+		if = {
+			limit = { trait = proud }
+			random = {
+				chance = 5
+				remove_trait = proud
+				add_trait = humble
+			}
+		}
+		if = {
+			limit = { trait = humble }
+			random = {
+				chance = 5
+				remove_trait = humble
+				add_trait = proud
+			}
+		}
+		if = {
+			limit = { trait = deceitful }
+			random = {
+				chance = 5
+				remove_trait = deceitful
+				add_trait = honest
+			}
+		}
+		if = {
+			limit = { trait = honest }
+			random = {
+				chance = 5
+				remove_trait = honest
+				add_trait = deceitful
+			}
+		}
+		if = {
+			limit = { trait = craven }
+			random = {
+				chance = 5
+				remove_trait = craven
+				add_trait = brave
+			}
+		}
+		if = {
+			limit = { trait = brave }
+			random = {
+				chance = 5
+				remove_trait = brave
+				add_trait = craven
+			}
+		}
+		if = {
+			limit = { trait = shy }
+			random = {
+				chance = 5
+				remove_trait = shy
+				add_trait = gregarious
+			}
+		}
+		if = {
+			limit = { trait = gregarious }
+			random = {
+				chance = 5
+				remove_trait = gregarious
+				add_trait = shy
+			}
+		}
+		if = {
+			limit = { trait = ambitious }
+			random = {
+				chance = 5
+				remove_trait = ambitious
+				add_trait = content
+			}
+		}
+		if = {
+			limit = { trait = content }
+			random = {
+				chance = 5
+				remove_trait = content
+				add_trait = ambitious
+			}
+		}
+		if = {
+			limit = { trait = arbitrary }
+			random = {
+				chance = 5
+				remove_trait = arbitrary
+				add_trait = just
+			}
+		}
+		if = {
+			limit = { trait = just }
+			random = {
+				chance = 5
+				remove_trait = just
+				add_trait = arbitrary
+			}
+		}
+		if = {
+			limit = { trait = cynical }
+			random = {
+				chance = 5
+				remove_trait = cynical
+				add_trait = zealous
+			}
+		}
+		if = {
+			limit = { trait = zealous }
+			random = {
+				chance = 5
+				remove_trait = zealous
+				add_trait = cynical
+			}
+		}
+		if = {
+			limit = { trait = paranoid }
+			random = {
+				chance = 5
+				remove_trait = paranoid
+				add_trait = trusting
+			}
+		}
+		if = {
+			limit = { trait = trusting }
+			random = {
+				chance = 5
+				remove_trait = trusting
+				add_trait = paranoid
+			}
+		}
+		if = {
+			limit = { trait = tolerant }
+			random = {
+				chance = 5
+				remove_trait = tolerant
+				add_trait = racist
+			}
+		}
+		if = {
+			limit = { trait = racist }
+			random = {
+				chance = 5
+				remove_trait = racist
+				add_trait = tolerant
+			}
+		}
+	}
+}
+# Starting to see things (Adventur Time - Wizard eyes)
+character_event = {
+	id = health.102
+	desc = EVTDESChealth.102
+	picture = GFX_evt_lunatic
+	
+	ai = no
+	min_age = 15
+	prisoner = no
+	
+	trigger = {
+		trait = lunatic
+		OR = {
+			trait = sorcerer
+			trait = magic_talent
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 420
+	}
+	
+	option = {
+		name = EVTOPTAhealth.102
+		tooltip_info = lunatic
+		prestige = -20
+	}
+}

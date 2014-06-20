@@ -1,0 +1,2093 @@
+namespace = spell
+
+################################################
+# Heal spell
+################################################
+# Court mage casts heal spell
+character_event = {
+	id = spell.1
+	desc = EVTDESCspell.1
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.1
+		job_mage = {
+			add_character_modifier = { name = drained duration = 180 }
+			hidden_tooltip = {# Court mage notification
+				character_event = { id = spell.3 }
+			}
+		}
+		if = { limit = { trait = ill } remove_trait = ill }
+		if = { limit = { trait = pneumonic } remove_trait = pneumonic }
+		if = { limit = { trait = syphilitic } remove_trait = syphilitic }
+		if = { limit = { trait = leper } remove_trait = leper }
+		if = { limit = { trait = has_tuberculosis } remove_trait = has_tuberculosis }
+		if = { limit = { trait = has_typhoid_fever } remove_trait = has_typhoid_fever }
+		if = { limit = { trait = has_typhus } remove_trait = has_typhus }
+		if = { limit = { trait = has_bubonic_plague } remove_trait = has_bubonic_plague }
+		if = { limit = { trait = has_measles } remove_trait = has_measles }
+		if = { limit = { trait = has_small_pox } remove_trait = has_small_pox }
+		if = { limit = { trait = has_aztec_disease } remove_trait = has_aztec_disease }
+		if = { limit = { trait = wounded } remove_trait = wounded }
+		if = { limit = { trait = maimed } remove_trait = maimed }
+		if = { limit = { trait = infirm } remove_trait = infirm }
+		if = { limit = { trait = blinded } remove_trait = blinded }
+		if = { limit = { trait = eunuch } remove_trait = eunuch }
+	}
+}
+# You cast heal spell
+character_event = {
+	id = spell.2
+	desc = EVTDESCspell.2
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.1
+		FROM = { add_character_modifier = { name = drained duration = 180 } }
+		if = { limit = { trait = ill } remove_trait = ill }
+		if = { limit = { trait = pneumonic } remove_trait = pneumonic }
+		if = { limit = { trait = syphilitic } remove_trait = syphilitic }
+		if = { limit = { trait = leper } remove_trait = leper }
+		if = { limit = { trait = has_tuberculosis } remove_trait = has_tuberculosis }
+		if = { limit = { trait = has_typhoid_fever } remove_trait = has_typhoid_fever }
+		if = { limit = { trait = has_typhus } remove_trait = has_typhus }
+		if = { limit = { trait = has_bubonic_plague } remove_trait = has_bubonic_plague }
+		if = { limit = { trait = has_measles } remove_trait = has_measles }
+		if = { limit = { trait = has_small_pox } remove_trait = has_small_pox }
+		if = { limit = { trait = has_aztec_disease } remove_trait = has_aztec_disease }
+		if = { limit = { trait = wounded } remove_trait = wounded }
+		if = { limit = { trait = maimed } remove_trait = maimed }
+		if = { limit = { trait = infirm } remove_trait = infirm }
+		if = { limit = { trait = blinded } remove_trait = blinded }
+		if = { limit = { trait = eunuch } remove_trait = eunuch }
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.3
+	desc = EVTDESCspell.3
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.202
+		add_character_modifier = { name = drained duration = 180 }
+	}
+}
+
+################################################
+# Glamour spell
+################################################
+# You cast glamour spell
+character_event = {
+	id = spell.10
+	desc = EVTDESCspell.10
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.10
+		FROM = { add_character_modifier = { name = drained duration = 180 } }
+		add_trait = fair
+		if = { limit = { trait = harelip } remove_trait = harelip }
+		if = { limit = { trait = hunchback } remove_trait = hunchback }
+		if = { limit = { trait = lisp } remove_trait = lisp }
+		if = { limit = { trait = stutter } remove_trait = stutter }
+		if = { limit = { trait = ugly } remove_trait = ugly }
+		if = { limit = { trait = dwarf } remove_trait = dwarf }
+	}
+}
+
+################################################
+# Foresight spell
+################################################
+# Court mage casts foresight spell
+character_event = {
+	id = spell.20
+	desc = EVTDESCspell.20
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.20
+		job_mage = {
+			add_character_modifier = { name = drained duration = 180 }
+			hidden_tooltip = {# Court mage notification
+				character_event = { id = spell.22 }
+			}
+		}
+		any_realm_character = {
+			limit = {
+				OR = {
+					plot_target_char = { character = FROM }
+					plot_target_title = { owner = { character = FROM } }
+				}
+				OR = {
+					has_plot = plot_gain_title
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+					has_plot = plot_weaken_fellow_vassal
+					has_plot = plot_gain_liege_title
+					has_plot = plot_gain_fellow_vassal_title
+				}
+			}
+			reveal_plot = yes
+		}
+	}
+}
+# You cast foresight spell
+character_event = {
+	id = spell.21
+	desc = EVTDESCspell.21
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.20
+		FROM = { add_character_modifier = { name = drained duration = 180 } }
+		any_realm_character = {
+			limit = {
+				NOT = { character = FROM }
+				OR = {
+					plot_target_char = { character = FROM }
+					plot_target_title = { owner = { character = FROM } }
+				}
+				OR = {
+					has_plot = plot_gain_title
+					has_plot = plot_kill_character
+					has_plot = plot_kill_spouse
+					has_plot = plot_weaken_fellow_vassal
+					has_plot = plot_gain_liege_title
+					has_plot = plot_gain_fellow_vassal_title
+				}
+			}
+			reveal_plot = yes
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.22
+	desc = EVTDESCspell.22
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 180 }
+	}
+}
+
+################################################
+# Protection spell
+################################################
+# Court mage casts protection spell
+character_event = {
+	id = spell.30
+	desc = EVTDESCspell.30
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.30
+		job_mage = {
+			add_character_modifier = { name = drained duration = 180 }
+			hidden_tooltip = {# Court mage notification
+				character_event = { id = spell.32 }
+			}
+		}
+		add_character_modifier = { name = protection_spell duration = -1 }
+	}
+}
+# You cast protection spell
+character_event = {
+	id = spell.31
+	desc = EVTDESCspell.31
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.31
+		FROM = { add_character_modifier = { name = drained duration = 180 } }
+		add_character_modifier = { name = protection_spell duration = -1 }
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.32
+	desc = EVTDESCspell.32
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 180 }
+	}
+}
+
+################################################
+# Siege spell
+################################################
+# Court mage casts meteor spell
+character_event = {
+	id = spell.100
+	desc = EVTDESCspell.100
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.100
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.102 } } # Court mage notification
+			siege = {
+				enemy = {
+					morale = -0.4
+					troops = -0.4
+					hidden_tooltip = { # Enemy notification
+						leader = {
+							any_liege = {
+								limit = {
+									war_with = ROOT
+									NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+								}
+								character_event = { id = spell.103 }
+							}
+							if = {
+								limit = { war_with = ROOT }
+								character_event = { id = spell.103 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# You cast meteor spell
+character_event = {
+	id = spell.101
+	desc = EVTDESCspell.101
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.100
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		siege = {
+			enemy = {
+				morale = -0.4
+				troops = -0.4
+				hidden_tooltip = { # Enemy notification
+					leader = {
+						any_liege = {
+							limit = {
+								war_with = ROOT
+								NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+							}
+							character_event = { id = spell.103 }
+						}
+						if = {
+							limit = { war_with = ROOT }
+							character_event = { id = spell.103 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.102
+	desc = EVTDESCspell.102
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.103
+	desc = EVTDESCspell.103
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts fire spell
+character_event = {
+	id = spell.110
+	desc = EVTDESCspell.110
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.110
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.112 } } # Court mage notification
+			siege = {
+				enemy = {
+					morale = -0.4
+					troops = -0.4
+					hidden_tooltip = { # Enemy notification
+						leader = {
+							any_liege = {
+								limit = {
+									war_with = ROOT
+									NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+								}
+								character_event = { id = spell.113 }
+							}
+							if = {
+								limit = { war_with = ROOT }
+								character_event = { id = spell.113 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# You cast fire spell
+character_event = {
+	id = spell.111
+	desc = EVTDESCspell.111
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.110
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		siege = {
+			enemy = {
+				morale = -0.4
+				troops = -0.4
+				hidden_tooltip = { # Enemy notification
+					leader = {
+						any_liege = {
+							limit = {
+								war_with = ROOT
+								NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+							}
+							character_event = { id = spell.113 }
+						}
+						if = {
+							limit = { war_with = ROOT }
+							character_event = { id = spell.113 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.112
+	desc = EVTDESCspell.112
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.113
+	desc = EVTDESCspell.113
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts earthquake spell
+character_event = {
+	id = spell.120
+	desc = EVTDESCspell.120
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.120
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.122 } } # Court mage notification
+			siege = {
+				enemy = {
+					morale = -0.4
+					troops = -0.4
+					hidden_tooltip = { # Enemy notification
+						leader = {
+							any_liege = {
+								limit = {
+									war_with = ROOT
+									NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+								}
+								character_event = { id = spell.123 }
+							}
+							if = {
+								limit = { war_with = ROOT }
+								character_event = { id = spell.123 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# You cast earthquake spell
+character_event = {
+	id = spell.121
+	desc = EVTDESCspell.121
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.120
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		siege = {
+			enemy = {
+				morale = -0.4
+				troops = -0.4
+				hidden_tooltip = { # Enemy notification
+					leader = {
+						any_liege = {
+							limit = {
+								war_with = ROOT
+								NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+							}
+							character_event = { id = spell.123 }
+						}
+						if = {
+							limit = { war_with = ROOT }
+							character_event = { id = spell.123 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.122
+	desc = EVTDESCspell.122
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.123
+	desc = EVTDESCspell.123
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts storm spell
+character_event = {
+	id = spell.130
+	desc = EVTDESCspell.130
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.130
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.132 } } # Court mage notification
+			siege = {
+				enemy = {
+					morale = -0.4
+					troops = -0.4
+					hidden_tooltip = { # Enemy notification
+						leader = {
+							any_liege = {
+								limit = {
+									war_with = ROOT
+									NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+								}
+								character_event = { id = spell.133 }
+							}
+							if = {
+								limit = { war_with = ROOT }
+								character_event = { id = spell.133 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# You cast storm spell
+character_event = {
+	id = spell.131
+	desc = EVTDESCspell.131
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.130
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		siege = {
+			enemy = {
+				morale = -0.4
+				troops = -0.4
+				hidden_tooltip = { # Enemy notification
+					leader = {
+						any_liege = {
+							limit = {
+								war_with = ROOT
+								NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+							}
+							character_event = { id = spell.133 }
+						}
+						if = {
+							limit = { war_with = ROOT }
+							character_event = { id = spell.133 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.132
+	desc = EVTDESCspell.132
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.133
+	desc = EVTDESCspell.133
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts ice spell
+character_event = {
+	id = spell.140
+	desc = EVTDESCspell.140
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.140
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.142 } } # Court mage notification
+			siege = {
+				enemy = {
+					morale = -0.4
+					troops = -0.4
+					hidden_tooltip = { # Enemy notification
+						leader = {
+							any_liege = {
+								limit = {
+									war_with = ROOT
+									NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+								}
+								character_event = { id = spell.143 }
+							}
+							if = {
+								limit = { war_with = ROOT }
+								character_event = { id = spell.143 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# You cast ice spell
+character_event = {
+	id = spell.141
+	desc = EVTDESCspell.141
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.140
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		siege = {
+			enemy = {
+				morale = -0.4
+				troops = -0.4
+				hidden_tooltip = { # Enemy notification
+					leader = {
+						any_liege = {
+							limit = {
+								war_with = ROOT
+								NOT = { ROOT = { liege = { has_landed_title = e_rebels } } }
+							}
+							character_event = { id = spell.143 }
+						}
+						if = {
+							limit = { war_with = ROOT }
+							character_event = { id = spell.143 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.142
+	desc = EVTDESCspell.142
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.143
+	desc = EVTDESCspell.143
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+
+################################################
+# Battle spell
+################################################
+# Court mage casts meteor spell
+character_event = {
+	id = spell.200
+	desc = EVTDESCspell.200
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.200
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.202 } } # Court mage notification
+			ROOT = {
+				if = {
+					limit = {
+						is_ruler = yes
+						war = yes
+						OR = {
+							is_primary_war_attacker = yes
+							is_primary_war_defender = yes
+							independent = yes
+						}
+					}
+					any_current_enemy = {
+						limit = {
+							OR = {
+								at_location = PREV
+								AND = {
+									ROOT = { ai = yes }
+									at_location = ROOT
+								}
+							}
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.203 }
+					}
+					any_current_enemy = {
+						any_realm_character = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+								NOT = { character = PREV }
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.203 }
+						}
+					}
+				}
+				if = {
+					limit = { 
+						NOT = {
+							is_ruler = yes
+							war = yes
+							OR = {
+								is_primary_war_attacker = yes
+								is_primary_war_defender = yes
+								independent = yes
+							}
+						}
+					}
+					liege = {
+						any_current_enemy = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.203 }
+						}
+						any_current_enemy = {
+							any_realm_character = {
+								limit = { 
+									OR = {
+										at_location = PREVPREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									in_command = yes
+									prisoner = no
+									NOT = { character = PREV }
+								}
+								morale = -0.4
+								troops = -0.4
+								character_event = { id = spell.203 }
+							}
+						}
+					}
+				}
+				any_independent_ruler = {
+					limit = {
+						mercenary = yes 
+						OR = {
+							at_location = PREV
+							AND = {
+								ROOT = { ai = yes }
+								at_location = ROOT
+							}
+						}
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.203 }
+				}
+			}
+		}
+	}
+}
+# You cast meteor spell
+character_event = {
+	id = spell.201
+	desc = EVTDESCspell.201
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.200
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		if = {
+			limit = {
+				is_ruler = yes
+				war = yes
+				OR = {
+					is_primary_war_attacker = yes
+					is_primary_war_defender = yes
+					independent = yes
+				}
+			}
+			any_current_enemy = {
+				limit = { 
+					at_location = ROOT
+					in_command = yes
+					prisoner = no
+				}
+				morale = -0.4
+				troops = -0.4
+				character_event = { id = spell.203 }
+			}
+			any_current_enemy = {
+				any_realm_character = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.203 }
+				}
+			}
+		}
+		if = {
+			limit = { 
+				NOT = {
+					is_ruler = yes
+					war = yes
+					OR = {
+						is_primary_war_attacker = yes
+						is_primary_war_defender = yes
+						independent = yes
+					}
+				}
+			}
+			liege = {
+				any_current_enemy = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.203 }
+				}
+				any_current_enemy = {
+					any_realm_character = {
+						limit = { 
+							at_location = ROOT
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.203 }
+					}
+				}
+			}
+		}
+		any_independent_ruler = {
+			limit = {
+				mercenary = yes
+				at_location = ROOT
+				in_command = yes
+				prisoner = no
+			}
+			morale = -0.4
+			troops = -0.4
+			character_event = { id = spell.203 }
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.202
+	desc = EVTDESCspell.202
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.203
+	desc = EVTDESCspell.203
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts fire spell
+character_event = {
+	id = spell.210
+	desc = EVTDESCspell.210
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.210
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.212 } } # Court mage notification
+			ROOT = {
+				if = {
+					limit = {
+						is_ruler = yes
+						war = yes
+						OR = {
+							is_primary_war_attacker = yes
+							is_primary_war_defender = yes
+							independent = yes
+						}
+					}
+					any_current_enemy = {
+						limit = {
+							OR = {
+								at_location = PREV
+								AND = {
+									ROOT = { ai = yes }
+									at_location = ROOT
+								}
+							}
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.213 }
+					}
+					any_current_enemy = {
+						any_realm_character = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+								NOT = { character = PREV }
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.213 }
+						}
+					}
+				}
+				if = {
+					limit = { 
+						NOT = {
+							is_ruler = yes
+							war = yes
+							OR = {
+								is_primary_war_attacker = yes
+								is_primary_war_defender = yes
+								independent = yes
+							}
+						}
+					}
+					liege = {
+						any_current_enemy = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.213 }
+						}
+						any_current_enemy = {
+							any_realm_character = {
+								limit = { 
+									OR = {
+										at_location = PREVPREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									in_command = yes
+									prisoner = no
+									NOT = { character = PREV }
+								}
+								morale = -0.4
+								troops = -0.4
+								character_event = { id = spell.213 }
+							}
+						}
+					}
+				}
+				any_independent_ruler = {
+					limit = {
+						mercenary = yes 
+						OR = {
+							at_location = PREV
+							AND = {
+								ROOT = { ai = yes }
+								at_location = ROOT
+							}
+						}
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.213 }
+				}
+			}
+		}
+	}
+}
+# You cast fire spell
+character_event = {
+	id = spell.211
+	desc = EVTDESCspell.211
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.210
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		if = {
+			limit = {
+				is_ruler = yes
+				war = yes
+				OR = {
+					is_primary_war_attacker = yes
+					is_primary_war_defender = yes
+					independent = yes
+				}
+			}
+			any_current_enemy = {
+				limit = { 
+					at_location = ROOT
+					in_command = yes
+					prisoner = no
+				}
+				morale = -0.4
+				troops = -0.4
+				character_event = { id = spell.213 }
+			}
+			any_current_enemy = {
+				any_realm_character = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.213 }
+				}
+			}
+		}
+		if = {
+			limit = { 
+				NOT = {
+					is_ruler = yes
+					war = yes
+					OR = {
+						is_primary_war_attacker = yes
+						is_primary_war_defender = yes
+						independent = yes
+					}
+				}
+			}
+			liege = {
+				any_current_enemy = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.213 }
+				}
+				any_current_enemy = {
+					any_realm_character = {
+						limit = { 
+							at_location = ROOT
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.213 }
+					}
+				}
+			}
+		}
+		any_independent_ruler = {
+			limit = {
+				mercenary = yes
+				at_location = ROOT
+				in_command = yes
+				prisoner = no
+			}
+			morale = -0.4
+			troops = -0.4
+			character_event = { id = spell.213 }
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.212
+	desc = EVTDESCspell.212
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.213
+	desc = EVTDESCspell.213
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts earthquake spell
+character_event = {
+	id = spell.220
+	desc = EVTDESCspell.220
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.220
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.222 } } # Court mage notification
+			
+			ROOT = {
+				if = {
+					limit = {
+						is_ruler = yes
+						war = yes
+						OR = {
+							is_primary_war_attacker = yes
+							is_primary_war_defender = yes
+							independent = yes
+						}
+					}
+					any_current_enemy = {
+						limit = {
+							OR = {
+								at_location = PREV
+								AND = {
+									ROOT = { ai = yes }
+									at_location = ROOT
+								}
+							}
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.223 }
+					}
+					any_current_enemy = {
+						any_realm_character = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+								NOT = { character = PREV }
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.223 }
+						}
+					}
+				}
+				if = {
+					limit = { 
+						NOT = {
+							is_ruler = yes
+							war = yes
+							OR = {
+								is_primary_war_attacker = yes
+								is_primary_war_defender = yes
+								independent = yes
+							}
+						}
+					}
+					liege = {
+						any_current_enemy = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.223 }
+						}
+						any_current_enemy = {
+							any_realm_character = {
+								limit = { 
+									OR = {
+										at_location = PREVPREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									in_command = yes
+									prisoner = no
+									NOT = { character = PREV }
+								}
+								morale = -0.4
+								troops = -0.4
+								character_event = { id = spell.223 }
+							}
+						}
+					}
+				}
+				any_independent_ruler = {
+					limit = {
+						mercenary = yes 
+						OR = {
+							at_location = PREV
+							AND = {
+								ROOT = { ai = yes }
+								at_location = ROOT
+							}
+						}
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.223 }
+				}
+			}
+		}
+	}
+}
+# You cast earthquake spell
+character_event = {
+	id = spell.221
+	desc = EVTDESCspell.221
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.220
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		if = {
+			limit = {
+				is_ruler = yes
+				war = yes
+				OR = {
+					is_primary_war_attacker = yes
+					is_primary_war_defender = yes
+					independent = yes
+				}
+			}
+			any_current_enemy = {
+				limit = { 
+					at_location = ROOT
+					in_command = yes
+					prisoner = no
+				}
+				morale = -0.4
+				troops = -0.4
+				character_event = { id = spell.223 }
+			}
+			any_current_enemy = {
+				any_realm_character = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.223 }
+				}
+			}
+		}
+		if = {
+			limit = { 
+				NOT = {
+					is_ruler = yes
+					war = yes
+					OR = {
+						is_primary_war_attacker = yes
+						is_primary_war_defender = yes
+						independent = yes
+					}
+				}
+			}
+			liege = {
+				any_current_enemy = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.223 }
+				}
+				any_current_enemy = {
+					any_realm_character = {
+						limit = { 
+							at_location = ROOT
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.223 }
+					}
+				}
+			}
+		}
+		any_independent_ruler = {
+			limit = {
+				mercenary = yes
+				at_location = ROOT
+				in_command = yes
+				prisoner = no
+			}
+			morale = -0.4
+			troops = -0.4
+			character_event = { id = spell.223 }
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.222
+	desc = EVTDESCspell.222
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.223
+	desc = EVTDESCspell.223
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts storm spell
+character_event = {
+	id = spell.230
+	desc = EVTDESCspell.230
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.230
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.232 } } # Court mage notification
+			
+			ROOT = {
+				if = {
+					limit = {
+						is_ruler = yes
+						war = yes
+						OR = {
+							is_primary_war_attacker = yes
+							is_primary_war_defender = yes
+							independent = yes
+						}
+					}
+					any_current_enemy = {
+						limit = {
+							OR = {
+								at_location = PREV
+								AND = {
+									ROOT = { ai = yes }
+									at_location = ROOT
+								}
+							}
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.233 }
+					}
+					any_current_enemy = {
+						any_realm_character = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+								NOT = { character = PREV }
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.233 }
+						}
+					}
+				}
+				if = {
+					limit = { 
+						NOT = {
+							is_ruler = yes
+							war = yes
+							OR = {
+								is_primary_war_attacker = yes
+								is_primary_war_defender = yes
+								independent = yes
+							}
+						}
+					}
+					liege = {
+						any_current_enemy = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.233 }
+						}
+						any_current_enemy = {
+							any_realm_character = {
+								limit = { 
+									OR = {
+										at_location = PREVPREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									in_command = yes
+									prisoner = no
+									NOT = { character = PREV }
+								}
+								morale = -0.4
+								troops = -0.4
+								character_event = { id = spell.233 }
+							}
+						}
+					}
+				}
+				any_independent_ruler = {
+					limit = {
+						mercenary = yes 
+						OR = {
+							at_location = PREV
+							AND = {
+								ROOT = { ai = yes }
+								at_location = ROOT
+							}
+						}
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.233 }
+				}
+			}
+		}
+	}
+}
+# You cast storm spell
+character_event = {
+	id = spell.231
+	desc = EVTDESCspell.231
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.230
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		if = {
+			limit = {
+				is_ruler = yes
+				war = yes
+				OR = {
+					is_primary_war_attacker = yes
+					is_primary_war_defender = yes
+					independent = yes
+				}
+			}
+			any_current_enemy = {
+				limit = { 
+					at_location = ROOT
+					in_command = yes
+					prisoner = no
+				}
+				morale = -0.4
+				troops = -0.4
+				character_event = { id = spell.233 }
+			}
+			any_current_enemy = {
+				any_realm_character = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.233 }
+				}
+			}
+		}
+		if = {
+			limit = { 
+				NOT = {
+					is_ruler = yes
+					war = yes
+					OR = {
+						is_primary_war_attacker = yes
+						is_primary_war_defender = yes
+						independent = yes
+					}
+				}
+			}
+			liege = {
+				any_current_enemy = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.233 }
+				}
+				any_current_enemy = {
+					any_realm_character = {
+						limit = { 
+							at_location = ROOT
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.233 }
+					}
+				}
+			}
+		}
+		any_independent_ruler = {
+			limit = {
+				mercenary = yes
+				at_location = ROOT
+				in_command = yes
+				prisoner = no
+			}
+			morale = -0.4
+			troops = -0.4
+			character_event = { id = spell.233 }
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.232
+	desc = EVTDESCspell.232
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.233
+	desc = EVTDESCspell.233
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}
+# Court mage casts ice spell
+character_event = {
+	id = spell.240
+	desc = EVTDESCspell.240
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.240
+		job_mage = {
+			add_character_modifier = { name = drained duration = 360 }
+			hidden_tooltip = { character_event = { id = spell.242 } } # Court mage notification
+			ROOT = {
+				if = {
+					limit = {
+						is_ruler = yes
+						war = yes
+						OR = {
+							is_primary_war_attacker = yes
+							is_primary_war_defender = yes
+							independent = yes
+						}
+					}
+					any_current_enemy = {
+						limit = {
+							OR = {
+								at_location = PREV
+								AND = {
+									ROOT = { ai = yes }
+									at_location = ROOT
+								}
+							}
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.243 }
+					}
+					any_current_enemy = {
+						any_realm_character = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+								NOT = { character = PREV }
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.243 }
+						}
+					}
+				}
+				if = {
+					limit = { 
+						NOT = {
+							is_ruler = yes
+							war = yes
+							OR = {
+								is_primary_war_attacker = yes
+								is_primary_war_defender = yes
+								independent = yes
+							}
+						}
+					}
+					liege = {
+						any_current_enemy = {
+							limit = {
+								OR = {
+									at_location = PREVPREV
+									AND = {
+										ROOT = { ai = yes }
+										at_location = ROOT
+									}
+								}
+								in_command = yes
+								prisoner = no
+							}
+							morale = -0.4
+							troops = -0.4
+							character_event = { id = spell.243 }
+						}
+						any_current_enemy = {
+							any_realm_character = {
+								limit = { 
+									OR = {
+										at_location = PREVPREVPREV
+										AND = {
+											ROOT = { ai = yes }
+											at_location = ROOT
+										}
+									}
+									in_command = yes
+									prisoner = no
+									NOT = { character = PREV }
+								}
+								morale = -0.4
+								troops = -0.4
+								character_event = { id = spell.243 }
+							}
+						}
+					}
+				}
+				any_independent_ruler = {
+					limit = {
+						mercenary = yes 
+						OR = {
+							at_location = PREV
+							AND = {
+								ROOT = { ai = yes }
+								at_location = ROOT
+							}
+						}
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.243 }
+				}
+			}
+		}
+	}
+}
+# You cast ice spell
+character_event = {
+	id = spell.241
+	desc = EVTDESCspell.241
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.240
+		FROM = { add_character_modifier = { name = drained duration = 360 } }
+		if = {
+			limit = {
+				is_ruler = yes
+				war = yes
+				OR = {
+					is_primary_war_attacker = yes
+					is_primary_war_defender = yes
+					independent = yes
+				}
+			}
+			any_current_enemy = {
+				limit = { 
+					at_location = ROOT
+					in_command = yes
+					prisoner = no
+				}
+				morale = -0.4
+				troops = -0.4
+				character_event = { id = spell.243 }
+			}
+			any_current_enemy = {
+				any_realm_character = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.243 }
+				}
+			}
+		}
+		if = {
+			limit = { 
+				NOT = {
+					is_ruler = yes
+					war = yes
+					OR = {
+						is_primary_war_attacker = yes
+						is_primary_war_defender = yes
+						independent = yes
+					}
+				}
+			}
+			liege = {
+				any_current_enemy = {
+					limit = { 
+						at_location = ROOT
+						in_command = yes
+						prisoner = no
+					}
+					morale = -0.4
+					troops = -0.4
+					character_event = { id = spell.243 }
+				}
+				any_current_enemy = {
+					any_realm_character = {
+						limit = { 
+							at_location = ROOT
+							in_command = yes
+							prisoner = no
+						}
+						morale = -0.4
+						troops = -0.4
+						character_event = { id = spell.243 }
+					}
+				}
+			}
+		}
+		any_independent_ruler = {
+			limit = {
+				mercenary = yes
+				at_location = ROOT
+				in_command = yes
+				prisoner = no
+			}
+			morale = -0.4
+			troops = -0.4
+			character_event = { id = spell.243 }
+		}
+	}
+}
+# Court mage notification
+character_event = {
+	id = spell.242
+	desc = EVTDESCspell.242
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.3
+		add_character_modifier = { name = drained duration = 360 }
+	}
+}
+# Enemy notification notification
+character_event = {
+	id = spell.243
+	desc = EVTDESCspell.243
+	picture = GFX_evt_siege
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAspell.103
+	}
+}

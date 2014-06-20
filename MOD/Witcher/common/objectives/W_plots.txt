@@ -5,21 +5,27 @@ plot_charm_character = {
 	
 	# Plotter scope
 	potential = {
-		NOT = { culture = wilderness }
 		OR = {
 			AND = {
-				trait = sorcerer
-				NOT = { has_character_modifier = drained }
-				prisoner = no
-			 }
-			job_mage = {
-				trait = sorcerer
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
 				NOT = { has_character_modifier = drained }
 				prisoner = no
 				NOT = { trait = incapable }
-			 }
-		 }
-	 }
+			}
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+	}
 	
 	# Target allow trigger for when players target a specific character in the GUI
 	player_allow = {
@@ -27,8 +33,8 @@ plot_charm_character = {
 		ai = yes # To keep AI from using it against a player
 		NOT = {
 			has_opinion_modifier = { who = FROM modifier = opinion_charmed }
-		 }
-	 }
+		}
+	}
 	 
 	# Target character scope
 	allow = {
@@ -37,7 +43,7 @@ plot_charm_character = {
 		FROM = {
 			OR = {
 				spouse = { character = ROOT }
-				lover = { character = ROOT }
+				any_lover = { character = ROOT }
 				liege = { character = ROOT }
 			}
 		}
@@ -62,28 +68,25 @@ plot_charm_character = {
 		modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = -25 } } }
 		modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = -50 } } }
 		modifier = { factor = 2.0 NOT = {opinion = { who = FROM value = -75 } } }
-	 }
+	}
 	
 	creation_effect = {
-		hidden_tooltip = { character_event = { id = plots.100 } }
+		hidden_tooltip = { character_event = { id = plots.1 } }
 	}
 	
 	success = {
 		has_opinion_modifier = { who = FROM modifier = opinion_charmed }
-	 }
+	}
+	effect = {
+		custom_tooltip = { text = plot_charm_character_tooltip }
+	}
 	
 	abort = {
 		OR = {
 			is_alive = no
-		 }
-	 }
-	
-	abort_effect = { }
-	
-	effect = {
-		custom_tooltip = { text = plot_charm_character_tooltip }
+		}
 	}
- }
+}
 # Heal character
 plot_heal_character = {
 	type = realm_characters_plus
@@ -91,21 +94,27 @@ plot_heal_character = {
 	
 	# Plotter scope
 	potential = {
-		NOT = { culture = wilderness }
 		OR = {
 			AND = {
-				trait = sorcerer
-				NOT = { has_character_modifier = drained }
-				prisoner = no
-			 }
-			job_mage = {
-				trait = sorcerer
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
 				NOT = { has_character_modifier = drained }
 				prisoner = no
 				NOT = { trait = incapable }
-			 }
-		 }
-	 }
+			}
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+	}
 	
 	# Target allow trigger for when players target a specific character in the GUI
 	player_allow = {
@@ -127,8 +136,8 @@ plot_heal_character = {
 			trait = infirm
 			trait = blinded
 			trait = eunuch
-		 }
-	 }
+		}
+	}
 	
 	# Target character scope
 	allow = {
@@ -136,7 +145,6 @@ plot_heal_character = {
 		FROM = {
 			OR = {
 				spouse = { character = ROOT }
-				lover = { character = ROOT }
 				any_child = { character = ROOT }
 			}
 		}
@@ -155,16 +163,16 @@ plot_heal_character = {
 		modifier = { factor = 10.0 spouse = { character = FROM } }
 		modifier = { factor = 10.0 father = { character = FROM } }
 		modifier = { factor = 10.0 mother = { character = FROM } }
-		modifier = { factor = 10.0 lover = { character = FROM } }
+		modifier = { factor = 10.0 any_lover = { character = FROM } }
 		# Opinion
 		modifier = { factor = 2.0 reverse_opinion = { who = FROM value = 25 } }
 		modifier = { factor = 2.0 reverse_opinion = { who = FROM value = 50 } }
 		modifier = { factor = 2.0 reverse_opinion = { who = FROM value = 75 } }
 		modifier = { factor = 0 NOT = { reverse_opinion = { who = FROM value = 0 } } }
-	 }
+	}
 	
 	creation_effect = {
-		hidden_tooltip = { character_event = { id = plots.110 } }
+		hidden_tooltip = { character_event = { id = plots.10 } }
 	}
 	
 	success = {
@@ -185,18 +193,149 @@ plot_heal_character = {
 			trait = infirm
 			trait = blinded
 			trait = eunuch
-		 }
-	 }
+		}
+	}
+	effect = {
+		custom_tooltip = { text = plot_heal_character_tooltip }
+	}
 	
 	abort = {
 		OR = {
 			is_alive = no
-		 }
-	 }
-	
-	abort_effect = { }
-	
-	effect = {
-		custom_tooltip = { text = plot_heal_character_tooltip }
+		}
 	}
- }
+}
+# Protect character
+plot_protect_character = {
+	type = realm_characters_plus
+	intrigue_plot = yes
+	
+	# Plotter scope
+	potential = {
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+			job_mage = {
+				OR = {
+					trait = sorcerer
+					trait = source
+				}
+				NOT = { has_character_modifier = drained }
+				prisoner = no
+				NOT = { trait = incapable }
+			}
+		}
+	}
+	
+	# Target allow trigger for when players target a specific character in the GUI
+	player_allow = {
+		NOT = { culture = wilderness }
+		OR = {
+			trait = ill
+			trait = pneumonic
+			trait = syphilitic
+			trait = leper
+			trait = has_tuberculosis
+			trait = has_typhoid_fever
+			trait = has_typhus
+			trait = has_bubonic_plague
+			trait = has_measles
+			trait = has_small_pox
+			trait = has_aztec_disease
+			trait = wounded
+			trait = maimed
+			trait = infirm
+			trait = blinded
+			trait = eunuch
+		}
+	}
+	
+	# Target character scope
+	allow = {
+		NOT = { culture = wilderness }
+		FROM = {
+			OR = {
+				spouse = { character = ROOT }
+				any_child = { character = ROOT }
+			}
+		}
+	}
+	
+	chance = {
+		factor = 1
+		modifier = { factor = 0.1 }
+		modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
+		# Traits
+		modifier = { factor = 2.0 FROM = { trait = kind } }
+		modifier = { factor = 2.0 FROM = { trait = gregarious } }
+		modifier = { factor = 2.0 FROM = { trait = charitable } }
+		# Family
+		modifier = { factor = 5.0 dynasty = FROM }
+		modifier = { factor = 10.0 spouse = { character = FROM } }
+		modifier = { factor = 10.0 father = { character = FROM } }
+		modifier = { factor = 10.0 mother = { character = FROM } }
+		modifier = { factor = 10.0 any_lover = { character = FROM } }
+		# Opinion
+		modifier = { factor = 2.0 reverse_opinion = { who = FROM value = 25 } }
+		modifier = { factor = 2.0 reverse_opinion = { who = FROM value = 50 } }
+		modifier = { factor = 2.0 reverse_opinion = { who = FROM value = 75 } }
+		modifier = { factor = 0 NOT = { reverse_opinion = { who = FROM value = 0 } } }
+	}
+	
+	creation_effect = {
+		hidden_tooltip = { character_event = { id = plots.20 } }
+	}
+	
+	success = {
+		has_character_modifier = protection_spell
+	}
+	effect = {
+		custom_tooltip = { text = plot_protect_character_tooltip }
+	}
+	
+	abort = {
+		OR = {
+			is_alive = no
+		}
+	}
+}
+# Discredit vassal
+# Discredit fellow vassal
+# Sell out
+plot_sell_out = {
+	type = independent_rulers
+	military_plot = yes 
+	
+	# Plotter scope
+	potential = {
+		ai = no
+	}
+	
+	# Target scope
+	allow = {
+		always = yes
+	}
+	
+	chance = {
+		factor = 1
+	}
+	
+	success = { 
+		FROM = { liege = { character = ROOT } }
+	}
+	effect = {
+		prestige = 1
+	}
+	
+	abort = {
+		always = no
+	}
+}

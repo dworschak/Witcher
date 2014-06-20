@@ -1,4 +1,10 @@
 namespace = conversion
+# TO DO - move vanila culture converison events to this file and delete that file
+# TO DO - add rare culture change events with simpler conditions than curent ones
+# TO DO - add rare religion change events with simpler conditions than curent ones
+# TO DO - spider cultist charcater converts others in court
+# TO DO - spider cultist charcater converts the province
+# TO DO - religion conversion events to and from Old Solar religion
 
 ################################################
 # Culture and religion conversions
@@ -350,6 +356,86 @@ province_event = {
 		}
 	}
 }
+# A ruler is assimilated by the local culture - not for elves or dwarves
+character_event = {
+	id = conversion.110
+	desc = EVTDESCconversion.110
+	picture = GFX_evt_stone_church
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		trait = human
+		primary_title = { 
+			NOT = { conquest_culture = ROOT } 
+			NOT = { culture = ROOT }
+			any_previous_holder = { NOT = { character = ROOT } } # The first holder of a title does not convert
+		}
+		capital_scope = {
+			NOT = { culture = ROOT }
+			NOT = { culture = elven }
+			NOT = { culture = dwarven }
+		}
+		top_liege = {
+			OR = {
+				character = ROOT
+				ROOT = {  capital_scope = { culture = PREVPREV } }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1600
+		modifier = {
+			factor = 0.5
+			top_liege = {
+				NOT = { character = ROOT }
+				ROOT = { capital_scope = { culture = PREVPREV } }
+			}
+		}
+		modifier = {
+			factor = 0.5
+			primary_title = { ROOT = { capital_scope = { culture = PREVPREV } } }
+		}
+		modifier = {
+			factor = 2.0
+			capital_scope = { culture_group = ROOT } # Same culture group: slower assimilation
+		}
+	}
+	
+	option = { # Change culture
+		name = EVTOPTAconversion.110
+		any_vassal = {
+			limit = {
+				culture = ROOT
+				age = 15
+			}
+			opinion = { who = ROOT modifier = opinion_adopted_foreign_ways years = 10 }
+			hidden_tooltip = { character_event = { id = conversion.111 } }
+		}
+		capital_scope = { reverse_culture = ROOT }
+	}
+	option = { # Don't change culture
+		name = EVTOPTBconversion.110
+		ai_chance = { factor = 0 }
+	}
+}
+# A ruler is assimilated by the local culture - Piss off the appropriate vassals
+character_event = {
+	id = conversion.111
+	desc = EVTDESCconversion.111
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAconversion.111
+		tooltip = { opinion = { who = FROM modifier = opinion_adopted_foreign_ways years = 10 } }
+	}
+}
 
 ################################################
 # Religion conversions
@@ -364,6 +450,7 @@ province_event = {
 		NOT = {
 			religion = dana_meadbh
 			religion = dwarven
+			religion = dryad
 		}
 		owner = {
 			top_liege = { religion = PREV }
@@ -564,23 +651,23 @@ province_event = {
 		religion = eternal_fire
 	}
 }
-# Druid religion appears province
+# Druidic religion appears province
 province_event = {
 	id = conversion.250
 	desc = EVTDESCconversion.250
 	picture = GFX_evt_stone_church
 	
 	trigger = {
-		NOT = { religion = nature }
+		NOT = { religion = druidic }
 	}
 	
 	mean_time_to_happen = {
-		months = 3200
+		months = 6400
 	}
 
 	option = {
 		name = EVTOPTAconversion.250
-		religion = nature
+		religion = druidic
 	}
 }
 # Ruler ousts Spider religion from province

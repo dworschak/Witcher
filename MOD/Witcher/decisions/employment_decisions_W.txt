@@ -273,6 +273,16 @@ decisions = {
 	employ_witcher = {
 		is_high_prio = yes
 		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
 			NOT = { culture = wilderness }
 			is_ruler = yes
 			OR = {
@@ -318,7 +328,13 @@ decisions = {
 		potential = {
 			OR = {
 				ai = yes
-				has_character_flag = employment_decisions_open
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
 			}
 			NOT = { culture = wilderness }
 			is_ruler = yes
@@ -351,6 +367,8 @@ decisions = {
 					}
 				}
 			}
+			NOT = { any_courtier = { trait = sorcerer } }
+			NOT = { any_vassal = { trait = sorcerer } }
 		}
 		allow = {
 			scaled_wealth = 1.0
@@ -359,7 +377,7 @@ decisions = {
 		}
 		effect = {
 			scaled_wealth = -1.0
-			hidden_tooltip = { character_event = { id = magic.100 } }
+			hidden_tooltip = { character_event = { id = magic.1000 } }
 		}
 		ai_will_do = {
 			factor = 1

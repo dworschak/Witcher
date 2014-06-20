@@ -653,7 +653,9 @@ NReligion = {
 	ELECTOR_TITLE_AT_CAPITAL_FACTOR = 100,
 	ELECTOR_FAMOUS_DYNASTY_FACTOR = 0.025,
 	ELECTOR_TRAITS_FACTOR = 1.0,					-- Effect of personality traits that the church likes
-	HERESY_TAKEOVER_PROVINCES = 5					-- The number of provinces a heresy needs MORE than the current norm for it to become the new Orthodoxy
+	HERESY_TAKEOVER_PROVINCES = 5,					-- The number of provinces a heresy needs MORE than the current norm for it to become the new Orthodoxy
+	PAPAL_SUCCESSION_PASS_ON_HOLDINGS = 1,			-- Set to zero if holdings shouldn't be passed on
+	PAPAL_SUCCESSION_LOSE_MINOR_TITLES = 1			-- Set to zero if minor religious titles should be lost
 },
 
 NEconomy = {
@@ -788,7 +790,8 @@ NMilitary = {
 	NAVAL_ATTRITION = 0.0,							-- Attrition taken monthly by units loaded on ships
 	ARMY_MOVEMENT_SPEED = 3,						-- Base movement speed of land units
 	NAVY_MOVEMENT_SPEED = 15,						-- Base movement speed of naval units
-	ARMY_LOAD_UNLOAD_MOVE_COST = 20.0,				-- Movement cost for moving armies onto or off fleets at sea.
+	ARMY_LOAD_MOVE_COST = 20.0,						-- Movement cost for moving armies onto fleets at sea.
+	ARMY_UNLOAD_MOVE_COST = 20.0,					-- Movement cost for moving armies off fleets at sea.
 	OVERRUN_RATIO = 25,								-- Ratio needed for total extermination of enemy units
 	DAYS_BEFORE_DEFENDER_SALLY = 7,					-- Number of days before defenders sally in a siege where they have superior numbers
 	TOTAL_OCCUPATION_SCALE = 0.8,					-- The % of occupation which gives you 100% warscore

@@ -1,12 +1,18 @@
 decisions = {
 
 	conscript_merchant_ships = {
-		is_high_prio = yes
 		potential = {
+			NOT = {
+				has_character_flag = employment_decisions_open
+				has_character_flag = marriage_decisions_open
+				has_character_flag = spell_decisions_open
+				has_character_flag = prisoner_decisions_open
+				has_character_flag = edict_decisions_open
+			}
 			NOT = {
 				has_earmarked_regiments = conscripted_merchant_ships
 			}
-			has_overseas_holdings = yes
+			ai = no
 		}
 		allow = {
 			war = yes
@@ -27,6 +33,10 @@ decisions = {
 		}
 		ai_will_do = {
 			factor = 1
+			modifier = {
+				factor = 0
+				any_realm_province = { port = yes }
+			}
 			modifier = {
 				factor = 0
 				NOT = {
