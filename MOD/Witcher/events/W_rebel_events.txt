@@ -1,4 +1,5 @@
 namespace = rebels
+# TO DO - change that any province in same kingdom (or duchy) can reinforce ongoing revolt
 
 ################################################
 # Main rebel selection event (on_rebel_revolt)
@@ -118,9 +119,9 @@ province_event = {
 			}
 		}
 		ai_chance = {
-			factor = 10000
+			factor = 1000
 			modifier = {
-				factor = 0.0005
+				factor = 0.001
 				NOT = { # If not non-human religion or culture, then make as a bit less common than normal peasant revolt
 					culture = elven
 					culture = dwarven
@@ -128,9 +129,10 @@ province_event = {
 					religion = dwarven
 				}
 			}
+			modifier = { factor = 10 has_province_modifier = scoiatael_presence }
 		}
 		province_event = { id = rebels.10 }
-		owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
+		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
 	option = {
 		name = "Start nationalist revolt"
@@ -156,7 +158,7 @@ province_event = {
 			factor = 1000
 		}
 		province_event = { id = TOG.1040 }
-		owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
+		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
 	option = {
 		name = "Start religious revolt"
@@ -182,7 +184,7 @@ province_event = {
 			modifier = { factor = 0.1 religion = spider } # It's not really religion that would openly try to revolt 
 		}
 		province_event = { id = TOG.1060 }
-		owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
+		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
 	option = {
 		name = "Start peasant revolt"
@@ -194,29 +196,13 @@ province_event = {
 					has_character_flag = ongoing_nationalist_revolt
 					has_character_flag = ongoing_scoiatael_revolt
 				}
-				top_liege = {
-					NOT = { # Elves don't get normal peasant revolt in elven culture and religion provinces
-						ROOT = {
-							culture = elven
-							religion = dana_meadbh
-						}
-						trait = elven
-					}
-					NOT = { # Dwarves don't get normal peasant revolt in dwarven culture and religion provinces
-						ROOT = {
-							culture = dwarven
-							religion = dwarven
-						}
-						trait = dwarven
-					}
-				}
 			}
 		}
 		ai_chance = {
 			factor = 10
 		}
 		province_event = { id = TOG.1000 }
-		owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
+		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
 	
 	 # Reinforce the ongoing revolt if any

@@ -742,7 +742,7 @@ NMilitary = {
 	BATTLE_WARSCORE_DEFENDER_MULTIPLIER = 1.8,		-- Defenders wins are multiplied with this value, which also means they get more prestige for a win
 	BATTLE_MINIMUM_WARSCORE = 0.2,					-- Battles below this value(in actual percentage) are removed from warscore calculations
 	MIN_LEVY_RAISE_OPINION_THRESHOLD = 0,			-- Below this opinion value you'll get the least amount of troops possible
-	MAX_LEVY_RAISE_OPINION_THRESHOLD = 100,			-- Above this opinion value you'll get the max amount of troops possible
+	MAX_LEVY_RAISE_OPINION_THRESHOLD = 80,			-- Above this opinion value you'll get the max amount of troops possible
 	MIN_LEVIES_ABOVE_OPINION_THRESHOLD = 0,			-- The minimum percentage of levies that will be provided if opinion is above threshold
 	LEVY_PERCENT_BEFORE_CAN_RAISE = 0.2,			-- Needs at least this much % of full levy before we can raise it
 	SIEGE_DAMAGE = 0,								-- Siege attack values are multiplied by this value(when not doing a sally)
@@ -835,7 +835,7 @@ NMilitary = {
 	MAX_LEADERSHIP_TRAITS = 3,
 	
 	LIEGE_LEVY_REINF_RATE = 0.05,
-	LIEGE_LEVY_SIZE_MULTIPLIER = 0.5,				-- The Size of the liege levy will be the total troops in the vassal subrealm * this
+	LIEGE_LEVY_SIZE_MULTIPLIER = 0.6,				-- The Size of the liege levy will be the total troops in the vassal subrealm * this
 	LIEGE_FLEET_SIZE_MULTIPLIER = 1.0,				-- As above but for galleys
 	LIEGE_LEVY_COST_MULTIPLIER = 1.0,				-- The vassal will pay regular maintenance * this for the liege levy
 	LIEGE_LEVY_SUBUNIT_SIZE_CUTOFF = 3000,			-- The max size of each liege levy subunit.
