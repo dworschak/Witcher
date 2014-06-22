@@ -613,3 +613,588 @@ character_event = {
 		change_intrigue = 1
 	}
 }
+
+################################################
+# Make a friend
+################################################
+# Councillor tries to befriend liege
+character_event = {
+	id = ambition.100
+	desc = EVTDESCambition.100
+	picture = GFX_evt_courtiers_talking
+	
+	prisoner = no
+	min_age = 25
+	capable_only = yes
+	only_men = yes
+	
+	trigger = {
+		has_ambition = obj_make_a_friend
+		in_command = no
+		is_councillor = yes
+		liege = {
+			age = 25
+			prisoner = no
+			in_command = no
+			is_female = no
+			NOT = { trait = incapable }
+			NOT = { num_of_friends = 2 }
+			NOT = { is_friend = ROOT }
+			NOT = { is_rival = ROOT }
+		}
+		opinion = { who = liege value = 10 }
+	}
+	
+	mean_time_to_happen = {
+		months = 140
+		modifier = { factor = 0.85 trait = gregarious } 
+		modifier = { factor = 0.65 liege = { is_close_relative = ROOT } }
+		modifier = { factor = 0.75 liege = { tier = count } }
+		modifier = { factor = 0.85 liege = { tier = duke } }
+		modifier = { factor = 0.85 liege = { has_ambition = obj_make_a_friend } }
+		modifier = { factor = 0.75 opinion = { who = liege value = 75 } }
+		modifier = { factor = 0.85 opinion = { who = liege value = 50 } }
+		modifier = { factor = 0.95 opinion = { who = liege value = 25 } }
+	}
+	
+	option = { # Let's talk to him
+		name = EVTOPTAambition.100
+		ai_chance = { factor = 95 }
+		liege = {
+			character_event = { id = ambition.101 days = 1 random = 3 tooltip = attempt_to_make_friend }
+		}
+	}
+	option = { # Maybe later
+		name = EVTOPTBambition.100
+		ai_chance = { factor = 5 }
+		random = {
+			chance = 5
+			add_trait = shy
+			hidden_tooltip = { character_event = { id = 38263 } }
+		}
+	}
+}
+# Councillor tries to befriend liege - Liege responds
+character_event = {
+	id = ambition.101
+	desc = EVTDESCambition.101
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = { # Make Friends
+		name = EVTOPTAambition.101
+		add_friend = FROM
+		FROM = {
+			character_event = { id = ambition.102 days = 1 random = 3 tooltip = made_a_friend }
+		}
+	}
+	option = { # Rebuff him
+		name = EVTOPTBambition.101
+		FROM = {
+			character_event = { id = ambition.103 days = 1 random = 3 tooltip = didnt_made_a_friend }
+		}
+	} 	
+}
+# Councillor tries to befriend liege - Friends
+character_event = {
+	id = ambition.102
+	desc = EVTDESCambition.102
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EXCELLENT
+		add_friend = FROM
+	}
+}
+# Councillor tries to befriend liege - Sad
+character_event = {
+	id = ambition.3
+	desc = EVTDESCambition.103
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = SO_BE_IT
+		opinion = { modifier = opinion_sad who = FROM years = 2 }
+	}
+}
+# Ruler tries to befriend a courtier
+character_event = {
+	id = ambition.110
+	desc = EVTDESCambition.110
+	picture = GFX_evt_courtiers_talking
+	
+	prisoner = no
+	min_age = 25
+	capable_only = yes
+	only_rulers = yes
+	
+	trigger = {
+		has_ambition = obj_make_a_friend
+		in_command = no
+		OR = {
+			AND = {
+				is_female = no
+				any_courtier = {
+					in_command = no
+					is_female = no
+					prisoner = no
+					age = 15
+					NOT = { trait = incapable }
+					NOT = { num_of_friends = 2 }
+					NOT = { is_friend = ROOT }
+					NOT = { is_rival = ROOT }
+				}
+			}
+			AND = {
+				is_female = yes
+				any_courtier = {
+					is_female = yes
+					prisoner = no
+					age = 15
+					NOT = { trait = incapable }
+					NOT = { num_of_friends = 2 }
+					NOT = { is_friend = ROOT }
+					NOT = { is_rival = ROOT }
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		modifier = { factor = 0.85 trait = gregarious }
+		modifier = { factor = 0.75 liege = { tier = duke } }
+	}
+	
+	option = { # Let's talk to him
+		name = EVTOPTAambition.110
+		ai_chance = { factor = 95 }
+		if = { # If male ruler, make friends with man
+			limit = { is_female = no }
+			random_courtier = {
+				limit = {
+					in_command = no
+					is_female = no
+					prisoner = no
+					age = 15
+					NOT = { trait = incapable }
+					NOT = { num_of_friends = 2 }
+					NOT = { is_friend = ROOT }
+					NOT = { is_rival = ROOT }
+				}
+				character_event = { id = ambition.111 days = 1 random = 3 tooltip = attempt_to_make_friend }
+			}
+		}
+		if = { # If female ruler, make friends with woman
+			limit = { is_female = yes }
+			random_courtier = {
+				limit = {
+					is_female = yes
+					prisoner = no
+					age = 15
+					NOT = { trait = incapable }
+					NOT = { num_of_friends = 2 }
+					NOT = { is_friend = ROOT }
+					NOT = { is_rival = ROOT }
+				}
+				character_event = { id = ambition.111 days = 1 random = 3 tooltip = attempt_to_make_friend }
+			}
+		}
+	}
+	option = { # Maybe later
+		name = EVTOPTBambition.110
+		ai_chance = { factor = 5 }
+		random = {
+			chance = 5
+			add_trait = shy
+			hidden_tooltip = { character_event = { id = 38263 } }
+		}
+	}
+}
+# Ruler tries to befriend a courtier - Courtier responds
+character_event = {
+	id = ambition.111
+	desc = ambition.111.desc
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = { # Make Friends
+		name = EVTOPTAambition.111
+		ai_chance = {
+			factor = 75
+			modifier = { factor = 0.1 NOT = { opinion = { who = LIEGE value = -25 } } }
+		}
+		add_friend = FROM
+		FROM = {
+			character_event = { id = ambition.112 days = 1 random = 3 tooltip = made_a_friend }
+		}
+	}
+	option = { # Rebuff him
+		name = EVTOPTBambition.111
+		ai_chance = {
+			factor = 25 
+			modifier = { factor = 0.1 opinion = { who = LIEGE value = 25 } }
+		}
+		FROM = {
+			character_event = { id = ambition.113 days = 1 random = 3 tooltip = didnt_made_a_friend }
+		}
+	}
+}
+# Ruler tries to befriend a courtier - Friends
+character_event = {
+	id = ambition.112
+	desc = EVTDESCambition.112
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EXCELLENT
+		add_friend = FROM
+	}
+}
+# Ruler tries to befriend a courtier - Sad
+character_event = {
+	id = ambition.113
+	desc = EVTDESCambition.113
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = SO_BE_IT
+		opinion = { modifier = opinion_sad who = FROM years = 2 }
+	}
+}
+# Duelist tries to befriend liege
+character_event = {
+	id = ambition.120
+	desc = EVTDESCambition.120
+	picture = GFX_evt_courtiers_talking
+	
+	prisoner = no
+	min_age = 25
+	capable_only = yes
+	only_men = yes
+	
+	trigger = {
+		OR = {
+			has_ambition = obj_make_a_friend
+			liege = { has_ambition = obj_make_a_friend }
+		}
+		in_command = no
+		trait = duelist
+		independent = no
+		
+		host = {
+			is_liege_of = ROOT
+		}
+		
+		liege = {
+			age = 25
+			prisoner = no
+			in_command = no
+			is_female = no
+			NOT = { trait = incapable }
+			NOT = {
+				num_of_friends = 2
+			}
+			NOT = {
+				has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+			}
+			NOT = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_friend }
+			}
+			NOT = {
+				has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+			}
+			NOT = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_rival }
+			}
+			NOT = {
+			lifestyle_traits = 1
+			}
+			NOT = {
+				has_character_flag = LE_ST
+			}
+		}
+		
+		opinion = { who = LIEGE value = 10 }
+
+	} 		
+
+	mean_time_to_happen = {
+		months = 260
+		
+		modifier = {
+			factor = 0.85
+			trait = gregarious
+		}
+		
+		modifier = {
+			factor = 0.65
+			liege = { is_close_relative = ROOT }
+		}
+		
+		modifier = {
+			factor = 0.75
+			liege = {
+				tier = count
+			}
+		}
+		
+		modifier = {
+			factor = 0.85
+			liege = {
+				tier = duke
+			}
+		}
+		
+		modifier = {
+			factor = 0.55
+			liege = {
+				has_ambition = obj_make_a_friend
+			}
+		}
+		
+		modifier = {
+			factor = 0.85
+				opinion = { who = LIEGE value = 75 }
+		}
+	}
+	
+	option = { # Let's talk to him
+		name = EVTOPTAambition.120
+		ai_chance = { factor = 95 }
+		liege = {
+			character_event = {
+				id = ambition.121
+				days = 1
+				random = 3
+				tooltip = attempt_to_make_friend
+			}
+		}
+	}
+	option = { # Maybe later
+		name = EVTOPTBambition.120
+		ai_chance = { factor = 5 }
+		random = {
+			chance = 5
+			add_trait = shy
+			hidden_tooltip = { character_event = { id = 38263 } }
+		}
+	}
+}
+# Duelist tries to befriend liege - Liege responds
+character_event = {
+	id = ambition.121
+	desc = EVTDESCambition.121
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = { # Make Friends
+		name = EVTOPTAambition.121
+		add_friend = FROM
+		add_trait = duelist
+		FROM = {
+			character_event = { id = ambition.122 days = 1 random = 3 tooltip = made_a_friend }
+		}
+	}
+	option = { # Rebuff him
+		name = EVTOPTBambition.121
+		FROM = {
+			character_event = { id = ambition.123 days = 1 random = 3 tooltip = didnt_made_a_friend }
+		}
+	} 	
+}
+# Duelist tries to befriend liege - Friends
+character_event = {
+	id = ambition.122
+	desc = EVTDESCambition.122
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EXCELLENT
+		add_friend = FROM
+	}
+}
+# Duelist tries to befriend liege - Sad
+character_event = {
+	id = ambition.123
+	desc = EVTDESCambition.123
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = SO_BE_IT
+		opinion = { modifier = opinion_sad who = FROM years = 2 }
+	}
+}
+# Two courtier friendship
+character_event = {
+	id = ambition.130
+	desc = EVTDESCambition.130
+	picture = GFX_evt_courtiers_talking
+	
+	prisoner = no
+	min_age = 25
+	capable_only = yes
+	
+	trigger = {
+		has_ambition = obj_make_a_friend
+		in_command = no
+		independent = no
+		host = { is_liege_of = ROOT }
+		
+		liege = {
+			OR = {
+				AND = {
+					is_female = no
+					any_courtier = {
+						in_command = no
+						is_female = no
+						prisoner = no
+						age = 15
+						NOT = { character = ROOT }
+						NOT = { trait = incapable }
+						NOT = { num_of_friends = 2 }
+						NOT = { is_friend = ROOT }
+						NOT = { is_rival = ROOT }
+					}
+				}
+				AND = {
+					is_female = yes
+					any_courtier = {
+						is_female = yes
+						age = 15
+						prisoner = no
+						NOT = { character = ROOT }
+						NOT = { character = ROOT }
+						NOT = { trait = incapable }
+						NOT = { num_of_friends = 2 }
+						NOT = { is_friend = ROOT }
+						NOT = { is_rival = ROOT }
+					}
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 260
+		modifier = { factor = 0.85 trait = gregarious }
+		modifier = { factor = 0.75 liege = { tier = count } }
+		modifier = { factor = 0.85 liege = { tier = duke } }
+	}
+	
+	option = { # Let's talk to him
+		name = EVTOPTAambition.130
+		ai_chance = { factor = 95 }
+		liege = {
+			if = { # If male, make friends with man
+				limit = { is_female = no }
+				random_courtier = {
+					limit = {
+						in_command = no
+						is_female = no
+						prisoner = no
+						age = 15
+						NOT = { character = ROOT }
+						NOT = { trait = incapable }
+						NOT = { num_of_friends = 2 }
+						NOT = { is_friend = ROOT }
+						NOT = { is_rival = ROOT }
+					}
+					character_event = { id = ambition.131 days = 1 random = 3 tooltip = attempt_to_make_friend }
+				}
+			}
+			if = { # If female, make friends with woman
+				limit = { is_female = yes }
+				random_courtier = {
+					limit = {
+						is_female = yes
+						prisoner = no
+						age = 15
+						NOT = { character = ROOT }
+						NOT = { trait = incapable }
+						NOT = { num_of_friends = 2 }
+						NOT = { is_friend = ROOT }
+						NOT = { is_rival = ROOT }
+					}
+					character_event = { id = ambition.131 days = 1 random = 3 tooltip = attempt_to_make_friend }
+				}
+			}
+		}
+	}
+	option = { # Maybe later
+		name = EVTOPTAambition.130
+		ai_chance = { factor = 5 }
+		random = {
+			chance = 5
+			add_trait = shy
+			hidden_tooltip = { character_event = { id = 38263 } }
+		}
+	}
+}
+# Two courtier friendship - Other courtier responds
+character_event = {
+	id = ambition.131
+	desc = EVTDESCambition.131
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = { # Make Friends
+		name = EVTOPTAambition.131
+		ai_chance = { factor = 75 }
+		add_friend = FROM
+		FROM = {
+			character_event = { id = ambition.132 days = 1 random = 3 tooltip = made_a_friend }
+		}
+	}
+	option = { # Rebuff him
+		name = EVTOPTBambition.131
+		ai_chance = { factor = 25 }
+		FROM = {
+			character_event = { id = ambition.133 days = 1 random = 3 tooltip = didnt_made_a_friend }
+		}
+	} 	
+}
+# Two courtier friendship - Friends
+character_event = {
+	id = ambition.132
+	desc = EVTDESCambition.132
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EXCELLENT
+		add_friend = FROM
+	}
+}
+# Two courtier friendship - Sad
+character_event = {
+	id = ambition.133
+	desc = EVTDESCambition.133
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = SO_BE_IT
+		opinion = { modifier = opinion_sad who = FROM years = 2 }
+	}
+} 
+
+

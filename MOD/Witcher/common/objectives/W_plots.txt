@@ -307,35 +307,123 @@ plot_protect_character = {
 		}
 	}
 }
-# Discredit vassal
-# Discredit fellow vassal
-# Sell out
-plot_sell_out = {
-	type = independent_rulers
-	military_plot = yes 
+# Discredit fellow vassal - more acccessable version of weaken fellow vassal
+plot_discredit_fellow_vassal = {
+	type = realm_characters
+	vassal_intrigue_plot = yes
+	intrigue_plot = yes
 	
 	# Plotter scope
 	potential = {
-		ai = no
+		NOT = { culture = wilderness }
+		prisoner = no
+		is_patrician = no
+		liege = { 
+			is_merchant_republic = no
+			is_patrician = no
+		}
+		is_adult = yes
+		is_ruler = yes
+		independent = no
+		primary_title = { higher_tier_than = BARON }
+		NOT = {
+			trait = incapable
+			trait = imbecile
+		}
 	}
 	
-	# Target scope
+	# Target character scope
 	allow = {
-		always = yes
+		NOT = { culture = wilderness }
+		
+		is_adult = yes
+		is_ruler = yes
+		same_realm = FROM
+		NOT = { any_liege = { character = FROM } }
+		OR = {
+			ROOT = { same_liege = FROM }
+			AND = {
+				ROOT = {
+					OR = {
+						is_patrician = yes
+						is_merchant_republic = yes
+					}
+				}
+				FROM = {
+					OR = {
+						is_patrician = yes
+						is_merchant_republic = yes
+					}
+				}
+			}
+		}
+		independent = no
 	}
 	
 	chance = {
-		factor = 1
+		factor = 5
+		modifier = {
+			factor = 0
+			FROM = {
+				OR = {
+					trait = content
+					trait = honest
+					trait = just
+				}
+			}
+		}
+		modifier = { factor = 2 FROM = { trait = deceitful } }
+		modifier = { factor = 2 FROM = { trait = ambitious } }
+		modifier = { factor = 2 FROM = { trait = paranoid } }
+		modifier = { factor = 1.5 FROM = { intrigue = 12 } }
+		modifier = { factor = 1.5 FROM = { intrigue = 15 } }
+		modifier = { factor = 1.5 FROM = { intrigue = 18 } }
 	}
 	
-	success = { 
-		FROM = { liege = { character = ROOT } }
+	success = {
+		liege = { has_opinion_modifier = { who = ROOT modifier = opinion_discredited } }
 	}
+	
 	effect = {
-		prestige = 1
+		FROM = {
+			any_plot_backer = {
+				reverse_opinion = { modifier = opinion_grateful who = FROM years = 5 }
+			}
+		}
 	}
 	
 	abort = {
-		always = no
+		liege = { has_opinion_modifier = { who = FROM modifier = opinion_tried_to_discredit_vassal } }
+		ROOT = { NOT = { same_liege = FROM } }
 	}
 }
+# # Sell out
+# plot_sell_out = {
+	# type = independent_rulers
+	# military_plot = yes 
+	
+	# # Plotter scope
+	# potential = {
+		# ai = no
+	# }
+	
+	# # Target scope
+	# allow = {
+		# always = yes
+	# }
+	
+	# chance = {
+		# factor = 1
+	# }
+	
+	# success = { 
+		# FROM = { liege = { character = ROOT } }
+	# }
+	# effect = {
+		# prestige = 1
+	# }
+	
+	# abort = {
+		# always = no
+	# }
+# }

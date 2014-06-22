@@ -109,7 +109,7 @@ character_event = {
 ###########################################
 # Heal a character
 ###########################################
-# Hidden -  decide who casts the spell
+# Hidden - decide who casts the spell
 character_event = {
 	id = plots.10
 	desc = "Decide who casts the spell"
@@ -323,7 +323,7 @@ character_event = {
 		}
 	}
 }
-#  You cast protect spell
+# You cast protect spell
 character_event = {
 	id = plots.22
 	desc = EVTDESCplots.22
@@ -367,5 +367,605 @@ character_event = {
 	option = {
 		name = EVTOPTAplots.23
 		add_character_modifier = { name = drained duration = 180 }
+	}
+}
+
+###########################################
+# Discredit fellow vassal
+###########################################
+# Plotter - High plot power - Hire professional to forge incriminating documents
+character_event = {
+	id = plots.100
+	desc = EVTDESCplots.100
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_plot = plot_discredit_fellow_vassal
+		plot_target_char = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		NOT = { has_character_flag = discredit_fellow_vassal_attempt }
+		plot_power = 0.7
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.75 plot_power = 0.8 }
+		modifier = { factor = 0.75 plot_power = 0.9 }
+		modifier = { factor = 0.75 plot_power = 1 }
+	}
+	
+	option = { # Yes
+		name = EVTOPTAplots.100
+		liege = { letter_event = { id = plots.101 days = 3 tooltip = EVTTOOLTIPplots.101 } }
+		set_character_flag = discredit_fellow_vassal_attempt
+	}
+	option = { # No
+		name = EVTOPTBplots.100
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+# Liege - Recieves incriminating documents
+letter_event = {
+	id = plots.101
+	desc = EVTDESCplots.101
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.101
+		FROM = {
+			letter_event = { id = plots.102 days = 3 tooltip = EVTTOOLTIPplots.102 }
+			plot_target_char = { reverse_opinion = { modifier = opinion_discredited who = ROOT years = 10 } }
+		}
+	}
+}
+# Plotter - Liege is convinced
+letter_event = {
+	id = plots.102
+	desc = EVTDESCplots.102
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.102
+	}
+}
+# Plotter - Target has low opinion of liege - Found actual incriminating documents
+character_event = {
+	id = plots.110
+	desc = EVTDESCplots.110
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_plot = plot_discredit_fellow_vassal
+		plot_target_char = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		NOT = { has_character_flag = discredit_fellow_vassal_attempt }
+		plot_target_char = { NOT = { opinion = { who = liege value = 0 } } }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.75
+			NOT = { plot_target_char = { opinion = { value = -20 who = liege } } }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { plot_target_char = { opinion = { value = -40 who = liege } } }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { plot_target_char = { opinion = { value = -60 who = liege } } }
+		}
+	}
+	
+	option = { # Yes
+		name = EVTOPTAplots.110
+		liege = { letter_event = { id = plots.101 days = 3 tooltip = EVTTOOLTIPplots.101 } }
+		set_character_flag = discredit_fellow_vassal_attempt
+	}
+	option = { # No
+		name = EVTOPTBplots.110
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+# Plotter - Liege's spymaster is on the plot - Have spymaster convince liege
+character_event = {
+	id = plots.120
+	desc = EVTDESCplots.120
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_plot = plot_discredit_fellow_vassal
+		plot_target_char = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		NOT = { has_character_flag = discredit_fellow_vassal_attempt }
+		any_plot_backer = {
+			has_job_title = job_spymaster
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Yes
+		name = EVTOPTAplots.120
+		liege = { letter_event = { id = plots.121 days = 3 tooltip = EVTTOOLTIPplots.121 } }
+		set_character_flag = discredit_fellow_vassal_attempt
+		ai_chance = {
+			factor = 2
+		}
+	}
+	option = { # No
+		name = EVTOPTBplots.120
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+# Liege - Spymaster tries to convince me
+letter_event = {
+	id = plots.121
+	desc = EVTDESCplots.121
+	
+	is_triggered_only = yes
+	
+	option = { # Convinced
+		name = EVTOPTAplots.121
+		FROM = {
+			letter_event = { id = plots.122 days = 3 tooltip = EVTTOOLTIPplots.122 }
+			plot_target_char = { reverse_opinion = { modifier = opinion_discredited who = ROOT years = 8 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = paranoid }
+			modifier = { factor = 2 trait = just }
+			modifier = { factor = 2 trait = honest }
+		}
+	}
+	option = { # Not convinced
+		name = EVTOPTAplots.121
+		FROM = { letter_event = { id = plots.123 days = 3 tooltip = EVTTOOLTIPplots.123 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = trusting }
+			modifier = { factor = 2 trait = arbitrary }
+			modifier = { factor = 2 trait = deceitful }
+		}
+	}
+}
+# Plotter - Liege is convinced
+letter_event = {
+	id = plots.122
+	desc = EVTDESCplots.122
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.122
+	}
+}
+# Plotter - Liege isn't convinced
+letter_event = {
+	id = plots.123
+	desc = EVTDESCplots.123
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.123
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_2 }
+			set_character_flag = liege_is_suspicious_3
+		}
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_1 }
+			set_character_flag = liege_is_suspicious_2
+		}
+		if = {
+			limit = {
+				NOT = { has_character_flag = liege_is_suspicious_1 }
+				NOT = { has_character_flag = liege_is_suspicious_2 }
+				NOT = { has_character_flag = liege_is_suspicious_3 }
+			}
+			set_character_flag = liege_is_suspicious_1
+		}
+	}
+}
+# Plotter - Multiple backers - Mass complain to liege
+character_event = {
+	id = plots.130
+	desc = EVTDESCplots.130
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_plot = plot_discredit_fellow_vassal
+		plot_target_char = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		NOT = { has_character_flag = discredit_fellow_vassal_attempt }
+		num_of_plot_backers = 4
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.75 num_of_plot_backers = 5 }
+		modifier = { factor = 0.75 num_of_plot_backers = 6 }
+	}
+	
+	option = { # Yes
+		name = EVTOPTAplots.130
+		liege = { letter_event = { id = plots.131 days = 3 tooltip = EVTTOOLTIPplots.131 } }
+		set_character_flag = discredit_fellow_vassal_attempt
+		ai_chance = {
+			factor = 2
+		}
+	}
+	option = { # No
+		name = EVTOPTBplots.130
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+# Liege - Mass complaining
+letter_event = {
+	id = plots.131
+	desc = EVTDESCplots.131
+	
+	is_triggered_only = yes
+	
+	option = { # Convinced
+		name = EVTOPTAplots.131
+		FROM = {
+			letter_event = { id = plots.132 days = 3 tooltip = EVTTOOLTIPplots.132 }
+			plot_target_char = { reverse_opinion = { modifier = opinion_discredited who = ROOT years = 8 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = paranoid }
+			modifier = { factor = 2 trait = just }
+			modifier = { factor = 2 trait = honest }
+		}
+	}
+	option = { # Not convinced
+		name = EVTOPTAplots.131
+		FROM = { letter_event = { id = plots.133 days = 3 tooltip = EVTTOOLTIPplots.133 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = trusting }
+			modifier = { factor = 2 trait = arbitrary }
+			modifier = { factor = 2 trait = deceitful }
+		}
+	}
+}
+# Plotter - Liege is convinced
+letter_event = {
+	id = plots.132
+	desc = EVTDESCplots.132
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.132
+	}
+}
+# Plotter - Liege isn't convinced
+letter_event = {
+	id = plots.133
+	desc = EVTDESCplots.133
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.133
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_2 }
+			set_character_flag = liege_is_suspicious_3
+		}
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_1 }
+			set_character_flag = liege_is_suspicious_2
+		}
+		if = {
+			limit = {
+				NOT = { has_character_flag = liege_is_suspicious_1 }
+				NOT = { has_character_flag = liege_is_suspicious_2 }
+				NOT = { has_character_flag = liege_is_suspicious_3 }
+			}
+			set_character_flag = liege_is_suspicious_1
+		}
+	}
+}
+# Plotter - Complain to liege
+character_event = {
+	id = plots.140
+	desc = EVTDESCplots.140
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_plot = plot_discredit_fellow_vassal
+		plot_target_char = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		NOT = { has_character_flag = discredit_fellow_vassal_attempt }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Yes
+		name = EVTOPTAplots.140
+		liege = { letter_event = { id = plots.141 days = 3 tooltip = EVTTOOLTIPplots.141 } }
+		set_character_flag = discredit_fellow_vassal_attempt
+	}
+	option = { # No
+		name = EVTOPTBplots.140
+	}
+}
+# Liege - Complaining
+letter_event = {
+	id = plots.141
+	desc = EVTDESCplots.141
+	
+	is_triggered_only = yes
+	
+	option = { # Convinced
+		name = EVTOPTAplots.141
+		FROM = {
+			letter_event = { id = plots.142 days = 3 tooltip = EVTTOOLTIPplots.142 }
+			plot_target_char = { reverse_opinion = { modifier = opinion_discredited who = ROOT years = 6 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = paranoid }
+			modifier = { factor = 2 trait = just }
+			modifier = { factor = 2 trait = honest }
+		}
+	}
+	option = { # Not convinced
+		name = EVTOPTAplots.141
+		FROM = { letter_event = { id = plots.143 days = 3 tooltip = EVTTOOLTIPplots.143 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = trusting }
+			modifier = { factor = 2 trait = arbitrary }
+			modifier = { factor = 2 trait = deceitful }
+		}
+	}
+}
+# Plotter - Liege is convinced
+letter_event = {
+	id = plots.142
+	desc = EVTDESCplots.142
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.142
+	}
+}
+# Plotter - Liege isn't convinced
+letter_event = {
+	id = plots.143
+	desc = EVTDESCplots.143
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.143
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_2 }
+			clr_character_flag = liege_is_suspicious_2
+			set_character_flag = liege_is_suspicious_3
+		}
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_1 }
+			clr_character_flag = liege_is_suspicious_1
+			set_character_flag = liege_is_suspicious_2
+		}
+		if = {
+			limit = {
+				NOT = { has_character_flag = liege_is_suspicious_1 }
+				NOT = { has_character_flag = liege_is_suspicious_2 }
+				NOT = { has_character_flag = liege_is_suspicious_3 }
+			}
+			set_character_flag = liege_is_suspicious_1
+		}
+	}
+}
+# Plotter - Use something target said to make him look bad
+character_event = {
+	id = plots.150
+	desc = EVTDESCplots.150
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_plot = plot_discredit_fellow_vassal
+		plot_target_char = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		NOT = { has_character_flag = discredit_fellow_vassal_attempt }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Yes
+		name = EVTOPTAplots.150
+		liege = { letter_event = { id = plots.151 days = 3 tooltip = EVTTOOLTIPplots.151 } }
+		set_character_flag = discredit_fellow_vassal_attempt
+	}
+	option = { # No
+		name = EVTOPTBplots.150
+	}
+}
+# Liege - Bringing something target once said to my attention
+letter_event = {
+	id = plots.151
+	desc = EVTDESCplots.151
+	
+	is_triggered_only = yes
+	
+	option = { # Convinced
+		name = EVTOPTAplots.151
+		FROM = {
+			letter_event = { id = plots.152 days = 3 tooltip = EVTTOOLTIPplots.152 }
+			plot_target_char = { reverse_opinion = { modifier = opinion_discredited who = ROOT years = 6 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = paranoid }
+			modifier = { factor = 2 trait = just }
+			modifier = { factor = 2 trait = honest }
+		}
+	}
+	option = { # Not convinced
+		name = EVTOPTAplots.151
+		FROM = { letter_event = { id = plots.153 days = 3 tooltip = EVTTOOLTIPplots.153 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = trusting }
+			modifier = { factor = 2 trait = arbitrary }
+			modifier = { factor = 2 trait = deceitful }
+		}
+	}
+}
+# Plotter - Liege is convinced
+letter_event = {
+	id = plots.152
+	desc = EVTDESCplots.152
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.152
+	}
+}
+# Plotter - Liege isn't convinced
+letter_event = {
+	id = plots.153
+	desc = EVTDESCplots.153
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.153
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_2 }
+			clr_character_flag = liege_is_suspicious_2
+			set_character_flag = liege_is_suspicious_3
+		}
+		if = {
+			limit = { has_character_flag = liege_is_suspicious_1 }
+			clr_character_flag = liege_is_suspicious_1
+			set_character_flag = liege_is_suspicious_2
+		}
+		if = {
+			limit = {
+				NOT = { has_character_flag = liege_is_suspicious_1 }
+				NOT = { has_character_flag = liege_is_suspicious_2 }
+				NOT = { has_character_flag = liege_is_suspicious_3 }
+			}
+			set_character_flag = liege_is_suspicious_1
+		}
+	}
+}
+# Liege - Becomes suspicous of plot
+character_event = {
+	id = plots.160
+	desc = EVTDESCplots.160
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		any_vassal = {
+			has_plot = plot_discredit_fellow_vassal
+			OR = {
+				has_character_flag = liege_is_suspicious_1
+				has_character_flag = liege_is_suspicious_2
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.5 has_character_flag = liege_is_suspicious_2 }
+	}
+	
+	option = { # Confront plotter
+		name = EVTOPTAplots.160
+		any_vassal = {
+			limit = {
+				has_plot = plot_discredit_fellow_vassal
+				OR = {
+					has_character_flag = liege_is_suspicious_1
+					has_character_flag = liege_is_suspicious_2
+				}
+			}
+			letter_event = { id = plots.161 days = 3 tooltip = EVTTOOLTIPplots.161 }
+		}
+	}
+}
+# Liege discovered plot
+letter_event = {
+	id = plots.161
+	desc = EVTDESCplots.161
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAplots.161
+		FROM = { opinion = { modifier = opinion_tried_to_discredit_vassal who = ROOT months = 12 } }
 	}
 }
