@@ -1043,16 +1043,14 @@ obj_get_married = {
 			}
 			trait = celibate
 			trait = incapable
-		}
-		NOT = { has_landed_title = k_eternal_fire }
-		trait = celibate
-		trait = incapable
-		trait = eunuch
-		trait = witcher
-		trait = kind2
-		AND = { 
-			trait = sorcerer
-			NOT = { trait =  fertile_sorcerer }
+			NOT = { has_landed_title = k_eternal_fire }
+			trait = eunuch
+			trait = witcher
+			trait = kind2
+			AND = { 
+				trait = sorcerer
+				NOT = { trait = fertile_sorcerer }
+			}
 		}
 	}
 	abort_effect = {
@@ -1156,10 +1154,14 @@ obj_marry_ruler = {
 			AND = {
 				is_female = yes
 				is_ruler = no
-				age = 45
+				has_character_modifier = old_age
 			}
 			trait = celibate
 			trait = incapable
+			AND = { 
+				trait = sorcerer
+				NOT = { trait = fertile_sorcerer }
+			}
 		}
 		is_ruler = yes
 	}
