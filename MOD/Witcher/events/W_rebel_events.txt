@@ -205,7 +205,7 @@ province_event = {
 		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
 	
-	 # Reinforce the ongoing revolt if any
+	# Reinforce the ongoing revolt if any
 	option = {
 		name = "Reinforce scoiatael revolt"
 		trigger = {
@@ -268,6 +268,21 @@ province_event = {
 			clr_character_flag = ongoing_religious_revolt
 			clr_character_flag = ongoing_nationalist_revolt
 			clr_character_flag = ongoing_scoiatael_revolt
+		}
+	}
+	
+	# Don't revolt
+	option = {
+		name = "Do nothing"
+		ai_chance = {
+			factor = 10000
+			modifier = {
+				factor = 0
+				NOT = {
+					terrain = dryad_forest
+					holder_scope = { trait = dryad }
+				}
+			}
 		}
 	}
 }

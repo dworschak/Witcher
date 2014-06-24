@@ -3,6 +3,7 @@
 vassal_decisions = {
 	vassal_sacrifice_decision = {
 		from_potential = {
+			NOT = { culture = wilderness }
 			OR = {
 				ai = yes
 				has_character_flag = prisoner_decisions_open
@@ -10,7 +11,6 @@ vassal_decisions = {
 			religion = spider
 		}
 		potential = {
-			NOT = { culture = wilderness }
 			prisoner = yes
 			host = { character = FROM }
 		}
@@ -90,13 +90,13 @@ vassal_decisions = {
 	
 	vassal_relinquish_claim_decision = {
 		from_potential = {
+			NOT = { culture = wilderness }
 			OR = {
 				ai = yes
 				has_character_flag = prisoner_decisions_open
 			}
 		}
 		potential = {
-			NOT = { culture = wilderness }
 			prisoner = yes
 			any_claim = { 
 				OR = {
@@ -189,6 +189,7 @@ vassal_decisions = {
 	
 	visit_prisoner = {
 		from_potential = {
+			NOT = { culture = wilderness }
 			OR = {
 				ai = yes
 				has_character_flag = prisoner_decisions_open
@@ -202,7 +203,6 @@ vassal_decisions = {
 				}
 		}
 		potential = {
-			NOT = { culture = wilderness }
 			prisoner = yes
 			is_female = yes
 			is_adult = yes
@@ -247,10 +247,26 @@ vassal_decisions = {
 					}
 				}
 			}
-			modifier = { factor = 0.5 FROM = { NOT = { trait = lustful } } }
+			modifier = { factor = 0.1 FROM = { NOT = { trait = lustful } } }
 			modifier = { factor = 2 trait = fair }
 			modifier = { factor = 0.5 has_character_modifier = old_age }
-			modifier = { factor = 0.2 } # Less likely to do it
+			modifier = { factor = 0.5 trait = ugly }
+			modifier = { factor = 0.5 trait = hunchback }
+			modifier = { factor = 0.75 trait = lisp }
+			modifier = { factor = 0.75 trait = clubfooted }
+			modifier = { factor = 0.75 trait = ill }
+			modifier = { factor = 0.75 trait = pneumonic }
+			modifier = { factor = 0.5 trait = syphilitic }
+			modifier = { factor = 0.5 trait = leper }
+			modifier = { factor = 0.5 trait = infirm }
+			modifier = { factor = 0.75 trait = has_tuberculosis }
+			modifier = { factor = 0.75 trait = has_typhoid_fever }
+			modifier = { factor = 0.75 trait = has_typhus }
+			modifier = { factor = 0.5 trait = has_bubonic_plague }
+			modifier = { factor = 0.5 trait = has_measles }
+			modifier = { factor = 0.5 trait = has_small_pox }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0 has_opinion_modifier = { modifier = raped_me who = FROM } }
 			modifier = {
 				factor = 0.1
 				OR = {
@@ -270,6 +286,7 @@ vassal_decisions = {
 	
 	confiscate_artifact = {
 		from_potential = {
+			NOT = { culture = wilderness }
 			OR = {
 				ai = yes
 				has_character_flag = prisoner_decisions_open

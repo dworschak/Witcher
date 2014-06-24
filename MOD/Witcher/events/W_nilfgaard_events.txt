@@ -3,7 +3,7 @@ namespace = nilfgaard
 ################################################
 # Evaluate Imperial Authority on succession
 ################################################
-# Hidden - Imperial Authority evaluation
+# Hidden - Imperial Authority evaluation (on_new_holder, on_new_holder_inheritance)
 character_event = {
 	id = nilfgaard.1
 	desc = "Emperor evaluation"
@@ -11,16 +11,19 @@ character_event = {
 	
 	hide_window = yes
 	
+	is_triggered_only = yes
+	
 	trigger = {
 		NOT = { culture = wilderness}
-		has_landed_title = e_nilfgaard
+		FROM = { title = e_nilfgaard }
 	}
 	
 	option = {
 		name = "Increase authority"
 		trigger = {
-			NOT = { e_nilfgaard = { has_law = imperial_authority_3 } }
+			e_nilfgaard = { NOT = { has_law = imperial_authority_3 } }
 		}
+		character_event = { id = nilfgaard.2 }
 		ai_chance = {
 			factor = 10
 			# Increase chance for increase
@@ -84,12 +87,17 @@ character_event = {
 			modifier = { factor = 0.9 trait = child_of_consort }
 			modifier = { factor = 0.5 NOT = { dynasty = FROMFROM } }
 		}
+		if = {
+			limit = { has_law = imperial_authority_3 }
+			character_event = { id = nilfgaard.4 }
+		}
 	}
 	option = {
 		name = "Decrease authority"
 		trigger = {
-			e_nilfgaard = { has_law = imperial_authority_1 }
+			e_nilfgaard = { NOT = { has_law = imperial_authority_0 } }
 		}
+		character_event = { id = nilfgaard.3 }
 		ai_chance = {
 			factor = 1
 			# Increase chance for decrease
@@ -142,6 +150,7 @@ character_event = {
 			if = {
 				limit = { has_law = imperial_authority_2 }
 				add_law = imperial_authority_3
+				character_event = { id = nilfgaard.4 }
 			}
 			if = {
 				limit = { has_law = imperial_authority_1 }
@@ -215,9 +224,33 @@ character_event = {
 		}
 	}
 	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
 	option = {
 		name = EVTOPTAnilfgaard.4
 		remove_trait = strong_emperor
+	}
+}
+# Hidden - Imperial Authority reduction because of succession through usurpation (on_new_holder_usurpation)
+character_event = {
+	id = nilfgaard.5
+	desc = "Emperor evaluation"
+	picture = GFX_evt_holy_emperor
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		FROM = { title = e_nilfgaard }
+	}
+	
+	option = {
+		name = "Decrease authority"
+		character_event = { id = nilfgaard.3 }
 	}
 }
 
@@ -478,7 +511,7 @@ narrative_event = {
 		e_nilfgaard = {
 			holder_scope = {
 				set_defacto_vassal = ROOT
-				letter_event = { id = nilfgaard.101 }
+				letter_event = { id = nilfgaard.101 days = 3 }
 			}
 		}
 		ai_chance = {
@@ -497,7 +530,7 @@ narrative_event = {
 			modifier = { factor = 4 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
-	option = { # Call allies
+	option = { # Call allies & offer white peace in internal wars
 		name = EVTOPTBnilfgaard.100
 		any_independent_ruler = {
 			limit = {
@@ -506,7 +539,38 @@ narrative_event = {
 				independent = yes
 				NOT = { has_landed_title = k_eternal_fire }
 			}
-			letter_event = { id = nilfgaard.102 tooltip = EVTTOOLTIPnilfgaard.102}
+			letter_event = { id = nilfgaard.102 tooltip = EVTTOOLTIPnilfgaard.102 days = 3 }
+		}
+		any_war = {
+			limit = {
+				defender = { character = ROOT }
+				OR = {
+					# Revolts
+					using_cb = peasant_revolt
+					using_cb = religious_revolt
+					using_cb = liberation_revolt
+					using_cb = scoiatael_revolt
+					 # Factions
+					using_cb = cb_faction_independence
+					using_cb = change_seniority_succession_law
+					using_cb = change_primogeniture_succession_law
+					using_cb = change_feudal_elective_succession_law
+					using_cb = change_tanistry_succession_lawd
+					using_cb = change_ultimogeniture_succession_law
+					using_cb = lower_crown_levy_law
+					using_cb = lower_crown_obligation_law
+					using_cb = lower_tolerance_law
+					using_cb = raise_tolerance_law
+					# Few other
+					using_cb = bid_for_independence
+					using_cb = depose_liege
+					using_cb = overthrow_ruler
+					using_cb = overthrow_ruler_no_calls
+				}
+			}
+			attacker = {
+				letter_event = { id = nilfgaard.106 tooltip = EVTTOOLTIPnilfgaard.106 }
+			}
 		}
 		ai_chance = {
 			factor = 40
@@ -515,7 +579,7 @@ narrative_event = {
 	}
 	option = { # Fight alone
 		name = EVTOPTCnilfgaard.100
-		prestige = 20
+		prestige = 100
 		if = {
 			limit = { NOT = { trait = brave } }
 			add_trait = brave
@@ -542,7 +606,7 @@ letter_event = {
 		prestige = 200
 	}
 }
-# Independant Northern Kings - Join in war against Nilfgaard
+# Independant Northern King - Join in war against Nilfgaard
 letter_event = {
 	id = nilfgaard.102
 	desc = EVTDESCnilfgaard.102
@@ -555,7 +619,7 @@ letter_event = {
 		ai_chance = {
 			factor = 4
 			modifier = { # Neighbors Nilfgaard
-				factor = 4
+				factor = 3
 				e_nilfgaard = {
 					any_neighbor_province = {
 						owner = {
@@ -568,10 +632,42 @@ letter_event = {
 			modifier = { factor = 0.5 trait = craven }
 		}
 	}
-	option = { # Don't join
+	option = { # Financial support
 		name = EVTOPTBnilfgaard.102
-		prestige = -20
+		transfer_scaled_wealth = { to = FROM value = 2.5 }
 		FROM = { letter_event = { id = nilfgaard.103 days = 5 } }
+		ai_chance = {
+			factor = 4
+			modifier = { factor = 0.5 NOT = { wealth = 100 } }
+			modifier = { factor = 2 wealth = 500 }
+			modifier = { factor = 1.5 scaled_wealth = 3.0 }
+			modifier = { factor = 1.5 scaled_wealth = 3.5 }
+			modifier = { # Don't neighbor Nilfgaard
+				factor = 4
+				e_nilfgaard = {
+					any_neighbor_province = {
+						owner = {
+							top_liege = { NOT = { character = ROOT } }
+						}
+					}
+				}
+			}
+		}
+	}
+	option = { # Don't join
+		name = EVTOPTCnilfgaard.102
+		trigger = {
+			NOT = {
+				any_war = {
+					OR = {
+						defender = ROOT
+						attacker = ROOT
+					}
+				}
+			}
+		}
+		prestige = -100
+		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
@@ -585,29 +681,32 @@ letter_event = {
 			modifier = { factor = 4 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
 		}
 	}
-	option = { # Financial support
-		name = EVTOPTCnilfgaard.102
-		transfer_scaled_wealth = { to = FROM value = 3.0 }
-		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
-		ai_chance = {
-			factor = 3
-			modifier = { factor = 0.05 NOT = { wealth = 100 } }
-			modifier = { factor = 2 wealth = 500 }
-			modifier = { factor = 2 scaled_wealth = 3.0 }
-			modifier = { # Don't neighbor Nilfgaard
-				factor = 5
-				e_nilfgaard = {
-					any_neighbor_province = {
-						owner = {
-							top_liege = { NOT = { character = ROOT } }
-						}
-					}
+	option = { # Don't join because of personal war
+		name = EVTOPTDnilfgaard.102
+		trigger = {
+			any_war = {
+				OR = {
+					defender = ROOT
+					attacker = ROOT
 				}
 			}
 		}
+		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
+			modifier ={ factor = 2 war =  yes }
+			modifier ={ factor = 2 NOT = { wealth =  0 } }
+			modifier = { factor = 1.2 e_nilfgaard = { holder_scope = { realm_size = 500 } } }
+			modifier = { factor = 1.5 e_nilfgaard = { holder_scope = { realm_size = 600 } } }
+			modifier = { factor = 1.9 e_nilfgaard = { holder_scope = { realm_size = 700 } } }
+			modifier = { factor = 2.4 e_nilfgaard = { holder_scope = { realm_size = 800 } } }
+			modifier = { factor = 3 e_nilfgaard = { holder_scope = { realm_size = 900 } } }
+			modifier = { factor = 4 e_nilfgaard = { holder_scope = { realm_size = 1000 } } }
+		}
 	}
 }
-# Target - Don't join
+# Target - Financial support
 letter_event = {
 	id = nilfgaard.103
 	desc = EVTDESCnilfgaard.103
@@ -618,7 +717,7 @@ letter_event = {
 		name = EVTOPTAnilfgaard.103
 	}
 }
-# Target - Financial support
+# Target - Don't join
 letter_event = {
 	id = nilfgaard.104
 	desc = EVTDESCnilfgaard.104
@@ -627,6 +726,39 @@ letter_event = {
 	
 	option = {
 		name = EVTOPTAnilfgaard.104
+	}
+}
+# Target - Don't join because of personal war
+letter_event = {
+	id = nilfgaard.105
+	desc = EVTDESCnilfgaard.105
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAnilfgaard.105
+	}
+}
+# Any target's enemy using faction or revolt CB - Offer white peace
+letter_event = {
+	id = nilfgaard.106
+	desc = EVTDESCnilfgaard.106
+	
+	is_triggered_only = yes
+	
+	option = { # Accept white peace
+		name = EVTOPTAnilfgaard.106
+		any_war = {
+			limit = {
+				attacker = { character = ROOT }
+				defender = { character = FROM }
+			}
+			end_war = whitepeace
+		}
+	}
+	option = { # Refuse white peace
+		name = EVTOPTBnilfgaard.106
+		ai_chance = { factor = 0 }
 	}
 }
 # Province - Ping -Victory, what should do with title
