@@ -1,0 +1,155 @@
+namespace = job
+
+################################################
+# Fake claim fabrication for AI
+################################################
+# Hidden - Independant ruler - Give claim if have no claims and have weak neighbours
+character_event = {
+	id = job.1
+	desc = "Give claim"
+	picture = GFX_evt_holy_emperor
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		independent = yes
+		num_of_claims = 0
+		job_chancellor = {
+			NOT = { has_job_action = action_fabricate_claims }
+		}
+		any_realm_province = {
+			any_neighbor_province = {
+				NOT = { terrain = dryad_forest }
+				owner = {
+					NOT = { same_realm = ROOT }
+					OR = {
+						AND = {
+							top_liege = { NOT = { relative_power = { who = ROOT power = 0.75 } } }
+							independent = no
+						}
+						AND = {
+							NOT = { relative_power = { who = ROOT power = 0.75 } }
+							independent = yes
+						}
+					}
+				}
+			}
+		}
+		trait = ambitious
+	}
+	
+	mean_time_to_happen = {
+		months = 10000
+	}
+	
+	option = {
+		name = "Ok"
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						NOT = { same_realm = ROOT }
+						OR = {
+							AND = {
+								top_liege = { NOT = { relative_power = { who = ROOT power = 0.75 } } }
+								independent = no
+							}
+							AND = {
+								NOT = { relative_power = { who = ROOT power = 0.75 } }
+								independent = yes
+							}
+						}
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						NOT = { same_realm = ROOT }
+						OR = {
+							AND = {
+								top_liege = { NOT = { relative_power = { who = ROOT power = 0.75 } } }
+								independent = no
+							}
+							AND = {
+								NOT = { relative_power = { who = ROOT power = 0.75 } }
+								independent = yes
+							}
+						}
+					}
+				}
+				county = { add_claim = ROOT }
+			}
+		}
+	}
+}
+# Hidden - Vassal - Give claim if have no claims and have weak neighbours
+character_event = {
+	id = job.2
+	desc = "Give claim"
+	picture = GFX_evt_holy_emperor
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		independent = no
+		num_of_claims = 0
+		job_chancellor = {
+			NOT = { has_job_action = action_fabricate_claims }
+		}
+		any_realm_province = {
+			any_neighbor_province = {
+				NOT = { terrain = dryad_forest }
+				owner = {
+					same_liege = ROOT
+					NOT = { relative_power = { who = ROOT power = 0.75 } }
+				}
+			}
+		}
+		trait = ambitious
+	}
+	
+	mean_time_to_happen = {
+		months = 10000
+	}
+	
+	option = {
+		name = "Ok"
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						same_liege = ROOT
+						NOT = { relative_power = { who = ROOT power = 0.75 } }
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						same_liege = ROOT
+						NOT = { relative_power = { who = ROOT power = 0.75 } }
+					}
+				}
+				county = { add_claim = ROOT }
+			}
+		}
+	}
+}
+
