@@ -150,7 +150,7 @@ character_event = {
 			if = {
 				limit = { has_law = imperial_authority_2 }
 				add_law = imperial_authority_3
-				character_event = { id = nilfgaard.4 }
+				ROOT = { character_event = { id = nilfgaard.4 } }
 			}
 			if = {
 				limit = { has_law = imperial_authority_1 }
@@ -235,7 +235,7 @@ character_event = {
 }
 # Hidden - Imperial Authority reduction because of succession through usurpation (on_new_holder_usurpation)
 character_event = {
-	id = nilfgaard.5
+	id = nilfgaard.6
 	desc = "Emperor evaluation"
 	picture = GFX_evt_holy_emperor
 	
@@ -555,7 +555,7 @@ narrative_event = {
 					using_cb = change_seniority_succession_law
 					using_cb = change_primogeniture_succession_law
 					using_cb = change_feudal_elective_succession_law
-					using_cb = change_tanistry_succession_lawd
+					using_cb = change_tanistry_succession_law
 					using_cb = change_ultimogeniture_succession_law
 					using_cb = lower_crown_levy_law
 					using_cb = lower_crown_obligation_law
@@ -621,9 +621,11 @@ letter_event = {
 			modifier = { # Neighbors Nilfgaard
 				factor = 3
 				e_nilfgaard = {
-					any_neighbor_province = {
-						owner = {
-							top_liege = { character = ROOT }
+					any_realm_province = {
+						any_neighbor_province = {
+							owner = {
+								top_liege = { character = ROOT }
+							}
 						}
 					}
 				}
@@ -645,9 +647,11 @@ letter_event = {
 			modifier = { # Don't neighbor Nilfgaard
 				factor = 4
 				e_nilfgaard = {
-					any_neighbor_province = {
-						owner = {
-							top_liege = { NOT = { character = ROOT } }
+					any_realm_province = {
+						any_neighbor_province = {
+							owner = {
+								top_liege = { NOT = { character = ROOT } }
+							}
 						}
 					}
 				}
@@ -656,16 +660,7 @@ letter_event = {
 	}
 	option = { # Don't join
 		name = EVTOPTCnilfgaard.102
-		trigger = {
-			NOT = {
-				any_war = {
-					OR = {
-						defender = ROOT
-						attacker = ROOT
-					}
-				}
-			}
-		}
+		trigger = { war = no }
 		prestige = -100
 		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
 		ai_chance = {
@@ -683,14 +678,7 @@ letter_event = {
 	}
 	option = { # Don't join because of personal war
 		name = EVTOPTDnilfgaard.102
-		trigger = {
-			any_war = {
-				OR = {
-					defender = ROOT
-					attacker = ROOT
-				}
-			}
-		}
+		trigger = { war = yes }
 		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
 		ai_chance = {
 			factor = 1
