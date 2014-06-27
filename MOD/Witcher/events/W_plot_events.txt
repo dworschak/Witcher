@@ -1,4 +1,6 @@
 namespace = plots
+# TO DO - expand Discredit Fellow Vassal plot with few options giving prison reason
+# TO DO - make Discredit Fellow Vassal plot similar to Kill Character plot
 
 ###########################################
 # Charm a character
@@ -969,3 +971,110 @@ letter_event = {
 		FROM = { opinion = { modifier = opinion_tried_to_discredit_vassal who = ROOT months = 12 } }
 	}
 }
+
+# ###########################################
+# # Defect
+# ###########################################
+# # Plot Target - Assist in plotter's war against liege 
+# character_event = {
+	# id = plots.200
+	# desc = EVTDESCplots.200
+	# picture = GFX_evt_recovery
+	
+	# is_triggered_only = yes
+	
+	# option = { # Yes
+		# name = EVTOPTAplots.200
+		# FROMFROM = { character_event = { id = plots.201 } }
+	# }
+	# option = { # No
+		# name = EVTOPTBplots.200
+		# cancel_plot = plot_defect
+		# ai_chance = { factor = 0 }
+	# }
+# }
+# # Plotter - Send ultimatum to liege
+# character_event = {
+	# id = plots.201
+	# desc = EVTDESCplots.201
+	# picture = GFX_evt_recovery
+	
+	# is_triggered_only = yes
+	
+	# option = {
+		# name = EVTOPTAplots.201
+		# liege = { character_event = { id = plots.202 } }
+	# }
+# }
+# # Liege - Ultimatum to allow plotter to defect
+# character_event = {
+	# id = plots.202
+	# desc = EVTDESCplots.202
+	# picture = GFX_evt_recovery
+	
+	# is_triggered_only = yes
+	
+	# option = { # Yes
+		# name = EVTOPTAplots.202
+		# FROM = { character_event = { id = plots.203 } }
+	# }
+	# option = { # No
+		# name = EVTOPTBplots.202
+		# FROM = { character_event = { id = plots.205 } }
+	# }
+# }
+# # Plotter - Liege accepted the ultimatum
+# character_event = {
+	# id = plots.203
+	# desc = EVTDESCplots.203
+	# picture = GFX_evt_recovery
+	
+	# is_triggered_only = yes
+	
+	# option = {
+		# name = EVTOPTAplots.203
+		# plot_target_char = {
+			# character_event = { id = plots.204 }
+			# ROOT = { set_defacto_liege = PREV }
+		# }
+	# }
+# }
+# # Plot target - Inform that ultimatum is succesful 
+# character_event = {
+	# id = plots.204
+	# desc = EVTDESCplots.204
+	# picture = GFX_evt_recovery
+	
+	# is_triggered_only = yes
+	
+	# option = {
+		# name = EVTOPTAplots.204
+	# }
+# }
+# # Plotter - Liege refused the ultimatum
+# character_event = {
+	# id = plots.205
+	# desc = EVTDESCplots.205
+	# picture = GFX_evt_recovery
+	
+	# is_triggered_only = yes
+	
+	# option = { # Declare war
+		# name = EVTOPTAplots.205
+		# liege = {
+			# reverse_war = {
+				# target = ROOT
+				# casus_belli = claim_on_liege_plot
+				# plot_backers = yes
+			# }
+		# }
+		# plot_target_char = { join_attacker_wars = ROOT }
+	# }
+	# option = { # Declare war
+		# name = EVTOPTAplots.205
+		# prestige = -100
+		# plot_target_char = { opinion = { modifier = opinion_coward who = ROOT years = 5 } }
+		# cancel_plot = plot_defect
+		# ai_chance = { factor = 0 }
+	# }
+# }
