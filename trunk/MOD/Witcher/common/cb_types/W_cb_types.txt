@@ -39,14 +39,8 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 	}
 	
 	can_use = {
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		FROM = {
 			OR = {
 				trait = elven
@@ -227,21 +221,10 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 		}
 	}
 	
-	attacker_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-
-	defender_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
+	attacker_ai_victory_worth = { factor = -1 } # always accept
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
 	
 	ai_will_do = {
 		factor = 1
@@ -274,12 +257,8 @@ scoiatael_revolt = {
 	is_independence = yes
 	
 	can_use = {
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			primary_title = { temporary = yes } # Revolter or adventurer trigger
 			war = no
@@ -372,21 +351,10 @@ scoiatael_revolt = {
 		}
 	}
 	
-	attacker_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-	
-	defender_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
+	attacker_ai_victory_worth = { factor = -1 } # always accept
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
 }
 
 change_tanistry_succession_law = {
@@ -555,21 +523,10 @@ change_tanistry_succession_law = {
 		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
 	
-	attacker_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-	
-	defender_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
+	attacker_ai_victory_worth = { factor = -1 } # always accept
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
 }
 
 change_ultimogeniture_succession_law = {
@@ -740,21 +697,10 @@ change_ultimogeniture_succession_law = {
 		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
 	
-	attacker_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-	
-	defender_ai_victory_worth = {
-		factor = -1 # always accept
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
+	attacker_ai_victory_worth = { factor = -1 } # always accept
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
 }
 
 nilfgaard_invasion = {
@@ -768,17 +714,13 @@ nilfgaard_invasion = {
 	check_de_jure_tier = KING # this scans all de jure kingdoms for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		e_nilfgaard = {
 			OR = {
 				has_law = imperial_authority_2
 				has_law = imperial_authority_3
 			}
-		}
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
 		}
 		ROOT = {
 			has_landed_title = e_nilfgaard
@@ -792,35 +734,33 @@ nilfgaard_invasion = {
 	can_use_title = {
 		# The attacker needs at least one county in the target kingdom, or a border, or be only two sea zones away from one of your counties
 		any_direct_de_jure_vassal_title = {
-			any_direct_de_jure_vassal_title = {
-				OR = {
-					holder_scope = {
-						OR = {
-							character = ROOT
-							is_liege_or_above = ROOT
-						}
+			OR = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
 					}
-					location = {
-						any_neighbor_province = {
-							OR = {
-								AND = {
+				}
+				location = {
+					any_neighbor_province = {
+						OR = {
+							AND = {
+								has_owner = yes
+								owner = {
+									OR = {
+										character = ROOT
+										is_liege_or_above = ROOT
+									}
+								}
+							}
+							AND = {
+								is_land = no
+								any_neighbor_province = {
 									has_owner = yes
 									owner = {
 										OR = {
 											character = ROOT
 											is_liege_or_above = ROOT
-										}
-									}
-								}
-								AND = {
-									is_land = no
-									any_neighbor_province = {
-										has_owner = yes
-										owner = {
-											OR = {
-												character = ROOT
-												is_liege_or_above = ROOT
-											}
 										}
 									}
 								}
@@ -860,6 +800,10 @@ nilfgaard_invasion = {
 			prestige = -200
 			opinion = { modifier = opinion_invaded who = ROOT }
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_succeeded
+		}
 	}
 	
 	on_success_title = {
@@ -889,7 +833,7 @@ nilfgaard_invasion = {
 					holder_scope = { set_defacto_liege = ROOT }
 				}
 				# Take all occupied titles
-				gain_all_occupied_titles = FROM
+				ROOT = { gain_all_occupied_titles = FROM }
 			}
 		}
 		# Fire event, if you usurped the target kingdom from enemy
@@ -921,6 +865,10 @@ nilfgaard_invasion = {
 		ROOT = {
 			prestige = -200
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 	
 	on_reverse_demand = {
@@ -942,23 +890,16 @@ nilfgaard_invasion = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 	
-	attacker_ai_victory_worth = {
-		factor = 200
-	}
-	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-	
-	defender_ai_victory_worth = {
-		factor = -1
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
+	attacker_ai_victory_worth = { factor = 200 }
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
 	
 	ai_will_do = { 
 		factor = 1
@@ -999,6 +940,8 @@ nilfgaard_reconquest = {
 	check_de_jure_tier = KING # this scans all de jure kingdoms for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		e_nilfgaard = {
 			OR = {
 				has_law = imperial_authority_1
@@ -1042,6 +985,10 @@ nilfgaard_reconquest = {
 			prestige = -200
 			opinion = { modifier = opinion_conquered who = ROOT }
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_succeeded
+		}
 	}
 	
 	on_success_title = {
@@ -1068,6 +1015,10 @@ nilfgaard_reconquest = {
 		ROOT = {
 			prestige = -200
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 	
 	on_reverse_demand = {
@@ -1089,23 +1040,17 @@ nilfgaard_reconquest = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 	
-	attacker_ai_victory_worth = {
-		factor = 200
-	}
+	attacker_ai_victory_worth = { factor = 200 }
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
 	
-	attacker_ai_defeat_worth = {
-		factor = 100
-	}
-	
-	defender_ai_victory_worth = {
-		factor = -1
-	}
-	
-	defender_ai_defeat_worth = {
-		factor = 100
-	}
 	ai_will_do = { 
 		factor = 1
 		modifier = { factor = 0.1 }
@@ -1113,13 +1058,7 @@ nilfgaard_reconquest = {
 		modifier = { factor = 2 ROOT = { trait = ambitious } }
 		modifier = { factor = 1.5 ROOT = { trait = greedy } }
 		modifier = { factor = 1.5 ROOT = { trait = wroth } }
-		modifier = {
-			factor = 2
-			any_independent_ruler = {
-				culture_group = southern_group
-				tier = KING
-			}
-		}
+		modifier = { factor = 0.1 any_independent_ruler = { culture_group = southern_group } }
 	}
 }
 
@@ -1588,14 +1527,166 @@ raise_tolerance_law = {
 	defender_ai_defeat_worth = { factor = 100 }
 }
 
-# expansion = {
-	# name = CB_NAME_EXPANSION
-	# war_name = WAR_NAME_EXPANSION
-	# sprite = 7
-	# truce_days = 3650
-	# hostile_against_others = yes
+conquest = {
+	name = CB_NAME_CONQUEST
+	war_name = WAR_NAME_CONQUEST
+	sprite = 7
+	truce_days = 3650
+	is_permanent = yes
+	check_de_jure_tier = DUKE
+	hostile_against_others = yes
 	
-# }
+	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
+		ROOT = {
+			has_character_flag = obj_expand_by_conquest_taken
+			NOT = { has_character_flag = obj_expand_by_conquest_succeeded }
+			NOT = { has_character_flag = obj_expand_by_conquest_failed }
+			NOT = { has_character_flag = obj_expand_by_conquest_cb_used }
+			NOT = { is_liege_or_above = FROM }
+		}
+	}
+	
+	on_add = {
+		set_character_flag = obj_expand_by_conquest_cb_used
+	}
+	
+	can_use_title = {
+		tier = duke
+		any_direct_de_jure_vassal_title = { # The attacker a border or be only one sea zones away
+			OR = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
+					}
+				}
+				location = {
+					any_neighbor_province = {
+						OR = {
+							AND = {
+								has_owner = yes
+								owner = {
+									OR = {
+										character = ROOT
+										is_liege_or_above = ROOT
+									}
+								}
+							}
+							AND = {
+								is_land = no
+								any_neighbor_province = {
+									OR = {
+										AND = {
+											has_owner = yes
+											owner = {
+												OR = {
+													character = ROOT
+													is_liege_or_above = ROOT
+												}
+											}
+										}
+										AND = {
+											is_land = no
+											any_neighbor_province = {
+												owner = {
+													OR = {
+														character = ROOT
+														is_liege_or_above = ROOT
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	is_valid_title = {
+	}
+	
+	on_success = {
+		ROOT = { prestige = 200 }
+		any_attacker = {
+			limit = { character = ROOT }
+			participation_scaled_prestige = 200
+		}
+		any_attacker = {
+			limit = { NOT = { character = ROOT } }
+			hidden_tooltip = { participation_scaled_prestige = 200 }
+		}
+		FROM = { prestige = -200 }
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_succeeded
+			clr_character_flag = obj_expand_by_conquest_cb_used
+		}
+	}
+	
+	on_success_title = {
+		custom_tooltip = {
+			text = religious_cb_succ_tip
+			hidden_tooltip = {
+				ROOT = {
+					vassalize_or_take_under_title_destroy_duchies = {
+						title = PREV
+						enemy = FROM
+					}
+				}
+			}
+		}
+	}
+	
+	on_fail = {
+		ROOT = { prestige = -200 }
+		FROM = { prestige = 100 }
+		any_defender = {
+			limit = { character = FROM }
+			participation_scaled_prestige = 100
+		}
+		any_defender = {
+			limit = { NOT = { character = FROM } }
+			hidden_tooltip = { participation_scaled_prestige = 100 }
+		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+			clr_character_flag = obj_expand_by_conquest_cb_used
+		}
+	}
+	
+	on_reverse_demand = {
+		ROOT = {
+			prestige = -200
+			transfer_scaled_wealth = { to = FROM value = 4.0 }
+		}
+		FROM = { prestige = 200 }
+		any_defender = {
+			limit = { character = FROM }
+			participation_scaled_prestige = 200
+		}
+		any_defender = {
+			limit = { NOT = { character = FROM } }
+			hidden_tooltip = { participation_scaled_prestige = 200 }
+		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+			clr_character_flag = obj_expand_by_conquest_cb_used
+		}
+	}
+	
+	attacker_ai_victory_worth = { factor = -1 } # always accept
+	attacker_ai_defeat_worth = { factor = 100 }
+	defender_ai_victory_worth = { factor = -1 } # always accept
+	defender_ai_defeat_worth = { factor = 100 }
+}
 
 # elven_liberation = {
 	# name = CB_NAME_ELVEN_LIBERATION

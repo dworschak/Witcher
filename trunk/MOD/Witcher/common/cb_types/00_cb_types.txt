@@ -29,14 +29,8 @@ claim = {
 	press_claim = yes
 	
 	can_use = {
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 	}
 	
 	can_use_title = {
@@ -204,14 +198,8 @@ other_claim = {
 	press_claim = yes
 	
 	can_use = {
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 	}
 	
 	can_use_title = {
@@ -538,6 +526,8 @@ claim_on_liege = {
 	major_revolt = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		FROM = {
 			in_revolt = no
 			liege = {
@@ -546,14 +536,6 @@ claim_on_liege = {
 					in_revolt = no
 				}
 			}
-		}
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
 		}
 	}
 
@@ -1092,6 +1074,8 @@ other_claim_on_liege = {
 	major_revolt = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		FROM = {
 			in_revolt = no
 			liege = {
@@ -1100,14 +1084,6 @@ other_claim_on_liege = {
 					in_revolt = no
 				}
 			}
-		}
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
 		}
 	}
 
@@ -1468,14 +1444,8 @@ claim_all = {
 	is_claim_all = yes
 
 	can_use = {
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			total_claims = {
 				who = FROM
@@ -2187,15 +2157,12 @@ invasion = {
 	hostile_against_others = yes
 	can_ask_to_join_war = no
 	
+	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
+	}
+	
 	can_use_title = {
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
 		OR = {
 			FROM = {
 				has_landed_title = PREV
@@ -2241,6 +2208,10 @@ invasion = {
 		FROM = {
 			prestige = -200
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_succeeded
+		}
 	}
 
 	on_success_title = {
@@ -2282,6 +2253,10 @@ invasion = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 
 	on_reverse_demand = {
@@ -2302,6 +2277,10 @@ invasion = {
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
+		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
 		}
 	}
 
@@ -2359,16 +2338,13 @@ tribal_invasion = {
 	on_add = {
 		ROOT = { prestige = -500 }
 	}
-
+	
+	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
+	}
+	
 	can_use_title = {
-		FROM = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { has_landed_title = k_dryads }
-			NOT = { culture = wilderness }
-		}
 		ROOT = {
 			OR = {
 				AND = {
@@ -2420,6 +2396,10 @@ tribal_invasion = {
 				gain_all_occupied_titles = FROM
 			}
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_succeeded
+		}
 	}
 	
 	on_success_title = {
@@ -2452,6 +2432,10 @@ tribal_invasion = {
 		ROOT = {
 			prestige = -200
 		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 
 	on_reverse_demand = {
@@ -2472,6 +2456,10 @@ tribal_invasion = {
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
+		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
 		}
 	}
 
@@ -2502,6 +2490,8 @@ bid_for_independence = {
 	is_independence = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			de_facto_liege = FROM
 			
@@ -2726,6 +2716,8 @@ depose_liege = {
 	major_revolt = no
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			de_facto_liege = FROM
 		}
@@ -2894,6 +2886,8 @@ overthrow_ruler = {
 	major_revolt = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			de_facto_liege = FROM
 		}
@@ -3043,6 +3037,8 @@ overthrow_ruler_no_calls = {
 	can_ask_to_join_war = no
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			de_facto_liege = FROM
 		}
@@ -4465,16 +4461,12 @@ peasant_revolt = {
 	is_independence = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			primary_title = { temporary = yes } # Revolter or adventurer trigger
 			war = no
 			NOT = { is_liege_or_above = FROM }
-		}
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
 		}
 	}
 	
@@ -4592,13 +4584,9 @@ religious_revolt = {
 	can_ask_to_join_war = no
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = { has_character_flag = religious_revolter }
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
-		}
 	}
 	
 	is_valid = {
@@ -4729,13 +4717,9 @@ liberation_revolt = {
 	is_independence = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = { has_character_flag = nationalist_rebel }
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
-		}
 	}
 	
 	can_use_title = {
@@ -4887,13 +4871,9 @@ duchy_adventure = {
 	check_de_jure_tier = DUKE # this scans all dejure duchies for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		ROOT = { has_character_flag = duchy_adventurer }
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
-		}
 	}
 	
 	is_valid = {
@@ -4910,6 +4890,10 @@ duchy_adventure = {
 		}
 		FROM = {
 			prestige = -250 
+		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_succeeded
 		}
 	}
 	
@@ -4947,6 +4931,10 @@ duchy_adventure = {
 		}
 	
 		ROOT = { prestige = -100 }
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
+		}
 	}
 	
 	on_reverse_demand = {
@@ -4968,6 +4956,10 @@ duchy_adventure = {
 				disband_event_forces = yes
 				clr_character_flag = duchy_adventurer
 			}
+		}
+		ROOT = {
+			if = { has_character_flag = obj_expand_by_conquest_taken }
+			set_character_flag = obj_expand_by_conquest_failed
 		}
 	}
 	
@@ -5010,18 +5002,8 @@ dejure_county_claim = {
 	can_ask_to_join_war = no
 	
 	can_use = {
-		NOT = {
-			AND = {
-				FROM = { has_landed_title = k_eternal_fire }
-				ROOT = { religion_group = FROM }
-			}
-		}
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 	}
 	
 	can_use_title = {
@@ -5195,18 +5177,8 @@ dejure_barony_claim = {
 	can_ask_to_join_war = no
 	
 	can_use = {
-		NOT = {
-			AND = {
-				FROM = { has_landed_title = k_eternal_fire }
-				ROOT = { religion_group = FROM }
-			}
-		}
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
-		}
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 	}
 	
 	can_use_title = {
@@ -5345,20 +5317,12 @@ other_dejure_barony_claim = {
 	can_ask_to_join_war = no
 	
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		NOT = {
 			ROOT = {
 				character = PREV
 			}
-			AND = {
-				FROM = { has_landed_title = k_eternal_fire }
-				ROOT = { religion_group = FROM }
-			}
-		}
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
 		}
 	}
 	
@@ -5510,13 +5474,11 @@ other_dejure_county_claim = {
 	can_ask_to_join_war = no
 
 	can_use = {
+		FROM = { NOT = { culture = wilderness } }
+		ROOT = { NOT = { culture = wilderness } }
 		NOT = {
 			ROOT = {
 				character = PREV
-			}
-			AND = {
-				FROM = { has_landed_title = k_eternal_fire }
-				ROOT = { religion_group = FROM }
 			}
 		}
 		
@@ -5526,12 +5488,6 @@ other_dejure_county_claim = {
 				NOT = { religion = ROOT }
 				NOT = { has_dlc = "Sons of Abraham" }
 			}
-		}
-		FROM = {
-			NOT = { culture = wilderness }
-		}
-		ROOT = {
-			NOT = { culture = wilderness }
 		}
 	}
 

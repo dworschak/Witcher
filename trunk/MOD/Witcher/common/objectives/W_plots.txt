@@ -1,7 +1,6 @@
 # Charm character
 plot_charm_character = {
 	type = realm_characters_plus
-	intrigue_plot = yes
 	
 	# Plotter scope
 	potential = {
@@ -96,7 +95,6 @@ plot_charm_character = {
 # Heal character
 plot_heal_character = {
 	type = realm_characters_plus
-	intrigue_plot = yes
 	
 	# Plotter scope
 	potential = {
@@ -235,7 +233,6 @@ plot_heal_character = {
 # Protect character
 plot_protect_character = {
 	type = realm_characters_plus
-	intrigue_plot = yes
 	
 	# Plotter scope
 	potential = {
@@ -398,12 +395,13 @@ plot_discredit_fellow_vassal = {
 		independent = no
 		OR = {
 			is_rival = FROM
-			NOT = { reverse_opinion = { who = FROM value = -50 } }
+			NOT = { reverse_opinion = { who = FROM value = -0 } }
 		}
 	}
 	
 	chance = {
-		factor = 5
+		factor = 10
+		modifier = { factor = 0 reverse_opinion = { who = FROM value = 50 } }
 		modifier = {
 			factor = 0
 			FROM = {
@@ -417,9 +415,11 @@ plot_discredit_fellow_vassal = {
 		modifier = { factor = 2 FROM = { trait = deceitful } }
 		modifier = { factor = 2 FROM = { trait = ambitious } }
 		modifier = { factor = 2 FROM = { trait = paranoid } }
-		modifier = { factor = 1.5 FROM = { intrigue = 12 } }
-		modifier = { factor = 1.5 FROM = { intrigue = 15 } }
-		modifier = { factor = 1.5 FROM = { intrigue = 18 } }
+		modifier = { factor = 1.5 NOT = { reverse_opinion = { who = FROM value = -0 } } }
+		modifier = { factor = 1.5 NOT = { reverse_opinion = { who = FROM value = -20 } } }
+		modifier = { factor = 1.5 NOT = { reverse_opinion = { who = FROM value = -40 } } }
+		modifier = { factor = 1.5 NOT = { reverse_opinion = { who = FROM value = -60 } } }
+		modifier = { factor = 1.5 NOT = { reverse_opinion = { who = FROM value = -80 } } }
 	}
 	
 	success = {
@@ -439,15 +439,22 @@ plot_discredit_fellow_vassal = {
 		ROOT = { NOT = { same_liege = FROM } }
 	}
 }
-# # Defect
+# Defect
 # plot_defect = {
-	# type = realm_characters_plus
-	# # type = independent_rulers
-	# intrigue_plot = yes
+	# type = independent_rulers
 	
 	# # Plotter scope
 	# potential = {
+		# NOT = { culture = wilderness }
+		# prisoner = no
+		# is_adult = yes
+		# is_ruler = yes
 		# independent = no
+		# primary_title = { higher_tier_than = BARON }
+		# NOT = {
+			# trait = incapable
+			# trait = imbecile
+		# }
 	# }
 	
 	# # Target allow trigger for when players target a specific character in the GUI
