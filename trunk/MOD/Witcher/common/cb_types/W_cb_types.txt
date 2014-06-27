@@ -1,22 +1,4 @@
-## normal scopes(including posttitle scopes) ##
-# ROOT = receiver
-# FROM = giver
-# <no scope change> = attacker or receiver
-## title scopes ##
-# ROOT = receiver
-# FROM = giver
-# <no scope change> = thirdparty landed title
-#
-# the following effects/triggers exists (example execution order: on_success->on_success_title->on_success_posttitle):
-# is_valid, is_valid_title, on_add, on_add_title, on_add_posttitle, on_success, on_success_title, on_success_posttitle, on_fail, on_fail_title, on_fail_posttitle, on_reverse_demand, on_reverse_demand_title, on_reverse_demand_posttitle
-#
-# Added on_attacker_leader_death, on_defender_leader_death and on_thirdparty_death, which all trigger when corresponding character dies
-# These three all have war scopes, which currently has the following scope changes: 
-# attacker, defender, thirdparty(only valid if thirdparty character is involved), thirdparty_title(only valid if thirdparty title is involved)
-#
-# ai_will_do: modifies value AI places on the CB compared to other CBs (default: 1)
-# can_use_gui: If otherwise valid, the CB is listed in the Diplo View, but you can't declare war unless 'can_use_gui' is also valid (also shows a trigger tooltip.)
-#
+# TO DO - uncomment drayd limiter and remove existing one from conqest CB when and if brokilon is split in multiple kingdoms 
 
 pogrom = { # If have claim grab county of a non-human otherwise just loot
 	name = CB_NAME_POGROM
@@ -32,7 +14,10 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 		ROOT = {
 			OR = {
 				NOT = { same_realm = FROM }
-				crownlaw_title = { has_law = tolerance_1 }
+				AND = {
+					crownlaw_title = { has_law = tolerance_1 }
+					trait = racist
+				}
 				crownlaw_title = { has_law = tolerance_2 }
 			}
 		}
@@ -56,20 +41,22 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 	}
 	
 	can_use_title = {
-		tier = count
 		OR = {
-			FROM = {
-				has_landed_title = PREV
-			}
-			holder_scope = {
+			location = { NOT = { terrain = dryad_forest } }
+			ROOT = { trait = dryad }
+		}
+		tier = count
+		holder_scope = {
+			OR = {
+				character = FROM
 				is_liege_or_above = FROM
-				OR = {
-					trait = elven
-					trait = dwarven
-					trait = halfelf
-					trait = halfdwarf
-					trait = halfling
-				}
+			}
+			OR = {
+				trait = elven
+				trait = dwarven
+				trait = halfelf
+				trait = halfdwarf
+				trait = halfling
 			}
 		}
 		# The attacker needs at least one county in the target kingdom, or a border, or be only two sea zones away from one of your counties
@@ -166,8 +153,7 @@ pogrom = { # If have claim grab county of a non-human otherwise just loot
 					}
 				}
 			}
-			usurp_title_plus_barony_if_unlanded_and_vassals = ROOT
-			# Should only grab all title of non-human (similar to holy wars)
+			usurp_title_plus_barony_if_unlanded = ROOT
 		}
 		FROM = {
 			transfer_scaled_wealth = {
@@ -732,6 +718,10 @@ nilfgaard_invasion = {
 	}
 	
 	can_use_title = {
+		OR = {
+			location = { NOT = { terrain = dryad_forest } }
+			ROOT = { trait = dryad }
+		}
 		# The attacker needs at least one county in the target kingdom, or a border, or be only two sea zones away from one of your counties
 		any_direct_de_jure_vassal_title = {
 			OR = {
@@ -1553,6 +1543,11 @@ conquest = {
 	}
 	
 	can_use_title = {
+		NOT = { title = k_dryads } # Remove this
+		# OR = {
+			# location = { NOT = { terrain = dryad_forest } }
+			# trait = dryad
+		# }
 		tier = duke
 		any_direct_de_jure_vassal_title = { # The attacker a border or be only one sea zones away
 			OR = {
@@ -1606,9 +1601,6 @@ conquest = {
 				}
 			}
 		}
-	}
-	
-	is_valid_title = {
 	}
 	
 	on_success = {
