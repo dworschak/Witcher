@@ -165,23 +165,37 @@ character_event = {
 			random_list = {
 				30 = {
 					set_character_flag = was_murdered_by_plot
-					death = {
-						death_reason = death_murder
-						killer = ROOT
-					}
-				}
-				20 = {
 					if = {
-						limit = { job_spymaster = { intrigue = 14 } }
-						set_character_flag = was_murdered_by_plot
+						limit = { NOT = { has_character_modifier = protection_spell } }
 						death = {
 							death_reason = death_murder
 							killer = ROOT
 						}
 					}
 					if = {
-						limit = { job_spymaster = { NOT = { intrigue = 14 } } }
-						FROM = { character_event = { id = 20291 days = 7 tooltip = "EVTTOOLTIP20143" } }
+						limit = { has_character_modifier = protection_spell }
+						character_event = { id = 20291 days = 1 }
+					}
+				}
+				20 = {
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						if = {
+							limit = { job_spymaster = { intrigue = 14 } }
+							set_character_flag = was_murdered_by_plot
+							death = {
+								death_reason = death_murder
+								killer = ROOT
+							}
+						}
+						if = {
+							limit = { job_spymaster = { NOT = { intrigue = 14 } } }
+							FROM = { character_event = { id = 20291 days = 7 tooltip = "EVTTOOLTIP20143" } }
+						}
+					}
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						character_event = { id = 20291 days = 1 }
 					}
 				}
 				50 = {
@@ -367,11 +381,18 @@ character_event = {
 			25 = { character_event = { id = 20310 tooltip = "EVTTOOLTIP20310" } }
 			50 = { character_event = { id = 20311 tooltip = "EVTTOOLTIP20311" } }
 			25 = {
-				hidden_tooltip = {
-					liege = { character_event = { id = 20313 } }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					hidden_tooltip = {
+						liege = { character_event = { id = 20313 } }
+					}
+					death = {
+						death_reason = death_murder_unknown
+					}
 				}
-				death = {
-					death_reason = death_murder_unknown
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					character_event = { id = 20310 tooltip = "EVTTOOLTIP20310" }
 				}
 			}
 		}
@@ -387,11 +408,18 @@ character_event = {
 			35 = { character_event = { id = 20310 tooltip = "EVTTOOLTIP20310" } }
 			50 = { character_event = { id = 20311 tooltip = "EVTTOOLTIP20311" } }
 			15 = {
-				hidden_tooltip = {
-					liege = { character_event = { id = 20313 } }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					hidden_tooltip = {
+						liege = { character_event = { id = 20313 } }
+					}
+					death = {
+						death_reason = death_murder_unknown
+					}
 				}
-				death = {
-					death_reason = death_murder_unknown
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					character_event = { id = 20310 tooltip = "EVTTOOLTIP20310" } 
 				}
 			}
 		}
@@ -406,11 +434,18 @@ character_event = {
 			50 = { character_event = { id = 20310 tooltip = "EVTTOOLTIP20310" } }
 			40 = { character_event = { id = 20311 tooltip = "EVTTOOLTIP20311" } }
 			10 = {
-				hidden_tooltip = {
-					liege = { character_event = { id = 20313 } }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					hidden_tooltip = {
+						liege = { character_event = { id = 20313 } }
+					}
+					death = {
+						death_reason = death_murder_unknown
+					}
 				}
-				death = {
-					death_reason = death_murder_unknown
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					character_event = { id = 20311 tooltip = "EVTTOOLTIP20311" }
 				}
 			}
 		}
@@ -2473,12 +2508,25 @@ character_event = {
 				}
 			}
 			50 = {
-				FROM = {
-					set_character_flag = spymaster_killed
-					character_event = { id = 20356 days = 1 tooltip = "EVTTOOLTIPSPYMASTERKILLED" }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					FROM = {
+						set_character_flag = spymaster_killed
+						character_event = { id = 20356 days = 1 tooltip = "EVTTOOLTIPSPYMASTERKILLED" }
+					}
+					hidden_tooltip = {
+						character_event = { id = 20365 days = 1 }
+					}
 				}
-				hidden_tooltip = {
-					character_event = { id = 20365 days = 1 }
+				if = {
+					limit = {  has_character_modifier = protection_spell }
+					FROM = {
+						set_character_flag = spymaster_attacked
+						character_event = { id = 20356 days = 1 tooltip = "EVTTOOLTIPSPYMASTERATTACK" }
+					}
+					hidden_tooltip = {
+						character_event = { id = 20364 days = 1 }
+					}
 				}
 			}
 		}
@@ -2957,12 +3005,25 @@ character_event = {
 				}
 			}
 			50 = {
-				FROM = {
-					set_character_flag = spymaster_killed
-					character_event = { id = 20376 days = 1 tooltip = "EVTTOOLTIPSPYMASTERKILLED" }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					FROM = {
+						set_character_flag = spymaster_killed
+						character_event = { id = 20376 days = 1 tooltip = "EVTTOOLTIPSPYMASTERKILLED" }
+					}
+					hidden_tooltip = {
+						character_event = { id = 20375 days = 1 }
+					}
 				}
-				hidden_tooltip = {
-					character_event = { id = 20375 days = 1 }
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					FROM = {
+						set_character_flag = spymaster_attacked
+						character_event = { id = 20376 days = 1 tooltip = "EVTTOOLTIPSPYMASTERATTACK" }
+					}
+					hidden_tooltip = {
+						character_event = { id = 20374 days = 1 }
+					}
 				}
 			}
 		}

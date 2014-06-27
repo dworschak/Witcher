@@ -149,7 +149,10 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38281 } }
 			}
 			1 = {
-				death = { death_reason = death_accident }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+				}
 			}
 		}
 		set_character_flag = hunt_killed_something
@@ -228,17 +231,20 @@ character_event = {
 				}
 			}
 			1 = {
-				death = { death_reason = death_accident }
-				any_courtier = {
-					limit = {
-						has_plot = plot_kill_character
-						plot_target_char = {
-							character = ROOT
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+					any_courtier = {
+						limit = {
+							has_plot = plot_kill_character
+							plot_target_char = {
+								character = ROOT
+							}
 						}
-					}
-					character_event = {
-						id = 36002
-						days = 1
+						character_event = {
+							id = 36002
+							days = 1
+						}
 					}
 				}
 			}
@@ -253,50 +259,59 @@ character_event = {
 		random_list = {
 			85 = {}
 			5 = {
-				any_courtier = {
-					limit = {
-						is_adult = yes
-						NOT = {
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					any_courtier = {
+						limit = {
+							is_adult = yes
+							NOT = {
+								has_plot = plot_kill_character
+								plot_target_char = {
+									character = ROOT
+								}
+							}
+						}
+						character_event = {
+							id = 36005
+							days = 1
+							tooltip = "EVTTOOLTIP36004"
+						}
+					}
+				}
+			}
+			5 = {
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					any_courtier = {
+						limit = {
 							has_plot = plot_kill_character
 							plot_target_char = {
 								character = ROOT
 							}
 						}
-					}
-					character_event = {
-						id = 36005
-						days = 1
-						tooltip = "EVTTOOLTIP36004"
+						character_event = {
+							id = 36004
+							days = 1
+							tooltip = "EVTTOOLTIP36004"
+						}
 					}
 				}
 			}
 			5 = {
-				any_courtier = {
-					limit = {
-						has_plot = plot_kill_character
-						plot_target_char = {
-							character = ROOT
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+					any_courtier = {
+						limit = {
+							has_plot = plot_kill_character
+							plot_target_char = {
+								character = ROOT
+							}
 						}
-					}
-					character_event = {
-						id = 36004
-						days = 1
-						tooltip = "EVTTOOLTIP36004"
-					}
-				}
-			}
-			5 = {
-				death = { death_reason = death_accident }
-				any_courtier = {
-					limit = {
-						has_plot = plot_kill_character
-						plot_target_char = {
-							character = ROOT
+						character_event = {
+							id = 36002
+							days = 1
 						}
-					}
-					character_event = {
-						id = 36002
-						days = 1
 					}
 				}
 			}
@@ -1276,7 +1291,10 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38281 } }
 			}
 			5 = {
-				death = { death_reason = death_accident }
+					if = {
+							limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+				}
 			}
 		}
 		set_character_flag = hunt_killed_something

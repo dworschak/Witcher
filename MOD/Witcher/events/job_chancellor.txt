@@ -1018,7 +1018,14 @@ character_event = {
 		random_list = {
 			50 = {
 				FROM = {
-					character_event = { id = 20141 days = 7 tooltip = "EVTTOOLTIP20141" }
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						character_event = { id = 20141 days = 7 tooltip = "EVTTOOLTIP20141" }
+					}
+					if = {
+						limit = {  has_character_modifier = protection_spell }
+						ROOT = { character_event = { id = 20143 days = 7 tooltip = "EVTTOOLTIP20143" } }
+					}
 				}
 			}
 			50 = {

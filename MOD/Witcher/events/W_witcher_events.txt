@@ -493,8 +493,11 @@ character_event = {
 						province_event = { id = witcher.202 }
 					}
 					5 = { # Witcher died
-						ROOT = { death = { death_reason = death_hashshashin } } # localized to death by monsters
-						owner = { character_event = { id = witcher.205 } }
+						if = {
+							limit = { ROOT = { NOT = { has_character_modifier = protection_spell } } }
+							ROOT = { death = { death_reason = death_hashshashin } } # localized to death by monsters
+							owner = { character_event = { id = witcher.205 } }
+						}
 					}
 				}
 			}
@@ -812,15 +815,27 @@ character_event = {
 						province_event = { id = witcher.1001 days = 5 }
 					}
 					15 = { # Witcher died
-						ROOT ={
-							random_courtier = {
-								limit = {
-									trait = witcher
-									prisoner = yes
+						if = {
+							limit = {
+								ROOT ={
+									random_courtier = {
+										NOT = { has_character_modifier = protection_spell }
+										trait = witcher
+										prisoner = yes
+									}
 								}
-								death = { death_reason = death_hashshashin } # localized to death by monsters
+								ROOT ={
+									random_courtier = {
+										limit = {
+											NOT = { has_character_modifier = protection_spell }
+											trait = witcher
+											prisoner = yes
+										}
+										death = { death_reason = death_hashshashin } # localized to death by monsters
+									}
+									character_event = { id = witcher.205 days = 5 }
+								}
 							}
-							character_event = { id = witcher.205 days = 5 }
 						}
 					}
 				}

@@ -622,10 +622,16 @@ character_event = {
 			}
 			random = {
 				chance = 75
-				
-				death = {
-					death_reason = death_execution
-					killer = ROOT
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_execution
+						killer = ROOT
+					}
+				}
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					add_trait = brave
 				}
 			}
 		}
@@ -752,8 +758,22 @@ character_event = {
 			}
 			random_list = {
 				50 = {
-					death = {
-						death_reason = death_accident
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						death = {
+							death_reason = death_accident
+						}
+					}
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						add_trait = maimed
+						hidden_tooltip = { character_event = { id = 38281 } }
+				
+						opinion = {
+							modifier = opinion_cruel
+							who = ROOT
+							years = 5
+						}
 					}
 				}
 				50 = {
@@ -918,8 +938,20 @@ character_event = {
 		name = EVTOPTA65031 #Spend a forthnight fasting for my sins
 		random_list = {
 			10 = {
-				death = {
-					death_reason = death_trait
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_trait
+					}
+				}
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					remove_trait = ill
+					hidden_tooltip = {
+						character_event = {
+							id = 38283 #Notify remove ill
+						}
+					}
 				}
 			}
 			10 = {
@@ -1002,9 +1034,11 @@ character_event = {
 		name = EVTOPTB65032 #Prayers are enough
 		random = {
 			chance = 10
-			
-			death = {
-				death_reason = death_trait
+			if = {
+				limit = { NOT = { has_character_modifier = protection_spell } }
+				death = {
+					death_reason = death_trait
+				}
 			}
 		}
 	}

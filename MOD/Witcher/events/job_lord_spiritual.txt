@@ -1838,11 +1838,18 @@ character_event = {
 			50 = { character_event = { id = 20044 tooltip = "EVTTOOLTIP20020" } }
 			40 = { character_event = { id = 20045 tooltip = "EVTTOOLTIP20021" } }
 			10 = {
-				hidden_tooltip = {
-					liege = { character_event = { id = 20047 } }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					hidden_tooltip = {
+						liege = { character_event = { id = 20047 } }
+					}
+					death = {
+						death_reason = death_rabble
+					}
 				}
-				death = {
-					death_reason = death_rabble
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					character_event = { id = 20045 tooltip = "EVTTOOLTIP20021" } 
 				}
 			}
 		}

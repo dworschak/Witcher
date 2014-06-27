@@ -388,29 +388,59 @@ character_event = {
 						}
 					}
 					33 = {
-						death = {
-							death_reason = death_murder
-							killer = ROOT
-						}
-						ROOT = {
-							random_list = {
-								10 = {
-									prestige = 15
-								}
-								45 = {
-									spouse = {
-										character_event = { #Husband accuses spouse of heir's death
-											id = 30007
-											days = 14
-											tooltip = "EVTTOOLTIP30007"
+						if = {
+							limit = { NOT = { has_character_modifier = protection_spell } }
+							death = {
+								death_reason = death_murder
+								killer = ROOT
+							}
+							ROOT = {
+								random_list = {
+									10 = {
+										prestige = 15
+									}
+									45 = {
+										spouse = {
+											character_event = { #Husband accuses spouse of heir's death
+												id = 30007
+												days = 14
+												tooltip = "EVTTOOLTIP30007"
+											}
+										}
+									}
+									45 = {
+										character_event = { #Courtier accuses spouse of heir's death
+											id = 30008
+											days = 7
+											tooltip = "EVTTOOLTIP30008"
 										}
 									}
 								}
-								45 = {
-									character_event = { #Courtier accuses spouse of heir's death
-										id = 30008
-										days = 7
-										tooltip = "EVTTOOLTIP30008"
+							}
+						}
+						if = {
+							limit = { has_character_modifier = protection_spell }
+							add_trait = ill
+							ROOT = {
+								random_list = {
+									50 = {
+										prestige = 15
+									}
+									25 = {
+										spouse = {
+											character_event = {
+												id = 30005
+												days = 14
+												tooltip = "EVTTOOLTIP30005"
+											}
+										}
+									}
+									25 = {
+										character_event = {
+											id = 30006
+											days = 7
+											tooltip = "EVTTOOLTIP30006"
+										}
 									}
 								}
 							}
