@@ -30,6 +30,7 @@ plot_charm_character = {
 	# Target allow trigger for when players target a specific character in the GUI
 	player_allow = {
 		NOT = { culture = wilderness }
+		is_within_diplo_range = FROM
 		ai = yes # To keep AI from using it against a player
 		NOT = {
 			has_opinion_modifier = { who = FROM modifier = opinion_charmed }
@@ -39,7 +40,11 @@ plot_charm_character = {
 	# Target character scope
 	allow = {
 		NOT = { culture = wilderness }
+		is_within_diplo_range = FROM
 		ai = yes # To keep AI from using it against a player
+		NOT = {
+			has_opinion_modifier = { who = FROM modifier = opinion_charmed }
+		}
 		FROM = {
 			OR = {
 				spouse = { character = ROOT }
@@ -77,6 +82,7 @@ plot_charm_character = {
 	success = {
 		has_opinion_modifier = { who = FROM modifier = opinion_charmed }
 	}
+	
 	effect = {
 		custom_tooltip = { text = plot_charm_character_tooltip }
 	}
@@ -119,6 +125,7 @@ plot_heal_character = {
 	# Target allow trigger for when players target a specific character in the GUI
 	player_allow = {
 		NOT = { culture = wilderness }
+		is_within_diplo_range = FROM
 		OR = {
 			trait = ill
 			trait = pneumonic
@@ -142,6 +149,25 @@ plot_heal_character = {
 	# Target character scope
 	allow = {
 		NOT = { culture = wilderness }
+		is_within_diplo_range = FROM
+		OR = {
+			trait = ill
+			trait = pneumonic
+			trait = syphilitic
+			trait = leper
+			trait = has_tuberculosis
+			trait = has_typhoid_fever
+			trait = has_typhus
+			trait = has_bubonic_plague
+			trait = has_measles
+			trait = has_small_pox
+			trait = has_aztec_disease
+			trait = wounded
+			trait = maimed
+			trait = infirm
+			trait = blinded
+			trait = eunuch
+		}
 		FROM = {
 			OR = {
 				spouse = { character = ROOT }
@@ -195,6 +221,7 @@ plot_heal_character = {
 			trait = eunuch
 		}
 	}
+	
 	effect = {
 		custom_tooltip = { text = plot_heal_character_tooltip }
 	}
@@ -238,29 +265,15 @@ plot_protect_character = {
 	# Target allow trigger for when players target a specific character in the GUI
 	player_allow = {
 		NOT = { culture = wilderness }
-		OR = {
-			trait = ill
-			trait = pneumonic
-			trait = syphilitic
-			trait = leper
-			trait = has_tuberculosis
-			trait = has_typhoid_fever
-			trait = has_typhus
-			trait = has_bubonic_plague
-			trait = has_measles
-			trait = has_small_pox
-			trait = has_aztec_disease
-			trait = wounded
-			trait = maimed
-			trait = infirm
-			trait = blinded
-			trait = eunuch
-		}
+		is_within_diplo_range = FROM
+		NOT = { has_character_modifier = protection_spell }
 	}
 	
 	# Target character scope
 	allow = {
 		NOT = { culture = wilderness }
+		is_within_diplo_range = FROM
+		NOT = { has_character_modifier = protection_spell }
 		FROM = {
 			OR = {
 				spouse = { character = ROOT }
@@ -297,6 +310,7 @@ plot_protect_character = {
 	success = {
 		has_character_modifier = protection_spell
 	}
+	
 	effect = {
 		custom_tooltip = { text = plot_protect_character_tooltip }
 	}
@@ -332,22 +346,20 @@ plot_discredit_fellow_vassal = {
 		}
 	}
 	
-	# Target character scope
-	allow = {
+	# Target allow trigger for when players target a specific character in the GUI
+	player_allow = {
 		NOT = { culture = wilderness }
-		
+		is_within_diplo_range = FROM
 		is_adult = yes
 		is_ruler = yes
 		same_realm = FROM
 		NOT = { any_liege = { character = FROM } }
 		OR = {
-			ROOT = { same_liege = FROM }
+			same_liege = FROM
 			AND = {
-				ROOT = {
-					OR = {
-						is_patrician = yes
-						is_merchant_republic = yes
-					}
+				OR = {
+					is_patrician = yes
+					is_merchant_republic = yes
 				}
 				FROM = {
 					OR = {
@@ -358,6 +370,36 @@ plot_discredit_fellow_vassal = {
 			}
 		}
 		independent = no
+	}
+	
+	# Target character scope
+	allow = {
+		NOT = { culture = wilderness }
+		is_within_diplo_range = FROM
+		is_adult = yes
+		is_ruler = yes
+		same_realm = FROM
+		NOT = { any_liege = { character = FROM } }
+		OR = {
+			same_liege = FROM
+			AND = {
+				OR = {
+					is_patrician = yes
+					is_merchant_republic = yes
+				}
+				FROM = {
+					OR = {
+						is_patrician = yes
+						is_merchant_republic = yes
+					}
+				}
+			}
+		}
+		independent = no
+		OR = {
+			is_rival = FROM
+			NOT = { reverse_opinion = { who = FROM value = -50 } }
+		}
 	}
 	
 	chance = {
@@ -397,30 +439,85 @@ plot_discredit_fellow_vassal = {
 		ROOT = { NOT = { same_liege = FROM } }
 	}
 }
-# # Sell out
-# plot_sell_out = {
-	# type = independent_rulers
-	# military_plot = yes 
+# # Defect
+# plot_defect = {
+	# type = realm_characters_plus
+	# # type = independent_rulers
+	# intrigue_plot = yes
 	
 	# # Plotter scope
 	# potential = {
-		# ai = no
+		# independent = no
+	# }
+	
+	# # Target allow trigger for when players target a specific character in the GUI
+	# player_allow = {
+		# higher_tier_than = FROM
+		# FROM = {
+			# NOT = { liege = { character = ROOT } }
+			# NOT = { top_liege = { character = ROOT } }
+		# }
+		# OR = {
+			# AND = {
+				# FROM = { liege = { independent = no } }
+				# same_realm = FROM
+				# independent = no
+			# }
+			# AND = {
+				# FROM = { liege = { independent = yes } }
+				# NOT = { same_realm = FROM }
+				# independent = yes
+			# }
+		# }
+		# any_realm_province = {
+			# any_neighbor_province = {
+				# owner = { character = FROM }
+			# }
+		# }
+		# is_within_diplo_range = FROM
 	# }
 	
 	# # Target scope
 	# allow = {
-		# always = yes
+		# higher_tier_than = FROM
+		# FROM = {
+			# NOT = { liege = { character = ROOT } }
+			# NOT = { top_liege = { character = ROOT } }
+		# }
+		# OR = {
+			# AND = {
+				# FROM = { liege = { independent = no } }
+				# same_realm = FROM
+				# independent = no
+			# }
+			# AND = {
+				# FROM = { liege = { independent = yes } }
+				# NOT = { same_realm = FROM }
+				# independent = yes
+			# }
+		# }
+		# any_realm_province = {
+			# any_neighbor_province = {
+				# owner = { character = FROM }
+			# }
+		# }
+		# is_within_diplo_range = FROM
 	# }
 	
 	# chance = {
 		# factor = 1
 	# }
 	
-	# success = { 
-		# FROM = { liege = { character = ROOT } }
+	# creation_effect = {
+		# ROOT = { character_event = { id = plots.200 } }
 	# }
+	
+	# success = { 
+		# ROOT = { is_liege_of = FROM }
+	# }
+	
 	# effect = {
-		# prestige = 1
+		# prestige = 10
 	# }
 	
 	# abort = {
