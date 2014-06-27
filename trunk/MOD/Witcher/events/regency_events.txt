@@ -785,9 +785,21 @@ character_event = {
 			50 = {
 				random_courtier = {
 					limit = { has_minor_title = title_regent }
-					death = {
-						death_reason = death_accident
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						death = {
+							death_reason = death_accident
 						}
+					}
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						add_trait = wounded
+						opinion = {
+							modifier = opinion_mad_as_hell
+							who = ROOT
+							years = 1
+						}
+					}
 				}
 			}
 			50 = { 
@@ -1451,7 +1463,10 @@ character_event = {
 				character_event = {	id = 61192 tooltip = EVTTOOLTIP61192 }
 			}
 			20 = {
-				death = { death_reason = death_accident }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+				}
 			}
 		}
 	}
@@ -1527,7 +1542,10 @@ character_event = {
 				character_event = {	id = 61197 tooltip = EVTTOOLTIP61197 }
 			}
 			20 = {
-				death = { death_reason = death_accident }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+				}
 			}
 		}
 	}
@@ -1603,7 +1621,10 @@ character_event = {
 				character_event = {	id = 61202 tooltip = EVTTOOLTIP61202 }
 			}
 			20 = {
-				death = { death_reason = death_accident }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+				}
 			}
 		}
 	}
@@ -1679,7 +1700,10 @@ character_event = {
 				character_event = {	id = 61207 tooltip = EVTTOOLTIP61207 }
 			}
 			20 = {
-				death = { death_reason = death_accident }
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = { death_reason = death_accident }
+				}
 			}
 		}
 	}
@@ -1755,9 +1779,12 @@ character_event = {
 				character_event = {	id = 61212 tooltip = EVTTOOLTIP61212 }
 			}
 			20 = {
-				death = {
-					death_reason = death_murder
-					killer = FROM
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_murder
+						killer = FROM
+					}
 				}
 			}
 		}

@@ -4688,9 +4688,16 @@ character_event = {
 		random_list = {
 			95 = {	FROM = { add_trait = brave	hidden_tooltip = { ROOT = { character_event = { id = 38170}} character_event = { id = 38270 } }}}
 			5 = {
-				FROM = { 
-					death = {
-						death_reason = death_accident
+				FROM = {
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						death = {
+							death_reason = death_accident
+						}
+					}
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						FROM = { add_trait = brave	hidden_tooltip = { ROOT = { character_event = { id = 38170}} character_event = { id = 38270 } }}}
 					}
 				} 
 			}
@@ -6725,10 +6732,32 @@ character_event = {
 					}
 				}
 				20 = {
-					set_character_flag = murdered_by_guardian
-					death = {
-						death_reason = death_murder
-						killer = ROOT
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						set_character_flag = murdered_by_guardian
+						death = {
+							death_reason = death_murder
+							killer = ROOT
+						}
+					}
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						add_trait = maimed
+						hidden_tooltip = {
+							ROOT = {
+								character_event = {
+									id = 38181 #Notify Child is maimed
+								}
+							}
+							character_event = {
+								id = 38281 #Notify Maimed
+							}
+						}
+						opinion = {
+							modifier = opinion_murder_attempt
+							who = ROOT
+							years = 5
+						}
 					}
 				}
 			}
@@ -6859,11 +6888,28 @@ character_event = {
 					}
 				}
 				5 = {
-					death = {
-						death_reason = death_murder
-						killer = ROOT
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						death = {
+							death_reason = death_murder
+							killer = ROOT
+						}
+						set_character_flag = murdered_by_guardian
 					}
-					set_character_flag = murdered_by_guardian
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						remove_trait = ill
+						hidden_tooltip = {
+							ROOT = {
+								character_event = {
+									id = 38183 #Notify Child is no longer ill
+								}
+							}
+							character_event = {
+								id = 38283 #Notify Remove Ill
+							}
+						}
+					}
 				}
 			}
 			if = {
@@ -6912,8 +6958,11 @@ character_event = {
 					}
 				}
 				5 = {
-					death = {
-						death_reason = death_trait
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						death = {
+							death_reason = death_trait
+						}
 					}
 				}
 				45 = {}
@@ -6923,40 +6972,43 @@ character_event = {
 	option = {
 		name = EVTOPTC38233 #Only God decides over life and death
 		FROM = {
-			random = {
-				chance = 60
-			
-				death = {
-					death_reason = death_trait
-				}
-				if = {
-					limit = {
+			if = {
+				limit = { NOT = { has_character_modifier = protection_spell } }
+				random = {
+					chance = 60
+				
+					death = {
+						death_reason = death_trait
+					}
+					if = {
+						limit = {
+							father = {
+								is_alive = yes
+							}
+						}
 						father = {
-							is_alive = yes
+							opinion = {
+								modifier = opinion_killed_close_kin
+								who = ROOT
+								years = 5
+							}
 						}
 					}
-					father = {
-						opinion = {
-							modifier = opinion_killed_close_kin
-							who = ROOT
-							years = 5
-						}
-					}
-				}
-				if = {
-					limit = {
-						father = {
-							is_alive = no
+					if = {
+						limit = {
+							father = {
+								is_alive = no
+							}
+							mother = {
+								is_alive = yes
+							}
 						}
 						mother = {
-							is_alive = yes
-						}
-					}
-					mother = {
-						opinion = {
-							modifier = opinion_killed_close_kin
-							who = ROOT
-							years = 5
+							opinion = {
+								modifier = opinion_killed_close_kin
+								who = ROOT
+								years = 5
+							}
 						}
 					}
 				}
@@ -6992,11 +7044,28 @@ character_event = {
 					}
 				}
 				5 = {
-					death = {
-						death_reason = death_murder
-						killer = ROOT
+					if = {
+						limit = { NOT = { has_character_modifier = protection_spell } }
+						death = {
+							death_reason = death_murder
+							killer = ROOT
+						}
+						set_character_flag = murdered_by_guardian
 					}
-					set_character_flag = murdered_by_guardian
+					if = {
+						limit = { has_character_modifier = protection_spell }
+						remove_trait = ill
+						hidden_tooltip = {
+							ROOT = {
+								character_event = {
+									id = 38183 #Notify Child is no longer ill
+								}
+							}
+							character_event = {
+								id = 38283 #Notify Remove Ill
+							}
+						}
+					}
 				}
 			}
 			if = {

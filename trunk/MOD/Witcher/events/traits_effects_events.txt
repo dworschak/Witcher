@@ -14089,13 +14089,26 @@ character_event = {
 				}
 			}
 			5 = {
-				death = {
-					death_reason = death_trait
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_trait
+					}
+					FROM = {
+						character_event = {
+							id = 3597
+							tooltip = EVTTOOLTIP3597
+						}
+					}
 				}
-				FROM = {
-					character_event = {
-						id = 3597
-						tooltip = EVTTOOLTIP3597
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					cure_illness = yes
+					FROM = {
+						character_event = {
+							id = 3596
+							tooltip = EVTTOOLTIP3596
+						}
 					}
 				}
 			}

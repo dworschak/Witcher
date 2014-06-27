@@ -1039,9 +1039,17 @@ character_event = {
 				prestige = 50
 			}
 			40 = {
-				death = {
-					death_reason = death_battle
-					killer = FROM
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_battle
+						killer = FROM
+					}
+				}
+				if = {
+					limit = { has_character_modifier = protection_spell }
+					add_trait = maimed
+					prestige = 50
 				}
 			}
 		}
