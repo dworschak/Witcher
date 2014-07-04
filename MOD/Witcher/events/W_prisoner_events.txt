@@ -479,3 +479,248 @@ character_event = {
 		set_father = 0
 	}
 }
+
+################################################
+# Prisoner managment
+################################################
+# Mass release
+character_event = {
+	id = prisoner.20
+	desc = EVTDESCprisoner.20
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only = yes 
+	
+	option = { # Unlanded
+		name = EVTOPTAprisoner.20
+		trigger = {
+			any_courtier = {
+				prisoner = yes
+				is_landed = no
+			}
+		}
+		any_courtier = {
+			limit = {
+				prisoner = yes
+				is_landed = no
+			}
+			hidden_tooltip = {
+				opinion = { who = ROOT modifier = opinion_merciful months = 60 }
+				if = {
+					limit = {
+						liege = { character = ROOT }
+						is_landed = yes
+					}
+					ROOT = {
+						any_vassal = {
+							limit = { NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_released_prisoner } } }
+							opinion = { modifier = opinion_released_prisoner who = ROOT months = 30 }
+						}
+					}
+				}
+			}
+			imprison = no
+		}
+	}
+	option = { # Below my tier
+		name = EVTOPTBprisoner.20
+		trigger = {
+			any_courtier = {
+				prisoner = yes
+				is_landed = yes
+				lower_tier_than = ROOT
+			}
+		}
+		any_courtier = {
+			limit = {
+				prisoner = yes
+				is_landed = yes
+				lower_tier_than = ROOT
+			}
+			hidden_tooltip = {
+				opinion = { who = ROOT modifier = opinion_merciful months = 60 }
+				if = {
+					limit = {
+						liege = { character = ROOT }
+						is_landed = yes
+					}
+					ROOT = {
+						any_vassal = {
+							limit = { NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_released_prisoner } } }
+							opinion = { modifier = opinion_released_prisoner who = ROOT months = 30 }
+						}
+					}
+				}
+			}
+			imprison = no
+		}
+	}
+	option = { # Above my tier
+		name = EVTOPTCprisoner.20
+		trigger = {
+			any_courtier = {
+				prisoner = yes
+				is_landed = yes
+				OR = {
+					higher_tier_than = ROOT
+					tier = ROOT
+				}
+			}
+		}
+		any_courtier = {
+			limit = {
+				prisoner = yes
+				is_landed = yes
+				OR = {
+					higher_tier_than = ROOT
+					tier = ROOT
+				}
+			}
+			hidden_tooltip = {
+				opinion = { who = ROOT modifier = opinion_merciful months = 60 }
+				if = {
+					limit = {
+						liege = { character = ROOT }
+						is_landed = yes
+					}
+					ROOT = {
+						any_vassal = {
+							limit = { NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_released_prisoner } } }
+							opinion = { modifier = opinion_released_prisoner who = ROOT months = 30 }
+						}
+					}
+				}
+			}
+			imprison = no
+		}
+	}
+	option = { # Cancel
+		name = EVTOPTDprisoner.20
+	}
+}
+# Mass execute
+character_event = {
+	id = prisoner.21
+	desc = EVTDESCprisoner.21
+	picture = GFX_evt_into_the_dungeon
+	
+	is_triggered_only = yes 
+	
+	option = { # Unlanded
+		name = EVTOPTAprisoner.21
+		trigger = {
+			any_courtier = {
+				prisoner = yes
+				is_landed = no
+			}
+		}
+		if = {
+			limit = {
+				any_courtier = {
+					prisoner = yes
+					is_landed = no
+					dynasty = ROOT
+				}
+			}
+			add_trait = kinslayer
+		}
+		any_courtier = {
+			limit = {
+				prisoner = yes
+				is_landed = no
+			}
+			hidden_tooltip = {
+				top_liege = {
+					opinion = { who = ROOT modifier = opinion_tyrant months = 120 }
+					any_realm_character = { opinion = { who = ROOT modifier = opinion_tyrant months = 120 } }
+				}
+				ROOT = { piety = -20 }
+			}
+			death = { death_reason = death_execution killer = ROOT }
+		}
+	}
+	option = { # Below my tier
+		name = EVTOPTBprisoner.21
+		trigger = {
+			any_courtier = {
+				prisoner = yes
+				is_landed = yes
+				lower_tier_than = ROOT
+			}
+		}
+		if = {
+			limit = {
+				any_courtier = {
+					prisoner = yes
+					is_landed = yes
+					lower_tier_than = ROOT
+					dynasty = ROOT
+				}
+			}
+			add_trait = kinslayer
+		}
+		any_courtier = {
+			limit = {
+				prisoner = yes
+				is_landed = yes
+				lower_tier_than = ROOT
+			}
+			hidden_tooltip = {
+				top_liege = {
+					opinion = { who = ROOT modifier = opinion_tyrant months = 120 }
+					any_realm_character = { opinion = { who = ROOT modifier = opinion_tyrant months = 120 } }
+				}
+				ROOT = { piety = -20 }
+			}
+			death = { death_reason = death_execution killer = ROOT }
+		}
+	}
+	option = { # Above my tier
+		name = EVTOPTCprisoner.21
+		trigger = {
+			any_courtier = {
+				prisoner = yes
+				is_landed = yes
+				OR = {
+					higher_tier_than = ROOT
+					tier = ROOT
+				}
+			}
+		}
+		if = {
+			limit = {
+				any_courtier = {
+					prisoner = yes
+					is_landed = yes
+					OR = {
+						higher_tier_than = ROOT
+						tier = ROOT
+					}
+					dynasty = ROOT
+				}
+			}
+			add_trait = kinslayer
+		}
+		any_courtier = {
+			limit = {
+				prisoner = yes
+				is_landed = yes
+				OR = {
+					higher_tier_than = ROOT
+					tier = ROOT
+				}
+			}
+			hidden_tooltip = {
+				top_liege = {
+					opinion = { who = ROOT modifier = opinion_tyrant months = 120 }
+					any_realm_character = { opinion = { who = ROOT modifier = opinion_tyrant months = 120 } }
+				}
+				ROOT = { piety = -20 }
+			}
+			death = { death_reason = death_execution killer = ROOT }
+		}
+	}
+	option = { # Cancel
+		name = EVTOPTDprisoner.21
+	}
+}
