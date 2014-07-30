@@ -21,16 +21,34 @@ decisions = {
 		}
 		effect = {
 			piety = -5
-			create_random_priest = {
-				random_traits = yes
-				dynasty = random
-				female = yes
+			if = {
+				limit = { trait = elven }
+				create_random_priest = {
+					random_traits = yes
+					dynasty = random
+					female = yes
+					trait = elven
+					age = 60
+				}
+				new_character = {
+					change_learning = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+				}
 			}
-			new_character = {
-				change_learning = 2
-				remove_trait = inbred
-				remove_trait = imbecile
-				character_event = { id = racial.1 }
+			if = {
+				limit = { NOT = { trait = elven } }
+				create_random_priest = {
+					random_traits = yes
+					dynasty = random
+					female = yes
+				}
+				new_character = {
+					change_learning = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+					character_event = { id = racial.1 }
+				}
 			}
 		}
 		revoke_allowed = {
@@ -83,20 +101,42 @@ decisions = {
 		}
 		effect = {
 			scaled_wealth = -0.2
-			create_random_soldier = {
-				random_traits = yes
-				dynasty = random
-				female = no
-			}
-			new_character = {
-				change_martial = 2
-				remove_trait = inbred
-				remove_trait = imbecile
-				random_list = {
-					50 = { add_trait = trained_warrior }
-					50 = { add_trait = skilled_warrior }
+			if = {
+				limit = { trait = elven }
+				create_random_soldier = {
+					random_traits = yes
+					dynasty = random
+					female = yes
+					trait = elven
+					age = 60
 				}
-				character_event = { id = racial.1 }
+				new_character = {
+					change_martial = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+					random_list = {
+						50 = { add_trait = trained_warrior }
+						50 = { add_trait = skilled_warrior }
+					}
+				}
+			}
+			if = {
+				limit = { NOT = { trait = elven } }
+				create_random_soldier = {
+					random_traits = yes
+					dynasty = random
+					female = yes
+				}
+				new_character = {
+					change_martial = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+					random_list = {
+						50 = { add_trait = trained_warrior }
+						50 = { add_trait = skilled_warrior }
+					}
+					character_event = { id = racial.1 }
+				}
 			}
 		}
 		revoke_allowed = {
@@ -155,15 +195,32 @@ decisions = {
 		}
 		effect = {
 			scaled_wealth = -0.2
-			create_random_intriguer = {
-				random_traits = yes
-				dynasty = random
+			if = {
+				limit = { trait = elven }
+				create_random_intriguer = {
+					random_traits = yes
+					dynasty = random
+					trait = elven
+					age = 60
+				}
+				new_character = {
+					change_intrigue = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+				}
 			}
-			new_character = {
-				change_intrigue = 2
-				remove_trait = inbred
-				remove_trait = imbecile
-				character_event = { id = racial.1 }
+			if = {
+				limit = { NOT = { trait = elven } }
+				create_random_intriguer = {
+					random_traits = yes
+					dynasty = random
+				}
+				new_character = {
+					change_intrigue = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+					character_event = { id = racial.1 }
+				}
 			}
 		}
 		revoke_allowed = {
@@ -220,16 +277,34 @@ decisions = {
 		}
 		effect = {
 			scaled_wealth = -0.2
-			create_random_diplomat = {
-				random_traits = yes
-				dynasty = random
-				female = no
+			if = {
+				limit = { trait = elven }
+				create_random_diplomat = {
+					random_traits = yes
+					dynasty = random
+					female = yes
+					trait = elven
+					age = 60
+				}
+				new_character = {
+					change_diplomacy = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+				}
 			}
-			new_character = {
-				change_diplomacy = 2
-				remove_trait = inbred
-				remove_trait = imbecile
-				character_event = { id = racial.1 }
+			if = {
+				limit = { NOT = { trait = elven } }
+				create_random_diplomat = {
+					random_traits = yes
+					dynasty = random
+					female = yes
+				}
+				new_character = {
+					change_diplomacy = 2
+					remove_trait = inbred
+					remove_trait = imbecile
+					character_event = { id = racial.1 }
+				}
 			}
 		}
 		revoke_allowed = {

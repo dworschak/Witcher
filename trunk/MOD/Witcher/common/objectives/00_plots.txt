@@ -202,18 +202,16 @@ plot_gain_title = {
 		}
 		modifier = {
 			factor = 4.0
-			AND = {
-				is_primary_holder_title = no
-				is_primary_holder_title_tier = yes
-				is_titular = no
-				holder_scope = {
-					overlord_of = FROM
-				}
-				FROM = {
-					primary_title = {
-						kingdom = {
-							title = PREVPREVPREV
-						}
+			is_primary_holder_title = no
+			is_primary_holder_title_tier = yes
+			is_titular = no
+			holder_scope = {
+				overlord_of = FROM
+			}
+			FROM = {
+				primary_title = {
+					kingdom = {
+						title = PREVPREVPREV
 					}
 				}
 			}
@@ -298,6 +296,7 @@ plot_gain_vassal_title = {
 	# Target scope
 	allow = {
 		holder_scope = { NOT = { culture = wilderness } }
+		NOT = { culture = magic }
 		# No barony titles
 		higher_tier_than = BARON
 		is_primary_type_title = no
@@ -321,25 +320,23 @@ plot_gain_vassal_title = {
 			AND = {
 				tier = DUKE
 				holder_scope = {
-					AND = {
-						NOT = {
+					NOT = {
+						any_demesne_title = {
+							tier = COUNT
+							location = {
+								duchy = {
+									title = ROOT
+								}
+							}
+						}
+					}
+					NOT = {
+						any_vassal = {
 							any_demesne_title = {
 								tier = COUNT
 								location = {
 									duchy = {
 										title = ROOT
-									}
-								}
-							}
-						}
-						NOT = {
-							any_vassal = {
-								any_demesne_title = {
-									tier = COUNT
-									location = {
-										duchy = {
-											title = ROOT
-										}
 									}
 								}
 							}
@@ -516,25 +513,23 @@ plot_gain_vassal_title = {
 					AND = {
 						tier = DUKE
 						holder_scope = {
-							AND = {
-								NOT = {
+							NOT = {
+								any_demesne_title = {
+									tier = COUNT
+									location = {
+										duchy = {
+											title = ROOT
+										}
+									}
+								}
+							}
+							NOT = {
+								any_vassal = {
 									any_demesne_title = {
 										tier = COUNT
 										location = {
 											duchy = {
 												title = ROOT
-											}
-										}
-									}
-								}
-								NOT = {
-									any_vassal = {
-										any_demesne_title = {
-											tier = COUNT
-											location = {
-												duchy = {
-													title = ROOT
-												}
 											}
 										}
 									}
@@ -659,16 +654,14 @@ plot_kill_character = {
 				}
 				
 				# Character's child is heir or pretender to a title that I don't hold
-				AND = {
-					any_child = {
-						OR = {
-							any_pretender_title = {
-								NOT = { holder = ROOT }
-								NOT = { current_heir = { character = ROOT } }
-							}
-							any_heir_title = {
-								NOT = { holder = ROOT }
-							}
+				any_child = {
+					OR = {
+						any_pretender_title = {
+							NOT = { holder = ROOT }
+							NOT = { current_heir = { character = ROOT } }
+						}
+						any_heir_title = {
+							NOT = { holder = ROOT }
 						}
 					}
 				}
@@ -810,7 +803,7 @@ plot_kill_character = {
 				# A lover of spouse...
 				spouse = {
 					has_lover = yes
-					lover = {
+					any_lover = {
 						character = ROOT
 					}
 					OR = {
@@ -1039,7 +1032,7 @@ plot_kill_spouse = {
 			# Spouse has a lover...
 			AND = {
 				has_lover = yes
-				lover = {
+				any_lover = {
 					NOT = { character = FROM }
 				}
 			}

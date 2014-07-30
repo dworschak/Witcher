@@ -792,7 +792,7 @@ character_event = {
 character_event = {
 	id = childhood.11
 	desc = EVTDESCchildhood.11
-	picture = GFX_evt_maiden
+	picture = GFX_evt_child_talking
 	
 	is_triggered_only = yes
 	
@@ -1240,7 +1240,7 @@ character_event = {
 character_event = {
 	id = childhood.22
 	desc = EVTDESCchildhood.22
-	picture = GFX_evt_small_town
+	picture = GFX_evt_stone_churc
 	
 	is_triggered_only = yes
 	
@@ -1337,7 +1337,7 @@ character_event = {
 character_event = {
 	id = childhood.23
 	desc = EVTDESCchildhood.23
-	picture = GFX_evt_small_town
+	picture = GFX_evt_stone_churc
 	
 	is_triggered_only = yes
 	
@@ -1585,6 +1585,242 @@ character_event = {
 	}
 }
 
+#########################################
+# Child learning swordsmanship from guardian
+#########################################
+# Child becoming poor warrior
+character_event = {
+	id = childhood.30
+	desc = EVTDESCchildhood.30
+	picture = GFX_evt_child_sword
+	
+	min_age = 6
+	
+	trigger = {
+		is_adult = no
+		guardian = {
+			OR = {
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+		NOT = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		# Mentor combat trait
+		modifier = { factor = 0.8 guardian = { trait = poor_warrior } }
+		modifier = { factor = 0.7 guardian = { trait = trained_warrior } }
+		modifier = { factor = 0.6 guardian = { trait = skilled_warrior } }
+		modifier = { factor = 0.5 guardian = { trait = master_warrior } }
+		# Mentor martial education trait
+		modifier = { factor = 0.9 guardian = { trait = misguided_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = tough_soldier } }
+		modifier = { factor = 0.7 guardian = { trait = skilled_tactician } }
+		modifier = { factor = 0.6 guardian = { trait = brilliant_strategist } }
+		# Mentor other traits
+		modifier = { factor = 0.9 guardian = { trait = duelist } }
+		modifier = { factor = 0.9 guardian = { trait = veteran } }
+		modifier = { factor = 0.9 guardian = { trait = raider } }
+		modifier = { factor = 0.9 guardian = { trait = military_officer } }
+		# Ward personality
+		modifier = { factor = 0.8 trait = diligent }
+		modifier = { factor = 0.8 trait = brave }
+		modifier = { factor = 0.9 trait = wroth }
+		modifier = { factor = 1.4 trait = slothful }
+		modifier = { factor = 1.4 trait = craven }
+		# Ward congenitial
+		modifier = { factor = 0.8 trait = genius }
+		modifier = { factor = 0.9 trait = quick }
+		modifier = { factor = 1.2 trait = slow }
+		modifier = { factor = 1.4 trait = imbecile }
+		modifier = { factor = 0.8 trait = strong }
+		modifier = { factor = 0.9 trait = tall }
+		modifier = { factor = 0.9 trait = agile }
+		modifier = { factor = 1.2 trait = weak }
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.2 trait = hunchback }
+		modifier = { factor = 1.2 trait = dwarf }
+		modifier = { factor = 1.2 trait = clubfooted }
+		modifier = { factor = 0.9 trait = perceptive }
+		modifier = { factor = 1.1 trait = absentminded }
+		#Sexism
+		modifier = {
+			factor = 1.4 is_female = yes
+			NOT = { trait = dryad }
+		}
+	}
+	
+	option = {
+		name = EVTOPTAchildhhood.30
+		hidden_tooltip = { guardian = { character_event = { id = childhood.33 } } }
+		add_trait = poor_warrior 
+	}
+}
+# Child becoming trained warrior
+character_event = {
+	id = childhood.31
+	desc = EVTDESCchildhood.31
+	picture = GFX_evt_child_sword
+	
+	min_age = 6
+	
+	trigger = {
+		is_adult = no
+		guardian = {
+			OR = {
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+		trait = poor_warrior
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		# Mentor combat trait
+		modifier = { factor = 0.8 guardian = { trait = poor_warrior } }
+		modifier = { factor = 0.7 guardian = { trait = trained_warrior } }
+		modifier = { factor = 0.6 guardian = { trait = skilled_warrior } }
+		modifier = { factor = 0.5 guardian = { trait = master_warrior } }
+		# Mentor martial education trait
+		modifier = { factor = 0.9 guardian = { trait = misguided_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = tough_soldier } }
+		modifier = { factor = 0.7 guardian = { trait = skilled_tactician } }
+		modifier = { factor = 0.6 guardian = { trait = brilliant_strategist } }
+		# Mentor other traits
+		modifier = { factor = 0.9 guardian = { trait = duelist } }
+		modifier = { factor = 0.9 guardian = { trait = veteran } }
+		modifier = { factor = 0.9 guardian = { trait = raider } }
+		modifier = { factor = 0.9 guardian = { trait = military_officer } }
+		# Ward personality
+		modifier = { factor = 0.8 trait = diligent }
+		modifier = { factor = 0.8 trait = brave }
+		modifier = { factor = 0.9 trait = wroth }
+		modifier = { factor = 1.4 trait = slothful }
+		modifier = { factor = 1.4 trait = craven }
+		# Ward congenitial
+		modifier = { factor = 0.8 trait = genius }
+		modifier = { factor = 0.9 trait = quick }
+		modifier = { factor = 1.2 trait = slow }
+		modifier = { factor = 1.4 trait = imbecile }
+		modifier = { factor = 0.8 trait = strong }
+		modifier = { factor = 0.9 trait = tall }
+		modifier = { factor = 0.9 trait = agile }
+		modifier = { factor = 1.2 trait = weak }
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.2 trait = hunchback }
+		modifier = { factor = 1.2 trait = dwarf }
+		modifier = { factor = 1.2 trait = clubfooted }
+		modifier = { factor = 0.9 trait = perceptive }
+		modifier = { factor = 1.1 trait = absentminded }
+		#Sexism
+		modifier = {
+			factor = 1.4 is_female = yes
+			NOT = { trait = dryad }
+		}
+	}
+	
+	option = {
+		name = EVTOPTAchildhood.31
+		hidden_tooltip = { guardian = { character_event = { id = childhood.33 } } }
+		add_trait = trained_warrior
+		remove_trait = poor_warrior
+	}
+}
+# Child becoming skilled warrior
+character_event = {
+	id = childhood.32
+	desc = EVTDESCchildhood.32
+	picture = GFX_evt_child_sword
+	
+	min_age = 5
+	
+	trigger = {
+		is_adult = no
+		guardian = {
+			OR = {
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+		trait = trained_warrior
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		# Mentor combat trait
+		modifier = { factor = 0.8 guardian = { trait = poor_warrior } }
+		modifier = { factor = 0.7 guardian = { trait = trained_warrior } }
+		modifier = { factor = 0.6 guardian = { trait = skilled_warrior } }
+		modifier = { factor = 0.5 guardian = { trait = master_warrior } }
+		# Mentor martial education trait
+		modifier = { factor = 0.9 guardian = { trait = misguided_warrior } }
+		modifier = { factor = 0.8 guardian = { trait = tough_soldier } }
+		modifier = { factor = 0.7 guardian = { trait = skilled_tactician } }
+		modifier = { factor = 0.6 guardian = { trait = brilliant_strategist } }
+		# Mentor other traits
+		modifier = { factor = 0.9 guardian = { trait = duelist } }
+		modifier = { factor = 0.9 guardian = { trait = veteran } }
+		modifier = { factor = 0.9 guardian = { trait = raider } }
+		modifier = { factor = 0.9 guardian = { trait = military_officer } }
+		# Ward personality
+		modifier = { factor = 0.8 trait = diligent }
+		modifier = { factor = 0.8 trait = brave }
+		modifier = { factor = 0.9 trait = wroth }
+		modifier = { factor = 1.4 trait = slothful }
+		modifier = { factor = 1.4 trait = craven }
+		# Ward congenitial
+		modifier = { factor = 0.8 trait = genius }
+		modifier = { factor = 0.9 trait = quick }
+		modifier = { factor = 1.2 trait = slow }
+		modifier = { factor = 1.4 trait = imbecile }
+		modifier = { factor = 0.8 trait = strong }
+		modifier = { factor = 0.9 trait = tall }
+		modifier = { factor = 0.9 trait = agile }
+		modifier = { factor = 1.2 trait = weak }
+		modifier = { factor = 10 trait = blinded }
+		modifier = { factor = 1.2 trait = hunchback }
+		modifier = { factor = 1.2 trait = dwarf }
+		modifier = { factor = 1.2 trait = clubfooted }
+		modifier = { factor = 0.9 trait = perceptive }
+		modifier = { factor = 1.1 trait = absentminded }
+		#Sexism
+		modifier = {
+			factor = 1.4 is_female = yes
+			NOT = { trait = dryad }
+		}
+	}
+	
+	option = {
+		name = EVTOPTAchildhood.32
+		hidden_tooltip = { guardian = { character_event = { id = childhood.33 } } }
+		add_trait = skilled_warrior
+		remove_trait = trained_warrior
+	}
+}
+# Guardian notification
+character_event = {
+	id = childhood.33
+	desc = EVTDESCchildhood.33
+	picture = "GFX_evt_child_sword"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "OK"
+	}
+}
+
 ################################################
 # Child learning magic from guardian
 ################################################
@@ -1696,5 +1932,3 @@ character_event = {
 		change_variable = { which = learning_magic value = 1 }
 	}
 }
-
-

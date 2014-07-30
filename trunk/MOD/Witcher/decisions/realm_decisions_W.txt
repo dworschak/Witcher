@@ -59,7 +59,7 @@ decisions = {
 			}
 		}
 		effect = {
-			narrative_event = { id = major.1 tooltip = EVTTOOLTIPmajor.1 }
+			narrative_event = { id = realm.1 tooltip = EVTTOOLTIPrealm.1 }
 			prestige = 1000
 		}
 		ai_will_do = {
@@ -81,15 +81,15 @@ decisions = {
 				}
 			}
 			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			NOT = { trait = incapable }
 			religion = dwarven
 			culture = dwarven
 			tier = KING
 			e_dwarf_empire = { has_holder = no }
 		}
 		allow = {
-			is_adult = yes
-			prisoner = no
-			NOT = { trait = incapable }
 			prestige = 1000
 			any_demesne_title = {
 				title = k_mahakam
@@ -97,7 +97,7 @@ decisions = {
 			num_of_king_titles = 2
 		}
 		effect = {
-			narrative_event = { id = major.10 tooltip = EVTTOOLTIPmajor.10 }
+			narrative_event = { id = realm.10 tooltip = EVTTOOLTIPrealm.10 }
 			prestige = 1000
 		}
 		ai_will_do = {
@@ -119,19 +119,19 @@ decisions = {
 				}
 			}
 			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			NOT = { trait = incapable }
 			religion = dana_meadbh
-			culture = elven
+			culture = aen_seidhe
 			tier = KING
 			e_hen_caerme = { has_holder = no }
 		}
 		allow = {
-			is_adult = yes
-			prisoner = no
-			NOT = { trait = incapable }
 			prestige = 1000
 			any_demesne_title = {
 				OR = {
-					title = k_fiery_mountains
+					title = k_tir_tochair
 					title = k_dol_blathanna
 					title = k_ard_glas
 				}
@@ -139,11 +139,149 @@ decisions = {
 			num_of_king_titles = 2
 		}
 		effect = {
-			narrative_event = { id = major.20 tooltip = EVTTOOLTIPmajor.20 }
+			narrative_event = { id = realm.20 tooltip = EVTTOOLTIPrealm.20 }
 			prestige = 1000
 		}
 		ai_will_do = {
 			factor = 1
+		}
+	}
+	
+	find_black_hammers = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			is_adult = yes
+			prisoner = no
+			NOT = { trait = incapable }
+			culture = dwarven
+			religion = dwarven
+			has_landed_title = e_dwarf_empire
+			NOT = { has_global_flag = black_hammers_founded }
+		}
+		allow = {
+			prestige = 300
+			wealth = 300
+		}
+		effect = {
+			set_global_flag = black_hammers_founded
+			prestige = -300
+			wealth = -300
+			activate_title = { title = d_black_hammers status = yes }
+			hidden_tooltip = {
+				narrative_event = { id = realm.30 }
+				create_character = {
+					random_traits = yes
+					religion = dwarven
+					culture = dwarven
+					dynasty = NONE
+					female = no
+					age = 50
+					trait = skilled_tactician
+				}
+				new_character = {
+					d_black_hammers = { grant_title = PREV }
+					set_defacto_liege = ROOT
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	find_saethyddion = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			is_adult = yes
+			prisoner = no
+			NOT = { trait = incapable }
+			culture = aen_seidhe
+			religion = dana_meadbh
+			has_landed_title = e_hen_caerme
+			NOT = { has_global_flag = saethyddion_founded }
+		}
+		allow = {
+			prestige = 300
+			wealth = 300
+		}
+		effect = {
+			set_global_flag = saethyddion_founded
+			prestige = -300
+			wealth = -300
+			activate_title = { title = d_saethyddion status = yes }
+			hidden_tooltip = {
+				narrative_event = { id = realm.31 }
+				create_character = {
+					random_traits = yes
+					religion = dana_meadbh
+					culture = aen_seidhe
+					dynasty = NONE
+					female = no
+					age = 50
+					trait = skilled_tactician
+				}
+				new_character = {
+					d_saethyddion = { grant_title = PREV }
+					set_defacto_liege = ROOT
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	make_drakenborg_into_prison = {
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			NOT = { trait = incapable }
+			culture_group = northern_group
+			year = 1220
+			NOT = { has_global_flag = drakenborg_made_into_prison }
+		}
+		allow = {
+			has_landed_title = k_redania
+			has_landed_title = c_drakenborg
+		}
+		effect = {
+			character_event = { id = realm.50 tooltip = EVTTOOLTIPrealm.50 }
+			set_global_flag = drakenborg_made_into_prison
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.001 }
 		}
 	}
 }

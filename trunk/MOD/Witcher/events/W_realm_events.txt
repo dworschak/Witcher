@@ -1,17 +1,292 @@
 namespace = realm
 
-character_event = {
+###########################################
+# New empire titles created
+###########################################
+# Create The North
+narrative_event = {
 	id = realm.1
-	desc = "Name the new commander of Drakenborg"
-	picture = GFX_evt_emissary
-		
-	trigger = {
-		has_landed_title = k_redania
-		has_landed_title = c_drakenborg
-	}
+	title = EVTNAMErealm.1
+	desc = EVTDESCrealm.1
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
 	
 	option = {
-		name = "OK"
+		name = EVTOPTArealm.1
+		primary_title = {
+			e_the_north = {
+				grant_title = ROOT
+				copy_title_laws = PREV
+				copy_title_history = PREV
+			}
+		}
+		give_nickname = nick_the_uniter
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = {
+					NOT = { character = ROOT }
+					ai = no
+				}
+				narrative_event = { id = realm.2 }
+			}
+		}
+	}	
+}
+# Informed about creation of The North
+narrative_event = {
+	id = realm.2
+	title = EVTNAMErealm.2
+	desc = EVTDESCrealm.2
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArealm.2
+	}
+}
+# Create Dwarf Empire
+narrative_event = {
+	id = realm.10
+	title = EVTNAMErealm.10
+	desc = EVTDESCrealm.10
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArealm.10
+		primary_title = {
+			e_dwarf_empire = {
+				grant_title = ROOT
+				copy_title_laws = PREV
+				copy_title_history = PREV
+			}
+		}
+		give_nickname = nick_the_restorer
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = {
+					NOT = { character = ROOT }
+					ai = no
+				}
+				narrative_event = { id = realm.11 }
+			}
+		}
+	}	
+}
+# Informed about creation of Dwarf Empire
+narrative_event = {
+	id = realm.11
+	title = EVTNAMErealm.11
+	desc = EVTDESCrealm.11
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArealm.11
+	}
+}
+# Create Hen Caerme
+narrative_event = {
+	id = realm.20
+	title = EVTNAMErealm.20
+	desc = EVTDESCrealm.20
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArealm.20
+		primary_title = {
+			e_hen_caerme = {
+				grant_title = ROOT
+				copy_title_laws = PREV
+				copy_title_history = PREV
+			}
+		}
+		give_nickname = nick_the_restorer
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = {
+					NOT = { character = ROOT }
+					ai = no
+				}
+				narrative_event = { id = realm.21 }
+			}
+		}
+	}	
+}
+# Informed about creation of Hen Caerme
+narrative_event = {
+	id = realm.21
+	title = EVTNAMErealm.21
+	desc = EVTDESCrealm.21
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArealm.21
+	}
+}
+
+###########################################
+# Special mercs created
+###########################################
+# Black Hammers formed
+narrative_event = {
+	id = realm.30
+	title = EVTNAMErealm.30
+	desc = EVTDESCrealm.30
+	picture = GFX_evt_viking_battle_oldgods
+	border = GFX_event_narrative_frame_war
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTArealm.30
+	}
+}
+# Order of Saethyddion formed
+narrative_event = {
+	id = realm.31
+	title = EVTNAMErealm.31
+	desc = EVTDESCrealm.31
+	picture = GFX_evt_viking_battle_oldgods
+	border = GFX_event_narrative_frame_war
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTArealm.31
+	}
+}
+
+###########################################
+# Drakenborg appointment
+###########################################
+# Name the first commander of Drakenborg
+character_event = {
+	id = realm.50
+	desc = EVTDESCrealm.50
+	picture = GFX_evt_emissary
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_realm_character = {
+			limit = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+			}
+			set_character_flag = noble_for_drakenborg
+		}
+	}
+	
+	option = { # Give to son of random noble
+		name = EVTOPTArealm.50
+		trigger = {
+			any_realm_character = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				has_character_flag = noble_for_drakenborg
+			}
+		}
+		random_realm_character = {
+			limit = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				has_character_flag = noble_for_drakenborg
+			}
+			c_drakenborg = {
+				grant_title = PREV
+				hidden_tooltip = { succession = appointment }
+			}
+		}
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+	}
+	option = { # Give to different son of random noble
+		name = EVTOPTArealm.50
+		trigger = {
+			any_realm_character = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				NOT = { has_character_flag = noble_for_drakenborg }
+			}
+		}
+		random_realm_character = {
+			limit = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				NOT = { has_character_flag = noble_for_drakenborg }
+			}
+			c_drakenborg = {
+				grant_title = PREV
+				hidden_tooltip = { succession = appointment }
+			}
+		}
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+	}
+	option = { # Give to new character
+		name = EVTOPTBrealm.50
 		create_character = {
 			random_traits = yes
 			dynasty = random
@@ -21,14 +296,205 @@ character_event = {
 			age = 30
 		}
 		new_character = {
-			b_drakenborg = {
+			c_drakenborg = {
 				grant_title = PREV
-				succession = appointment
+				hidden_tooltip = { succession = appointment }
+			}
+		}
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+	}
+	option = { # Cancel
+		name = EVTOPTCrealm.50
+		ai_chance = { factor = 0 }
+	}
+}
+# Name the new commander of Drakenborg - 1 day delayer (on_new_holder, on_new_holder_inheritance, on_new_holder_usurpation)
+character_event = {
+	id = realm.51
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_landed_title = k_redania
+		FROM = { title = c_drakenborg }
+		NOT = { has_global_flag = drakenborg_is_normal_title }
+	}
+	
+	option = {
+		character_event = { id = realm.52 days = 1 }
+	}
+}
+# Name the new commander of Drakenborg
+character_event = {
+	id = realm.52
+	desc = EVTDESCrealm.52
+	picture = GFX_evt_emissary
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_realm_character = {
+			limit = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+			}
+			set_character_flag = noble_for_drakenborg
+		}
+	}
+	
+	option = { # Give to son of random noble
+		name = EVTOPTArealm.52
+		trigger = {
+			any_realm_character = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				has_character_flag = noble_for_drakenborg
+			}
+		}
+		random_realm_character = {
+			limit = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				has_character_flag = noble_for_drakenborg
 			}
 			c_drakenborg = {
 				grant_title = PREV
-				succession = appointment
+				hidden_tooltip = { succession = appointment }
 			}
 		}
+		clr_global_flag = kept_drakenborg
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+	}
+	option = { # Give to different son of random noble
+		name = EVTOPTArealm.52
+		trigger = {
+			any_realm_character = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				NOT = { has_character_flag = noble_for_drakenborg }
+			}
+		}
+		random_realm_character = {
+			limit = {
+				OR = {
+					father = { is_landed = yes }
+					mother = { is_landed = yes }
+				}
+				is_female = no
+				is_adult = yes
+				prisoner = no
+				NOT = { trait = incapable }
+				is_landed = no
+				is_primary_heir = no
+				NOT = { has_character_flag = noble_for_drakenborg }
+			}
+			c_drakenborg = {
+				grant_title = PREV
+				hidden_tooltip = { succession = appointment }
+			}
+		}
+		clr_global_flag = kept_drakenborg
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+	}
+	option = { # Give to new character
+		name = EVTOPTBrealm.52
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			religion = ROOT
+			culture = ROOT
+			female = no
+			age = 30
+		}
+		new_character = {
+			c_drakenborg = {
+				grant_title = PREV
+				hidden_tooltip = { succession = appointment }
+			}
+		}
+		clr_global_flag = kept_drakenborg
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+	}
+	option = { # Keep for yourself
+		name = EVTOPTCrealm.52
+		trigger = {
+			NOT = { has_global_flag = kept_drakenborg }
+		}
+		set_global_flag = kept_drakenborg
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+		ai_chance = { factor = 0 }
+	}
+	option = { # Make Drakenborg normal title
+		name = EVTOPTDrealm.52
+		trigger = {
+			has_global_flag = kept_drakenborg
+		}
+		set_global_flag = drakenborg_is_normal_title
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = noble_for_drakenborg }
+				clr_character_flag = noble_for_drakenborg
+			}
+		}
+		ai_chance = { factor = 0 }
 	}
 }

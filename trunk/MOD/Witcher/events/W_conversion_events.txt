@@ -12,11 +12,11 @@ namespace = conversion
 province_event = {
 	id = conversion.1
 	desc = EVTDESCconversion.1
-	picture = GFX_evt_stone_church
+	picture = GFX_evt_riots_byzantine
 	
 	trigger = {
 		OR = {
-			culture = elven
+			culture = aen_seidhe
 			culture = dwarven
 		}
 		owner = {
@@ -31,7 +31,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 600
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
@@ -68,11 +68,11 @@ province_event = {
 province_event = {
 	id = conversion.2
 	desc = EVTDESCconversion.2
-	picture = GFX_evt_stone_church
+	picture = GFX_evt_riots_byzantine
 	
 	trigger = {
 		OR = {
-			culture = elven
+			culture = aen_seidhe
 			culture = dwarven
 		}
 		owner = {
@@ -86,7 +86,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 600
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
@@ -117,11 +117,11 @@ province_event = {
 province_event = {
 	id = conversion.3
 	desc = EVTDESCconversion.3
-	picture = GFX_evt_stone_church
+	picture = GFX_evt_riots_byzantine
 	
 	trigger = {
 		OR = {
-			culture = elven
+			culture = aen_seidhe
 			culture = dwarven
 		}
 		owner = {
@@ -133,7 +133,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 400
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
@@ -162,15 +162,50 @@ province_event = {
 		owner = { reverse_religion = ROOT }
 	}
 }
+# Racist ruler converts non-human province when winning pogrom
+province_event = {
+	id = conversion.4
+	desc = EVTDESCconversion.4
+	picture = GFX_evt_riots_byzantine
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			culture = aen_seidhe
+			culture = dwarven
+		}
+		NOT = { has_province_modifier = non_human_slaughter }
+	}
+	
+	option = { # If attacker didn't take province
+		name = EVTOPTAconversion.4
+		trigger = {
+			owner = { NOT = { character = FROM } }
+		}
+		FROM = { reverse_culture = ROOT }
+		FROM = { reverse_religion = ROOT }
+		add_province_modifier = { name = non_human_slaughter duration = 3650 }
+	}
+	option = { # If attacker took province
+		name = EVTOPTAconversion.4
+		trigger = {
+			owner = { NOT = { character = FROM } }
+		}
+		FROM = { reverse_culture = ROOT }
+		FROM = { reverse_religion = ROOT }
+		add_province_modifier = { name = non_human_slaughter duration = 3650 }
+	}
+}
 # Eternal Fire zealot purges non-humans
 province_event = {
 	id = conversion.10
 	desc = EVTDESCconversion.10
-	picture = GFX_evt_stone_church
+	picture = GFX_evt_riots_byzantine
 	
 	trigger = {
 		OR = {
-			culture = elven
+			culture = aen_seidhe
 			culture = dwarven
 		}
 		owner = {
@@ -184,7 +219,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 600
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
 		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
@@ -222,18 +257,18 @@ province_event = {
 	
 	trigger = {
 		NOT = {
-			culture = elven
+			culture = aen_seidhe
 			religion = dana_meadbh
 		}
 		owner = {
-			culture = elven
+			culture = aen_seidhe
 			religion = dana_meadbh
 			OR = {
 				trait = elven
 				trait = halfelf
 			}
 			top_liege = {
-				culture = elven
+				culture = aen_seidhe
 				religion = dana_meadbh
 				OR = {
 					trait = elven
@@ -242,11 +277,11 @@ province_event = {
 			}
 		}
 		any_neighbor_province = {
-			culture = elven
+			culture = aen_seidhe
 			religion = dana_meadbh
 			has_owner = yes
 			owner = {
-				culture = elven
+				culture = aen_seidhe
 				religion = dana_meadbh
 				OR = {
 					trait = elven
@@ -257,12 +292,27 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 600
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				culture = aen_seidhe
+			}
+		}
 	}
 	
 	option = {
 		name = EVTOPTAconversion.20
-		culture = elven
+		culture = aen_seidhe
 		religion = dana_meadbh
 	}
 }
@@ -309,7 +359,22 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 600
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				culture = dwarven
+			}
+		}
 	}
 	
 	option = {
@@ -330,7 +395,7 @@ province_event = {
 	
 	trigger = {
 		NOT = {
-			culture = elven
+			culture = aen_seidhe
 			culture = dwarven
 		}
 		owner = {
@@ -345,7 +410,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1200
+		months = 1000
 	}
 	
 	option = {
@@ -375,7 +440,7 @@ character_event = {
 		}
 		capital_scope = {
 			NOT = { culture = ROOT }
-			NOT = { culture = elven }
+			NOT = { culture = aen_seidhe }
 			NOT = { culture = dwarven }
 		}
 		top_liege = {
@@ -387,7 +452,8 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1600
+		months = 1200
+		modifier = { factor = 1.5 trait = proud }
 		modifier = {
 			factor = 0.5
 			top_liege = {
@@ -462,10 +528,6 @@ province_event = {
 		}
 	}
 	
-	mean_time_to_happen = {
-		months = 1200
-	}
-	
 	option = {
 		name = EVTOPTAconversion.200
 		owner = {
@@ -503,7 +565,9 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1600
+		months = 1200
+		modifier = { factor = 2 trait = zealous }
+		modifier = { factor = 1.5 trait = proud }
 		modifier = {
 			factor = 0.5
 			top_liege = {
@@ -571,7 +635,11 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1200
+		months = 800
+		modifier = {
+			factor = 0.8
+			owner = { top_liege = { trait = strong_emperor} }
+		}
 	}
 	
 	option = {
@@ -606,7 +674,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 800
+		months = 600
 	}
 	
 	option = {
@@ -636,7 +704,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1600
+		months = 800
 	}
 	
 	option = {
@@ -661,7 +729,7 @@ province_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 6400
+		months = 8000
 		modifier = { factor = 2 religion = solar }
 		modifier = { factor = 2 religion = eternal_fire }
 	}

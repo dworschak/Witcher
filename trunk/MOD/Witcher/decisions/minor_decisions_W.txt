@@ -83,7 +83,7 @@ decisions = {
 			}
 			NOT = { culture = wilderness }
 			OR = { # Only elves and dryads
-				culture = elven
+				culture = aen_seidhe
 				culture = dryad
 			}
 			is_ruler = yes
@@ -158,7 +158,7 @@ decisions = {
 			}
 			NOT = { culture = wilderness }
 			OR = { # Only elves and dryads
-				culture = elven
+				culture = aen_seidhe
 				culture = dryad
 			}
 			is_ruler = yes
@@ -219,7 +219,7 @@ decisions = {
 		}
 	}
 	
-	release_prisoners = {
+	release_prisoners = { # Toggled
 		potential = {
 			has_character_flag = prisoner_decisions_open
 			any_courtier = {
@@ -232,7 +232,7 @@ decisions = {
 		}
 	}
 	
-	execute_prisoners = {
+	execute_prisoners = { # Toggled
 		potential = {
 			has_character_flag = prisoner_decisions_open
 			any_courtier = {
@@ -245,4 +245,38 @@ decisions = {
 		}
 	}
 	
+	appoint_special_forces_commander = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			location = { county = { de_jure_liege_or_above = e_the_north } }
+			tier = king
+			NOT = {
+				any_courtier = {
+					OR = {
+						has_minor_title = title_blue_stripes_commander
+						has_minor_title = title_reb_bows_commander
+						has_minor_title = title_special_forces_commander
+					}
+				}
+			}
+		}
+		effect = {
+			character_event = { id = minor_titles.10 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 10 trait = racist }
+			modifier = { factor = 0.1 trait = tolerant }
+		}
+	}
 }

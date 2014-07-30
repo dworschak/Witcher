@@ -6,10 +6,9 @@ namespace = witcher
 # Witcher - Ask ask the liege permision to leave his court
 character_event = {
 	id = witcher.1
-	desc = "It's time to move on."
-	picture = GFX_evt_lunatic
 	
-	ai = yes
+	hide_window = yes
+	
 	min_age = 15
 	capable_only = yes
 	prisoner = no
@@ -99,7 +98,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "Ask liege."
+		name = OK
 		liege = { character_event = { id = witcher.2 } }
 	}
 }
@@ -107,7 +106,7 @@ character_event = {
 character_event = {
 	id = witcher.2
 	desc = EVTDESCwitcher.2 
-	picture = GFX_evt_lunatic
+	picture = GFX_evt_throne_room
 	
 	is_triggered_only = yes
 	
@@ -208,10 +207,8 @@ character_event = {
 # Witcher - Leave to ...
 character_event = {
 	id = witcher.3
-	desc = "Leave to..."
-	picture = GFX_evt_lunatic
 	
-	ai = yes
+	hide_window = yes
 	is_triggered_only = yes
 	
 	immediate = {
@@ -222,8 +219,8 @@ character_event = {
 		clr_character_flag = witcher_stays_because_of_lust
 	}
 	
-	option = {
-		name = "... neighbor province with monster problems"
+	option = { # ... neighbor province with monster problems
+		name = OK
 		trigger = {
 			liege = {
 				any_demesne_province = {
@@ -285,15 +282,15 @@ character_event = {
 					}
 					owner = {
 						reverse_banish = ROOT
-						letter_event = { id = witcher.4 }
+						character_event = { id = witcher.4 }
 					}
 				}
 			}
 		}
 		ai_chance = { factor = 100 }
 	}
-	option = { 
-		name = "... random neighbor province where any witcher haven't recently visited"
+	option = { # ... random neighbor province where any witcher haven't recently visited
+		name = OK
 		trigger = {
 			liege = {
 				any_demesne_province = {
@@ -331,15 +328,15 @@ character_event = {
 					}
 					owner = {
 						reverse_banish = ROOT
-						letter_event = { id = witcher.4 }
+						character_event = { id = witcher.4 }
 					}
 				}
 			}
 		}
 		ai_chance = { factor = 10 }
 	}
-	option = {
-		name = "... random neighbor province"
+	option = { # ... random neighbor province
+		name = OK
 		liege = {
 			random_demesne_province = {
 				limit = {
@@ -361,15 +358,15 @@ character_event = {
 					}
 					owner = {
 						reverse_banish = ROOT
-						letter_event = { id = witcher.4 }
+						character_event = { id = witcher.4 }
 					}
 				}
 			}
 		}
 		ai_chance = { factor = 1 }
 	}
-	option = {
-		name = "... the court of a ruler who invited witcher"
+	option = { # ... the court of a ruler who invited witcher
+		name = OK
 		trigger = {
 			any_playable_ruler = { has_character_flag = invited_witcher }
 		}
@@ -380,7 +377,7 @@ character_event = {
 				NOT = { culture = wilderness }
 			}
 			reverse_banish = ROOT
-			letter_event = { id = witcher.4 }
+			character_event = { id = witcher.4 }
 		}
 		ai_chance = { factor = 1000 }
 	}
@@ -389,7 +386,7 @@ character_event = {
 character_event = {
 	id = witcher.4
 	desc = EVTDESCwitcher.4
-	picture = GFX_evt_lunatic
+	picture = GFX_evt_throne_room
 	
 	is_triggered_only = yes
 	
@@ -433,10 +430,9 @@ character_event = {
 # Witcher - Selecting province
 character_event = {
 	id = witcher.200
-	desc = "Hunt monsters"
-	picture = GFX_evt_lunatic
-		
-	ai = yes
+	
+	hide_window = yes
+	
 	min_age = 15
 	capable_only = yes
 	prisoner = no
@@ -471,7 +467,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		liege = {
 			random_demesne_province = {
 				limit = {
@@ -489,14 +485,23 @@ character_event = {
 					85 = {
 						province_event = { id = witcher.201 }
 					}
-					10 = { # Witcher got injured
-						province_event = { id = witcher.202 }
+					7 = { # Witcher got wounded
+						province_event = { id = witcher.201 }
+						ROOT = { add_trait = wounded }
+					}
+					3 = { # Witcher got maimed
+						province_event = { id = witcher.201 }
+						ROOT = { add_trait = maimed }
 					}
 					5 = { # Witcher died
 						if = {
 							limit = { ROOT = { NOT = { has_character_modifier = protection_spell } } }
 							ROOT = { death = { death_reason = death_hashshashin } } # localized to death by monsters
-							owner = { character_event = { id = witcher.205 } }
+							owner = { character_event = { id = witcher.203 } }
+						}
+						if = {
+							limit = { ROOT = { has_character_modifier = protection_spell } }
+							province_event = { id = witcher.201 }
 						}
 					}
 				}
@@ -507,11 +512,9 @@ character_event = {
 # Province - Removing monster modifiers
 province_event = {
 	id = witcher.201
-	desc = "Province ping"
-	picture = GFX_evt_lunatic
 	
-	is_triggered_only = yes
 	hide_window = yes
+	is_triggered_only = yes
 	
 	immediate = {
 		remove_province_modifier = vampires
@@ -526,60 +529,14 @@ province_event = {
 	}
 	
 	option = {
-		name = "OK"
-		owner = { letter_event = { id = witcher.203 } }
-	}
-}
-# Province - Removing monster modifiers and add injury to witcher
-province_event = {
-	id = witcher.202
-	desc = "Province ping"
-	picture = GFX_evt_lunatic
-	
-	is_triggered_only = yes
-	hide_window = yes
-	
-	immediate = {
-		remove_province_modifier = vampires
-		remove_province_modifier = werewolves
-		remove_province_modifier = kikimoras
-		remove_province_modifier = hellhounds
-		remove_province_modifier = rotfiends
-		remove_province_modifier = drowners
-		remove_province_modifier = nekkers
-		add_province_modifier = { name = monster_purge duration = 365 hidden = yes }
-		FROM = {
-			add_character_modifier = { name = recent_witcher_work duration = 180 hidden = yes }
-			random_list = {
-				70 = { add_trait = wounded }
-				30 = { add_trait = maimed }
-			}
-		}
-	}
-	
-	option = {
-		name = "OK"
-		owner = { letter_event = { id = witcher.204 } }
+		name = OK
+		owner = { letter_event = { id = witcher.202 } }
 	}
 }
 # Liege - Notification - Witcher cleaned the province
 letter_event = {
-	id = witcher.203
-	desc = EVTDESCwitcher.203
-	picture = GFX_evt_bloody_man
-	
-	is_triggered_only = yes
-	show_from_from = yes
-	
-	option = {
-		name = OK
-	}
-}
-# Liege - Notification - Witcher cleaned the province but got injured
-letter_event = {
-	id = witcher.204
-	desc = EVTDESCwitcher.204
-	picture = GFX_evt_bloody_man
+	id = witcher.202
+	desc = EVTDESCwitcher.202
 	
 	is_triggered_only = yes
 	show_from_from = yes
@@ -590,14 +547,14 @@ letter_event = {
 }
 # Liege - Notification - Witcher died cleaning the province
 character_event = {
-	id = witcher.205
-	desc = EVTDESCwitcher.205
+	id = witcher.203
+	desc = EVTDESCwitcher.203
 	picture = GFX_evt_bloody_man
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTAwitcher.205
+		name = EVTOPTAwitcher.203
 	}
 }
 
@@ -607,14 +564,14 @@ character_event = {
 # Count witchers ( on_five_year_pulse)
 character_event = {
 	id = witcher.300
-	desc = "Random"
-	picture = GFX_evt_lunatic
-	
-	is_triggered_only = yes
 	
 	hide_window = yes
 	
-	trigger = { has_landed_title = k_eternal_fire }
+	is_triggered_only = yes
+	
+	trigger = {
+		has_landed_title = k_eternal_fire
+	}
 	
 	immediate = {
 		witcher = {
@@ -672,7 +629,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
 		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
 		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
@@ -684,8 +641,6 @@ character_event = {
 # Ruler - create witcher
 character_event = {
 	id = witcher.301
-	desc = "Spawn a witcher"
-	picture = GFX_evt_lunatic
 	
 	hide_window = yes
 	
@@ -714,11 +669,10 @@ character_event = {
 		modifier = { factor = 1.5 trait = racist }
 		modifier = { factor = 1.5 has_province_modifier = monster_purge }
 		modifier = { factor = 0.1 has_character_flag = invited_witcher }
-		
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		create_random_soldier = {
 			random_traits = yes
 			culture = witcher
@@ -743,17 +697,16 @@ character_event = {
 		clr_global_flag = create_random_witcher
 	}
 }
-#Ping witcher
+# Ping witcher
 character_event = {
 	id = witcher.302
-	desc = "Ping"
-	picture = GFX_evt_lunatic
 	
+	hide_window = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = "OK"
-		FROM = { letter_event = { id = witcher.4 } }
+		name = OK
+		FROM = { character_event = { id = witcher.4 } }
 	}
 }
 
@@ -834,7 +787,7 @@ character_event = {
 									}
 									death = { death_reason = death_hashshashin } # localized to death by monsters
 								}
-								character_event = { id = witcher.205 days = 5 }
+								character_event = { id = witcher.203 days = 5 }
 							}
 						}
 					}
@@ -850,11 +803,9 @@ character_event = {
 # Province - Removing monster modifiers
 province_event = {
 	id = witcher.1001
-	desc = "Province ping"
-	picture = GFX_evt_lunatic
 	
-	is_triggered_only = yes
 	hide_window = yes
+	is_triggered_only = yes
 	
 	immediate = {
 		remove_province_modifier = vampires
@@ -868,7 +819,7 @@ province_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		FROM = {
 			character_event = { id = witcher.1002 }
 			random_courtier = {
