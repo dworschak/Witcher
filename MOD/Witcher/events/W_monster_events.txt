@@ -72,14 +72,12 @@ character_event = {
 # Send a witcher - witcher ping
 character_event = {
 	id = monster.2
-	desc = "Ping"
-	picture = GFX_evt_comet
 	
+	hide_window = yes
 	is_triggered_only = yes
-	hide_from = yes
 	
 	option = {
-		name = "Ok"
+		name = OK
 		FROM = { letter_event = { id = monster.3 days = 5 } }
 	}
 }
@@ -87,10 +85,10 @@ character_event = {
 letter_event = {
 	id = monster.3
 	desc = EVTDESCmonster.3
-	picture = GFX_evt_comet
+	picture = GFX_evt_market
 	
-	is_triggered_only = yes
 	hide_from = yes
+	is_triggered_only = yes
 	
 	option = {
 		name = EVTOPTAmonster.3
@@ -333,14 +331,789 @@ character_event = {
 }
 
 ##########################################################################
-# Doppler - NOT WORKING
+# Doppler
 ##########################################################################
 # Doppler replaces vassal
-# Doppler is disovered
-# Real vassal comes forth
-
-##########################################################################
-# Dead coming from their graves
-##########################################################################
-# You see a recently deceased vassal among the dead (on_death)
-
+character_event = {
+	id = monster.40
+	
+	hide_window = yes
+	
+	trigger = {
+		liege = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		ai = yes
+		OR = {
+			tier = baron
+			tier = count
+		}
+		is_adult = yes
+		NOT = { trait = incapable }
+		NOT = {
+			has_character_flag = doppler_racist
+			has_character_flag = doppler_lustful
+			has_character_flag = doppler_gluttonous
+			has_character_flag = doppler_greedy
+			has_character_flag = doppler_slothful
+			has_character_flag = doppler_envious
+			has_character_flag = doppler_wroth
+			has_character_flag = doppler_proud
+			has_character_flag = doppler_deceitful
+			has_character_flag = doppler_craven
+			has_character_flag = doppler_arbitrary
+			has_character_flag = doppler_paranoid
+			has_character_flag = doppler_cruel
+			has_character_flag = doppler_lunatic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 18000
+	}
+	
+	option = {
+		if = {
+			limit = { trait = racist }
+			random = {
+				chance = 80
+				remove_trait = racist
+				add_trait = tolerant
+				set_character_flag = doppler_racist
+			}
+		}
+		if = {
+			limit = { trait = lustful }
+			random = {
+				chance = 80
+				remove_trait = lustful
+				add_trait = chaste
+				set_character_flag = doppler_lustful
+			}
+		}
+		if = {
+			limit = { trait = gluttonous }
+			random = {
+				chance = 80
+				remove_trait = gluttonous
+				add_trait = temperate
+				set_character_flag = doppler_gluttonous
+			}
+		}
+		if = {
+			limit = { trait = greedy }
+			random = {
+				chance = 80
+				remove_trait = greedy
+				add_trait = charitable
+				set_character_flag = doppler_greedy
+			}
+		}
+		if = {
+			limit = { trait = slothful }
+			random = {
+				chance = 80
+				remove_trait = slothful
+				add_trait = diligent
+				set_character_flag = doppler_slothful
+			}
+		}
+		if = {
+			limit = { trait = envious }
+			random = {
+				chance = 80
+				remove_trait = envious
+				add_trait = kind
+				set_character_flag = doppler_envious
+			}
+		}
+		if = {
+			limit = { trait = wroth }
+			random = {
+				chance = 80
+				remove_trait = wroth
+				add_trait = patient
+				set_character_flag = doppler_wroth
+			}
+		}
+		if = {
+			limit = { trait = proud }
+			random = {
+				chance = 80
+				remove_trait = proud
+				add_trait = humble
+				set_character_flag = doppler_proud
+			}
+		}
+		if = {
+			limit = { trait = deceitful }
+			random = {
+				chance = 80
+				remove_trait = deceitful
+				add_trait = honest
+				set_character_flag = doppler_deceitful
+			}
+		}
+		if = {
+			limit = { trait = craven }
+			random = {
+				chance = 80
+				remove_trait = craven
+				add_trait = brave
+				set_character_flag = doppler_craven
+			}
+		}
+		if = {
+			limit = { trait = arbitrary }
+			random = {
+				chance = 80
+				remove_trait = arbitrary
+				add_trait = just
+				set_character_flag = doppler_arbitrary
+			}
+		}
+		if = {
+			limit = { trait = paranoid }
+			random = {
+				chance = 80
+				remove_trait = paranoid
+				add_trait = trusting
+				set_character_flag = doppler_paranoid
+			}
+		}
+		if = {
+			limit = { trait = cruel }
+			random = {
+				chance = 80
+				remove_trait = cruel
+				add_trait = kind
+				set_character_flag = doppler_cruel
+			}
+		}
+		if = {
+			limit = { trait = lunatic }
+			remove_trait = lunatic
+			set_character_flag = doppler_lunatic
+		}
+		random = {
+			chance = 10
+			liege = { character_event = { id = monster.46 days = 2000 random = 1500 } }
+		}
+	}
+}
+# Doppler - Ping - Liege is suspicous of you
+character_event = {
+	id = monster.41
+	
+	hide_window = yes
+	
+	trigger = {
+		liege = {
+			is_adult = yes
+			NOT = { trait = incapable }
+			prisoner = no
+		}
+		OR = {
+			has_character_flag = doppler_racist
+			has_character_flag = doppler_lustful
+			has_character_flag = doppler_gluttonous
+			has_character_flag = doppler_greedy
+			has_character_flag = doppler_slothful
+			has_character_flag = doppler_envious
+			has_character_flag = doppler_wroth
+			has_character_flag = doppler_proud
+			has_character_flag = doppler_deceitful
+			has_character_flag = doppler_craven
+			has_character_flag = doppler_arbitrary
+			has_character_flag = doppler_paranoid
+			has_character_flag = doppler_cruel
+			has_character_flag = doppler_lunatic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 liege = { trait = perceptive } }
+		modifier = { factor = 1.5 liege = { trait = absentminded } }
+		modifier = { factor = 0.8 liege = { trait = gregarious } }
+		modifier = { factor = 1.5 liege = { trait = shy } }
+		modifier = { factor = 0.5 liege = { trait = paranoid } }
+		modifier = { factor = 2 liege = { trait = trusting } }
+		modifier = { factor = 0.8 liege = { trait = quick } }
+		modifier = { factor = 1.5 liege = { trait = slow } }
+		modifier = { factor = 0.5 liege = { trait = genius } }
+		modifier = { factor = 2 liege = { trait = imbecile } }
+	}
+	
+	option = {
+		liege = { character_event = { id = monster.42 } }
+	}
+}
+# You are suspicous of doppler
+character_event = {
+	id = monster.42
+	desc = EVTDESCmonster.42
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+	
+	option = { # Search for real vassal
+		name = EVTOPTAmonster.42
+		trigger = { trait = paranoid }
+		custom_tooltip = {
+			text = search_for_person_doppler_is_impersonating
+			hidden_tooltip = {
+				random_list = {
+					40 = { character_event = { id = monster.43 days = 3 } }
+					30 = { character_event = { id = monster.44 days = 3 } }
+					30 = { character_event = { id = monster.45 days = 3 } }
+				}
+			}
+		}
+	}
+	option = { # Ignore
+		name = EVTOPTBmonster.42
+		trigger = { trait = trusting }
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			clr_character_flag = doppler_racist
+			clr_character_flag = doppler_lustful
+			clr_character_flag = doppler_gluttonous
+			clr_character_flag = doppler_greedy
+			clr_character_flag = doppler_slothful
+			clr_character_flag = doppler_envious
+			clr_character_flag = doppler_wroth
+			clr_character_flag = doppler_proud
+			clr_character_flag = doppler_deceitful
+			clr_character_flag = doppler_craven
+			clr_character_flag = doppler_arbitrary
+			clr_character_flag = doppler_paranoid
+			clr_character_flag = doppler_cruel
+			clr_character_flag = doppler_lunatic
+		}
+	}
+	option = { # Search for real vassal
+		name = EVTOPTCmonster.42
+		trigger = {
+			NOT = { trait = paranoid }
+			NOT = { trait = trusting }
+		}
+		custom_tooltip = {
+			text = search_for_person_doppler_is_impersonating
+			hidden_tooltip = {
+				random_list = {
+					40 = { character_event = { id = monster.43 days = 3 } }
+					30 = { character_event = { id = monster.44 days = 3 } }
+					30 = { character_event = { id = monster.45 days = 3 } }
+				}
+			}
+		}
+	}
+	option = { # Ignore
+		name = EVTOPTDmonster.42
+		trigger = {
+			NOT = { trait = paranoid }
+			NOT = { trait = trusting }
+		}
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			clr_character_flag = doppler_racist
+			clr_character_flag = doppler_lustful
+			clr_character_flag = doppler_gluttonous
+			clr_character_flag = doppler_greedy
+			clr_character_flag = doppler_slothful
+			clr_character_flag = doppler_envious
+			clr_character_flag = doppler_wroth
+			clr_character_flag = doppler_proud
+			clr_character_flag = doppler_deceitful
+			clr_character_flag = doppler_craven
+			clr_character_flag = doppler_arbitrary
+			clr_character_flag = doppler_paranoid
+			clr_character_flag = doppler_cruel
+			clr_character_flag = doppler_lunatic
+			opinion = { modifier = opinion_grateful who = ROOT }
+		}
+	}
+}
+# Searching for real vassal - didn't find real vassal
+character_event = {
+	id = monster.43
+	desc = EVTDESCmonster.43
+	picture = GFX_evt_spymaster
+	
+	show_from_from = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAmonster.43
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			clr_character_flag = doppler_racist
+			clr_character_flag = doppler_lustful
+			clr_character_flag = doppler_gluttonous
+			clr_character_flag = doppler_greedy
+			clr_character_flag = doppler_slothful
+			clr_character_flag = doppler_envious
+			clr_character_flag = doppler_wroth
+			clr_character_flag = doppler_proud
+			clr_character_flag = doppler_deceitful
+			clr_character_flag = doppler_craven
+			clr_character_flag = doppler_arbitrary
+			clr_character_flag = doppler_paranoid
+			clr_character_flag = doppler_cruel
+			clr_character_flag = doppler_lunatic
+			opinion = { modifier = opinion_angry who = ROOT months = 12 }
+		}
+	}
+}
+# Searching for real vassal - found imprisoned
+character_event = {
+	id = monster.44
+	desc = EVTDESCmonster.44
+	picture = GFX_evt_spymaster
+	
+	show_from_from = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAmonster.44
+		custom_tooltip = { text = get_rid_of_doppler }
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = { has_character_flag = doppler_racist }
+					clr_character_flag = doppler_racist
+					remove_trait  tolerant
+					add_trait = racist
+				}
+				if = {
+					limit = { has_character_flag = doppler_lustful }
+					clr_character_flag = doppler_lustful
+					remove_trait  chaste
+					add_trait = lustful
+				}
+				if = {
+					limit = { has_character_flag = doppler_gluttonous }
+					clr_character_flag = doppler_gluttonous
+					remove_trait  temperate
+					add_trait = gluttonous
+				}
+				if = {
+					limit = { has_character_flag = doppler_greedy }
+					clr_character_flag = doppler_greedy
+					remove_trait  charitable
+					add_trait = greedy
+				}
+				if = {
+					limit = { has_character_flag = doppler_slothful }
+					clr_character_flag = doppler_slothful
+					remove_trait  diligent
+					add_trait = slothful
+				}
+				if = {
+					limit = { has_character_flag = doppler_envious }
+					clr_character_flag = doppler_envious
+					remove_trait  kind
+					add_trait = envious
+				}
+				if = {
+					limit = { has_character_flag = doppler_wroth }
+					clr_character_flag = doppler_wroth
+					remove_trait  patient
+					add_trait = wroth
+				}
+				if = {
+					limit = { has_character_flag = doppler_proud }
+					clr_character_flag = doppler_proud
+					remove_trait  humble
+					add_trait = proud
+				}
+				if = {
+					limit = { has_character_flag = doppler_deceitful }
+					clr_character_flag = doppler_deceitful
+					remove_trait  honest
+					add_trait = deceitful
+				}
+				if = {
+					limit = { has_character_flag = doppler_craven }
+					clr_character_flag = doppler_craven
+					remove_trait  brave
+					add_trait = craven
+				}
+				if = {
+					limit = { has_character_flag = doppler_arbitrary }
+					clr_character_flag = doppler_arbitrary
+					remove_trait  just
+					add_trait = arbitrary
+				}
+				if = {
+					limit = { has_character_flag = doppler_paranoid }
+					clr_character_flag = doppler_paranoid
+					remove_trait  trusting
+					add_trait = paranoid
+				}
+				if = {
+					limit = { has_character_flag = doppler_cruel }
+					clr_character_flag = doppler_cruel
+					remove_trait  kind
+					add_trait = cruel
+				}
+				if = {
+					limit = { has_character_flag = doppler_lunatic }
+					clr_character_flag = doppler_lunatic
+					remove_trait = lunatic
+				}
+			}
+			opinion = { modifier = opinion_grateful who = ROOT }
+		}
+	}
+}
+# Searching for real vassal - found dead
+character_event = {
+	id = monster.45
+	desc = EVTDESCmonster.45
+	picture = GFX_evt_spymaster
+	
+	show_from_from = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAmonster.45
+		custom_tooltip = { text = get_rid_of_doppler }
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = { has_character_flag = doppler_racist }
+					clr_character_flag = doppler_racist
+					remove_trait  tolerant
+					add_trait = racist
+				}
+				if = {
+					limit = { has_character_flag = doppler_lustful }
+					clr_character_flag = doppler_lustful
+					remove_trait  chaste
+					add_trait = lustful
+				}
+				if = {
+					limit = { has_character_flag = doppler_gluttonous }
+					clr_character_flag = doppler_gluttonous
+					remove_trait  temperate
+					add_trait = gluttonous
+				}
+				if = {
+					limit = { has_character_flag = doppler_greedy }
+					clr_character_flag = doppler_greedy
+					remove_trait  charitable
+					add_trait = greedy
+				}
+				if = {
+					limit = { has_character_flag = doppler_slothful }
+					clr_character_flag = doppler_slothful
+					remove_trait  diligent
+					add_trait = slothful
+				}
+				if = {
+					limit = { has_character_flag = doppler_envious }
+					clr_character_flag = doppler_envious
+					remove_trait  kind
+					add_trait = envious
+				}
+				if = {
+					limit = { has_character_flag = doppler_wroth }
+					clr_character_flag = doppler_wroth
+					remove_trait  patient
+					add_trait = wroth
+				}
+				if = {
+					limit = { has_character_flag = doppler_proud }
+					clr_character_flag = doppler_proud
+					remove_trait  humble
+					add_trait = proud
+				}
+				if = {
+					limit = { has_character_flag = doppler_deceitful }
+					clr_character_flag = doppler_deceitful
+					remove_trait  honest
+					add_trait = deceitful
+				}
+				if = {
+					limit = { has_character_flag = doppler_craven }
+					clr_character_flag = doppler_craven
+					remove_trait  brave
+					add_trait = craven
+				}
+				if = {
+					limit = { has_character_flag = doppler_arbitrary }
+					clr_character_flag = doppler_arbitrary
+					remove_trait  just
+					add_trait = arbitrary
+				}
+				if = {
+					limit = { has_character_flag = doppler_paranoid }
+					clr_character_flag = doppler_paranoid
+					remove_trait  trusting
+					add_trait = paranoid
+				}
+				if = {
+					limit = { has_character_flag = doppler_cruel }
+					clr_character_flag = doppler_cruel
+					remove_trait  kind
+					add_trait = cruel
+				}
+				if = {
+					limit = { has_character_flag = doppler_lunatic }
+					clr_character_flag = doppler_lunatic
+					remove_trait = lunatic
+				}
+			}
+			death = { death_reason = death_hashshashin }
+		}
+	}
+}
+# Real vassal comes to you and claims he is the real one
+character_event = {
+	id = monster.46
+	desc = EVTDESCmonster.46
+	picture = GFX_evt_throne_room
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	option = { # Accept his claim
+		name = EVTOPTAmonster.46
+		custom_tooltip = { text = get_rid_of_doppler }
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			hidden_tooltip = {
+				if = {
+					limit = { has_character_flag = doppler_racist }
+					clr_character_flag = doppler_racist
+					remove_trait  tolerant
+					add_trait = racist
+				}
+				if = {
+					limit = { has_character_flag = doppler_lustful }
+					clr_character_flag = doppler_lustful
+					remove_trait  chaste
+					add_trait = lustful
+				}
+				if = {
+					limit = { has_character_flag = doppler_gluttonous }
+					clr_character_flag = doppler_gluttonous
+					remove_trait  temperate
+					add_trait = gluttonous
+				}
+				if = {
+					limit = { has_character_flag = doppler_greedy }
+					clr_character_flag = doppler_greedy
+					remove_trait  charitable
+					add_trait = greedy
+				}
+				if = {
+					limit = { has_character_flag = doppler_slothful }
+					clr_character_flag = doppler_slothful
+					remove_trait  diligent
+					add_trait = slothful
+				}
+				if = {
+					limit = { has_character_flag = doppler_envious }
+					clr_character_flag = doppler_envious
+					remove_trait  kind
+					add_trait = envious
+				}
+				if = {
+					limit = { has_character_flag = doppler_wroth }
+					clr_character_flag = doppler_wroth
+					remove_trait  patient
+					add_trait = wroth
+				}
+				if = {
+					limit = { has_character_flag = doppler_proud }
+					clr_character_flag = doppler_proud
+					remove_trait  humble
+					add_trait = proud
+				}
+				if = {
+					limit = { has_character_flag = doppler_deceitful }
+					clr_character_flag = doppler_deceitful
+					remove_trait  honest
+					add_trait = deceitful
+				}
+				if = {
+					limit = { has_character_flag = doppler_craven }
+					clr_character_flag = doppler_craven
+					remove_trait  brave
+					add_trait = craven
+				}
+				if = {
+					limit = { has_character_flag = doppler_arbitrary }
+					clr_character_flag = doppler_arbitrary
+					remove_trait  just
+					add_trait = arbitrary
+				}
+				if = {
+					limit = { has_character_flag = doppler_paranoid }
+					clr_character_flag = doppler_paranoid
+					remove_trait  trusting
+					add_trait = paranoid
+				}
+				if = {
+					limit = { has_character_flag = doppler_cruel }
+					clr_character_flag = doppler_cruel
+					remove_trait  kind
+					add_trait = cruel
+				}
+				if = {
+					limit = { has_character_flag = doppler_lunatic }
+					clr_character_flag = doppler_lunatic
+					remove_trait = lunatic
+				}
+			}
+			opinion = { modifier = opinion_grateful who = ROOT }
+		}
+	}
+	option = { # Ignore his claim
+		name = EVTOPTBmonster.46
+		random_vassal = {
+			limit = {
+				OR = {
+					has_character_flag = doppler_racist
+					has_character_flag = doppler_lustful
+					has_character_flag = doppler_gluttonous
+					has_character_flag = doppler_greedy
+					has_character_flag = doppler_slothful
+					has_character_flag = doppler_envious
+					has_character_flag = doppler_wroth
+					has_character_flag = doppler_proud
+					has_character_flag = doppler_deceitful
+					has_character_flag = doppler_craven
+					has_character_flag = doppler_arbitrary
+					has_character_flag = doppler_paranoid
+					has_character_flag = doppler_cruel
+					has_character_flag = doppler_lunatic
+				}
+			}
+			clr_character_flag = doppler_racist
+			clr_character_flag = doppler_lustful
+			clr_character_flag = doppler_gluttonous
+			clr_character_flag = doppler_greedy
+			clr_character_flag = doppler_slothful
+			clr_character_flag = doppler_envious
+			clr_character_flag = doppler_wroth
+			clr_character_flag = doppler_proud
+			clr_character_flag = doppler_deceitful
+			clr_character_flag = doppler_craven
+			clr_character_flag = doppler_arbitrary
+			clr_character_flag = doppler_paranoid
+			clr_character_flag = doppler_cruel
+			clr_character_flag = doppler_lunatic
+			opinion = { modifier = opinion_grateful who = ROOT }
+		}
+	}
+}

@@ -6,8 +6,6 @@ namespace = wilderness
 # Hidden - Remove wilderness character traits
 character_event = {
 	id = wilderness.1
-	desc = "Remove traits"
-	picture = GFX_evt_peasants
 	
 	hide_window = yes
 	
@@ -221,7 +219,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		remove_trait = absentminded
 		remove_trait = adept
 		remove_trait = aggressive_leader
@@ -430,8 +428,6 @@ character_event = {
 # Hidden - Give tower to wilderness (on_death)
 character_event = {
 	id = wilderness.100
-	desc = "Give tower to wilderness"
-	picture = GFX_evt_peasants
 	
 	is_triggered_only = yes
 	hide_window = yes
@@ -444,7 +440,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		d_wilderness = {
 			holder_scope = {
 				ROOT = {
@@ -464,8 +460,6 @@ character_event = {
 # Hidden - Give non-sorcerer held tower to wilderness 
 character_event = {
 	id = wilderness.101
-	desc = "Give tower to wilderness"
-	picture = GFX_evt_peasants
 	
 	hide_window = yes
 	
@@ -482,7 +476,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		d_wilderness = {
 			holder_scope = {
 				ROOT = {
@@ -502,8 +496,6 @@ character_event = {
 # Hidden - Change accidently spread magic culture
 character_event = {
 	id = wilderness.102
-	desc = "Change culture for magic characters"
-	picture = GFX_evt_peasants
 	
 	hide_window = yes
 	
@@ -515,37 +507,37 @@ character_event = {
 		days = 1
 	}
 	
-	option = {
-		name = "to elven culture"
+	option = { # to elven culture
+		name = OK
 		trigger = {
 			trait = elven
 		}
-		culture = elven
+		culture = aen_seidhe
 		ai_chance = { factor = 100 }
 	}
-	option = {
-		name = "to dwarven culture"
+	option = { # to dwarven culture
+		name = OK
 		trigger = {
 			trait = dwarven
 		}
 		culture = dwarven
 		ai_chance = { factor = 100 }
 	}
-	option = {
-		name = "to liege's culture"
+	option = { # to liege's culture
+		name = ""
 		trigger = {
 			liege = { NOT = { culture = magic } }
 		}
 		liege = { reverse_culture = ROOT }
 		ai_chance = { factor = 10 }
 	}
-	option = {
-		name = "to neighbor's culture"
+	option = { # to neighbor's culture
+		name = OK
 		location = {
 			random_neighbor_province = { 
 				limit = {
 					NOT = { culture = magic }
-					NOT = { culture = elven }
+					NOT = { culture = aen_seidhe }
 					NOT = { culture = dwarven }
 				}
 				reverse_culture = ROOT

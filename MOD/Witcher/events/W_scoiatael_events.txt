@@ -1,9 +1,9 @@
 namespace = scoiatael
 
 ##########################################################################
-# Supporting Scoiatael
+# Supporting Scoia'tael
 ##########################################################################
-# Scoiatael asking support
+# Scoia'tael asking support
 character_event = {
 	id = scoiatael.1
 	desc = EVTDESCscoiatael.1
@@ -18,14 +18,16 @@ character_event = {
 		OR = {
 			trait = elven
 			trait = dwarven
+			trait = tolerant
 		}
 		wealth = 100
-		NOT ={ has_character_flag = supported_scoiatael }
-		NOT ={ has_character_flag = refused_supporting_scoiatael }
+		NOT = { has_character_flag = supported_scoiatael }
+		NOT = { has_character_flag = refused_supporting_scoiatael }
 	}
 	
 	mean_time_to_happen = {
-		months = 12
+		months = 24
+		modifier = { factor = 2 trait = tolerant }
 	}
 	
 	option = { # Support
@@ -50,9 +52,9 @@ character_event = {
 }
 
 ##########################################################################
-# Scoiatael events
+# Scoia'tael events
 ##########################################################################
-# Scoiatael presence
+# Scoia'tael presence
 province_event = {
 	id = scoiatael.10
 	desc = EVTDESCscoiatael.10
@@ -65,6 +67,7 @@ province_event = {
 				trait = dwarven
 				trait = elven
 				trait = dryad
+				trait = tolerant
 			}
 		}
 	}
@@ -73,7 +76,7 @@ province_event = {
 		months = 2000
 		modifier = { factor = 0.5 terrain = forest }
 		modifier = { factor = 0.75 terrain = mountain }
-		modifier = { factor = 0.1 culture = elven }
+		modifier = { factor = 0.1 culture = aen_seidhe }
 		modifier = { factor = 0.1 culture = dwarven }
 		modifier = { factor = 0.1 religion = dana_meadbh }
 		modifier = { factor = 0.1 religion = dwarven }
@@ -99,6 +102,189 @@ province_event = {
 	
 	option = {
 		name = EVTOPTAscoiatael.10
+		trigger = {
+			owner = { NOT = { trait = racist } }
+		}
 		add_province_modifier = { name = scoiatael_presence duration = 3650 }
+	}
+	option = {
+		name = EVTOPTBscoiatael.10
+		trigger = {
+			owner = { trait = racist }
+		}
+		add_province_modifier = { name = scoiatael_presence duration = 3650 }
+	}
+}
+# Scoia'tael presence spreads to neighbour province
+province_event = {
+	id = scoiatael.11
+	desc = EVTDESCscoiatael.11
+	picture = GFX_evt_bandits
+	
+	trigger = {
+		NOT = { has_province_modifier = scoiatael_presence }
+		owner = {
+			NOT = {
+				trait = dwarven
+				trait = elven
+				trait = dryad
+				trait = tolerant
+			}
+		}
+		any_neighbor_province = {
+			has_province_modifier = scoiatael_presence
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+		modifier = { factor = 0.5 terrain = forest }
+		modifier = { factor = 0.75 terrain = mountain }
+		modifier = { factor = 0.1 culture = aen_seidhe }
+		modifier = { factor = 0.1 culture = dwarven }
+		modifier = { factor = 0.1 religion = dana_meadbh }
+		modifier = { factor = 0.1 religion = dwarven }
+		modifier = { factor = 0.1 has_province_modifier = non_human_slaughter }
+		modifier = { factor = 0.2 has_province_modifier = non_human_oppresion }
+	}
+	
+	option = {
+		name = EVTOPTAscoiatael.11
+		trigger = {
+			owner = { NOT = { trait = racist } }
+		}
+		add_province_modifier = { name = scoiatael_presence duration = 3650 }
+	}
+	option = {
+		name = EVTOPTBscoiatael.11
+		trigger = {
+			owner = { trait = racist }
+		}
+		add_province_modifier = { name = scoiatael_presence duration = 3650 }
+	}
+}
+# Local population is sympathetic to Scoia'tael cause
+province_event = {
+	id = scoiatael.12
+	desc = EVTDESCscoiatael.12
+	picture = GFX_evt_bandits
+	
+	trigger = {
+		has_province_modifier = scoiatael_presence
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+		modifier = {
+			factor = 0.2
+			county = {
+				crownlaw_title = {
+					has_law = tolerance_2
+				}
+			}
+		}
+		modifier = {
+			factor = 10
+			county = {
+				crownlaw_title = {
+					has_law = tolerance_0
+				}
+			}
+		}
+		modifier = { factor = 0.5 culture = aen_seidhe }
+		modifier = { factor = 0.5 culture = dwarven }
+		modifier = { factor = 0.5 religion = dana_meadbh }
+		modifier = { factor = 0.5 religion = dwarven }
+		modifier = { factor = 5 has_province_modifier = non_human_slaughter }
+		modifier = { factor = 2 has_province_modifier = non_human_oppresion }
+	}
+	
+	option = {
+		name = EVTOPTAscoiatael.12
+		trigger = {
+			owner = { NOT = { trait = racist } }
+		}
+		add_province_modifier = { name = supports_scoiatael duration = 3650 }
+	}
+	option = {
+		name = EVTOPTBscoiatael.12
+		trigger = {
+			owner = { trait = racist }
+		}
+		add_province_modifier = { name = supports_scoiatael duration = 3650 }
+	}
+}
+
+##########################################################################
+# Scoia'tael joins independant non-human realm after successful revolt
+##########################################################################
+# Hidden - Find if there is suitable realm nearby
+province_event = {
+	id = scoiatael.100
+	desc = EVTDESCscoiatael.100
+	picture = GFX_evt_bandits
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		any_realm_province = {
+			any_neighbor_province = {
+				top_liege = {
+					OR = {
+						trait = elven
+						trait = dwarven
+						trait = kind2
+					}
+					higher_tier_than = COUNT
+				}
+			}
+		}
+	}
+	
+	option = {
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					top_liege = {
+						OR = {
+							trait = elven
+							trait = dwarven
+							trait = kind2
+						}
+						higher_tier_than = COUNT
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					top_liege = {
+						OR = {
+							trait = elven
+							trait = dwarven
+							trait = kind2
+						}
+						higher_tier_than = COUNT
+					}
+				}
+				top_liege = { letter_event = { id = scoiatael.100 } }
+			}
+		}
+	}
+}
+# Give potential liege chance to accept or decline
+province_event = {
+	id = scoiatael.101
+	desc = EVTDESCscoiatael.101
+	
+	show_from_from = yes
+	is_triggered_only = yes
+	
+	option = { # Accept
+		name = EVTOPTAscoiatael.101
+		FROMFROM = { set_defacto_liege = ROOT }
+	}
+	option = { # Decline
+		name = EVTOPTBscoiatael.101
 	}
 }

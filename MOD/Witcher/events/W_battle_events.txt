@@ -88,7 +88,7 @@ character_event = {
 ################################################
 # Battle events from VIET
 ################################################
-# Skyrim Bandits always say they yield but they never do
+# Skyrim Bandits always say they yield but they never do (on_combat_pulse)
 character_event = {
 	id = battle.10
 	desc = EVTDESCbattle.10
@@ -207,7 +207,7 @@ character_event = {
 		prestige = 3
 	}
 }
-# Captured Enemy Scouts
+# Captured Enemy Scouts (on_combat_pulse)
 character_event = {
 	id = battle.11
 	desc = EVTDESCbattle.11
@@ -278,7 +278,7 @@ character_event = {
 	}
 	
 }
-# Advice to young squire
+# Advice to young squire (on_combat_pulse)
 character_event = {
 	id = battle.12
 	desc = EVTDESCbattle.12
@@ -392,7 +392,7 @@ character_event = {
 		prestige = 4
 	}
 }
-# Soldier sacrifices self
+# Soldier sacrifices self (on_combat_pulse)
 character_event = {
 	id = battle.13
 	desc = EVTDESCbattle.13
@@ -543,7 +543,7 @@ character_event = {
 		prestige = 2
 	}
 }
-# Dodge enemy just in the nick of time
+# Dodge enemy just in the nick of time (on_combat_pulse)
 character_event = {
 	id = battle.14
 	desc = EVTDESCbattle.14
@@ -694,7 +694,7 @@ character_event = {
 		prestige = 2
 	}
 }
-#Praying in the middle of battle
+#Praying in the middle of battle (on_combat_pulse)
 character_event = {
 	id = battle.15
 	desc = EVTDESCbattle.15
@@ -734,7 +734,7 @@ character_event = {
 		piety = 1
 	}
 }
-#Praying for a dying soldier
+#Praying for a dying soldier (on_combat_pulse)
 character_event = {
 	id = battle.16
 	desc = EVTDESCbattle.16
@@ -780,6 +780,456 @@ character_event = {
 	option = {
 		name = EVTOPTAbattle.16
 		piety = 3
+	}
+}
+
+################################################
+# Battle events from Prince and the Thane
+################################################
+# Commander deals with soldiers accused of rape (on_five_year_pulse)
+character_event = {
+	id = battle.100
+	desc = EVTDESCbattle.100
+	picture = GFX_evt_brothel
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	only_men = yes
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = { # Disciplined
+		name = EVTOPTAbattle.100
+		prestige = 10
+		random = { 
+			chance = 10
+			add_trait = arbitrary 
+			hidden_tooltip = { character_event = { id = 38266 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 2 trait = arbitrary }
+			modifier = { factor = 0 trait = just }
+		}
+	}
+	option = { # Ignored
+		name = EVTOPTBbattle.100
+		piety = -10
+		add_character_modifier = { name = troops_likes_marshal duration = 730 }
+		random = { 
+			chance = 25
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = { # Punished
+		name = EVTOPTCbattle.100
+		piety = 25
+		add_character_modifier = { name = demotivated_troops duration = 365 }
+		random = { 
+			chance = 25
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = cruel }
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Commander deals with an homosexual sergeant (on_five_year_pulse)
+character_event = {
+	id = battle.101
+	desc = EVTDESCbattle.101
+	picture = GFX_evt_lovers
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	only_men = yes
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+		NOT = { trait = homosexual }
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = { # Punish
+		name = EVTOPTAbattle.101
+		prestige = 10
+		random = { 
+			chance = 10
+			add_trait = just 
+			hidden_tooltip = { character_event = { id = 38262 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = just }
+		}
+	}
+	option = { # Ignore
+		name = EVTOPTBbattle.101
+		piety = -10
+		add_character_modifier = { name = troops_likes_marshal duration = 730 }
+		random = { 
+			chance = 15
+			add_trait = cynical 
+			hidden_tooltip = { character_event = { id = 38258 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = honest }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = { # Execute
+		name = EVTOPTCbattle.101
+		piety = 25
+		add_character_modifier = { name = demotivated_troops duration = 730 }
+		random = { 
+			chance = 25
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = zealous }
+			modifier = { factor = 1.5 trait = cruel }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+}
+# Commander deals with old mounts for knights (on_five_year_pulse)
+character_event = {
+	id = battle.102
+	desc = EVTDESCbattle.102
+	picture = GFX_evt_western_knights_byzantine
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 26
+	only_men = yes
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.102
+		trigger = { stewardship = 12 }
+		prestige = 10
+		scaled_wealth = -0.35
+		random = { 
+			chance = 20
+			add_trait = charitable 
+			hidden_tooltip = {
+				character_event = { id = 38273 }
+			} 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBbattle.102
+		piety = -5
+		add_character_modifier = { name = demotivated_troops duration = 365 }
+		random = { 
+			chance = 15
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+	option = {
+		name = EVTOPTCbattle.102
+		prestige = -10
+		piety = -5
+		add_character_modifier = { name = demotivated_troops duration = 730 }
+		random = { 
+			chance = 15
+			add_trait = honest 
+			hidden_tooltip = {
+				character_event = { id = 38262 }
+			} 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 1.5 trait = honest }
+		}
+	}
+}
+# Commander deals with deserters (on_five_year_pulse)
+character_event = {
+	id = battle.103
+	desc = EVTDESCbattle.103
+	picture = GFX_evt_beheading
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 14
+	only_men = yes
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.103
+		prestige = 10
+		add_character_modifier = { name = troops_likes_marshal duration = 730 }
+		random = { 
+			chance = 20
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = cruel }
+		}
+	}
+	option = {
+		name = EVTOPTBbattle.103
+		piety = 10
+		prestige = -15
+		random = { 
+			chance = 15
+			add_trait = zealous
+			hidden_tooltip = { character_event = { id = 38269 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+	option = {
+		name = EVTOPTCbattle.103
+		prestige = 10
+		piety = -15
+		add_character_modifier = { name = demotivated_troops duration = 730 }
+		random = {
+			chance = 10
+			add_trait = cruel
+			hidden_tooltip = { character_event = { id = 38259 } } 
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = cruel }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Camp struck by disease (on_five_year_pulse)
+character_event = {
+	id = battle.104
+	desc = EVTDESCbattle.104
+	picture = GFX_evt_battle_death
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.104
+		random = {
+			chance = 50
+			add_trait = ill
+			hidden_tooltip = { character_event = { id = 38290 } } 
+		}
+		hidden_tooltip = { troops = -0.15 }
+	}
+}
+# Provisions gone bad cause death in the camp (on_five_year_pulse)
+character_event = {
+	id = battle.105
+	desc = EVTDESCbattle.105
+	picture = GFX_evt_battle_death
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.105
+		random = {
+			chance = 20
+			add_trait = ill
+			hidden_tooltip = { character_event = { id = 38290 } } 
+		}
+		hidden_tooltip = { troops = -0.1 }
+	}
+}
+# Camp riot (on_five_year_pulse)
+character_event = {
+	id = battle.106
+	desc = EVTDESCbattle.106
+	picture = GFX_evt_battle
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.106
+		random = {
+			chance = 5
+			death = { death_reason = death_battle }
+		}
+		hidden_tooltip = { troops = -0.25 }
+	}
+}
+# Fire in the camp (on_five_year_pulse)
+character_event = {
+	id = battle.107
+	desc = EVTDESCbattle.107
+	picture = GFX_evt_burning_house
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.107
+		random = {
+			chance = 5
+			death = { death_reason = death_battle }
+		}
+		hidden_tooltip = { troops = -0.05 }
+	}
+}
+#Reinforcements (on_five_year_pulse)
+character_event = {
+	id = battle.108
+	desc = EVTDESCbattle.108
+	picture = GFX_evt_crusaders
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+
+	min_age = 14
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		in_command = yes
+		in_battle = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAbattle.108
+		hidden_tooltip = { troops = 0.35 }
 	}
 }
 

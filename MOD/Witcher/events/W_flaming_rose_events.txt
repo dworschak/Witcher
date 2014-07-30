@@ -6,9 +6,6 @@ namespace = flaming_rose
 # Ping event when vassalizing the Order of the Flaming Rose
 character_event = {
 	id = flaming_rose.10
-	desc = "Ping"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -42,9 +39,8 @@ letter_event = {
 # The son of a ruler volunteers to join the Order of the Flaming Rose
 character_event = {
 	id = flaming_rose.30
-	desc = "Join the Order of Flaming Rose"
-	picture = GFX_evt_crusaders
-	border = GFX_event_normal_frame_religion
+	
+	hide_window = yes
 	
 	only_men = yes
 	min_age = 15
@@ -158,8 +154,8 @@ character_event = {
 		}
 	}
 	
-	option = {
-		name = "Ask to go"
+	option = { # Ask to go
+		name = OK
 		ai_chance = {
 			factor = 100
 		}
@@ -169,8 +165,9 @@ character_event = {
 			}
 		}
 	}
-	option = {
-		name = "It's a bad idea"
+	
+	option = { # It's a bad idea
+		name = OK
 	}
 }
 # Son or brother asks to  join the Order of the Flaming Rose
@@ -182,8 +179,8 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAflaming_rose.31 # Agree
+	option = { # Agree
+		name = EVTOPTAflaming_rose.31
 		ai_chance = {
 			factor = 100
 		}
@@ -196,8 +193,8 @@ character_event = {
 		}
 	}
 	
-	option = {
-		name = EVTOPTBflaming_rose.31 # Refuse
+	option = { # Refuse
+		name = EVTOPTBflaming_rose.31
 		piety = -100
 		FROM = {
 			character_event = {
@@ -210,14 +207,11 @@ character_event = {
 # Son or brother joins the Order of the Flaming Rose
 character_event = {
 	id = flaming_rose.32
-	desc = EVTDESCflaming_rose.32
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
+	hide_window = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = EXCELLENT
 		d_flaming_rose = {
 			holder_scope = {
 				ROOT = {
@@ -234,15 +228,11 @@ character_event = {
 # Liege refuses request to join the Order of the Flaming Rose
 character_event = {
 	id = flaming_rose.33
-	desc = EVTDESCflaming_rose.33
-	picture = GFX_evt_crusaders
-	border = GFX_event_normal_frame_religion
 	
+	hide_window = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTA_SOA_1033
-		
 		opinion = {
 			who = FROM
 			modifier = opinion_refused_request_holy_order
@@ -252,9 +242,6 @@ character_event = {
 # Ping event when donating money to the Order of the Flaming Rose
 character_event = {
 	id = flaming_rose.35
-	desc ="Ping"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -292,9 +279,6 @@ letter_event = {
 # The Grand Master humbly requests the right to build a castle in your demesne
 character_event = {
 	id = flaming_rose.40
-	desc = "Being Grandmaster ain't fun"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -386,9 +370,6 @@ character_event = {
 }
 province_event = {
 	id = flaming_rose.41
-	desc = "I'm a province"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -410,9 +391,6 @@ province_event = {
 }
 character_event = {
 	id = flaming_rose.42
-	desc = "Pong"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -420,7 +398,7 @@ character_event = {
 	
 	immediate = {
 		FROMFROM = {
-			character_event = {
+			letter_event = {
 				id = flaming_rose.43
 			}
 		}
@@ -437,8 +415,8 @@ letter_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTAflaming_rose.43 # Agree
+	option = { # Agree
+		name = EVTOPTAflaming_rose.43
 		ai_chance = {
 			factor = 80
 			modifier = {
@@ -456,8 +434,8 @@ letter_event = {
 		wealth = 100
 	}
 	
-	option = {
-		name = EVTOPTBflaming_rose.43 # Refuse
+	option = { # Refuse
+		name = EVTOPTBflaming_rose.43
 		ai_chance = {
 			factor = 20
 		}
@@ -491,9 +469,6 @@ province_event = {
 # Ping event when expelling the Order of the Flaming Rose
 character_event = {
 	id = flaming_rose.50
-	desc = "Ping"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -533,7 +508,6 @@ character_event = {
 	
 	option = {
 		name = OK
-		
 	}
 }
 # Notification event when expelling the Order of the Flaming Rose
@@ -554,19 +528,14 @@ letter_event = {
 }
 
 ################################################
-# Offer to buy castle 
-################################################
-
-################################################
 # Misc
 ################################################
 # Order of the Flaming Rose member converts to Eternal Fire
 character_event = {
 	id = flaming_rose.70
-	desc = "Courtier of the Order of the Flaming Rose converts to Eternal Fire"
-	picture = GFX_evt_lunatic
 	
-	ai = yes
+	hide_window = yes
+	
 	min_age = 15
 	capable_only = yes
 	prisoner = no
@@ -589,7 +558,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "Convert"
+		name = OK
 		religion = eternal_fire
 		piety = 50
 	}
@@ -601,8 +570,6 @@ character_event = {
 # Owner - Hidden
 character_event = {
 	id = flaming_rose.100
-	desc = "Hunt monsters"
-	picture = GFX_evt_lunatic
 	
 	hide_window = yes
 	
@@ -635,7 +602,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		random_demesne_province = {
 			limit ={
 				OR = {
@@ -661,8 +628,6 @@ character_event = {
 # Province - Hidden
 province_event = {
 	id = flaming_rose.101
-	desc = "Province ping"
-	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
 	hide_window = yes
@@ -679,7 +644,7 @@ province_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		d_flaming_rose = {
 			holder_scope = {
 				character_event = { id = flaming_rose.102 }
@@ -690,14 +655,12 @@ province_event = {
 # Order of the Flaming Rose grandmaster - Ping - Hidden
 character_event = {
 	id = flaming_rose.102
-	desc = "Grandmaster ping"
-	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
 	hide_window = yes
 	
 	option = {
-		name = "OK"
+		name = OK
 		FROMFROM = {
 			letter_event = { id = flaming_rose.103 }
 		}
@@ -707,7 +670,6 @@ character_event = {
 letter_event = {
 	id = flaming_rose.103
 	desc = EVTDESCflaming_rose.103
-	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
 	
@@ -717,14 +679,11 @@ letter_event = {
 }
 
 ################################################
-# Order of the Flaming Rose waant to buy a castle
+# Order of the Flaming Rose wants to buy a castle
 ################################################
 # Hidden - The Grand Master wishes to buy a castle in your demesne
 character_event = {
 	id = flaming_rose.110
-	desc = "Being Grandmaster ain't fun"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
@@ -784,7 +743,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		d_flaming_rose = {
 			holder_scope = { character_event = { id = flaming_rose.111 }  }
 		}
@@ -793,17 +752,14 @@ character_event = {
 # Hidden - Grand Master ping
 character_event = {
 	id = flaming_rose.111
-	desc = "Grand Master ping"
-	picture = GFX_evt_knight_kneeling
-	border = GFX_event_normal_frame_religion
 	
 	hide_window = yes
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = "OK"
-		FROM = { character_event = { id = flaming_rose.112 } }
+		name = OK
+		FROM = { letter_event = { id = flaming_rose.112 } }
 	}
 }
 # The Grand Master is asking to buy a castle in your demesne

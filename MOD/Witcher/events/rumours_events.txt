@@ -2318,7 +2318,12 @@ character_event = {
 	option = {
 		name = EVTOPTB69039 #Confess to wife
 		clr_character_flag = committed_adultery
-		remove_lover = yes
+		any_lover = {
+			limit = {
+				NOT = { spouse = { character = ROOT } }
+			}
+			ROOT = { remove_lover = PREV }
+		}
 		spouse = {
 			remove_opinion = { who = ROOT modifier = opinion_mad_as_hell }
 			opinion = {

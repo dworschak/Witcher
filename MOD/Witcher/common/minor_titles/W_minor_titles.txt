@@ -3,13 +3,13 @@
 #######################################
 
 title_standard_bearer = {
-	dignity = 0.20
+	dignity = 0.1
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 15
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.004
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
@@ -41,13 +41,13 @@ title_standard_bearer = {
 }
 
 title_captain_of_the_guard = {
-	dignity = 0.20
+	dignity = 0.06
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 10
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.004
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
@@ -79,13 +79,13 @@ title_captain_of_the_guard = {
 }
 
 title_court_scribe = {
-	dignity = 0.20
+	dignity = 0.05
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 10
 	
-	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_salary = 0.01
+	monthly_prestige = 0.002
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
@@ -117,13 +117,13 @@ title_court_scribe = {
 }
 
 title_court_engineer = {
-	dignity = 0.20
+	dignity = 0.06
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 10
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.004
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
@@ -131,12 +131,7 @@ title_court_engineer = {
 		is_female = no
 		FROM = {
 			is_feudal = yes
-			primary_title = {
-				OR = {
-					tier = KING
-					tier = EMPEROR
-				}
-			}
+			higher_real_tier_than = DUKE
 		}
 		NOT = { has_minor_title = title_court_jester }
 		NOT = { has_minor_title = title_keeper_of_swans }
@@ -161,12 +156,11 @@ title_court_engineer = {
 }
 
 title_fairest_maiden = {
-	dignity = 0.20
+	dignity = 0.15
 	realm_in_name = yes
 	grant_limit = 1
 	opinion_effect = 20
 	
-	monthly_salary = 0.02
 	monthly_prestige = 0.01
 	
 	allow = {
@@ -200,28 +194,21 @@ title_fairest_maiden = {
 }
 
 title_royal_mistress = {
-	dignity = 0.20
+	dignity = 0.15
 	realm_in_name = yes
 	grant_limit = 1
 	opinion_effect = 20
 	
-	monthly_salary = 0.02
 	monthly_prestige = 0.01
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
 		is_adult = yes
 		is_female = yes
+		is_consort = FROM
 		FROM = {
 			is_feudal = yes
-			is_consort = ROOT
-			primary_title = {
-				OR = {
-					tier = DUKE
-					tier = KING
-					tier = EMPEROR
-				}
-			}
+			higher_real_tier_than = COUNT
 		}
 		NOT = { has_minor_title = title_court_jester }
 		NOT = { has_minor_title = title_keeper_of_swans }
@@ -246,13 +233,13 @@ title_royal_mistress = {
 }
 
 title_court_witcher = {
-	dignity = 100
+	dignity = 10
 	realm_in_name = no
 	grant_limit = 1
-	opinion_effect = 10
+	opinion_effect = 20
 	
-	monthly_salary = 0.04
-	monthly_prestige = 0.02
+	monthly_salary = 0.2
+	monthly_prestige = 0.006
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
@@ -260,12 +247,7 @@ title_court_witcher = {
 		trait = witcher
 		FROM = {
 			is_feudal = yes
-			primary_title = {
-				OR = {
-					tier = KING
-					tier = EMPEROR
-				}
-			}
+			higher_real_tier_than = DUKE
 		}
 		NOT = { has_minor_title = title_court_jester }
 		NOT = { has_minor_title = title_keeper_of_swans }
@@ -290,26 +272,20 @@ title_court_witcher = {
 }
 
 title_court_bard = {
-	dignity = 0.20
+	dignity = 0.04
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 10
 	
-	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_salary = 0.01
+	monthly_prestige = 0.002
 	
 	allow = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
 		is_adult = yes
 		FROM = {
 			is_feudal = yes
-			primary_title = {
-				OR = {
-					tier = DUKE
-					tier = KING
-					tier = EMPEROR
-				}
-			}
+			higher_real_tier_than = COUNT
 		}
 		NOT = { has_minor_title = title_court_jester }
 		NOT = { has_minor_title = title_keeper_of_swans }
@@ -334,6 +310,67 @@ title_court_bard = {
 }
 
 #######################################
+# REPUBLIC
+#######################################
+title_free_merchant = {
+	dignity = 0.03
+	realm_in_name = yes
+	grant_limit = 5
+	opinion_effect = 10
+	
+	monthly_salary = 0.01
+	monthly_prestige = 0.002
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			is_merchant_republic = yes
+		}
+		NOT = { has_minor_title = title_state_inquisitor }
+		NOT = { has_minor_title = title_high_admiral }
+		NOT = { has_minor_title = title_high_judge }
+		NOT = { has_minor_title = title_keeper_of_the_key }
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+	
+	message = yes
+}
+
+title_keeper_of_the_key = {
+	dignity = 0.1
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.006
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			is_merchant_republic = yes
+		}
+		NOT = { has_minor_title = title_state_inquisitor }
+		NOT = { has_minor_title = title_high_admiral }
+		NOT = { has_minor_title = title_high_judge }
+		NOT = { has_minor_title = title_free_merchant }
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+	
+	message = yes
+}
+
+#######################################
 # HAAK
 #######################################
 
@@ -343,8 +380,8 @@ title_champion = {
 	grant_limit = 1
 	opinion_effect = 20
 	
-	monthly_salary = 0.1
-	monthly_prestige = 0.075
+	monthly_salary = 0.04
+	monthly_prestige = 0.02
 	
 	allow = {
 		FROM = { has_landed_title = e_hakland }
@@ -369,8 +406,8 @@ title_master_of_the_horse = {
 	grant_limit = 1
 	opinion_effect = 10
 	
-	monthly_salary = 0.1
-	monthly_prestige = 0.075
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
 	
 	allow = {
 		FROM = { has_landed_title = e_hakland }
@@ -398,8 +435,8 @@ title_master_of_the_blade = {
 	grant_limit = 1
 	opinion_effect = 15
 	
-	monthly_salary = 0.075
-	monthly_prestige = 0.075
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
 	
 	allow = {
 		FROM = { has_landed_title = e_hakland }
@@ -426,8 +463,8 @@ title_master_of_the_bow = {
 	grant_limit = 1
 	opinion_effect = 15
 	
-	monthly_salary = 0.075
-	monthly_prestige = 0.075
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
 	
 	allow = {
 		FROM = { has_landed_title = e_hakland }
@@ -454,8 +491,8 @@ title_venerable_elder = {
 	grant_limit = 4
 	opinion_effect = 15
 	
-	monthly_salary = 0.075
-	monthly_prestige = 0.075
+	monthly_salary = 0.02
+	monthly_prestige = 0.02
 	
 	allow = {
 		FROM = { has_landed_title = e_hakland }

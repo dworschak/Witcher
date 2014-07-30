@@ -663,7 +663,6 @@ character_event = {
 		liege = {
 			job_mage = {
 				same_liege = ROOT
-				NOT = { stewardship = ROOT }
 				NOT = { has_minor_title = title_regent }
 			}
 		}
@@ -676,15 +675,9 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 120
-		modifier = {
-			factor = 0.25
-			trait = ambitious
-		}
-		modifier = {
-			factor = 5
-			trait = druid
-		}
+		months = 240
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = { factor = 0.5 has_ambition = obj_become_mage }
 	}
 	immediate = {
 		set_character_flag = asked_for_job
@@ -703,7 +696,7 @@ letter_event = {
 	picture = GFX_evt_spymaster
 	
 	is_triggered_only = yes
-
+	
 	option = {
 		name = EVTOPTAcourt.21
 		job_mage = {
@@ -720,7 +713,6 @@ letter_event = {
 			hidden_tooltip = {  letter_event = { id = court.25 } }
 		}
 		clr_character_flag = asked_mage_petition
-		
 	}
 	option = {
 		name = EVTOPTBcourt.21
@@ -815,10 +807,9 @@ character_event = {
 letter_event = {
 	id = court.24
 	desc = EVTDESCcourt.24
-	picture = GFX_evt_spymaster
-		
+	
 	is_triggered_only = yes
-
+	
 	option = {
 		name = EVTOPTAcourt.24 
 		job_mage = {
@@ -835,7 +826,6 @@ letter_event = {
 			hidden_tooltip = { letter_event = { id = court.25 } }
 		}
 		clr_character_flag = asked_mage_petition
-		
 	}
 	option = {
 		name = EVTOPTBcourt.24
@@ -855,12 +845,427 @@ letter_event = {
 letter_event = {
 	id = court.25
 	desc = EVTDESCcourt.25
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.25
+		prestige = -5
+	}
+}
+
+################################################
+# Females with very high relevant stat will ask for councillor position
+################################################
+# Female - Want to be marshal
+character_event = {
+	id = court.50
+	desc = EVTDESCcourt.50
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		martial = 22
+		liege = {
+			job_marshal = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = martial value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_marshal = {
+					ROOT = { attribute_diff = { character = PREV attribute = martial value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_marshal = {
+					ROOT = { attribute_diff = { character = PREV attribute = martial value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_marshal = {
+					ROOT = { attribute_diff = { character = PREV attribute = martial value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.50
+		liege = { letter_event = { id = court.51 tooltip = EVTTOOLTIPcourt.51 } }
+	}
+}
+# Liege - Someone wants to be my marshal
+letter_event = {
+	id = court.51
+	desc = EVTDESCcourt.51
 	picture = GFX_evt_spymaster
 	
 	is_triggered_only = yes
 
 	option = {
-		name = EVTOPTAcourt.25
-		prestige = -5
+		name = EVTOPTAcourt.51
+		job_marshal = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_marshal
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_marshal
+			give_job_title = job_marshal
+			hidden_tooltip = {  letter_event = { id = court.52 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new marshal
+letter_event = {
+	id = court.52
+	desc = EVTDESCcourt.52
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.52
+	}
+}
+# Female - Want to be spymaster
+character_event = {
+	id = court.60
+	desc = EVTDESCcourt.60
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		intrigue = 22
+		liege = {
+			job_spymaster = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_spymaster = {
+					ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_spymaster = {
+					ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_spymaster = {
+					ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.60
+		liege = { letter_event = { id = court.61 tooltip = EVTTOOLTIPcourt.61 } }
+	}
+}
+# Liege - Someone wants to be my spymaster
+letter_event = {
+	id = court.61
+	desc = EVTDESCcourt.61
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.61
+		job_spymaster = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_spymaster
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_spymaster
+			give_job_title = job_spymaster
+			hidden_tooltip = {  letter_event = { id = court.62 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new spymaster
+letter_event = {
+	id = court.62
+	desc = EVTDESCcourt.62
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.62
+	}
+}
+# Female - Want to be treasurer
+character_event = {
+	id = court.70
+	desc = EVTDESCcourt.70
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		stewardship = 22
+		liege = {
+			job_treasurer = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_treasurer = {
+					ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_treasurer = {
+					ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_treasurer = {
+					ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.70
+		liege = { letter_event = { id = court.71 tooltip = EVTTOOLTIPcourt.71 } }
+	}
+}
+# Liege - Someone wants to be my treasurer
+letter_event = {
+	id = court.71
+	desc = EVTDESCcourt.71
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.71
+		job_treasurer = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_treasurer
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_treasurer
+			give_job_title = job_treasurer
+			hidden_tooltip = {  letter_event = { id = court.72 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new treasurer
+letter_event = {
+	id = court.72
+	desc = EVTDESCcourt.72
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.72
+	}
+}
+# Female - Want to be chancellor
+character_event = {
+	id = court.80
+	desc = EVTDESCcourt.80
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		diplomacy = 22
+		liege = {
+			job_chancellor = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_chancellor = {
+					ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_chancellor = {
+					ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_chancellor = {
+					ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.80
+		liege = { letter_event = { id = court.81 tooltip = EVTTOOLTIPcourt.81 } }
+	}
+}
+# Liege - Someone wants to be my chancellor
+letter_event = {
+	id = court.81
+	desc = EVTDESCcourt.81
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.81
+		job_chancellor = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_chancellor
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_chancellor
+			give_job_title = job_chancellor
+			hidden_tooltip = {  letter_event = { id = court.82 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new chancellor
+letter_event = {
+	id = court.82
+	desc = EVTDESCcourt.82
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.82
 	}
 }

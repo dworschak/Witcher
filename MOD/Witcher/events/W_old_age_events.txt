@@ -64,17 +64,12 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAold_age.1
-		add_character_modifier = {
-			name = old_age
-			duration = -1
-		}
+		add_character_modifier = { name = old_age duration = -1 }
 	}
 }
 # Elf old age culling
 character_event = {
 	id = old_age.2
-	desc = "Old elf dies"
-	picture = GFX_evt_illness
 	
 	hide_window = yes
 	
@@ -89,7 +84,6 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 1200
-		modifier = { factor = 1 NOT = { age = 300 } }
 		modifier = { factor = 0.9 age = 300 NOT = { age = 325 } }
 		modifier = { factor = 0.8 age = 325 NOT = { age = 350 } }
 		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
@@ -99,12 +93,12 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		trigger = { NOT = { trait = incapable } }
 		death = { death_reason = death_natural }
 	}
 	option = {
-		name = "OK"
+		name = OK
 		trigger = { trait = incapable }
 		death = { death_reason = death_trait }
 	}
@@ -112,8 +106,6 @@ character_event = {
 # Incpable elf and sorcerer culling
 character_event = {
 	id = old_age.3
-	desc = "Incapable char dies"
-	picture = GFX_evt_illness
 	
 	hide_window = yes
 	
@@ -132,12 +124,13 @@ character_event = {
 	}
 	
 	option = {
-		name = "OK"
+		name = OK
 		death = { death_reason = death_trait }
 	}
 }
+
 ################################################
-# Old age  flavor events from VIET
+# Old age flavor events from VIET
 ################################################
 # Hunting in old age
 character_event = {
@@ -337,10 +330,7 @@ character_event = {
 			10 = { add_trait = humble }
 			10 = { add_trait = patient }
 		}
-		add_character_modifier = {
-			name = reminiscing
-			duration = 100
-		}
+		add_character_modifier = { name = reminiscing duration = 100 }
 	}
 	option = { #Kids don't understand hardship
 		name = EVTOPTBold_age.11
@@ -468,7 +458,7 @@ character_event = {
 character_event = {
 	id = old_age.13
 	desc = EVTDESCold_age.13
-	picture = GFX_evt_tuscan_country
+	picture = GFX_evt_illness
 	
 	is_triggered_only = yes
 	
@@ -569,7 +559,7 @@ character_event = {
 character_event = {
 	id = old_age.14 
 	desc = EVTDESCold_age.14
-	picture = GFX_evt_nightmare
+	picture = GFX_evt_illness
 	
 	is_triggered_only = yes
 	
@@ -695,5 +685,75 @@ character_event = {
 		}
 		prestige = 2
 		piety = 2
+	}
+}
+
+################################################
+# Misc. events
+################################################
+# Combat trait demotion
+character_event = {
+	id = old_age.20
+	desc = EVTDESCold_age.20
+	picture = GFX_evt_illness
+	
+	min_age = 45
+	
+	trigger = {
+		OR = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		has_character_modifier = old_age
+		NOT = { has_character_flag = demoted }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		# Personality traits
+		modifier = { factor = 1.2 trait = diligent }
+		modifier = { factor = 1.2 trait = brave }
+		modifier = { factor = 0.7 trait = slothful }
+		# Congenital traits
+		modifier = { factor = 1.5 trait = strong }
+		modifier = { factor = 1.2 trait = tall }
+		modifier = { factor = 1.2 trait = agile }
+		modifier = { factor = 1.2 trait = ambidextrous }
+		modifier = { factor = 0.7 trait = weak }
+		# Other traits
+		modifier = { factor = 2 trait = dwarven }
+		modifier = { factor = 5 trait = witcher }
+		modifier = { factor = 1.2 guardian = { trait = duelist } }
+		modifier = { factor = 1.4 guardian = { trait = veteran } }
+		modifier = { factor = 1.2 guardian = { trait = raider } }
+		modifier = { factor = 1.2 guardian = { trait = military_officer } }
+	}
+	
+	option = {
+		name = EVTOPTAold_age.20
+		if = {
+			limit = { trait = poor_warrior }
+			remove_trait = poor_warrior
+			set_character_flag = demoted
+		}
+		if = {
+			limit = { trait = trained_warrior }
+			remove_trait = trained_warrior
+			add_trait = poor_warrior
+		}
+		if = {
+			limit = { trait = skilled_warrior }
+			remove_trait = skilled_warrior
+			add_trait = trained_warrior
+			set_character_flag = demoted
+		}
+		if = {
+			limit = { trait = master_warrior }
+			remove_trait = master_warrior
+			add_trait = skilled_warrior
+			set_character_flag = demoted
+		}
 	}
 }

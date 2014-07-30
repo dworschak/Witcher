@@ -189,6 +189,15 @@ claim = {
 	defender_ai_defeat_worth = {
 		factor = 100
 	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
+	}
 }
 
 other_claim = {
@@ -516,6 +525,15 @@ other_claim = {
 					}
 				}
 			}
+		}
+	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
 		}
 	}
 }
@@ -1121,11 +1139,9 @@ other_claim_on_liege = {
 			}
 			FROMFROM = { has_character_flag = faction_claimant_ultimatum_taken } # Faction war. Ignore claim strength.
 		}
-
-		OR = {
-			FROM = {
-				has_landed_title = PREV
-			}
+		
+		FROM = {
+			has_landed_title = PREV
 		}
 		
 		OR = { 
@@ -1605,6 +1621,15 @@ claim_all = {
 	
 	defender_ai_defeat_worth = {
 		factor = 100
+	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
 	}
 }
 
@@ -2244,8 +2269,10 @@ invasion = {
 			prestige = -200
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_succeeded
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 
@@ -2289,8 +2316,10 @@ invasion = {
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_failed
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 
@@ -2314,8 +2343,10 @@ invasion = {
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_failed
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 
@@ -2435,8 +2466,10 @@ tribal_invasion = {
 			}
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_succeeded
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 	
@@ -2471,8 +2504,10 @@ tribal_invasion = {
 			prestige = -200
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_failed
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 
@@ -2496,8 +2531,10 @@ tribal_invasion = {
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_failed
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 
@@ -2637,49 +2674,49 @@ bid_for_independence = {
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		any_demesne_title = { # All titles
-				limit = {
-					OR = {
-						tier = king
-						tier = emperor
-					}
+			limit = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
 #					is_titular = no
-					NOT = { has_law = crown_levy_0 }
-				}
-				if = {
-					limit = { has_law = crown_levy_1 }
-					add_law = crown_levy_0
-				}
-				if = {
-					limit = { has_law = crown_levy_2 }
-					add_law = crown_levy_1
-				}
-				if = {
-					limit = { has_law = crown_levy_3 }
-					add_law = crown_levy_2
-				}
+				NOT = { has_law = crown_levy_0 }
 			}
-			any_demesne_title = { # All titles
-				limit = {
-					OR = {
-						tier = king
-						tier = emperor
-					}
+			if = {
+				limit = { has_law = crown_levy_1 }
+				add_law = crown_levy_0
+			}
+			if = {
+				limit = { has_law = crown_levy_2 }
+				add_law = crown_levy_1
+			}
+			if = {
+				limit = { has_law = crown_levy_3 }
+				add_law = crown_levy_2
+			}
+		}
+		any_demesne_title = { # All titles
+			limit = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
 #					is_titular = no
-					NOT = { has_law = crown_obligation_0 }
-				}
-				if = {
-					limit = { has_law = crown_obligation_1 }
-					add_law = crown_obligation_0
-				}
-				if = {
-					limit = { has_law = crown_obligation_2 }
-					add_law = crown_obligation_1
-				}
-				if = {
-					limit = { has_law = crown_obligation_3 }
-					add_law = crown_obligation_2
-				}
+				NOT = { has_law = crown_obligation_0 }
 			}
+			if = {
+				limit = { has_law = crown_obligation_1 }
+				add_law = crown_obligation_0
+			}
+			if = {
+				limit = { has_law = crown_obligation_2 }
+				add_law = crown_obligation_1
+			}
+			if = {
+				limit = { has_law = crown_obligation_3 }
+				add_law = crown_obligation_2
+			}
+		}
 	}
 	
 	on_fail = {
@@ -4317,6 +4354,11 @@ embargo_cb = {
 				opinion = { who = FROM value = -25 }
 			}
 		}
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
 	}
 }
 
@@ -4551,13 +4593,6 @@ peasant_revolt = {
 				}
 			}
 		}
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-			top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } }
-		}
 	}
 	
 	on_reverse_demand_title = {
@@ -4583,13 +4618,6 @@ peasant_revolt = {
 					days = -1
 				}
 			}
-		}
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-			top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } }
 		}
 	}
 	
@@ -4676,13 +4704,6 @@ religious_revolt = {
 				modifier = won_religious_revolt
 			}
 		}
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-			top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } }
-		}
 	}
 	
 	on_reverse_demand_title = {
@@ -4713,13 +4734,6 @@ religious_revolt = {
 			religion_authority = {
 				modifier = won_religious_revolt
 			}
-		}
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-			top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } }
 		}
 	}
 	
@@ -4838,13 +4852,6 @@ liberation_revolt = {
 				remove_trait = inspiring_leader
 			}
 		}
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-			top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } }
-		}
 	}
 	
 	on_reverse_demand_title = {
@@ -4872,13 +4879,6 @@ liberation_revolt = {
 				}
 				remove_trait = inspiring_leader
 			}
-		}
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-			top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } }
 		}
 	}
 	
@@ -4937,8 +4937,10 @@ duchy_adventure = {
 			prestige = -250 
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_succeeded
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 	
@@ -4977,8 +4979,10 @@ duchy_adventure = {
 	
 		ROOT = { prestige = -100 }
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_failed
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 	
@@ -5003,8 +5007,10 @@ duchy_adventure = {
 			}
 		}
 		ROOT = {
-			if = { has_character_flag = obj_expand_by_conquest_taken }
-			set_character_flag = obj_expand_by_conquest_failed
+			if = {
+				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				set_character_flag = obj_expand_by_conquest_succeeded
+			}
 		}
 	}
 	
@@ -5208,6 +5214,15 @@ dejure_county_claim = {
 	defender_ai_defeat_worth = {
 		factor = 100
 	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
+	}
 }
 
 dejure_barony_claim = {
@@ -5229,11 +5244,9 @@ dejure_barony_claim = {
 	can_use_title = {
 		tier = baron
 		dejure_liege_title = {
-			AND = {
-				has_holder = yes
-				ROOT = {
-					has_landed_title = PREV
-				}
+			has_holder = yes
+			ROOT = {
+				has_landed_title = PREV
 			}
 		}
 		
@@ -5348,6 +5361,15 @@ dejure_barony_claim = {
 	defender_ai_defeat_worth = {
 		factor = 75
 	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
+	}
 }
 
 other_dejure_barony_claim = {
@@ -5375,11 +5397,9 @@ other_dejure_barony_claim = {
 		tier = baron
 		
 		dejure_liege_title = {
-			AND = {
-				has_holder = yes
-				ROOT = {
-					has_landed_title = PREV
-				}
+			has_holder = yes
+			ROOT = {
+				has_landed_title = PREV
 			}
 		}
 		
@@ -5505,6 +5525,15 @@ other_dejure_barony_claim = {
 	defender_ai_defeat_worth = {
 		factor = 100
 	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
+	}
 }
 
 other_dejure_county_claim = {
@@ -5539,11 +5568,9 @@ other_dejure_county_claim = {
 	can_use_title = {
 		tier = count
 		dejure_liege_title = {
-			AND = {
-				has_holder = yes
-				ROOT = {
-					has_landed_title = PREV
-				}
+			has_holder = yes
+			ROOT = {
+				has_landed_title = PREV
 			}
 		}
 
@@ -5690,5 +5717,14 @@ other_dejure_county_claim = {
 	
 	defender_ai_defeat_worth = {
 		factor = 100
+	}
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0.5
+			ROOT = { religion = eternal_fire }
+			FROM = { has_landed_title = k_eternal_fire }
+		}
 	}
 }

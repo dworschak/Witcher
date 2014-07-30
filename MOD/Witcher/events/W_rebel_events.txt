@@ -1,29 +1,25 @@
-namespace = rebels
-# TO DO - change that any province in same duchy can reinforce ongoing revolt
-# TO DO - make that number of paralel revolts depend on realm size
-# TO DO - rethink how revolt timer works
+namespace = rebel
 
 ################################################
 # Main rebel selection event (on_rebel_revolt)
 ################################################
 province_event = {
-	id = rebels.1
-	desc = "Why the hell ..."
-	picture = GFX_evt_peasants
+	id = rebel.1
 	
-	is_triggered_only = yes
 	hide_window = yes
+	is_triggered_only = yes
 	
 	trigger = {
 		owner = {
 			NOT = { culture = wilderness}
-			top_liege = { NOT = { has_character_modifier = revolt_timer } }
 		}
 		NOT = { culture = magic}
 		has_dlc = "The Old Gods"
 	}
 	
-	immediate = { # Check for any ongoing revolt
+	immediate = {
+		add_province_modifier = { name = province_revolted duration = 1825 }
+		# Check for any ongoing revolt
 		if = { # Peasant revolt
 			limit = {
 				owner = {
@@ -31,15 +27,13 @@ province_event = {
 						war = yes
 						any_war = {
 							defender = { character = PREV }
-							AND = {
-								using_cb = peasant_revolt
-								war_title = ROOT
-							}
+							using_cb = peasant_revolt
+							war_title = ROOT
 						}
 					}
 				}
 			}
-			owner = { set_character_flag = ongoing_peasant_revolt }
+			set_province_flag = ongoing_peasant_revolt
 		}
 		if = {# Religious revolt
 			limit = {
@@ -48,15 +42,13 @@ province_event = {
 						war = yes
 						any_war = {
 							defender = { character = PREV }
-							AND = { 
-								using_cb = religious_revolt
-								attacker = { religion = ROOT }
-							}
+							using_cb = religious_revolt
+							attacker = { religion = ROOT }
 						}
 					}
 				}
 			}
-			owner = { set_character_flag = ongoing_religious_revolt }
+			set_province_flag = ongoing_religious_revolt
 		}
 		if = { # Nationalist revolt
 			limit = {
@@ -65,13 +57,11 @@ province_event = {
 						war = yes
 						any_war = {
 							defender = { character = PREV }
-							AND = {
-								using_cb = liberation_revolt
-								thirdparty_title_scope = {
-									ROOT = {
-										kingdom = {
-											title = PREVPREV
-										}
+							using_cb = liberation_revolt
+							thirdparty_title_scope = {
+								ROOT = {
+									kingdom = {
+										title = PREVPREV
 									}
 								}
 							}
@@ -79,7 +69,7 @@ province_event = {
 					}
 				}
 			}
-			owner = { set_character_flag = ongoing_nationalist_revolt }
+			set_province_flag = ongoing_nationalist_revolt
 		}
 		if = { # Scoitael revolt
 			limit = {
@@ -88,31 +78,29 @@ province_event = {
 						war = yes
 						any_war = {
 							defender = { character = PREV }
-							AND = {
-								using_cb = scoiatael_revolt
-								war_title = ROOT
-							}
+							using_cb = scoiatael_revolt
+							war_title = ROOT
 						}
 					}
 				}
 			}
-			owner = { set_character_flag = ongoing_scoiatael_revolt }
+			set_province_flag = ongoing_scoiatael_revolt
 		}
 	}
 	
-	# Start a new revolt
-	option = {
-		name = "Start scoiatael revolt"
+ 	# Start a new revolt
+	option = { # Start Scoia'tael revolt
+		name = OK
 		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
 			owner = {
-				NOT = {
-					has_character_flag = ongoing_peasant_revolt
-					has_character_flag = ongoing_religious_revolt
-					has_character_flag = ongoing_nationalist_revolt
-					has_character_flag = ongoing_scoiatael_revolt
-				}
+				trait = human # Only against human rulers
 				top_liege = {
-					trait = human # Only against human rulers
 					NOT = {
 						trait = kind2 # Not against Saskia
 						trait = tolerant
@@ -120,12 +108,17 @@ province_event = {
 				}
 			}
 		}
+		province_event = { id = rebel.10 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 1000
 			modifier = {
-				factor = 0.001
+				factor = 0.0005
 				NOT = { # If not non-human religion or culture, then make as a bit less common than normal peasant revolt
-					culture = elven
+					culture = aen_seidhe
 					culture = dwarven
 					religion = dana_meadbh
 					religion = dwarven
@@ -133,19 +126,17 @@ province_event = {
 			}
 			modifier = { factor = 10 has_province_modifier = scoiatael_presence }
 		}
-		province_event = { id = rebels.10 }
-		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
-	option = {
-		name = "Start nationalist revolt"
+	option = { # Start nationalist revolt
+		name = OK
 		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
 			owner = {
-				NOT = {
-					has_character_flag = ongoing_peasant_revolt
-					has_character_flag = ongoing_religious_revolt
-					has_character_flag = ongoing_nationalist_revolt
-					has_character_flag = ongoing_scoiatael_revolt
-				}
 				top_liege = {
 					NOT = { culture = ROOT }
 				}
@@ -156,22 +147,25 @@ province_event = {
 				any_previous_holder = { always = yes } # Must have had a holder in the past
 			}
 		}
+		province_event = { id = TOG.1040 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 1000
 		}
-		province_event = { id = TOG.1040 }
-		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
-	option = {
-		name = "Start religious revolt"
+	option = { # Start religious revolt
+		name = OK
 		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
 			owner = {
-				NOT = {
-					has_character_flag = ongoing_peasant_revolt
-					has_character_flag = ongoing_religious_revolt
-					has_character_flag = ongoing_nationalist_revolt
-					has_character_flag = ongoing_scoiatael_revolt
-				}
 				top_liege = {
 					NOT = { religion_group = ROOT }
 				}
@@ -181,108 +175,106 @@ province_event = {
 				religion = dwarven
 			}
 		}
+		province_event = { id = TOG.1060 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 100
 			modifier = { factor = 0.1 religion = spider } # It's not really religion that would openly try to revolt 
 		}
-		province_event = { id = TOG.1060 }
-		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
-	option = {
-		name = "Start peasant revolt"
+	option = { # Start peasant revolt
+		name = OK
 		trigger = {
-			owner = {
-				NOT = {
-					has_character_flag = ongoing_peasant_revolt
-					has_character_flag = ongoing_religious_revolt
-					has_character_flag = ongoing_nationalist_revolt
-					has_character_flag = ongoing_scoiatael_revolt
-				}
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
 			}
 		}
+		province_event = { id = TOG.1000 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 10
 		}
-		province_event = { id = TOG.1000 }
-		# owner = { top_liege = { add_character_modifier = { name = revolt_timer duration = 730 hidden = yes } } }
 	}
-	
-	# Reinforce the ongoing revolt if any
-	option = {
-		name = "Reinforce scoiatael revolt"
+	# Reinforce the ongoing revolt
+	option = { # Reinforce Scoia'tael revolt
+		name = OK
 		trigger = {
-			owner = { has_character_flag = ongoing_scoiatael_revolt }
+			has_province_flag = ongoing_scoiatael_revolt
 		}
+		province_event = { id = rebel.13 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 10000
 		}
-		province_event = { id = rebels.13 }
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-		}
 	}
-	option = {
-		name = "Reinforce nationalist revolt"
+	option = { # Reinforce nationalist revolt
+		name = OK
 		trigger = {
-			owner = { has_character_flag = ongoing_nationalist_revolt }
+			has_province_flag = ongoing_nationalist_revolt
 		}
+		province_event = { id = TOG.1050 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 1000
 		}
-		province_event = { id = TOG.1050 }
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-		}
 	}
-	option = {
-		name = "Reinforce religious revolt"
+	option = { # Reinforce religious revolt
+		name = OK
 		trigger = {
-			owner = { has_character_flag = ongoing_religious_revolt }
+			has_province_flag = ongoing_religious_revolt
 		}
+		province_event = { id = TOG.1070 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 100
 		}
-		province_event = { id = TOG.1070 }
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-		}
 	}
-	option = {
-		name = "Reinforce peasant revolt"
+	option = { # Reinforce peasant revolt
+		name = OK
 		trigger = {
-			owner = { has_character_flag = ongoing_peasant_revolt }
+			has_province_flag = ongoing_peasant_revolt
 		}
+		province_event = { id = TOG.1010 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 10
 		}
-		province_event = { id = TOG.1010 }
-		owner = {
-			clr_character_flag = ongoing_peasant_revolt
-			clr_character_flag = ongoing_religious_revolt
-			clr_character_flag = ongoing_nationalist_revolt
-			clr_character_flag = ongoing_scoiatael_revolt
-		}
 	}
-	
 	# Don't revolt
-	option = {
-		name = "Do nothing"
+	option = { # Do nothing
+		name = OK
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
 			factor = 10000
 			modifier = {
 				factor = 0
 				NOT = {
 					terrain = dryad_forest
-					holder_scope = { trait = dryad }
+					owner = { trait = dryad }
 				}
 			}
 		}
@@ -290,12 +282,12 @@ province_event = {
 }
 
 ################################################
-# Scoiatael Rebels
+# Scoia'tael Rebels
 ################################################
-# Scoiatael Rebels rise up temporary rebel title created, with a leader and a war (rebels.1)
+# Scoia'tael Rebels rise up temporary rebel title created, with a leader and a war (rebel.1)
 province_event = {
-	id = rebels.10
-	desc = EVTDESCrebels.10
+	id = rebel.10
+	desc = EVTDESCrebel10
 	picture = GFX_evt_peasants
 	border = GFX_event_normal_frame_war
 	
@@ -306,7 +298,7 @@ province_event = {
 			random_traits = yes
 			dynasty = none
 			religion = dana_meadbh
-			culture = elven
+			culture = aen_seidhe
 			female = no
 			#age =25
 			attributes = {
@@ -321,9 +313,25 @@ province_event = {
 					ROOT = {
 						owner = {
 							top_liege = {
-								any_playable_ruler = {
-									has_character_flag = supported_scoiatael
-									count = 2
+								OR = {
+									any_playable_ruler = {
+										count = 2
+										has_character_flag = supported_scoiatael
+									}
+									any_realm_province = {
+										count = 2
+										has_province_modifier = supports_scoiatael
+									}
+									AND = {
+										any_playable_ruler = {
+											count = 1
+											has_character_flag = supported_scoiatael
+										}
+										any_realm_province = {
+											count = 1
+											has_province_modifier = supports_scoiatael
+										}
+									}
 								}
 							}
 						}
@@ -737,9 +745,15 @@ province_event = {
 					ROOT = {
 						owner = {
 							top_liege = {
-								any_playable_ruler = {
-									has_character_flag = supported_scoiatael
-									count = 1
+								OR = {
+									any_playable_ruler = {
+										count = 1
+										has_character_flag = supported_scoiatael
+									}
+									any_realm_province = {
+										count = 1
+										has_province_modifier = supports_scoiatael
+									}
 								}
 							}
 						}
@@ -800,9 +814,35 @@ province_event = {
 					ROOT = {
 						owner = {
 							top_liege = {
-								any_playable_ruler = {
-									has_character_flag = supported_scoiatael
-									count = 3
+								OR = {
+									any_playable_ruler = {
+										count = 3
+										has_character_flag = supported_scoiatael
+									}
+									any_realm_province = {
+										count = 3
+										has_province_modifier = supports_scoiatael
+									}
+									AND = {
+										any_playable_ruler = {
+											count = 2
+											has_character_flag = supported_scoiatael
+										}
+										any_realm_province = {
+											count = 1
+											has_province_modifier = supports_scoiatael
+										}
+									}
+									AND = {
+										any_playable_ruler = {
+											count = 1
+											has_character_flag = supported_scoiatael
+										}
+										any_realm_province = {
+											count = 2
+											has_province_modifier = supports_scoiatael
+										}
+									}
 								}
 							}
 						}
@@ -857,10 +897,10 @@ province_event = {
 					}
 				}
 			}
-			# DoW on the province top liege
 			ROOT = {
 				owner = {
 					top_liege = {
+						# DoW on the province top liege
 						reverse_war = {
 							target = PREVPREVPREV
 							casus_belli = scoiatael_revolt
@@ -870,16 +910,15 @@ province_event = {
 							who = PREVPREVPREV
 							modifier = opinion_evil_tyrant
 						}
-					}
-				}
-			}
-			# Opinion modifier against supporters
-			owner = {
-				top_liege = {
-					any_realm_character = {
-						limit = { has_character_flag = supported_scoiatael }
-						reverse_opinion = { modifier = opinion_supported_revolt who = PREVPREVPREV }
-						clr_character_flag = supported_scoiatael
+						# Opinion modifier against supporters
+						any_realm_character = {
+							limit = { has_character_flag = supported_scoiatael }
+							reverse_opinion = { modifier = opinion_supported_revolt who = PREVPREVPREV }
+							clr_character_flag = supported_scoiatael
+						}
+						any_realm_province = {
+							remove_province_modifier = supports_scoiatael
+						}
 					}
 				}
 			}
@@ -887,34 +926,32 @@ province_event = {
 		owner = {
 			any_liege = { # Inform the lieges
 				character_event = {
-					id = rebels.11
+					id = rebel.11
 				}
 			}
 		}
 	}
 	
 	option = {
-		name = EVTOPTArebels.10
+		name = EVTOPTArebel10
 	}
 }
 # Liege notification
 character_event = {
-	id = rebels.11
-	desc = EVTDESCrebels.11
+	id = rebel.11
+	desc = EVTDESCrebel11
 	picture = GFX_evt_peasants
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTArebels.11
+		name = EVTOPTArebel11
 	}
 }
-# Scoiatael Rebels seize a holding (on_siege_won_leader)
+# Scoia'tael Rebels seize a holding (on_siege_won_leader)
 character_event = {
-	id = rebels.12
-	picture = GFX_evt_siege
-	desc = OK
+	id = rebel.12
 	
 	hide_window = yes
 	is_triggered_only = yes
@@ -947,10 +984,10 @@ character_event = {
 		name = OK
 	}
 }
-# Scoiatael Rebels rise up to reinforce an ongoing provincial Scoiatael revolt (rebels.1)
+# Scoia'tael Rebels rise up to reinforce an ongoing provincial Scoia'tael revolt (rebel.1)
 province_event = {
-	id = rebels.13
-	desc = EVTDESCrebels.13
+	id = rebel.13
+	desc = EVTDESCrebel13
 	picture = GFX_evt_peasants
 	border = GFX_event_normal_frame_war
 	
@@ -1408,7 +1445,7 @@ province_event = {
 		owner = {
 			any_liege = { # Inform the lieges
 				character_event = {
-					id = rebels.14
+					id = rebel.14
 				}
 			}
 		}
@@ -1419,14 +1456,14 @@ province_event = {
 	}
 }
 character_event = {
-	id = rebels.14
-	desc = EVTDESCrebels.14
+	id = rebel.14
+	desc = EVTDESCrebel14
 	picture = GFX_evt_peasants
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTArebels.13
+		name = EVTOPTArebel13
 	}
 }

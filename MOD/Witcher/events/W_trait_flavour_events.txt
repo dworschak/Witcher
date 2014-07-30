@@ -1,0 +1,2993 @@
+namespace = trait
+
+################################################
+# Various trait events from VIET
+################################################
+# Slothful - Don't Like Working
+character_event = {
+	id = trait_flavour.1
+	desc = EVTDESCtrait_flavour.1
+	picture = GFX_evt_garden
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = slothful
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 3
+			trait = content
+		}
+		modifier = {
+			factor = 1.5
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 1.2
+			trait = humble
+		}
+		modifier = {
+			factor = 0.6
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.9
+			trait = just
+		}
+		modifier = {
+			factor = 0.9
+			trait = brave
+		}
+		modifier = {
+			factor = 0.9
+			trait = proud
+		}
+	}
+	
+	option = { #Go Sleep
+		name = EVTOPTAtrait_flavour.1
+		prestige = -1
+	}
+	option = { #EAT!
+		name = EVTOPTBtrait_flavour.1
+		random_list = {
+			75 = { }
+			25 = { add_trait = gluttonous }
+		}
+	}
+	option = { #Good enough
+		name = EVTOPTCtrait_flavour.1
+		tooltip_info = content
+		trigger = { 
+			trait = content
+		}
+		scaled_wealth = 0.05
+	}
+	option = { #Don't want to deal with people
+		name = EVTOPTDtrait_flavour.1
+		random_list = {
+			75 = { }
+			25 = { add_trait = shy }
+		}
+	}
+}
+# Diligent - feel asleep working last night
+character_event = {
+	id = trait_flavour.2
+	desc = EVTDESCtrait_flavour.2
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = diligent
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = stressed
+		}
+		modifier = {
+			factor = 2.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.6
+			trait = content
+		}
+		modifier = {
+			factor = 0.9
+			trait = gluttonous
+		}
+	}
+	
+	option = { #Maybe take a break
+		name = EVTOPTAtrait_flavour.2
+		add_character_modifier = {
+			name = taking_a_break
+			duration = 90
+		}
+		random_list = {
+			80 = { }
+			20 = { remove_trait = diligent }
+		}
+	}
+	option = { #WORK HARDER
+		name = EVTOPTBtrait_flavour.2
+		prestige = 5
+		random_list = {
+			50 = { }
+			25 = { add_trait = ill }
+			25 = { add_trait = stressed }
+		}
+	}
+	option = { #Pray for strength
+		name = EVTOPTCtrait_flavour.2
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		piety = 5
+		random_list = {
+			70 = { }
+			15 = { add_trait = ill }
+			15 = { add_trait = stressed }
+		}
+	}
+	option = { #This is nothing
+		name = EVTOPTDtrait_flavour.2
+		tooltip_info = strong
+		trigger = {
+			trait = strong
+			base_health = 4
+		}
+		prestige = 10
+	}
+}
+# Greedy - coin purse on the ground during Summer Fair
+character_event = {
+	id = trait_flavour.3
+	desc = EVTDESCtrait_flavour.3
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		has_character_modifier = holding_summer_fair
+		trait = greedy
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = deceitful
+		}
+		modifier = {
+			factor = 1.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.7
+			trait = honest
+		}
+		modifier = {
+			factor = 0.8
+			trait = kind
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+	}
+	
+	option = { #All mine
+		name = EVTOPTAtrait_flavour.3
+		add_character_modifier = {
+			name = the_greedy
+			duration = 90
+		}
+		wealth = 5
+	}
+	option = { #Give back to owner
+		name = EVTOPTBtrait_flavour.3
+		tooltip_info = kind
+		trigger = {
+			trait = kind
+		}
+		piety = 5
+		random_list = {
+			75 = { }
+			25 = { remove_trait = greedy }
+		}
+	}
+	option = { #Too lazy
+		name = EVTOPTCtrait_flavour.3
+		tooltip_info = slothful
+		trigger = {
+			trait = slothful
+		}
+		random_list = {
+			80 = { }
+			20 = { remove_trait = greedy }
+		}
+	}
+	option = { #Justice does not allow this
+		name = EVTOPTDtrait_flavour.3
+		tooltip_info = just
+		trigger = {
+			trait = just
+		}
+		prestige = 5
+		random_list = {
+			70 = { }
+			30 = { remove_trait = greedy }
+		}
+	}
+}
+# Charitable - Beggar Girl
+character_event = {
+	id = trait_flavour.4
+	desc = EVTDESCtrait_flavour.4
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = charitable
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 5
+			trait = kind
+		}
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 1.2
+			trait = patient
+		}
+		modifier = {
+			factor = 1.2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.4
+			trait = cruel
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.8
+			trait = lustful
+		}
+		modifier = {
+			factor = 0.65
+			trait = shy
+		}
+	}
+	
+	option = { #Have my coin purse
+		name = EVTOPTAtrait_flavour.4
+		add_character_modifier = {
+			name = the_kind
+			duration = 90
+		}
+		wealth = -3
+	}
+	option = { #Bring them into monastery
+		name = EVTOPTBtrait_flavour.4
+		tooltip_info = kind
+		trigger = {
+			trait = kind
+		}
+		piety = 5
+		random_list = {
+			80 = { }
+			20 = { add_trait = zealous }
+		}
+	}
+	option = { #Share tasty food
+		name = EVTOPTCtrait_flavour.4
+		tooltip_info = gluttonous
+		trigger = {
+			trait = gluttonous
+		}
+		prestige = 5
+	}
+	option = { #Bring them into court as servants
+		name = EVTOPTDtrait_flavour.4
+		ai_chance = {
+			factor = 20
+		}
+		tooltip_info = kind
+		trigger = {
+			trait = kind
+			prestige = 200
+		}
+		wealth = -15
+		add_character_modifier = {
+			name = the_kind
+			duration = 365
+		}
+	}
+}
+# Content - Fine with illness or disability
+character_event = {
+	id = trait_flavour.5
+	desc = EVTDESCtrait_flavour.5
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = content
+		OR = {
+			trait = ill
+			trait = pneumonic
+			trait = has_tuberculosis
+			trait = has_typhoid_fever
+			trait = has_typhus
+			trait = has_bubonic_plague
+			trait = has_measles
+			trait = has_small_pox
+			trait = wounded
+			trait = maimed
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 1.2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.6
+			trait = weak
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.8
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.6
+			trait = envious
+		}
+	}
+	
+	option = { #Happy with situation
+		name = EVTOPTAtrait_flavour.5
+		prestige = 5
+	}
+	option = { #Wil of God!
+		name = EVTOPTBtrait_flavour.5
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		piety = 5
+	}
+	option = { #Strong
+		name = EVTOPTCtrait_flavour.5
+		ai_chance = {
+			factor = 1000
+		}
+		tooltip_info = strong
+		trigger = {
+			trait = strong
+			base_health = 4
+		}
+		prestige = 15
+	}
+	option = { #Esoteric philosophical nonsense
+		name = EVTOPTDtrait_flavour.5
+		tooltip_info = scholar
+		trigger = {
+			trait = scholar
+		}
+		wealth = -15
+		add_character_modifier = {
+			name = deep_contemplation
+			duration = 120
+		}
+	}
+}
+# Ambitious - Ruler wants to improve image
+character_event = {
+	id = trait_flavour.6
+	desc = EVTDESCtrait_flavour.6
+	picture = GFX_evt_holy_emperor
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = ambitious
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 3
+			trait = diligent
+		}
+		modifier = {
+			factor = 1.2
+			trait = just
+		}
+		modifier = {
+			factor = 1.2
+			trait = proud
+		}
+		modifier = {
+			factor = 1.2
+			trait = greedy
+		}
+		modifier = {
+			factor = 1.2
+			trait = envious
+		}
+		modifier = {
+			factor = 0.6
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+		modifier = {
+			factor = 0.8
+			trait = patient
+		}
+	}
+	
+	option = { #Glory and honor
+		name = EVTOPTAtrait_flavour.6
+		random_list = {
+			50 = { }
+			35 = { add_trait = brave }
+			15 = { add_trait = gregarious }
+		}
+	}
+	option = { #Good rule
+		name = EVTOPTBtrait_flavour.6
+		random_list = {
+			50 = { }
+			25 = { add_trait = just }
+			25 = { add_trait = charitable }
+		}
+	}
+	option = { #Pious leader
+		name = EVTOPTCtrait_flavour.6
+		random_list = {
+			50 = { }
+			25 = { add_trait = zealous }
+			25 = { add_trait = chaste }
+		}
+	}
+	option = { #Feared
+		name = EVTOPTDtrait_flavour.6
+		ai_chance = {
+			factor = 1
+			
+			modifier = {
+				factor = 0.1
+				trait = kind
+			}
+			modifier = {
+				factor = 0.1
+				trait = trusting
+			}
+			modifier = {
+				factor = 0.1
+				trait = just
+			}
+		}
+		random_list = {
+			50 = { }
+			25 = { add_trait = cruel }
+			25 = { add_trait = cynical }
+		}
+	}
+}
+# Arbitrary - Silence after arbitrary sentencing
+character_event = {
+	id = trait_flavour.7
+	desc = EVTDESCtrait_flavour.7
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = arbitrary
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = wroth
+		}
+		modifier = {
+			factor = 1.5
+			trait = envious
+		}
+		modifier = {
+			factor = 1.5
+			trait = proud
+		}
+		modifier = {
+			factor = 1.5
+			trait = greedy
+		}
+		modifier = {
+			factor = 1.5
+			trait = impaler
+		}
+		modifier = {
+			factor = 0.9
+			trait = scholar
+		}
+		modifier = {
+			factor = 0.8
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.8
+			trait = humble
+		}
+		modifier = {
+			factor = 0.6
+			trait = patient
+		}
+	}
+	
+	option = { #What?
+		name = EVTOPTAtrait_flavour.7
+		prestige = -10
+	}
+	
+	option = { #Remains silent with everybody
+		name = EVTOPTBtrait_flavour.7
+		tooltip_info = shy
+		trigger = {
+			trait = shy
+		}
+		ai_chance = {
+			factor = 5
+		}
+	}
+}
+# Just - Peasants love it
+character_event = {
+	id = trait_flavour.8
+	desc = EVTDESCtrait_flavour.8
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = just
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2.5
+			trait = kind
+		}
+		modifier = {
+			factor = 2
+			trait = charitable
+		}
+		modifier = {
+			factor = 1.5
+			trait = humble
+		}
+		modifier = {
+			factor = 1.5
+			trait = honest
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.8
+			trait = deceitful
+		}
+		modifier = {
+			factor = 0.8
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.8
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.6
+			trait = cruel
+		}
+	}
+	
+	option = { #Justice prevails!
+		name = EVTOPTAtrait_flavour.8
+		prestige = 10
+	}
+	option = { #Justice is blind (thanks richvh)
+		name = EVTOPTBtrait_flavour.8
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = blinded
+		trigger = {
+			trait = blinded
+		}
+		prestige = 10
+		add_character_modifier = {
+			name = justice_is_blind
+			duration = 365
+		}
+	}
+}
+# Wroth - anger means none dare cross
+character_event = {
+	id = trait_flavour.9
+	desc = EVTDESCtrait_flavour.9
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		is_ruler = yes
+		trait = wroth
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 1.4
+			trait = cruel
+		}
+		modifier = {
+			factor = 1.2
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 1.2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.95
+			trait = kind
+		}
+		modifier = {
+			factor = 0.95
+			trait = temperate
+		}
+		modifier = {
+			factor = 0.95
+			trait = humble
+		}
+	}
+	
+	option = { #I RULE!
+		name = EVTOPTAtrait_flavour.9
+		random_list = {
+			20 = { }
+			20 = { add_trait = cruel }
+			20 = { add_trait = greedy }
+			20 = { add_trait = ambitious }
+			20 = { add_trait = arbitrary }
+		}
+	}
+	option = { #Must be a good ruler
+		name = EVTOPTBtrait_flavour.9
+		random_list = {
+			60 = { prestige = 5 }
+			20 = { add_trait = patient }
+			20 = { add_trait = just }
+		}
+	}
+	option = { #Want people to trust me :(
+		name = EVTOPTCtrait_flavour.9
+		ai_chance = {
+			factor = 10
+		}
+		tooltip_info = kind
+		trigger = {
+			trait = kind
+		}
+		random_list = {
+			50 = { prestige = 5 }
+			20 = { add_trait = patient }
+			30 = { change_diplomacy = 1 }
+		}
+	}
+	option = { #Enemies fear me
+		name = EVTOPTDtrait_flavour.9
+		ai_chance = {
+			factor = 5
+		}
+		tooltip_info = brave
+		trigger = {
+			trait = brave
+		}
+		random_list = {
+			70 = { prestige = 5 }
+			30 = { change_martial = 1 }
+		}
+	}
+}
+# Patient - Listening to the opinions of others
+character_event = {
+	id = trait_flavour.10
+	desc = EVTDESCtrait_flavour.10
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = patient
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.5
+			trait = kind
+		}
+		modifier = {
+			factor = 1.5
+			trait = just
+		}
+		modifier = {
+			factor = 1.3
+			trait = humble
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.8
+			trait = envious
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.6
+			trait = proud
+		}
+	}
+	
+	option = { #Every opinion is flawed
+		name = EVTOPTAtrait_flavour.10
+		random_list = {
+			40 = { }
+			20 = { add_trait = cynical }
+			20 = { add_trait = humble }
+			20 = { add_trait = arbitrary }
+		}
+	}
+	option = { #Everyone deserves to be heard
+		name = EVTOPTBtrait_flavour.10
+		random_list = {
+			40 = { }
+			20 = { add_trait = kind }
+			20 = { add_trait = just }
+			20 = { add_trait = humble }
+		}
+	}
+	option = { #I want to be a great ruler
+		name = EVTOPTCtrait_flavour.10
+		random_list = {
+			40 = { }
+			20 = { add_trait = ambitious }
+			20 = { add_trait = proud }
+			20 = { add_trait = envious }
+		}
+	}
+}
+# Envious - Why is everyone better than me?
+character_event = {
+	id = trait_flavour.11
+	desc = EVTDESCtrait_flavour.11
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = envious
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 1.5
+			trait = proud
+		}
+		modifier = {
+			factor = 1.3
+			trait = humble
+		}
+		modifier = {
+			factor = 1.3
+			trait = deceitful
+		}
+		modifier = {
+			factor = 0.9
+			trait = kind
+		}
+		modifier = {
+			factor = 0.6
+			trait = humble
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}
+		modifier = {
+			factor = 0.9
+			trait = slothful
+		}
+	}
+	
+	option = { #I am worthless
+		name = EVTOPTAtrait_flavour.11
+		random_list = {
+			40 = { }
+			15 = { add_trait = depressed }
+			15 = { add_trait = humble }
+			15 = { add_trait = craven }
+			15 = { add_trait = shy }
+		}
+	}
+	option = { #I don't try hard enough
+		name = EVTOPTBtrait_flavour.11
+		random_list = {
+			40 = { }
+			30 = { add_trait = stressed }
+			15 = { add_trait = ambitious }
+			15 = { add_trait = diligent }
+		}
+	}
+	option = { #No one looks at my achievements
+		name = EVTOPTCtrait_flavour.11
+		random_list = {
+			55 = { }
+			15 = { add_trait = arbitrary }
+			15 = { add_trait = proud }
+			15 = { add_trait = shy }
+		}
+	}
+	option = { #Maybe shouldn't worry
+		name = EVTOPTDtrait_flavour.11
+		random_list = {
+			40 = { add_trait = content }
+			30 = { remove_trait = envious }
+			30 = { add_trait = kind }
+		}
+	}
+}
+# Kind - Help a recently deceased impoverished noble's orphaned child
+character_event = {
+	id = trait_flavour.12
+	desc = EVTDESCtrait_flavour.12
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		is_ruler = yes
+		trait = kind
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = charitable
+		}
+		modifier = {
+			factor = 1.2
+			trait = patient
+		}
+		modifier = {
+			factor = 1.2
+			trait = trusting
+		}
+		modifier = {
+			factor = 1.2
+			trait = humble
+		}
+		modifier = {
+			factor = 1.2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.9
+			trait = paranoid
+		}
+		modifier = {
+			factor = 0.6
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.7
+			trait = slothful
+		}
+	}
+	
+	option = { #Squire of a knight
+		name = EVTOPTAtrait_flavour.12
+		prestige = 15
+	}
+	option = { #Monastery
+		name = EVTOPTBtrait_flavour.12
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		piety = 15
+	}
+	option = { #Raise at court
+		name = EVTOPTCtrait_flavour.12
+		trigger = {
+			prestige = 100
+			wealth = 100
+		}
+		wealth = -20
+		create_character = {
+			dynasty = random
+			age = 6
+		}
+	}
+}
+# Craven - foolish while sparring
+character_event = {
+	id = trait_flavour.13
+	desc = EVTDESCtrait_flavour.13
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = craven
+		NOT = { trait = maimed }
+		NOT = { trait = wounded }
+		NOT = { trait = infirm }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = weak
+		}
+		modifier = {
+			factor = 1.1
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 1.1
+			trait = paranoid
+		}
+		modifier = {
+			factor = 1.1
+			trait = shy
+		}
+		modifier = {
+			factor = 1.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.7
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.7
+			trait = strong
+		}
+		modifier = {
+			factor = 0.8
+			trait = gregarious
+		}
+	}
+	
+	option = { #Don't hurt me!
+		name = EVTOPTAtrait_flavour.13
+		prestige = -5
+	}
+	option = { #No, I must look good in front of the others
+		name = EVTOPTBtrait_flavour.13
+		trigger = {
+			OR = {
+				trait = proud
+				trait = diligent
+			}
+		}
+		random_list = {
+			40 = { remove_trait = craven }
+			30 = { add_trait = brave }
+			30 = { }
+		}
+		prestige = 5
+	}
+	option = { #Haha! Tricked you!
+		name = EVTOPTCtrait_flavour.13
+		trigger = {
+			trait = deceitful
+		}
+		tooltip_info = deceitful
+		prestige = 10
+		random_list = {
+			50 = { remove_trait = craven }
+			50 = { }
+		}
+	}
+}
+# Brave - defeated bandit
+character_event = {
+	id = trait_flavour.14
+	desc = EVTDESCtrait_flavour.14
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		is_ruler = no
+		is_female = no
+		trait = brave
+		NOT = { trait = maimed }
+		NOT = { trait = wounded }
+		NOT = { trait = infirm }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 1.5
+			trait = lunatic
+		}
+		modifier = {
+			factor = 1.1
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.1
+			trait = paranoid
+		}
+		modifier = {
+			factor = 1.1
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.8
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.7
+			trait = trusting
+		}
+		modifier = {
+			factor = 0.5
+			trait = weak
+		}
+		modifier = {
+			factor = 0.8
+			trait = ill
+		}
+	}
+	
+	option = { #Ah nothing
+		name = EVTOPTAtrait_flavour.14
+		prestige = 5
+		random_list = {
+			60 = { }
+			40 = { add_trait = humble }
+		}
+	}
+	option = { #None fear me!
+		name = EVTOPTBtrait_flavour.14
+		random_list = {
+			50 = { remove_trait = proud }
+			10 = { add_trait = cruel }
+			40 = { }
+		}
+		prestige = 5
+	}
+	option = { #Spare the man
+		name = EVTOPTCtrait_flavour.14
+		trigger = {
+			trait = kind
+		}
+		tooltip_info = kind
+		prestige = 5
+		add_character_modifier = {
+			name = the_merciful
+			duration = 365
+		}
+	}
+	option = { #Torture him personally
+		name = EVTOPTDtrait_flavour.14
+		trigger = {
+			trait = cruel
+		}
+		tooltip_info = cruel
+		prestige = 5
+		piety = -5
+		add_character_modifier = {
+			name = the_cruel
+			duration = 365
+		}
+	}
+}
+#Humble - character learns from a peasant
+character_event = {
+	id = trait_flavour.15
+	desc = EVTDESCtrait_flavour.15
+	picture = GFX_evt_bandits
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = humble
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 2.5
+			trait = kind
+		}
+		modifier = {
+			factor = 1.2
+			trait = quick
+		}
+		modifier = {
+			factor = 1.4
+			trait = scholar
+		}
+		modifier = {
+			factor = 1.2
+			trait = genius
+		}
+		modifier = {
+			factor = 0.5
+			trait = envious
+		}
+		modifier = {
+			factor = 0.6
+			trait = shy
+		}
+		modifier = {
+			factor = 0.7
+			trait = cruel
+		}
+		modifier = {
+			factor = 0.8
+			trait = arbitrary
+		}
+	}
+	
+	option = { #Learn something from everybody
+		name = EVTOPTAtrait_flavour.15
+		piety = 10
+		random_list = {
+			50 = { }
+			10 = { change_diplomacy = 1 }
+			10 = { change_martial = 1 }
+			10 = { change_stewardship = 1 }
+			10 = { change_intrigue = 1 }
+			10 = { change_learning = 1 }
+		}
+	}
+}
+# Lustful - Ugly Wench
+character_event = {
+	id = trait_flavour.16
+	desc = EVTDESCtrait_flavour.16
+	picture = GFX_evt_brothel
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = lustful
+		war = no
+		in_command = no
+		is_female = no
+		NOT = { trait = eunuch }
+		NOT = { trait = celibate }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 3
+			trait = hedonist
+		}
+		modifier = {
+			factor = 1.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.4
+			trait = proud
+		}
+		modifier = {
+			factor = 1.2
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.7
+			trait = humble
+		}
+		modifier = {
+			factor = 0.7
+			trait = temperate
+		}
+		modifier = {
+			factor = 0.3
+			has_lover = yes
+		}
+	}
+	
+	option = { #I'll sleep with anything
+		name = EVTOPTAtrait_flavour.16
+		add_character_modifier = {
+			name = lustful_ruler
+			duration = 365
+		}
+		piety = -10
+	}
+	option = { #Maybe should have standards
+		name = EVTOPTBtrait_flavour.16
+		random_list = {
+			75 = { }
+			25 = { remove_trait = lustful }
+		}
+	}
+	option = { #Can't see her anyways
+		name = EVTOPTCtrait_flavour.16
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = blinded
+		trigger = {
+			trait = blinded
+		}
+		add_character_modifier = {
+			name = lustful_ruler
+			duration = 365
+		}
+		piety = -5
+	}
+	option = { #When the lights are blown out...
+		name = EVTOPTDtrait_flavour.16
+		ai_chance = {
+			factor = 5
+		}
+		tooltip_info = scholar
+		trigger = {
+			trait = scholar
+		}
+		add_character_modifier = {
+			name = deep_contemplation
+			duration = 60
+		}
+		piety = -5
+	}
+}
+# Chaste - Pretty young maiden
+character_event = {
+	id = trait_flavour.17
+	desc = EVTDESCtrait_flavour.17
+	picture = GFX_evt_lovers
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = chaste
+		in_command = no
+		is_female = no
+		NOT = { trait = celibate }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 3
+			has_lover = no
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.5
+			trait = shy
+		}
+		modifier = {
+			factor = 3
+			trait = hedonist
+		}
+		modifier = {
+			factor = 1.2
+			trait = kind
+		}
+		modifier = {
+			factor = 1.2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.8
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.6
+			trait = homosexual
+		}
+		modifier = {
+			factor = 0.9
+			trait = just
+		}
+		modifier = {
+			factor = 0.9
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.9
+			trait = content
+		}
+		modifier = {
+			factor = 0.2
+			has_lover = yes
+		}
+	}
+	
+	option = { #Stay clean
+		name = EVTOPTAtrait_flavour.17
+		random_list = {
+			50 = { prestige = 5 }
+			50 = { piety = 5 }
+		}
+	}
+	option = { #God will give strength!
+		name = EVTOPTBtrait_flavour.17
+		piety = 10
+	}
+	option = { #Can't see her anyways
+		name = EVTOPTCtrait_flavour.17
+		tooltip_info = blinded
+		trigger = {
+			trait = blinded
+		}
+		random_list = {
+			50 = { prestige = 5 }
+			50 = { piety = 5 }
+		}
+	}
+	option = { #Homosexual
+		name = EVTOPTDtrait_flavour.17
+		ai_chance = {
+			factor = 500
+		}
+		tooltip_info = homosexual
+		trigger = {
+			trait = homosexual
+		}
+		prestige = 5
+	}
+}
+# Temperate - some people say character doesn't enjoy life enough
+character_event = {
+	id = trait_flavour.18
+	desc = EVTDESCtrait_flavour.18
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = temperate
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = depressed
+		}
+		modifier = {
+			factor = 2
+			trait = stressed
+		}
+		modifier = {
+			factor = 1.2
+			trait = shy
+		}
+		modifier = {
+			factor = 1.2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.2
+			trait = chaste
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.6
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.8
+			trait = lustful
+		}
+		modifier = {
+			factor = 0.8
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.9
+			NOT = { lifestyle_traits = 1 }
+		}
+	}
+	
+	option = { #I'm a prude
+		name = EVTOPTAtrait_flavour.18
+		add_character_modifier = {
+			name = the_prude
+			duration = 365
+		}
+	}
+	option = { #Lighten up?
+		name = EVTOPTBtrait_flavour.18
+		random_list = {
+			50 = { }
+			15 = { add_trait = gregarious }
+			35 = { remove_trait = temperate }
+		}
+	}
+	option = { #I am enjoying life
+		name = EVTOPTCtrait_flavour.18
+		ai_chance = {
+			factor = 2
+		}
+		tooltip_info = gregarious
+		trigger = {
+			trait = gregarious
+			NOT = { trait = depressed }
+			NOT = { trait = stressed }
+		}
+		prestige = 10
+	}
+}
+# Paranoid - character thinks he/she just saw an assassin
+character_event = {
+	id = trait_flavour.19
+	desc = EVTDESCtrait_flavour.19
+	picture = GFX_evt_shadow
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = paranoid
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = lunatic
+		}
+		modifier = {
+			factor = 4
+			trait = possessed
+		}
+		modifier = {
+			factor = 2
+			trait = stressed
+		}
+		modifier = {
+			factor = 1.2
+			trait = cruel
+		}
+		modifier = {
+			factor = 1.3
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.7
+			trait = brave
+		}
+		modifier = {
+			factor = 0.7
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.7
+			trait = slow
+		}
+	}
+	
+	option = { #Seeing... things?
+		name = EVTOPTAtrait_flavour.19
+		add_character_modifier = {
+			name = the_paranoid
+			duration = 365
+		}
+	}
+	option = { #Uses knowledge
+		name = EVTOPTBtrait_flavour.19
+		ai_chance = {
+			factor = 10
+		}
+		tooltip_info = learning
+		trigger = {
+			learning = 13
+		}
+	}
+	option = { #Run away!
+		name = EVTOPTCtrait_flavour.19
+		ai_chance = {
+			factor = 5
+		}
+		tooltip_info = craven
+		trigger = {
+			trait = craven
+		}
+		add_character_modifier = {
+			name = paranoid_coward
+			duration = 365
+		}
+	}
+}
+# Trusting - character got pranked by a courtier
+character_event = {
+	id = trait_flavour.20
+	desc = EVTDESCtrait_flavour.20
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		is_ruler = yes
+		trait = trusting
+		any_courtier = {
+			is_adult = yes
+			NOT = { 
+				trait = craven
+				trait = kind
+				trait = trusting
+				trait = shy
+			}
+			OR = {
+				trait = gregarious
+				trait = cruel
+				trait = hedonist
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = imbecile
+		}
+		modifier = {
+			factor = 4
+			trait = slow
+		}
+		modifier = {
+			factor = 1.5
+			trait = kind
+		}
+		modifier = {
+			factor = 2
+			trait = blinded
+		}
+		modifier = {
+			factor = 1.5
+			trait = craven
+		}
+		modifier = {
+			factor = 1.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.9
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.7
+			trait = brave
+		}
+		modifier = {
+			factor = 0.7
+			trait = quick
+		}
+		modifier = {
+			factor = 0.7
+			trait = genius
+		}
+	}
+	
+	option = { #Must stop being gullible
+		name = EVTOPTAtrait_flavour.20
+		random_list = {
+			20 = { }
+			20 = { remove_trait = trusting }
+			20 = { add_trait = deceitful }
+			20 = { add_trait = diligent }
+			20 = { add_trait = depressed }
+		}
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				NOT = { 
+					trait = craven
+					trait = kind
+					trait = trusting
+					trait = shy
+				}
+				OR = {
+					trait = gregarious
+					trait = cruel
+					trait = hedonist
+				}
+			}
+			reverse_opinion = {
+				modifier = opinion_afraid
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+	option = { #Fine with that
+		name = EVTOPTBtrait_flavour.20
+		tooltip_info = content
+		trigger = { trait = content }
+		piety = 5
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				NOT = { 
+					trait = craven
+					trait = kind
+					trait = trusting
+					trait = shy
+				}
+				OR = {
+					trait = gregarious
+					trait = cruel
+					trait = hedonist
+				}
+			}
+			opinion = {
+				modifier = opinion_confused
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_cautious
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+	option = { #Punish
+		name = EVTOPTCtrait_flavour.20
+		ai_chance = {
+			factor = 15
+		}
+		tooltip_info = cruel
+		trigger = {
+			trait = cruel
+		}
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				NOT = { 
+					trait = craven
+					trait = kind
+					trait = trusting
+					trait = shy
+				}
+				OR = {
+					trait = gregarious
+					trait = cruel
+					trait = hedonist
+				}
+			}
+			opinion = {
+				modifier = opinion_afraid
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
+# Deceitful - Never show true self
+character_event = {
+	id = trait_flavour.21
+	desc = EVTDESCtrait_flavour.21
+	picture = GFX_evt_whispers
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = deceitful
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2.5
+			trait = shy
+		}
+		modifier = {
+			factor = 1.5
+			trait = envious
+		}
+		modifier = {
+			factor = 1.1
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.95
+			trait = kind
+		}
+	}
+	
+	option = { #Risky
+		name = EVTOPTAtrait_flavour.21
+		random_list = {
+			25 = { }
+			25 = { add_trait = envious }
+			25 = { add_trait = shy }
+			25 = { add_trait = paranoid }
+		}
+	}
+	option = { #Nobody understands
+		name = EVTOPTBtrait_flavour.21
+		random_list = {
+			20 = { }
+			30 = { add_trait = shy }
+			20 = { add_trait = envious }
+			20 = { add_trait = craven }
+			10 = { add_trait = depressed }
+		}
+	}
+	option = { #Crazy
+		name = EVTOPTCtrait_flavour.21
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = lunatic
+		trigger = { 
+			trait = lunatic
+		}
+		random_list = {
+			50 = { }
+			35 = { add_trait = shy }
+			15 = { add_trait = paranoid }
+		}
+	}
+	option = { #Possessed
+		name = EVTOPTDtrait_flavour.1
+		ai_chance = {
+			factor = 50
+		}
+		tooltip_info = possessed
+		trigger = { 
+			trait = possessed
+		}
+		random_list = {
+			50 = { }
+			35 = { add_trait = shy }
+			15 = { add_trait = paranoid }
+		}
+	}
+}
+# Honest - character meets an incompetent merchant
+character_event = {
+	id = trait_flavour.22
+	desc = EVTDESCtrait_flavour.22
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		war = no
+		in_command = no
+		trait = honest
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 1.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 1.1
+			trait = just
+		}
+		modifier = {
+			factor = 1.1
+			trait = charitable
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.8
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.8
+			trait = greedy
+		}
+	}
+	
+	option = { #Harsh words
+		name = EVTOPTAtrait_flavour.22
+		prestige = 5
+	}
+	option = { #Buy merchandise anyways
+		name = EVTOPTBtrait_flavour.22
+		ai_chance = {
+			factor = 25
+		}
+		trigger = {
+			OR = {
+				trait = kind
+				trait = charitable
+			}
+			NOT = { trait = greedy }
+		}
+		add_character_modifier = {
+			name = the_kind
+			duration = 90
+		}
+	}
+	option = { #Give advice
+		name = EVTOPTCtrait_flavour.22
+		ai_chance = {
+			factor = 200
+		}
+		tooltip_info = stewardship
+		trigger = { 
+			stewardship = 13
+		}
+		random_list = {
+			50 = { }
+			50 = { add_trait = kind }
+		}
+		add_character_modifier = {
+			name = the_kind
+			duration = 365
+		}
+	}
+}
+# Cruel - subjects fear character
+character_event = {
+	id = trait_flavour.23
+	desc = EVTDESCtrait_flavour.23
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		is_ruler = yes
+		trait = cruel
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 1.5
+			trait = proud
+		}
+		modifier = {
+			factor = 1.3
+			trait = envious
+		}
+		modifier = {
+			factor = 1.1
+			trait = paranoid
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.9
+			trait = just
+		}
+		modifier = {
+			factor = 0.8
+			trait = humble
+		}
+		modifier = {
+			factor = 0.8
+			trait = charitable
+		}
+	}
+	
+	option = { #Blood
+		name = EVTOPTAtrait_flavour.23
+		prestige = 1
+	}
+	option = { #To be feared, not loved
+		name = EVTOPTBtrait_flavour.23
+		ai_chance = {
+			factor = 25
+		}
+		trigger = {
+			OR = {
+				trait = cynical
+				trait = scholar
+				learning = 13
+			}
+			NOT = { 
+				trait = kind
+				trait = trusting
+			}
+		}
+		piety = -5
+		prestige = 5
+	}
+	option = { #Just
+		name = EVTOPTCtrait_flavour.23
+		ai_chance = {
+			factor = 25
+		}
+		tooltip_info = just
+		trigger = { 
+			trait = just
+		}
+		prestige = 5
+	}
+}
+
+################################################
+# Lustful or chaste from Prince and the Thane
+################################################
+# Lustful turning to hedonist (on_decade_pulse)
+character_event = {
+	id = trait_flavour.50
+	desc = EVTDESCtrait_flavour.50
+	picture = GFX_evt_brothel
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { trait = hedonist }
+		trait = lustful
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAtrait_flavour.50
+		add_trait = hedonist
+	}
+	option = {
+		name = EVTOPTBtrait_flavour.50
+		piety = 15
+    random = {
+			chance = 35
+			remove_trait = lustful
+			hidden_tooltip = { character_event = { id = trait_notification.5 } }
+		}
+	}
+}
+# Lustful turning to chaste(on_decade_pulse)
+character_event = {
+	id = trait_flavour.51
+	desc = EVTDESCtrait_flavour.51
+	picture = GFX_evt_garden
+	
+	min_age = 30
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { trait = hedonist }
+		trait = lustful
+		is_married = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+
+	option = {
+		name = EVTOPTAtrait_flavour.51
+		piety = 20
+		add_trait = chaste
+	}
+	
+	option = {
+		name = EVTOPTBtrait_flavour.51
+		prestige = 10
+	}
+}
+# Chaste turning to celibate(on_decade_pulse)
+character_event = {
+	id = trait_flavour.52
+	desc = EVTDESCtrait_flavour.52
+	picture = GFX_evt_garden
+	
+	min_age = 30
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { trait = celibate }
+		trait = chaste
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAtrait_flavour.52
+		piety = 20
+		add_trait = celibate
+	}
+	
+	option = {
+		name = EVTOPTBtrait_flavour.52
+		piety = -10
+		random = { 
+			chance = 0
+			remove_trait = chaste
+			hidden_tooltip = { character_event = { id = 38303 } }
+		}
+	}
+}
+
+################################################
+# Racist/tolerant flavor events
+################################################
+# Dwarf kills man in tavern brawl (on_bi_yearly_pulse)
+character_event = {
+	id = trait_flavour.100
+	desc = EVTDESCtrait_flavour.100
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		is_ruler = yes
+		trait = human
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAtrait_flavour.100
+		prestige = 10
+		random = {
+			chance = 10
+			add_trait = just
+			hidden_tooltip = { character_event = { id = 38267 } }
+		}
+	}
+	option = {
+		name = EVTOPTBtrait_flavour.100
+		trigger = {
+			NOT = { trait = racist }
+		}
+		random = {
+			chance = 25
+			add_trait = racist
+			hidden_tooltip = { character_event = { id = trait_notification.2 } }
+		}
+	}
+	option = {
+		name = EVTOPTCtrait_flavour.100
+		trigger = {
+			trait = racist
+		}
+		random = {
+			chance = 10
+			add_trait = impaler
+			hidden_tooltip = {character_event = { id = 38291 } }
+		}
+	}
+	option = {
+		name = EVTOPTDtrait_flavour.100
+		prestige = -10
+		random = {
+			chance = 15
+			add_trait = arbitrary
+			hidden_tooltip = {character_event = { id = 38266 } }
+		}
+	}
+}
+
+################################################
+# Alchemist flavor events
+################################################
+# Increase fertility
+character_event = {
+	id = trait_flavour.200
+	desc = EVTDESCtrait_flavour.200
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	min_age = 20
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = alchemist
+		war = no
+		in_command = no
+		NOT = { fertility = 0.5 }
+		NOT = {
+			trait = fertile_elf
+			trait = fertile_sorcerer
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 2 trait = diligent }
+		modifier = { factor = 2 trait = lustful }
+		modifier = { factor = 0.5 trait = chaste }
+	}
+	
+	option = { # Try potion
+		name = EVTOPTAtrait_flavour.200
+		prestige = 10
+		custom_tooltip = {
+			text = alchemist_fertility_potion
+			hidden_tooltip = {
+				random_list = {
+					60 = { character_event = { id = trait_flavour.201 days = 5 } }
+					40 = { character_event = { id = trait_flavour.202 days = 5 } }
+				}
+			}
+		}
+	}
+	option = { # Don't try potion
+		name = EVTOPTBtrait_flavour.200
+		random = {
+			chance = 25
+			add_trait = chaste
+			hidden_tooltip = { character_event = { id = 38274 } }
+		}
+	}
+}
+# Potion worked
+character_event = {
+	id = trait_flavour.201
+	desc = EVTDESCtrait_flavour.201
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.201
+		fertility = 0.05
+	}
+}
+# Potion didn't work
+character_event = {
+	id = trait_flavour.202
+	desc = EVTDESCtrait_flavour.202
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.202
+	}
+}
+# Increase health
+character_event = {
+	id = trait_flavour.210
+	desc = EVTDESCtrait_flavour.210
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	min_age = 20
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = alchemist
+		war = no
+		in_command = no
+		NOT = { health = 5 }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 2 trait = diligent }
+		modifier = { factor = 2 trait = weak }
+		modifier = { factor = 0.5 trait = content }
+	}
+	
+	option = { # Try potion
+		name = EVTOPTAtrait_flavour.210
+		prestige = 10
+		custom_tooltip = {
+			text = alchemist_health_potion
+			hidden_tooltip = {
+				random_list = {
+					60 = { character_event = { id = trait_flavour.211 days = 5 } }
+					30 = { character_event = { id = trait_flavour.212 days = 5 } }
+					10 = { character_event = { id = trait_flavour.213 days = 5 } }
+				}
+			}
+		}
+	}
+	option = { # Don't try potion
+		name = EVTOPTBtrait_flavour.210
+		random = {
+			chance = 25
+			add_trait = content
+			hidden_tooltip = { character_event = { id = 38274 } }
+		}
+	}
+}
+# Potion worked
+character_event = {
+	id = trait_flavour.211
+	desc = EVTDESCtrait_flavour.211
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.211
+		health = 1
+	}
+}
+# Potion didn't work
+character_event = {
+	id = trait_flavour.212
+	desc = EVTDESCtrait_flavour.212
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.212
+	}
+}
+# Potion had reverse effect
+character_event = {
+	id = trait_flavour.213
+	desc = EVTDESCtrait_flavour.213
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.213
+		health = -0.5
+	}
+}
+# Gathering ingredients
+character_event = {
+	id = trait_flavour.220
+	desc = EVTDESCtrait_flavour.220
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	min_age = 20
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = alchemist
+		trait = greedy
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 2 	trait = diligent }
+		modifier = { factor = 2 trait = greedy }
+		modifier = { factor = 0.5 trait = charitable }
+	}
+	
+	option = { # Buy from market
+		name = EVTOPTAtrait_flavour.220
+		character_event = { id = trait_flavour.221 days = 3 tooltip = EVTTOOLTIPtrait_flavour.221 }
+	}
+	option = { # Gather yourself
+		name = EVTOPTBtrait_flavour.220
+		character_event = { id = trait_flavour.222 days = 3 tooltip = EVTTOOLTIPtrait_flavour.222 }
+	}
+	option = { # Gather yourself
+		name = EVTOPTBtrait_flavour.220
+		random = {
+			chance = 25
+			remove_trait = alchemist
+			hidden_tooltip = { character_event = { id = trait_notification.6 } }
+		}
+	}
+}
+# Buying ingredients from market
+character_event = {
+	id = trait_flavour.221
+	desc = EVTDESCtrait_flavour.221
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.221
+		scaled_wealth = -0.1
+	}
+}
+# Gathering ingredients himself
+character_event = {
+	id = trait_flavour.222
+	desc = EVTDESCtrait_flavour.222
+	picture = GFX_evt_bandits
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.222
+		random_list = { 
+			65 = { }
+			20 = {
+				add_trait = diligent
+				hidden_tooltip = { character_event = { id = 38256 } }
+			}
+			15 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+		}
+	}
+}
+# Making friends with witcher
+character_event = {
+	id = trait_flavour.230
+	desc = EVTDESCtrait_flavour.230
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	min_age = 20
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = alchemist
+		any_courtier = {
+			trait = witcher
+			NOT = { is_friend = ROOT }
+		}
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 2 trait = gregarious }
+		modifier = { factor = 2 trait = tolerant }
+		modifier = { factor = 0.5 trait = racist }
+		modifier = { factor = 0.5 trait = shy }
+		modifier = { factor = 2 has_ambition = obj_make_a_friend }
+	}
+	
+	option = {
+		name = EVTOPTAtrait_flavour.230
+		random_courtier = { 
+			limit = {
+				trait = witcher
+				NOT = { is_friend = ROOT }
+			}
+			character_event = { id = trait_flavour.231 days = 1 tooltip = EVTTOOLTIPtrait_flavour.231 }
+		}
+	}
+	option = {
+		name = EVTOPTBtrait_flavour.230
+		random = {
+			chance = 10
+			add_trait = racist
+			hidden_tooltip = { character_event = { id = trait_notification.2 } }
+		}
+	}
+}
+# Making friends with witcher - Witcher's reply
+character_event = {
+	id = trait_flavour.231
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = { # Accept
+		name = OK
+		FROM = { character_event = { id = trait_flavour.232 days = 1 } }
+	}
+	option = { # Refuse
+		name = OK
+		FROM = { character_event = { id = trait_flavour.233 days = 1 } }
+	}
+}
+# Made friends with witcher
+character_event = {
+	id = trait_flavour.232
+	desc = EVTDESCtrait_flavour.232
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.233
+		opinion = { modifier = opinion_grateful who = FROM years = 4 }
+	}
+}
+# Didn't make friends with witcher
+character_event = {
+	id = trait_flavour.233
+	desc = EVTDESCtrait_flavour.233
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtrait_flavour.233
+		opinion = { modifier = opinion_sad who = FROM years = 4 }
+	}
+}
+# Explosions, fires and odor
+character_event = {
+	id = trait_flavour.240
+	desc = EVTDESCtrait_flavour.240
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	min_age = 20
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		trait = alchemist
+		trait = diligent
+		OR = {
+			is_married = yes
+			any_courtier = {
+				age = 15
+				in_command = no
+				NOT = { trait = alchemist }
+			}
+		}
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {	
+		factor = 1
+	}
+	
+	option = {
+		name = EVTOPTAtrait_flavour.240
+		trigger = {
+			is_married = yes
+		}
+		spouse = {
+			character_event = { id = trait_flavour.241 days = 2 tooltip = EVTTOOLTIPtrait_flavour.241 }
+		}
+	}
+	option = {
+		name = EVTOPTAtrait_flavour.240
+		trigger = {
+			is_married = no
+		}
+		random_courtier = {
+			limit = {
+				age = 15
+				in_command = no
+				NOT = { trait = alchemist }
+			}
+			character_event = { id = trait_flavour.242 days = 2 tooltip = EVTTOOLTIPtrait_flavour.242 }
+		}
+	}
+	option = {
+		name = EVTOPTBtrait_flavour.240
+		if = {
+			limit = {
+				is_married = yes
+				spouse = {
+					is_alive = yes
+					prisoner = no
+					is_abroad = no
+				}
+			}
+			spouse = {
+				opinion = { modifier = opinion_glad who = ROOT years = 5 }
+			}
+		}
+		random = {
+			chance = 20
+			remove_trait = alchemist
+			hidden_tooltip = { character_event = { id = trait_notification.6 } }
+		}
+	}
+}
+# Explosions, fires and odor - Spouse worries, intervention?
+character_event = {
+	id = trait_flavour.241
+	desc = EVTDESCtrait_flavour.241
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes
+	
+	option = { # Intervention!
+		name = EVTOPTAtrait_flavour.241
+		FROM = { character_event = { id = trait_flavour.243 tooltip = EVTTOOLTIPtrait_flavour.243 } }
+	}
+	option = {
+		name = EVTOPTBtrait_flavour.241
+	}
+}
+# Explosions, fires and odor - Courtier worries, intervention?
+character_event = {
+	id = trait_flavour.242
+	desc = EVTDESCtrait_flavour.242
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes
+	
+	option = { # Intervention!
+		name = EVTOPTAtrait_flavour.242
+		FROM = { character_event = { id = trait_flavour.243 tooltip = EVTTOOLTIPtrait_flavour.243 } }
+	}
+	option = {
+		name = EVTOPTBtrait_flavour.242
+	}
+}
+# Explosions, fires and odor - Intervention
+character_event = {
+	id = trait_flavour.243
+	desc = EVTDESCtrait_flavour.243
+	picture = GFX_evt_quarrel
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA3553
+		add_character_modifier = { name = crazy_alchemist duration = 365 }
+		FROM = { opinion = { modifier = opinion_disappointed who = ROOT years = 2 } }
+	}
+	option = {
+		name = EVTOPTB3553
+		add_character_modifier = { name = theoretical_alchemist duration = 365 }
+		FROM = { opinion = { modifier = opinion_relieved who = ROOT years = 2 } }
+	}
+}
+
+################################################
+# Bloodline events
+################################################
+# Radowid's bloodline
+character_event = {
+	id = trait_flavour.300
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = radowids_blood}
+		OR = {
+			dynasty = 2000
+			father = {
+				trait = radowids_blood
+				dynasty = 2000
+			}
+			mother = {
+				trait = radowids_blood
+				dynasty = 2000
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		add_trait = radowids_blood
+	}
+}
+# Raven's bloodline
+character_event = {
+	id = trait_flavour.301
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = ravens_blood}
+		OR = {
+			dynasty = 9000
+			father = {
+				trait = ravens_blood
+				dynasty = 9000
+			}
+			mother = {
+				trait = ravens_blood
+				dynasty = 9000
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		add_trait = ravens_blood
+	}
+}
+# Dezmod's bloodline
+character_event = {
+	id = trait_flavour.302
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = dezmods_blood}
+		OR = {
+			dynasty = 1
+			father = {
+				trait = dezmods_blood
+				dynasty = 1
+			}
+			mother = {
+				trait = dezmods_blood
+				dynasty = 1
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		add_trait = dezmods_blood
+	}
+}
+# Baldwin's bloodline
+character_event = {
+	id = trait_flavour.303
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = baldwins_blood}
+		OR = {
+			dynasty = 5000
+			father = {
+				trait = baldwins_blood
+				dynasty = 5000
+			}
+			mother = {
+				trait = baldwins_blood
+				dynasty = 5000
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		add_trait = baldwins_blood
+	}
+}
+# Unicorns's bloodline
+character_event = {
+	id = trait_flavour.304
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { trait = unicorns_blood}
+		OR = {
+			dynasty = 4000
+			father = {
+				trait = unicorns_blood
+				dynasty = 4000
+			}
+			mother = {
+				trait = unicorns_blood
+				dynasty = 4000
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		add_trait = unicorns_blood
+	}
+}

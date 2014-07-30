@@ -7,8 +7,6 @@ namespace = racial
 # Racial trait assignment (normal and on_birth)
 character_event = {
 	id = racial.1
-	desc = "Your race is..."
-	picture = GFX_evt_comet
 	
 	hide_window = yes
 	
@@ -27,15 +25,15 @@ character_event = {
 		days = 1
 	}
 	
-	option = {
-		name = "Dryad"
+	option = { # Dryad
+		name = OK
 		trigger = {
 			graphical_culture = dryadgfx
 		}
 		add_trait = dryad
 	}
-	option = {
-		name = "Elf or halfelf"
+	option = { # Elf or halfelf
+		name = OK
 		trigger = {
 			graphical_culture = elvengfx
 		}
@@ -51,8 +49,8 @@ character_event = {
 			add_trait = halfelf
 		}
 	}
-	option = {
-		name= "Dwarf or halfdwarf"
+	option = { # Dwarf or halfdwarf
+		name = OK
 		trigger = {
 			graphical_culture = dwarvengfx
 		}
@@ -68,8 +66,8 @@ character_event = {
 			add_trait = halfdwarf
 		}
 	}
-	option = {
-		name= "Human or halfelf or halfdwarf"
+	option = { # Human or halfelf or halfdwarf
+		name = OK
 		trigger = {
 			NOT = {
 				graphical_culture = dwarvengfx
@@ -100,8 +98,8 @@ character_event = {
 			add_trait = halfdwarf
 		}
 	}
-	option = {
-		name= "Wilderness"
+	option = { # Wilderness
+		name = OK
 		trigger = {
 			graphical_culture = wildernessgfx
 		}
@@ -180,10 +178,9 @@ character_event = {
 # Check marriage (on_marriage)
 character_event = {
 	id = racial.4
-	desc = "Check if marriage is okay"
 	
-	is_triggered_only = yes
 	hide_window = yes
+	is_triggered_only = yes
 	
 	trigger = {
 		NOT = { culture = wilderness }
@@ -195,8 +192,8 @@ character_event = {
 		new_character = { character_event = { id = racial.1} }
 	}
 	
-	option = {
-		name = "Divorce marriage"
+	option = { # Divorce marriage
+		name = OK
 		trigger = {
 			OR = {
 				AND = {
@@ -251,8 +248,8 @@ character_event = {
 		character_event = { id = racial.5 }
 		ai_chance = { factor = 1000 }
 	}
-	option = {
-		name = "Marriage is okay"
+	option = { # Marriage is okay
+		name = OK
 		character_event = { id = 500 } # Royal Marriage Aid Duty
 		ai_chance = { factor = 1 }
 	}
@@ -300,7 +297,7 @@ character_event = {
 character_event = {
 	id = racial.10
 	desc = EVTDESCracial.10
-	picture = GFX_evt_marriage
+	picture = GFX_evt_lover
 	
 	trigger = {
 		NOT = { trait = fertile_elf }
@@ -333,7 +330,7 @@ character_event = {
 character_event = {
 	id = racial.11
 	desc = EVTDESCracial.11
-	picture = GFX_evt_marriage
+	picture = GFX_evt_lover
 	
 	trigger = {
 		trait = fertile_elf
@@ -366,14 +363,12 @@ character_event = {
 # Hidden - Elven fertility reduction per birth (on_birth)
 character_event = {
 	id = racial.12
-	desc = "Hidden"
-	picture = GFX_evt_marriage
 	
-	is_triggered_only = yes
 	hide_window = yes
+	is_triggered_only = yes
 	
 	option = {
-		name = "Ok"
+		name = OK
 		father = {
 			if = {
 				limit = { trait = elven }
@@ -395,8 +390,6 @@ character_event = {
 # Hidden - Fertility reduction
 character_event = {
 	id = racial.20
-	desc = "Hidden"
-	picture = GFX_evt_marriage
 	
 	hide_window = yes
 	
@@ -422,7 +415,206 @@ character_event = {
 	}
 	
 	option = {
-		name = "Ok"
+		name = OK
 		fertility = -1
+	}
+}
+
+################################################
+#Combat trait initialization
+################################################
+character_event = {
+	id = racial.30
+	
+	hide_window = yes
+	
+	trigger = {
+		ai = no
+		NOT = { has_global_flag = combat_traits_init }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	immediate = {
+		any_independent_ruler = {
+			if = {
+				limit = {
+					is_adult = yes
+					NOT = { has_character_modifier = old_age }
+					OR = {
+						trait = witcher
+						trait = duelist
+					}
+					NOT = { trait = incapable }
+					NOT = { trait = poor_warrior }
+					NOT = { trait = trained_warrior }
+					NOT = { trait = skilled_warrior }
+					NOT = { trait = master_warrior }
+				}
+				random_list = {
+					20 = { add_trait = trained_warrior }
+					50 = { add_trait = skilled_warrior }
+					30 = { add_trait = master_warrior }
+				}
+			}
+			if = {
+				limit = {
+					is_adult = yes
+					NOT = { has_character_modifier = old_age }
+					OR = {
+						trait = brilliant_strategist
+						trait = skilled_tactician
+					}
+					NOT = { trait = witcher }
+					NOT = { trait = duelist }
+					NOT = { trait = incapable }
+					NOT = { trait = poor_warrior }
+					NOT = { trait = trained_warrior }
+					NOT = { trait = skilled_warrior }
+					NOT = { trait = master_warrior }
+				}
+				random_list = {
+					25 = { add_trait = poor_warrior }
+					40 = { add_trait = trained_warrior }
+					30 = { add_trait = skilled_warrior }
+					5 = { add_trait = master_warrior }
+				}
+			}
+			if = {
+				limit = {
+					is_adult = yes
+					NOT = { has_character_modifier = old_age }
+					OR = {
+						trait = misguided_warrior
+						trait = skilled_tactician
+					}
+					NOT = { trait = witcher }
+					NOT = { trait = tough_soldier }
+					NOT = { trait = incapable }
+					NOT = { trait = poor_warrior }
+					NOT = { trait = trained_warrior }
+					NOT = { trait = skilled_warrior }
+					NOT = { trait = master_warrior }
+				}
+				random_list = {
+					15 = { }
+					25 = { add_trait = poor_warrior }
+					40 = { add_trait = trained_warrior }
+					20 = { add_trait = skilled_warrior }
+				}
+			}
+			if = {
+				limit = {
+					is_adult = yes
+					NOT = { has_character_modifier = old_age }
+					is_female = no
+					NOT = { trait = witcher }
+					NOT = { trait = tough_soldier }
+					NOT = { trait = incapable }
+					NOT = { trait = poor_warrior }
+					NOT = { trait = trained_warrior }
+					NOT = { trait = skilled_warrior }
+					NOT = { trait = master_warrior }
+				}
+				random_list = {
+					85 = { }
+					10 = { add_trait = poor_warrior }
+					5 = { add_trait = trained_warrior }
+				}
+			}
+			any_realm_character = {
+				if = {
+					limit = {
+						is_adult = yes
+						NOT = { has_character_modifier = old_age }
+						OR = {
+							trait = witcher
+							trait = duelist
+						}
+						NOT = { trait = incapable }
+						NOT = { trait = poor_warrior }
+						NOT = { trait = trained_warrior }
+						NOT = { trait = skilled_warrior }
+						NOT = { trait = master_warrior }
+					}
+					random_list = {
+						20 = { add_trait = trained_warrior }
+						50 = { add_trait = skilled_warrior }
+						30 = { add_trait = master_warrior }
+					}
+				}
+				if = {
+					limit = {
+						is_adult = yes
+						NOT = { has_character_modifier = old_age }
+						OR = {
+							trait = brilliant_strategist
+							trait = skilled_tactician
+						}
+						NOT = { trait = witcher }
+						NOT = { trait = duelist }
+						NOT = { trait = incapable }
+						NOT = { trait = poor_warrior }
+						NOT = { trait = trained_warrior }
+						NOT = { trait = skilled_warrior }
+						NOT = { trait = master_warrior }
+					}
+					random_list = {
+						25 = { add_trait = poor_warrior }
+						40 = { add_trait = trained_warrior }
+						30 = { add_trait = skilled_warrior }
+						5 = { add_trait = master_warrior }
+					}
+				}
+				if = {
+					limit = {
+						is_adult = yes
+						NOT = { has_character_modifier = old_age }
+						OR = {
+							trait = misguided_warrior
+							trait = skilled_tactician
+						}
+						NOT = { trait = witcher }
+						NOT = { trait = tough_soldier }
+						NOT = { trait = incapable }
+						NOT = { trait = poor_warrior }
+						NOT = { trait = trained_warrior }
+						NOT = { trait = skilled_warrior }
+						NOT = { trait = master_warrior }
+					}
+					random_list = {
+						15 = { }
+						25 = { add_trait = poor_warrior }
+						40 = { add_trait = trained_warrior }
+						20 = { add_trait = skilled_warrior }
+					}
+				}
+				if = {
+					limit = {
+						is_adult = yes
+						NOT = { has_character_modifier = old_age }
+						is_female = no
+						NOT = { trait = witcher }
+						NOT = { trait = tough_soldier }
+						NOT = { trait = incapable }
+						NOT = { trait = poor_warrior }
+						NOT = { trait = trained_warrior }
+						NOT = { trait = skilled_warrior }
+						NOT = { trait = master_warrior }
+					}
+					random_list = {
+						85 = { }
+						10 = { add_trait = poor_warrior }
+						5 = { add_trait = trained_warrior }
+					}
+				}
+			}
+		}
+	}
+	
+	option = { 
+		set_global_flag = combat_traits_init
 	}
 }

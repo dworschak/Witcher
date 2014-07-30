@@ -71,7 +71,7 @@ plot_charm_character = {
 		modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = 0 } } }
 		modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = -25 } } }
 		modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = -50 } } }
-		modifier = { factor = 2.0 NOT = {opinion = { who = FROM value = -75 } } }
+		modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = -75 } } }
 	}
 	
 	creation_effect = {
@@ -87,9 +87,7 @@ plot_charm_character = {
 	}
 	
 	abort = {
-		OR = {
-			is_alive = no
-		}
+		is_alive = no
 	}
 }
 # Heal character
@@ -225,9 +223,7 @@ plot_heal_character = {
 	}
 	
 	abort = {
-		OR = {
-			is_alive = no
-		}
+		is_alive = no
 	}
 }
 # Protect character
@@ -313,9 +309,7 @@ plot_protect_character = {
 	}
 	
 	abort = {
-		OR = {
-			is_alive = no
-		}
+		is_alive = no
 	}
 }
 # Discredit fellow vassal - more acccessable version of weaken fellow vassal
@@ -439,95 +433,3 @@ plot_discredit_fellow_vassal = {
 		ROOT = { NOT = { same_liege = FROM } }
 	}
 }
-# Defect
-# plot_defect = {
-	# type = independent_rulers
-	
-	# # Plotter scope
-	# potential = {
-		# NOT = { culture = wilderness }
-		# prisoner = no
-		# is_adult = yes
-		# is_ruler = yes
-		# independent = no
-		# primary_title = { higher_tier_than = BARON }
-		# NOT = {
-			# trait = incapable
-			# trait = imbecile
-		# }
-	# }
-	
-	# # Target allow trigger for when players target a specific character in the GUI
-	# player_allow = {
-		# higher_tier_than = FROM
-		# FROM = {
-			# NOT = { liege = { character = ROOT } }
-			# NOT = { top_liege = { character = ROOT } }
-		# }
-		# OR = {
-			# AND = {
-				# FROM = { liege = { independent = no } }
-				# same_realm = FROM
-				# independent = no
-			# }
-			# AND = {
-				# FROM = { liege = { independent = yes } }
-				# NOT = { same_realm = FROM }
-				# independent = yes
-			# }
-		# }
-		# any_realm_province = {
-			# any_neighbor_province = {
-				# owner = { character = FROM }
-			# }
-		# }
-		# is_within_diplo_range = FROM
-	# }
-	
-	# # Target scope
-	# allow = {
-		# higher_tier_than = FROM
-		# FROM = {
-			# NOT = { liege = { character = ROOT } }
-			# NOT = { top_liege = { character = ROOT } }
-		# }
-		# OR = {
-			# AND = {
-				# FROM = { liege = { independent = no } }
-				# same_realm = FROM
-				# independent = no
-			# }
-			# AND = {
-				# FROM = { liege = { independent = yes } }
-				# NOT = { same_realm = FROM }
-				# independent = yes
-			# }
-		# }
-		# any_realm_province = {
-			# any_neighbor_province = {
-				# owner = { character = FROM }
-			# }
-		# }
-		# is_within_diplo_range = FROM
-	# }
-	
-	# chance = {
-		# factor = 1
-	# }
-	
-	# creation_effect = {
-		# ROOT = { character_event = { id = plots.200 } }
-	# }
-	
-	# success = { 
-		# ROOT = { is_liege_of = FROM }
-	# }
-	
-	# effect = {
-		# prestige = 10
-	# }
-	
-	# abort = {
-		# always = no
-	# }
-# }

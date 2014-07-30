@@ -7,8 +7,6 @@ namespace = nilfgaard
 # Hidden - Imperial Authority evaluation (on_new_holder, on_new_holder_inheritance)
 character_event = {
 	id = nilfgaard.1
-	desc = "Emperor evaluation"
-	picture = GFX_evt_holy_emperor
 	
 	hide_window = yes
 	
@@ -19,12 +17,11 @@ character_event = {
 		FROM = { title = e_nilfgaard }
 	}
 	
-	option = {
-		name = "Increase authority"
+	option = { # Increase authority
 		trigger = {
 			e_nilfgaard = { NOT = { has_law = imperial_authority_3 } }
 		}
-		character_event = { id = nilfgaard.2 }
+		character_event = { id = nilfgaard.2 days = 1 }
 		ai_chance = {
 			factor = 10
 			# Increase chance for increase
@@ -65,8 +62,7 @@ character_event = {
 			modifier = { factor = 0.5 NOT = { dynasty = FROMFROM } }
 		}
 	}
-	option = {
-		name = "Don't change authority"
+	option = { # Don't change authority
 		ai_chance = {
 			factor = 2
 			# Increase chance for no change
@@ -90,15 +86,14 @@ character_event = {
 		}
 		if = {
 			limit = { has_law = imperial_authority_3 }
-			character_event = { id = nilfgaard.4 }
+			character_event = { id = nilfgaard.4 days = 1 }
 		}
 	}
-	option = {
-		name = "Decrease authority"
+	option = { # Decrease authority
 		trigger = {
 			e_nilfgaard = { NOT = { has_law = imperial_authority_0 } }
 		}
-		character_event = { id = nilfgaard.3 }
+		character_event = { id = nilfgaard.3 days = 1 }
 		ai_chance = {
 			factor = 1
 			# Increase chance for decrease
@@ -237,11 +232,8 @@ character_event = {
 # Hidden - Imperial Authority reduction because of succession through usurpation (on_new_holder_usurpation)
 character_event = {
 	id = nilfgaard.6
-	desc = "Emperor evaluation"
-	picture = GFX_evt_holy_emperor
 	
 	hide_window = yes
-	
 	is_triggered_only = yes
 	
 	trigger = {
@@ -250,8 +242,7 @@ character_event = {
 	}
 	
 	option = {
-		name = "Decrease authority"
-		character_event = { id = nilfgaard.3 }
+		character_event = { id = nilfgaard.3 days = 1 }
 	}
 }
 
@@ -262,7 +253,7 @@ character_event = {
 character_event = {
 	id = nilfgaard.10
 	desc = EVTDESCnilfgaard.10
-	picture = GFX_evt_lunatic
+	picture = GFX_evt_throne_room
 	
 	trigger = {
 		NOT = { culture = wilderness}
@@ -333,7 +324,7 @@ character_event = {
 character_event = {
 	id = nilfgaard.11
 	desc = EVTDESCnilfgaard.11
-	picture = GFX_evt_lunatic
+	picture = GFX_evt_throne_room
 	
 	trigger = {
 		NOT = { culture = wilderness}
@@ -419,7 +410,7 @@ character_event = {
 character_event = {
 	id = nilfgaard.12
 	desc = EVTDESCnilfgaard.12
-	picture = GFX_evt_lunatic
+	picture = GFX_evt_throne_room
 	
 	trigger = {
 		NOT = { culture = wilderness}
@@ -684,7 +675,7 @@ letter_event = {
 	option = { # Don't join because of personal war
 		name = EVTOPTDnilfgaard.102
 		trigger = { war = yes }
-		FROM = { letter_event = { id = nilfgaard.104 days = 5 } }
+		FROM = { letter_event = { id = nilfgaard.105 days = 5 } }
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 NOT = { opinion = { who = FROM value = 0 } } }
@@ -757,14 +748,12 @@ letter_event = {
 # Province - Ping -Victory, what should do with title
 province_event = {
 	id = nilfgaard.110
-	desc = "Ping through province so I can get the title it belongs to"
-	picture = GFX_evt_victory_arch_byzantine
 	
 	is_triggered_only = yes
 	hide_window = yes
 	
 	option = {
-		name = "OK"
+		name = OK
 		e_nilfgaard = {
 			holder_scope = {
 				narrative_event = { id = nilfgaard.111 }
@@ -804,7 +793,7 @@ narrative_event = {
 				}
 			}
 		}
-		ai_chance = { factor = 2 }
+		ai_chance = { factor = 3 }
 	}
 	option = { # Destroy title
 		name = EVTOPTCnilfgaard.111
@@ -820,14 +809,12 @@ narrative_event = {
 # Emperor - AI - Granting the title
 character_event = {
 	id = nilfgaard.112
-	desc = "Granting the title"
-	picture = GFX_evt_victory_arch_byzantine
 	
-	is_triggered_only = yes
 	hide_window = yes
+	is_triggered_only = yes
 	
-	option = {
-		name = "Local duke with claim"
+	option = { # Local duke with claim
+		name = OK
 		trigger = {
 			FROMFROM = {
 				kingdom = {
@@ -867,8 +854,8 @@ character_event = {
 		}
 		ai_chance = { factor = 2 }
 	}
-	option = {
-		name = "Local duke"
+	option = { # Local duke
+		name = OK
 		trigger = {
 			FROMFROM = {
 				kingdom = {
@@ -905,8 +892,8 @@ character_event = {
 		}
 		ai_chance = { factor = 1 }
 	}
-	option = {
-		name = "Dynasty member"
+	option = { # Dynasty member
+		name = ""
 		trigger = {
 			any_dynasty_member = {
 				is_landed = no
@@ -928,8 +915,8 @@ character_event = {
 		}
 		ai_chance = { factor = 2 }
 	}
-	option = {
-		name = "Friend"
+	option = { # Friend
+		name = OK
 		trigger = {
 			any_friend = {
 				is_landed = no
@@ -951,8 +938,8 @@ character_event = {
 		}
 		ai_chance = { factor = 2 }
 	}
-	option = {
-		name = "Random noble"
+	option = { # Random noble
+		name = OK
 		create_character = {
 			random_traits = yes
 			dynasty = random

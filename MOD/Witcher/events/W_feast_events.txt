@@ -915,3 +915,96 @@ character_event = {
 		clr_character_flag = attending_birke
 	}
 }
+
+##########################################################################
+# Events for feast duel
+##########################################################################
+# Duelist won duel
+character_event = {
+	id = feast.200
+	desc = EVTDESCfeast.200
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		FROM = {
+			OR = { 
+				has_character_flag = duel_lost
+				has_character_flag = duel_barely_lost
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.200
+		hidden_tooltip = { FROM = { character_event = { id = feast.202} } }
+	}
+}
+# Opponent won duel
+character_event = {
+	id = feast.201
+	desc = EVTDESCfeast.201
+	picture = GFX_evt_melee
+	
+	show_from_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = { 
+			has_character_flag = duel_won
+			has_character_flag = duel_barely_won
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.200
+		hidden_tooltip = { FROMFROM = { character_event = { id = feast.203} } }
+	}
+}
+# Duelist won duel. inform opponent
+character_event = {
+	id = feast.202
+	desc = EVTDESCfeast.202
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.202
+		random_list = {
+			50 = { }
+			30 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			20 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+		}
+	}
+}
+# Opponent won duel, inform duelist
+character_event = {
+	id = feast.203
+	desc = EVTDESCfeast.203
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.203
+		random_list = {
+			50 = { }
+			30 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			20 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+		}
+	}
+}
