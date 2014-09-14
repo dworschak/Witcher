@@ -41,10 +41,10 @@ pogrom = { # Usable against nearby non-human counties, convert province, if have
 	}
 	
 	can_use_title = {
-		OR = {
-			location = { NOT = { terrain = dryad_forest } }
-			ROOT = { trait = dryad }
-		}
+		# OR = {
+			# location = { NOT = { terrain = dryad_forest } }
+			# ROOT = { trait = dryad }
+		# }
 		tier = count
 		holder_scope = {
 			OR = {
@@ -710,10 +710,10 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 	}
 	
 	can_use_title = {
-		OR = {
-			location = { NOT = { terrain = dryad_forest } }
-			ROOT = { trait = dryad }
-		}
+		# OR = {
+			# location = { NOT = { terrain = dryad_forest } }
+			# ROOT = { trait = dryad }
+		# }
 		# The attacker needs at least one county in the target kingdom, or a border, or be only two sea zones away from one of your counties
 		any_direct_de_jure_vassal_title = {
 			OR = {
@@ -1543,10 +1543,10 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 	}
 	
 	can_use_title = {
-		OR = {
-			location = { NOT = { terrain = dryad_forest } }
-			ROOT = { trait = dryad }
-		}
+		# OR = {
+			# location = { NOT = { terrain = dryad_forest } }
+			# ROOT = { trait = dryad }
+		# }
 		tier = duke
 		any_direct_de_jure_vassal_title = { # The attacker a border or be only one sea zones away
 			OR = {
@@ -2115,12 +2115,13 @@ reclamation = { # Usable by elven and dwarven empires
 	
 	on_success_title = {
 		custom_tooltip = { 
-			text = tribal_invasion_succ_tip
+			text = religious_cb_succ_tip
 			hidden_tooltip = {
 				ROOT = {
 					vassalize_or_take_under_title = {
 						title = PREV
 						enemy = FROM
+						same_religion = yes # Only vassalize rulers of my religion
 					}
 				}
 			}

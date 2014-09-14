@@ -3,7 +3,7 @@ namespace = health
 ################################################
 # Sick from VIET
 ################################################
-# Vassal has to visit sick liege
+# Vassal has to visit sick liege (on_yearly_pulse)
 character_event = {
 	id = health.1 
 	desc = EVTDESChealth.1
@@ -78,7 +78,7 @@ character_event = {
 		}
 	}
 }
-# Sick character can't do duties anymore
+# Sick character can't do duties anymore (on_yearly_pulse)
 character_event = {
 	id = health.2
 	desc = EVTDESChealth.2
@@ -224,7 +224,7 @@ character_event = {
 ################################################
 # Leper from VIET
 ################################################
-# Lonely Leper
+# Lonely Leper (on_yearly_pulse)
 character_event = {
 	id = health.10
 	desc = EVTDESChealth.10
@@ -332,7 +332,7 @@ character_event = {
 		}
 	}
 }
-# Religious Leper
+# Religious Leper (on_yearly_pulse)
 character_event = {
 	id = health.11
 	desc = EVTDESChealth.11
@@ -403,7 +403,7 @@ character_event = {
 		}
 	}
 }
-# Living as a Leper is miserable
+# Living as a Leper is miserable (on_yearly_pulse)
 character_event = {
 	id = health.12
 	desc = EVTDESChealth.12
@@ -496,7 +496,7 @@ character_event = {
 ################################################
 # Blind from VIET
 ################################################
-# Blind character trips down the stairs
+# Blind character trips down the stairs (on_yearly_pulse)
 character_event = {
 	id = health.20
 	desc = EVTDESChealth.20
@@ -594,7 +594,7 @@ character_event = {
 		}
 	}
 }
-# Blind character worries
+# Blind character worries (on_yearly_pulse)
 character_event = {
 	id = health.21
 	desc = EVTDESChealth.21
@@ -691,7 +691,7 @@ character_event = {
 		prestige = 10
 	}
 }
-# Blind character contemplates blindness
+# Blind character contemplates blindness (on_yearly_pulse)
 character_event = {
 	id = health.22
 	desc = EVTDESChealth.22
@@ -775,6 +775,58 @@ character_event = {
 			trait = poet
 		}
 		prestige = 10
+	}
+}
+#Blind character's other senses improve
+character_event = {
+	id = health.23
+	desc = EVTDESChealth.23
+	picture = GFX_evt_whispers
+	
+	min_age = 15
+	capable_only = yes
+	
+	trigger = {
+		OR = {
+			trait = blinded
+			trait = blind
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+		modifier = {
+			factor = 1.1
+			trait = absentminded
+		}
+		modifier = {
+			factor = 0.9
+			trait = perceptive
+		}
+		modifier = {
+			factor = 1.1
+			trait = genius
+		}
+		modifier = {
+			factor = 0.9
+			trait = imbecile
+		}
+		modifier = {
+			factor = 1.1
+			trait = slow
+		}
+		modifier = {
+			factor = 0.9
+			trait = quick
+		}
+	}
+	
+	option = {
+		name = EVTOPTAhealth.23
+		add_character_modifier = {
+			name = blind_increased_senses
+			duration = -1
+		}
 	}
 }
 
@@ -1075,7 +1127,7 @@ character_event = {
 		}
 	}
 }
-# Sorcerer - Starting to see things (Adventur Time - Wizard eyes)
+# Sorcerer - Starting to see things (Adventure Time - Wizard eyes)
 character_event = {
 	id = health.102
 	desc = EVTDESChealth.102
@@ -1101,5 +1153,266 @@ character_event = {
 		name = EVTOPTAhealth.102
 		tooltip_info = lunatic
 		prestige = -20
+	}
+}
+# I'll take ... and eat it too
+character_event = {
+	id = health.103
+	desc = EVTDESChealth.103
+	picture = GFX_evt_lunatic
+	
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = { 
+		war = no 
+		in_command = no 
+		is_abroad = no
+		trait = lunatic
+	}
+	
+	mean_time_to_happen = {
+		months = 420
+	}
+	
+	option = { # sister
+		name = EVTOPTAhealth.103
+		trigger = {
+			is_female = no
+			trait = lustful
+			any_sibling = {
+				is_female = yes
+				is_lover = ROOT
+				NOT = { has_character_modifier = old_age }
+			}
+		}
+		add_character_modifier = { name = lustful_ruler duration = 365 }
+		random = {
+			chance = 20
+			random_sibling = {
+				limit = {
+					is_female = yes
+					is_lover = ROOT
+					NOT = { has_character_modifier = old_age }
+				}
+				impregnate = ROOT
+			}
+		}
+	}
+	option = { # enemies of halflings
+		name = EVTOPTBhealth.103
+		trigger = {
+			OR = {
+				any_courtier = { trait = halfling }
+				any_vassal = { trait = halfling }
+				# any_realm_province = { culture = halfling }
+			}
+			NOT = { trait = halfling }
+		}
+		piety = 5
+	}
+	option = { # god
+		name = EVTOPTChealth.103
+		trigger = { trait = cynical }
+		tooltip_info = cynical
+		piety = 5
+	}
+	option = { # bad god
+		name = EVTOPTDhealth.103
+		trigger = { trait = zealous }
+		tooltip_info = zealous
+		piety = 5
+	}
+	option = { # beard
+		name = EVTOPTEhealth.103
+		trigger = { trait = dwarf }
+		tooltip_info = dwarf
+		prestige = 5
+	}
+	option = { # enemies
+		name = EVTOPTFhealth.103
+		prestige = 5
+	}
+	option = { # sweetrolls
+		name = EVTOPTGhealth.103
+		prestige = 3
+		add_character_modifier = {
+			name = eating_good_food
+			duration = 365
+		}
+	}
+	option = { # comets
+		name = EVTOPTHhealth.103
+		prestige = 3
+	}
+}
+
+################################################
+# Depressed events from VIET
+################################################
+# Depressed - Sad (on_yearly_pulse)
+character_event = {
+	id = health.120
+	desc = EVTDESChealth.120
+	picture = GFX_evt_bad_news
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		is_abroad = no
+		trait = depressed
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = shy
+		}
+		modifier = {
+			factor = 0.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 2
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+		modifier = {
+			factor = 2
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.5
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = chaste
+		}
+		modifier = {
+			factor = 0.5
+			trait = hedonist
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+	}
+	
+	option = {
+		name = EVTOPTAhealth.120
+		prestige = -1
+	}
+}
+# Depressed - Exhausted (on_yearly_pulse)
+character_event = {
+	id = health.121
+	desc = EVTDESChealth.121
+	picture = GFX_evt_bad_news
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		is_abroad = no
+		trait = depressed
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 3
+			NOT = { health = 4 }
+		}
+		modifier = {
+			factor = 2
+			NOT = { health = 5 }
+		}
+		modifier = {
+			factor = 2
+			trait = shy
+		}
+		modifier = {
+			factor = 0.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 2
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+		modifier = {
+			factor = 2
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.5
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = chaste
+		}
+		modifier = {
+			factor = 0.5
+			trait = hedonist
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+	}
+	
+	option = {
+		name = EVTOPTAhealth.121
+		prestige = -1
+		random_list = {
+			70 = { }
+			30 = {
+				add_trait = ill
+				hidden_tooltip = { character_event = { id = 38290 } }
+			}
+		}
+		if = {
+			limit = {
+				has_character_modifier = old_age
+			}
+			hidden_tooltip = {
+				random_list = {
+				90 = { }
+				10 = { death = { death_reason = death_by_nature } }
+				}
+			}
+		}
 	}
 }

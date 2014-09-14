@@ -81,7 +81,7 @@ province_event = {
 		modifier = { factor = 0.1 religion = dana_meadbh }
 		modifier = { factor = 0.1 religion = dwarven }
 		modifier = { factor = 0.1 has_province_modifier = non_human_slaughter }
-		modifier = { factor = 0.2 has_province_modifier = non_human_oppresion }
+		modifier = { factor = 0.2 has_province_modifier = non_human_oppression }
 		modifier = {
 			factor = 0.01
 			any_neighbor_province = {
@@ -145,7 +145,7 @@ province_event = {
 		modifier = { factor = 0.1 religion = dana_meadbh }
 		modifier = { factor = 0.1 religion = dwarven }
 		modifier = { factor = 0.1 has_province_modifier = non_human_slaughter }
-		modifier = { factor = 0.2 has_province_modifier = non_human_oppresion }
+		modifier = { factor = 0.2 has_province_modifier = non_human_oppression }
 	}
 	
 	option = {
@@ -196,7 +196,7 @@ province_event = {
 		modifier = { factor = 0.5 religion = dana_meadbh }
 		modifier = { factor = 0.5 religion = dwarven }
 		modifier = { factor = 5 has_province_modifier = non_human_slaughter }
-		modifier = { factor = 2 has_province_modifier = non_human_oppresion }
+		modifier = { factor = 2 has_province_modifier = non_human_oppression }
 	}
 	
 	option = {
@@ -219,7 +219,7 @@ province_event = {
 # Scoia'tael joins independant non-human realm after successful revolt
 ##########################################################################
 # Hidden - Find if there is suitable realm nearby
-province_event = {
+character_event = {
 	id = scoiatael.100
 	desc = EVTDESCscoiatael.100
 	picture = GFX_evt_bandits
@@ -230,13 +230,15 @@ province_event = {
 	trigger = {
 		any_realm_province = {
 			any_neighbor_province = {
-				top_liege = {
-					OR = {
-						trait = elven
-						trait = dwarven
-						trait = kind2
+				owner = {
+					top_liege = {
+						OR = {
+							trait = elven
+							trait = dwarven
+							trait = kind2
+						}
+						higher_tier_than = COUNT
 					}
-					higher_tier_than = COUNT
 				}
 			}
 		}
@@ -246,34 +248,38 @@ province_event = {
 		random_realm_province = {
 			limit = {
 				any_neighbor_province = {
-					top_liege = {
-						OR = {
-							trait = elven
-							trait = dwarven
-							trait = kind2
+					owner = {
+						top_liege = {
+							OR = {
+								trait = elven
+								trait = dwarven
+								trait = kind2
+							}
+							higher_tier_than = COUNT
 						}
-						higher_tier_than = COUNT
 					}
 				}
 			}
 			random_neighbor_province = {
 				limit = {
-					top_liege = {
-						OR = {
-							trait = elven
-							trait = dwarven
-							trait = kind2
+					owner = {
+						top_liege = {
+							OR = {
+								trait = elven
+								trait = dwarven
+								trait = kind2
+							}
+							higher_tier_than = COUNT
 						}
-						higher_tier_than = COUNT
 					}
 				}
-				top_liege = { letter_event = { id = scoiatael.100 } }
+				owner = { top_liege = { letter_event = { id = scoiatael.101 } } }
 			}
 		}
 	}
 }
 # Give potential liege chance to accept or decline
-province_event = {
+letter_event = {
 	id = scoiatael.101
 	desc = EVTDESCscoiatael.101
 	

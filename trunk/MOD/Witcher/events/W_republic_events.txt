@@ -3,7 +3,7 @@ namespace = republic
 ################################################
 # Republic events from VIET
 ################################################
-# Pickpocket!
+# Pickpocket! (on_yearly_pulse)
 character_event = {
 	id = republic.1
 	desc = EVTDESCrepublic.1
@@ -23,7 +23,6 @@ character_event = {
 	
 	weight_multiplier = {
 		days = 1
-
 		modifier = {
 			factor = 1.3
 			trait = slothful
@@ -179,7 +178,7 @@ character_event = {
 		}
 	}
 }
-# Ruined clothes
+# Ruined clothes (on_yearly_pulse)
 character_event = {
 	id = republic.2
 	desc = EVTDESCrepublic.2 
@@ -341,7 +340,7 @@ character_event = {
 		}
 	}
 }
-# Grounded Ship
+# Grounded Ship (on_bi_yearly_pulse)
 character_event = {
 	id = republic.3
 	desc = EVTDESCrepublic.3 
@@ -452,7 +451,7 @@ character_event = {
 		}
 	}
 }
-# Character's associate gone bankrupt, asks for money
+# Character's associate gone bankrupt, asks for money (on_bi_yearly_pulse)
 character_event = {
 	id = republic.4
 	desc = EVTDESCrepublic.4 
@@ -750,7 +749,7 @@ character_event = {
 		}
 	}
 }
-# Character misjudged prices
+# Character misjudged prices (on_bi_yearly_pulse)
 character_event = {
 	id = republic.7
 	desc = EVTDESCrepublic.7 
@@ -841,7 +840,7 @@ character_event = {
 		}
 	}
 }
-# Bad associate
+# Bad associate (on_bi_yearly_pulse)
 character_event = {
 	id = republic.8
 	desc = EVTDESCrepublic.8 
@@ -929,6 +928,87 @@ character_event = {
 			name = business_partner_fraud
 			duration = 365
 		}
+	}
+}
+# Minor family vendetta (on_bi_yearly_pulse)
+character_event = {
+	id = republic.9
+	desc = EVTDESCrepublic.9
+	picture = GFX_evt_family_feud_republic
+	
+	is_triggered_only = yes
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = { 
+		war = no 
+		in_command = no 
+		is_abroad = no
+		is_patrician = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = content
+		}
+		modifier = {
+			factor = 0.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 2
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 0.5
+			trait = just
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2
+			trait = trusting
+		}
+		modifier = {
+			factor = 0.5
+			trait = paranoid
+		}
+	}
+	
+	option = {
+		name = EVTOPTArepublic.9
+		random_demesne_province = {
+			add_province_modifier = {
+				name = family_vendetta
+				duration = 1000
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBrepublic.9
+		tooltip_info = diligent
+		trigger = {
+			trait = diligent
+		}
+		wealth = -3
 	}
 }
 
