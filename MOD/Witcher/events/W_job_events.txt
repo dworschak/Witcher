@@ -335,6 +335,127 @@ character_event = {
 }
 
 ################################################
+# Chancellor promotes weak claim to strong
+################################################
+# Chancellor promotes weak claim to strong
+character_event = {
+	id = job.10
+	desc = EVTDESCjob.10
+	picture = GFX_evt_spymaster
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	only_men = yes
+	
+	trigger = {
+		job_chancellor = {
+			diplomacy = 14
+		}
+		any_claim = {
+				ROOT = { has_weak_claim = PREV }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 720
+		modifier = {
+			factor = 0.95
+			diplomacy = 15
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 16
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 17
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 18
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 19
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 20
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 21
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 22
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 24
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 26
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 29
+		}
+	}
+	
+	option = {
+		name = EVTOPTAjob.10
+		random_claim = {
+			limit = {
+				ROOT = { has_weak_claim = PREV }
+			}
+			ROOT = { 
+				hidden_tooltip = { remove_claim = PREV }
+				add_pressed_claim = PREV
+			}
+		}
+		scaled_wealth = -1.0
+		if = { # Emperor or King
+			limit = { primary_title = { higher_tier_than = DUKE } }
+			prestige = -150
+		}
+		if = { # Duke
+			limit = { primary_title = { tier = DUKE } }
+			prestige = -100
+		}
+		if = { # Count or Patrician
+			limit = {
+				OR = {
+					primary_title = { tier = COUNT }
+					AND = {
+						is_patrician = yes
+						primary_title = { NOT = { higher_tier_than = COUNT } }
+					}
+				}
+				primary_title = { tier = DUKE }
+			}
+			prestige = -50
+		}
+		ai_chance ={
+			factor = 5
+			modifier = { factor = 0 NOT = { prestige = 0 } }
+			modifier = { factor = 0 NOT = { scaled_wealth = 1.25 } }
+			modifier = { factor = 0 trait = content }
+			modifier = { factor = 2 trait = ambitious }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.10
+		piety = 10
+		ai_chance ={
+			factor = 1
+		}
+	}
+}
+
+################################################
 # Job flavor events from Prince and the Thane
 ################################################
 # Chancellor deals with petitioners

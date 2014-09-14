@@ -284,4 +284,151 @@ decisions = {
 			modifier = { factor = 0.001 }
 		}
 	}
+	
+	hold_archery_competition = {
+		is_high_prio = yes
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			NOT = {
+				has_character_flag = archery_competition
+				has_character_flag = do_not_disturb
+			}
+			independent = yes
+			OR = {
+				tier = duke
+				tier = king
+				tier = emperor 
+			}
+			location = {
+				owner = { character = ROOT }
+			}
+			OR = {
+				trait = dryad
+				trait = elven
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			in_command = no
+			age = 15
+			prestige = 300
+			wealth = 100
+		}
+		effect = {
+			set_character_flag = archery_competition
+			set_character_flag = do_not_disturb
+			clr_character_flag = archery_competition_has_ended
+			hidden_tooltip = { character_event = { id = tournament.400 days = 200 } } # Safety catch flag clearing
+			wealth = -100
+			prestige = 50
+			character_event = { id = tournament.1 tooltip = "tournament_invite" }
+			hidden_tooltip = {
+				character_event = { id = tournament.10 days = 60 } # Competition start
+				clr_character_flag = archery_competition_has_ended
+				any_realm_character = {
+					limit = {
+						is_feudal = yes
+						NOT = { has_job_title = job_spiritual }
+						age = 15
+						NOT = { has_character_modifier = old_age }
+						NOT = { trait = incapable }
+						prisoner = no
+						is_female = no
+					}
+					clr_character_flag = archery_competition_has_ended
+					character_event = { id = tournament.2 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = {
+					OR = {
+						wealth = 500
+						scaled_wealth = 2
+					}
+				}
+			}
+		}
+	}
+	
+	embrace_solarism = {
+		potential = {
+			has_dlc = "Sons of Abraham"
+			religion = solar
+			NOT = { 
+				OR = {
+					trait = solarist
+					trait = imperialist
+				}
+			}
+			is_ruler = yes
+			age = 15
+			prisoner = no
+		}
+		
+		allow = {
+			piety = 50
+		}
+		
+		effect = {
+			tooltip = { add_trait = solarist }
+			character_event = { id = religious.100 tooltip = EVTTOOLTIPreligious.100 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.005 }
+			modifier = { factor = 1.2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+			modifier = { factor = 1.2 liege = { trait = solarist } }
+			modifier = { factor = 1.5 any_independent_ruler = { NOT = { trait = strong_emperor } } }
+		}
+	}
+	
+	embrace_imperialism = {
+		potential = {
+			has_dlc = "Sons of Abraham"
+			religion = solar
+			NOT = { 
+				OR = {
+					trait = solarist
+					trait = imperialist
+				}
+			}
+			is_ruler = yes
+			age = 15
+			prisoner = no
+		}
+		
+		allow = {
+			piety = 50
+		}
+		
+		effect = {
+			tooltip = { add_trait = imperialist }
+			character_event = { id = religious.101 tooltip = EVTTOOLTIPreligious.101 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.005 }
+			modifier = { factor = 0 trait = zealous }
+			modifier = { factor = 1.2 trait = cynical }
+			modifier = { factor = 1.2 liege = { trait = imperialist } }
+			modifier = { factor = 2 any_independent_ruler = { trait = strong_emperor } }
+		}
+	}
 }

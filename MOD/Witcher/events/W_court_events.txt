@@ -636,6 +636,224 @@ character_event = {
 		prestige = -5
 	}
 }
+# Annoying courtier
+character_event = {
+	id = court.11
+	desc = EVTDESCcourt.11
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = { 
+		always = no 
+		war = no 
+		in_command = no 
+		is_abroad = no
+		any_courtier = {
+			OR = {
+				trait = lunatic
+				trait = imbecile
+				trait = possessed
+				AND = {
+					trait = gregarious
+					trait = cruel
+				}
+			}
+			ai = yes
+			NOT = { trait = incapable }
+			is_adult = yes
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = gluttonous 
+		}
+		modifier = {
+			factor = 0.5
+			trait = temperate
+		}
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.11
+		set_character_flag = annoyed_by_courtier_1
+		random_courtier = {
+			limit = {
+			OR = {
+				trait = lunatic
+				trait = imbecile
+				trait = possessed
+				AND = {
+					trait = gregarious
+					trait = cruel
+				}
+			}
+			ai = yes
+			NOT = { trait = incapable }
+			is_adult = yes
+			}
+			character_event = { id = court.12 tooltip = EVTTOOLTIPcourt.12 }
+		}
+	}
+}
+# Annoying courtier - Courtier ping
+character_event = {
+	id = court.12
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				FROM = {
+					NOT = { has_character_flag = annoyed_by_courtier_7 }
+				}
+			}
+			FROM = {character_event = { id = court.13 } }
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_character_flag = annoyed_by_courtier_7
+				}
+			}
+			FROM = {character_event = { id = court.14 } }
+		}
+	}
+}
+# Annoying courtier - Annoying you (looping 7 times)
+character_event = {
+	id = court.13
+	desc = EVTDESCcourt.13
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_1 }
+		clr_character_flag = annoyed_by_courtier_1
+		set_character_flag = annoyed_by_courtier_2
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTBcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_2 }
+		clr_character_flag = annoyed_by_courtier_2
+		set_character_flag = annoyed_by_courtier_3
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTCcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_3 }
+		clr_character_flag = annoyed_by_courtier_3
+		set_character_flag = annoyed_by_courtier_4
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTDcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_4 }
+		clr_character_flag = annoyed_by_courtier_4
+		set_character_flag = annoyed_by_courtier_5
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTEcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_5 }
+		clr_character_flag = annoyed_by_courtier_5
+		set_character_flag = annoyed_by_courtier_6
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTFcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_6 }
+		clr_character_flag = annoyed_by_courtier_6
+		set_character_flag = annoyed_by_courtier_7
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+}
+# Annoying courtier - Punched him in face
+character_event = {
+	id = court.14
+	desc = EVTDESCcourt.14
+	picture = GFX_evt_castle_construction
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.14
+		clr_character_flag = annoyed_by_courtier_7
+		random = {
+			chance = 15
+			FROM = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+		}
+		FROM = {
+			opinion = {
+				modifier = opinion_amused
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
 
 ################################################
 # Replace mage

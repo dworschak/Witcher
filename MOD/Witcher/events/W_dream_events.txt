@@ -14,9 +14,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
-		is_ruler = yes
 		war = no
 		in_command = no
 	}
@@ -97,10 +97,13 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
-		is_ruler = yes
-		is_female = no
+		OR ={
+			is_female = no
+			has_character_flag = special_marshal
+		}
 	}
 	
 	weight_multiplier = {
@@ -187,9 +190,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
-		is_ruler = yes
 		war = no
 		in_command = no
 	}
@@ -281,9 +284,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
-		is_ruler = yes
 		war = no
 		in_command = no
 		is_female = no
@@ -479,11 +482,11 @@ character_event = {
 	is_triggered_only = yes
 	
 	min_age = 15
+	only_rulers = yes
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
-		is_ruler = yes
 		war = no
 		in_command = no
 		trait = kinslayer
@@ -534,6 +537,152 @@ character_event = {
 		}
 	}
 }
+# Wet dream
+character_event = {
+	id = dream.8
+	desc = EVTDESCdream.8
+	picture = GFX_evt_lovers
+	
+	is_triggered_only = yes
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		is_abroad = no
+		NOT = { trait = celibate }
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = lustful
+		}
+		modifier = {
+			factor = 0.5
+			trait = chaste
+		}
+		modifier = {
+			factor = 2
+			trait = shy
+		}
+		modifier = {
+			factor = 0.5
+			trait = gregarious
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+		modifier = {
+			factor = 2
+			trait = greedy
+		}
+		modifier = {
+			factor = 0.5
+			trait = charitable
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+	}
+	
+	option = {
+		name = EVTOPTAdream.8
+		add_character_modifier = {
+			name = feeling_sexy
+			duration = 285
+		}
+	}
+}
+# Dream Recollection
+character_event = {
+	id = dream.9
+	desc = EVTDESCdream.9
+	picture = GFX_evt_holy_light
+
+	is_triggered_only = yes
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		is_abroad = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = absentminded
+		}
+		modifier = {
+			factor = 0.5
+			trait = perceptive
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+	}
+	
+	option = {
+		name = EVTOPTAdream.9
+		prestige = -1
+	}
+}
 
 ##########################################################################
 # Witcher dream
@@ -549,12 +698,11 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
-		is_ruler = yes
 		war = no
 		in_command = no
-		trait = kinslayer
 	}
 	
 	weight_multiplier = {

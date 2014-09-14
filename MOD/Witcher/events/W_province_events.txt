@@ -1,5 +1,9 @@
 namespace = province
-
+# TO DO - give more varied conditions for monster events
+# TO DO - remove vampire and werewolf events (they are too epic to appear as random monsters)
+# TO DO - add harpies and few more generic monsters
+# TO DO - add few seasonal events
+ 
 ################################################
 # Monsters appear
 ################################################
@@ -334,7 +338,7 @@ province_event = {
 }
 
 ################################################
-# Seasonal events from VIET
+# Seasonal events
 ################################################
 # Long rain
 province_event = {
@@ -528,5 +532,29 @@ province_event = {
 		owner = { 
 			piety = -10
 		}
+	}
+}
+# Harsh winter
+province_event = {
+	id = province.15
+	desc = EVTDESCprovince.15
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		owner = { NOT = { culture = wilderness} }
+		OR = {
+			month = 10
+			NOT = { month = 2 }
+		}
+		NOT = { has_province_modifier = harsh_winter }
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+	}
+	
+	option = {
+		name = EVTOPTAprovince.15
+		add_province_modifier = { name = harsh_winter duration = 180 }
 	}
 }

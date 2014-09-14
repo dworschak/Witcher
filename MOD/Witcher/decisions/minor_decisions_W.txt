@@ -264,7 +264,7 @@ decisions = {
 				any_courtier = {
 					OR = {
 						has_minor_title = title_blue_stripes_commander
-						has_minor_title = title_reb_bows_commander
+						has_minor_title = title_red_bows_commander
 						has_minor_title = title_special_forces_commander
 					}
 				}
@@ -277,6 +277,55 @@ decisions = {
 			factor = 1
 			modifier = { factor = 10 trait = racist }
 			modifier = { factor = 0.1 trait = tolerant }
+		}
+	}
+	
+	pilgrimage = {
+		potential = {
+			has_dlc = "Sons of Abraham"
+			is_ruler = yes
+			religion = lebioda
+			NOT = { trait = pilgrim }
+			NOT = { has_character_flag = do_not_disturb }
+		}
+		allow = {
+			war = no
+			in_command = no
+			any_demesne_title = {
+				is_occupied = no
+			}
+			prisoner = no
+			scaled_wealth = 0.2
+			is_adult = yes
+			custom_tooltip = {
+				text = health_travel_condition
+				hidden_tooltip = {
+					NOT = {	trait = pregnant }
+					NOT = {	trait = incapable }
+					NOT = {	trait = blinded }
+					NOT = {	trait = has_tuberculosis }
+					NOT = {	trait = has_typhoid_fever }
+					NOT = {	trait = has_typhus }
+					NOT = {	trait = has_bubonic_plague }
+					NOT = {	trait = has_measles }
+					NOT = {	trait = has_small_pox }
+					NOT = {	trait = has_aztec_disease }
+				}
+			}
+		}
+		effect = {
+			scaled_wealth = -0.2
+			set_character_flag = activated_pilgrimage
+			set_character_flag = do_not_disturb
+			hidden_tooltip = { character_event = { id = pilgrim.1 } }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.01 }
+			modifier = { factor = 5 trait = zealous }
+			modifier = { factor = 0 NOT = { wealth = 100 } }
+			modifier = { factor = 0 NOT = { age = 25 } }
+			modifier = { factor = 0 has_character_modifier = old_age }
 		}
 	}
 }
