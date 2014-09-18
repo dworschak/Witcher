@@ -2089,3 +2089,1345 @@ character_event = {
 		change_variable = { which = learning_magic value = 1 }
 	}
 }
+
+################################################
+# Child education
+################################################
+# Child - Need education
+character_event = {
+	id = childhood.200
+	desc = EVTDESCchildhood.200
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	min_age = 5
+	max_age = 12
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		NOT = { has_character_modifier = court_education }
+		NOT = { has_character_modifier = martial_education }
+		NOT = { has_character_modifier = steward_education }
+		NOT = { has_character_modifier = no_education }
+	}
+	
+	option = {
+		name = EVTOPTAchildhood.200
+		if = {
+			limit = { has_guardian = yes }
+			guardian = { character_event = { id = childhood.201 } }
+		}
+		if = {
+			limit = {
+				has_guardian = no
+				is_ruler = no
+			}
+			liege = { character_event = { id = childhood.201 } }
+		}
+		if = {
+			limit = {
+				has_guardian = no
+				is_ruler = yes
+			}
+			regent = { character_event = { id = childhood.201 } }
+		}
+	}
+}
+# Guardian/Liege/Regent - Choose education
+character_event = {
+	id = childhood.201
+	desc = EVTDESCchildhood.201
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	option = { # Choose court education
+		name = EVTOPTAchildhood.201
+		FROM = {
+			if = { # Guardian liege pays from his pocket
+				limit = {
+					liege = { character = ROOT }
+					is_ruler = no
+				}
+				ROOT = { wealth = -20 }
+				tooltip = { add_character_modifier = { name = court_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.210 } }
+			}
+			if = { # Guardian regent pays from with child's money
+				limit = {
+					regent = { character = ROOT }
+					is_ruler = yes
+				}
+				wealth = -20
+				tooltip = { add_character_modifier = { name = court_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.210 } }
+			}
+			if = { # Guardian asks liege to pay from his pocket
+				limit = {
+					guardian = { character = ROOT }
+					liege = { NOT = { character = ROOT } }
+					is_ruler = no
+				}
+				guardian = { set_character_flag = asked_money_for_court_education }
+				liege = { letter_event = { id = childhood.202 tooltip = EVTTOOLTIPreeducation.202 } }
+			}
+			if = { # Guardian asks regent to pay with child's money
+				limit = {
+					guardian = { character = ROOT }
+					regent = { NOT = { character = ROOT } }
+					is_ruler = yes
+				}
+				guardian = { set_character_flag = asked_money_for_court_education }
+				regent = { letter_event = { id = childhood.202 tooltip = EVTTOOLTIPreeducation.202 } }
+			}
+		}
+		ai_chance = {
+			factor = 2
+			# Guardian education traits
+			modifier = {
+				factor = 2
+				OR = {
+					trait = flamboyant_schemer
+					trait = intricate_webweaver
+					trait = elusive_shadow
+					trait = underhanded_rogue
+					trait = charismatic_negotiator
+					trait = grey_eminence
+					trait = polymath
+					trait = the_sage
+				}
+			}
+			# Guardian other traits
+			modifier = { factor = 1.5 trait = poet }
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 2 trait = envious }
+			# Guardian culture
+			modifier = { factor = 1.5 culture = nilfgaardian }
+			# Child stats
+			modifier = { factor = 1.5 FROM = { diplomacy = 4 } }
+			modifier = { factor = 1.5 FROM = { diplomacy = 6 } }
+			modifier = { factor = 1.5 FROM = { diplomacy = 8 } }
+			modifier = { factor = 1.5 FROM = { diplomacy = 10 } }
+			modifier = { factor = 1.5 FROM = { intrigue = 4 } }
+			modifier = { factor = 1.5 FROM = { intrigue = 6 } }
+			modifier = { factor = 1.5 FROM = { intrigue = 8 } }
+			modifier = { factor = 1.5 FROM = { intrigue = 10 } }
+			# Child congenital traits
+			modifier = { factor = 2 FROM = { trait = fair } }
+			modifier = { factor = 0.5 FROM = { trait = ugly } }
+			modifier = { factor = 0.5 FROM = { trait = stutter } }
+			modifier = { factor = 0.5 FROM = { trait = harelip } }
+			modifier = { factor = 0.5 FROM = { trait = lisp } }
+			modifier = { factor = 2 FROM = { trait = silver_tongued } }
+			modifier = { factor = 0.5 FROM = { trait = mute } }
+		}
+	}
+	option = { # Choose steward education
+		name = EVTOPTBchildhood.201
+		FROM = {
+			if = { # Guardian liege pays from his pocket
+				limit = {
+					guardian = { character = ROOT }
+					liege = { character = ROOT }
+					is_ruler = no
+				}
+				ROOT = { wealth = -20 }
+				tooltip = { add_character_modifier = { name = steward_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.211 } }
+			}
+			if = { # Guardian regent pays from with child's money
+				limit = {
+					guardian = { character = ROOT }
+					regent = { character = ROOT }
+					is_ruler = yes
+				}
+				wealth = -20
+				tooltip = { add_character_modifier = { name = steward_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.211 } }
+			}
+			if = { # Guardian asks liege to pay from his pocket
+				limit = {
+					guardian = { character = ROOT }
+					liege = { NOT = { character = ROOT } }
+					is_ruler = no
+				}
+				guardian = { set_character_flag = asked_money_for_steward_education }
+				liege = { letter_event = { id = childhood.202 tooltip = EVTTOOLTIPreeducation.202 } }
+			}
+			if = { # Guardian asks regent to pay with child's money
+				limit = {
+					guardian = { character = ROOT }
+					regent = { NOT = { character = ROOT } }
+					is_ruler = yes
+				}
+				guardian = { set_character_flag = asked_money_for_steward_education }
+				regent = { letter_event = { id = childhood.202 tooltip = EVTTOOLTIPreeducation.202 } }
+			}
+		}
+		ai_chance = {
+			factor = 1
+			# Guardian education traits
+			modifier = {
+				factor = 2
+				OR = {
+					trait = thrifty_clerk
+					trait = fortune_builder
+					trait = midas_touched
+					trait = polymath
+					trait = the_sage
+				}
+			}
+			# Guardian race traits
+			modifier = { factor = 1.5 trait = dwarven }
+			modifier = { factor = 2 trait = halfling }
+			# Guardian other traits
+			modifier = { factor = 2 trait = academic }
+			modifier = { factor = 1.5 trait = scholar }
+			modifier = { factor = 1.5 trait = gardener }
+			modifier = { factor = 1.5 trait = craftsman }
+			modifier = { factor = 2 trait = greedy }
+			# Guardian culture
+			modifier = { factor = 1.5 culture = koviri }
+			# Guardian misc
+			modifier = { factor = 3 is_patrician = yes }
+			# Child stats
+			modifier = { factor = 2 FROM = { stewardship = 4 } }
+			modifier = { factor = 2 FROM = { stewardship = 6 } }
+			modifier = { factor = 2 FROM = { stewardship = 8 } }
+			modifier = { factor = 2 FROM = { stewardship = 10 } }
+			# Child congenital traits
+			modifier = { factor = 2 FROM = { trait = perceptive } }
+			modifier = { factor = 2 FROM = { trait = lucky } }
+			modifier = { factor = 0.5 FROM = { trait = cursed } }
+			modifier = { factor = 0.5 FROM = { trait = absentminded } }
+			modifier = { factor = 0.5 FROM = { trait = deaf } }
+		}
+	}
+	option = { # Choose martial education
+		name = EVTOPTCchildhood.201
+		FROM = {
+			if = { # Guardian liege pays from his pocket
+				limit = {
+					guardian = { character = ROOT }
+					liege = { character = ROOT }
+				}
+				ROOT = { wealth = -20 }
+				tooltip = { add_character_modifier = { name = martial_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.212 } }
+			}
+			if = { # Guardian regent pays from with child's money
+				limit = {
+					guardian = { character = ROOT }
+					regent = { character = ROOT }
+				}
+				wealth = -20
+				tooltip = { add_character_modifier = { name = martial_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.212 } }
+			}
+			if = { # Guardian asks liege to pay from his pocket
+				limit = {
+					guardian = { character = ROOT }
+					liege = { NOT = { character = ROOT } }
+					is_ruler = no
+				}
+				guardian = { set_character_flag = asked_money_for_martial_education }
+				liege = { letter_event = { id = childhood.202 tooltip = EVTTOOLTIPreeducation.202 } }
+			}
+			if = { # Guardian asks regent to pay with child's money
+				limit = {
+					guardian = { character = ROOT }
+					regent = { NOT = { character = ROOT } }
+					is_ruler = yes
+				}
+				guardian = { set_character_flag = asked_money_for_martial_education }
+				regent = { letter_event = { id = childhood.202 tooltip = EVTTOOLTIPreeducation.202 } }
+			}
+		}
+		ai_chance = {
+			factor = 1
+			# Guardian education traits
+			modifier = {
+				factor = 2
+				OR = {
+					trait = tough_soldier
+					trait = skilled_tactician
+					trait = brilliant_strategist
+					trait = polymath
+					trait = the_sage
+				}
+			}
+			# Guardian duel traits
+			modifier = {
+				factor = 2
+				OR = {
+					trait = trained_warrior
+					trait = skilled_warrior
+					trait = master_warrior
+				}
+			}
+			# Guardian race traits
+			modifier = { factor = 2 trait = dwarven }
+			modifier = { factor = 1.5 trait = halfdwarf }
+			# Guardian other traits
+			modifier = { factor = 2 trait = military_officer }
+			modifier = { factor = 1.5 trait = veteran }
+			modifier = { factor = 1.5 trait = raider }
+			modifier = { factor = 1.5 trait = duelist }
+			modifier = { factor = 2 trait = wroth }
+			# Guardian culture
+			modifier = { factor = 1.5 culture = skellige }
+			# Child stats
+			modifier = { factor = 2 FROM = { martial = 4 } }
+			modifier = { factor = 2 FROM = { martial = 6 } }
+			modifier = { factor = 2 FROM = { martial = 8 } }
+			modifier = { factor = 2 FROM = { martial = 10 } }
+			# Child congenital traits
+			modifier = { factor = 2 FROM = { trait = strong } }
+			modifier = { factor = 0.5 FROM = { trait = weak } }
+			modifier = { factor = 0.5 FROM = { trait = hunchback } }
+			modifier = { factor = 0.5 FROM = { trait = clubfooted } }
+			modifier = { factor = 2 FROM = { trait = tall } }
+			modifier = { factor = 0.5 FROM = { trait = dwarf } }
+			modifier = { factor = 2 FROM = { trait = agile } }
+			modifier = { factor = 0.5 FROM = { trait = blind } }
+			# Child misc
+			modifier = {
+				factor = 0.5
+				FROM = {
+					is_female = yes
+					NOT = { trait = dryad }
+				}
+			}
+		}
+	}
+	option = { # Choose no education
+		name = EVTOPTDchildhood.201
+		FROM = {
+			tooltip = { add_character_modifier = { name = no_education duration = -1 } }
+				hidden_tooltip = { character_event = { id = childhood.213 } }
+		}
+		ai_chance = {
+			factor = 1
+			# Guardian other traits
+			modifier = { factor = 2 trait = drunkard }
+			modifier = { factor = 2 trait = drug_addict }
+			modifier = { factor = 1.5 trait = hedonist }
+			# Child stats
+			modifier = {
+				factor = 2
+				FROM = {
+					NOT = { diplomacy = 4 }
+					NOT = { intrigue = 4 }
+					NOT = { stewardship = 4 }
+					NOT = { martial = 4 }
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					NOT = { diplomacy = 2 }
+					NOT = { intrigue = 2 }
+					NOT = { stewardship = 2 }
+					NOT = { martial = 2 }
+				}
+			}
+			# Child congenital traits
+			modifier = { factor = 5 FROM = { trait = imbecile } }
+			modifier = { factor = 2 FROM = { trait = slow } }
+			modifier = { factor = 2 FROM = { trait = inbred } }
+			modifier = { factor = 2 FROM = { trait = lunatic } }
+			# Child other traits
+			modifier = { factor = 2 trait = bastard }
+			# Child misc
+			modifier = { factor = 0.5 current_heir = { character = FROM } }
+			modifier = { factor = 0.5 liege = { dynasty = FROM } }
+		}
+	}
+}
+# Liege/Regent - Guardian asks for money
+letter_event = {
+	id = childhood.202
+	desc = EVTDESCchildhood.202
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = { # Pay
+		name = EVTOPTAchildhood.202
+		wealth = -20
+		if = {
+			limit = { FROM = { has_character_flag = asked_money_for_court_education } }
+			FROMFROM = { tooltip = { add_character_modifier = { name = court_education duration = -1 } } }
+		}
+		if = {
+			limit = { FROM = { has_character_flag = asked_money_for_steward_education } }
+			FROMFROM = { tooltip = { add_character_modifier = { name = steward_education duration = -1 } } }
+		}
+		if = {
+			limit = { FROM = { has_character_flag = asked_money_for_martial_education } }
+			FROMFROM = { tooltip = { add_character_modifier = { name = martial_education duration = -1 } } }
+		}
+		hidden_tooltip = { FROM = { character_event = { id = childhood.203 } } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 2 wealth = 100 }
+			modifier = { factor = 2 wealth = 200 }
+			modifier = {
+				factor = 2
+				any_child = { character = FROMFROM }
+				FROMFROM = { NOT = { trait = bastard } }
+			}
+			modifier = {
+				factor = 5
+				current_heir = { character = FROMFROM }
+			}
+			modifier = {
+				factor = 5
+				FROMFROM = { regent = { character = ROOT } }
+			}
+		}
+	}
+	option = { # Don't pay
+		name = EVTOPTBchildhood.202
+		FROM = { character_event = { id = childhood.204 } }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 2 NOT = { wealth = 0 } }
+			modifier = { factor = 2 FROMFROM = { trait = imbecile } }
+		}
+	}
+}
+# Guardian - Recived money
+character_event = {
+	id = childhood.203
+	desc = EVTDESCchildhood.203
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAchildhood.203
+		if = {
+			limit = { has_character_flag = asked_money_for_court_education }
+			FROMFROMFROM = { character_event = { id = childhood.210 } }
+			clr_character_flag = asked_money_for_court_education
+		}
+		if = {
+			limit = { has_character_flag = asked_money_for_steward_education }
+			FROMFROMFROM = { character_event = { id = childhood.211 } }
+			clr_character_flag = asked_money_for_steward_education
+		}
+		if = {
+			limit = { has_character_flag = asked_money_for_martial_education }
+			FROMFROMFROM = { character_event = { id = childhood.212 } }
+			clr_character_flag = asked_money_for_martial_education
+		}
+	}
+}
+# Guardian - Didn't recive money
+character_event = {
+	id = childhood.204
+	desc = EVTDESCchildhood.204
+	picture = GFX_evt_child_reading
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTBchildhood.204
+		FROMFROMFROM = { character_event = { id = childhood.213 } }
+	}
+}
+# Child - Courtier education notification
+character_event = {
+	id = childhood.210
+	desc = EVTDESCchildhood.210
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAchildhood.210
+		add_character_modifier = { name = court_education duration = -1 }
+	}
+}
+# Child - Steward education notification
+character_event = {
+	id = childhood.211
+	desc = EVTDESCchildhood.211
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAchildhood.211
+		add_character_modifier = { name = steward_education duration = -1 }
+	}
+}
+# Child - Martial education notification
+character_event = {
+	id = childhood.212
+	desc = EVTDESCchildhood.212
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAchildhood.212
+		add_character_modifier = { name = martial_education duration = -1 }
+	}
+}
+# Child - No education notification
+character_event = {
+	id = childhood.213
+	desc = EVTDESCchildhood.213
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAchildhood.213
+		add_character_modifier = { name = no_education duration = -1 }
+	}
+}
+# Child - Recieved court education
+character_event = {
+	id = childhood.220
+	desc = EVTDESCchildhood.220
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_modifier = court_education
+	}
+	
+	option = {
+		name = EVTOPTAchildhood.220
+		hidden_tooltip = {
+			remove_trait = amateurish_plotter
+			remove_trait = flamboyant_schemer
+			remove_trait = intricate_webweaver
+			remove_trait = elusive_shadow
+			remove_trait = naive_appeaser
+			remove_trait = underhanded_rogue
+			remove_trait = charismatic_negotiator
+			remove_trait = grey_eminence
+			remove_trait = indulgent_wastrel
+			remove_trait = thrifty_clerk
+			remove_trait = fortune_builder
+			remove_trait = midas_touched
+			remove_trait = misguided_warrior
+			remove_trait = tough_soldier
+			remove_trait = skilled_tactician
+			remove_trait = brilliant_strategist
+			remove_trait = detached_priest
+			remove_trait = martial_cleric
+			remove_trait = scholarly_theologian
+			remove_trait = mastermind_theologian
+			remove_trait = scatterbrain
+			remove_trait = jack_of_all_trades
+			remove_trait = polymath
+			remove_trait = the_sage
+			remove_character_modifier = court_education
+		}
+		if = {
+			limit = {
+				NOT = { learning = 1 }
+			}
+			random_list = {
+				90 = { add_trait = scatterbrain }
+				5 = { add_trait = naive_appeaser }
+				5 = { add_trait = amateurish_plotter }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = grey_eminence }
+				0 = { add_trait = elusive_shadow }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 1
+				NOT = { learning = 3 }
+			}
+			random_list = {
+				50 = { add_trait = scatterbrain }
+				25 = { add_trait = naive_appeaser }
+				25 = { add_trait = amateurish_plotter }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = grey_eminence }
+				0 = { add_trait = elusive_shadow }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 3
+				NOT = { learning = 5 }
+			}
+			random_list = {
+				10 = { add_trait = scatterbrain }
+				30 = { add_trait = naive_appeaser }
+				30 = { add_trait = amateurish_plotter }
+				10 = { add_trait = underhanded_rogue }
+				10 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = grey_eminence }
+				0 = { add_trait = elusive_shadow }
+				10 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 5
+				NOT = { learning = 7 }
+			}
+			random_list = {
+				6 = { add_trait = scatterbrain }
+				13 = { add_trait = naive_appeaser }
+				13 = { add_trait = amateurish_plotter }
+				27 = { add_trait = underhanded_rogue }
+				27 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = grey_eminence }
+				0 = { add_trait = elusive_shadow }
+				14 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 7
+				NOT = { learning = 9 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				8 = { add_trait = naive_appeaser }
+				8 = { add_trait = amateurish_plotter }
+				19 = { add_trait = underhanded_rogue }
+				19 = { add_trait = flamboyant_schemer }
+				12 = { add_trait = charismatic_negotiator }
+				12 = { add_trait = intricate_webweaver }
+				0 = { add_trait = grey_eminence }
+				0 = { add_trait = elusive_shadow }
+				14 = { add_trait = jack_of_all_trades }
+				8 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 9
+				NOT = { learning = 11 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				19 = { add_trait = underhanded_rogue }
+				19 = { add_trait = flamboyant_schemer }
+				19 = { add_trait = charismatic_negotiator }
+				19 = { add_trait = intricate_webweaver }
+				0 = { add_trait = grey_eminence }
+				0 = { add_trait = elusive_shadow }
+				12 = { add_trait = jack_of_all_trades }
+				12 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 11
+				NOT = { learning = 13 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				14 = { add_trait = underhanded_rogue }
+				14 = { add_trait = flamboyant_schemer }
+				25 = { add_trait = charismatic_negotiator }
+				25 = { add_trait = intricate_webweaver }
+				3 = { add_trait = grey_eminence }
+				3 = { add_trait = elusive_shadow }
+				3 = { add_trait = jack_of_all_trades }
+				10 = { add_trait = polymath }
+				3 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 13
+				NOT = { learning = 15 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				20 = { add_trait = charismatic_negotiator }
+				20 = { add_trait = intricate_webweaver }
+				20 = { add_trait = grey_eminence }
+				20 = { add_trait = elusive_shadow }
+				0 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+				14 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+			learning = 15
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				7 = { add_trait = charismatic_negotiator }
+				7 = { add_trait = intricate_webweaver }
+				30 = { add_trait = grey_eminence }
+				30 = { add_trait = elusive_shadow }
+				0 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+				20 = { add_trait = the_sage }
+			}
+		}
+	}
+}
+#  Child - Recieved steward education
+character_event = {
+	id = childhood.221
+	desc = EVTDESCchildhood.221
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_modifier = steward_education
+	}
+
+	option = {
+		name = EVTOPTAchildhood.221
+		hidden_tooltip = {
+			remove_trait = amateurish_plotter
+			remove_trait = flamboyant_schemer
+			remove_trait = intricate_webweaver
+			remove_trait = elusive_shadow
+			remove_trait = naive_appeaser
+			remove_trait = underhanded_rogue
+			remove_trait = charismatic_negotiator
+			remove_trait = grey_eminence
+			remove_trait = indulgent_wastrel
+			remove_trait = thrifty_clerk
+			remove_trait = fortune_builder
+			remove_trait = midas_touched
+			remove_trait = misguided_warrior
+			remove_trait = tough_soldier
+			remove_trait = skilled_tactician
+			remove_trait = brilliant_strategist
+			remove_trait = detached_priest
+			remove_trait = martial_cleric
+			remove_trait = scholarly_theologian
+			remove_trait = mastermind_theologian
+			remove_trait = scatterbrain
+			remove_trait = jack_of_all_trades
+			remove_trait = polymath
+			remove_trait = the_sage
+			remove_character_modifier = steward_education
+		}
+		if = {
+			limit = {
+				NOT = { learning = 1 }
+			}
+			random_list = {
+				90 = { add_trait = scatterbrain }
+				10 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = midas_touched }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 1
+				NOT = { learning = 3 }
+			}
+			random_list = {
+				50 = { add_trait = scatterbrain }
+				50 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = midas_touched }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 3
+				NOT = { learning = 5 }
+			}
+			random_list = {
+				10 = { add_trait = scatterbrain }
+				60 = { add_trait = indulgent_wastrel }
+				20 = { add_trait = thrifty_clerk }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = midas_touched }
+				10 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 5
+				NOT = { learning = 7 }
+			}
+			random_list = {
+				6 = { add_trait = scatterbrain }
+				26 = { add_trait = indulgent_wastrel }
+				54 = { add_trait = thrifty_clerk }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = midas_touched }
+				14 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 7
+				NOT = { learning = 9 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				16 = { add_trait = indulgent_wastrel }
+				38 = { add_trait = thrifty_clerk }
+				24 = { add_trait = fortune_builder }
+				0 = { add_trait = midas_touched }
+				14 = { add_trait = jack_of_all_trades }
+				8 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 9
+				NOT = { learning = 11 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = indulgent_wastrel }
+				38 = { add_trait = thrifty_clerk }
+				38 = { add_trait = fortune_builder }
+				0 = { add_trait = midas_touched }
+				12 = { add_trait = jack_of_all_trades }
+				12 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 11
+				NOT = { learning = 13 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = indulgent_wastrel }
+				28 = { add_trait = thrifty_clerk }
+				50 = { add_trait = fortune_builder }
+				6 = { add_trait = midas_touched }
+				3 = { add_trait = jack_of_all_trades }
+				10 = { add_trait = polymath }
+				3 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 13
+				NOT = { learning = 15 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				40 = { add_trait = fortune_builder }
+				40 = { add_trait = midas_touched }
+				0 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+				14 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+			learning = 15
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				14 = { add_trait = fortune_builder }
+				60 = { add_trait = midas_touched }
+				0 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+				20 = { add_trait = the_sage }
+			}
+		}
+	}
+}
+# Child - Recieved martial education
+character_event = {
+	id = childhood.222
+	desc = EVTDESCchildhood.222
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_modifier = martial_education
+	}
+
+	option = {
+		name = EVTOPTAchildhood.221
+		hidden_tooltip = {
+			remove_trait = amateurish_plotter
+			remove_trait = flamboyant_schemer
+			remove_trait = intricate_webweaver
+			remove_trait = elusive_shadow
+			remove_trait = naive_appeaser
+			remove_trait = underhanded_rogue
+			remove_trait = charismatic_negotiator
+			remove_trait = grey_eminence
+			remove_trait = indulgent_wastrel
+			remove_trait = thrifty_clerk
+			remove_trait = fortune_builder
+			remove_trait = midas_touched
+			remove_trait = misguided_warrior
+			remove_trait = tough_soldier
+			remove_trait = skilled_tactician
+			remove_trait = brilliant_strategist
+			remove_trait = detached_priest
+			remove_trait = martial_cleric
+			remove_trait = scholarly_theologian
+			remove_trait = mastermind_theologian
+			remove_trait = scatterbrain
+			remove_trait = jack_of_all_trades
+			remove_trait = polymath
+			remove_trait = the_sage
+			remove_character_modifier = martial_education
+		}
+		if = {
+			limit = {
+				NOT = { learning = 1 }
+			}
+			random_list = {
+				90 = { add_trait = scatterbrain }
+				10 = { add_trait = misguided_warrior }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = brilliant_strategist }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 1
+				NOT = { learning = 3 }
+			}
+			random_list = {
+				50 = { add_trait = scatterbrain }
+				50 = { add_trait = misguided_warrior }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = brilliant_strategist }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 3
+				NOT = { learning = 5 }
+			}
+			random_list = {
+				10 = { add_trait = scatterbrain }
+				60 = { add_trait = misguided_warrior }
+				20 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = brilliant_strategist }
+				10 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 5
+				NOT = { learning = 7 }
+			}
+			random_list = {
+				6 = { add_trait = scatterbrain }
+				26 = { add_trait = misguided_warrior }
+				54 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = brilliant_strategist }
+				14 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 7
+				NOT = { learning = 9 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				16 = { add_trait = misguided_warrior }
+				38 = { add_trait = tough_soldier }
+				24 = { add_trait = skilled_tactician }
+				0 = { add_trait = brilliant_strategist }
+				14 = { add_trait = jack_of_all_trades }
+				8 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 9
+				NOT = { learning = 11 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = misguided_warrior }
+				38 = { add_trait = tough_soldier }
+				38 = { add_trait = skilled_tactician }
+				0 = { add_trait = brilliant_strategist }
+				12 = { add_trait = jack_of_all_trades }
+				12 = { add_trait = polymath }
+				0 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 11
+				NOT = { learning = 13 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = misguided_warrior }
+				28 = { add_trait = tough_soldier }
+				50 = { add_trait = skilled_tactician }
+				6 = { add_trait = brilliant_strategist }
+				3 = { add_trait = jack_of_all_trades }
+				10 = { add_trait = polymath }
+				3 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+				learning = 13
+				NOT = { learning = 15 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = misguided_warrior }
+				0 = { add_trait = tough_soldier }
+				40 = { add_trait = skilled_tactician }
+				40 = { add_trait = brilliant_strategist }
+				0 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+				14 = { add_trait = the_sage }
+			}
+		}
+		if = {
+			limit = {
+			learning = 15
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = misguided_warrior }
+				0 = { add_trait = tough_soldier }
+				14 = { add_trait = skilled_tactician }
+				60 = { add_trait = brilliant_strategist }
+				0 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+				20 = { add_trait = the_sage }
+			}
+		}
+	}
+}
+# Child - Recieved no education
+character_event = {
+	id = childhood.223
+	desc = EVTDESCchildhood.223
+	picture = GFX_evt_guardian
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_modifier = no_education
+	}
+
+	option = {
+		name = EVTOPTAchildhood.221
+		hidden_tooltip = {
+			remove_trait = amateurish_plotter
+			remove_trait = flamboyant_schemer
+			remove_trait = intricate_webweaver
+			remove_trait = elusive_shadow
+			remove_trait = naive_appeaser
+			remove_trait = underhanded_rogue
+			remove_trait = charismatic_negotiator
+			remove_trait = grey_eminence
+			remove_trait = indulgent_wastrel
+			remove_trait = thrifty_clerk
+			remove_trait = fortune_builder
+			remove_trait = midas_touched
+			remove_trait = misguided_warrior
+			remove_trait = tough_soldier
+			remove_trait = skilled_tactician
+			remove_trait = brilliant_strategist
+			remove_trait = detached_priest
+			remove_trait = martial_cleric
+			remove_trait = scholarly_theologian
+			remove_trait = mastermind_theologian
+			remove_trait = scatterbrain
+			remove_trait = jack_of_all_trades
+			remove_trait = polymath
+			remove_trait = the_sage
+			remove_character_modifier = no_education
+		}
+		if = {
+			limit = {
+				NOT = { learning = 1 }
+			}
+			random_list = {
+				100 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				0 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = misguided_warrior }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 1
+				NOT = { learning = 3 }
+			}
+			random_list = {
+				68 = { add_trait = scatterbrain }
+				8 = { add_trait = naive_appeaser }
+				8 = { add_trait = amateurish_plotter }
+				8 = { add_trait = indulgent_wastrel }
+				8 = { add_trait = thrifty_clerk }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = misguided_warrior }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 3
+				NOT = { learning = 5 }
+			}
+			random_list = {
+				52 = { add_trait = scatterbrain }
+				12 = { add_trait = naive_appeaser }
+				12 = { add_trait = amateurish_plotter }
+				12 = { add_trait = indulgent_wastrel }
+				12 = { add_trait = thrifty_clerk }
+				0 = { add_trait = underhanded_rogue }
+				0 = { add_trait = flamboyant_schemer }
+				0 = { add_trait = fortune_builder }
+				0 = { add_trait = misguided_warrior }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				0 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 5
+				NOT = { learning = 7 }
+			}
+			random_list = {
+				15 = { add_trait = scatterbrain }
+				15 = { add_trait = naive_appeaser }
+				15 = { add_trait = amateurish_plotter }
+				15 = { add_trait = indulgent_wastrel }
+				15 = { add_trait = thrifty_clerk }
+				5 = { add_trait = underhanded_rogue }
+				5 = { add_trait = flamboyant_schemer }
+				5 = { add_trait = fortune_builder }
+				5 = { add_trait = misguided_warrior }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				5 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 7
+				NOT = { learning = 9 }
+			}
+			random_list = {
+				6 = { add_trait = scatterbrain }
+				6 = { add_trait = naive_appeaser }
+				6 = { add_trait = amateurish_plotter }
+				6 = { add_trait = indulgent_wastrel }
+				6 = { add_trait = thrifty_clerk }
+				14 = { add_trait = underhanded_rogue }
+				14 = { add_trait = flamboyant_schemer }
+				14 = { add_trait = fortune_builder }
+				14 = { add_trait = misguided_warrior }
+				0 = { add_trait = charismatic_negotiator }
+				0 = { add_trait = intricate_webweaver }
+				0 = { add_trait = tough_soldier }
+				0 = { add_trait = skilled_tactician }
+				14 = { add_trait = jack_of_all_trades }
+				0 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 9
+				NOT = { learning = 11 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				5 = { add_trait = naive_appeaser }
+				5 = { add_trait = amateurish_plotter }
+				5 = { add_trait = indulgent_wastrel }
+				5 = { add_trait = thrifty_clerk }
+				14 = { add_trait = underhanded_rogue }
+				14 = { add_trait = flamboyant_schemer }
+				14 = { add_trait = fortune_builder }
+				14 = { add_trait = misguided_warrior }
+				2 = { add_trait = charismatic_negotiator }
+				2 = { add_trait = intricate_webweaver }
+				2 = { add_trait = tough_soldier }
+				2 = { add_trait = skilled_tactician }
+				14 = { add_trait = jack_of_all_trades }
+				2 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 11
+				NOT = { learning = 13 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				2 = { add_trait = naive_appeaser }
+				2 = { add_trait = amateurish_plotter }
+				2 = { add_trait = indulgent_wastrel }
+				2 = { add_trait = thrifty_clerk }
+				12 = { add_trait = underhanded_rogue }
+				12 = { add_trait = flamboyant_schemer }
+				12 = { add_trait = fortune_builder }
+				12 = { add_trait = misguided_warrior }
+				6 = { add_trait = charismatic_negotiator }
+				6 = { add_trait = intricate_webweaver }
+				6 = { add_trait = tough_soldier }
+				6 = { add_trait = skilled_tactician }
+				12 = { add_trait = jack_of_all_trades }
+				6 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+				learning = 13
+				NOT = { learning = 15 }
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				0 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				5 = { add_trait = underhanded_rogue }
+				5 = { add_trait = flamboyant_schemer }
+				5 = { add_trait = fortune_builder }
+				5 = { add_trait = misguided_warrior }
+				15 = { add_trait = charismatic_negotiator }
+				15 = { add_trait = intricate_webweaver }
+				15 = { add_trait = tough_soldier }
+				15 = { add_trait = skilled_tactician }
+				5 = { add_trait = jack_of_all_trades }
+				15 = { add_trait = polymath }
+			}
+		}
+		if = {
+			limit = {
+			learning = 15
+			}
+			random_list = {
+				0 = { add_trait = scatterbrain }
+				0 = { add_trait = naive_appeaser }
+				0 = { add_trait = amateurish_plotter }
+				0 = { add_trait = indulgent_wastrel }
+				0 = { add_trait = thrifty_clerk }
+				3 = { add_trait = underhanded_rogue }
+				3 = { add_trait = flamboyant_schemer }
+				3 = { add_trait = fortune_builder }
+				3 = { add_trait = misguided_warrior }
+				17 = { add_trait = charismatic_negotiator }
+				17 = { add_trait = intricate_webweaver }
+				17 = { add_trait = tough_soldier }
+				17 = { add_trait = skilled_tactician }
+				3 = { add_trait = jack_of_all_trades }
+				17 = { add_trait = polymath }
+			}
+		}
+	}
+}
