@@ -22,11 +22,6 @@ blinded = {
 	customizer = no
 	
 	blinding = yes
-	
-	command_modifier = {
-		damage = -0.05
-		defence = -0.05
-	}
 }
 
 # Hard coded to be given correctly and affect inheritance laws in the ERE
@@ -46,12 +41,6 @@ augustus = {
 	
 	vassal_opinion = 15
 	monthly_character_prestige = 0.5
-	
-	command_modifier = {
-		center = 0.03
-		morale_offence = 0.01
-		morale_defence = 0.01
-	}	
 }
 
 flat_terrain_leader = {
@@ -158,19 +147,13 @@ heresiarch = {
 }
 
 berserker = {
+	potential = { always = no }
 	martial = 4
 	diplomacy = -2
-	
-	potential = { always = no }
 	
 	same_opinion = 20
 	
 	ai_rationality = -5
-	
-	command_modifier = {
-		damage = 0.05
-		defence = -0.05
-	}
 }
 
 varangian = {
@@ -182,10 +165,6 @@ varangian = {
 	same_opinion = 20
 	
 	customizer = no
-	
-	command_modifier = {
-		defence = 0.03
-	}
 }
 
 saoshyant = {
@@ -194,12 +173,6 @@ saoshyant = {
 	potential = { always = no }
 	
 	customizer = no
-	
-	command_modifier = {
-		center = 0.05
-		morale_offence = 0.05
-		morale_defence = 0.05
-	}
 }
 
 saoshyant_descendant = {
@@ -207,26 +180,16 @@ saoshyant_descendant = {
 	zoroastrian_opinion = 10
 	
 	customizer = no
-	
-	command_modifier = {
-		morale_offence = 0.02
-		morale_defence = 0.02
-	}
 }
 
 viking = {
+	potential = { always = no }
 	martial = 1
 	monthly_character_prestige = 0.3
 	same_religion_opinion = 15
 	
-	potential = { always = no }
-	
 	same_opinion = 10
 	religious = yes
-	
-	command_modifier = {
-		damage = 0.02
-	}
 }
 
 monk = {
@@ -332,6 +295,11 @@ sympathy_christendom = {
 	
 	potential = { always = no }
 		
+
+	tolerates_christian = yes		# Tolerates and is tolerated by Christians
+	
+	same_opinion_if_same_religion = 10
+
 	customizer = no
 	random = no
 }
@@ -344,6 +312,11 @@ sympathy_islam = {
 	
 	potential = { always = no }
 		
+
+	tolerates_muslim = yes		# Tolerates and is tolerated by Muslims
+
+	same_opinion_if_same_religion = 10
+
 	customizer = no
 	random = no
 }
@@ -356,94 +329,123 @@ sympathy_pagans = {
 	
 	potential = { always = no }
 	
+
+	tolerates_pagan_group = yes		# Tolerates and is tolerated by Pagans
+
+	same_opinion_if_same_religion = 10
+
 	customizer = no
 	random = no
 }
 
 sympathy_zoroastrianism = {
+	
 	opposites =  {
 		zealous
 	}
 	
 	potential = { always = no }
 	
+
+	tolerates_zoroastrian_group = yes		# Tolerates and is tolerated by Zoroastrians
+
+	same_opinion_if_same_religion = 10
+
 	customizer = no
 	random = no
 }
 
 sympathy_judaism = {
+	
 	opposites =  {
 		zealous
 	}
 	
 	potential = { always = no }
 	
+
+	tolerates_jewish_group = yes		# Tolerates and is tolerated by Jews
+
+	same_opinion_if_same_religion = 10
+
 	customizer = no
 	random = no
 }
 
 bad_priest_christian = {
+
 	religious = yes
-	
+
 	potential = { always = no }
 	
+
 	church_opinion = -20
-	
+	same_opinion_if_same_religion = 50
+
 	monthly_character_piety = -1
-	
+
 	customizer = no
 	random = no
 }
 
 bad_priest_muslim = {
-	religious = yes
 	
+	religious = yes
+
 	potential = { always = no }
 	
 	church_opinion = -20
-	
+	same_opinion_if_same_religion = 50
+
 	monthly_character_piety = -1
-	
+
 	customizer = no
 	random = no
 }
 
 bad_priest_norse = {
-	religious = yes
 	
+	religious = yes
+
 	potential = { always = no }
 	
 	
 	church_opinion = -20
-	
+	same_opinion_if_same_religion = 50
+
 	monthly_character_piety = -1
-	
+
 	customizer = no
 	random = no
 }
 
 bad_priest_tengri = {
-	religious = yes
 	
+	religious = yes
+
 	potential = { always = no }
 	
 	church_opinion = -20
-	
+	same_opinion_if_same_religion = 50
+
 	monthly_character_piety = -1
-	
+
 	customizer = no
 	random = no
 }
 
 bad_priest_zoroastrian = {
-	religious = yes
 	
+	religious = yes
+
 	potential = { always = no }
 	
+
 	church_opinion = -20
-	
+	same_opinion_if_same_religion = 50
+
 	monthly_character_piety = -1
-	
+
 	customizer = no
 	random = no
 }
@@ -451,13 +453,15 @@ bad_priest_zoroastrian = {
 bad_priest_aztec = {
 	
 	religious = yes
-	
+
 	potential = { always = no }
 	
+
 	church_opinion = -20
-	
+	same_opinion_if_same_religion = 50
+
 	monthly_character_piety = -1
-	
+
 	customizer = no
 	random = no
 }
@@ -490,12 +494,13 @@ kshatriya = {
 		brahmin
 		vaishya
 	}
-	
+
 	potential = { always = no }
 	caste_tier = 2
 
 	monthly_character_prestige = 0.1
 
+	customizer = no
 	random = no
 }
 
@@ -522,6 +527,10 @@ sympathy_indian = {
 	potential = { always = no }
 
 
+	tolerates_indian_group = yes		# Tolerates and is tolerated by Indian religions
+
+	same_opinion_if_same_religion = 10
+
 	customizer = no
 	random = no
 }
@@ -541,6 +550,7 @@ shaivist_hindu = {
 	# religious_branch = hindu
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 vaishnavist_hindu = {
@@ -558,6 +568,7 @@ vaishnavist_hindu = {
 	# religious_branch = hindu
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 shaktist_hindu = {
@@ -575,6 +586,7 @@ shaktist_hindu = {
 	# religious_branch = hindu
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 smartist_hindu = {
@@ -592,6 +604,7 @@ smartist_hindu = {
 	# religious_branch = hindu
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 mahayana_buddhist = {
@@ -608,6 +621,7 @@ mahayana_buddhist = {
 	# religious_branch = buddhist
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 vajrayana_buddhist = {
@@ -624,6 +638,7 @@ vajrayana_buddhist = {
 	# religious_branch = buddhist
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 theravada_buddhist = {
@@ -640,6 +655,7 @@ theravada_buddhist = {
 	# religious_branch = buddhist
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 digambara_jain = {
@@ -655,6 +671,7 @@ digambara_jain = {
 	# religious_branch = jain
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 svetambara_jain = {
@@ -670,6 +687,7 @@ svetambara_jain = {
 	# religious_branch = jain
 	random = no
 	religious = yes
+	ruler_designer_cost = 0
 }
 
 # Controls Muslim decadence gain
@@ -705,4 +723,29 @@ jungle_terrain_leader = {
 	command_modifier = {
 		terrain = jungle
 	}
+}
+
+in_hiding = {
+	potential = {
+		prisoner = no
+	}
+
+	monthly_character_prestige = -2
+	diplomacy = -5
+	vassal_opinion = -10
+	
+	in_hiding = yes
+
+	customizer = no
+	random = no
+}
+
+winter_soldier = {
+	leader = yes
+	random = no
+	
+	command_modifier = {
+		winter_supply = 4
+		winter_combat = 0.5
+	}	
 }
