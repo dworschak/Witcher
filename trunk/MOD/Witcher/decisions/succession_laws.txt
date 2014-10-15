@@ -36,18 +36,20 @@ succession_laws = {
 			OR = {
 				AND = {
 					tier = baron
-					is_feudal = yes
+					OR = {
+						is_feudal = yes
+						is_tribal = yes
+					}
 				}
 				holder_scope = { is_feudal = yes }
+				holder_scope = { is_tribal = yes }
 			}
 			is_primary_type_title = no
+			is_vice_royalty = no
 		}
 		
 		allow = {
-			OR = { 
-				NOT =  { title = e_hakland }
-				has_law = crown_obligation_3
-			}
+			always = yes
 		}
 		
 		effect = {
@@ -57,6 +59,54 @@ succession_laws = {
 		revoke_allowed = {
 			always = no
 		}
+	}
+	
+	succ_elective_gavelkind = {
+		child_opinion = 25
+		dynasty_opinion = 10
+	
+		potential = {
+			holder_scope = {
+				OR = {
+					independent = yes
+					NOT = {
+						any_liege = {
+							holy_order = yes
+						}
+					}
+				}
+				is_merchant_republic = no
+				is_patrician = no
+			}
+			OR = {
+				is_landless_type_title = no
+				is_tribal_type_title = yes
+				temporary = yes
+			}
+			rebel = no
+			OR = {
+				AND = {
+					tier = baron
+					OR = {
+						is_feudal = yes
+						is_tribal = yes
+					}
+				}
+				holder_scope = { is_feudal = yes }
+				holder_scope = { is_tribal = yes }
+			}
+			is_primary_type_title = no
+			is_vice_royalty = no
+		}
+		allow = {
+			holder_scope = { is_tribal = yes }
+		}
+		effect = {
+			succession = elective_gavelkind
+		}
+		revoke_allowed = {
+			always = no
+		}			
 	}
 	
 	succ_seniority = {
@@ -83,8 +133,6 @@ succession_laws = {
 					}
 				}
 				
-				is_merchant_republic = no
-				
 				OR = {
 					is_republic = no
 					is_patrician = yes
@@ -101,9 +149,11 @@ succession_laws = {
 					is_feudal = yes
 				}
 				holder_scope = { is_feudal = yes }
+				holder_scope = { is_patrician = yes }
 			}
 			
 			is_primary_type_title = no
+			is_vice_royalty = no
 			
 			OR = {
 				NOT = { tier = baron }
@@ -116,7 +166,15 @@ succession_laws = {
 				hidden_tooltip = {
 					has_crown_law_title = no
 				}
-				holder_scope = { is_patrician = yes }
+				holder_scope = {
+					is_patrician = yes 
+					OR = {
+						is_merchant_republic = no
+						PREV = {
+							is_primary_holder_title = no
+						}
+					}
+				}
 				crownlaw_title = {
 					OR = {
 						has_law = crown_obligation_2
@@ -124,9 +182,12 @@ succession_laws = {
 					}
 				}
 			}
-			OR = { 
-				NOT =  { title = e_hakland }
-				has_law = crown_obligation_3
+			OR = {
+				NOT = { title = e_hakland }
+				OR = {
+					has_law = imperial_authority_3
+					has_law = imperial_authority_4
+				}
 			}
 		}
 		
@@ -172,6 +233,7 @@ succession_laws = {
 				temporary = yes
 			}
 			is_primary_type_title = no
+			is_vice_royalty = no
 			OR = {
 				AND = {
 					tier = baron
@@ -193,9 +255,12 @@ succession_laws = {
 					}
 				}
 			}
-			OR = { 
-				NOT =  { title = e_hakland }
-				has_law = crown_obligation_3
+			OR = {
+				NOT = { title = e_hakland }
+				OR = {
+					has_law = imperial_authority_3
+					has_law = imperial_authority_4
+				}
 			}
 		}
 		
@@ -239,6 +304,7 @@ succession_laws = {
 				temporary = yes
 			}
 			is_primary_type_title = no
+			is_vice_royalty = no
 			NOT = { tier = baron }
 			OR = {
 				AND = {
@@ -250,9 +316,12 @@ succession_laws = {
 		}
 		
 		allow = {
-			OR = { 
-				NOT =  { title = e_hakland }
-				has_law = crown_obligation_3
+			OR = {
+				NOT = { title = e_hakland }
+				OR = {
+					has_law = imperial_authority_3
+					has_law = imperial_authority_4
+				}
 			}
 		}
 		
@@ -297,6 +366,7 @@ succession_laws = {
 				temporary = yes
 			}
 			is_primary_type_title = no
+			is_vice_royalty = no
 			NOT = { tier = baron }
 			OR = {
 				AND = {
@@ -304,10 +374,6 @@ succession_laws = {
 					is_feudal = yes
 				}
 				holder_scope = { is_feudal = yes }
-			}
-			OR = { 
-				NOT =  { title = e_hakland }
-				has_law = crown_obligation_3
 			}
 		}
 		
@@ -322,6 +388,13 @@ succession_laws = {
 						has_law = crown_obligation_2
 						has_law = crown_obligation_3
 					}
+				}
+			}
+			OR = {
+				NOT = { title = e_hakland }
+				OR = {
+					has_law = imperial_authority_3
+					has_law = imperial_authority_4
 				}
 			}
 		}
@@ -367,6 +440,7 @@ succession_laws = {
 				temporary = yes
 			}
 			is_primary_type_title = no
+			is_vice_royalty = no
 			OR = {
 				AND = {
 					tier = baron
@@ -385,9 +459,12 @@ succession_laws = {
 					has_law = crown_obligation_3
 				}
 			}
-			OR = { 
-				NOT =  { title = e_hakland }
-				has_law = crown_obligation_3
+			OR = {
+				NOT = { title = e_hakland }
+				OR = {
+					has_law = imperial_authority_3
+					has_law = imperial_authority_4
+				}
 			}
 		}
 		
@@ -406,7 +483,7 @@ succession_laws = {
 		# dynasty_opinion = 10
 		
 		potential = {
-			title = e_hakland
+			always = no
 		}
 		
 		effect = {
@@ -421,6 +498,7 @@ succession_laws = {
 	succ_papal_succession = {
 		potential = {
 			title = k_eternal_fire
+			is_vice_royalty = no
 		}
 		
 		effect = {
@@ -450,6 +528,7 @@ succession_laws = {
 				}
 				is_merchant_republic = no
 			}
+			is_vice_royalty = no
 		}
 		
 		effect = {
@@ -514,6 +593,7 @@ succession_laws = {
 					}
 				}
 			}
+			is_vice_royalty = no
 		}
 		
 		effect = {
@@ -560,6 +640,7 @@ succession_laws = {
 						}
 					}
 					is_primary_type_title = no
+			is_vice_royalty = no
 				}
 			}
 		}
@@ -576,7 +657,11 @@ succession_laws = {
 	succ_patrician_elective = {
 		potential = {
 			holder_scope = {
+			is_primary_holder_title = yes
+			holder_scope = {
 				is_merchant_republic = yes
+			}
+			is_vice_royalty = no
 			}
 		}
 		
@@ -617,9 +702,12 @@ gender_laws = {
 					tier = baron
 					is_feudal = yes
 				}
-				holder_scope = { is_feudal = yes }
+				holder_scope = {
+					is_feudal = yes
+				}
 			}
 			is_primary_type_title = no
+			is_vice_royalty = no
 		}
 		
 		effect = {
@@ -641,6 +729,7 @@ gender_laws = {
 					religion = dryad
 				}
 			}
+			is_vice_royalty = no
 		}
 		
 		allow = {
@@ -678,6 +767,7 @@ gender_laws = {
 			}
 			
 			is_primary_type_title = no
+			is_vice_royalty = no
 		}
 		
 		allow = {
@@ -702,6 +792,7 @@ gender_laws = {
 				culture = dryad
 				religion = dryad
 			}
+			is_vice_royalty = no
 		}
 		
 		allow = {

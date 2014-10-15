@@ -27,7 +27,7 @@ faction_succ_seniority = {
 		is_landed = yes
 		is_adult = yes
 		NOT = { trait = incapable }
-		liege = { 
+		liege = {
 			is_feudal = yes 
 			OR = {
 				primary_title = { is_tribal_type_title = no }
@@ -102,6 +102,7 @@ faction_succ_seniority = {
 				}
 			}
 		}
+		is_vice_royalty = no
 	}
 	
 	# Faction member scope (ROOT = joiner, FROM = target)
@@ -671,6 +672,7 @@ faction_succ_primogeniture = {
 		}
 		
 		NOT = { has_character_modifier = faction_succ_primogeniture_ultimatum_timer }
+		is_vice_royalty = no
 	}
 	
 	# Target scope
@@ -1252,6 +1254,7 @@ faction_succ_gavelkind = {
 		}
 		
 		NOT = { has_character_modifier = faction_succ_gavelkind_ultimatum_timer }
+		is_vice_royalty = no
 	}
 	
 	# Target scope
@@ -1843,6 +1846,7 @@ faction_succ_feudal_elective = {
 		}
 		
 		NOT = { has_character_modifier = faction_succ_feudal_elective_ultimatum_timer }
+		is_vice_royalty = no
 	}
 	
 	# Target scope
@@ -2415,6 +2419,7 @@ faction_independence = {
 		OR = {
 			ai = yes
 			is_feudal = yes
+			is_tribal = yes
 			higher_tier_than = COUNT
 		}
 		
@@ -2720,6 +2725,12 @@ faction_independence = {
 			trait = ambitious
 		}
 		modifier = {
+			factor = 1.5
+			primary_title = {
+				is_vice_royalty = yes
+			}
+		}
+		modifier = {
 			factor = 0.1
 			culture = nilfgaardian
 			liege = { has_landed_title = e_nilfgaard }
@@ -2743,10 +2754,17 @@ faction_independence = {
 			}
 		}
 		modifier = {
-			factor = 0.5
+			factor = 0.75
 			crownlaw_title = {
 				title = e_nilfgaard
 				has_law = imperial_authority_3
+			}
+		}
+		modifier = {
+			factor = 0.5
+			crownlaw_title = {
+				title = e_nilfgaard
+				has_law = imperial_authority_4
 			}
 		}
 	}
@@ -3081,10 +3099,17 @@ faction_independence = {
 			}
 		}
 		modifier = {
-			factor = 0.5
+			factor = 0.75
 			crownlaw_title = {
 				title = e_nilfgaard
 				has_law = imperial_authority_3
+			}
+		}
+		modifier = {
+			factor = 0.5
+			crownlaw_title = {
+				title = e_nilfgaard
+				has_law = imperial_authority_4
 			}
 		}
 	}
@@ -3131,7 +3156,10 @@ faction_claimant = {
 		is_adult = yes
 		NOT = { trait = incapable }
 		liege = {
-			is_feudal = yes
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
 			OR = {
 				primary_title = { is_tribal_type_title = no }
 				NOT = { culture = ROOT }
@@ -3631,10 +3659,17 @@ faction_claimant = {
 			}
 		}
 		modifier = {
-			factor = 0.5
+			factor = 0.75
 			crownlaw_title = {
 				title = e_nilfgaard
 				has_law = imperial_authority_3
+			}
+		}
+		modifier = {
+			factor = 0.5
+			crownlaw_title = {
+				title = e_nilfgaard
+				has_law = imperial_authority_4
 			}
 		}
 	}
@@ -4023,6 +4058,13 @@ faction_claimant = {
 		}
 		modifier = {
 			factor = 0.5
+			crownlaw_title = {
+				title = e_nilfgaard
+				has_law = imperial_authority_4
+			}
+		}
+		modifier = {
+			factor = 0.75
 			crownlaw_title = {
 				title = e_nilfgaard
 				has_law = imperial_authority_3
