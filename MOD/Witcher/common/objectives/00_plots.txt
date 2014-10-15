@@ -60,7 +60,12 @@ plot_gain_title = {
 			NOT = { reverse_has_truce = FROM  }
 		}
 		OR = {
-			FROM = { is_feudal = yes }
+			FROM = {
+				OR = {
+					is_feudal = yes
+					is_tribal = yes
+				}
+			}
 			AND = {
 				FROM = { is_feudal = no }
 				lower_tier_than = KING
@@ -1471,7 +1476,10 @@ plot_gain_liege_title = {
 		is_playable = yes
 		prisoner = no
 		age = 15
-		is_feudal = yes
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
 		is_landed = yes
 		independent = no
 		mercenary = no
@@ -1678,7 +1686,10 @@ plot_gain_fellow_vassal_title = {
 		is_playable = yes
 		prisoner = no
 		age = 15
-		is_feudal = yes
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
 		is_landed = yes
 		independent = no
 		NOT = { trait = incapable }
@@ -1707,7 +1718,10 @@ plot_gain_fellow_vassal_title = {
 		
 		holder_scope = {
 			is_ruler = yes
-			is_feudal = yes
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
 			is_landed = yes
 			independent = no
 			NOT = { is_liege_of = FROM }

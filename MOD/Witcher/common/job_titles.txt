@@ -23,6 +23,7 @@ job_mage = {
 		prisoner = no
 		trait = sorcerer
 		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		NOT = { has_landed_title = d_thanedd }
 		NOT = { has_landed_title = d_nilfgaard_academy }
 		NOT = { has_landed_title = d_ban_ard_academy }
@@ -81,6 +82,7 @@ job_chancellor = {
 		
 		prisoner = no
 		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		NOT = { trait = witcher }
 		liege = {
 			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
@@ -135,6 +137,7 @@ job_marshal = {
 		}
 		prisoner = no
 		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		NOT = { trait = witcher }
 		liege = {
 			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
@@ -187,6 +190,7 @@ job_treasurer = {
 		}
 		prisoner = no
 		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		NOT = { trait = witcher }
 		liege = {
 			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
@@ -244,6 +248,7 @@ job_spymaster = {
 		}
 		prisoner = no
 		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		NOT = { trait = witcher }
 		liege = {
 			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
@@ -315,9 +320,14 @@ job_spiritual = {
 			has_character_flag = special_spiritual
 		}
 		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		NOT = { trait = witcher }
 		OR = {
 			is_theocracy = yes
+			AND = {
+				liege = { is_tribal = yes }
+				is_ruler = no
+			}
 			is_ruler = no
 		}
 		OR = {
