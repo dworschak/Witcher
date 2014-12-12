@@ -83,23 +83,8 @@ job_chancellor = {
 		prisoner = no
 		NOT = { trait = incapable }
 		NOT = { trait = in_hiding }
-		NOT = { trait = witcher }
-		liege = {
-			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
-			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
-		}
 	}
 	gain_effect = {
-		if = {
-			limit = {
-				has_opinion_modifier = {
-					who = FROM
-					modifier = opinion_fired_from_council
-				}
-			}
-			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
-			opinion = { who = FROM modifier = opinion_job_security_concerns }
-		}
 	}
 	lose_effect = {
 		opinion = { who = FROM modifier = opinion_fired_from_council }
@@ -135,6 +120,7 @@ job_marshal = {
 			}
 			has_character_flag = special_marshal
 		}
+
 		prisoner = no
 		NOT = { trait = incapable }
 		NOT = { trait = in_hiding }
@@ -144,6 +130,7 @@ job_marshal = {
 			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
 		}
 	}
+	
 	gain_effect = {
 		if = {
 			limit = {
@@ -163,6 +150,7 @@ job_marshal = {
 	action = action_assist_arrest
 	action = action_train_troops
 	action = action_advance_mil_tech
+	action = action_organize_raid # Replaces action_advance_mil_tech for Tribes
 
 	lift_fow = yes
 }
@@ -214,8 +202,10 @@ job_treasurer = {
 	}
 	
 	action = action_squeeze_peasants
+	action = action_settle_tribe # Replaces action_squeeze_peasants for Tribes
 	action = action_oversee_construction
 	action = action_advance_eco_tech
+	action = action_build_legend # Replaces action_advance_eco_tech for Tribes
 
 	lift_fow = yes
 }
@@ -290,6 +280,8 @@ job_spiritual = {
 	allow = {
 		NOT = { culture = wilderness }
 		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
 		liege = {
 			religion = ROOT
 		}
@@ -359,9 +351,11 @@ job_spiritual = {
 	}
 	dismiss_trigger = { }
 	
+	# action = action_inquisition
 	action = action_advance_cul_tech
 	action = action_improve_rel_relations
 	action = action_charity
+	action = action_build_zeal # Tribal replacement for 'action_advance_cul_tech'
 
 	lift_fow = yes
 }

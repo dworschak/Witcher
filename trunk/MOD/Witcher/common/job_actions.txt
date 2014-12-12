@@ -59,6 +59,12 @@ action_sow_dissent = {
 action_squeeze_peasants = {
 	attribute = stewardship
 
+	potential = {
+		FROM = {
+			is_tribal = no
+		}
+	}
+
 	trigger = {
 		any_province_lord = {
 			character = FROM
@@ -68,6 +74,25 @@ action_squeeze_peasants = {
 	local_tax_modifier = 0.025
 	
 	events = { 920 921 }
+}
+
+action_settle_tribe = {
+	attribute = stewardship
+
+	potential = {
+		FROM = {
+			is_tribal = yes
+		}
+	}
+
+	trigger = {
+		any_province_lord = {
+			character = FROM
+		}
+		NOT = { culture = FROM }
+	}
+	
+	events = { 925 20206 }
 }
 
 action_oversee_construction = {
@@ -87,6 +112,12 @@ action_oversee_construction = {
 action_advance_eco_tech = {
 	attribute = stewardship
 
+	potential = {
+		FROM = {
+			is_tribal = no
+		}
+	}
+
 	trigger = {
 		any_province_lord = {
 			character = FROM
@@ -96,6 +127,26 @@ action_advance_eco_tech = {
 	tech_growth_modifier_economy = 0.05
 	
 	events = { }
+}
+
+action_build_legend = {
+	attribute = stewardship
+
+	potential = {
+		FROM = {
+			is_tribal = yes
+		}
+	}
+
+	trigger = {
+		FROM = {
+			is_capital = PREV
+		}
+	}
+	
+	monthly_character_prestige = 0.1
+	
+	events = { 20208 }
 }
 
 # Spymaster
@@ -150,6 +201,12 @@ action_organize_spies = {
 action_advance_mil_tech = {
 	attribute = martial
 
+	potential = {
+		FROM = {
+			is_tribal = no
+		}
+	}
+	
 	trigger = {
 		any_province_lord = {
 			character = FROM
@@ -159,6 +216,24 @@ action_advance_mil_tech = {
 	tech_growth_modifier_military = 0.05
 	
 	events = { 938 939 }
+}
+
+action_organize_raid = {
+	attribute = martial
+
+	potential = {
+		FROM = {
+			is_tribal = yes
+		}
+	}
+
+	trigger = {
+		FROM = {
+			is_capital = PREV
+		}
+	}
+	
+	events = { 20221 }
 }
 
 action_train_troops = {
@@ -195,6 +270,48 @@ action_assist_arrest = {
 }
 
 # Court Chaplain
+#action_inquisition = {
+#	attribute = learning
+#	
+#	trigger = {
+#		OR = {
+#			owner = {
+#				FROM = { NOT = { religion_group = pagan_group } }
+#				independent = yes
+#				NOT = { religion = FROM }
+#				religion_group = pagan_group
+#				OR = {
+#					NOT = { religion = aztec }
+#					year = 1350
+#				}
+#				is_reformed_religion = no
+#				capital_scope = {
+#					province = ROOT
+#				}
+#				controls_religion = no
+#				FROM = {
+#					higher_tier_than = COUNT
+#					OR = {
+#						independent = yes
+#						higher_tier_than = DUKE
+#					}
+#				}
+#				NOT = {
+#					has_opinion_modifier = { who = FROM modifier = opinion_sent_preacher }
+#				}
+#				is_within_diplo_range = FROM
+#			}
+#			any_province_lord = {
+#				OR = {
+#					character = FROM
+#					is_liege_or_above = FROM
+#				}
+#			}
+#		}
+#	}
+#	
+#	events = { 900 901 902 903 }
+#}
 
 action_improve_rel_relations = {
 	attribute = learning
@@ -213,6 +330,12 @@ action_improve_rel_relations = {
 action_advance_cul_tech = {
 	attribute = learning
 	
+	potential = {
+		FROM = {
+			is_tribal = no
+		}
+	}
+	
 	trigger = {
 		any_province_lord = {
 			OR = {
@@ -224,9 +347,30 @@ action_advance_cul_tech = {
 	
 	tech_growth_modifier_culture = 0.05
 	
-	events = { 926 }
+	events = { 926 927 }
 }
 
+action_build_zeal = {
+	attribute = learning
+
+	potential = {
+		FROM = {
+			is_tribal = yes
+		}
+	}
+
+	trigger = {
+		FROM = {
+			is_capital = PREV
+		}
+	}
+	
+	monthly_character_piety = 0.05
+	
+	events = { 20218 }
+}
+
+# Lord Spiritual
 action_charity = {
 	attribute = learning
 	
