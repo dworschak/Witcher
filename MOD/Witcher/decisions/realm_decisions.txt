@@ -35,6 +35,7 @@ decisions = {
 			war = no
 			prisoner = no
 			in_command = no
+			NOT = { trait = in_hiding }
 			age = 15
 			prestige = 500
 			wealth = 200
@@ -52,7 +53,10 @@ decisions = {
 				clr_character_flag = tournament_has_ended
 				any_realm_character = {
 					limit = {
-						is_feudal = yes
+						OR = {
+							is_feudal = yes
+							is_tribal = yes
+						}
 						NOT = { has_job_title = job_spiritual }
 						age = 15
 						NOT = { has_character_modifier = old_age }
@@ -82,8 +86,8 @@ decisions = {
 	demand_liege_title = {
 		is_high_prio = yes
 		potential = {
-			OR = {
-				ai = yes
+			AND = {
+				ai = no
 				NOT = {
 					has_character_flag = employment_decisions_open
 					has_character_flag = marriage_decisions_open
@@ -97,7 +101,7 @@ decisions = {
 			liege = {
 				NOT = { character = ROOT }
 			}
-			age = 15
+			is_adult = yes
 			prisoner = no
 			is_playable = yes
 			tier = count
