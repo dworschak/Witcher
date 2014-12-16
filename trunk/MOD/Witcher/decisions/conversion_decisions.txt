@@ -47,6 +47,7 @@ decisions = {
 			piety = 200
 		}
 		effect = {
+			prestige = -500
 			if = {
 				limit = { higher_tier_than = BARON }
 				religion_authority = {
@@ -289,7 +290,6 @@ decisions = {
 			
 			controls_religion = no
 			holy_order = no
-			
 			has_dlc = "Rajas of India"
 			OR = {
 				AND = {
@@ -379,6 +379,45 @@ decisions = {
 			modifier = {
 				factor = 0.0001
 			}
+		}
+	}
+	
+	convert_to_parent_religion = {
+		potential = {
+			ai = no
+			is_playable = yes
+			independent = yes
+			is_heretic = yes
+		}
+		allow = {
+			NOT = { trait = zealous }
+		}
+		effect = {
+			prestige = -500
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = {
+					modifier = ruler_converted_from
+				}
+			}
+			
+			abandon_heresy = yes
+			
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = {
+						modifier = ruler_converted_to
+					}
+				}
+			}
+			piety = 200
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
 		}
 	}
 }
