@@ -147,6 +147,80 @@ title_courtesan = {
 # SOFT: GRANTABLE - FULLY MODDABLE
 #######################################
 
+title_court_eunuch = {
+	dignity = 0.01
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	allow = {
+		is_adult = yes
+		trait = eunuch
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+		FROM = {
+			prestige = 10
+		}
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_court_dwarf = {
+	dignity = 0.01
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	allow = {
+		is_adult = yes
+		trait = dwarf
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+		FROM = {
+			prestige = 10
+		}
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
 title_court_jester = {
 	dignity = 0.01
 	realm_in_name = yes
@@ -191,8 +265,16 @@ title_keeper_of_swans = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
 		is_adult = yes
 		FROM = {
-			is_feudal = yes
-			higher_real_tier_than = DUKE
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
 		}
 	}
 	
@@ -220,7 +302,10 @@ title_master_of_the_horse = {
 		is_adult = yes
 		is_female = no
 		FROM = {
-			is_feudal = yes
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
 		}
 	}
 	
@@ -248,7 +333,10 @@ title_master_of_the_hunt = {
 		is_adult = yes
 		is_female = no
 		FROM = {
-			is_feudal = yes
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
 		}
 	}
 	
@@ -267,7 +355,7 @@ title_high_almoner = {
 	opinion_effect = 10
 	
 	monthly_salary = 0.02
-	monthly_piety = 0.004
+	monthly_prestige = 0.004
 	
 	is_unique = yes
 	
@@ -275,7 +363,10 @@ title_high_almoner = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
 		is_adult = yes
 		FROM = {
-			is_feudal = yes
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
 		}
 	}
 	
@@ -303,7 +394,10 @@ title_cupbearer = {
 		is_adult = yes
 		is_female = no
 		FROM = {
-			is_feudal = yes
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
 		}
 	}
 	
@@ -327,12 +421,19 @@ title_seneschal = {
 	is_unique = yes
 	
 	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
 		is_adult = yes
 		is_female = no
 		FROM = {
-			is_feudal = yes
-			higher_real_tier_than = DUKE
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
 		}
 	}
 	
@@ -365,11 +466,11 @@ title_paramount_knight = {
 title_state_inquisitor = {
 	dignity = 0.06
 	realm_in_name = yes
-	grant_limit = 1
-	opinion_effect = 10
+	grant_limit = 3
+	opinion_effect = 12
 	
 	monthly_salary = 0.02
-	monthly_piety = 0.004
+	monthly_prestige = 0.004
 	
 	is_unique = yes
 	
@@ -385,7 +486,7 @@ title_state_inquisitor = {
 	}
 	lose_effect = {
 	}
-	
+
 	message = yes
 }
 
@@ -412,7 +513,7 @@ title_high_admiral = {
 	}
 	lose_effect = {
 	}
-	
+
 	message = yes
 }
 
@@ -432,13 +533,14 @@ title_high_judge = {
 		is_female = no
 		FROM = {
 			is_merchant_republic = yes
+		}
 	}
 	
 	gain_effect = {
 	}
 	lose_effect = {
 	}
-	
+
 	message = yes
 }
 
