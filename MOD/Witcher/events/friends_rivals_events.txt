@@ -141,7 +141,7 @@ character_event = {
 						num_of_friends = 2
 					}
 				}
-				add_rival = ROOT
+				add_rival = FROM
 				character_event = {
 					id = 100001
 					days = 1
@@ -290,8 +290,10 @@ character_event = {
 					sibling = ROOT
 				}
 				trait = shy
+				NOT = { trait = in_hiding }
 			}
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	mean_time_to_happen = {
@@ -889,7 +891,6 @@ character_event = {
 			factor = 0.5
 			trait = charismatic_negotiator
 		}
-		modifier = { factor = 0.8 has_ambition = obj_make_a_friend }
 	}
 	
 	option = {
@@ -1016,7 +1017,7 @@ character_event = {
 				add_trait = proud
 				hidden_tooltip = {
 					character_event = {
-						id = 38261 #Notify Shy
+						id = 38261 #Notify Proud
 					}
 				}
 			}
@@ -5846,11 +5847,13 @@ character_event = { # Only available to eternal fire religion zealots
 	desc = EVTDESC100180
 	picture = GFX_evt_heretic
 	
-	age = 15
+	min_age = 15
 	prisoner = no
+	capable_only = yes
 	
 	trigger = {
 		war = no
+		is_heretic = no
 		religion = eternal_fire 
 		trait = zealous
 		in_command = no
@@ -5922,8 +5925,11 @@ character_event = { # Only available to eternal fire religion zealots
 				war = no
 				in_command = no
 				prisoner = no
-				NOT = {
-					religion = ROOT
+				OR = {
+					is_heretic = yes
+					NOT = {
+						religion = ROOT
+					}
 				}
 			}
 			character_event = {
@@ -5941,8 +5947,11 @@ character_event = { # Only available to eternal fire religion zealots
 			limit = {
 				war = no
 				prisoner = no
-				NOT = {
-					religion = ROOT
+				OR = {
+					is_heretic = yes
+					NOT = {
+						religion = ROOT
+					}
 				}
 			}
 			character_event = {
@@ -5952,23 +5961,82 @@ character_event = { # Only available to eternal fire religion zealots
 				tooltip = EVTTOOLTIP100182
 			}
 		}
-	 }
+	}
 	option = {
-		name = EVTOPTD100180
+		name = EVTOPTC100180
 		random_friend = {
 			limit = {
 				war = no
 				prisoner = no
-				NOT = {
-					religion = ROOT
+				OR = {
+					is_heretic = yes
+					NOT = {
+						religion = ROOT
+					}
 				}
 			}
-			remove_friend = ROOT
+			opinion = {
+				modifier = opinion_glad
+				who = ROOT
+				years = 5
+			}
+			character_event = {
+				id = 100183
+				days = 7
+				random = 14
+				tooltip = EVTTOOLTIP100183
+			}
+		}
+	}
+	option = {
+		name = EVTOPTD100180
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		random_friend = {
+			limit = {
+				war = no
+				prisoner = no
+				OR = {
+					is_heretic = yes
+					NOT = {
+						religion = ROOT
+					}
+				}
+			}
+			remove_friend = FROM
 			character_event = {
 				id = 100184
 				days = 7
 				random = 14
 				tooltip = EVTTOOLTIP100184
+			}
+		}				
+	}
+	option = {
+		name = EVTOPTE100180
+		tooltip_info = cynical
+		trigger = {
+			trait = cynical
+		}
+		random_friend = {
+			limit = {
+				war = no
+				prisoner = no
+				OR = {
+					is_heretic = yes
+					NOT = {
+						religion = ROOT
+					}
+				}
+			}
+			random = {
+				chance = 50
+				ROOT = {
+					religion = PREV
+				}
+				remove_trait = cynical
 			}
 		}
 	}
@@ -6035,6 +6103,44 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA100182
+		opinion = {
+			modifier = opinion_accepted_religion
+			who = FROM
+			years = 5
+		}
+	}
+}
+
+#ROOT becomes interested in friend's religion
+character_event = {
+	id = 100183
+	desc = EVTDESC100183
+	picture = GFX_evt_heretic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100183
+		trigger = {
+			NOT = {
+				FROM = {
+					religion = ROOT
+				}
+			}
+		}
+		opinion = {
+			modifier = opinion_accepted_religion
+			who = FROM
+			years = 5
+		}
+	}
+	option = {
+		name = EVTOPTB100183
+		trigger = {
+			FROM = {
+				religion = ROOT
+			}
+		}
 		opinion = {
 			modifier = opinion_accepted_religion
 			who = FROM
@@ -6452,7 +6558,7 @@ character_event = {
 	}
 }
 
-### My friend has much better martial stats than me, ask for help? ###
+### My friend has much better martial stats than me, ask for help? ### 
 character_event = {
 	id = 100200
 	desc = EVTDESC100200
@@ -6792,7 +6898,7 @@ character_event = {
 				value = 0.25
 			}
 			tooltip = {
-				character_event = {
+				character_event = { 
 					id = 100205
 					tooltip = EVTTOOLTIPC100205
 				}
@@ -7488,7 +7594,7 @@ character_event = {
 				value = 0.25
 			}
 		}
-		FROM = {
+		FROM = { 
 			set_character_flag = paid_intrigue
 			character_event = {
 				id = 100225
@@ -7570,6 +7676,7 @@ character_event = {
 	id = 100230
 	desc = EVTDESC100230
 	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
 	
 	prisoner = no
 	min_age = 15
@@ -7679,6 +7786,7 @@ character_event = {
 	id = 100231
 	desc = EVTDESC100231
 	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
 	
 	is_triggered_only = yes
 	
@@ -7737,6 +7845,7 @@ character_event = {
 	id = 100232
 	desc = EVTDESC100232
 	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
 	
 	is_triggered_only = yes
 	
@@ -7786,6 +7895,7 @@ character_event = {
 	id = 100233
 	desc = EVTDESC100233
 	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
 	
 	is_triggered_only = yes
 	
@@ -7814,6 +7924,7 @@ character_event = {
 	id = 100234
 	desc = EVTDESC100234
 	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
 	
 	is_triggered_only = yes
 	
@@ -7886,6 +7997,7 @@ character_event = {
 	id = 100235
 	desc = EVTDESC100235
 	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
 	
 	is_triggered_only = yes
 	
@@ -8357,6 +8469,7 @@ character_event = {
 	id = 100260
 	desc = EVTDESC100260
 	picture = GFX_evt_library
+	border = GFX_event_normal_frame_religion
 	
 	min_age = 23
 	capable_only = yes
@@ -8377,7 +8490,7 @@ character_event = {
 			war = no
 			in_command = no
 			prisoner = no
-			#trait = scholar
+			#trait = scholar 
 		}
 	}
 	
@@ -9181,6 +9294,11 @@ character_event = {
 			clr_character_flag = friendly_rival
 		}
 		add_rival = FROM
+		opinion = {
+			modifier = grievously_offended
+			who = FROM
+			years = 10
+		}
 	}
 }
 
@@ -9244,7 +9362,9 @@ character_event = {
 			NOT = {
 				has_character_flag = duel_rival
 			}
+			NOT = { trait = in_hiding }
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	mean_time_to_happen = {
@@ -9282,6 +9402,7 @@ character_event = {
 				factor = 5
 				trait = just
 			}
+			
 			modifier = {
 				factor = 5
 				trait = duelist
@@ -10485,6 +10606,243 @@ character_event = {
 	}
 }
 
+### Your fierce rival has embraced heretical ways ###
+character_event = {
+	id = 100440
+	desc = EVTDESC100440
+	picture = GFX_evt_heretic
+	
+	min_age = 15
+	capable_only = yes
+	only_rulers = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		is_heretic = no
+		num_of_rivals = 1
+		any_rival = {
+			war = no
+			age = 15
+			is_female = no
+			in_command = no
+			prisoner = no
+			is_heresy_of = ROOT
+			NOT = {
+				trait = excommunicated
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+		
+		modifier = {
+			factor = 0.5
+			trait = zealous
+		}
+		
+		modifier = {
+			factor = 2
+			trait = cynical
+		}
+	}
+	
+	option = {
+		name = EVTOPTA100440
+		random_rival = {
+			limit = {
+				war = no
+				age = 15
+				is_female = no
+				in_command = no
+				prisoner = no
+				is_heresy_of = ROOT
+				NOT = {
+					trait = excommunicated
+				}
+			}
+			set_character_flag = rival_excommunicated_me
+		}
+		religion_head = {
+			character_event = {
+				id = 100441
+				days = 7
+				random = 7
+				tooltip = EVTTOOLTIP100441
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB100440
+		piety = -10
+	}
+	option = {
+		name = EVTOPTC100440
+		random_rival = {
+			limit = {
+				war = no
+				age = 15
+				is_female = no
+				in_command = no
+				prisoner = no
+				is_heresy_of = ROOT
+				NOT = {
+					trait = excommunicated
+				}
+			}
+			ROOT = {
+				random = {
+					chance = 20
+					religion = PREV
+					hidden_tooltip = {
+						character_event = {
+							id = 100442
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#Head of Religion decides whether or not to excommunicate 
+character_event = {
+	id = 100441
+	desc = EVTDESC100441
+	picture = GFX_evt_heretic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100441
+		FROM = {
+			random_rival = {
+				limit = {
+					war = no
+					age = 15
+					is_female = no
+					in_command = no
+					is_heresy_of = FROM
+					prisoner = no
+					has_character_flag = rival_excommunicated_me
+				}
+				clr_character_flag = rival_excommunicated_me
+				tooltip = { add_trait = excommunicated }
+				letter_event = {
+					id = 100443
+					days = 7
+					random = 7
+					tooltip = EVTTOOLTIP100443
+				}	
+			}
+			set_character_flag = excommunicated_rival
+			tooltip = {
+				letter_event = {
+					id = 100444
+					days = 7
+					random = 7
+					tooltip = EVTTOOLTIP100444
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB100441
+		FROM = {
+			letter_event = {
+				id = 100445
+				days = 7
+				random = 7
+				tooltip = EVTTOOLTIP100445
+			}
+		}
+	}
+}
+
+#Root becomes a heretic!
+character_event = {
+	id = 100442
+	desc = EVTDESC100442
+	picture = GFX_evt_heretic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100442
+		random_rival = {
+			limit = {
+				war = no
+				age = 15
+				is_female = no
+				in_command = no
+				prisoner = no
+				is_heresy_of = ROOT
+				NOT = {
+					trait = excommunicated
+				}
+			}
+			ROOT = {
+				religion = PREV
+			}
+		}
+		piety = -10
+	}
+}
+
+#Head of religion sends letter to excommunicated person
+letter_event = {
+	id = 100443
+	desc = EVTDESC100443
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100443
+		add_trait = excommunicated
+		hidden_tooltip = {
+			random_courtier = {
+				limit = {
+					has_character_flag = excommunicated_rival
+				}
+				clr_character_flag = excommunicated_rival
+				letter_event = {
+					id = 100444
+					days = 7
+					random = 7
+				}
+			}
+		}
+	}
+}
+
+#Head of religion sends letter to ROOT
+letter_event = {
+	id = 100444
+	desc = EVTDESC100444
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100444
+		piety = 10
+	}
+}
+
+#Head of religion sends letter to ROOT telling him/her no can do
+letter_event = {
+	id = 100445
+	desc = EVTDESC100445
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100445
+		piety = -10
+	}
+}
+
 ### Make your liege distrust your rival ###
 character_event = {
 	id = 100450
@@ -11559,6 +11917,223 @@ character_event = {
 	}
 }
 
+### Your fierce rival has also become a follower of the new way of Christ ###
+character_event = {
+	id = 100500
+	desc = EVTDESC100500
+	picture = GFX_evt_bishop
+	
+	min_age = 15
+	capable_only = yes
+	only_rulers = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		war = no
+		in_command = no
+		num_of_rivals = 1
+		NOT = {
+			has_character_modifier = religious_rival_timer
+		}
+		FROM = {
+			war = no
+			age = 15
+			in_command = no
+			prisoner = no
+			religion = ROOT
+			NOT = {
+				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_continued_rivalry }
+			}
+			NOT = {
+				has_opinion_modifier = { who = ROOT modifier = opinion_continued_rivalry }
+			}
+		}
+	}
+	
+#	mean_time_to_happen = {
+#		months = 300
+#		
+#		modifier = {
+#			factor = 0.5
+#			trait = zealous
+#		}
+#		modifier = {
+#			factor = 0.5
+#			piety = 500
+#		}
+#		
+#		modifier = {
+#			factor = 2
+#			trait = deceitful
+#		}
+#	}
+	
+	immediate = {
+		hidden_tooltip = {
+			add_character_modifier = {
+				name = religious_rival_timer
+				duration = 2000
+				hidden = yes
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA100500
+		FROM = {
+			character_event = {
+				id = 100501
+				days = 7
+				random = 7
+				tooltip = EVTTOOLTIP100501
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB100500
+		if = {
+			limit = {
+				NOT = {
+					trait = zealous
+				}
+				NOT = {
+					trait = cynical
+				}
+			}
+			add_trait = cynical
+		}
+		if = {
+			limit = {
+				NOT = {
+					num_of_traits = 5
+				}
+				trait = zealous
+			}
+			remove_trait = zealous
+		}
+		if = {
+			limit = {
+				NOT = {
+					num_of_traits = 5
+				}
+				trait = cynical
+				NOT = {
+					trait = wroth
+				}
+			}
+			add_trait = wroth
+		}
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						trait = cynical
+						trait = wroth
+					}
+					num_of_traits = 4
+				}
+			}
+			change_intrigue = 1
+		}
+	}
+}
+
+#Christian Rival decides if rivalry continues
+character_event = {
+	id = 100501
+	desc = EVTDESC100501
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100501
+		ai_chance = {
+			factor = 10
+			
+			modifier = {
+				factor = 10
+				trait = zealous
+			}
+			modifier = {
+				factor = 0.01
+				trait = cynical
+			}
+		}
+		remove_rival = FROM
+		FROM = {
+			character_event = {
+				id = 100502
+				days = 7
+				random = 7
+				tooltip = EVTTOOLTIP100502
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB100501
+		ai_chance = {
+			factor = 10
+			
+			modifier = {
+				factor = 0.01
+				trait = zealous
+			}
+			modifier = {
+				factor = 10
+				trait = cynical
+			}
+		}
+		opinion = {
+			modifier = opinion_continued_rivalry
+			who = FROM
+			years = 5
+		}
+		FROM = {
+			character_event = {
+				id = 100503
+				days = 7
+				random = 7
+				tooltip = EVTTOOLTIP100503
+			}
+		}
+	}
+}
+
+#ROOT learns Christian Rival decided rivalry discontinues
+character_event = {
+	id = 100502
+	desc = EVTDESC100502
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100502
+		remove_rival = FROM
+	}
+}
+
+#ROOT learns Christian Rival decided rivalry continues
+character_event = {
+	id = 100503
+	desc = EVTDESC100503
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100503
+		opinion = {
+			modifier = opinion_continued_rivalry
+			who = FROM
+			years = 5
+		}
+	}
+}
+
 ### Root tries to wound rival during hunt ###
 character_event = {
 	id = 100510
@@ -12063,6 +12638,11 @@ character_event = {
 			}
 		}
 		add_rival = FROM
+		opinion = {
+			modifier = grievously_offended
+			who = FROM
+			years = 10
+		}
 	}
 }
 
@@ -12663,6 +13243,11 @@ character_event = {
 			}
 		}
 		add_rival = FROM
+		opinion = {
+			modifier = grievously_offended
+			who = FROM
+			years = 10
+		}
 	}
 }
 

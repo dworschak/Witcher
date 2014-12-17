@@ -355,6 +355,7 @@ character_event = {
 			trait = chaste
 			trait = lustful
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -640,7 +641,7 @@ character_event = {
 	id = 4045
 	desc = EVTDESC4045
 	picture = GFX_evt_bandits
-	
+	border = GFX_event_normal_frame_intrigue
 	is_triggered_only = yes
 	
 	min_age = 20
@@ -748,6 +749,7 @@ character_event = {
 	id = 4046
 	desc = EVTDESC4046
 	picture = GFX_evt_bandits
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 
@@ -768,6 +770,7 @@ character_event = {
 	id = 4047
 	desc = EVTDESC4047
 	picture = GFX_evt_bandits
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -812,6 +815,7 @@ character_event = {
 	id = 4050
 	desc = EVTDESC4050
 	picture = GFX_evt_shadowy_cabal
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -931,6 +935,7 @@ character_event = {
 	id = 4055
 	desc = EVTDESC4055
 	picture = GFX_evt_heretic
+	border = GFX_event_normal_frame_religion
 	
 	is_triggered_only = yes
 	
@@ -1708,9 +1713,11 @@ character_event = {
 				tier = emperor
 			}
 			OR = {
-				has_opinion_modifier = { who = ROOT modifier = opinion_potential_cuckold }
-				has_opinion_modifier = { who = ROOT modifier = unfaithful }
-				has_opinion_modifier = { who = ROOT modifier = cuckolded }
+				has_opinion_modifier = { who = ROOT modifier = opinion_cuckolded_private }
+				has_opinion_modifier = { who = ROOT modifier = opinion_unfaithful_private }
+				has_opinion_modifier = { who = ROOT modifier = opinion_cuckolded }
+				has_opinion_modifier = { who = ROOT modifier = opinion_unfaithful_wife }
+				has_opinion_modifier = { who = ROOT modifier = opinion_unfaithful_husband }
 				NOT = { opinion = { who = ROOT value = 30 } }
 			}
 		}
@@ -2061,6 +2068,7 @@ character_event = {
 			}
 			reverse_opinion = { who = ROOT value = 25 }
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -2368,6 +2376,7 @@ character_event = {
 				treasury = 50
 			}
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -2525,6 +2534,7 @@ character_event = {
 		NOT = {
 			has_character_modifier = the_cynical
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -2647,6 +2657,7 @@ character_event = {
 			opinion = { who = ROOT value = 20 }
 			trait = brave
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -2757,6 +2768,7 @@ character_event = {
 				trait = greedy
 			}
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -2852,6 +2864,7 @@ character_event = {
 				}
 			}
 		}
+		NOT = { trait = in_hiding }
 	}
 	
 	weight_multiplier = {
@@ -3148,6 +3161,7 @@ character_event = {
 	only_men = yes
 	capable_only = yes
 	prisoner = no
+	
 	trigger = {
 		war = no
 		in_command = no
@@ -3370,3 +3384,95 @@ character_event = {
 
 #Performing Bear ID 4170 - moved to summer_fair_events.txt
 
+#Bal des Ardents
+character_event = {
+	id = 4175
+	desc = EVTDESC4175
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	min_age = 20
+	only_playable = yes
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		in_command = no
+		OR = {
+			trait = lunatic
+			trait = possessed
+			trait = infirm
+			trait = drunkard
+		}
+		any_vassal = {
+			trait = diligent
+		}
+		any_vassal = {
+			trait = ambitious
+			trait = wroth
+		}
+		NOT = { trait = in_hiding }
+	}
+	
+	weight_multiplier = {
+		days = 3
+		
+		modifier = {
+			factor = 2
+			trait = infirm
+		}
+		modifier = {
+			factor = 5
+			trait = incapable
+		}
+	}
+	
+	option = {
+		name = EVTOPTA4175
+		add_trait = maimed
+	}
+	
+	option = {
+		name = EVTOPTB4175
+		random = {
+			chance = 60
+			
+			add_trait = wounded
+			hidden_tooltip = { character_event = { id = 38280 } }
+		}
+		random_vassal = {
+			limit = {
+				trait = diligent
+			}
+			reverse_opinion = {
+				modifier = opinion_my_saviour
+				who = ROOT
+				years = 2
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTC4175
+		random = {
+			chance = 70
+			
+			add_trait = wounded
+			hidden_tooltip = { character_event = { id = 38280 } }
+		}
+		random_courtier = {
+			limit = {
+				trait = ambitious
+				trait = wroth
+			}
+			reverse_opinion = {
+				modifier = opinion_fool_courtier
+				who = ROOT
+				years = 2
+			}
+		}
+	}
+}
