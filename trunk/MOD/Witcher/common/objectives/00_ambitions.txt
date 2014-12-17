@@ -530,6 +530,7 @@ obj_become_spiritual = {
 		is_councillor = no
 		independent = no
 		OR = {
+			is_female = no
 			AND = {
 				is_female = no
 				NOT = { religion = melitele }
@@ -690,6 +691,7 @@ obj_amass_wealth = { # Wealth 1
 		NOT = { has_character_flag = amassed_fortune }
 		NOT = { has_character_flag = amassed_hoard }
 	}
+	
 	allow = {
 		is_adult = yes
 		NOT = { wealth = 200 }
@@ -862,8 +864,9 @@ obj_become_exalted = { # Prestige 3
 	
 	potential = {
 		NOT = { culture = wilderness }
-		NOT = { has_character_flag = exalted }
+		NOT = { has_character_flag = became_exalted }
 	}
+	
 	allow = {
 		is_adult = yes
 		OR = {
@@ -948,7 +951,6 @@ obj_become_exalted = { # Prestige 3
 		}
 	}
 }
-
 
 obj_get_married = {
 	type = character
@@ -1196,8 +1198,10 @@ obj_have_a_daughter = {
 			}
 		}
 		OR = {
+			ai = no
 			NOT = { has_character_modifier = old_age }
-			is_female = no
+			is_female = yes
+			num_of_children = 2
 		}
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
@@ -1287,23 +1291,34 @@ obj_have_a_son = {
 			}
 		}
 		OR = {
+			ai = no
 			NOT = { has_character_modifier = old_age }
 			is_female = no
-		}
-		NOT = { trait = celibate }
-		NOT = { trait = incapable }
-		OR = {
-			NOT = { trait = elven }
-			AND = {
-				trait = elven
-				trait  = fertile_elf
+			# Have at least two daughters
+			any_child = {
+				is_female = yes
+				ROOT = {
+					any_child = {
+						is_female = yes
+						NOT = { character = PREVPREV }
+					}
+				}
 			}
-		}
-		OR = {
-			NOT = { trait = sorcerer }
-			AND = {
-				trait = sorcerer
-				trait = fertile_sorcerer
+			NOT = { trait = celibate }
+			NOT = { trait = incapable }
+			OR = {
+				NOT = { trait = elven }
+				AND = {
+					trait = elven
+					trait  = fertile_elf
+				}
+			}
+			OR = {
+				NOT = { trait = sorcerer }
+				AND = {
+					trait = sorcerer
+					trait = fertile_sorcerer
+				}
 			}
 		}
 	}
@@ -1554,6 +1569,8 @@ obj_improve_martial = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
+		is_playable = yes
+		NOT = { has_dlc = "Way of Life" }
 	}
 	
 	allow = {
@@ -1618,6 +1635,8 @@ obj_improve_stewardship = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
+		is_playable = yes
+		NOT = { has_dlc = "Way of Life" }
 	}
 	
 	allow = {
@@ -1685,6 +1704,8 @@ obj_improve_learning = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
+		is_playable = yes
+		NOT = { has_dlc = "Way of Life" }
 	}
 	
 	allow = {
@@ -1748,6 +1769,8 @@ obj_improve_diplomacy = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
+		is_playable = yes
+		NOT = { has_dlc = "Way of Life" }
 	}
 	
 	allow = {
@@ -1811,6 +1834,8 @@ obj_improve_intrigue = {
 	potential = {
 		NOT = { culture = wilderness }
 		age = 15
+		is_playable = yes
+		NOT = { has_dlc = "Way of Life" }
 	}
 	
 	allow = {
