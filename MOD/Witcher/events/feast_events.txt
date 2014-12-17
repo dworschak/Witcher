@@ -873,6 +873,7 @@ character_event = {
 	option = {
 		name = "EVTOPTC72008"
 		trigger = {
+			age = 14
 			is_female = no
 			NOT = { health_traits = 1 }
 			NOT = { trait = craven }
@@ -1071,6 +1072,11 @@ letter_event = {
 		name = "EVTOPTA72011" #Travel to the feast
 		ai_chance = {
 			factor = 1
+			modifier  = {
+				factor = 0.1
+				ai = yes
+				trait = in_hiding
+			}
 			modifier = {
 				factor = 2
 				opinion = { who = from value = -40 }
@@ -1081,6 +1087,17 @@ letter_event = {
 			}
 		}
 		set_character_flag = coming_to_feast
+		if = {
+			limit = { trait = in_hiding	}
+			remove_trait = in_hiding
+			clr_character_flag = do_not_disturb
+			add_character_modifier = {
+				name = went_out_of_hiding_timer
+				duration = 180
+				hidden = yes
+			}
+			hidden_tooltip = { character_event = { id = CM.6400 } } # Notify plotters and family
+		}
 	}
 	option = {
 		name = "EVTOPTB72011" #Refuse
@@ -1089,6 +1106,7 @@ letter_event = {
 			modifier  = {
 				factor = 0
 				opinion = { who = from value = 0 }
+				NOT = { trait = in_hiding }
 			}
 			modifier  = {
 				factor = 2
@@ -1677,6 +1695,7 @@ character_event = {
 	prisoner = no
 
 	trigger = {
+		is_adult = yes
 		war = no
 		NOT = { num_of_friends = 3 }
 		has_character_flag = guest_feast_started
@@ -1982,6 +2001,7 @@ character_event = {
 	prisoner = no
 
 	trigger = {
+		is_adult = yes
 		war = no
 		has_character_flag = guest_feast_started
 		NOT = {
@@ -2045,6 +2065,10 @@ character_event = {
 		modifier = {
 			factor = 0.5
 			trait = brave
+		}
+		modifier = {
+			factor = 0.3
+			has_focus = focus_war
 		}
 
 		modifier = {
@@ -2144,18 +2168,386 @@ character_event = {
 
 	option = {
 		name = "EVTOPTA72031" #Accept
-		custom_tooltip = {
-			text = accept_feast_duel
-			hidden_tooltip = {
-				FROM = { character_event = { id = duel.1 } }
-				FROM = { character_event = { id = feast.200 days = 1 } }
-				character_event = { id = feast.201 days = 1 }
+		random_list = {
+			35 = {
+				add_trait = wounded
+				hidden_tooltip = {
+					FROM = {
+						set_character_flag = wounded_opponent
+						character_event = {
+							id = 72032
+						}
+					}
+				}
+			}
+			35 = {
+				add_trait = maimed
+				hidden_tooltip = {
+					FROM = {
+						set_character_flag = maimed_opponent
+						character_event = {
+							id = 72032
+						}
+					}
+				}
+			}
+			10 = {
+				death = { death_reason = death_duel }
+				hidden_tooltip = {
+					FROM = {
+						set_character_flag = killed_opponent
+						character_event = {
+							id = 72033
+						}
+					}
+				}
+			}
+			20 = {
+				any_liege = {
+					limit = {
+						has_character_flag = host_feast_started
+						has_character_modifier = holding_large_feast
+					}
+					character_event = {
+						id = 72034
+						tooltip = "EVTTOOLTIP72034"
+					}
+				}
 			}
 		}
 	}
 	option = {
 		name = "EVTOPTB72031" #Decline
 		prestige = -10
+	}
+}
+
+#Duel: Opponent is killed/maimed/wounded/nothing
+character_event = {
+	id = 72032
+	desc = "EVTDESC72032"
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTA72032"
+		trigger = {
+			has_character_flag = wounded_opponent
+		}
+		random_list = {
+			10 = {
+				death = { death_reason = death_duel }
+				hidden_tooltip = {
+					FROM = {
+						set_character_flag = killed_opponent
+						character_event = {
+							id = 72033
+							tooltip = "EVTTOOLTIP72033"
+						}
+					}
+				}
+			}
+			20 = {
+				add_trait = maimed
+				hidden_tooltip = {
+					FROM = {
+						set_character_flag = maimed_opponent
+						character_event = {
+							id = 72033
+							tooltip = "EVTTOOLTIP72033"
+						}
+					}
+				}
+			}
+			30 = {
+				add_trait = wounded
+				hidden_tooltip = {
+					FROM = {
+						set_character_flag = wounded_opponent
+						character_event = {
+							id = 72033
+							tooltip = "EVTTOOLTIP72033"
+						}
+					}
+				}
+			}
+			40 = {
+				any_liege = {
+					limit = {
+						has_character_flag = host_feast_started
+						has_character_modifier = holding_large_feast
+					}
+					character_event = {
+						id = 72034
+						tooltip = "EVTTOOLTIP72034"
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "EVTOPTB72032"
+		trigger = {
+			has_character_flag = maimed_opponent
+		}
+		random_list = {
+			1 = {
+				death = { death_reason = death_duel }
+				FROM = {
+					set_character_flag = killed_opponent
+					character_event = {
+						id = 72033
+						tooltip = "EVTTOOLTIP72033"
+					}
+				}
+			}
+			10 = {
+				add_trait = maimed
+				FROM = {
+					set_character_flag = maimed_opponent
+					character_event = {
+						id = 72033
+						tooltip = "EVTTOOLTIP72033"
+					}
+				}
+			}
+			19 = {
+				add_trait = wounded
+				FROM = {
+					set_character_flag = wounded_opponent
+					character_event = {
+						id = 72033
+						tooltip = "EVTTOOLTIP72033"
+					}
+				}
+			}
+			70 = {
+				any_liege = {
+					limit = {
+						has_character_flag = host_feast_started
+						has_character_modifier = holding_large_feast
+					}
+					character_event = {
+						id = 72034
+						tooltip = "EVTTOOLTIP72034"
+					}
+				}
+			}
+		}
+	}
+}
+
+#Duel
+character_event = {
+	id = 72033
+	desc = "EVTDESC72033"
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTA72033"
+		trigger = {
+			has_character_flag = wounded_opponent
+		}
+		FROM = {
+			clr_character_flag = wounded_opponent
+			clr_character_flag = maimed_opponent
+		}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_large_feast
+			}
+			character_event = {
+				id = 72036
+				tooltip = "EVTTOOLTIP72036"
+			}
+		}
+		clr_character_flag = wounded_opponent
+		change_martial = 1
+	}
+
+	option = {
+		name = "EVTOPTB72033"
+		trigger = {
+			has_character_flag = maimed_opponent
+		}
+		FROM = {
+			clr_character_flag = wounded_opponent
+			clr_character_flag = maimed_opponent
+		}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_large_feast
+			}
+			character_event = {
+				id = 72037
+				tooltip = "EVTTOOLTIP72037"
+			}
+		}
+		clr_character_flag = maimed_opponent
+		change_martial = 2
+	}
+
+	option = {
+		name = "EVTOPTC72033"
+		trigger = {
+			has_character_flag = killed_opponent
+		}
+		clr_character_flag = killed_opponent
+		change_martial = 3
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_large_feast
+			}
+			character_event = {
+				id = 72035
+				tooltip = "EVTTOOLTIP72035"
+			}
+		}
+		hidden_tooltip = {
+			if = {
+				limit = { 
+					has_focus = focus_war
+					has_dlc = "Way of Life"
+				}
+				character_event = { id = WoL.11200 days = 3 } # fire focus success
+			}
+		}
+	}
+}
+
+#Duel: The End
+character_event = {
+	id = 72034
+	desc = "EVTDESC72034"
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTA72034"
+		opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
+		FROM = {
+			FROM = {
+				reverse_opinion = {
+					modifier = opinion_dislike
+					who = Root
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+#Duel: The End
+character_event = {
+	id = 72035
+	desc = "EVTDESC72035"
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTA72035"
+		opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
+	}
+	option = {
+		name = "EVTOPTB72035"
+		opinion = {
+			modifier = opinion_satisfied
+			who = FROM
+			years = 10
+		}
+	}
+	option = {
+		name = "EVTOPTC72035"
+		reverse_opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
+	}
+}
+
+#Duel: Liege is notified about wounded opponent
+character_event = {
+	id = 72036
+	desc = "EVTDESC72036"
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTA72036"
+		opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
+	}
+	option = {
+		name = "EVTOPTB72036"
+		opinion = {
+			modifier = opinion_satisfied
+			who = FROM
+			years = 10
+		}
+	}
+	option = {
+		name = "EVTOPTC72036"
+		reverse_opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
+	}
+}
+
+#Duel: Liege is notified about maimed opponent
+character_event = {
+	id = 72037
+	desc = "EVTDESC72037"
+	picture = GFX_evt_melee
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTA72037"
+		opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
+	}
+	option = {
+		name = "EVTOPTB72037"
+		opinion = {
+			modifier = opinion_satisfied
+			who = FROM
+			years = 10
+		}
+	}
+	option = {
+		name = "EVTOPTC72037"
+		reverse_opinion = {
+			modifier = opinion_dislike
+			who = FROM
+			years = 10
+		}
 	}
 }
 
@@ -2170,7 +2562,7 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
-		NOT = { has_character_modifier = old_age }
+		is_adult = yes
 		war = no
 		has_character_flag = guest_feast_started
 		is_married = yes
@@ -2410,7 +2802,7 @@ character_event = {
 		FROM = {
 			spouse = {
 				opinion = {
-					modifier = cuckolded
+					modifier = opinion_cuckolded_private
 					who = ROOT
 					years = 100
 				}
@@ -2429,6 +2821,7 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
+		is_adult = yes
 		war = no
 		has_character_flag = guest_feast_started
 		NOT = {
@@ -2570,6 +2963,7 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
+		is_adult = yes
 		war = no
 		has_character_flag = guest_feast_started
 		trait = drunkard
@@ -2657,6 +3051,7 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
+		is_adult = yes
 		war = no
 		has_character_flag = guest_feast_started
 		trait = drunkard
@@ -3710,7 +4105,7 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
-		NOT = { has_character_modifier = old_age }
+		is_adult = yes
 		war = no
 		has_character_flag = host_feast_started
 		OR = {
@@ -3730,7 +4125,7 @@ character_event = {
 			is_married = yes
 			spouse = {
 				is_adult = yes
-				NOT = { is_close_relative = ROOT }
+				NOT = { is_close_relative = root }
 				is_female = yes
 				is_pregnant = no
 				is_alive = yes
@@ -3780,7 +4175,7 @@ character_event = {
 				NOT = {	trait = celibate }
 				NOT = {	trait = chaste	}
 				NOT = { trait = eunuch }
-				NOT = { is_close_relative = ROOT }
+				NOT = { is_close_relative = root }
 			}
 			set_character_flag = passionated_guest
 		}
@@ -3800,14 +4195,14 @@ character_event = {
 				is_married = yes
 				spouse = {
 					is_adult = yes
-					NOT = { is_close_relative = ROOT }
+					NOT = { is_close_relative = root }
 					is_female = yes
 					is_pregnant = no
 					is_alive = yes
 					is_abroad = no
 					prisoner = no
 					NOT = {
-						has_character_modifier = old_age
+						age = 40
 					}
 					NOT = {
 						trait = celibate
@@ -3831,7 +4226,7 @@ character_event = {
 					is_alive = yes
 					is_abroad = no
 					prisoner = no
-					NOT = { is_close_relative = ROOT }
+					NOT = { is_close_relative = root }
 					NOT = {
 						has_character_modifier = old_age
 					}
@@ -3935,6 +4330,7 @@ character_event = {
 	prisoner = no
 
 	trigger = {
+		is_adult = yes
 		war = no
 		NOT = { num_of_friends = 3 }
 		has_character_flag = host_feast_started
@@ -4291,7 +4687,7 @@ character_event = {
 						is_married = no
 						is_betrothed = no
 						has_lover = no
-						NOT = { is_close_relative = ROOT }
+						NOT = { is_close_relative = root }
 						is_adult = yes
 						NOT = {
 							age = 26
@@ -4309,7 +4705,7 @@ character_event = {
 					is_betrothed = no
 					has_lover = no
 					fertility = 0.4
-					NOT = { is_close_relative = ROOT }
+					NOT = { is_close_relative = root }
 					is_adult = yes
 					NOT = {
 						age = 26
@@ -4363,7 +4759,7 @@ character_event = {
 						is_betrothed = no
 						has_lover = no
 						fertility = 0.4
-						NOT = { is_close_relative = ROOT }
+						NOT = { is_close_relative = root }
 
 						is_adult = yes
 						NOT = {
@@ -4427,7 +4823,7 @@ character_event = {
 						chance = 25
 
 						impregnate = ROOT
-						set_character_flag = impregnated_by_ROOT
+						set_character_flag = impregnated_by_root
 						ROOT = {
 							set_character_flag = impregnated_vassal_daughter
 						}
@@ -4465,7 +4861,7 @@ character_event = {
 					has_lover = no
 					is_pregnant = no
 					fertility = 0.4
-					NOT = { is_close_relative = ROOT }
+					NOT = { is_close_relative = root }
 
 					is_adult = yes
 					NOT = {
@@ -4510,7 +4906,7 @@ character_event = {
 					has_lover = no
 					is_pregnant = no
 					fertility = 0.4
-					NOT = { is_close_relative = ROOT }
+					NOT = { is_close_relative = root }
 
 					is_adult = yes
 					NOT = {
@@ -4523,7 +4919,7 @@ character_event = {
 					chance = 25
 
 					impregnate = ROOT
-					set_character_flag = impregnated_by_ROOT
+					set_character_flag = impregnated_by_root
 					ROOT = {
 						set_character_flag = impregnated_vassal_daughter
 					}
@@ -4742,7 +5138,7 @@ character_event = {
 			is_female = yes
 			is_pregnant = yes
 			had_character_flag = {
-				flag = impregnated_by_ROOT
+				flag = impregnated_by_root
 				days = 60
 			}
 		}
@@ -4842,26 +5238,26 @@ character_event = {
 		FROM = {
 			random_child = {
 				limit = {
-					has_character_flag = impregnated_by_ROOT
+					has_character_flag = impregnated_by_root
 				}
 				add_spouse = ROOT
-				clr_character_flag = impregnated_by_ROOT
+				clr_character_flag = impregnated_by_root
 			}
 		}
 	}
 	option = {
 		name = "EVTOPTB72098" #Refuse
 		reverse_opinion = {
-			modifier = opinion_mad_as_hell
+			modifier = grievously_offended
 			who = FROM
 			years = 20
 		}
 		FROM = {
 			random_child = {
 				limit = {
-					has_character_flag = impregnated_by_ROOT
+					has_character_flag = impregnated_by_root
 				}
-				clr_character_flag = impregnated_by_ROOT
+				clr_character_flag = impregnated_by_root
 			}
 		}
 	}
@@ -4890,7 +5286,7 @@ character_event = {
 	option = {
 		name = "EVTOPTB72099" #Refuse
 		reverse_opinion = {
-			modifier = opinion_mad_as_hell
+			modifier = grievously_offended
 			who = FROM
 			years = 20
 		}
@@ -4911,7 +5307,7 @@ character_event = {
 			any_vassal = {
 				random_child = {
 					limit = {
-						has_character_flag = impregnated_by_ROOT
+						has_character_flag = impregnated_by_root
 					}
 					add_spouse = ROOT
 				}
@@ -5358,8 +5754,6 @@ character_event = {
 		clr_character_flag = feast_minstrel
 		clr_character_flag = feast_fireeaters
 		clr_character_flag = feast_conjurer
-		clr_character_flag = feast_dancers
-		clr_character_flag = feast_acrobats
 		clr_character_flag = lavishly_food
 		clr_character_flag = medium_food
 		clr_character_flag = low_food
