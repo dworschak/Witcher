@@ -177,7 +177,7 @@ character_event = {
 		any_courtier = {
 			has_plot = plot_kill_character
 			plot_target_char = {
-				character = ROOT
+				character = root
 			}
 		}
 		OR = {
@@ -193,6 +193,10 @@ character_event = {
 		}		
 	}
 	
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
+
 	mean_time_to_happen = {
 		days = 200
 		
@@ -208,7 +212,6 @@ character_event = {
 	}
 
 	immediate = {
-		set_character_flag = hunt_event_happened
 		set_character_flag = hunt_paranoia
 	}
 
@@ -261,62 +264,62 @@ character_event = {
 			5 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					any_courtier = {
-						limit = {
-							is_adult = yes
-							NOT = {
-								has_plot = plot_kill_character
-								plot_target_char = {
-									character = ROOT
-								}
+				any_courtier = {
+					limit = {
+						is_adult = yes
+						NOT = {
+							has_plot = plot_kill_character
+							plot_target_char = {
+								character = root
 							}
 						}
-						character_event = {
-							id = 36005
-							days = 1
-							tooltip = "EVTTOOLTIP36004"
-						}
+					}
+					character_event = {
+						id = 36005
+						days = 1
+						tooltip = "EVTTOOLTIP36004"
 					}
 				}
+			}
 			}
 			5 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
 					any_courtier = {
-						limit = {
-							has_plot = plot_kill_character
-							plot_target_char = {
-								character = ROOT
-							}
-						}
-						character_event = {
-							id = 36004
-							days = 1
-							tooltip = "EVTTOOLTIP36004"
+					limit = {
+						has_plot = plot_kill_character
+						plot_target_char = {
+							character = root
 						}
 					}
+					character_event = {
+						id = 36004
+						days = 1
+						tooltip = "EVTTOOLTIP36004"
+					}
 				}
+			}
 			}
 			5 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
-					any_courtier = {
-						limit = {
-							has_plot = plot_kill_character
-							plot_target_char = {
-								character = ROOT
-							}
+				death = { death_reason = death_accident }
+				any_courtier = {
+					limit = {
+						has_plot = plot_kill_character
+						plot_target_char = {
+							character = root
 						}
-						character_event = {
-							id = 36002
-							days = 1
-						}
+					}
+					character_event = {
+						id = 36002
+						days = 1
 					}
 				}
 			}
 		}
 	}
+}
 }
 
 character_event = {
@@ -1124,6 +1127,10 @@ character_event = {
 			days = 3
 		}		
 	}
+
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
 	
 	mean_time_to_happen = {
 		days = 100
@@ -1166,7 +1173,7 @@ character_event = {
 
 	immediate = {
 		set_character_flag = hunt_killed_something
-		set_character_flag = hunt_event_happened
+
 	}
 
 	option = {
@@ -1221,6 +1228,10 @@ character_event = {
 			days = 3
 		}		
 	}
+
+	immediate = {
+		set_character_flag = hunt_event_happened
+	}	
 	
 	mean_time_to_happen = {
 		days = 400
@@ -1255,8 +1266,8 @@ character_event = {
 	}
 
 	immediate = {
-		set_character_flag = hunt_event_happened
 		set_character_flag = hunt_killed_something
+
 	}
 
 	option = {
@@ -1293,9 +1304,9 @@ character_event = {
 			5 = {
 					if = {
 							limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
-				}
+				death = { death_reason = death_accident }
 			}
+		}
 		}
 		set_character_flag = hunt_killed_something
 		prestige = 20
@@ -1444,7 +1455,7 @@ character_event = {
 		FROM = {
 			opinion = {
 				modifier = opinion_proud
-				who = ROOT
+				who = root
 				years = 10
 			}
 		}
