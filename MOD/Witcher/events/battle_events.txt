@@ -330,10 +330,6 @@ character_event = {
 			factor = 1.1
 			trait = has_small_pox
 		}		
-		modifier = {
-			factor = 1.1
-			trait = has_aztec_disease
-		}
 		
 		modifier = { factor = 0.5 trait = witcher }
 		modifier = { factor = 0.5 trait = sorcerer }
@@ -819,10 +815,6 @@ character_event = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-		modifier = {
-			factor = 1.1
-			trait = has_aztec_disease
-		}
 		
 	}
 
@@ -982,10 +974,6 @@ character_event = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-		modifier = {
-			factor = 1.1
-			trait = has_aztec_disease
-		}
 	}
 
 	option = {
@@ -1015,6 +1003,10 @@ character_event = {
 	
 	weight_multiplier = {
 		days = 1
+		modifier = {
+			factor = 3
+			has_focus = focus_scholarship
+		}
 		modifier = {
 			factor = 1.5
 			trait = brave
@@ -1119,10 +1111,6 @@ character_event = {
 		modifier = {
 			factor = 0.5
 			trait = has_small_pox
-		}
-		modifier = {
-			factor = 1.1
-			trait = has_aztec_disease
 		}
 	}
 
@@ -1632,10 +1620,6 @@ character_event = {
 			factor = 0.5
 			trait = has_small_pox
 		}
-		modifier = {
-			factor = 1.1
-			trait = has_aztec_disease
-		}
 
 	}
 	
@@ -1654,6 +1638,7 @@ character_event = {
 		name = OK
 	}
 }
+
 
 #On-action battle_won: Soldier Distinguishes himself.
 character_event = {
@@ -1922,10 +1907,6 @@ character_event = {
 			trait = has_small_pox
 		}
 		modifier = {
-			factor = 1.1
-			trait = has_aztec_disease
-		}
-		modifier = {
 			factor = 0.5
 			tier = duke
 		}
@@ -2180,6 +2161,30 @@ character_event = {
 	}
 
 	option = {
+		name = EVTOPTK96500 # Jungle Terrain Specialization
+		trigger = {
+			location = { terrain = jungle }
+			NOT = { trait = jungle_terrain_leader }
+		}
+		add_trait = jungle_terrain_leader
+	}
+	option = {
+		name = EVTOPTL96500 # War elephants
+		trigger = {
+			religion_group = indian_group
+			NOT = { trait = war_elephant_leader }
+		}
+		add_trait = war_elephant_leader
+	}
+	option = {
+		name = EVTOPTM96500 # WINTER Terrain Specialization
+		trigger = {
+			location = { is_winter = yes }
+			NOT = { trait = winter_soldier }
+		}
+		add_trait = winter_soldier
+	}
+	option = {
 		name = EVTOPTA96500 # Rough Terrain Specialization
 		trigger = {
 			OR = {
@@ -2272,7 +2277,6 @@ character_event = {
 		add_trait = heavy_infantry_leader
 	}
 }
-
 
 # Event 2
 character_event = {
