@@ -236,8 +236,16 @@ title_court_jester = {
 		FROM = { NOT = { has_landed_title = e_hakland } }
 		is_adult = yes
 		FROM = {
-			is_feudal = yes
-			higher_real_tier_than = COUNT
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
 		}
 	}
 	
@@ -573,3 +581,202 @@ title_patrician_heir = {
 	message = yes
 }
 
+# NORSE PAGAN TITLES
+
+title_volva = {
+	dignity = 0.050
+	grant_limit = 1
+	opinion_effect = 5
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = yes
+		trait = mystic
+		OR = {
+			religion = freya
+		}
+		FROM = {
+			OR = {
+				religion = freya
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_lawspeaker = {
+	dignity = 0.2
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 20
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.075
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+		OR = {
+			religion = freya
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_drottseti = {
+	dignity = 0.15
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.05
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+			higher_tier_than = DUKE
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_court_skald = {
+	dignity = 0.15
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.075
+	monthly_prestige = 0.075
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+		trait = poet
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_marksman = {
+	dignity = 0.1
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.075
+	monthly_prestige = 0.075
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_hirdman = {
+	dignity = 0.075
+	grant_limit = 4
+	opinion_effect = 10
+	
+	monthly_salary = 0.005
+	monthly_prestige = 0.005
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
