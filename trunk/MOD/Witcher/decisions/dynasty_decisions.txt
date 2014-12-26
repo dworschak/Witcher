@@ -43,21 +43,22 @@ targetted_decisions = {
 			factor = 0
 		}
 	}
-	
+
 	legitimize_bastard = {
+		filter = dynasty
+		ai_target_filter = dynasty
+	
 		from_potential = {
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
+			ai = no
+			NOT = { has_character_flag = employment_decisions_open }
+			NOT = { has_character_flag = marriage_decisions_open }
+			NOT = { has_character_flag = spell_decisions_open }
+			NOT = { has_character_flag = prisoner_decisions_open }
+			NOT = { has_character_flag = edict_decisions_open }
 			}
 			NOT = { culture = wilderness }
 			is_playable = yes
+			has_polygamy = no
 		}
 		
 		potential = {
@@ -67,7 +68,9 @@ targetted_decisions = {
 			is_liege_or_above = FROM
 		}
 		allow = {
-			FROM = { piety = 20 }
+			FROM = {
+				piety = 20
+			}
 		}
 		effect = {
 			dynasty = FROM
@@ -174,7 +177,7 @@ targetted_decisions = {
 			}
 		}
 	}
-
+	
 	send_child_into_hiding = {
 		is_high_prio = yes
 		
