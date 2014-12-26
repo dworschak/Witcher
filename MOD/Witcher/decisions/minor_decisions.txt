@@ -301,36 +301,6 @@ decisions = {
 		}
 	}
 	
-	commit_suicide = {
-		potential = {
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
-			NOT = { culture = wilderness }
-			age = 15
-			trait = depressed
-		}
-		allow = {
-			trait = depressed
-		}
-		effect = {
-			death = { death_reason = death_suicide }
-		}
-		revoke_allowed = {
-			always = no
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
 	commission_runestone = {
 		potential = {
 			OR = {
@@ -378,6 +348,59 @@ decisions = {
 			modifier = {
 				factor = 0
 				NOT = { age = 30 }
+			}			
+		}
+	}
+	
+	# Build an observatory (learning focus)
+	build_observatory = {
+		potential = {
+			is_ruler = yes
+			has_focus = focus_scholarship
+			NOT = { trait = incapable }
+			NOT = { trait = scholar }
+			NOT = { trait = mystic }
+			NOT = { has_character_flag = do_not_disturb }
+			NOT = { has_character_flag = building_observatory }
+			NOT = { has_character_flag = built_observatory }
+			NOT = { has_character_modifier = studying_the_stars }
+			NOT = { has_character_modifier = heliocentrist_scholar }
+			NOT = { has_character_modifier = weird_scholar }
+		}
+		allow = {
+			prisoner = no
+			wealth = 50
+			is_adult = yes
+		}
+		effect = {
+			wealth = -50
+			set_character_flag = building_observatory
+			hidden_tooltip = { character_event = { id = WoL.6000 } }
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0.1
+				trait = zealous
+			}
+			modifier = {
+				factor = 3
+				trait = cynical
+			}
+			modifier = {
+				factor = 0
+				NOT = { age = 30 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { wealth = 100 }
 			}
 		}
 	}
