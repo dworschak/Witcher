@@ -618,3 +618,43 @@ character_event = {
 		set_global_flag = combat_traits_init
 	}
 }
+
+character_event = {
+	id = racial.30
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { has_character_flag = sorcerer_reportraited }
+		trait = sorcerer
+		age = 50		
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		trigger = {
+			OR = {
+				graphical_culture = westerngfx
+				graphical_culture = frankishgfx
+			}
+		}
+		set_graphical_culture = western_sorcerer
+		set_character_flag = sorcerer_reportraited
+	}
+	option = {
+		name = OK
+		trigger = {
+			NOT = { 
+				OR = {
+					graphical_culture = westerngfx
+					graphical_culture = frankishgfx
+				} 
+			}
+		}
+		set_character_flag = sorcerer_reportraited
+	}
+}
