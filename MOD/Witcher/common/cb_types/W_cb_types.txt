@@ -1062,7 +1062,9 @@ lower_crown_levy_law = {
 	major_revolt = yes
 	
 	can_use = {
-		ROOT = { vassal_of = FROM }
+		ROOT = {
+			vassal_of = FROM
+		}
 	}
 	
 	can_use_title = {
@@ -1075,6 +1077,127 @@ lower_crown_levy_law = {
 			has_law = crown_levy_2
 			has_law = crown_levy_3
 		}
+	}
+	
+	is_valid = {
+		FROM = {
+			in_revolt = no
+			liege_before_war = {
+				in_revolt = no
+				liege_before_war = {
+					in_revolt = no
+				}
+			}
+		}
+	}
+
+	on_success = {
+		ROOT = {
+			opinion = {
+				modifier = opinion_lowered_crown_levy
+				who = FROM
+				months = 12
+			}
+		}
+		any_attacker = {
+			limit = { character = ROOT }
+			participation_scaled_prestige = 100
+			hidden_tooltip = {
+				disband_event_forces = faction_revolters
+			}
+		}
+		any_attacker = {
+			limit = { NOT = { character = ROOT } }
+			hidden_tooltip = { participation_scaled_prestige = 100 }
+			hidden_tooltip = {
+				disband_event_forces = faction_revolters
+			}
+		}
+		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
+	}
+
+	on_success_title = {
+		if = {
+			limit = { has_law = crown_levy_2 }
+			add_law_w_cooldown = crown_levy_1
+		}
+		if = {
+			limit = { has_law = crown_levy_3 }
+			add_law_w_cooldown = crown_levy_2
+		}
+	}
+
+	on_fail = {
+		ROOT = {
+			prestige = -100
+		}
+		
+		any_defender = {
+			limit = { character = FROM }
+			participation_scaled_prestige = 50
+		}
+		any_defender = {
+			limit = { NOT = { character = FROM } }
+			hidden_tooltip = { participation_scaled_prestige = 50 }
+		}
+		
+		hidden_tooltip = {
+			any_attacker = {
+				disband_event_forces = faction_revolters
+				add_character_modifier = {
+					name = faction_lower_crown_levy_ultimatum_timer
+					hidden = yes
+					duration = 3650
+				}
+			}
+		}
+		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
+	}
+
+	on_reverse_demand = {
+		ROOT = {
+			prestige = -200
+			prisoner = FROM
+		}
+		
+		any_defender = {
+			limit = { character = FROM }
+			participation_scaled_prestige = 100
+		}
+		any_defender = {
+			limit = { NOT = { character = FROM } }
+			hidden_tooltip = { participation_scaled_prestige = 100 }
+		}
+		
+		hidden_tooltip = {
+			any_attacker = {
+				limit = { liege = { character = FROM } }
+				prisoner = FROM
+				disband_event_forces = faction_revolters
+				add_character_modifier = {
+					name = faction_lower_crown_levy_ultimatum_timer
+					hidden = yes
+					duration = 3650
+				}
+			}
+		}
+		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
+	}
+
+	attacker_ai_victory_worth = {
+		factor = -1 # always accept
+	}
+	
+	attacker_ai_defeat_worth = {
+		factor = 100
+	}
+
+	defender_ai_victory_worth = {
+		factor = -1 # always accept
+	}
+	
+	defender_ai_defeat_worth = {
+		factor = 100
 	}
 	
 	is_valid = {
@@ -1091,80 +1214,6 @@ lower_crown_levy_law = {
 			}
 		}
 	}
-	
-	on_success = {
-		ROOT = { opinion = { modifier = opinion_lowered_crown_levy who = FROM months = 12 } }
-		any_attacker = {
-			limit = { character = ROOT }
-			participation_scaled_prestige = 100
-			hidden_tooltip = { disband_event_forces = faction_revolters }
-		}
-		any_attacker = {
-			limit = { NOT = { character = ROOT } }
-			hidden_tooltip = { participation_scaled_prestige = 100 }
-			hidden_tooltip = { disband_event_forces = faction_revolters }
-		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
-	}
-	
-	on_success_title = {
-		if = {
-			limit = { has_law = crown_levy_2 }
-			add_law_w_cooldown = crown_levy_1
-		}
-		if = {
-			limit = { has_law = crown_levy_3 }
-			add_law_w_cooldown = crown_levy_2
-		}
-	}
-	
-	on_fail = {
-		ROOT = { prestige = -100 }
-		any_defender = {
-			limit = { character = FROM }
-			participation_scaled_prestige = 50
-		}
-		any_defender = {
-			limit = { NOT = { character = FROM } }
-			hidden_tooltip = { participation_scaled_prestige = 50 }
-		}
-		hidden_tooltip = {
-			any_attacker = {
-				disband_event_forces = faction_revolters
-				add_character_modifier = { name = faction_lower_crown_levy_ultimatum_timer hidden = yes duration = 3650 }
-			}
-		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
-	}
-	
-	on_reverse_demand = {
-		ROOT = { 
-			prestige = -200
-			prisoner = FROM
-		}
-		any_defender = {
-			limit = { character = FROM }
-			participation_scaled_prestige = 100
-		}
-		any_defender = {
-			limit = { NOT = { character = FROM } }
-			hidden_tooltip = { participation_scaled_prestige = 100 }
-		}
-		hidden_tooltip = {
-			any_attacker = {
-				limit = { liege = { character = FROM } }
-				prisoner = FROM
-				disband_event_forces = faction_revolters
-				add_character_modifier = { name = faction_lower_crown_levy_ultimatum_timer hidden = yes duration = 3650 }
-			}
-		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
-	}
-	
-	attacker_ai_victory_worth = { factor = -1 } # always accept
-	attacker_ai_defeat_worth = { factor = 100 }
-	defender_ai_victory_worth = { factor = -1 } # always accept
-	defender_ai_defeat_worth = { factor = 100 }
 }
 
 lower_crown_obligation_law = {
@@ -1279,6 +1328,7 @@ lower_crown_obligation_law = {
 			prestige = -200
 			prisoner = FROM
 		}
+		
 		any_defender = {
 			limit = { character = FROM }
 			participation_scaled_prestige = 100
@@ -1287,6 +1337,7 @@ lower_crown_obligation_law = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
+		
 		hidden_tooltip = {
 			any_attacker = {
 				limit = { liege = { character = FROM } }
