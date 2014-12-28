@@ -1177,7 +1177,9 @@ lower_crown_obligation_law = {
 	major_revolt = yes
 	
 	can_use = {
-		ROOT = { vassal_of = FROM }
+		ROOT = {
+			vassal_of = FROM
+		}
 	}
 	
 	can_use_title = {
@@ -1194,35 +1196,42 @@ lower_crown_obligation_law = {
 	}
 	
 	is_valid = {
-		ROOT = {
-			OR = {
-				liege = {
-					character = PREV # either independent
-				}
-				liege = { 
-					FROM = { 
-						is_liege_or_above = PREV # or have shared liege
-					}
+		FROM = {
+			in_revolt = no
+			liege_before_war = {
+				in_revolt = no
+				liege_before_war = {
+					in_revolt = no
 				}
 			}
 		}
 	}
-	
+
 	on_success = {
-		ROOT = { opinion = { modifier = opinion_lowered_crown_obligation who = FROM months = 12 } }
+		ROOT = {
+			opinion = {
+				modifier = opinion_lowered_crown_obligation
+				who = FROM
+				months = 12
+			}
+		}
 		any_attacker = {
 			limit = { character = ROOT }
 			participation_scaled_prestige = 100
-			hidden_tooltip = { disband_event_forces = faction_revolters }
+			hidden_tooltip = {
+				disband_event_forces = faction_revolters
+			}
 		}
 		any_attacker = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
-			hidden_tooltip = { disband_event_forces = faction_revolters }
+			hidden_tooltip = {
+				disband_event_forces = faction_revolters
+			}
 		}
 		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
-	
+
 	on_success_title = {
 		if = {
 			limit = { has_law = crown_obligation_1 }
@@ -1237,9 +1246,12 @@ lower_crown_obligation_law = {
 			add_law_w_cooldown = crown_obligation_2
 		}
 	}
-	
+
 	on_fail = {
-		ROOT = { prestige = -100 }
+		ROOT = {
+			prestige = -100
+		}
+		
 		any_defender = {
 			limit = { character = FROM }
 			participation_scaled_prestige = 50
@@ -1248,17 +1260,22 @@ lower_crown_obligation_law = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 50 }
 		}
+		
 		hidden_tooltip = {
 			any_attacker = {
 				disband_event_forces = faction_revolters
-				add_character_modifier = { name = faction_lower_crown_obligation_ultimatum_timer hidden = yes duration = 3650 }
+				add_character_modifier = {
+					name = faction_lower_crown_obligation_ultimatum_timer
+					hidden = yes
+					duration = 3650
+				}
 			}
 		}
 		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
-	
+
 	on_reverse_demand = {
-		ROOT = { 
+		ROOT = {
 			prestige = -200
 			prisoner = FROM
 		}
@@ -1275,16 +1292,46 @@ lower_crown_obligation_law = {
 				limit = { liege = { character = FROM } }
 				prisoner = FROM
 				disband_event_forces = faction_revolters
-				add_character_modifier = { name = faction_lower_crown_obligation_ultimatum_timer hidden = yes duration = 3650 }
+				add_character_modifier = {
+					name = faction_lower_crown_obligation_ultimatum_timer
+					hidden = yes
+					duration = 3650
+				}
 			}
 		}
 		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
+
+	attacker_ai_victory_worth = {
+		factor = -1 # always accept
+	}
 	
-	attacker_ai_victory_worth = { factor = -1 } # always accept
-	attacker_ai_defeat_worth = { factor = 100 }
-	defender_ai_victory_worth = { factor = -1 } # always accept
-	defender_ai_defeat_worth = { factor = 100 }
+	attacker_ai_defeat_worth = {
+		factor = 100
+	}
+
+	defender_ai_victory_worth = {
+		factor = -1 # always accept
+	}
+	
+	defender_ai_defeat_worth = {
+		factor = 100
+	}
+	
+	is_valid = {
+		ROOT = {
+			OR = {
+				liege = {
+					character = PREV # either independent
+				}
+				liege = { 
+					FROM = { 
+						is_liege_or_above = PREV # or have shared liege
+					}
+				}
+			}
+		}
+	}
 }
 
 lower_tolerance_law = {
