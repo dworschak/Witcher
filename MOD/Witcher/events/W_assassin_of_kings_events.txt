@@ -73,7 +73,7 @@ character_event = {
 		location = {
 			county = {
 				holder_scope = {
-					character_event = { id = aok.4 days = 1 tooltip = EVTTOOLTIPaok }
+					character_event = { id = aok.4 days = 1 }
 				}
 			}
 		}
@@ -100,7 +100,7 @@ character_event = {
 		
 	immediate = {
 		random_playable_ruler = {
-			limit = { has_character_flag = aok_arjan_start }
+			limit = { age=1 has_character_flag = aok_arjan_start }
 			character_event = { id = aok.4 tooltip = EVTTOOLTIPaok.4 }
 		}
 	}
@@ -152,7 +152,7 @@ character_event = {
 		ROOT = { imprison = FROM }
 		clr_character_flag = aok_arjan_start
 		set_character_flag = aok_arjan_surrender
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 10 }
 	}
 	option = { # Don't surrender
 		name = EVTOPTBaok.4
@@ -194,10 +194,26 @@ character_event = {
 	picture = GFX_evt_child_play
 	
 	trigger = {
+		trait = foltest
 		OR = {
-			has_character_flag = aok_foltest_won
-			any_playable_ruler = { has_character_flag = aok_arjan_surrender }
+			AND = {
+				has_character_flag = aok_foltest_won
+				any_playable_ruler = { has_character_flag = aok_arjan_surrender }
+			}
+			AND = {
+				war = no
+				age = 1
+				OR = {
+					has_character_flag = aok_foltest_start
+					has_character_flag = aok_foltest_offers_surrender
+				}
+			}
 		}
+	}
+	
+	immediate = {
+		clr_character_flag = aok_foltest_start
+		clr_character_flag = aok_foltest_offers_surrender
 	}
 	
 	option = { # Legitimize them
@@ -221,10 +237,10 @@ character_event = {
 				}
 			}
 		}
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 10 }
 	}
 	option = { # Take them with you
-		name = EVTOPTAaok.6
+		name = EVTOPTBaok.6
 		random_playable_ruler = {
 			limit = { 
 				OR = {
@@ -245,7 +261,7 @@ character_event = {
 		ai_chance = { factor = 1 }
 	}
 	option = { # Do nothing
-		name = EVTOPTAaok.6
+		name = EVTOPTCaok.6
 		ai_chance = { factor = 1 }
 	}
 }
@@ -437,11 +453,11 @@ character_event = {
 		clr_global_flag = parly_stennis_wishes_war
 		narrative_event = { id = aok.1020 }
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_saskia }
+			limit = { age=1 has_character_flag = aok_saskia }
 			narrative_event = { id = aok.1021 }
 		}
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			narrative_event = { id = aok.1022 }
 		}
 	}
@@ -457,11 +473,11 @@ character_event = {
 		clr_global_flag = parly_stennis_wishes_war
 		narrative_event = { id = aok.1030 }
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_saskia }
+			limit = { age=1 has_character_flag = aok_saskia }
 			narrative_event = { id = aok.1031 }
 		}
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			narrative_event = { id = aok.1032 }
 		}
 	}
@@ -476,7 +492,7 @@ character_event = {
 		clr_character_flag = parly_stennis_wishes_peace
 		clr_character_flag = parly_stennis_wishes_war
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			narrative_event = { id = aok.1040 }
 		}
 	}
@@ -491,7 +507,7 @@ character_event = {
 		clr_global_flag = parly_stennis_wishes_peace
 		clr_global_flag = parly_stennis_wishes_war
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			narrative_event = { id = aok.1050 }
 		}
 	}
@@ -506,11 +522,11 @@ character_event = {
 		clr_global_flag = parly_stennis_wishes_war
 		narrative_event = { id = aok.1070 }
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_saskia }
+			limit = { age=1 has_character_flag = aok_saskia }
 			narrative_event = { id = aok.1071 }
 		}
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			narrative_event = { id = aok.1072 }
 		}
 		ai_chance = { factor = 1000 }
@@ -617,7 +633,7 @@ narrative_event = {
 				end_war = invalid
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt}
+				limit = { age=1 has_character_flag = aok_henselt}
 				remove_claim = d_upper_aedirn
 			}
 		}
@@ -675,7 +691,7 @@ narrative_event = {
 				end_war = invalid
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt}
+				limit = { age=1 has_character_flag = aok_henselt}
 				remove_claim = d_upper_aedirn
 			}
 		}
@@ -787,17 +803,17 @@ narrative_event = {
 				end_war = invalid
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt}
+				limit = { age=1 has_character_flag = aok_henselt}
 				remove_claim = d_upper_aedirn
 			}
 		}
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt }
+				limit = { age=1 has_character_flag = aok_henselt }
 				narrative_event = { id = aok.1041 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1043 }
 			}
 		}
@@ -813,11 +829,11 @@ narrative_event = {
 		}
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt }
+				limit = { age=1 has_character_flag = aok_henselt }
 				narrative_event = { id = aok.1042 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1044 }
 			}
 		}
@@ -932,7 +948,7 @@ narrative_event = {
 				end_war = invalid
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt}
+				limit = { age=1 has_character_flag = aok_henselt}
 				remove_claim = d_upper_aedirn
 			}
 		}
@@ -985,11 +1001,11 @@ narrative_event = {
 		}
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt }
+				limit = { age=1 has_character_flag = aok_henselt }
 				narrative_event = { id = aok.1030 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1031 }
 			}
 		}
@@ -1005,7 +1021,7 @@ narrative_event = {
 		custom_tooltip = { text = henselt_decides_about_offer }
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt }
+				limit = { age=1 has_character_flag = aok_henselt }
 				narrative_event = { id = aok.1053 days = 1 }
 			}
 		}
@@ -1021,7 +1037,7 @@ narrative_event = {
 		custom_tooltip = { text = henselt_decides_about_offer }
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt }
+				limit = { age=1 has_character_flag = aok_henselt }
 				narrative_event = { id = aok.1054 days = 1 }
 			}
 		}
@@ -1037,7 +1053,7 @@ narrative_event = {
 		custom_tooltip = { text = henselt_decides_about_offer }
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt }
+				limit = { age=1 has_character_flag = aok_henselt }
 				narrative_event = { id = aok.1055 days = 1 }
 			}
 		}
@@ -1066,11 +1082,11 @@ narrative_event = {
 		hidden_tooltip = {
 			narrative_event = { id = aok.1056 }
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1057 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				narrative_event = { id = aok.1058 }
 			}
 		}
@@ -1086,11 +1102,11 @@ narrative_event = {
 		}
 		hidden_tooltip = { 
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1059 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				narrative_event = { id = aok.1060 }
 			}
 		}
@@ -1136,11 +1152,11 @@ narrative_event = {
 		hidden_tooltip = {
 			narrative_event = { id = aok.1056 }
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1063 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				narrative_event = { id = aok.1058 }
 			}
 		}
@@ -1151,11 +1167,11 @@ narrative_event = {
 		name = EVTOPTBaok.1054
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1059 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				narrative_event = { id = aok.1060 }
 			}
 		}
@@ -1185,11 +1201,11 @@ narrative_event = {
 		custom_tooltip = { text = henselt_accepts_offer }
 		tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				transfer_scaled_wealth = { to = ROOT value = 2 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				transfer_scaled_wealth = { to = ROOT value = 2 }
 			}
 			any_war = {
@@ -1208,11 +1224,11 @@ narrative_event = {
 		}
 		hidden_tooltip = { 
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1061 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				narrative_event = { id = aok.1062 }
 			}
 		}
@@ -1223,11 +1239,11 @@ narrative_event = {
 		custom_tooltip = { text = henselt_declines_offer }
 		hidden_tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1059 }
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_stennis }
+				limit = { age=1 has_character_flag = aok_stennis }
 				narrative_event = { id = aok.1060 }
 			}
 		}
@@ -1271,7 +1287,7 @@ narrative_event = {
 	option = {
 		name = EVTOPTAaok.1057
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			reverse_opinion = { modifier = opinion_betrayed who = ROOT years = 5 }
 		}
 	}
@@ -1294,7 +1310,7 @@ narrative_event = {
 	option = {
 		name = EVTOPTAaok.1063
 		any_playable_ruler = {
-			limit = { has_character_flag = aok_stennis }
+			limit = { age=1 has_character_flag = aok_stennis }
 			reverse_opinion = { modifier = opinion_betrayed who = ROOT years = 5 }
 		}
 	}
@@ -1318,7 +1334,7 @@ narrative_event = {
 		name = EVTOPTAaok.1058
 		tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				opinion = { modifier = opinion_betrayed who = ROOT years = 5 }
 			}
 		}
@@ -1406,7 +1422,7 @@ narrative_event = {
 				end_war = invalid
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt}
+				limit = { age=1 has_character_flag = aok_henselt}
 				remove_claim = d_upper_aedirn
 			}
 		}
@@ -1461,7 +1477,7 @@ narrative_event = {
 				end_war = invalid
 			}
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_henselt}
+				limit = { age=1 has_character_flag = aok_henselt}
 				remove_claim = d_upper_aedirn
 			}
 		}
@@ -1551,14 +1567,14 @@ narrative_event = {
 		name = EVTOPTAaok.1100
 		tooltip = {
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				any_demesne_title = { usurp_title = ROOT }
 			}
 		}
 		hidden_tooltip = {
 			narrative_event = { id = aok.1104 }
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1101 }
 			}
 		}
@@ -1569,7 +1585,7 @@ narrative_event = {
 		hidden_tooltip = {
 			narrative_event = { id = aok.1105 }
 			any_playable_ruler = {
-				limit = { has_character_flag = aok_saskia }
+				limit = { age=1 has_character_flag = aok_saskia }
 				narrative_event = { id = aok.1102 }
 			}
 		}
