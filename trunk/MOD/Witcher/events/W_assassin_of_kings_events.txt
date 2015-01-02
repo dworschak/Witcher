@@ -42,6 +42,13 @@ narrative_event = {
 		name = EVTOPTAaok.2
 		clr_character_flag = aok_arjan
 		set_character_flag = aok_arjan_start
+		
+		k_temeria = {
+			reverse_war = {
+				target = ROOT
+				casus_belli = depose_liege
+			}
+		}
 	}
 }
 # Foltest offer Arjan to surrender during siege
@@ -59,21 +66,75 @@ character_event = {
 	
 	option = { # Offer
 		name = EVTOPTAaok.3
-		random_playable_ruler = {
-			limit = { has_character_flag = aok_arjan_start }
-			character_event = { id = aok.4 tooltip = EVTTOOLTIPaok.4 }
+		#random_playable_ruler = {
+		#	limit = { has_character_flag = aok_arjan_start }
+		#	character_event = { id = aok.4 tooltip = EVTTOOLTIPaok.4 }
+		#}
+		location = {
+			county = {
+				holder_scope = {
+					character_event = { id = aok.4 days = 1 tooltip = EVTTOOLTIPaok }
+				}
+			}
 		}
 		clr_character_flag = aok_foltest_start
 		set_character_flag = aok_foltest_offers_surrender
-		ai_chance = { factor = 1 }
+		#character_event = { id = aok.7 tooltip = EVTTOOLTIPaok.7 }
+		ai_chance = { factor = 100 }
 	}
 	option = { # Don't offer
 		name = EVTOPTBaok.3
 		clr_character_flag = aok_foltest_start
 		set_character_flag = aok_foltest_siege
-		ai_chance = { factor = 1 }
+		ai_chance = { factor = 0 }
 	}
 }
+
+# Who do we want to send in?
+character_event = {
+	id = aok.7
+	desc = EVTDESCaok.7
+	picture = GFX_evt_siege
+	
+	is_triggered_only = yes
+		
+	immediate = {
+		random_playable_ruler = {
+			limit = { has_character_flag = aok_arjan_start }
+			character_event = { id = aok.4 tooltip = EVTTOOLTIPaok.4 }
+		}
+	}
+	
+	option = {	# Send the Witcher
+		name = EVTOPTAaok.7
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 5
+			}
+		}
+	}
+	option = {	# Send my marshal
+		name = EVTOPTBaok.7
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 5
+			}
+		}
+	}
+	option = {	# Go in myself
+		name = EVTOPTCaok.7
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 5
+				trait = brave
+			}
+		}
+	}
+}
+
 # Arjan decides if surrender
 character_event = {
 	id = aok.4
@@ -1846,7 +1907,7 @@ character_event = {
 	}
 	option = { # Lyria and Rivia
 		random_independent_ruler = {
-			limit = { has_landed_title = k_lyria_rivia }
+			limit = { has_landed_title = e_lyria_rivia }
 			character_event = { id = aok.2001 days = 100 random = 100 }
 		}
 		ai_chance = {
@@ -1854,7 +1915,7 @@ character_event = {
 			modifier = {
 				factor = 0
 				any_independent_ruler = {
-					has_landed_title = k_lyria_rivia
+					has_landed_title = e_lyria_rivia
 					ai = no
 				}
 			}
@@ -1871,7 +1932,7 @@ character_event = {
 			modifier = {
 				factor = 0
 				any_independent_ruler = {
-					has_landed_title = k_lyria_rivia
+					has_landed_title = e_lyria_rivia
 					ai = no
 				}
 			}
