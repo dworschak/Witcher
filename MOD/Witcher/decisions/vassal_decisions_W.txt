@@ -194,13 +194,14 @@ vassal_decisions = {
 				ai = yes
 				has_character_flag = prisoner_decisions_open
 			}
+			age = 14
 			OR = {
-					is_female = no
-					AND = {
-						is_female = yes
-						trait = homosexual
-					}
+				is_female = no
+				AND = {
+					is_female = yes
+					trait = homosexual
 				}
+			}
 		}
 		potential = {
 			prisoner = yes
@@ -216,9 +217,12 @@ vassal_decisions = {
 			opinion = { modifier = opinion_raped_me who = FROM }
 			FROM = {
 				if = {
-					limit = { NOT = { trait = lustful } }
+					limit = { 
+						NOT = { trait = lustful } 
+						NOT = { trait = chaste } 
+					}
 					random = {
-						chance = 25
+						chance = 10
 						add_trait = lustful
 						hidden_tooltip = { character_event = { id = 38272 } } #Notify Lustful
 					}
@@ -246,6 +250,10 @@ vassal_decisions = {
 						trait = just
 					}
 				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { NOT = { age = 14 } }
 			}
 			modifier = { factor = 0.1 FROM = { NOT = { trait = lustful } } }
 			modifier = { factor = 2 trait = fair }
