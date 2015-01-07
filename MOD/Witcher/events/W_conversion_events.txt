@@ -18,6 +18,7 @@ province_event = {
 		OR = {
 			culture = aen_seidhe
 			culture = dwarven
+			culture = halfling
 		}
 		owner = {
 			trait = racist
@@ -74,6 +75,7 @@ province_event = {
 		OR = {
 			culture = aen_seidhe
 			culture = dwarven
+			culture = halfling
 		}
 		owner = {
 			trait = racist
@@ -123,6 +125,7 @@ province_event = {
 		OR = {
 			culture = aen_seidhe
 			culture = dwarven
+			culture = halfling
 		}
 		owner = {
 			trait = racist
@@ -207,6 +210,7 @@ province_event = {
 		OR = {
 			culture = aen_seidhe
 			culture = dwarven
+			culture = halfling
 		}
 		owner = {
 			trait = zealous
@@ -384,6 +388,74 @@ province_event = {
 		culture = dwarven
 		religion = dwarven
 	}
+
+# Halflings migrate in province
+province_event = {
+	id = conversion.20
+	desc = EVTDESCconversion.20
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = {
+			culture = halfling
+			religion = halfling
+		}
+		owner = {
+			culture = halfling
+			religion = halfling
+			OR = {
+				trait = halfling
+				trait = halfhalfling
+			}
+			top_liege = {
+				culture = halfling
+				religion = halfling
+				OR = {
+					trait = halfling
+					trait = halfhalfling
+				}
+			}
+		}
+		any_neighbor_province = {
+			culture = halfling
+			religion = halfling
+			has_owner = yes
+			owner = {
+				culture = halfling
+				religion = halfling
+				OR = {
+					trait = halfling
+					trait = halfhalfling
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.5 owner = { trait = scoiatael_leader } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				culture = halfling
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAconversion.20
+		culture = halfling
+		religion = halfling
+	}
 }
 
 ################################################
@@ -422,7 +494,7 @@ province_event = {
 		}
 	}
 }
-# A ruler is assimilated by the local culture - not for elves or dwarves
+# A ruler is assimilated by the local culture - not for elves or dwarves or halflings
 character_event = {
 	id = conversion.110
 	desc = EVTDESCconversion.110
@@ -517,6 +589,7 @@ province_event = {
 		NOT = {
 			religion = dana_meadbh
 			religion = dwarven
+			religion = halfling
 			religion = dryad
 		}
 		owner = {
@@ -541,7 +614,7 @@ province_event = {
 		}
 	}
 }
-# A ruler swayed by the local religion - not for elves or dwarves
+# A ruler swayed by the local religion - not for elves or dwarves or halflings
 character_event = {
 	id = conversion.210
 	desc = EVTDESCconversion.210
