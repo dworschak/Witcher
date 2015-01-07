@@ -156,7 +156,86 @@ decisions = {
 			}
 		}
 	}
-	
+
+	convert_to_halfling_religion = { # only halflings and halfhalflings
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			NOT = { culture = wilderness }
+			NOT = { religion = halfling }
+			OR = {
+				trait = halfhalfling
+				trait = halfling
+			}
+		}
+		allow = {
+			NOT = { trait = zealous }
+			piety = 100
+		}
+		effect = {
+			if = {
+				limit = { higher_tier_than = BARON }
+				religion_authority = { modifier = ruler_converted_from }
+			}
+			religion = halfling
+			if = {
+				limit = { higher_tier_than = BARON }
+				hidden_tooltip = {
+					religion_authority = { modifier = ruler_converted_to }
+				}
+			}
+			piety = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+
+	convert_to_halfling = { # only halflings and halfhalflings
+		potential = {
+			OR = {
+				ai = yes
+				NOT = {
+					has_character_flag = employment_decisions_open
+					has_character_flag = marriage_decisions_open
+					has_character_flag = spell_decisions_open
+					has_character_flag = prisoner_decisions_open
+					has_character_flag = edict_decisions_open
+				}
+			}
+			NOT = { culture = wilderness }
+			NOT = { culture = halfling }
+			OR = {
+				trait = halfhalfling
+				trait = halfling
+			}
+		}
+		allow = {
+			prestige = 100
+		}
+		effect = {
+			culture = halfling
+			prestige = -100
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+		}
+	}
+
 	convert_to_dryad_religion = { # only dryads
 		potential = {
 			OR = {

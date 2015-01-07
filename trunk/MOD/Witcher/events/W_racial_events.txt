@@ -18,6 +18,7 @@ character_event = {
 		NOT = { trait = halfelf }
 		NOT = { trait = dryad }
 		NOT = { trait = halfling }
+		NOT = { trait = halfhalfling }
 		NOT = { trait = wilderness }
 	}
 	
@@ -66,7 +67,7 @@ character_event = {
 			add_trait = halfdwarf
 		}
 	}
-	option = { # Halfling
+	option = { # Halfling or halfhalfling
 		name = OK
 		trigger = {
 			graphical_culture = hobbitsgfx
@@ -79,15 +80,17 @@ character_event = {
 					mother_even_if_dead = { NOT = { graphical_culture = hobbitsgfx } }
 				}
 			}
-			remove_trait = dwarven
+			remove_trait = halfling
+			add_trait = halfhalfling
 		}
 	}
-	option = { # Human or halfelf or halfdwarf
+	option = { # Human or halfelf or halfdwarf or halfhalfling
 		name = OK
 		trigger = {
 			NOT = {
 				graphical_culture = dwarvengfx
 				graphical_culture = elfgfx
+				graphical_culture = hobbitsgfx
 				graphical_culture = dryadgfx
 				graphical_culture = wildernessgfx
 			}
@@ -112,6 +115,16 @@ character_event = {
 			}
 			remove_trait = human
 			add_trait = halfdwarf
+		}
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { graphical_culture = hobbitsgfx }
+					mother_even_if_dead = { graphical_culture = hobbitsgfx }
+				}
+			}
+			remove_trait = human
+			add_trait = halfhalfling
 		}
 	}
 	option = { # Wilderness
@@ -219,6 +232,8 @@ character_event = {
 							trait = human
 							trait = dwarven
 							trait = halfdwarf
+							trait = halfling
+							trait = halfhalfling
 						}
 					}
 				}
@@ -228,6 +243,8 @@ character_event = {
 						OR = {
 							trait = dwarven
 							trait = halfdwarf
+							trait = halfling
+							trait = halfhalfling
 						}
 					}
 				}
@@ -238,6 +255,8 @@ character_event = {
 							trait = human
 							trait = elven
 							trait = halfelf
+							trait = halfling
+							trait = halfhalfling
 						}
 					}
 				}
@@ -247,6 +266,31 @@ character_event = {
 						OR = {
 							trait = elven
 							trait = halfelf
+							trait = halfling
+							trait = halfhalfling
+						}
+					}
+				}
+				AND = {
+					trait = halfling
+					new_character = {
+						OR = {
+							trait = human
+							trait = elven
+							trait = halfelf
+							trait = dwarven
+							trait = halfdwarf
+						}
+					}
+				}
+				AND = {
+					trait = halfhalfling
+					new_character = {
+						OR = {
+							trait = elf
+							trait = halfelf
+							trait = dwarven
+							trait = halfdwarf
 						}
 					}
 				}
@@ -256,6 +300,7 @@ character_event = {
 						OR = {
 							trait = elven
 							trait = dwarven
+							trait = halfling
 						}
 					}
 				}
