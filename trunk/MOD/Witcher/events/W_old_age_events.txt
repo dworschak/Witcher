@@ -18,6 +18,7 @@ character_event = {
 				NOT = { trait = elven }
 				NOT = { trait = dwarven}
 				NOT = { trait = halfling }
+				NOT = { trait = dryad}
 				NOT = { trait = witcher }
 				NOT = { trait = sorcerer }
 			}
@@ -29,15 +30,13 @@ character_event = {
 				age = 125
 				trait = dwarven
 			}
-			AND = {
-				age = 150
-				trait = dryad
 			}
 			AND = {
 				age = 300
 				OR = {
 					trait = sorcerer
 					trait = elven
+					trait = dryad
 					trait = witcher
 				}
 			}
@@ -67,10 +66,11 @@ character_event = {
 		modifier = { trait = falconer factor = 1.05 }
 		modifier = { trait = hunter factor = 1.05 }
 		
-		modifier = { factor = 5 trait = dryad }
 		modifier = { factor = 5 trait = dwarven }
+		modifier = { factor = 5 trait = halfling }
 		
 		modifier = { factor = 10 trait = elven }
+		modifier = { factor = 10 trait = dryad }
 		modifier = { factor = 10 trait = witcher }
 		modifier = { factor = 10 trait = sorcerer }
 	}
@@ -193,21 +193,22 @@ character_event = {
 	
 	hide_window = yes
 	
-	min_age = 150
+	min_age = 300
 	
 	trigger = {
 		NOT = { culture = wilderness }
-		trait = dryad
+		trait = elven
+		NOT = { trait = sorcerer }
 		has_character_modifier = old_age
 	}
 	
 	mean_time_to_happen = {
-		months = 510
-		modifier = { factor = 0.9 age = 150 NOT = { age = 155 } }
-		modifier = { factor = 0.8 age = 155 NOT = { age = 160 } }
-		modifier = { factor = 0.65 age = 160 NOT = { age = 165 } }
-		modifier = { factor = 0.4 age = 165 NOT = { age = 170 } }
-		modifier = { factor = 0.1 age = 170 }
+		months = 1200
+		modifier = { factor = 0.9 age = 300 NOT = { age = 325 } }
+		modifier = { factor = 0.8 age = 325 NOT = { age = 350 } }
+		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
+		modifier = { factor = 0.4 age = 375 NOT = { age = 400 } }
+		modifier = { factor = 0.1 age = 400 }
 		modifier = { factor = 0.01 trait = incapable }
 	}
 	
