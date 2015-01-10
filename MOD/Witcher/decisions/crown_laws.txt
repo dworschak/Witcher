@@ -130,6 +130,214 @@ de_jure_laws = {
 		}
 	}
 	
+	# CROWN OBLIGATION
+	# No
+	crown_obligation_0 = { # Default
+		show_as_title = yes
+		group = crown_obligation
+		default = yes
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			has_law = crown_obligation_1
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = no
+			set_the_kings_peace = no
+			set_protected_inheritance = no
+		}
+	}
+	# Low
+	crown_obligation_1 = { # Inheritnace is locked in realm, can revoke titles
+		show_as_title = yes
+		group = crown_obligation
+		
+		feudal_opinion = -5
+		city_opinion = -5
+		temple_opinion = -5
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			OR = {
+				has_law = crown_obligation_0
+				has_law = crown_obligation_2
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_obligation_1 } }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_obligation_0 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_obligation months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = no
+			set_the_kings_peace = no
+			set_protected_inheritance = yes
+		}
+	}
+	# Medium
+	crown_obligation_2 = { # Inheritnace is locked in realm, can revoke titles
+		show_as_title = yes
+		group = crown_obligation
+		
+		feudal_opinion = -10
+		city_opinion = -10
+		temple_opinion = -10
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			OR = {
+				has_law = crown_obligation_1
+				has_law = crown_obligation_3
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_obligation_1 } }
+			modifier = { factor = 0.1 }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_obligation_1 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_obligation months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = yes
+			set_the_kings_peace = no
+			set_protected_inheritance = yes
+		}
+	}
+	# High
+	crown_obligation_3 = { # Inheritnace is locked in realm, can revoke titles, vassals can't go to war with each other
+		show_as_title = yes
+		group = crown_obligation
+		
+		feudal_opinion = -15
+		city_opinion = -15
+		temple_opinion = -15
+		
+		potential = {
+			holder_scope = { is_republic = no }
+		}
+		
+		allow = {
+			has_law = crown_obligation_2
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { has_law = crown_obligation_2 } }
+			modifier = { factor = 0.01 }
+			modifier = { factor = 2 holder_scope = { trait = ambitious } }
+			modifier = { factor = 0.5 holder_scope = { trait = content } }
+			modifier = { factor = 1.2 holder_scope = { trait = greedy } }
+			modifier = { factor = 0.8 holder_scope = { trait = charitable } }
+			modifier = { factor = 1.2 holder_scope = { trait = envious } }
+			modifier = { factor = 0.8 holder_scope = { trait = kind } }
+			modifier = { factor = 1.2 holder_scope = { trait = proud } }
+			modifier = { factor = 0.8 holder_scope = { trait = humble } }
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = { has_law = crown_obligation_2 }
+					any_de_jure_vassal = {
+						limit = {
+							is_liege_or_above = ROOT
+						}
+						opinion = { who = ROOT modifier = opinion_increased_crown_obligation months = 60 }
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_obligation_0
+				revoke_law = crown_obligation_1
+				revoke_law = crown_obligation_2
+				revoke_law = crown_obligation_3
+			}
+			set_allow_title_revokation = yes
+			set_the_kings_peace = yes
+			set_protected_inheritance = yes
+		}
+	}
+	
 	# CROWN LEVY
 	# Low
 	crown_levy_0 = { # Default
@@ -387,7 +595,6 @@ de_jure_laws = {
 								trait = tolerant
 								trait = elven
 								trait = dwarven
-								trait = halfling
 								trait = dryad
 							}
 						}
@@ -457,7 +664,6 @@ de_jure_laws = {
 								trait = tolerant
 								trait = elven
 								trait = dwarven
-								trait = halfling
 								trait = dryad
 							}
 						}
