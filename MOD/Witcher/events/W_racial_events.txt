@@ -157,7 +157,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 50
+		months = 120
 		modifier = { factor = 1.5 num_of_children = 2 }
 		modifier = { factor = 1.5 num_of_children = 3 }
 		modifier = { factor = 1.5 num_of_children = 4 }
@@ -446,7 +446,7 @@ character_event = {
 }
 
 ################################################
-# Fertility reduction for non-elves when hitting 50 years
+# Fertility reduction for humans when hitting 50 years
 ################################################
 # Hidden - Fertility reduction
 character_event = {
@@ -459,13 +459,14 @@ character_event = {
 	
 	trigger = {
 		NOT = { trait = elven}
+		NOT = { trait = halfelf}
+		NOT = { trait = dwarven}
+		NOT = { trait = halfdwarf}
+		NOT = { trait = halfling}
+		NOT = { trait = halfhalfling}
+		NOT = { trait = dryad}		
 		OR = {
 			trait = human
-			trait = halfelf
-			trait = dwarven
-			trait = halfdwarf
-			trait = halfling
-			trait = halfhalfling
 		}
 		age = 50
 		fertility = -0.1
@@ -490,12 +491,13 @@ character_event = {
 	
 	hide_window = yes
 	
-	min_age = 60
+	min_age = 50
 	only_women = yes
 	
 	trigger = {
 		NOT = { trait = elven}
 		NOT = { trait = human}
+		NOT = { trait = dryad}
 		OR = {
 			trait = human
 			trait = halfelf
@@ -505,7 +507,7 @@ character_event = {
 			trait = halfhalfling
 		}
 		age = 50
-		fertility = -1
+		fertility = -1.25
 	}
 	
 	mean_time_to_happen = {
