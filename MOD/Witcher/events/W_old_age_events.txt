@@ -30,7 +30,6 @@ character_event = {
 				age = 125
 				trait = dwarven
 			}
-			}
 			AND = {
 				age = 300
 				OR = {
@@ -80,6 +79,7 @@ character_event = {
 		add_character_modifier = { name = old_age duration = -1 }
 	}
 }
+
 # Elf and dryad old age culling
 character_event = {
 	id = old_age.2
@@ -90,10 +90,12 @@ character_event = {
 	
 	trigger = {
 		NOT = { culture = wilderness }
-		trait = elven
-		trait = dryad
-		NOT = { trait = sorcerer }
 		has_character_modifier = old_age
+		OR = {
+			trait = elven
+			trait = dryad
+		}
+		NOT = { trait = sorcerer }
 	}
 	
 	mean_time_to_happen = {
@@ -117,6 +119,7 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
+
 # Dwarf old age culling
 character_event = {
 	id = old_age.4
@@ -153,6 +156,7 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
+
 # Halfling old age culling
 character_event = {
 	id = old_age.5
@@ -188,6 +192,7 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
+
 # Incapable elf dryad and sorcerer culling
 character_event = {
 	id = old_age.3
@@ -196,12 +201,12 @@ character_event = {
 	
 	trigger = {
 		NOT = { culture = wilderness }
+		trait = incapable
 		OR = {
 			trait = elven
 			trait = dryad
 			trait = sorcerer
 		}
-		trait = incapable
 	}
 	
 	mean_time_to_happen = {
@@ -214,6 +219,7 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
+
 ################################################
 # Old age flavor events from VIET
 ################################################
