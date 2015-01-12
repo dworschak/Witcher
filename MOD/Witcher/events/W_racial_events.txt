@@ -446,6 +446,60 @@ character_event = {
 }
 
 ################################################
+# Dwarven fertility
+################################################
+# Hidden - Dwarven fertility reduction per birth (on_birth)
+character_event = {
+	id = racial.13
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+		father = {
+			if = {
+				limit = { trait = dwarven }
+				fertility = -0.10
+			}
+		}
+		mother = {
+			if = {
+				limit = { trait = dwarven }
+				fertility = -0.20
+			}
+		}
+	}
+}
+
+################################################
+# Halfling fertility
+################################################
+# Hidden - Halfling fertility reduction per birth (on_birth)
+character_event = {
+	id = racial.14
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+		father = {
+			if = {
+				limit = { trait = halfling }
+				fertility = -0.10
+			}
+		}
+		mother = {
+			if = {
+				limit = { trait = halfling }
+				fertility = -0.20
+			}
+		}
+	}
+}
+
+################################################
 # Fertility reduction for humans when hitting 50 years
 ################################################
 # Hidden - Fertility reduction
@@ -470,44 +524,6 @@ character_event = {
 		}
 		age = 50
 		fertility = -0.1
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = OK
-		fertility = -1
-	}
-}
-
-################################################
-# Fertility reduction for other various non-human races when hitting 50 years
-################################################
-# Hidden - Fertility reduction
-character_event = {
-	id = racial.21
-	
-	hide_window = yes
-	
-	min_age = 50
-	only_women = yes
-	
-	trigger = {
-		NOT = { trait = elven}
-		NOT = { trait = human}
-		NOT = { trait = dryad}
-		OR = {
-			trait = human
-			trait = halfelf
-			trait = dwarven
-			trait = halfdwarf
-			trait = halfling
-			trait = halfhalfling
-		}
-		age = 50
-		fertility = -1.25
 	}
 	
 	mean_time_to_happen = {
