@@ -27,7 +27,7 @@ character_event = {
 				trait = halfling_race
 			}
 			AND = {
-				age = 125
+				age = 100
 				trait = dwarf_race
 			}
 			AND = {
@@ -64,10 +64,8 @@ character_event = {
 		modifier = { trait = duelist factor = 1.05 }
 		modifier = { trait = falconer factor = 1.05 }
 		modifier = { trait = hunter factor = 1.05 }
-		
 		modifier = { factor = 5 trait = dwarf_race }
 		modifier = { factor = 5 trait = halfling_race }
-		
 		modifier = { factor = 10 trait = elf_race }
 		modifier = { factor = 10 trait = dryad_race }
 		modifier = { factor = 10 trait = witcher }
@@ -126,7 +124,7 @@ character_event = {
 	
 	hide_window = yes
 	
-	min_age = 125
+	min_age = 100
 	
 	trigger = {
 		NOT = { culture = wilderness }
@@ -135,13 +133,11 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 435
+		months = 600
 
-		modifier = { factor = 0.9 age = 125 NOT = { age = 130 } }
-		modifier = { factor = 0.8 age = 130 NOT = { age = 135 } }
-		modifier = { factor = 0.65 age = 135 NOT = { age = 140 } }
-		modifier = { factor = 0.4 age = 140 NOT = { age = 145 } }
-		modifier = { factor = 0.1 age = 145 }
+		modifier = { factor = 0.65 age = 100 NOT = { age = 125 } }
+		modifier = { factor = 0.4 age = 125 NOT = { age = 150 } }
+		modifier = { factor = 0.1 age = 150 }
 		modifier = { factor = 0.01 trait = incapable }
 	}
 	
@@ -172,12 +168,10 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 285
-		modifier = { factor = 0.9 age = 75 NOT = { age = 80 } }
-		modifier = { factor = 0.8 age = 80 NOT = { age = 85 } }
-		modifier = { factor = 0.65 age = 85 NOT = { age = 90 } }
-		modifier = { factor = 0.4 age = 90 NOT = { age = 95 } }
-		modifier = { factor = 0.1 age = 95 }
+		months = 600
+		modifier = { factor = 0.65 age = 75 NOT = { age = 100 } }
+		modifier = { factor = 0.4 age = 100 NOT = { age = 125 } }
+		modifier = { factor = 0.1 age = 125 }
 		modifier = { factor = 0.01 trait = incapable }
 	}
 	
@@ -211,6 +205,32 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 600
+		modifier = { factor = 0.1 has_character_modifier = old_age }
+	}
+	
+	option = {
+		name = OK
+		death = { death_reason = death_trait }
+	}
+}
+
+# Incapable dwarf and halfling culling
+character_event = {
+	id = old_age.6
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = incapable
+		OR = {
+			trait = dwarf_race
+			trait = halfling_race
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
 		modifier = { factor = 0.1 has_character_modifier = old_age }
 	}
 	
