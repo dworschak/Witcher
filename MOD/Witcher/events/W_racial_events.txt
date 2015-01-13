@@ -11,15 +11,15 @@ character_event = {
 	hide_window = yes
 	
 	trigger = {
-		NOT = { trait = human }
-		NOT = { trait = dwarven }
-		NOT = { trait = halfdwarf }
-		NOT = { trait = elven }
-		NOT = { trait = halfelf }
-		NOT = { trait = dryad }
-		NOT = { trait = halfling }
-		NOT = { trait = halfhalfling }
-		NOT = { trait = wilderness }
+		NOT = { trait = human_race }
+		NOT = { trait = dwarf_race }
+		NOT = { trait = halfdwarf_race }
+		NOT = { trait = elf_race }
+		NOT = { trait = halfelf_race }
+		NOT = { trait = dryad_race }
+		NOT = { trait = halfling_race }
+		NOT = { trait = halfhalfling_race }
+		NOT = { trait = wilderness_race }
 	}
 	
 	mean_time_to_happen = {
@@ -31,14 +31,14 @@ character_event = {
 		trigger = {
 			graphical_culture = dryadgfx
 		}
-		add_trait = dryad
+		add_trait = dryad_race
 	}
 	option = { # Elf or halfelf
 		name = OK
 		trigger = {
 			graphical_culture = elfgfx
 		}
-		add_trait = elven
+		add_trait = elf_race
 		if = {
 			limit = {
 				OR = {
@@ -46,8 +46,8 @@ character_event = {
 					mother_even_if_dead = { NOT = { graphical_culture = elfgfx } }
 				}
 			}
-			remove_trait = elven
-			add_trait = halfelf
+			remove_trait = elf_race
+			add_trait = halfelf_race
 		}
 	}
 	option = { # Dwarf or halfdwarf
@@ -55,7 +55,7 @@ character_event = {
 		trigger = {
 			graphical_culture = dwarvengfx
 		}
-		add_trait = dwarven
+		add_trait = dwarf_race
 		if = {
 			limit = {
 				OR = {
@@ -63,8 +63,8 @@ character_event = {
 					mother_even_if_dead = { NOT = { graphical_culture = dwarvengfx } }
 				}
 			}
-			remove_trait = dwarven
-			add_trait = halfdwarf
+			remove_trait = dwarf_race
+			add_trait = halfdwarf_race
 		}
 	}
 	option = { # Halfling or halfhalfling
@@ -72,7 +72,7 @@ character_event = {
 		trigger = {
 			graphical_culture = hobbitsgfx
 		}
-		add_trait = halfling
+		add_trait = halfling_race
 		if = {
 			limit = {
 				OR = {
@@ -80,8 +80,8 @@ character_event = {
 					mother_even_if_dead = { NOT = { graphical_culture = hobbitsgfx } }
 				}
 			}
-			remove_trait = halfling
-			add_trait = halfhalfling
+			remove_trait = halfling_race
+			add_trait = halfhalfling_race
 		}
 	}
 	option = { # Human or halfelf or halfdwarf or halfhalfling
@@ -95,7 +95,7 @@ character_event = {
 				graphical_culture = wildernessgfx
 			}
 		}
-		add_trait = human
+		add_trait = human_race
 		if = {
 			limit = {
 				OR = {
@@ -103,8 +103,8 @@ character_event = {
 					mother_even_if_dead = { graphical_culture = elfgfx }
 				}
 			}
-			remove_trait = human
-			add_trait = halfelf
+			remove_trait = human_race
+			add_trait = halfelf_race
 		}
 		if = {
 			limit = {
@@ -113,8 +113,8 @@ character_event = {
 					mother_even_if_dead = { graphical_culture = dwarvengfx }
 				}
 			}
-			remove_trait = human
-			add_trait = halfdwarf
+			remove_trait = human_race
+			add_trait = halfdwarf_race
 		}
 		if = {
 			limit = {
@@ -123,8 +123,8 @@ character_event = {
 					mother_even_if_dead = { graphical_culture = hobbitsgfx }
 				}
 			}
-			remove_trait = human
-			add_trait = halfhalfling
+			remove_trait = human_race
+			add_trait = halfhalfling_race
 		}
 	}
 	option = { # Wilderness
@@ -132,7 +132,7 @@ character_event = {
 		trigger = {
 			graphical_culture = wildernessgfx
 		}
-		add_trait = wilderness
+		add_trait = wilderness_race
 	}
 }
 
@@ -151,7 +151,7 @@ character_event = {
 	
 	trigger = {
 		NOT = { culture = wilderness }
-		trait = dryad
+		trait = dryad_race
 		NOT = { trait = pregnant }
 		NOT = { has_character_modifier = old_age }
 	}
@@ -192,7 +192,7 @@ character_event = {
 			age = 0
 			female = yes
 			dynasty = ROOT
-			trait = dryad
+			trait = dryad_race
 		}
 		new_character = {
 			set_mother = ROOT
@@ -226,81 +226,81 @@ character_event = {
 		trigger = {
 			OR = {
 				AND = {
-					trait = elven
+					trait = elf_race
 					new_character = {
 						OR = {
-							trait = human
-							trait = dwarven
-							trait = halfdwarf
-							trait = halfling
-							trait = halfhalfling
+							trait = human_race
+							trait = dwarf_race
+							trait = halfdwarf_race
+							trait = halfling_race
+							trait = halfhalfling_race
 						}
 					}
 				}
 				AND = {
-					trait = halfelf
+					trait = halfelf_race
 					new_character = {
 						OR = {
-							trait = dwarven
-							trait = halfdwarf
-							trait = halfling
-							trait = halfhalfling
+							trait = dwarf_race
+							trait = halfdwarf_race
+							trait = halfling_race
+							trait = halfhalfling_race
 						}
 					}
 				}
 				AND = {
-					trait = dwarven
+					trait = dwarf_race
 					new_character = {
 						OR = {
-							trait = human
-							trait = elven
-							trait = halfelf
-							trait = halfling
-							trait = halfhalfling
+							trait = human_race
+							trait = elf_race
+							trait = halfelf_race
+							trait = halfling_race
+							trait = halfhalfling_race
 						}
 					}
 				}
 				AND = {
-					trait = halfdwarf
+					trait = halfdwarf_race
 					new_character = {
 						OR = {
-							trait = elven
-							trait = halfelf
-							trait = halfling
-							trait = halfhalfling
+							trait = elf_race
+							trait = halfelf_race
+							trait = halfling_race
+							trait = halfhalfling_race
 						}
 					}
 				}
 				AND = {
-					trait = halfling
+					trait = halfling_race
 					new_character = {
 						OR = {
-							trait = human
-							trait = elven
-							trait = halfelf
-							trait = dwarven
-							trait = halfdwarf
+							trait = human_race
+							trait = elf_race
+							trait = halfelf_race
+							trait = dwarf_race
+							trait = halfdwarf_race
 						}
 					}
 				}
 				AND = {
-					trait = halfhalfling
+					trait = halfhalfling_race
 					new_character = {
 						OR = {
 							trait = elf
-							trait = halfelf
-							trait = dwarven
-							trait = halfdwarf
+							trait = halfelf_race
+							trait = dwarf_race
+							trait = halfdwarf_race
 						}
 					}
 				}
 				AND = {
-					trait = human
+					trait = human_race
 					new_character = {
 						OR = {
-							trait = elven
-							trait = dwarven
-							trait = halfling
+							trait = elf_race
+							trait = dwarf_race
+							trait = halfling_race
 						}
 					}
 				}
@@ -363,7 +363,7 @@ character_event = {
 	trigger = {
 		NOT = { trait = fertile_elf }
 		NOT = { trait = sorcerer }
-		trait = elven
+		trait = elf_race
 		age = 40
 		NOT = { age = 200 }
 	}
@@ -395,7 +395,7 @@ character_event = {
 	
 	trigger = {
 		trait = fertile_elf
-		trait = elven
+		trait = elf_race
 		age = 200
 	}
 	
@@ -432,13 +432,13 @@ character_event = {
 		name = OK
 		father = {
 			if = {
-				limit = { trait = elven }
+				limit = { trait = elf_race }
 				fertility = -0.10
 			}
 		}
 		mother = {
 			if = {
-				limit = { trait = elven }
+				limit = { trait = elf_race }
 				fertility = -0.20
 			}
 		}
@@ -459,13 +459,13 @@ character_event = {
 		name = OK
 		father = {
 			if = {
-				limit = { trait = dwarven }
+				limit = { trait = dwarf_race }
 				fertility = -0.10
 			}
 		}
 		mother = {
 			if = {
-				limit = { trait = dwarven }
+				limit = { trait = dwarf_race }
 				fertility = -0.20
 			}
 		}
@@ -486,13 +486,13 @@ character_event = {
 		name = OK
 		father = {
 			if = {
-				limit = { trait = halfling }
+				limit = { trait = halfling_race }
 				fertility = -0.10
 			}
 		}
 		mother = {
 			if = {
-				limit = { trait = halfling }
+				limit = { trait = halfling_race }
 				fertility = -0.20
 			}
 		}
@@ -512,15 +512,15 @@ character_event = {
 	only_women = yes
 	
 	trigger = {
-		NOT = { trait = elven}
-		NOT = { trait = halfelf}
-		NOT = { trait = dwarven}
-		NOT = { trait = halfdwarf}
-		NOT = { trait = halfling}
-		NOT = { trait = halfhalfling}
-		NOT = { trait = dryad}		
+		NOT = { trait = elf_race}
+		NOT = { trait = halfelf_race}
+		NOT = { trait = dwarf_race}
+		NOT = { trait = halfdwarf_race}
+		NOT = { trait = halfling_race}
+		NOT = { trait = halfhalfling_race}
+		NOT = { trait = dryad_race}		
 		OR = {
-			trait = human
+			trait = human_race
 		}
 		age = 50
 		fertility = -0.1
