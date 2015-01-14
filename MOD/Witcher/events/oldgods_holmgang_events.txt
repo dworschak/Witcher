@@ -71,7 +71,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.6
-			martial = 12
+			combat_rating = 5
 		}
 		modifier = {
 			factor = 0.6
@@ -91,7 +91,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 2.0
-			NOT = { martial = 6 }
+			NOT = { combat_rating = 1 }
 		}
 		modifier = {
 			factor = 2.0
@@ -104,6 +104,10 @@ character_event = {
 		modifier = {
 			factor = 4.0
 			trait = craven
+		}
+		modifier = {
+			factor = 0.5
+			has_focus = focus_war
 		}
 	}
 	
@@ -191,7 +195,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.6
-			martial = 12
+			combat_rating = 5
 		}
 		modifier = {
 			factor = 0.6
@@ -211,7 +215,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 2.0
-			NOT = { martial = 6 }
+			NOT = { combat_rating = 1 }
 		}
 		modifier = {
 			factor = 2.0
@@ -224,6 +228,10 @@ character_event = {
 		modifier = {
 			factor = 4.0
 			trait = craven
+		}
+		modifier = {
+			factor = 0.5
+			has_focus = focus_war
 		}
 	}
 	
@@ -332,7 +340,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.6
-			martial = 12
+			combat_rating = 5
 		}
 		modifier = {
 			factor = 0.6
@@ -352,7 +360,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 2.0
-			NOT = { martial = 6 }
+			NOT = { combat_rating = 1 }
 		}
 		modifier = {
 			factor = 2.0
@@ -365,6 +373,10 @@ character_event = {
 		modifier = {
 			factor = 4.0
 			trait = craven
+		}
+		modifier = {
+			factor = 0.5
+			has_focus = focus_war
 		}
 	}
 	
@@ -435,6 +447,10 @@ character_event = {
 				factor = 10
 				trait = wroth
 			}
+			modifier = {
+				factor = 15
+				has_focus = focus_war
+			}
 		}
 		FROM = {
 			character_event = { id = TOG.5001 days = 2 tooltip = EVTTOOLTIP_TOG_5000 }
@@ -499,6 +515,10 @@ character_event = {
 			modifier = {
 				factor = 10
 				trait = wroth
+			}
+			modifier = {
+				factor = 15
+				has_focus = focus_war
 			}
 		}
 		FROM = {
@@ -567,11 +587,7 @@ character_event = {
 			FROM = { character_event = { id = TOG.5004 days = 7} }
 			if = {
 				limit = {
-					attribute_diff = {
-						character = FROM
-						attribute = martial
-						value = 9
-					}
+					combat_rating_diff = { who = FROM value = 5 }
 				}
 				random_list = {
 					60 = { character_event = { id = TOG.5007 days = 10} }
@@ -598,17 +614,9 @@ character_event = {
 			}
 			if = {
 				limit = {
-					attribute_diff = {
-						character = FROM
-						attribute = martial
-						value = 6
-					}
+					combat_rating_diff = { who = FROM value = 3 }
 					NOT = {
-						attribute_diff = {
-							character = FROM
-							attribute = martial
-							value = 9
-						}
+						combat_rating_diff = { who = FROM value = 5 }
 					}
 				}
 				random_list = {
@@ -636,17 +644,9 @@ character_event = {
 			}
 			if = {
 				limit = {
-					attribute_diff = {
-						character = FROM
-						attribute = martial
-						value = 3
-					}
+					combat_rating_diff = { who = FROM value = 1 }
 					NOT = {
-						attribute_diff = {
-							character = FROM
-							attribute = martial
-							value = 6
-						}
+						combat_rating_diff = { who = FROM value = 3 }
 					}
 				}
 				random_list = {
@@ -675,17 +675,9 @@ character_event = {
 			if = {
 				limit = {
 					NOT = {
-						attribute_diff = {
-							character = FROM
-							attribute = martial
-							value = 3
-						}
+						combat_rating_diff = { who = FROM value = 1 }
 						FROM = {
-							attribute_diff = {
-								character = ROOT
-								attribute = martial
-								value = 3
-							}
+							combat_rating_diff = { who = ROOT value = 1 }
 						}
 					}
 				}
@@ -715,20 +707,10 @@ character_event = {
 			if = {
 				limit = {
 					FROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 3
-						}
+						combat_rating_diff = { who = ROOT value = 1 }
 					}
 					NOT = {
-						FROM = {
-							attribute_diff = {
-								character = ROOT
-								attribute = martial
-								value = 6
-							}
-						}
+						combat_rating_diff = { who = ROOT value = 3 }
 					}
 				}
 				random_list = {
@@ -757,20 +739,10 @@ character_event = {
 			if = {
 				limit = {
 					FROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 6
-						}
+						combat_rating_diff = { who = ROOT value = 3 }
 					}
 					NOT = {
-						FROM = {
-							attribute_diff = {
-								character = ROOT
-								attribute = martial
-								value = 9
-							}
-						}
+						combat_rating_diff = { who = ROOT value = 5 }
 					}
 				}
 				random_list = {
@@ -799,11 +771,7 @@ character_event = {
 			if = {
 				limit = {
 					FROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 9
-						}
+						combat_rating_diff = { who = ROOT value = 5 }
 					}
 				}
 				random_list = {
@@ -872,44 +840,24 @@ character_event = {
 		name = EVTOPTA_TOG_5004
 		if = {
 			limit = {
-				attribute_diff = {
-					character = FROM
-					attribute = martial
-					value = 9
-				}
+				combat_rating_diff = { who = FROM value = 5 }
 			}
 			custom_tooltip = { text = holmgang_chances_great }
 		}
 		if = {
 			limit = {
-				attribute_diff = {
-					character = FROM
-					attribute = martial
-					value = 6
-				}
+				combat_rating_diff = { who = FROM value = 3 }
 				NOT = {
-					attribute_diff = {
-						character = FROM
-						attribute = martial
-						value = 9
-					}
+					combat_rating_diff = { who = FROM value = 5 }
 				}
 			}
 			custom_tooltip = { text = holmgang_chances_very_good }
 		}
 		if = {
 			limit = {
-				attribute_diff = {
-					character = FROM
-					attribute = martial
-					value = 3
-				}
+				combat_rating_diff = { who = FROM value = 1 }
 				NOT = {
-					attribute_diff = {
-						character = FROM
-						attribute = martial
-						value = 6
-					}
+					combat_rating_diff = { who = FROM value = 3 }
 				}
 			}
 			custom_tooltip = { text = holmgang_chances_good }
@@ -917,17 +865,9 @@ character_event = {
 		if = {
 			limit = {
 				NOT = {
-					attribute_diff = {
-						character = FROM
-						attribute = martial
-						value = 3
-					}
+					combat_rating_diff = { who = FROM value = 1 }
 					FROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 3
-						}
+						combat_rating_diff = { who = ROOT value = 1 }
 					}
 				}
 			}
@@ -936,19 +876,11 @@ character_event = {
 		if = {
 			limit = {
 				FROM = {
-					attribute_diff = {
-						character = ROOT
-						attribute = martial
-						value = 3
-					}
+					combat_rating_diff = { who = ROOT value = 1 }
 				}
 				NOT = {
 					FROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 6
-						}
+						combat_rating_diff = { who = ROOT value = 3 }
 					}
 				}
 			}
@@ -957,19 +889,11 @@ character_event = {
 		if = {
 			limit = {
 				FROM = {
-					attribute_diff = {
-						character = ROOT
-						attribute = martial
-						value = 6
-					}
+					combat_rating_diff = { who = ROOT value = 3 }
 				}
 				NOT = {
 					FROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 9
-						}
+						combat_rating_diff = { who = ROOT value = 5 }
 					}
 				}
 			}
@@ -978,11 +902,7 @@ character_event = {
 		if = {
 			limit = {
 				FROM = {
-					attribute_diff = {
-						character = ROOT
-						attribute = martial
-						value = 9
-					}
+					combat_rating_diff = { who = ROOT value = 5 }
 				}
 			}
 			custom_tooltip = { text = holmgang_chances_terrible }
@@ -1005,44 +925,24 @@ character_event = {
 		name = EVTOPTA_TOG_5004
 		if = {
 			limit = {
-				attribute_diff = {
-					character = FROMFROM
-					attribute = martial
-					value = 9
-				}
+				combat_rating_diff = { who = FROMFROM value = 5 }
 			}
 			custom_tooltip = { text = holmgang_chances_great }
 		}
 		if = {
 			limit = {
-				attribute_diff = {
-					character = FROMFROM
-					attribute = martial
-					value = 6
-				}
+				combat_rating_diff = { who = FROMFROM value = 3 }
 				NOT = {
-					attribute_diff = {
-						character = FROMFROM
-						attribute = martial
-						value = 9
-					}
+					combat_rating_diff = { who = FROMFROM value = 5 }
 				}
 			}
 			custom_tooltip = { text = holmgang_chances_very_good }
 		}
 		if = {
 			limit = {
-				attribute_diff = {
-					character = FROMFROM
-					attribute = martial
-					value = 3
-				}
+				combat_rating_diff = { who = FROMFROM value = 1 }
 				NOT = {
-					attribute_diff = {
-						character = FROMFROM
-						attribute = martial
-						value = 6
-					}
+					combat_rating_diff = { who = FROMFROM value = 3 }
 				}
 			}
 			custom_tooltip = { text = holmgang_chances_good }
@@ -1050,17 +950,9 @@ character_event = {
 		if = {
 			limit = {
 				NOT = {
-					attribute_diff = {
-						character = FROMFROM
-						attribute = martial
-						value = 3
-					}
+					combat_rating_diff = { who = FROMFROM value = 1 }
 					FROMFROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 3
-						}
+						combat_rating_diff = { who = ROOT value = 1 }
 					}
 				}
 			}
@@ -1069,19 +961,11 @@ character_event = {
 		if = {
 			limit = {
 				FROMFROM = {
-					attribute_diff = {
-						character = ROOT
-						attribute = martial
-						value = 3
-					}
+					combat_rating_diff = { who = ROOT value = 1 }
 				}
 				NOT = {
 					FROMFROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 6
-						}
+						combat_rating_diff = { who = ROOT value = 3 }
 					}
 				}
 			}
@@ -1090,19 +974,11 @@ character_event = {
 		if = {
 			limit = {
 				FROMFROM = {
-					attribute_diff = {
-						character = ROOT
-						attribute = martial
-						value = 6
-					}
+					combat_rating_diff = { who = ROOT value = 3 }
 				}
 				NOT = {
 					FROMFROM = {
-						attribute_diff = {
-							character = ROOT
-							attribute = martial
-							value = 9
-						}
+						combat_rating_diff = { who = ROOT value = 5 }
 					}
 				}
 			}
@@ -1111,11 +987,7 @@ character_event = {
 		if = {
 			limit = {
 				FROMFROM = {
-					attribute_diff = {
-						character = ROOT
-						attribute = martial
-						value = 9
-					}
+					combat_rating_diff = { who = ROOT value = 5 }
 				}
 			}
 			custom_tooltip = { text = holmgang_chances_terrible }
