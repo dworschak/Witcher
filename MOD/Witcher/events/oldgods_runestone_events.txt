@@ -39,7 +39,7 @@ character_event = {
 		}
 		if = {
 			limit = { father_even_if_dead = { death_reason = death_natural } }
-			hidden_tooltip = { narrative_event = { id = TOG.510 days = 60 random = 10 } }
+			hidden_tooltip = { character_event = { id = TOG.510 days = 60 random = 10 } }
 		}
 		if = {
 			limit = { father_even_if_dead = { death_reason = death_battle } }
@@ -603,6 +603,7 @@ character_event = {
 		tooltip_info = zealous
 		trigger = {
 			trait = zealous
+			religion = freya
 			NOT = {
 				trait = lunatic
 				trait = possessed
@@ -648,7 +649,7 @@ character_event = {
 		tooltip_info = zealous
 		trigger = {
 			trait = zealous
-				NOT = {
+			NOT = {
 				trait = lunatic
 				trait = possessed
 				trait = imbecile
@@ -1844,6 +1845,36 @@ narrative_event = {
 			limit = { ai = no }
 			chronicle = {
 				entry = CHRONICLE_RUNESTONE_ZEALOUS_NORSE
+				picture = GFX_evt_runestone_raising_oldgods
+			}
+		}
+	}
+}
+
+# Zealous (Christian)
+narrative_event = {
+	id = TOG.570
+	title = EVTNAME_TOG_550
+	desc = EVTDESC_TOG_570
+	picture = GFX_evt_runestone_raising_oldgods
+	border = GFX_event_narrative_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTA_TOG_550
+		prestige = 200
+		piety = 100
+		add_character_modifier = {
+			name = raised_runestone
+			duration = 730
+		}
+		if = {
+			limit = { ai = no }
+			chronicle = {
+				entry = CHRONICLE_RUNESTONE_ZEALOUS_CHRISTIAN
 				picture = GFX_evt_runestone_raising_oldgods
 			}
 		}
