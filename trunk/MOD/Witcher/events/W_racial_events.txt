@@ -436,7 +436,9 @@ character_event = {
 					}
 				}
 				fertility = -0.10
+				add_character_modifier = { name = just_had_child duration = 1825 hidden = yes }
 			}
+		}
 		mother = {
 			if = {
 				limit = { 
@@ -447,6 +449,7 @@ character_event = {
 					}
 				}
 				fertility = -0.20
+				add_character_modifier = { name = just_had_child duration = 1825 hidden = yes }
 			}
 		}
 	}
@@ -461,31 +464,21 @@ character_event = {
 	
 	hide_window = yes
 	
-	min_age = 50
+	min_age = 41
 	only_women = yes
 	
 	trigger = {
-		NOT = { trait = elf_race}
-		NOT = { trait = halfelf_race}
-		NOT = { trait = dwarf_race}
-		NOT = { trait = halfdwarf_race}
-		NOT = { trait = halfling_race}
-		NOT = { trait = halfhalfling_race}
-		NOT = { trait = dryad_race}		
-		OR = {
-			trait = human_race
-		}
-		age = 50
-		fertility = -0.1
+		trait = human_race
+		NOT = { trait = sorcerer }
 	}
 	
 	mean_time_to_happen = {
-		days = 1
+		days = 2920
 	}
 	
 	option = {
 		name = OK
-		fertility = -1
+		add_trait = infertile
 	}
 }
 
