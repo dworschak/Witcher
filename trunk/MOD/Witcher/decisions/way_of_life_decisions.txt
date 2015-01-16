@@ -198,7 +198,18 @@ targetted_decisions = {
 				factor = 0
 				num_of_lovers = 3
 			}
-			
+			modifier = {
+				factor = 0.2
+				OR = {
+					ai = no
+					any_spouse = {
+						ai = no
+					}
+					any_consort = {
+						ai = no
+					}
+				}
+			}
 			modifier = {
 				factor = 10
 				FROM = {
@@ -451,7 +462,6 @@ targetted_decisions = {
 			prisoner = no
 			war = no
 			NOT = { trait = incapable }
-			NOT = { has_character_modifier = party_timer }
 			NOT = { had_character_flag = { flag = inviting_guests_to_party_timer days = 90 } }
 		}
 		potential = {
@@ -464,12 +474,6 @@ targetted_decisions = {
 			NOT = { character = FROM }                            # Can't do this decision on yourself...
 		}
 		allow = {
-			FROM = {
-				OR = {
-					trait = hedonist
-					trait = drunkard
-				}
-			}
 			same_realm = FROM   # Can only invite characters in same realm!
 			NOT = { has_character_modifier = organizing_party }
 			NOT = { has_character_modifier = party_carousing }
@@ -478,6 +482,9 @@ targetted_decisions = {
 					modifier = opinion_declined_party
 					who = FROM
 				}
+			}
+			FROM = {
+				NOT = { has_character_modifier = party_timer }
 			}
 		}
 		effect = {

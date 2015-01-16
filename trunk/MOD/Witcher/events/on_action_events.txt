@@ -310,7 +310,7 @@ character_event = {
 		
 		if = {
 			limit = {
-						OR = {
+				OR = {
 					AND = {
 						is_ruler = yes
 						is_theocracy = yes
@@ -2518,6 +2518,10 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { 
+			has_character_flag = recieved_royal_marriage_aid_duty
+		}
+		NOT = { new_character = { is_close_relative = FROM } }
 		OR = {
 			FROM = { character = ROOT }
 			AND = {
@@ -3011,7 +3015,7 @@ character_event = {
 # on_forced_consort
 character_event = {
 	id = 660
-	desc = "EVTDESC660"
+	desc = EVTDESC660
 	picture = GFX_evt_scandal
 	
 	is_triggered_only = yes 
@@ -3275,6 +3279,9 @@ character_event = {
 
 	trigger = {
 		has_dlc = "Charlemagne"
+		top_liege = {
+			in_revolt = no
+		}
 	}
 	
 	option = {
@@ -3344,6 +3351,7 @@ character_event = {
 				liege = {
 					ROOT = {
 						set_defacto_liege = PREV
+						set_character_flag = set_to_higher_liege
 					}
 				}
 			}
@@ -3354,9 +3362,12 @@ character_event = {
 				liege = {
 					independent = yes
 				}
+				NOT = { has_character_flag = set_to_higher_liege }
 			}
 			set_defacto_liege = THIS
 		}
+		
+		clr_character_flag = set_to_higher_liege
 		
 		any_demesne_title = {
 			limit = {
