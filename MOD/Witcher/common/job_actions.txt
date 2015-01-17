@@ -24,19 +24,67 @@ action_improve_relations = {
 action_fabricate_claims = {
 	attribute = diplomacy
 	
-	potential = {
-		OR = {
-			NOT = { terrain = magic_tower }
-			NOT = { terrain = dryad_forest }
-			FROM = { trait = dryad_race }
-		}
-	}
-	
 	trigger = {
 		any_province_lord = {
 			NOT = { character = FROM }
 		}
 		is_within_diplo_range = FROM
+		NOT = { terrain = magic_tower }
+		NOT = { terrain = dryad_forest }
+
+		OR = {
+			owner = { same_realm = FROM }
+			any_neighbor_province = {
+				owner = {
+					OR = {
+						is_liege_or_above = FROM
+						character = FROM
+					}
+				}
+			}
+			any_neighbor_province = {
+				is_land = no
+				any_neighbor_province = {
+					owner = {
+						OR = {
+							is_liege_or_above = FROM
+							character = FROM
+						}
+					}
+				}
+			}
+		}
+		OR = {
+			county = {
+				NOT = { claimed_by = FROM }
+				holder_scope = {
+					NOT = { is_liege_of = FROM }
+					NOT = { character = FROM }
+				}
+			}
+			AND = {
+				duchy = {
+					NOT = { claimed_by = FROM }
+					holder_scope = {
+						NOT = { is_liege_of = FROM }
+						NOT = { character = FROM }
+					}
+				}
+				FROM = { ai = no }
+			}
+		}
+		NOT = {
+			AND = {
+				owner = { is_merchant_republic = yes }
+				is_capital = yes
+			}
+		}
+		OR = {
+			FROM = { ai = no }
+			FROM = { independent = yes }
+			FROM = { higher_tier_than = count }
+			owner = { same_realm = FROM }
+		}
 	}
 	
 	events = { 913 914 }
