@@ -968,14 +968,11 @@ character_event = {
 	}
 }
 
-# Relations between two of my close dynasty members improve
+# Relations between two of my close dynasty members improve - hidden set-up
 character_event = {
-	id = WoL.3050
+	id = WoL.3048
 	
-	desc = EVTDESC_WOL_3050
-	
-	picture = GFX_evt_son_asking_father
-	border = GFX_event_normal_frame_diplomacy
+	hide_window = yes
 	
 	only_playable = yes
 	prisoner = no
@@ -986,76 +983,6 @@ character_event = {
 		has_regent = no
 		in_command = no
 		is_ill = no
-		any_dynasty_member = {
-			is_adult = yes
-			NOT = { trait = incapable }
-			NOT = { trait = inbred }
-			NOT = { trait = imbecile }
-			prisoner = no
-			is_close_relative = ROOT
-			OR = {
-				AND = {				
-					is_female = no
-					ROOT = {
-						OR = {
-							has_law = agnatic_succession
-							has_law = cognatic_succession
-						}
-					}
-				}
-				AND = {				
-					is_female = yes
-					ROOT = {
-						NOR = {
-							has_law = agnatic_succession
-							has_law = cognatic_succession
-						}
-					}
-				}
-				ROOT = { has_law = true_cognatic_succession }
-				is_primary_heir = ROOT
-			}
-			ROOT = {
-				any_dynasty_member = {
-					is_adult = yes
-					NOT = { trait = incapable }
-					NOT = { trait = inbred }
-					NOT = { trait = imbecile }
-					prisoner = no
-					OR = {
-						AND = {				
-							is_female = no
-							ROOT = {
-								OR = {
-									has_law = agnatic_succession
-									has_law = cognatic_succession
-								}
-							}
-						}
-						AND = {				
-							is_female = yes
-							ROOT = {
-								NOR = {
-									has_law = agnatic_succession
-									has_law = cognatic_succession
-								}
-							}
-						}
-						ROOT = { has_law = true_cognatic_succession }
-						is_primary_heir = ROOT
-					}
-					NOT = { character = PREVPREV }
-					is_close_relative = ROOT
-					NOT = { is_friend = PREVPREV }
-					NOT = {
-						personal_opinion = {
-							who = PREVPREV
-							value = 40
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	mean_time_to_happen = {
@@ -1081,39 +1008,95 @@ character_event = {
 				prisoner = no
 				is_close_relative = ROOT
 				OR = {
-					is_female = no
+					AND = {				
+						is_female = no
+						ROOT = {
+							OR = {
+								has_law = agnatic_succession
+								has_law = cognatic_succession
+							}
+						}
+					}
+					AND = {				
+						is_female = yes
+						ROOT = {
+							NOR = {
+								has_law = agnatic_succession
+								has_law = cognatic_succession
+							}
+						}
+					}
+					ROOT = { has_law = true_cognatic_succession }
 					is_primary_heir = ROOT
 				}
 			}
 			save_event_target_as = target_second
-			ROOT = {
-				random_dynasty_member = {
-					limit = {
-						is_adult = yes
-						NOT = { trait = incapable }
-						NOT = { trait = inbred }
-						NOT = { trait = imbecile }
-						prisoner = no
-						OR = {
-							is_female = no
-							is_primary_heir = ROOT
-						}
-						NOT = { character = PREVPREV }
-						is_close_relative = ROOT
-						NOT = { is_friend = PREVPREV }
-						NOT = {
-							personal_opinion = {
-								who = PREVPREV
-								value = 40
+			character_event = { id = WoL.3049 }
+		}
+	}
+}
+
+# Find the other close dynasty member
+character_event = {
+	id = WoL.3049
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_dynasty_member = {
+			limit = {
+				is_adult = yes
+				NOT = { trait = incapable }
+				NOT = { trait = inbred }
+				NOT = { trait = imbecile }
+				prisoner = no
+				NOT = { character = FROM }
+				is_close_relative = FROM
+				NOT = { is_friend = ROOT }
+				OR = {
+					AND = {				
+						is_female = no
+						ROOT = {
+							OR = {
+								has_law = agnatic_succession
+								has_law = cognatic_succession
 							}
 						}
 					}
-					save_event_target_as = target_first
-					character_event = { id = WoL.3051 }
+					AND = {				
+						is_female = yes
+						ROOT = {
+							NOR = {
+								has_law = agnatic_succession
+								has_law = cognatic_succession
+							}
+						}
+					}
+					ROOT = { has_law = true_cognatic_succession }
+					is_primary_heir = ROOT
 				}
 			}
+			save_event_target_as = target_first
+			FROM = { character_event = { id = WoL.3050 } }
 		}
-		
+	}
+}
+
+# Relations between two of my close dynasty members improve
+character_event = {
+	id = WoL.3050
+	
+	desc = EVTDESC_WOL_3050
+	
+	picture = GFX_evt_son_asking_father
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		event_target:target_first = {
+			character_event = { id = WoL.3051 }
+		}
 		random = {
 			chance = 50
 			character_event = { id = WoL.3000 } # Chance to "level up"
@@ -1175,6 +1158,8 @@ character_event = {
 	is_triggered_only = yes
 	
 	desc = EVTDESC_WOL_3052
+	
+	show_from_from = yes
 	
 	option = {
 		name = EVTOPTA_WOL_3051 # Good idea
@@ -1510,7 +1495,7 @@ character_event = {
 	option = {
 		name = EVTOPTA_WOL_3060
 		
-		log = "WoL.3060: Fires, valid for [target_second.GetTitledName] and [target_first.GetTitledName]."
+#		log = "WoL.3060: Fires, valid for [target_second.GetTitledName] and [target_first.GetTitledName]."
 		
 		event_target:target_second = {
 			if = {
