@@ -19,6 +19,7 @@ province_event = {
 			culture = aen_seidhe
 			culture = dwarven
 			culture = halfling
+			culture = gnomish
 		}
 		owner = {
 			trait = racist
@@ -76,6 +77,7 @@ province_event = {
 			culture = aen_seidhe
 			culture = dwarven
 			culture = halfling
+			culture = gnomish
 		}
 		owner = {
 			trait = racist
@@ -126,6 +128,7 @@ province_event = {
 			culture = aen_seidhe
 			culture = dwarven
 			culture = halfling
+			culture = gnomish
 		}
 		owner = {
 			trait = racist
@@ -178,6 +181,7 @@ province_event = {
 			culture = aen_seidhe
 			culture = dwarven
 			culture = halfling
+			culture = gnomish
 		}
 		NOT = { has_province_modifier = non_human_slaughter }
 	}
@@ -213,6 +217,7 @@ province_event = {
 			culture = aen_seidhe
 			culture = dwarven
 			culture = halfling
+			culture = gnomish
 		}
 		owner = {
 			trait = zealous
@@ -461,6 +466,75 @@ province_event = {
 	}
 }
 
+# Gnomes migrate in province
+province_event = {
+	id = conversion.50
+	desc = EVTDESCconversion.50
+	picture = GFX_evt_stone_church
+	
+	trigger = {
+		NOT = {
+			culture = gnomish
+			religion = gnomish
+		}
+		owner = {
+			culture = gnomish
+			religion = gnomish
+			OR = {
+				trait = gnome_race
+				trait = halfgnome_race
+			}
+			top_liege = {
+				culture = gnomish
+				religion = gnomish
+				OR = {
+					trait = gnome_race
+					trait = halfgnome_race
+				}
+			}
+		}
+		any_neighbor_province = {
+			culture = gnomish
+			religion = gnomish
+			has_owner = yes
+			owner = {
+				culture = gnomish
+				religion = gnomish
+				OR = {
+					trait = gnome_race
+					trait = halfgnome_race
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.5 owner = { trait = scoiatael_leader } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 2 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 3 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 4 } } }
+		modifier = { factor = 1.5 owner = { NOT = { stewardship = 5 } } }
+		modifier = { factor = 0.75 owner = { stewardship = 10 } }
+		modifier = { factor = 0.75 owner = { stewardship = 11 } }
+		modifier = { factor = 0.75 owner = { stewardship = 12 } }
+		modifier = { factor = 0.75 owner = { stewardship = 13 } }
+		modifier = {
+			factor = 0.7
+			any_neighbor_province = {
+				has_owner = yes
+				culture = gnomish
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAconversion.50
+		culture = gnomish
+		religion = gnomish
+	}
+}
+
 ################################################
 # Culture conversions
 ################################################
@@ -475,6 +549,7 @@ province_event = {
 			culture = aen_seidhe
 			culture = dwarven
 			culture = halfling
+			culture = gnomish
 		}
 		owner = {
 			top_liege = { culture = PREV }
@@ -498,7 +573,7 @@ province_event = {
 		}
 	}
 }
-# A ruler is assimilated by the local culture - not for elves or dwarves or halflings
+# A ruler is assimilated by the local culture - not for elves, dwarves, halflings, or gnomes.
 character_event = {
 	id = conversion.110
 	desc = EVTDESCconversion.110
@@ -520,7 +595,8 @@ character_event = {
 			NOT = { culture = ROOT }
 			NOT = { culture = aen_seidhe }
 			NOT = { culture = dwarven }
-			NOT = { culture = halfling}
+			NOT = { culture = halfling }
+			NOT = { culture = gnomish }
 		}
 		top_liege = {
 			OR = {
@@ -595,6 +671,7 @@ province_event = {
 			religion = dana_meadbh
 			religion = dwarven
 			religion = halfling
+			religion = gnomish
 			religion = dryad
 		}
 		owner = {
@@ -619,7 +696,7 @@ province_event = {
 		}
 	}
 }
-# A ruler swayed by the local religion - not for elves or dwarves or halflings
+# A ruler swayed by the local religion - not for elves, dwarves, halflings, or gnomes.
 character_event = {
 	id = conversion.210
 	desc = EVTDESCconversion.210
@@ -640,6 +717,7 @@ character_event = {
 			NOT = { religion = dana_meadbh }
 			NOT = { religion = dwarven }
 			NOT = { religion = halfling }
+			NOT = { religion = gnomish }
 		}
 		top_liege = {
 			OR = {
