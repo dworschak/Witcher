@@ -31,6 +31,7 @@ character_event = {
 					trait = elf_race
 					trait = dwarf_race
 					trait = halfling_race
+					trait = gnome_race
 				}
 			}
 		}
@@ -91,6 +92,7 @@ character_event = {
 					trait = elf_race
 					trait = dwarf_race
 					trait = halfling_race
+					trait = gnome_race
 				}
 			}
 		}
@@ -147,6 +149,7 @@ character_event = {
 					trait = elf_race
 					trait = dwarf_race
 					trait = halfling_race
+					trait = gnome_race
 				}
 			}
 		}
@@ -204,6 +207,7 @@ character_event = {
 					trait = elf_race
 					trait = dwarf_race
 					trait = halfling_race
+					trait = gnome_race
 				}
 			}
 		}
@@ -261,6 +265,7 @@ character_event = {
 					trait = elf_race
 					trait = dwarf_race
 					trait = halfling_race
+					trait = gnome_race
 				}
 			}
 		}
@@ -317,6 +322,7 @@ character_event = {
 					trait = elf_race
 					trait = dwarf_race
 					trait = halfling_race
+					trait = gnome_race
 				}
 			}
 		}
@@ -339,7 +345,121 @@ character_event = {
 			trait = halfling_race
 		}
 		new_character = {
+			change_diplomacy = 2
+			remove_trait = inbred
+			remove_trait = imbecile
+		}
+	}
+}
+# A gnomish spy
+character_event = {
+	id = tolerant.7
+	desc = EVTDESCtolerant.7
+	picture = GFX_evt_emissary
+	border = GFX_event_normal_frame_religion
+	
+	min_age = 15
+	prisoner = no
+	only_playable = yes
+	capable_only = yes
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = tolerant
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 900
+		modifier = {
+			factor = 2
+			any_courtier = {
+				count = 3
+				OR = {
+					trait = elf_race
+					trait = dwarf_race
+					trait = halfling_race
+					trait = gnome_race
+				}
+			}
+		}
+		modifier = { factor = 0.8 crownlaw_title = { has_law = tolerance_2 } }
+		modifier = { factor = 0.9 trait = halfgnome_race }
+		modifier = { factor = 0.9 trait = gregarious }
+		modifier = { factor = 0.9 trait = kind }
+		modifier = { factor = 0.9 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAtolerant.7
+		create_random_diplomat = {
+			random_traits = yes
+			culture = gnomish
+			dynasty = none
+			religion = gnomish
+			female = no
+			age = 60
+			trait = gnome_race
+		}
+		new_character = {
 			change_intrigue = 2
+			remove_trait = inbred
+			remove_trait = imbecile
+		}
+	}
+}
+# A gnomish thinker
+character_event = {
+	id = tolerant.8
+	desc = EVTDESCtolerant.8
+	picture = GFX_evt_emissary
+	border = GFX_event_normal_frame_religion
+	
+	min_age = 15
+	prisoner = no
+	only_playable = yes
+	capable_only = yes
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = tolerant
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 900
+		modifier = {
+			factor = 2
+			any_courtier = {
+				count = 3
+				OR = {
+					trait = elf_race
+					trait = dwarf_race
+					trait = halfling_race
+					trait = gnome_race
+				}
+			}
+		}
+		modifier = { factor = 0.8 crownlaw_title = { has_law = tolerance_2 } }
+		modifier = { factor = 0.9 trait = halfgnome_race }
+		modifier = { factor = 0.9 trait = gregarious }
+		modifier = { factor = 0.9 trait = kind }
+		modifier = { factor = 0.9 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAtolerant.8
+		create_random_diplomat = {
+			random_traits = yes
+			culture = gnomish
+			dynasty = none
+			religion = gnomish
+			female = no
+			age = 60
+			trait = gnome_race
+		}
+		new_character = {
+			change_learning = 2
 			remove_trait = inbred
 			remove_trait = imbecile
 		}
@@ -442,6 +562,39 @@ character_event = {
 		random_realm_character = {
 			limit = {
 				trait = halfling_race
+			}
+			add_friend = ROOT
+		}
+	}
+}
+# Tolerant character making halfling friend
+character_event = {
+	id = tolerant.13
+	desc = EVTDESCtolerant.13
+	picture = GFX_evt_courtiers_talking
+	
+	only_rulers = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = human_race
+		trait = tolerant
+		any_realm_character = {
+			trait = gnome_race
+			NOT = { is_friend = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+	}
+	
+	option = {
+		name = EVTOPTAtolerant.13
+		random_realm_character = {
+			limit = {
+				trait = gnome_race
 			}
 			add_friend = ROOT
 		}

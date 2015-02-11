@@ -19,6 +19,8 @@ character_event = {
 		NOT = { trait = dryad_race }
 		NOT = { trait = halfling_race }
 		NOT = { trait = halfhalfling_race }
+		NOT = { trait = gnome_race }
+		NOT = { trait = halfgnome_race }
 		NOT = { trait = wilderness_race }
 	}
 	
@@ -84,13 +86,31 @@ character_event = {
 			add_trait = halfhalfling_race
 		}
 	}
-	option = { # Human or halfelf or halfdwarf or halfhalfling
+	option = { # Gnome or halfgnome
+		name = OK
+		trigger = {
+			graphical_culture = druedaingfx
+		}
+		add_trait = halfling_race
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { NOT = { graphical_culture = druedaingfx } }
+					mother_even_if_dead = { NOT = { graphical_culture = druedaingfx } }
+				}
+			}
+			remove_trait = halfling_race
+			add_trait = halfhalfling_race
+		}
+	}
+	option = { # Human, halfelf, halfdwarf, halfhalfling or halfgnome
 		name = OK
 		trigger = {
 			NOT = {
 				graphical_culture = dwarvengfx
 				graphical_culture = elfgfx
 				graphical_culture = hobbitsgfx
+				graphical_culture = druedaingfx
 				graphical_culture = dryadgfx
 				graphical_culture = wildernessgfx
 			}
@@ -125,6 +145,16 @@ character_event = {
 			}
 			remove_trait = human_race
 			add_trait = halfhalfling_race
+		}
+		if = {
+			limit = {
+				OR = {
+					father_even_if_dead = { graphical_culture = druedaingfx }
+					mother_even_if_dead = { graphical_culture = druedaingfx }
+				}
+			}
+			remove_trait = human_race
+			add_trait = halfgnome_race
 		}
 	}
 	option = { # Wilderness
@@ -234,6 +264,8 @@ character_event = {
 							trait = halfdwarf_race
 							trait = halfling_race
 							trait = halfhalfling_race
+							trait = gnome_race
+							trait = halfgnome_race
 						}
 					}
 				}
@@ -245,6 +277,8 @@ character_event = {
 							trait = halfdwarf_race
 							trait = halfling_race
 							trait = halfhalfling_race
+							trait = gnome_race
+							trait = halfgnome_race
 						}
 					}
 				}
@@ -257,6 +291,8 @@ character_event = {
 							trait = halfelf_race
 							trait = halfling_race
 							trait = halfhalfling_race
+							trait = gnome_race
+							trait = halfgnome_race
 						}
 					}
 				}
@@ -268,6 +304,8 @@ character_event = {
 							trait = halfelf_race
 							trait = halfling_race
 							trait = halfhalfling_race
+							trait = gnome_race
+							trait = halfgnome_race
 						}
 					}
 				}
@@ -280,6 +318,8 @@ character_event = {
 							trait = halfelf_race
 							trait = dwarf_race
 							trait = halfdwarf_race
+							trait = gnome_race
+							trait = halfgnome_race
 						}
 					}
 				}
@@ -291,6 +331,34 @@ character_event = {
 							trait = halfelf_race
 							trait = dwarf_race
 							trait = halfdwarf_race
+							trait = gnome_race
+							trait = halfgnome_race
+						}
+					}
+				}
+				AND = {
+					trait = gnome_race
+					new_character = {
+						OR = {
+							trait = elf
+							trait = halfelf_race
+							trait = dwarf_race
+							trait = halfdwarf_race
+							trait = halfling_race
+							trait = halfhalfling_race
+						}
+					}
+				}
+				AND = {
+					trait = halfgnome_race
+					new_character = {
+						OR = {
+							trait = elf
+							trait = halfelf_race
+							trait = dwarf_race
+							trait = halfdwarf_race
+							trait = halfling_race
+							trait = halfhalfling_race
 						}
 					}
 				}
@@ -301,6 +369,7 @@ character_event = {
 							trait = elf_race
 							trait = dwarf_race
 							trait = halfling_race
+							trait = gnome_race
 						}
 					}
 				}
@@ -433,6 +502,7 @@ character_event = {
 						trait = elf_race 
 						trait = dwarf_race 
 						trait = halfling_race 
+						trait = gnome_race
 					}
 				}
 				fertility = -0.10
@@ -446,6 +516,7 @@ character_event = {
 						trait = elf_race 
 						trait = dwarf_race 
 						trait = halfling_race 
+						trait = gnome_race
 					}
 				}
 				fertility = -0.20
