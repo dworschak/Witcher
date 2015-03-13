@@ -131,7 +131,7 @@ castle = {
 		upgrades_from = ca_elven_barracks_1
 		gold_cost = 120
 		build_time = 547
-		heavy_infantry = 70
+		light_infantry = 70
 		ai_creation_factor = 95
 
 		extra_tech_building_start = 0.2
@@ -148,7 +148,7 @@ castle = {
 		upgrades_from = ca_elven_barracks_2
 		gold_cost = 200
 		build_time = 730
-		heavy_infantry = 80
+		light_infantry = 80
 		ai_creation_factor = 94
 		
 		extra_tech_building_start = 0.2
@@ -165,7 +165,7 @@ castle = {
 		upgrades_from = ca_elven_barracks_3
 		gold_cost = 300
 		build_time = 1095
-		heavy_infantry = 90
+		light_infantry = 90
 		ai_creation_factor = 93
 		
 		extra_tech_building_start = 0.2
@@ -182,7 +182,7 @@ castle = {
 		upgrades_from = ca_elven_barracks_4
 		gold_cost = 400
 		build_time = 2190
-		heavy_infantry = 100
+		light_infantry = 100
 		ai_creation_factor = 92
 
 		extra_tech_building_start = 0.2
@@ -197,7 +197,6 @@ castle = {
 			}
 		}
 		trigger = { TECH_CASTLE_CONSTRUCTION = 0 }
-		prerequisites = { ca_elven_keep_2 }
 		gold_cost = 200
 		build_time = 730
 		land_morale = 0.1
@@ -269,7 +268,6 @@ castle = {
 			}
 		}
 		trigger = { TECH_CASTLE_CONSTRUCTION = 0 }
-		prerequisites = { ca_elven_keep_1 }
 		upgrades_from = ca_elven_town_1
 		gold_cost = 120
 		build_time = 547
@@ -287,7 +285,6 @@ castle = {
 			}
 		}
 		trigger = { TECH_CASTLE_CONSTRUCTION = 2 }
-		prerequisites = { ca_elven_keep_2 }
 		upgrades_from = ca_elven_town_2
 		gold_cost = 200
 		build_time = 730
@@ -373,7 +370,6 @@ castle = {
 			}
 		}
 		trigger = { TECH_CASTLE_CONSTRUCTION = 0 }
-		prerequisites = { ca_elven_keep_1 }
 		upgrades_from = ca_elven_stable_1
 		gold_cost = 120
 		build_time = 547
@@ -391,7 +387,6 @@ castle = {
 			}
 		}
 		trigger = { TECH_CASTLE_CONSTRUCTION = 2 }
-		prerequisites = { ca_elven_keep_2 }
 		upgrades_from = ca_elven_stable_2
 		gold_cost = 200
 		build_time = 730
@@ -454,7 +449,7 @@ castle = {
 
 		extra_tech_building_start = 0.2
 	}
-	#Elven keep, gives levy and garrison size
+	#Elven keep
 	ca_elven_keep_1 = {
 		desc = ca_elven_keep_desc
 		potential = {
@@ -464,11 +459,12 @@ castle = {
 			}
 		}
 		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 0 }
-		gold_cost = 150
-		build_time = 547 #1.5y
-		levy_size = 0.05
-		garrison_size = 0.05
-		ai_creation_factor = 102
+		gold_cost = 50
+		build_time = 365
+		fort_level = 0.4
+		levy_size = 0.025
+		tax_income = 0.1
+		ai_creation_factor = 99
 		
 		extra_tech_building_start = 1.0
 	}
@@ -480,15 +476,16 @@ castle = {
 				culture = aen_elle
 			}
 		}
-		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 0 }
+		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 2 }
 		upgrades_from = ca_elven_keep_1
-		gold_cost = 200
-		build_time = 730 #2y
-		levy_size = 0.1
-		garrison_size = 0.1
-		ai_creation_factor = 101
+		gold_cost = 50
+		build_time = 547
+		fort_level = 0.4
+		levy_size = 0.025
+		tax_income = 0.1
+		ai_creation_factor = 98
 
-		extra_tech_building_start = 2.0
+		extra_tech_building_start = 1.5
 	}
 	ca_elven_keep_3 = {
 		desc = ca_elven_keep_desc
@@ -498,17 +495,18 @@ castle = {
 				culture = aen_elle
 			}
 		}
-		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 2 }
+		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 4 }
 		upgrades_from = ca_elven_keep_2
-		gold_cost = 300
-		build_time = 1095 #3y
-		levy_size = 0.15
-		garrison_size = 0.15
-		ai_creation_factor = 100
-		
-		extra_tech_building_start = 1.0
+		gold_cost = 100
+		build_time = 730
+		fort_level = 0.4
+		levy_size = 0.05
+		tax_income = 0.1
+		ai_creation_factor = 97
+
+		extra_tech_building_start = 2.0
 	}
-	ca_elven_keep_4 = {	
+	ca_elven_keep_4 = {
 		desc = ca_elven_keep_desc
 		potential = {
 			OR = {
@@ -516,15 +514,16 @@ castle = {
 				culture = aen_elle
 			}
 		}
-		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 4 }
+		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 6 }
 		upgrades_from = ca_elven_keep_3
-		gold_cost = 400
-		build_time = 1460 #4y
-		levy_size = 0.2
-		garrison_size = 0.2
-		ai_creation_factor = 99
+		gold_cost = 100
+		build_time = 1095
+		fort_level = 0.5
+		levy_size = 0.05
+		tax_income = 0.2
+		ai_creation_factor = 96
 
-		extra_tech_building_start = 0.2
+		extra_tech_building_start = 1.0
 	}
 	ca_elven_keep_5 = {
 		desc = ca_elven_keep_desc
@@ -534,37 +533,134 @@ castle = {
 				culture = aen_elle
 			}
 		}
-		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 6 }
+		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 8 }
 		upgrades_from = ca_elven_keep_4
-		gold_cost = 500
-		build_time = 2190 #6y
-		levy_size = 0.25
-		garrison_size = 0.2
-		ai_creation_factor = 98
+		gold_cost = 150
+		build_time = 1460
+		fort_level = 1.0
+		levy_size = 0.075
+		tax_income = 0.3
+		ai_creation_factor = 95
 
 		extra_tech_building_start = 0.2
 	}
-	ca_elven_keep_6 = {
-		desc = ca_elven_keep_desc
+}
+#City
+city = {
+	#Elven city
+	ct_elven_city_1 = {
+		desc = ct_elven_city_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
 				culture = aen_elle
 			}
 		}
-		trigger = { TECH_FORTIFICATIONS_CONSTRUCTION = 8 }
-		upgrades_from = ca_elven_keep_5
+		trigger = { TECH_CITY_CONSTRUCTION = 0 }
+		gold_cost = 150
+		build_time = 547 #1.5y
+		levy_size = 0.05
+		garrison_size = 0.05
+		tax_income = 0.2
+		ai_creation_factor = 102
+		
+		extra_tech_building_start = 1.0
+	}
+	ct_elven_city_2 = {
+		desc = ct_elven_city_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 0 }
+		upgrades_from = ct_elven_city_1
+		gold_cost = 200
+		build_time = 730 #2y
+		levy_size = 0.1
+		garrison_size = 0.1
+		tax_income = 0.2
+		ai_creation_factor = 101
+
+		extra_tech_building_start = 2.0
+	}
+	ct_elven_city_3 = {
+		desc = ct_elven_city_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 2 }
+		upgrades_from = ct_elven_city_2
+		gold_cost = 300
+		build_time = 1095 #3y
+		levy_size = 0.15
+		garrison_size = 0.15
+		tax_income = 0.2
+		ai_creation_factor = 100
+		
+		extra_tech_building_start = 1.0
+	}
+	ct_elven_city_4 = {	
+		desc = ct_elven_city_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 4 }
+		upgrades_from = ct_elven_city_3
+		gold_cost = 400
+		build_time = 1460 #4y
+		levy_size = 0.2
+		garrison_size = 0.2
+		tax_income = 0.2
+		ai_creation_factor = 99
+
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_city_5 = {
+		desc = ct_elven_city_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 6 }
+		upgrades_from = ct_elven_city_4
+		gold_cost = 500
+		build_time = 2190 #6y
+		levy_size = 0.25
+		garrison_size = 0.2
+		tax_income = 0.2
+		ai_creation_factor = 98
+
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_city_6 = {
+		desc = ct_elven_city_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 8 }
+		upgrades_from = ct_elven_city_5
 		gold_cost = 500
 		build_time = 2190 #6y
 		levy_size = 0.3
 		garrison_size = 0.2
+		tax_income = 0.5
 		ai_creation_factor = 97
 		
 		extra_tech_building_start = 0.2
 	}
-}
-#City
-city = {
 	# Elven archery range
 	ct_elven_archery_range_1 = {
 		desc = ct_elven_archery_range_desc
@@ -577,7 +673,7 @@ city = {
 		trigger = { TECH_CITY_CONSTRUCTION = 0 }
 		gold_cost = 100
 		build_time = 365
-		archers = 90
+		archers = 100
 		ai_creation_factor = 95
 		
 		extra_tech_building_start = 0.5
@@ -594,7 +690,7 @@ city = {
 		upgrades_from = ct_elven_archery_range_1
 		gold_cost = 120
 		build_time = 547
-		archers = 110
+		archers = 120
 		ai_creation_factor = 94
 
 		extra_tech_building_start = 1.0
@@ -611,7 +707,7 @@ city = {
 		upgrades_from = ct_elven_archery_range_2
 		gold_cost = 200
 		build_time = 730
-		archers = 130
+		archers = 140
 		ai_creation_factor = 93
 
 		extra_tech_building_start = 1.0
@@ -628,7 +724,7 @@ city = {
 		upgrades_from = ct_elven_archery_range_3
 		gold_cost = 300
 		build_time = 1095
-		archers = 150
+		archers = 160
 		ai_creation_factor = 92
 
 		extra_tech_building_start = 0.2
@@ -645,7 +741,7 @@ city = {
 		upgrades_from = ct_elven_archery_range_4
 		gold_cost = 400
 		build_time = 2190
-		archers = 170
+		archers = 180
 		ai_creation_factor = 91
 
 		extra_tech_building_start = 0.2
@@ -662,7 +758,7 @@ city = {
 		upgrades_from = ct_elven_archery_range_5
 		gold_cost = 500
 		build_time = 2190
-		archers = 190
+		archers = 200
 		ai_creation_factor = 90
 
 		extra_tech_building_start = 0.2
@@ -679,7 +775,7 @@ city = {
 		trigger = { TECH_CITY_CONSTRUCTION = 0 }
 		gold_cost = 100
 		build_time = 365
-		heavy_infantry = 45
+		light_infantry = 60
 		ai_creation_factor = 96
 		
 		extra_tech_building_start = 1.0
@@ -696,7 +792,7 @@ city = {
 		upgrades_from = ct_elven_barracks_1
 		gold_cost = 120
 		build_time = 547
-		heavy_infantry = 55
+		light_infantry = 70
 		ai_creation_factor = 95
 
 		extra_tech_building_start = 0.2
@@ -713,7 +809,7 @@ city = {
 		upgrades_from = ct_elven_barracks_2
 		gold_cost = 200
 		build_time = 730
-		heavy_infantry = 65
+		light_infantry = 80
 		ai_creation_factor = 94
 		
 		extra_tech_building_start = 0.2
@@ -730,7 +826,7 @@ city = {
 		upgrades_from = ct_elven_barracks_3
 		gold_cost = 300
 		build_time = 1095
-		heavy_infantry = 75
+		light_infantry = 90
 		ai_creation_factor = 93
 		
 		extra_tech_building_start = 0.2
@@ -747,8 +843,201 @@ city = {
 		upgrades_from = ct_elven_barracks_4
 		gold_cost = 400
 		build_time = 2190
-		heavy_infantry = 85
+		light_infantry = 100
 		ai_creation_factor = 92
+
+		extra_tech_building_start = 0.2
+	}
+	#Elven city guard
+	ct_elven_city_guard_1 = {
+		desc = ct_elven_city_guard_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 0 }
+		gold_cost = 100
+		build_time = 365
+		pikemen = 45
+		ai_creation_factor = 96
+		
+		extra_tech_building_start = 1.0
+	}
+	ct_elven_city_guard_2 = {
+		desc = ct_elven_city_guard_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 2 }
+		upgrades_from = ct_elven_city_guard_1
+		gold_cost = 120
+		build_time = 547
+		pikemen = 55
+		ai_creation_factor = 95
+
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_city_guard_3 = {
+		desc = ct_elven_city_guard_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 4 }
+		upgrades_from = ct_elven_city_guard_2
+		gold_cost = 200
+		build_time = 730
+		pikemen = 65
+		ai_creation_factor = 94
+		
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_city_guard_4 = {
+		desc = ct_elven_city_guard_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 6 }
+		upgrades_from = ct_elven_city_guard_3
+		gold_cost = 300
+		build_time = 1095
+		pikemen = 75
+		ai_creation_factor = 93
+		
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_city_guard_5 = {
+		desc = ct_elven_city_guard_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 8 }
+		upgrades_from = ct_elven_city_guard_4
+		gold_cost = 400
+		build_time = 2190
+		pikemen = 85
+		ai_creation_factor = 92
+
+		extra_tech_building_start = 0.2
+	}
+	#Elven town market
+	ct_elven_marketplace_1 = {
+		desc = ct_elven_marketplace_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 0 }
+		gold_cost = 100
+		build_time = 365
+		tax_income = 3
+		ai_creation_factor = 110
+		add_number_to_name = no
+		
+		extra_tech_building_start = 0.4
+	}
+	ct_elven_marketplace_2 = {
+		desc = ct_elven_marketplace_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 0 }
+		upgrades_from = ct_elven_marketplace_1
+		gold_cost = 120
+		build_time = 547
+		tax_income = 3
+		ai_creation_factor = 109
+		add_number_to_name = no
+
+		extra_tech_building_start = 0.8
+	}
+	ct_elven_marketplace_3 = {
+		desc = ct_elven_marketplace_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 1 }
+		upgrades_from = ct_elven_marketplace_2
+		gold_cost = 200
+		build_time = 730
+		tax_income = 3
+		ai_creation_factor = 108
+		add_number_to_name = no
+
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_marketplace_4 = {
+		desc = ct_elven_marketplace_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 3 }
+		upgrades_from = ct_elven_marketplace_3
+		gold_cost = 300
+		build_time = 1095
+		tax_income = 3
+		ai_creation_factor = 107
+		add_number_to_name = no
+
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_marketplace_5 = {
+		desc = ct_elven_marketplace_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 5 }
+		upgrades_from = ct_elven_marketplace_4
+		gold_cost = 400
+		build_time = 2190
+		tax_income = 3
+		ai_creation_factor = 106
+		add_number_to_name = no
+
+		extra_tech_building_start = 0.2
+	}
+	ct_elven_marketplace_6 = {
+		desc = ct_elven_marketplace_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_CITY_CONSTRUCTION = 7 }
+		upgrades_from = ct_elven_marketplace_5
+		gold_cost = 500
+		build_time = 2190
+		tax_income = 3
+		ai_creation_factor = 105
+		add_number_to_name = no
 
 		extra_tech_building_start = 0.2
 	}
@@ -829,9 +1118,333 @@ city = {
 		culture_techpoints = 0.02
 	}
 }
-
 # Temple
 temple = {
+	#Elven Temple
+	tp_elven_temple_1 = {
+		desc = tp_elven_temple_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
+		gold_cost = 150
+		build_time = 547
+		levy_size = 0.05
+		garrison_size = 0.05
+		ai_creation_factor = 96
+		add_number_to_name = no
+		liege_piety = 0.05
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_temple_2 = {
+		desc = tp_elven_temple_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
+		upgrades_from = tp_elven_temple_1
+		gold_cost = 200
+		build_time = 730
+		levy_size = 0.075
+		garrison_size = 0.1
+		ai_creation_factor = 95
+		add_number_to_name = no
+		liege_piety = 0.05
+		
+		extra_tech_building_start = 0.2
+	} 
+	tp_elven_temple_3 = {
+		desc = tp_elven_temple_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 2 }
+		upgrades_from = tp_elven_temple_2
+		gold_cost = 300
+		build_time = 1095
+		levy_size = 0.1
+		garrison_size = 0.15
+		ai_creation_factor = 94
+		add_number_to_name = no
+		liege_piety = 0.05
+
+		extra_tech_building_start = 0.2
+	} 
+	tp_elven_temple_4 = {
+		desc = tp_elven_temple_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 4 }
+		upgrades_from = tp_elven_temple_3
+		gold_cost = 400
+		build_time = 1460
+		levy_size = 0.125
+		garrison_size = 0.2
+		ai_creation_factor = 93
+		add_number_to_name = no
+		liege_piety = 0.05
+
+		extra_tech_building_start = 0.2
+	} 
+	tp_elven_temple_5 = {
+		desc = tp_elven_temple_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 6 }
+		upgrades_from = tp_elven_temple_4
+		gold_cost = 500
+		build_time = 2190
+		levy_size = 0.15
+		garrison_size = 0.25
+		ai_creation_factor = 92
+		add_number_to_name = no
+		liege_piety = 0.05
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_temple_6 = {
+		desc = tp_elven_temple_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 8 }
+		upgrades_from = tp_elven_temple_5
+		gold_cost = 500
+		build_time = 2190
+		levy_size = 0.15
+		garrison_size = 0.25
+		ai_creation_factor = 91
+		add_number_to_name = no
+		liege_piety = 0.05
+
+		extra_tech_building_start = 0.2
+	}
+	#Elven temple town
+	tp_elven_town_1 = {
+		desc = tp_elven_town_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
+		gold_cost = 100
+		build_time = 365
+		tax_income = 2
+		ai_creation_factor = 98
+
+		extra_tech_building_start = 0.3
+	}
+	tp_elven_town_2 = {
+		desc = tp_elven_town_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
+		upgrades_from = tp_elven_town_1
+		gold_cost = 120
+		build_time = 547
+		tax_income = 2
+		ai_creation_factor = 96
+
+		extra_tech_building_start = 0.6
+	}
+	tp_elven_town_3 = {
+		desc = tp_elven_town_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 1 }
+		upgrades_from = tp_elven_town_2
+		gold_cost = 200
+		build_time = 730
+		tax_income = 2
+		ai_creation_factor = 95
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_town_4 = {
+		desc = tp_elven_town_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 3 }
+		upgrades_from = tp_elven_town_3
+		gold_cost = 300
+		build_time = 1095
+		tax_income = 2
+		ai_creation_factor = 94
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_town_5 = {
+		desc = tp_elven_town_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 5 }
+		upgrades_from = tp_elven_town_4
+		gold_cost = 400
+		build_time = 2190
+		tax_income = 2
+		ai_creation_factor = 93
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_town_6 = {
+		desc = tp_elven_town_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 7 }
+		upgrades_from = tp_elven_town_5
+		gold_cost = 500
+		build_time = 2190
+		tax_income = 2
+		ai_creation_factor = 92
+
+		extra_tech_building_start = 0.2
+	}
+	
+	#Elven archery range
+	tp_elven_archery_range_1 = {
+		desc = tp_elven_archery_range_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
+		gold_cost = 100
+		build_time = 365
+		archers = 100
+		ai_creation_factor = 95
+		
+		extra_tech_building_start = 0.5
+	}
+	tp_elven_archery_range_2 = {
+		desc = tp_elven_archery_range_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
+		upgrades_from = tp_elven_archery_range_1
+		gold_cost = 120
+		build_time = 547
+		archers = 120
+		ai_creation_factor = 94
+
+		extra_tech_building_start = 1.0
+	}
+	tp_elven_archery_range_3 = {
+		desc = tp_elven_archery_range_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 1 }
+		upgrades_from = tp_elven_archery_range_2
+		gold_cost = 200
+		build_time = 730
+		archers = 140
+		ai_creation_factor = 93
+
+		extra_tech_building_start = 1.0
+	}
+	tp_elven_archery_range_4 = {
+		desc = tp_elven_archery_range_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 3 }
+		upgrades_from = tp_elven_archery_range_3
+		gold_cost = 300
+		build_time = 1095
+		archers = 160
+		ai_creation_factor = 92
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_archery_range_5 = {
+		desc = tp_elven_archery_range_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 5 }
+		upgrades_from = tp_elven_archery_range_4
+		gold_cost = 400
+		build_time = 2190
+		archers = 180
+		ai_creation_factor = 91
+
+		extra_tech_building_start = 0.2
+	}
+	tp_elven_archery_range_6 = {
+		desc = tp_elven_archery_range_desc
+		potential = {
+			OR = {
+				culture = aen_seidhe
+				culture = aen_elle
+			}
+		}
+		trigger = { TECH_TEMPLE_CONSTRUCTION = 7 }
+		upgrades_from = tp_elven_archery_range_5
+		gold_cost = 500
+		build_time = 2190
+		archers = 200
+		ai_creation_factor = 90
+
+		extra_tech_building_start = 0.2
+	}
 	# Elven barracks
 	tp_elven_barracks_1 = {
 		desc = tp_elven_barracks_desc
@@ -844,7 +1457,7 @@ temple = {
 		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
 		gold_cost = 100
 		build_time = 365
-		heavy_infantry = 45
+		heavy_infantry = 60
 		ai_creation_factor = 96
 		
 		extra_tech_building_start = 1.0
@@ -861,7 +1474,7 @@ temple = {
 		upgrades_from = tp_elven_barracks_1
 		gold_cost = 120
 		build_time = 547
-		heavy_infantry = 55
+		heavy_infantry = 70
 		ai_creation_factor = 95
 
 		extra_tech_building_start = 0.2
@@ -878,7 +1491,7 @@ temple = {
 		upgrades_from = tp_elven_barracks_2
 		gold_cost = 200
 		build_time = 730
-		heavy_infantry = 65
+		heavy_infantry = 80
 		ai_creation_factor = 94
 		
 		extra_tech_building_start = 0.2
@@ -895,7 +1508,7 @@ temple = {
 		upgrades_from = tp_elven_barracks_3
 		gold_cost = 300
 		build_time = 1095
-		heavy_infantry = 75
+		heavy_infantry = 90
 		ai_creation_factor = 93
 		
 		extra_tech_building_start = 0.2
@@ -912,14 +1525,14 @@ temple = {
 		upgrades_from = tp_elven_barracks_4
 		gold_cost = 400
 		build_time = 2190
-		heavy_infantry = 85
+		heavy_infantry = 100
 		ai_creation_factor = 92
 
 		extra_tech_building_start = 0.2
 	}
-	# Temple guard
-	tp_temple_guard_1 = {
-		desc = tp_temple_guard_desc
+	#Elven guard
+	tp_elven_guard_1 = {
+		desc = tp_elven_guard_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
@@ -935,8 +1548,8 @@ temple = {
 
 		extra_tech_building_start = 0.5
 	}
-	tp_temple_guard_2 = {
-		desc = tp_temple_guard_desc
+	tp_elven_guard_2 = {
+		desc = tp_elven_guard_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
@@ -944,7 +1557,7 @@ temple = {
 			}
 		}
 		trigger = { TECH_TEMPLE_CONSTRUCTION = 0 }
-		upgrades_from = tp_temple_guard_1
+		upgrades_from = tp_elven_guard_1
 		gold_cost = 120
 		build_time = 730
 		light_infantry = 30
@@ -953,8 +1566,8 @@ temple = {
 
 		extra_tech_building_start = 1.0
 	}
-	tp_temple_guard_3 = {
-		desc = tp_temple_guard_desc
+	tp_elven_guard_3 = {
+		desc = tp_elven_guard_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
@@ -962,7 +1575,7 @@ temple = {
 			}
 		}
 		trigger = { TECH_TEMPLE_CONSTRUCTION = 2 }
-		upgrades_from = tp_temple_guard_2
+		upgrades_from = tp_elven_guard_2
 		gold_cost = 200
 		build_time = 730
 		light_infantry = 35
@@ -971,8 +1584,8 @@ temple = {
 
 		extra_tech_building_start = 0.2
 	}
-	tp_temple_guard_4 = {
-		desc = tp_temple_guard_desc
+	tp_elven_guard_4 = {
+		desc = tp_elven_guard_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
@@ -980,7 +1593,7 @@ temple = {
 			}
 		}
 		trigger = { TECH_TEMPLE_CONSTRUCTION = 4 }
-		upgrades_from = tp_temple_guard_3
+		upgrades_from = tp_elven_guard_3
 		gold_cost = 300
 		build_time = 1095
 		light_infantry = 40
@@ -989,8 +1602,8 @@ temple = {
 
 		extra_tech_building_start = 0.2
 	}
-	tp_temple_guard_5 = {
-		desc = tp_temple_guard_desc
+	tp_elven_guard_5 = {
+		desc = tp_elven_guard_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
@@ -998,7 +1611,7 @@ temple = {
 			}
 		}
 		trigger = { TECH_TEMPLE_CONSTRUCTION = 6 }
-		upgrades_from = tp_temple_guard_4
+		upgrades_from = tp_elven_guard_4
 		gold_cost = 400
 		build_time = 2190
 		light_infantry = 45
@@ -1007,8 +1620,8 @@ temple = {
 
 		extra_tech_building_start = 0.2
 	}
-	tp_temple_guard_6 = {
-		desc = tp_temple_guard_desc
+	tp_elven_guard_6 = {
+		desc = tp_elven_guard_desc
 		potential = {
 			OR = {
 				culture = aen_seidhe
@@ -1016,7 +1629,7 @@ temple = {
 			}
 		}
 		trigger = { TECH_TEMPLE_CONSTRUCTION = 8 }
-		upgrades_from = tp_temple_guard_5
+		upgrades_from = tp_elven_guard_5
 		gold_cost = 500
 		build_time = 2190
 		light_infantry = 50
