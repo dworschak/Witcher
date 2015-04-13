@@ -1,0 +1,50 @@
+targetted_decisions = {
+
+	challenge_mage_to_duel = {
+		ai_target_filter = home_court
+		filter = all
+		from_potential = {
+			is_ruler = yes
+			ai = no
+			trait = sorcerer
+			NOT = { has_character_modifier = mage_duel_start }
+		}
+	
+		potential = {
+			trait = sorcerer
+			NOT = { character = FROM }
+		}
+		allow = {
+			trait = sorcerer
+			age = 16
+			prisoner = no
+			in_command = no
+			NOT = { 
+				OR = { 
+					trait = wounded
+					trait = maimed
+					trait = incapable
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = {
+			name = TOOLTIPmageduel_targ_dec
+			hidden_tooltip = {
+			FROM = { 
+				add_character_modifier = {
+					name = mage_duel_start
+					duration = 1600
+				}
+			}
+			ROOT = { character_event = { id = mageduel.0 days = 10 } }
+		} } }
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+}
