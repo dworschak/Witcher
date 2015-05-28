@@ -1,0 +1,1953 @@
+namespace = halflings
+	
+#### AMBITIONS EVENTS ####
+### Raise Diplomacy ###
+
+## Visit a Neighbour ##
+character_event = {
+	id = halflings.0
+	title = "EVTTIThalflings.0"
+	desc = "EVTDESChalflings.0"
+	hide_window = yes
+	
+	age = 16
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_ambition = obj_improve_diplomacy
+		NOT = { has_character_flag = visit_neighbour_diplo }
+		culture_group = culture_group_halfling
+		capital_scope = {
+			any_neighbor_province = {
+				owner = { 
+					same_realm = ROOT
+					age = 16
+					culture_group = culture_group_halfling
+				}
+			}
+		}
+	}
+	
+	immediate = {		
+		set_character_flag = visit_neighbour_diplo
+		capital_scope = {
+			random_neighbor_province = {
+				limit = { 
+					owner = { 
+						same_realm = ROOT
+						age = 16
+						culture_group = culture_group_halfling
+					}
+				}
+				owner = { character_event = { id = halflings.1 } }
+			}
+		}
+	}
+	
+	option = {
+		name = "EVTOPThalflings.0"
+	}
+}
+
+## Visit a Neighbour ##
+character_event = {
+	id = halflings.1
+	title = "EVTTIThalflings.1"
+	desc = "EVTDESChalflings.1"
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = { FROM = { character_event = { id = halflings.2 } } }
+	
+	option = {	
+		name = "EVTOPThalflings.1"
+	}
+}
+
+## Visit a Neighbour ##
+character_event = {
+	id = halflings.2
+	title = "EVTTIThalflings.2"
+	desc = "EVTDESChalflings.2"
+	picture = "GFX_evt_halflingsmial"
+
+	is_triggered_only = yes
+
+	option = {
+		name = "EVTOPTAhalflings.2" # Yes! beautiful gift
+		trigger = { wealth = 20 }
+		wealth = -20
+		change_diplomacy = 2
+		FROM = { 
+			set_character_flag = goodgift
+			character_event = { id = halflings.3 days = 1} 
+		}
+		ai_chance = {
+			factor = 60 
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = -4
+				trait = shy
+			}
+			modifier = {
+				factor = 1.5
+				trait = charitable
+			}
+			modifier = {
+				factor = 1.5
+				trait = kind
+			}
+		}
+	}
+	
+	option = {
+		name = "EVTOPTBhalflings.2" # Yes! something useless
+		trigger = { wealth = 10 }
+		wealth = -10
+		change_diplomacy = 1
+		FROM = { 
+			set_character_flag = littlegift
+			character_event = { id = halflings.3 days = 1} 
+		}
+		ai_chance = {
+			factor = 60 
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = -4
+				trait = shy
+			}
+		}
+	}
+	
+	option = {
+		name = "EVTOPTChalflings.2" # Yes! no gift
+		random = {
+			chance = 40			
+			change_diplomacy = 1
+		}
+		change_diplomacy = 2
+		FROM = { 
+			set_character_flag = nogift
+			character_event = { id = halflings.3 days = 1} 
+		}
+		ai_chance = {
+			factor = 60 
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = -4
+				trait = shy
+			}
+			modifier = {
+				factor = 3
+				trait = greedy
+			}
+			modifier = {
+				factor = -3
+				trait = charitable
+			}
+		}
+	}
+	
+	option = {
+		name = "EVTOPTDhalflings.2" # NO!
+		ai_chance = {
+			factor = 40 
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+			modifier = {
+				factor = -4
+				trait = gregarious
+			}
+		}
+	}	
+}
+
+## A relative of yours is coming to your home ##
+character_event = {
+	id = halflings.3
+	title = "EVTTIThalflings.3"
+	desc = "EVTDESChalflings.3"
+	picture = "GFX_evt_halflingsmial"
+	age = 16
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.3" ## I'm happy to see him.
+		trigger = { has_character_flag = goodgift }
+		wealth = 20
+		opinion = { modifier = hobbit_good_gift who = ROOT years = 5 }
+		add_friend = FROM
+		FROM = { character_event = { id = halflings.4 days = 5 } }
+		clr_character_flag = goodgift
+	}
+	option = {
+		name = "EVTOPTBhalflings.3" ## I'm happy to see family.
+		trigger = { has_character_flag = littlegift }
+		wealth = 10
+		opinion = { modifier = hobbit_little_gift who = ROOT years = 5 }
+		add_friend = FROM
+		FROM = { character_event = { id = halflings.4 days = 5 } }
+		clr_character_flag = littlegift
+	}
+	option = {
+		name = "EVTOPTChalflings.3" ## Why did he come?
+		trigger = { has_character_flag = nogift }
+		opinion = { modifier = hobbit_no_gift who = ROOT years = 5 }
+		FROM = { character_event = { id = halflings.5 days = 5 } }
+		clr_character_flag = nogift
+	}	
+}
+
+## end ##
+character_event = {
+	id = halflings.4
+	title = "EVTTIThalflings.4"
+	desc = "EVTDESChalflings.4"
+	picture = "GFX_evt_halflingsmial"
+	age = 16
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.4" ## It was a good meeting.
+		add_friend = FROM
+	}	
+}
+
+## end ##
+character_event = {
+	id = halflings.5
+	title = "EVTTIThalflings.5"
+	desc = "EVTDESChalflings.5"
+	picture = "GFX_evt_halflingsmial"
+	age = 16
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.5" ## Ok.
+	}	
+}
+
+##############################################
+################## PARTY !! ##################
+##############################################
+
+## Will you hold a party? ##
+character_event = {
+	id = halflings.6
+	title = "EVTTIThalflings.6"
+	desc = "EVTDESChalflings.6"
+	picture = "GFX_evt_halflingsmial"
+	age = 16
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { has_global_flag = hobbit_party }
+		culture_group = culture_group_halfling
+		is_ruler = yes
+		NOT = { had_character_flag = { flag=party_host days=365 } }
+		wealth = 100
+	}
+	
+	immediate = {
+		set_global_flag = hobbit_party
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.6" ## Of course i will ! Family
+		set_character_flag = party_host
+		set_character_flag = family_party
+		any_dynasty_member = {
+			set_character_flag = family_party
+			character_event = { id = halflings.9 days = 1 }
+		}
+		character_event = { id = halflings.10 days = 2 }
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = family_person
+			}
+			modifier = {
+				factor = 4
+				NOT = { wealth = 150 }
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.6" ## Of course i will ! Notable halflings
+		set_character_flag = party_host
+		set_character_flag = owners_party
+		any_dynasty_member = {
+			set_character_flag = owners_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}
+		any_playable_ruler = {
+			limit = {
+				culture_group = culture_group_halfling
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = invitation }
+				wealth = 120
+			}
+			set_character_flag = owners_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}		
+		character_event = { id = halflings.10 days = 2 }	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 3
+				trait = gregarious
+			}
+			modifier = {
+				factor = 4
+				wealth = 200
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.6" ## Of course i will ! All Shire
+		trigger = {
+			prestige = 500
+			wealth = 200
+		}
+		set_character_flag = party_host
+		set_character_flag = shire_party
+		any_dynasty_member = {
+			set_character_flag = shire_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}
+		any_playable_ruler = {
+			limit = {
+				culture_group = culture_group_halfling
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = invitation }
+			}
+			set_character_flag = shire_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+			any_dynasty_member = {
+				limit = {
+					NOT = { character = PREV }
+					NOT = { has_character_flag = invitation }
+				}
+				set_character_flag = shire_party
+				set_character_flag = invitation
+				character_event = { id = halflings.9 days = 1 }
+			}
+		}		
+		character_event = { id = halflings.10 days = 2 }
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = gregarious
+			}
+			modifier = {
+				factor = 5
+				wealth = 300
+			}
+		}	
+	}	
+	
+	option = {
+		name = "EVTOPTDhalflings.6" ## No, I won't.
+		clr_global_flag = hobbit_party
+	}	
+}
+
+## Will you hold a party? - Majority ! ##
+character_event = {
+	id = halflings.7
+	title = "EVTTIThalflings.7"
+	desc = "EVTDESChalflings.7"
+	picture = "GFX_evt_halflingsmial"	
+	
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { has_global_flag = hobbit_party }
+		culture_group = culture_group_halfling
+		is_ruler = yes
+		age = 33
+		NOT = { age = 34 }
+		wealth = 100
+	}
+	
+	immediate = {
+		set_global_flag = hobbit_party
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.7" ## Of course i will ! Family
+		set_character_flag = party_host
+		set_character_flag = family_party
+		any_dynasty_member = {
+			set_character_flag = family_party
+			character_event = { id = halflings.9 days = 1 }
+		}
+		character_event = { id = halflings.10 days = 2 }
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = family_person
+			}
+			modifier = {
+				factor = 4
+				NOT = { wealth = 150 }
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.7" ## Of course i will ! Notable halflings
+		set_character_flag = party_host
+		set_character_flag = owners_party
+		any_dynasty_member = {
+			set_character_flag = owners_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}
+		any_playable_ruler = {
+			limit = {
+				culture_group = culture_group_halfling
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = invitation }
+				wealth = 120
+			}
+			set_character_flag = owners_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}		
+		character_event = { id = halflings.10 days = 2 }	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 3
+				trait = gregarious
+			}
+			modifier = {
+				factor = 4
+				wealth = 200
+			}
+		}	
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.7" ## Of course i will ! All Shire
+		trigger = {
+			prestige = 500
+			wealth = 200
+		}
+		set_character_flag = party_host
+		set_character_flag = shire_party
+		any_dynasty_member = {
+			set_character_flag = shire_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}
+		any_playable_ruler = {
+			limit = {
+				culture_group = culture_group_halfling
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = invitation }
+			}
+			set_character_flag = shire_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+			any_dynasty_member = {
+				limit = {
+					NOT = { character = PREV }
+					NOT = { has_character_flag = invitation }
+				}
+				set_character_flag = shire_party
+				set_character_flag = invitation
+				character_event = { id = halflings.9 days = 1 }
+			}
+		}		
+		character_event = { id = halflings.10 days = 2 }	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = gregarious
+			}
+			modifier = {
+				factor = 5
+				wealth = 300
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTDhalflings.7" ## No, I won't.
+		clr_global_flag = hobbit_party
+	}		
+}
+
+## Will you hold a party? - 100 years old ! ##
+character_event = {
+	id = halflings.8
+	title = "EVTTIThalflings.8"
+	desc = "EVTDESChalflings.8"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { has_global_flag = hobbit_party }
+		culture_group = culture_group_halfling
+		is_ruler = yes
+		age = 100
+		NOT = { age = 101 }
+		wealth = 100
+	}
+	
+	immediate = {
+		set_global_flag = hobbit_party
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.8" ## Of course i will ! Family
+		set_character_flag = party_host
+		set_character_flag = family_party
+		any_dynasty_member = {
+			set_character_flag = family_party
+			character_event = { id = halflings.9 days = 1 }
+		}
+		character_event = { id = halflings.10 days = 2 }
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = family_person
+			}
+			modifier = {
+				factor = 4
+				NOT = { wealth = 150 }
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.8" ## Of course i will ! Notable halflings
+		set_character_flag = party_host
+		set_character_flag = owners_party
+		any_dynasty_member = {
+			set_character_flag = owners_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}
+		any_playable_ruler = {
+			limit = {
+				culture_group = culture_group_halfling
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = invitation }
+				wealth = 120
+			}
+			set_character_flag = owners_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}		
+		character_event = { id = halflings.10 days = 2 }		
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 3
+				trait = gregarious
+			}
+			modifier = {
+				factor = 4
+				wealth = 200
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.8" ## Of course i will ! All Shire
+		trigger = {
+			prestige = 500
+			wealth = 200
+		}
+		set_character_flag = party_host
+		set_character_flag = shire_party
+		any_dynasty_member = {
+			set_character_flag = shire_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+		}
+		any_playable_ruler = {
+			limit = {
+				culture_group = culture_group_halfling
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = invitation }
+			}
+			set_character_flag = shire_party
+			set_character_flag = invitation
+			character_event = { id = halflings.9 days = 1 }
+			any_dynasty_member = {
+				limit = {
+					NOT = { character = PREV }
+					NOT = { has_character_flag = invitation }
+				}
+				set_character_flag = shire_party
+				set_character_flag = invitation
+				character_event = { id = halflings.9 days = 1 }
+			}
+		}		
+		character_event = { id = halflings.10 days = 2 }
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = gregarious
+			}
+			modifier = {
+				factor = 5
+				wealth = 300
+			}
+		}	
+	}	
+	
+	option = {
+		name = "EVTOPTDhalflings.8" ## No, I won't.
+		clr_global_flag = hobbit_party
+	}	
+}
+
+## Guest - Will you join a party? ##
+character_event = {
+	id = halflings.9
+	title = "EVTTIThalflings.9"
+	desc = "EVTDESChalflings.9"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.9" ## Of course i will !
+		ai_chance = { factor = 90 }
+		clr_character_flag = invitation
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.9" ## No, I won't.
+		ai_chance = { factor = 10 }
+		clr_character_flag = shire_party
+		clr_character_flag = family_party
+		clr_character_flag = owners_party
+		clr_character_flag = invitation
+	}	
+}
+
+## Goodies - Pipe-Weed ##
+character_event = {
+	id = halflings.10
+	title = "EVTTIThalflings.10"
+	desc = "EVTDESChalflings.10"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	immediate = {
+		character_event = { id = halflings.11 days = 1 }
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.10" ## Longbottom Leaves!
+		trigger = {
+			OR = {
+				wealth = 20
+				AND = {
+					has_character_flag = shire_party
+					wealth = 30
+				}
+			}
+		}
+		wealth = -20
+		set_character_flag = greatpipeweed
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -10
+		}	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+		}		
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.10" ## Common Leaves
+		trigger = {
+			OR = {
+				wealth = 10
+				AND = {
+					has_character_flag = shire_party
+					wealth = 15
+				}
+			}
+		}
+		wealth = -10
+		set_character_flag = lowerpipeweed
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -5
+		}	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+		}			
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.10" ## No Pipe-Weed!
+		set_character_flag = nopipeweed
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = greedy
+			}
+		}
+	}		
+}
+
+## Goodies - Food ##
+character_event = {
+	id = halflings.11
+	title = "EVTTIThalflings.11"
+	desc = "EVTDESChalflings.11"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	immediate = {
+		character_event = { id = halflings.12 days = 1 }
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.11" ## All the food i can find!
+		trigger = {
+			OR = {
+				wealth = 30
+				AND = {
+					has_character_flag = shire_party
+					wealth = 45
+				}
+			}
+		}
+		wealth = -30
+		set_character_flag = greatfood
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -15
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+		}			
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.11" ## More beers than foods.
+		trigger = {
+			OR = {
+				wealth = 20
+				AND = {
+					has_character_flag = shire_party
+					wealth = 30
+				}
+			}
+		}
+		wealth = -20
+		set_character_flag = beersforparty
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -10
+		}	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+		}		
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.11" ## More foods than beers
+		wealth = -10
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -5
+		}			
+		set_character_flag = foodforparty
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = greedy
+			}
+		}
+	}		
+}
+
+## Goodies - What kind of animation? ##
+character_event = {
+	id = halflings.12
+	title = "EVTTIThalflings.12"
+	desc = "EVTDESChalflings.12"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	immediate = {
+		character_event = { id = halflings.13 days = 1 }
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.12" ## Musiciens and Fireworks!
+		trigger = {
+			OR = {
+				wealth = 20
+				AND = {
+					has_character_flag = shire_party
+					wealth = 30
+				}
+			}
+		}
+		wealth = -20
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -10
+		}		
+		set_character_flag = greatspectacle
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.12" ## Musiciens only!
+		trigger = {
+			OR = {
+				wealth = 10
+				AND = {
+					has_character_flag = shire_party
+					wealth = 15
+				}
+			}
+		}
+		wealth = -10
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -5
+		}		
+		set_character_flag = musicforparty
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.12" ## Food will be enough
+		set_character_flag = onlyfoodinparty
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = greedy
+			}
+		}
+	}		
+}
+
+
+## Goodies - Gifts for the Guests? ##
+character_event = {
+	id = halflings.13
+	title = "EVTTIThalflings.13"
+	desc = "EVTDESChalflings.13"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	immediate = {
+		character_event = { id = halflings.14 days = 1 }
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.13" ## Great Gifts!
+		trigger = {
+			OR = {
+				AND = {
+					has_character_flag = shire_party
+					wealth = 100
+				}
+				AND = {
+					has_character_flag = owners_party
+					wealth = 75
+				}
+				AND = {
+					has_character_flag = family_party
+					wealth = 50
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -100
+			set_character_flag = greatgiftsparty
+		}
+		if = {
+			limit = {
+				has_character_flag = owners_party
+			}
+			wealth = -75
+			set_character_flag = greatgiftsparty
+		}
+		if = {
+			limit = {
+				has_character_flag = family_party
+			}
+			wealth = -50
+			set_character_flag = greatgiftsparty
+		}	
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+		}	
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.13" ## Small Gifts!
+		trigger = {
+			OR = {
+				AND = {
+					has_character_flag = shire_party
+					wealth = 75
+				}
+				AND = {
+					has_character_flag = owners_party
+					wealth = 50
+				}
+				AND = {
+					has_character_flag = family_party
+					wealth = 25
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = shire_party
+			}
+			wealth = -75
+			set_character_flag = smallgiftsparty
+		}
+		if = {
+			limit = {
+				has_character_flag = owners_party
+			}
+			wealth = -50
+			set_character_flag = smallgiftsparty
+		}
+		if = {
+			limit = {
+				has_character_flag = family_party
+			}
+			wealth = -25
+			set_character_flag = smallgiftsparty
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+		}	
+	}	
+	
+	option = {
+		name = "EVTOPTChalflings.13" ## Food will be enough
+		set_character_flag = nogiftsparty
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				trait = greedy
+			}
+		}
+	}		
+}
+
+## Goodies - Time to prepare the party ##
+character_event = {
+	id = halflings.14
+	title = "EVTTIThalflings.14"
+	desc = "EVTDESChalflings.14"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.14" ## ok.
+		narrative_event = { id = halflings.15 days = 7 }
+	}	
+}
+
+
+## The Party will begin ! ##
+narrative_event = {
+	id = halflings.15
+	title = "EVTTIThalflings.15"
+	desc = "EVTDESChalflings.15"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.15" ## My Friends will come!
+		set_global_flag = hobbit_party_started
+		narrative_event = { id = halflings.17 days = 7 }
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { has_character_flag = comingtoparty }
+			}
+			set_character_flag = comingtoparty
+			character_event = { id = halflings.16 }
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+				NOT = { has_character_flag = comingtoparty }
+			}
+			set_character_flag = comingtoparty
+			character_event = { id = halflings.16 }
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }
+					NOT = { character = PREV }
+					NOT = { has_character_flag = comingtoparty }					
+				}
+				set_character_flag = comingtoparty
+				character_event = { id = halflings.16 }
+			}
+		}		
+	}	
+}
+
+
+## The Party is beginning - Coming of the Guests! ##
+character_event = {
+	id = halflings.16
+	title = "EVTTIThalflings.16"
+	desc = "EVTDESChalflings.16"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_character_flag = comingtoparty
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.16" ## What a wonderful gift!
+		trigger = {
+			FROM = {
+				has_character_flag = greatgiftsparty
+			}
+		}
+		add_friend = FROM
+		wealth = 10
+		opinion = { modifier = hobbit_good_gift who = FROM years = 7 }
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.16" ## That's a good gift.
+		trigger = {
+			FROM = {
+				has_character_flag = smallgiftsparty
+			}
+		}
+		wealth = 5
+		opinion = { modifier = hobbit_little_gift who = FROM years = 5 }
+	}	
+
+	option = {
+		name = "EVTOPTChalflings.16" ## No gifts at all?
+		trigger = {
+			FROM = {
+				has_character_flag = nogiftsparty
+			}
+		}
+		remove_friend = FROM
+		opinion = { modifier = hobbit_no_gift who = FROM years = 5 }
+	}		
+}
+
+
+## End of the Party ##
+narrative_event = {
+	id = halflings.17
+	title = "EVTTIThalflings.17"
+	desc = "EVTDESChalflings.17"
+	picture = "GFX_evt_halflingsmial"
+	
+	capable_only = yes
+	prisoner = no
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_global_flag = hobbit_party
+		clr_global_flag = hobbit_party_started
+		clr_character_flag = party_host
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.17" ## This was a wonderful party !
+		trigger = {
+			has_character_flag = greadpipeweed
+			has_character_flag = greatfood
+			has_character_flag = greatspectacle
+		}
+		prestige = 500
+		random = { chance = 25 give_nickname = nick_goodhost }	
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_greatparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_greatparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_greatparty who = ROOT years = 7 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}
+	}	
+	
+	option = {
+		name = "EVTOPTBhalflings.17" ## This was a great party !
+		trigger = {
+			OR = {
+				AND = {
+					has_character_flag = greadpipeweed
+					has_character_flag = greatfood
+					NOT = { has_character_flag = greatspectacle }
+				}
+				AND = {
+					has_character_flag = greatspectacle
+					has_character_flag = greatfood
+					NOT = { has_character_flag = greadpipeweed }
+				}
+				AND = {
+					has_character_flag = greatspectacle
+					has_character_flag = greadpipeweed
+					NOT = { has_character_flag = greatfood }
+				}
+			}
+		}
+		prestige = 350
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_greatparty who = ROOT years = 5 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_greatparty who = ROOT years = 5 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_greatparty who = ROOT years = 5 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}		
+	}		
+
+	option = {
+		name = "EVTOPTChalflings.17" ## This was a good - Good food.
+		trigger = {
+			has_character_flag = greatfood
+			### Lower Pipe-Weed ###
+			OR = {
+				has_character_flag = lowerpipeweed
+				has_character_flag = nopipeweed
+			}
+			### Poor Music ###
+			OR = {
+				has_character_flag = musicforparty
+				has_character_flag = onlyfoodinparty
+			}
+		}
+		prestige = 200
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_goodparty who = ROOT years = 7 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}		
+	}
+
+	option = {
+		name = "EVTOPTDhalflings.17" ## This was a good - Good Pipe-Weed.
+		trigger = {
+			has_character_flag = greatpipeweed
+			### Lower Food ###
+			OR = {
+				has_character_flag = beersforparty
+				has_character_flag = foodforparty
+			}
+			### Poor Music ###
+			OR = {
+				has_character_flag = musicforparty
+				has_character_flag = onlyfoodinparty
+			}
+		}
+		prestige = 170
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 5 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 5 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_goodparty who = ROOT years = 5 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}			
+	}	
+	
+	option = {
+		name = "EVTOPTEhalflings.17" ## This was a good - Good Music.
+		trigger = {
+			has_character_flag = greatspectacle
+			### Lower Food ###
+			OR = {
+				has_character_flag = beersforparty
+				has_character_flag = foodforparty
+			}
+			### Lower Pipe-Weed ###
+			OR = {
+				has_character_flag = lowerpipeweed
+				has_character_flag = nopipeweed
+			}
+		}
+		prestige = 180
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 3 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 3 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_goodparty who = ROOT years = 3 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}			
+	}
+
+	option = {
+		name = "EVTOPTFhalflings.17" ## This was a correct party !
+		trigger = {
+			OR = {
+				AND = {
+					has_character_flag = beersforparty
+					has_character_flag = lowerpipeweed
+					NOT = { has_character_flag = greatspectacle }
+				}
+				AND = {
+					has_character_flag = musicforparty
+					has_character_flag = beersforparty
+					NOT = { has_character_flag = greadpipeweed }
+				}
+				AND = {
+					has_character_flag = musicforparty
+					has_character_flag = lowerpipeweed
+					NOT = { has_character_flag = greatfood }
+				}
+			}
+		}
+		prestige = 100
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 1 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_goodparty who = ROOT years = 1 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_goodparty who = ROOT years = 1 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}			
+	}	
+
+	option = {
+		name = "EVTOPTGhalflings.17" ## This was a sad party !
+		trigger = {
+			OR = {
+				AND = {
+					has_character_flag = foodforparty
+					has_character_flag = nopipeweed
+					NOT = { has_character_flag = greatspectacle }
+				}
+				AND = {
+					has_character_flag = onlyfoodinparty
+					has_character_flag = foodforparty
+					NOT = { has_character_flag = greadpipeweed }
+				}
+				AND = {
+					has_character_flag = onlyfoodinparty
+					has_character_flag = nopipeweed
+					NOT = { has_character_flag = greatfood }
+				}
+			}
+		}
+		prestige = -50
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_boringparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_boringparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_boringparty who = ROOT years = 7 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}	
+	}	
+	
+	option = {
+		name = "EVTOPTHhalflings.17" ## This was a bad party !
+		trigger = {
+			has_character_flag = foodforparty
+			has_character_flag = nopipeweed
+			has_character_flag = onlyfoodinparty
+		}
+		prestige = -150
+		random = { chance = 25 give_nickname = nick_terriblehost }	
+		random = { chance = 80 add_trait = greedy }	
+		
+		
+		any_dynasty_member = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+			}
+			opinion = { modifier = hobbit_badparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+		}
+		any_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+				NOT = { character = ROOT }
+				NOT = { dynasty = ROOT }
+			}
+			opinion = { modifier = hobbit_badparty who = ROOT years = 7 }
+			clr_character_flag = shire_party
+			clr_character_flag = owners_party
+			clr_character_flag = family_party
+			any_dynasty_member = {
+				limit = {
+					OR = {
+						has_character_flag = shire_party
+						has_character_flag = owners_party
+						has_character_flag = family_party
+					}
+					NOT = { character = ROOT }	
+					NOT = { character = PREV }
+				}
+				opinion = { modifier = hobbit_badparty who = ROOT years = 7 }
+				clr_character_flag = shire_party
+				clr_character_flag = owners_party
+				clr_character_flag = family_party
+			}
+		}		
+	}		
+}
+
+
+#### NOW FLAVOUR EVENTS ####
+
+## Children are playing together - Parent first event ##
+character_event = {
+	id = halflings.18
+	title = "EVTTIThalflings.18"
+	desc = "EVTDESChalflings.18"
+	picture = "GFX_evt_halflingsmial"
+	
+	trigger = {
+		has_global_flag = hobbit_party_started
+		OR = {
+			has_character_flag = shire_party
+			has_character_flag = owners_party
+			has_character_flag = family_party
+		}
+		NOT = { has_character_flag = party_host }
+		num_of_children = 1
+		NOT = { has_character_flag = friendforson }
+		NOT = { has_global_flag = friendshalflings }
+	}
+	
+	mean_time_to_happen = {
+		days = 20
+		
+		modifier = {
+			factor = 0.5
+			trait = kind
+		}	
+		modifier = {
+			factor = 0.3
+			trait = gregarious
+		}	
+		modifier = {
+			factor = 3
+			trait = cruel
+		}	
+		modifier = {
+			factor = 2
+			trait = proud
+		}	
+		modifier = {
+			factor = 0.1
+			trait = charismatic_negotiator
+		}		
+		modifier = {
+			factor = 0.7
+			trait = humble
+		}	
+		modifier = {
+			factor = 0.7
+			trait = strong
+		}	
+		modifier = {
+			factor = 0.7
+			trait = genius
+		}			
+	}
+	
+	option = {
+		name = "EVTOPTAhalflings.18" ## He'll met new friends.
+		set_global_flag = friendshalflings
+		set_character_flag = friendforson
+		random_child = {
+			limit = {
+				NOT = { age = 33 }
+				is_female = no
+			}
+			character_event = { id = halflings.19 }
+			set_character_flag = futurefriend
+		}	
+		random_playable_ruler = {
+			limit = {
+				OR = {
+					has_character_flag = shire_party
+					has_character_flag = owners_party
+					has_character_flag = family_party
+				}
+			}
+			random_child = {
+				limit = {
+					NOT = { age = 33 }
+					is_female = no
+				}
+				character_event = { id = halflings.19 }
+				set_character_flag = futurefriend
+			}
+		}		
+	}
+
+	option = {
+		name = "EVTOPTBhalflings.18" ## No, stay with me.
+	}
+}
+
+## You're plaing with another child. ##
+character_event = {
+	id = halflings.19
+	title = "EVTTIThalflings.19"
+	desc = "EVTDESChalflings.19"
+	picture = "GFX_evt_halflingsmial"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.19"
+		random_child = {
+			limit = {
+				NOT = { age = 33 }
+				has_character_flag = futurefriend
+			}
+			character_event = { id = halflings.20 }
+		}
+	}
+
+	option = {
+		name = "EVTOPTBhalflings.19"
+		trigger = { ai = no }
+		random_child = {
+			limit = {
+				NOT = { age = 33 }
+				has_character_flag = futurefriend
+			}
+			clr_character_flag = futurefriend
+		}
+		clr_global_flag = friendshalflings
+	}
+}
+
+## Will you become friends? ##
+character_event = {
+	id = halflings.20
+	title = "EVTTIThalflings.20"
+	desc = "EVTDESChalflings.20"
+	picture = "GFX_evt_halflingsmial"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.20" ## Yes!
+		ai_chance = {
+			factor = 80
+		}
+		FROM = {
+			character_event = { id = halflings.21 }
+		}
+		add_friend = FROM
+		father = {
+			character_event = { id = halflings.23 }
+		}
+		clr_character_flag = futurefriend
+		clr_global_flag = friendshalflings
+	}
+	option = {
+		name = "EVTOPTBhalflings.20" ## No!
+		ai_chance = {
+			factor = 20
+		}
+		FROM = {
+			character_event = { id = halflings.22 }
+		}
+		clr_character_flag = futurefriend
+		clr_global_flag = friendshalflings
+	}
+}
+
+## You're Friends! ##
+character_event = {
+	id = halflings.21
+	title = "EVTTIThalflings.21"
+	desc = "EVTDESChalflings.21"
+	picture = "GFX_evt_halflingsmial"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.21" ## Great!
+		add_friend = FROM
+		father = {
+			character_event = { id = halflings.23 }
+		}
+	}
+}
+
+## You're not Friends! ##
+character_event = {
+	id = halflings.22
+	title = "EVTTIThalflings.22"
+	desc = "EVTDESChalflings.22"
+	picture = "GFX_evt_halflingsmial"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.22" ## So bad...
+		random_list = {
+			15 = { add_trait = depressed }
+			85 = { }
+		}
+	}
+}
+
+## father is informed ##
+character_event = {
+	id = halflings.23
+	title = "EVTTIThalflings.23"
+	desc = "EVTDESChalflings.23"
+	picture = "GFX_evt_halflingsmial"
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "EVTOPTAhalflings.23" ## Great!
+		add_friend = FROM
+		FROM = {
+			custom_tooltip = { text = YOURCHILD }
+		}
+		FROMFROM = {
+			custom_tooltip = { text = FRIENDCHILD }
+		}
+	}
+}
