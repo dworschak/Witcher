@@ -12,14 +12,16 @@ character_event = {
 	trigger = {
 		NOT = { has_character_modifier = old_age }
 		NOT = { culture = wilderness }
+		NOT = { trait = elf_race }
+		NOT = { trait = dryad_race }
 		OR = {
 			AND = {
 				age = 50
 				NOT = { trait = elf_race }
-				NOT = { trait = dwarf_race}
+				NOT = { trait = dryad_race }
+				NOT = { trait = dwarf_race }
 				NOT = { trait = halfling_race }
 				NOT = { trait = gnome_race }
-				NOT = { trait = dryad_race}
 				NOT = { trait = witcher }
 				NOT = { trait = sorcerer }
 			}
@@ -37,9 +39,9 @@ character_event = {
 			AND = {
 				age = 300
 				OR = {
-					trait = sorcerer
 					trait = elf_race
 					trait = dryad_race
+					trait = sorcerer
 					trait = witcher
 				}
 			}
@@ -71,8 +73,6 @@ character_event = {
 		modifier = { factor = 5 trait = dwarf_race }
 		modifier = { factor = 5 trait = halfling_race }
 		modifier = { factor = 5 trait = gnome_race }
-		modifier = { factor = 10 trait = elf_race }
-		modifier = { factor = 10 trait = dryad_race }
 		modifier = { factor = 10 trait = witcher }
 		modifier = { factor = 10 trait = sorcerer }
 	}
@@ -83,49 +83,9 @@ character_event = {
 	}
 }
 
-# Elf and dryad old age culling
-character_event = {
-	id = old_age.2
-	
-	hide_window = yes
-	
-	min_age = 300
-	
-	trigger = {
-		NOT = { culture = wilderness }
-		has_character_modifier = old_age
-		OR = {
-			trait = elf_race
-			trait = dryad_race
-		}
-		NOT = { trait = sorcerer }
-	}
-	
-	mean_time_to_happen = {
-		months = 1200
-		modifier = { factor = 0.9 age = 300 NOT = { age = 325 } }
-		modifier = { factor = 0.8 age = 325 NOT = { age = 350 } }
-		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
-		modifier = { factor = 0.4 age = 375 NOT = { age = 400 } }
-		modifier = { factor = 0.1 age = 400 }
-		modifier = { factor = 0.01 trait = incapable }
-	}
-	
-	option = {
-		name = OK
-		trigger = { NOT = { trait = incapable } }
-		death = { death_reason = death_natural }
-	}
-	option = {
-		name = OK
-		trigger = { trait = incapable }
-		death = { death_reason = death_trait }
-	}
-}
-
 # Dwarf old age culling
 character_event = {
-	id = old_age.4
+	id = old_age.2
 	
 	hide_window = yes
 	
@@ -139,7 +99,6 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 600
-
 		modifier = { factor = 0.65 age = 100 NOT = { age = 125 } }
 		modifier = { factor = 0.4 age = 125 NOT = { age = 150 } }
 		modifier = { factor = 0.1 age = 150 }
@@ -160,7 +119,7 @@ character_event = {
 
 # Halfling old age culling
 character_event = {
-	id = old_age.5
+	id = old_age.3
 	
 	hide_window = yes
 	
@@ -191,37 +150,9 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
-
-# Incapable elf dryad and sorcerer culling
-character_event = {
-	id = old_age.3
-	
-	hide_window = yes
-	
-	trigger = {
-		NOT = { culture = wilderness }
-		trait = incapable
-		OR = {
-			trait = elf_race
-			trait = dryad_race
-			trait = sorcerer
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 600
-		modifier = { factor = 0.1 has_character_modifier = old_age }
-	}
-	
-	option = {
-		name = OK
-		death = { death_reason = death_trait }
-	}
-}
-
 # Incapable dwarf, halfling, and gnome culling
 character_event = {
-	id = old_age.6
+	id = old_age.5
 	
 	hide_window = yes
 	
@@ -245,7 +176,69 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
-
+# Elf and dryad old age culling
+character_event = {
+	id = old_age.2
+	
+	hide_window = yes
+	
+	min_age = 300
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		NOT = { trait = sorcerer }
+		trait = elf_race
+		trait = dryad_race
+		has_character_modifier = old_age
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 0.9 age = 300 NOT = { age = 325 } }
+		modifier = { factor = 0.8 age = 325 NOT = { age = 350 } }
+		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
+		modifier = { factor = 0.4 age = 375 NOT = { age = 400 } }
+		modifier = { factor = 0.1 age = 400 }
+		modifier = { factor = 0.01 trait = incapable }
+	}
+	
+	option = {
+		name = OK
+		trigger = { NOT = { trait = incapable } }
+		death = { death_reason = death_natural }
+	}
+	option = {
+		name = OK
+		trigger = { trait = incapable }
+		death = { death_reason = death_trait }
+	}
+}
+# Incpable elf, dryad and sorcerer culling
+character_event = {
+	id = old_age.3
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		OR = {
+			trait = elf_race
+			trait = dryad_race
+			trait = sorcerer
+		}
+		trait = incapable
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.1 has_character_modifier = old_age }
+	}
+	
+	option = {
+		name = OK
+		death = { death_reason = death_trait }
+	}
+}
 ################################################
 # Old age flavor events from VIET
 ################################################
