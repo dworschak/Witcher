@@ -1,0 +1,909 @@
+
+###########################################
+#                                         #
+# SoA minor religious events              #             
+#                                         #
+# ID SoA.5200-SoA.5399                    #
+#                                         #
+###########################################
+
+# Written by Tobias Bodlund
+
+namespace = SoA
+
+###########################################
+#                                         #
+# Relics - ID SoA.5200-SoA.5209           #
+#                                         #
+###########################################
+
+
+# Plunders relic in war
+character_event = {
+	id = SoA.5200
+	desc = EVTDESC_SoA_5200
+	picture = GFX_evt_large_army
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		war = yes
+		in_command = yes
+		NOT = {
+			has_character_modifier = owns_relic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 10000
+	}
+	
+	option = {
+		name = EVTOPTA_SoA_5200
+		add_character_modifier = {
+			name = owns_relic
+			duration = -1
+			inherit = yes
+		}
+		piety = 10
+	}
+	option = {
+		name = EVTOPTB_SoA_5200
+		add_trait = charitable
+		piety = 10
+	}
+}
+
+# Buys relic at market
+character_event = {
+	id = SoA.5201
+	desc = EVTDESC_SoA_5201
+	picture = GFX_evt_market
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		wealth = 20
+		NOT = {
+			has_character_modifier = owns_relic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5201
+		wealth = -10
+		add_character_modifier = {
+			name = owns_relic
+			duration = -1
+			inherit = yes
+		}
+		piety = 10
+	}
+	option = {
+		name = EVTOPTB_SoA_5201
+		if = {
+			limit = { NOT = { trait = cynical } }
+			random = {
+				chance = 20
+				add_trait = cynical
+			}
+		}
+	}
+}
+
+# Given relic by priest who feels he cannot protect it at his little church
+character_event = {
+	id = SoA.5202
+	desc = EVTDESC_SoA_5202
+	picture = GFX_evt_throne_room
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		NOT = {
+			has_character_modifier = owns_relic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5202
+		add_character_modifier = {
+			name = owns_relic
+			duration = -1
+			inherit = yes
+		}
+		piety = 10
+	}
+}
+
+# Misplaced relic
+character_event = {
+	id = SoA.5203
+	desc = EVTDESC_SoA_5203
+	picture = GFX_evt_bad_news
+	border = GFX_event_normal_frame_religion
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		OR = {
+			trait = imbecile
+			trait = slow
+			trait = slothful
+		}
+		has_character_modifier = owns_relic
+	}
+	
+	mean_time_to_happen = {
+		months = 2500
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5203
+		remove_character_modifier = owns_relic
+	}
+}
+
+# Relic is stolen by raiders
+character_event = {
+	id = SoA.5204
+	desc = EVTDESC_SoA_5204
+	picture = GFX_evt_burning_house
+	border = GFX_event_normal_frame_religion
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		NOT = {
+			any_demesne_province = {
+				controlled_by = ROOT
+			}
+		}
+		has_character_modifier = owns_relic
+	}
+	
+	mean_time_to_happen = {
+		months = 50
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5204
+		remove_character_modifier = owns_relic
+	}
+}
+
+# Relic mixed up with other bones
+character_event = {
+	id = SoA.5205
+	desc = EVTDESC_SoA_5205
+	picture = GFX_evt_son_asking_father
+	border = GFX_event_normal_frame_religion
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		has_character_modifier = owns_relic
+	}
+	
+	mean_time_to_happen = {
+		months = 10000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5205
+		remove_character_modifier = owns_relic
+	}
+	option = {
+		name = EVTOPTB_SoA_5205
+		trigger = {
+			NOT = { trait = zealous }
+		}
+		random = {
+			chance = 30
+			add_trait = arbitrary
+		}
+	}
+	option = {
+		name = EVTOPTC_SoA_5205
+		tooltip_info = learning
+		trigger = {
+			learning = 13
+		}
+	}
+}
+
+# Use relic to heal sickness?
+character_event = {
+	id = SoA.5206
+	desc = EVTDESC_SoA_5206
+	picture = GFX_evt_illness
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = ill
+		has_character_modifier = owns_relic
+	}
+	
+	mean_time_to_happen = {
+		months = 250
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5206
+		trigger = {
+			NOT = { trait = cynical }
+		}
+		random = {
+			chance = 20
+			remove_trait = ill
+			if = {
+				limit = {
+					NOT = {
+						trait = zealous
+					}
+				}
+				add_trait = zealous
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5206
+		trigger = {
+			NOT = { trait = zealous }
+		}
+		random = {
+			chance = 20
+			remove_trait = ill
+			if = {
+				limit = {
+					NOT = {
+						trait = cynical
+					}
+				}
+				add_trait = cynical
+			}
+		}
+	}
+}
+
+# Bring relic out to bless the fields
+character_event = {
+	id = SoA.5207
+	desc = EVTDESC_SoA_5207
+	picture = GFX_evt_stone_church
+	border = GFX_event_normal_frame_religion
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		month = 4
+		NOT = { month = 7 }
+		has_character_modifier = owns_relic
+	}
+	
+	mean_time_to_happen = {
+		months = 250
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5207
+		random_demesne_province = {
+			add_province_modifier = {
+				name = appeased_religious
+				duration = 1800
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5207
+			if = {
+				limit = {
+					NOT = {
+						trait = cynical
+					}
+				}
+				add_trait = cynical
+			}
+	}
+}
+
+# Commerce with relics
+character_event = {
+	id = SoA.5208
+	desc = EVTDESC_SoA_5208
+	picture = GFX_evt_market
+	border = GFX_event_normal_frame_religion
+
+	ai = no
+	min_age = 15
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		NOT = {
+			has_character_modifier = defied_church
+		}
+		NOT = {
+			has_character_modifier = church_appreciates
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 2500
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5208
+		piety = 10
+		scaled_wealth = -0.1
+		add_character_modifier = {
+				name = church_appreciates
+				duration = 24
+			}
+	}
+	option = {
+		name = EVTOPTB_SoA_5208
+			add_character_modifier = {
+				name = defied_church
+				duration = 24
+			}
+	}
+	option = {
+		name = EVTOPTC_SoA_5208
+		trigger = {
+			NOT = { trait = zealous }
+		}
+		scaled_wealth = 0.2
+		add_character_modifier = {
+			name = defied_church
+			duration = 24
+		}
+		if = {
+			limit = { NOT = { trait = greedy } }
+			add_trait = greedy
+		}
+		if = {
+			limit = { NOT = { trait = cynical } }
+			random = {
+				chance = 30
+				add_trait = cynical
+			}
+		}
+	}
+}
+
+# Donate owned relic to church?
+character_event = {
+	id = SoA.5209
+	desc = EVTDESC_SoA_5209
+	picture = GFX_evt_throne_room
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		has_character_modifier = owns_relic
+	}
+	
+	mean_time_to_happen = {
+		months = 3000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5209
+		remove_character_modifier = owns_relic
+		piety = 30
+			if = {
+				limit = { NOT = { trait = humble } }
+				add_trait = humble
+			}
+	}
+	option = {
+		name = EVTOPTB_SoA_5209
+		remove_character_modifier = owns_relic
+		piety = 30
+		prestige = 30
+		add_character_modifier = {
+			name = church_appreciates
+			duration = 36
+		}
+	}
+	option = {
+		name = EVTOPTC_SoA_5209
+		add_character_modifier = {
+			name = defied_church
+			duration = 36
+		}
+	}
+}
+
+###########################################
+#                                         #
+# Monks events - ID SoA.5210-SoA.5239     #
+#                                         #
+###########################################
+
+
+# Monks make fantastic beer
+character_event = {
+	id = SoA.5210
+	desc = EVTDESC_SoA_5210
+	picture = GFX_evt_monastery_monks
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		location = {
+			empire = { title = e_the_north }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2500
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5210
+		random = {
+			chance = 50
+			change_learning = 1
+		}
+		if = {
+			limit = { NOT = { trait = drunkard } }
+			random = {
+				chance = 20
+				add_trait = drunkard
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5210
+		if = {
+			limit = { NOT = { trait = temperate } }
+			random = {
+				chance = 20
+				add_trait = temperate
+			}
+		}
+	}
+}
+
+# Monks make great wine
+character_event = {
+	id = SoA.5211
+	desc = EVTDESC_SoA_5211
+	picture = GFX_evt_monastery_monks
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		location = {
+			empire = { title = e_nilfgaard }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2500
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5211
+		random = {
+			chance = 50
+			change_learning = 1
+		}
+		if = {
+			limit = { NOT = { trait = drunkard } }
+			random = {
+				chance = 20
+				add_trait = drunkard
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5211
+		if = {
+			limit = { NOT = { trait = temperate } }
+			random = {
+				chance = 20
+				add_trait = temperate
+			}
+		}
+	}
+}
+
+# Monks have healing herbs
+character_event = {
+	id = SoA.5212
+	desc = EVTDESC_SoA_5212
+	picture = GFX_evt_monastery_monks
+	border = GFX_event_normal_frame_religion
+	
+	only_playable = yes
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = ill
+		piety = 1
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5212
+		random = {
+			chance = 30
+			remove_trait = ill
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5212
+		if = {
+			limit = { NOT = { trait = paranoid } }
+			add_trait = paranoid
+		}
+	}
+}
+
+# Monk is fantastic painter
+character_event = {
+	id = SoA.5213
+	desc = EVTDESC_SoA_5213
+	picture = GFX_evt_stone_church
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5213
+		wealth = -10
+		prestige = 30
+	}
+	option = {
+		name = EVTOPTB_SoA_5213
+	}
+}
+
+# Monks produce beautiful books
+character_event = {
+	id = SoA.5214
+	desc = EVTDESC_SoA_5214
+	picture = GFX_evt_monk
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+	}
+	
+	mean_time_to_happen = {
+		months = 4000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5214
+		wealth = -40
+		prestige = 30
+		random = {
+			chance = 20
+			change_learning = 1
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5214
+		
+	}
+}
+
+# Local monks come to visit often
+character_event = {
+	id = SoA.5215
+	desc = EVTDESC_SoA_5215
+	picture = GFX_evt_monastery_monks
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	only_playable = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+	}
+	
+	mean_time_to_happen = {
+		months = 4000
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5215
+		piety = 20
+		random = {
+			chance = 30
+			change_learning = 1
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5215
+		if = {
+			limit = { NOT = { trait = cynical } }
+			add_trait = cynical
+		}
+	}
+}
+
+# Child wants to be monk/nun - select child
+character_event = {
+	id = SoA.5216
+
+	hide_window = yes
+
+	ai = no
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		any_child = {
+			is_ruler = no
+			age = 13
+			NOT = { age = 15 }
+			NOT = { trait = cynical }
+			NOT = { trait = monk }
+			NOT = { trait = nun }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1000
+	}
+
+	immediate = {
+		random_child = {
+			limit = {
+				is_ruler = no
+				age = 13
+				NOT = { age = 15 }
+				NOT = { trait = cynical }
+				NOT = { trait = monk }
+				NOT = { trait = nun }
+			}
+			character_event = { id = SoA.5217 }
+		}
+	}
+}
+
+# Child bounce event
+character_event = {
+	id = SoA.5217
+
+	is_triggered_only = yes
+
+	hide_window = yes
+
+	immediate = {
+		FROM = {
+			character_event = { id = SoA.5218 }
+		}
+	}
+}
+
+# Child wants to be monk/nun - parent response
+character_event = {
+	id = SoA.5218
+	desc = EVTDESC_SoA_5218
+	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_religion
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA_SoA_5218
+		ai_chance = {
+			factor = 0
+		}
+		FROM = {
+			if = {
+				limit = {
+					is_female = yes
+				}
+				add_trait = nun
+			}
+			if = {
+				limit = {
+					is_female = no
+				}
+				add_trait = monk
+			}
+			opinion = {
+				modifier = opinion_grateful
+				who = ROOT
+				years = 100
+			}
+		}
+		custom_tooltip = { text = EVTTOOLTIPA_SOA_5218 }
+	}
+	option = {
+		name = EVTOPTB_SoA_5218
+		ai_chance = {
+			factor = 100
+		}
+		FROM = {
+			add_trait = stressed
+			opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 3
+			}
+		}
+		custom_tooltip = { text = EVTTOOLTIPB_SOA_5218 }
+	}
+}
+
+# Donate to local monastery
+character_event = {
+	id = SoA.5219
+	desc = EVTDESC_SoA_5219
+	picture = GFX_evt_monastery_monks
+	border = GFX_event_normal_frame_religion
+
+	min_age = 15
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		scaled_wealth = 0.1
+	}
+
+	mean_time_to_happen = {
+		months = 2000
+	}
+	
+	option = {
+		name = EVTOPTA_SoA_5219
+		wealth = -30
+		piety = 30
+	}
+	option = {
+		name = EVTOPTB_SoA_5219
+		piety = -5
+	}
+}
+
+###########################################
+#                                         #
+# Miracle events - ID SoA.5240-SoA.5259   #
+#                                         #
+###########################################
+
+
+# Exorcism
+character_event = {
+	id = SoA.5244
+	desc = EVTDESC_SoA_5244
+	picture = GFX_evt_throne_room
+	border = GFX_event_normal_frame_religion
+
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = possessed
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+	}
+
+	option = {
+		name = EVTOPTA_SoA_5244
+		random = {
+			chance = 40
+			remove_trait = possessed
+			if = {
+				limit = { NOT = { trait = zealous } }
+				add_trait = zealous
+			}
+		}
+		random = {
+			chance = 20
+			add_trait = ill
+		}
+		random = {
+			chance = 10
+			add_trait = wounded
+		}
+	}
+	option = {
+		name = EVTOPTB_SoA_5244
+		if = {
+			limit = { NOT = { trait = paranoid } }
+			add_trait = paranoid
+		}
+	}
+	option = {
+		name = EVTOPTC_SoA_5244
+		random = {
+			chance = 20
+			remove_trait = possessed
+		}
+	}
+}
+
+###########################################
+#                                         #
+# Religious tolerance events              #
+# ID SoA.5410-SoA.                        #
+#                                         #
+###########################################
+
+# Zealous character insults other religions
+character_event = {
+	id = SoA.5420
+	desc = EVTDESC_SoA_5420
+	picture = GFX_evt_scandal
+	border = GFX_event_normal_frame_religion
+
+	only_rulers = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = zealous
+		trait = wroth
+		NOT = { diplomacy = 5 }
+		any_realm_character = {
+			NOT = { religion_group = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+	}
+	
+	option = {
+		name = EVTOPTA_SoA_5420
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = {
+					NOT = { religion_group = ROOT }
+				}
+				opinion = {
+					modifier = insulted
+					who = ROOT
+					years = 1
+				}
+			}
+		}
+		custom_tooltip = { text = insulted_realm_infidels }
+	}
+}

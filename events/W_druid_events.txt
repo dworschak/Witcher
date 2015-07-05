@@ -1,0 +1,1485 @@
+namespace = druid
+
+###########################################
+# Maintenance
+###########################################
+# Hidden - give druid trait to landed druidic religion rulers
+character_event = {
+	id = druid.1
+	
+	hide_window = yes
+	
+	trigger = {
+		is_theocracy = yes
+		demesne_size = 1
+		religion = druidic
+		NOT = { trait = druid }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		add_trait = druid
+	}
+}
+# Hidden - Make temple barony heir druidic religion character (on_death)
+character_event = {
+	id = druid.2
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		is_theocracy = yes
+		location = { religion = druidic }
+	}
+	
+	option = { # Old Man
+		name = OK
+		create_random_priest = {
+			random_traits = yes
+			dynasty = none
+			religion = druidic
+			age = 50
+			trait = human_race
+			trait = druid
+		}
+		new_character = {
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+	}
+	option = { # Middle-Age Man
+		name = OK
+		create_random_priest = {
+			random_traits = yes
+			dynasty = none
+			religion = druidic
+			age = 30
+			trait = human_race
+			trait = druid
+		}
+		new_character = {
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+	}
+	option = { # Old Woman
+		name = OK
+		create_random_priest = {
+			is_female = yes
+			random_traits = yes
+			dynasty = none
+			religion = druidic
+			age = 50
+			trait = human_race
+			trait = druid
+		}
+		new_character = {
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+	}
+	option = { # Middle-Age Woman
+		name = OK
+		create_random_priest = {
+			is_female = yes
+			random_traits = yes
+			dynasty = none
+			religion = druidic
+			age = 30
+			trait = human_race
+			trait = druid
+		}
+		new_character = {
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+	}
+}
+
+###########################################
+# Druid spawning and movement
+###########################################
+# Spawn druid in court
+character_event = {
+	id = druid.10
+	desc = EVTDESCdruid.10
+	picture = GFX_evt_emissary
+	
+	min_age = 15
+	prisoner = no
+	only_playable = yes
+	capable_only = yes
+	
+	trigger = {
+		any_courtier = { NOT = { trait = druid } }
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+		modifier = { factor = 0.5 religion = druidic }
+	}
+	
+	option = {
+		name = EVTOPTAdruid.10
+		create_character = {
+			random_traits = yes
+			dynasty = none
+			religion = druidic
+			age = 50
+			trait = human_race
+			trait = druid
+		}
+		new_character = {
+			change_learning = 2
+			remove_trait = inbred
+			remove_trait = imbecile
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = EVTOPTBdruid.10
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 10 religion = druidic }
+			modifier = { factor = 0.5 trait = zealous }
+		}
+	}
+}
+# Hidden - Druid decides to leave a circle with too many druids
+character_event = {
+	id = druid.11
+	
+	hide_window = yes
+	
+	min_age = 15
+	prisoner = no
+	only_playable = yes
+	capable_only = yes
+	
+	trigger = {
+		trait = druid
+		is_landed = no
+		liege = {
+			trait = druid
+			religion = druidic
+			is_theocracy = yes
+			any_courtier = {
+				count = 2
+				trait = druid
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+		trigger = {
+			top_liege = {
+				any_realm_province = {
+					any_neighbor_province = {
+						owner = {
+							any_courtier = { NOT = { trait = druid } }
+							NOT = { trait = druid }
+							age = 15
+							prisoner = no
+							NOT = { trait = incapable }
+						}
+					}
+				}
+			}
+		}
+		top_liege = {
+			any_realm_province = {
+				random_neighbor_province = {
+					limit = {
+						owner = {
+							any_courtier = { NOT = { trait = druid } }
+							NOT = { trait = druid }
+							age = 15
+							prisoner = no
+							NOT = { trait = incapable }
+						}
+					}
+					owner = { character_event = { id = druid.12 } }
+				}
+			}
+		}
+	}
+}
+# New liege choses if he wishes a druid
+character_event = {
+	id = druid.12
+	desc = EVTDESCdruid.12
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.12
+		FROM = { move_character = ROOT }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 10 religion = druidic }
+			modifier = { factor = 0.5 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTBdruid.12
+		hidden_tooltip = { character_event = { id = druid.11 } }
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+###########################################
+# Son wishes to become druid
+###########################################
+# Hidden - Son - Son wants to become druid
+character_event = {
+	id = druid.20
+	
+	hide_window = yes
+	
+	ai = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_landed = no
+		in_command = no
+		NOT = { 
+			trait = druid 
+			has_character_modifier = old_age
+		}
+		father = {
+			is_alive = yes
+			is_ruler = yes
+			is_liege_of = ROOT
+			prisoner = no
+			NOT = { trait = incapable }
+			ROOT = { host = { character = PREVPREV } }
+		}
+		top_liege = {
+			any_realm_lord = {
+				religion = druidic
+				trait = druid
+				is_theocracy = yes
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.75 trait = celibate }
+		modifier = { factor = 0.75 trait = chaste }
+		modifier = { factor = 0.75 trait = kind }
+		modifier = { factor = 2 trait = lustful }
+		modifier = { factor = 2 is_married = yes }
+		modifier = { factor = 2 trait = hedonist }
+		modifier = { factor = 3 trait = ambitious }
+		modifier = { factor = 0.5 trait = content }
+		modifier = { factor = 5 is_primary_heir = yes }
+	}
+	
+	option = {
+		name = OK
+		father = { character_event = { id = druid.21 } }
+	}
+}
+# Father - Son wants to become druid
+character_event = {
+	id = druid.21
+	desc = EVTDESCdruid.21
+	picture = GFX_evt_garden
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.21
+		FROM = { opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT } }
+	}
+	option = {
+		name = EVTOPTBdruid.21
+		top_liege = {
+			random_realm_lord = {
+				limit = {
+					religion = druidic
+					is_theocracy = yes
+					trait = druid
+				}
+				FROM = {
+					move_character = PREV
+					character_event = { id = druid.22 days = 5475 random = 1825 }
+				}
+			}
+		}
+		piety = 50
+	}
+}
+# Son - Become druid notification
+character_event = {
+	id = druid.22
+	desc = EVTDESCdruid.22
+	picture = GFX_evt_garden
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.22
+		add_trait = druid
+		religion = druidic
+	}
+}
+
+###########################################
+# Druid removes bad health traits
+###########################################
+# Druid - Remove stressed
+character_event = {
+	id = druid.100
+	desc = EVTDESCdruid.100
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = stressed
+				any_courtier = { trait = stressed }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.100
+		trigger = { liege = { trait = stressed } }
+		liege = { character_event = { id = druid.101 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.100
+		trigger = {
+			liege = { 
+				any_courtier = { trait = stressed }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.101 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.100
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove stressed
+character_event = {
+	id = druid.101
+	desc = EVTDESCdruid.101
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.101
+		remove_trait = stressed
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove depressed
+character_event = {
+	id = druid.102
+	desc = EVTDESCdruid.102
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = depressed
+				any_courtier = { trait = depressed }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.102
+		trigger = { liege = { trait = depressed } }
+		liege = { character_event = { id = druid.103 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.102
+		trigger = {
+			liege = { 
+				any_courtier = { trait = depressed }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.103 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.102
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove depressed
+character_event = {
+	id = druid.103
+	desc = EVTDESCdruid.103
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.103
+		remove_trait = depressed
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove ill
+character_event = {
+	id = druid.104
+	desc = EVTDESCdruid.104
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = ill
+				any_courtier = { trait = ill }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.104
+		trigger = { liege = { trait = ill } }
+		liege = { character_event = { id = druid.105 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.104
+		trigger = {
+			liege = { 
+				any_courtier = { trait = ill }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.105 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.104
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove ill
+character_event = {
+	id = druid.105
+	desc = EVTDESCdruid.105
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.105
+		remove_trait = ill
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove pneumonic
+character_event = {
+	id = druid.106
+	desc = EVTDESCdruid.106
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = pneumonic
+				any_courtier = { trait = pneumonic }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 4
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.106
+		trigger = { liege = { trait = pneumonic } }
+		liege = { character_event = { id = druid.107 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.106
+		trigger = {
+			liege = { 
+				any_courtier = { trait = pneumonic }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.107 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.106
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove pneumonic
+character_event = {
+	id = druid.107
+	desc = EVTDESCdruid.107
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.107
+		remove_trait = pneumonic
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove syphilitic
+character_event = {
+	id = druid.108
+	desc = EVTDESCdruid.108
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = syphilitic
+				any_courtier = { trait = syphilitic }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 25000
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.108
+		trigger = { liege = { trait = syphilitic } }
+		liege = { character_event = { id = druid.109 tooltip = EVTTOOLTIPdruid_cure } }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.108
+		trigger = {
+			liege = { 
+				any_courtier = { trait = syphilitic }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.109 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.108
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove syphilitic
+character_event = {
+	id = druid.109
+	desc = EVTDESCdruid.109
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.109
+		remove_trait = syphilitic
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove leper
+character_event = {
+	id = druid.110
+	desc = EVTDESCdruid.110
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = leper
+				any_courtier = { trait = leper }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 10000
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.110
+		trigger = { liege = { trait = leper } }
+		liege = { character_event = { id = druid.111 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.110
+		trigger = {
+			liege = { 
+				any_courtier = { trait = leper }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.111 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.110
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove leper
+character_event = {
+	id = druid.111
+	desc = EVTDESCdruid.111
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.111
+		remove_trait = leper
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove tuberculosis
+character_event = {
+	id = druid.112
+	desc = EVTDESCdruid.112
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = has_tuberculosis
+				any_courtier = { trait = has_tuberculosis }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.112
+		trigger = { liege = { trait = has_tuberculosis } }
+		liege = { character_event = { id = druid.113 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.112
+		trigger = {
+			liege = { 
+				any_courtier = { trait = has_tuberculosis }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.113 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.112
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove tuberculosis
+character_event = {
+	id = druid.113
+	desc = EVTDESCdruid.113
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.113
+		remove_trait = has_tuberculosis
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove typhoid fever
+character_event = {
+	id = druid.114
+	desc = EVTDESCdruid.114
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = has_typhoid_fever
+				any_courtier = { trait = has_typhoid_fever }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.114
+		trigger = { liege = { trait = has_typhoid_fever } }
+		liege = { character_event = { id = druid.115 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.114
+		trigger = {
+			liege = { 
+				any_courtier = { trait = has_typhoid_fever }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.115 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.114
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove typhoid fever
+character_event = {
+	id = druid.115
+	desc = EVTDESCdruid.115
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.115
+		remove_trait = has_typhoid_fever
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove typhus
+character_event = {
+	id = druid.116
+	desc = EVTDESCdruid.116
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = has_typhus
+				any_courtier = { trait = has_typhus }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.116
+		trigger = { liege = { trait = has_typhus } }
+		liege = { character_event = { id = druid.117 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.116
+		trigger = {
+			liege = { 
+				any_courtier = { trait = has_typhus }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.117 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.116
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove typhus
+character_event = {
+	id = druid.117
+	desc = EVTDESCdruid.117
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.117
+		remove_trait = has_typhus
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove plague - Plague disabled
+character_event = {
+	id = druid.118
+	desc = EVTDESCdruid.118
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = has_bubonic_plague
+				any_courtier = { trait = has_bubonic_plague }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.118
+		trigger = { liege = { trait = has_bubonic_plague } }
+		liege = { character_event = { id = druid.119 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.118
+		trigger = {
+			liege = { 
+				any_courtier = { trait = has_bubonic_plague }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.119 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.118
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove plague - Plague disabled
+character_event = {
+	id = druid.119
+	desc = EVTDESCdruid.119
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.119
+		remove_trait = has_bubonic_plague
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove measles
+character_event = {
+	id = druid.120
+	desc = EVTDESCdruid.120
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = has_measles
+				any_courtier = { trait = has_measles }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.120
+		trigger = { liege = { trait = has_measles } }
+		liege = { character_event = { id = druid.121 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.120
+		trigger = {
+			liege = { 
+				any_courtier = { trait = has_measles }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.121 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.120
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove measles
+character_event = {
+	id = druid.121
+	desc = EVTDESCdruid.121
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.121
+		remove_trait = has_measles
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove small pox
+character_event = {
+	id = druid.122
+	desc = EVTDESCdruid.122
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = has_small_pox
+				any_courtier = { trait = has_small_pox }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.122
+		trigger = { liege = { trait = has_small_pox } }
+		liege = { character_event = { id = druid.123 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.122
+		trigger = {
+			liege = { 
+				any_courtier = { trait = has_small_pox }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.123 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.122
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove small pox
+character_event = {
+	id = druid.123
+	desc = EVTDESCdruid.123
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.123
+		remove_trait = has_small_pox
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove wounded
+character_event = {
+	id = druid.124
+	desc = EVTDESCdruid.124
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = wounded
+				any_courtier = { trait = wounded }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.124
+		trigger = { liege = { trait = wounded } }
+		liege = { character_event = { id = druid.125 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.124
+		trigger = {
+			liege = { 
+				any_courtier = { trait = wounded }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.125 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.124
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove wounded
+character_event = {
+	id = druid.125
+	desc = EVTDESCdruid.125
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.125
+		remove_trait = wounded
+		add_trait = scarred
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove drunkard
+character_event = {
+	id = druid.126
+	desc = EVTDESCdruid.126
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = drunkard
+				any_courtier = { trait = drunkard }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.126
+		trigger = { liege = { trait = drunkard } }
+		liege = { character_event = { id = druid.127 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.126
+		trigger = {
+			liege = { 
+				any_courtier = { trait = drunkard }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.127 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.126
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove drunkard
+character_event = {
+	id = druid.127
+	desc = EVTDESCdruid.127
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.127
+		remove_trait = drunkard
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+# Druid - Remove lunatic
+character_event = {
+	id = druid.128
+	desc = EVTDESCdruid.128
+	picture = GFX_evt_recovery
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = { 
+			OR = {
+				trait = lunatic
+				any_courtier = { trait = lunatic }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 10000
+	}
+	
+	option = { # Heal liege
+		name = EVTOPTAdruid.128
+		trigger = { liege = { trait = lunatic } }
+		liege = { character_event = { id = druid.129 tooltip = EVTTOOLTIPdruid_cure} }
+		ai_chance = { factor = 10 }
+	}
+	option = { # Heal courtier
+		name = EVTOPTBdruid.128
+		trigger = {
+			liege = { 
+				any_courtier = { trait = lunatic }
+			}
+		}
+		liege = {
+			random_courtier = { character_event = { id = druid.129 tooltip = EVTTOOLTIPdruid_cure} }
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Don't heal
+		name = EVTOPTCdruid.128
+		ai_chance = { factor = 1 }
+	}
+}
+# Character - Remove lunatic
+character_event = {
+	id = druid.129
+	desc = EVTDESCdruid.129
+	picture = GFX_evt_recovery
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.129
+		remove_trait = lunatic
+		opinion = { who = FROM modifier = opinion_grateful }
+	}
+}
+
+###########################################
+# Druid flavor events
+###########################################
+# Druid - Caring for sick
+character_event = {
+	id = druid.200
+	desc = EVTDESCdruid.200
+	picture = GFX_evt_illness
+	
+	capable_only = yes
+	prisoner = no
+	min_age = 15
+	
+	trigger = {
+		trait = druid
+		liege = {
+			any_courtier = {
+				NOT = { trait = druid }
+				NOT = { has_opinion_modifier = { who = ROOT modifier = charitable_to_you } }
+				OR = {
+					has_disease = yes
+					health_traits = 1
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+	}
+	
+	option = {
+		name = EVTOPTAdruid.200
+		liege = {
+			character_event = { id = druid.201 }
+			random_courtier = {
+				limit = {
+					NOT = { trait = druid }
+					NOT = { has_opinion_modifier = { who = ROOT modifier = charitable_to_you } }
+					OR = {
+						has_disease = yes
+						health_traits = 1
+					}
+				}
+				opinion = { who = ROOT modifier = charitable_to_you }
+			}
+		}
+	}
+}
+# Liege - Druid is caring for sick
+character_event = {
+	id = druid.201
+	desc = EVTDESCdruid.201
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	option = { # Nothing
+		name = EVTOPTAdruid.201
+	}
+	option = { # Praise the druid
+		name = EVTOPTBdruid.201
+	}
+	option = { # Reward the druid
+		name = EVTOPTCdruid.201
+		random = {
+			chance = 20
+			add_trait = charitable
+			hidden_tooltip = { character_event = { id = 38273 } } # Notify charitable
+		}
+		wealth = -10
+		FROM = {
+			wealth = 10
+		}
+	}
+}
+# Druid - Caring for sick in province
+character_event = {
+	id = druid.202
+	desc = EVTDESCdruid.202
+	picture = GFX_evt_illness
+	
+	trigger = {
+		trait = druid
+		liege = {
+			any_demesne_province = { has_disease = yes }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+	}
+	
+	option = {
+		name = EVTOPTAdruid.202
+		liege = { character_event = { id = druid.203 } }
+	}
+}
+# Liege - Druid is caring for sick in province
+character_event = {
+	id = druid.203
+	desc = EVTDESCdruid.203
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.203
+		random_demesne_province = {
+			limit = { has_disease = yes }
+			reduce_disease = 0.33
+		}
+	}
+}
+# Druid is sharing his views on with you (on_yearly_pulse)
+character_event = {
+	id = druid.204
+	desc = EVTDESCdruid.204
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		any_courtier = { trait = druid }
+	}
+	
+	weight_multiplier = {
+		factor = 1
+		modifier = { factor = 2 trait = gregarious }
+		modifier = { factor = 0.5 trait = shy }
+		modifier = { factor = 1.5 trait = humble }
+		modifier = { factor = 0.7 trait = proud }
+		modifier = { factor = 1.5 trait = kind }
+		modifier = { factor = 0.7 trait = wroth }
+	}
+	
+	option = {
+		name = EVTOPTAdruid.204
+		piety = 10
+		hidden_tooltip = {
+			random = {
+				chance = 5
+				character_event = { id = druid.205 days = 365 random = 365 }
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBdruid.204
+		tooltip_info = cynical
+		trigger = { trait = cynical }
+	}
+	option = {
+		name = EVTOPTCdruid.204
+		random = {
+			chance = 10
+			add_trait = proud
+			hidden_tooltip = { character_event = { id = 38261 } } # Proud notification
+		}
+	}
+}
+# Druid sharing his views on with you, and you supported them - chance to convert to druidic
+character_event = {
+	id = druid.205
+	desc = EVTDESCdruid.205
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { religion = druidic }
+		any_courtier = {
+			trait = druid
+			religion = druidic
+		}
+	}
+	
+	option = {
+		name = EVTOPTAdruid.205
+		prestige = -100
+		any_vassal = {
+			limit = {
+				religion = ROOT
+				age = 15
+			}
+			opinion = { who = ROOT modifier = opinion_adopted_foreign_beliefs years = 10 }
+			hidden_tooltip = { character_event = { id = druid.206 } }
+		}
+		religion_authority = { modifier = ruler_converted_from }
+		religion = druidic
+		hidden_tooltip = { religion_authority = { modifier = ruler_converted_to } }
+	}
+	option = {
+		name = EVTOPTBdruid.205
+	}
+}
+# A ruler converted by druid - Piss off the appropriate vassals
+character_event = {
+	id = druid.206
+	desc = EVTDESCdruid.206
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAdruid.206
+		tooltip = { opinion = { who = FROM modifier = opinion_adopted_foreign_beliefs years = 10 } }
+	}
+}

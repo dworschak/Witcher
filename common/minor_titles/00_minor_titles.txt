@@ -1,0 +1,782 @@
+########################################################
+# MINOR TITLES
+# Characters can have any number of these
+########################################################
+#	grant_limit: Max number of holders.
+#	realm_in_name: Append the name of the country after the title (Queen [of Sweden])
+#	allow: conditions for the character to hold the title
+#	regent: This is the title for regents (not really "minor")
+#	gain_effect: fires when the title is granted
+#	lose_effect: fires when a title is lost if dismissal_trigger evaluates to false
+#	message: should fire a message to the its owner when set
+#	The other fields are all character modifiers.
+
+#######################################
+# HARD: AUTO-GRANTED - DO NOT REMOVE!
+#######################################
+
+title_regent = {
+	realm_in_name = yes
+	dignity = 0.9
+	revoke_allowed = no
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.02
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_appointed_regent = {
+	dignity = 0.9
+	grant_limit = 1
+	opinion_effect = 20
+	revoke_allowed = yes
+
+	monthly_salary = 0.05
+	monthly_prestige = 0.02
+
+	allow = {
+		is_adult = yes
+		prisoner = no
+		has_regent = no
+		FROM = {
+			has_regent = no
+		}
+	}
+
+	gain_effect = {
+	}
+
+	lose_effect = {
+	}
+}
+
+title_ruler_consort = {
+	dignity = 0.88
+	show_as_title = yes
+	realm_in_name = yes
+	spouse_context = yes # Title name as if the other gender version of the spouse's ruler title
+	revoke_allowed = no
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.02
+	
+	gain_effect = {
+	}
+	
+	lose_effect = {
+	}
+
+	message = no
+}
+
+title_tanist = {
+	dignity = 0.86
+	show_as_title = yes
+	realm_in_name = yes
+	revoke_allowed = no
+	
+	monthly_salary = 0.07
+	monthly_prestige = 0.02
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = no
+}
+
+title_queen_mother = {
+	dignity = 0.85
+	show_as_title = yes
+	realm_in_name = yes
+	revoke_allowed = no
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.01
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = no
+}
+
+title_prince = {
+	dignity = 0.8
+	show_as_title = yes
+	realm_in_name = yes
+	revoke_allowed = no
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.01
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = no
+}
+
+# Pagan consort
+title_courtesan = {
+	dignity = 0.05
+	realm_in_name = yes
+	revoke_allowed = no
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = no
+}
+
+#######################################
+# SOFT: GRANTABLE - FULLY MODDABLE
+#######################################
+
+title_court_eunuch = {
+	dignity = 0.01
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	allow = {
+		is_adult = yes
+		trait = eunuch
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+		FROM = {
+			prestige = 10
+		}
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_court_dwarf = {
+	dignity = 0.01
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	allow = {
+		is_adult = yes
+		trait = dwarf
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+		FROM = {
+			prestige = 10
+		}
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_court_jester = {
+	dignity = 0.01
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = -10
+	
+	monthly_salary = 0.02
+	monthly_prestige = -0.01
+	
+	is_unique = yes
+	
+	allow = {
+		FROM = { NOT = { has_landed_title = e_hakland } }
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+# Keeper of the King's Swans
+title_keeper_of_swans = {
+	dignity = 0.05
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.01
+	monthly_prestige = 0.002
+	
+	is_unique = yes
+	
+	allow = {
+		FROM = { NOT = { has_landed_title = e_hakland } }
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_master_of_the_horse = {
+	dignity = 0.06
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.004
+	
+	is_unique = yes
+	
+	allow = {
+		FROM = { NOT = { has_landed_title = e_hakland } }
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_master_of_the_hunt = {
+	dignity = 0.05
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.004
+	
+	is_unique = yes
+	
+	allow = {
+		FROM = { NOT = { has_landed_title = e_hakland } }
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_high_almoner = {
+	dignity = 0.03
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.004
+	
+	is_unique = yes
+	
+	allow = {
+		FROM = { NOT = { has_landed_title = e_hakland } }
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_cupbearer = {
+	dignity = 0.1
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.006
+	
+	is_unique = yes
+	
+	allow = {
+		FROM = { NOT = { has_landed_title = e_hakland } }
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_seneschal = {
+	dignity = 0.15
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.006
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			primary_title = {
+				OR = {
+					tier = king
+					tier = emperor
+				}
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_paramount_knight = {
+	dignity = 0.8
+	grant_limit = 0 
+	opinion_effect = 0
+
+	monthly_prestige = 0.5
+
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+# MERCHANT REPUBLIC TITLES
+
+# State Inquisitor
+title_state_inquisitor = {
+	dignity = 0.06
+	realm_in_name = yes
+	grant_limit = 3
+	opinion_effect = 12
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.004
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			is_merchant_republic = yes
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_high_admiral = {
+	dignity = 0.1
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.006
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			is_merchant_republic = yes
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_high_judge = {
+	dignity = 0.15
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.006
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			is_merchant_republic = yes
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+# Special - This title determines the heir of a Patrician
+title_patrician_heir = {
+	dignity = 0.05
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 50
+	
+	patrician_heir = yes
+	
+	monthly_salary = 0.01
+	monthly_prestige = 0.002
+	
+	allow = {
+		is_female = no
+		dynasty = FROM
+		NOT = { trait = bastard }
+		FROM = {
+			is_patrician = yes
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+# NORSE PAGAN TITLES
+
+title_volva = {
+	dignity = 0.050
+	grant_limit = 1
+	opinion_effect = 5
+	
+	monthly_salary = 0.02
+	monthly_prestige = 0.01
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = yes
+		trait = mystic
+		OR = {
+			religion = freya
+		}
+		FROM = {
+			OR = {
+				religion = freya
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_lawspeaker = {
+	dignity = 0.2
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 20
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.075
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+		OR = {
+			religion = freya
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_drottseti = {
+	dignity = 0.15
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.05
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+			higher_tier_than = DUKE
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_court_skald = {
+	dignity = 0.15
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.075
+	monthly_prestige = 0.075
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+		trait = poet
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_marksman = {
+	dignity = 0.1
+	realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 15
+	
+	monthly_salary = 0.075
+	monthly_prestige = 0.075
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}
+
+title_hirdman = {
+	dignity = 0.075
+	grant_limit = 4
+	opinion_effect = 10
+	
+	monthly_salary = 0.005
+	monthly_prestige = 0.005
+	
+	is_unique = yes
+	
+	allow = {
+		is_adult = yes
+		is_female = no
+		FROM = {
+			OR = {
+				is_feudal = yes
+				is_tribal = yes
+			}
+			OR = {
+				religion = freya
+			}
+		}
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+
+	message = yes
+}

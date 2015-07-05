@@ -1,0 +1,1525 @@
+namespace = rebel
+
+################################################
+# Main rebel selection event (on_rebel_revolt)
+################################################
+province_event = {
+	id = rebel.1
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		owner = {
+			NOT = { culture = wilderness}
+		}
+		NOT = { culture = magic}
+		has_dlc = "The Old Gods"
+	}
+	
+	immediate = {
+		add_province_modifier = { name = province_revolted duration = 1825 }
+		# Check for any ongoing revolt
+		if = { # Peasant revolt
+			limit = {
+				owner = {
+					top_liege = {
+						war = yes
+						any_war = {
+							defender = { character = PREV }
+							using_cb = peasant_revolt
+							war_title = ROOT
+						}
+					}
+				}
+			}
+			set_province_flag = ongoing_peasant_revolt
+		}
+		if = {# Religious revolt
+			limit = {
+				owner = {
+					top_liege = {
+						war = yes
+						any_war = {
+							defender = { character = PREV }
+							using_cb = religious_revolt
+							attacker = { religion = ROOT }
+						}
+					}
+				}
+			}
+			set_province_flag = ongoing_religious_revolt
+		}
+		if = { # Nationalist revolt
+			limit = {
+				owner = {
+					top_liege = {
+						war = yes
+						any_war = {
+							defender = { character = PREV }
+							using_cb = liberation_revolt
+							thirdparty_title_scope = {
+								ROOT = {
+									kingdom = {
+										title = PREVPREV
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			set_province_flag = ongoing_nationalist_revolt
+		}
+		if = { # Scoitael revolt
+			limit = {
+				owner = {
+					top_liege = {
+						war = yes
+						any_war = {
+							defender = { character = PREV }
+							using_cb = scoiatael_revolt
+							war_title = ROOT
+						}
+					}
+				}
+			}
+			set_province_flag = ongoing_scoiatael_revolt
+		}
+	}
+	
+ 	# Start a new revolt
+	option = { # Start Scoia'tael revolt
+		name = OK
+		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
+			owner = {
+				trait = human_race # Only against human rulers
+				top_liege = {
+					NOT = {
+						trait = kind2 # Not against Saskia
+						trait = tolerant
+					}
+				}
+			}
+		}
+		province_event = { id = rebel.10 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 1000
+			modifier = {
+				factor = 0.0005
+				NOT = { # If not non-human religion or culture, then make as a bit less common than normal peasant revolt
+					culture = aen_seidhe
+					religion = dana_meadbh
+					culture = dwarven
+					religion = dwarven
+					culture = halfling
+					religion = halfling
+					culture = gnomish
+					religion = gnomish
+				}
+			}
+			modifier = { factor = 10 has_province_modifier = scoiatael_presence }
+		}
+	}
+	option = { # Start nationalist revolt
+		name = OK
+		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
+			owner = {
+				top_liege = {
+					NOT = { culture = ROOT }
+				}
+			}
+			kingdom = {
+				culture = ROOT
+				has_holder = no
+				any_previous_holder = { always = yes } # Must have had a holder in the past
+			}
+		}
+		province_event = { id = TOG.1040 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 1000
+		}
+	}
+	option = { # Start religious revolt
+		name = OK
+		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
+			owner = {
+				top_liege = {
+					NOT = { religion_group = ROOT }
+				}
+			}
+			NOT = { # These four religions should rather use Scoiatael revolt
+				religion = dana_meadbh
+				religion = dwarven
+				religion = halfling
+				religion = gnomish
+			}
+		}
+		province_event = { id = TOG.1060 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 100
+			modifier = { factor = 0.1 religion = spider } # It's not really religion that would openly try to revolt 
+		}
+	}
+	option = { # Start peasant revolt
+		name = OK
+		trigger = {
+			NOT = {
+				has_province_flag = ongoing_peasant_revolt
+				has_province_flag = ongoing_religious_revolt
+				has_province_flag = ongoing_nationalist_revolt
+				has_province_flag = ongoing_scoiatael_revolt
+			}
+		}
+		province_event = { id = TOG.1000 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 10
+		}
+	}
+	# Reinforce the ongoing revolt
+	option = { # Reinforce Scoia'tael revolt
+		name = OK
+		trigger = {
+			has_province_flag = ongoing_scoiatael_revolt
+		}
+		province_event = { id = rebel.13 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 10000
+		}
+	}
+	option = { # Reinforce nationalist revolt
+		name = OK
+		trigger = {
+			has_province_flag = ongoing_nationalist_revolt
+		}
+		province_event = { id = TOG.1050 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 1000
+		}
+	}
+	option = { # Reinforce religious revolt
+		name = OK
+		trigger = {
+			has_province_flag = ongoing_religious_revolt
+		}
+		province_event = { id = TOG.1070 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 100
+		}
+	}
+	option = { # Reinforce peasant revolt
+		name = OK
+		trigger = {
+			has_province_flag = ongoing_peasant_revolt
+		}
+		province_event = { id = TOG.1010 }
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 10
+		}
+	}
+	# Don't revolt
+	option = { # Do nothing
+		name = OK
+		clr_province_flag = ongoing_peasant_revolt
+		clr_province_flag = ongoing_religious_revolt
+		clr_province_flag = ongoing_nationalist_revolt
+		clr_province_flag = ongoing_scoiatael_revolt
+		ai_chance = {
+			factor = 10000
+			modifier = {
+				factor = 0
+				NOT = {
+					terrain = dryad_forest
+					owner = { trait = dryad_race }
+				}
+			}
+		}
+	}
+}
+
+################################################
+# Scoia'tael Rebels
+################################################
+# Scoia'tael Rebels rise up temporary rebel title created, with a leader and a war (rebel.1)
+province_event = {
+	id = rebel.10
+	desc = EVTDESCrebel10
+	picture = GFX_evt_peasants
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		random_list = {
+			80 = {
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = dana_meadbh
+					culture = aen_seidhe
+					female = no
+					#age =25
+					attributes = {
+						martial = 5
+					}
+					trait = scoiatael_leader
+					trait = elf_race
+				}
+			}
+			40 = {
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = dwarven
+					culture = dwarven
+					female = no
+					#age =25
+					attributes = {
+						martial = 5
+					}
+					trait = scoiatael_leader
+					trait = dwarf_race
+				}
+			}
+			20 = {
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = gnomish
+					culture = gnomish
+					female = no
+					#age =25
+					attributes = {
+						martial = 5
+					}
+					trait = scoiatael_leader
+					trait = gnome_race
+				}
+			}
+			10 = {
+				create_character = {
+					random_traits = yes
+					dynasty = none
+					religion = halfling
+					culture = halfling
+					female = no
+					#age =25
+					attributes = {
+						martial = 5
+					}
+					trait = scoiatael_leader
+					trait = halfling_race
+				}
+			}
+		}
+		new_character = {
+				# 2 supporters - better revolt leader
+				if = {
+					limit = {
+						ROOT = {
+							owner = {
+								top_liege = {
+									OR = {
+										any_playable_ruler = {
+											count = 2
+											has_character_flag = supported_scoiatael
+										}
+										any_realm_province = {
+											count = 2
+											has_province_modifier = supports_scoiatael
+										}
+										AND = {
+											any_playable_ruler = {
+												count = 1
+												has_character_flag = supported_scoiatael
+											}
+											any_realm_province = {
+												count = 1
+												has_province_modifier = supports_scoiatael
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					change_martial = 2
+					change_diplomacy = 2
+					change_stewardship = 2
+					change_learning = 2
+					change_intrigue = 2
+					remove_trait = weak
+					remove_trait = inbred
+					remove_trait = imbecile
+					remove_trait = slow
+					add_trait = veteran
+					add_trait = rough_terrain_leader
+					random_list = {
+						20 = { add_trait = inspiring_leader }
+						20 = { add_trait = siege_leader }
+						20 = { add_trait = aggressive_leader }
+						20 = { add_trait = organizer }
+						20 = { add_trait = unyielding_leader }
+					}
+				}
+				create_title = {
+					tier = DUKE
+					landless = yes
+					temporary = yes
+					rebel = yes
+					culture = ROOT
+					name = "SCOIATAEL_REVOLT"
+					holder = THIS
+				}
+				random_list = {
+					17 = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = THIS
+							leader = THIS
+							scaled_by_biggest_garrison = 0.75
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 4 4 }
+								light_infantry = { 10 10 }
+							}
+							attrition = 1.0
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =30
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.75
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 4 4 }
+									light_infantry = { 10 10 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =31
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.75
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 4 4 }
+									light_infantry = { 10 10 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+					}
+					17 = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = THIS
+							leader = THIS
+							scaled_by_biggest_garrison = 0.5
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 4 4 }
+								light_infantry = { 10 10 }
+							}
+							attrition = 1.0
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =30
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.5
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 4 4 }
+									light_infantry = { 10 10 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =31
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.5
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 4 4 }
+									light_infantry = { 10 10 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+					}
+					16 = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = THIS
+							leader = THIS
+							scaled_by_biggest_garrison = 0.75
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 3 3 }
+								light_infantry = { 11 11 }
+							}
+							attrition = 1.0
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =30
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.75
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 3 3 }
+									light_infantry = { 11 11 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =31
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.75
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 3 3 }
+									light_infantry = { 11 11 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+					}
+					17 = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = THIS
+							leader = THIS
+							scaled_by_biggest_garrison = 0.5
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 3 3 }
+								light_infantry = { 11 11 }
+							}
+							attrition = 1.0
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =30
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.5
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 3 3 }
+									light_infantry = { 11 11 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =31
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.5
+								troops = {
+									archers = { 6 6 }
+									light_cavalry = { 3 3 }
+									light_infantry = { 11 11 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+					}
+					16 = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = THIS
+							leader = THIS
+							scaled_by_biggest_garrison = 0.75
+							troops = {
+								archers = { 6 6 }
+								light_infantry = { 14 14 }
+							}
+							attrition = 1.0
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =30
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.75
+								troops = {
+									archers = { 6 6 }
+									light_infantry = { 14 14 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =31
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.75
+								troops = {
+									archers = { 6 6 }
+									light_infantry = { 14 14 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+					}
+					17 = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = THIS
+							leader = THIS
+							scaled_by_biggest_garrison = 0.5
+							troops = {
+								archers = { 6 6 }
+								light_infantry = { 14 14 }
+							}
+							attrition = 1.0
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =30
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.5
+								troops = {
+									archers = { 6 6 }
+									light_infantry = { 14 14 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+						create_character = {
+							random_traits = yes
+							dynasty = none
+							religion = THIS
+							culture = THIS
+							female = no
+							#age =31
+							trait = scoiatael_leader
+						}
+						new_character = {
+							spawn_unit = {
+								province = ROOT
+								home = ROOT
+								owner = PREV
+								scaled_by_biggest_garrison = 0.5
+								troops = {
+									archers = { 6 6 }
+									light_infantry = { 14 14 }
+								}
+								attrition = 1.0
+								disband_on_peace = yes
+							}
+						}
+					}
+				}
+				# 1 supporter - additional troops
+				if = {
+					limit = {
+						ROOT = {
+							owner = {
+								top_liege = {
+									OR = {
+										any_playable_ruler = {
+											count = 1
+											has_character_flag = supported_scoiatael
+										}
+										any_realm_province = {
+											count = 1
+											has_province_modifier = supports_scoiatael
+										}
+									}
+								}
+							}
+						}
+					}
+					create_character = {
+						random_traits = yes
+						dynasty = none
+						religion = THIS
+						culture = THIS
+						female = no
+						#age =30
+						trait = scoiatael_leader
+					}
+					new_character = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = PREV
+							scaled_by_biggest_garrison = 0.75
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 4 4 }
+								light_infantry = { 10 10 }
+							}
+							attrition = 1.0
+							disband_on_peace = yes
+						}
+					}
+					create_character = {
+						random_traits = yes
+						dynasty = none
+						religion = THIS
+						culture = THIS
+						female = no
+						#age =31
+						trait = scoiatael_leader
+					}
+					new_character = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = PREV
+							scaled_by_biggest_garrison = 0.75
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 4 4 }
+								light_infantry = { 10 10 }
+							}
+							attrition = 1.0
+							disband_on_peace = yes
+						}
+					}
+				}
+				# 3 supporters - even more additional troops
+				if = {
+					limit = {
+						ROOT = {
+							owner = {
+								top_liege = {
+									OR = {
+										any_playable_ruler = {
+											count = 3
+											has_character_flag = supported_scoiatael
+										}
+										any_realm_province = {
+											count = 3
+											has_province_modifier = supports_scoiatael
+										}
+										AND = {
+											any_playable_ruler = {
+												count = 2
+												has_character_flag = supported_scoiatael
+											}
+											any_realm_province = {
+												count = 1
+												has_province_modifier = supports_scoiatael
+											}
+										}
+										AND = {
+											any_playable_ruler = {
+												count = 1
+												has_character_flag = supported_scoiatael
+											}
+											any_realm_province = {
+												count = 2
+												has_province_modifier = supports_scoiatael
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					create_character = {
+						random_traits = yes
+						dynasty = none
+						religion = THIS
+						culture = THIS
+						female = no
+						#age =30
+						trait = scoiatael_leader
+					}
+					new_character = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = PREV
+							scaled_by_biggest_garrison = 0.5
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 4 4 }
+								light_infantry = { 10 10 }
+							}
+							attrition = 1.0
+							disband_on_peace = yes
+						}
+					}
+					create_character = {
+						random_traits = yes
+						dynasty = none
+						religion = THIS
+						culture = THIS
+						female = no
+						#age =31
+						trait = scoiatael_leader
+					}
+					new_character = {
+						spawn_unit = {
+							province = ROOT
+							home = ROOT
+							owner = PREV
+							scaled_by_biggest_garrison = 0.5
+							troops = {
+								archers = { 6 6 }
+								light_cavalry = { 4 4 }
+								light_infantry = { 10 10 }
+							}
+							attrition = 1.0
+							disband_on_peace = yes
+						}
+					}
+				}
+				ROOT = {
+					owner = {
+						top_liege = {
+							# DoW on the province top liege
+							reverse_war = {
+								target = PREVPREVPREV
+								casus_belli = scoiatael_revolt
+								thirdparty_title = ROOT # The county
+							}
+							reverse_opinion = {
+								who = PREVPREVPREV
+								modifier = opinion_evil_tyrant
+							}
+							# Opinion modifier against supporters
+							any_realm_character = {
+								limit = { has_character_flag = supported_scoiatael }
+								reverse_opinion = { modifier = opinion_supported_revolt who = PREVPREVPREV }
+								clr_character_flag = supported_scoiatael
+							}
+							any_realm_province = {
+								remove_province_modifier = supports_scoiatael
+							}
+						}
+					}
+				}
+			}
+		owner = {
+			any_liege = { # Inform the lieges
+				character_event = {
+					id = rebel.11
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTArebel10
+	}
+}
+# Liege notification
+character_event = {
+	id = rebel.11
+	desc = EVTDESCrebel11
+	picture = GFX_evt_peasants
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArebel11
+	}
+}
+# Scoia'tael Rebels seize a holding (on_siege_won_leader)
+character_event = {
+	id = rebel.12
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		trait = scoiatael_leader
+		rebel = yes
+		FROM = { 
+			is_capital = yes # The capital holding
+		}
+	}
+	
+	immediate = {
+		FROM = {
+			location = {
+				if = {
+					limit = {
+						NOT = { has_province_modifier = peasant_unrest }
+					}
+					add_province_modifier = {
+						name = peasant_unrest
+						duration = 730
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Scoia'tael Rebels rise up to reinforce an ongoing provincial Scoia'tael revolt (rebel.1)
+province_event = {
+	id = rebel.13
+	desc = EVTDESCrebel13
+	picture = GFX_evt_peasants
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		owner = {
+			top_liege = {
+				any_war = {
+					limit = {
+						defender = { character = PREV }
+						using_cb = scoiatael_revolt
+						war_title = ROOT # The county
+					}
+					attacker = {
+						random_list = {
+							17 = {
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =25
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 4 4 }
+											light_infantry = { 10 10 }
+										}
+										attrition = 1.0
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =30
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 4 4 }
+											light_infantry = { 10 10 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =31
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 4 4 }
+											light_infantry = { 10 10 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+							}
+							17 = {
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =25
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 4 4 }
+											light_infantry = { 10 10 }
+										}
+										attrition = 1.0
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =30
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 4 4 }
+											light_infantry = { 10 10 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =31
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 4 4 }
+											light_infantry = { 10 10 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+							}
+							16 = {
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =25
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 3 3 }
+											light_infantry = { 11 11 }
+										}
+										attrition = 1.0
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =30
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 3 3 }
+											light_infantry = { 11 11 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =31
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 3 3 }
+											light_infantry = { 11 11 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+							}
+							17 = {
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =25
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 3 3 }
+											light_infantry = { 11 11 }
+										}
+										attrition = 1.0
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =30
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 3 3 }
+											light_infantry = { 11 11 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =31
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_cavalry = { 3 3 }
+											light_infantry = { 11 11 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+							}
+							16 = {
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =25
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_infantry = { 14 14 }
+										}
+										attrition = 1.0
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =30
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_infantry = { 14 14 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =31
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.75
+										troops = {
+											archers = { 6 6 }
+											light_infantry = { 14 14 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+							}
+							17 = {
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =25
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_infantry = { 14 14 }
+										}
+										attrition = 1.0
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =30
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_infantry = { 14 14 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+								create_character = {
+									random_traits = yes
+									dynasty = none
+									religion = THIS
+									culture = THIS
+									female = no
+									#age =31
+									trait = scoiatael_leader
+								}
+								new_character = {
+									spawn_unit = {
+										province = ROOT
+										home = ROOT
+										owner = PREV
+										scaled_by_biggest_garrison = 0.5
+										troops = {
+											archers = { 6 6 }
+											light_infantry = { 14 14 }
+										}
+										attrition = 1.0
+										disband_on_peace = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		owner = {
+			any_liege = { # Inform the lieges
+				character_event = {
+					id = rebel.14
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAebels.13
+	}
+}
+character_event = {
+	id = rebel.14
+	desc = EVTDESCrebel14
+	picture = GFX_evt_peasants
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTArebel13
+	}
+}

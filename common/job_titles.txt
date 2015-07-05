@@ -1,0 +1,361 @@
+##########################################
+# COUNCILLOR TITLES
+##########################################
+
+#	attribute: This attribute is added to the ruler's for governance purposes
+#	viceroy: This is the Viceroy title for de jure Kingdoms
+#	allow: conditions for the character to hold the title
+#	gain_effect: fires when the title is granted
+#	lose_effect: fires when a title is lost if dismissal_trigger evaluates to false
+#	The other fields are all character modifiers.
+
+job_mage = {
+	attribute = learning
+	dignity = 0.15
+	opinion_effect = 15
+	
+	monthly_salary = 0.5
+	monthly_prestige = 0.015
+	
+	allow = {
+		NOT = { culture = wilderness }
+		is_adult = yes
+		prisoner = no
+		trait = sorcerer
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_nilfgaard_academy }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		liege = {
+			NOT = { has_landed_title = d_thanedd }
+			NOT = { has_landed_title = d_nilfgaard_academy }
+			NOT = { has_landed_title = d_ban_ard_academy }
+			mercenary = no
+			NOT = { any_demesne_province = { culture = magic } }
+		}
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
+	lift_fow = yes
+}
+
+job_chancellor = {
+	is_chancellor = yes
+	attribute = diplomacy
+	dignity = 0.33
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.015
+	
+	allow = {
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					culture = dryad
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_chancellor
+		}
+		
+		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+	}
+	gain_effect = {
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
+	action = action_improve_relations
+	action = action_fabricate_claims
+	action = action_sow_dissent
+
+	lift_fow = yes
+}
+
+# NOTE: The allow trigger for this job also determines who can command armies!
+job_marshal = {
+	is_marshal = yes
+	attribute = martial
+	dignity = 0.33
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.015
+	
+	allow = {
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad_race
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+
+		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		NOT = { trait = witcher }
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
+	
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
+	action = action_assist_arrest
+	action = action_train_troops
+	action = action_advance_mil_tech
+	action = action_organize_raid # Replaces action_advance_mil_tech for Tribes
+
+	lift_fow = yes
+}
+
+job_treasurer = {
+	is_treasurer = yes
+	attribute = stewardship
+	dignity = 0.2
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	monthly_prestige = 0.015
+	
+	allow = {
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					culture = dryad
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_treasurer
+		}
+		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		NOT = { trait = witcher }
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
+	action = action_squeeze_peasants
+	action = action_settle_tribe # Replaces action_squeeze_peasants for Tribes
+	action = action_oversee_construction
+	action = action_advance_eco_tech
+	action = action_build_legend # Replaces action_advance_eco_tech for Tribes
+
+	lift_fow = yes
+}
+
+job_spymaster = {
+	is_spymaster = yes
+	attribute = intrigue
+	dignity = 0.1
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	
+	allow = {
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					liege = { 
+						OR = {
+							mother = { character = ROOT }
+							spouse = { character = ROOT }
+						}
+					}
+					culture = dryad
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_spymaster
+		}
+		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		NOT = { trait = witcher }
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	
+	action = action_uncover_plots
+	action = action_organize_spies
+	action = action_study_technology
+
+	lift_neighbor_fow = yes
+}
+
+job_spiritual = {
+	is_spiritual = yes
+	attribute = learning
+	dignity = 0.15
+	opinion_effect = 15
+	
+	monthly_salary = 0.1
+	monthly_piety = 0.015
+	
+	allow = {
+		NOT = { culture = wilderness }
+		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		liege = {
+			religion = ROOT
+		}
+		OR = {
+			AND = {
+				is_adult = yes
+				OR = {
+					AND = {
+						is_female = no
+						NOT = { religion = melitele }
+						NOT = { religion = freya }
+						NOT = { religion = dryad }
+					}
+					AND = {
+						is_female = yes
+						OR = {
+							religion = melitele
+							religion = freya
+						}
+					}
+					AND = { 
+						religion = dryad
+						trait = dryad_race
+					}
+					trait = druid
+				}
+			}
+			has_character_flag = special_spiritual
+		}
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		NOT = { trait = witcher }
+		OR = {
+			is_theocracy = yes
+			AND = {
+				liege = { is_tribal = yes }
+				is_ruler = no
+			}
+			is_ruler = no
+		}
+		OR = {
+			trait = detached_priest
+			trait = martial_cleric
+			trait = scholarly_theologian
+			trait = mastermind_theologian
+			trait = druid
+		}
+		liege = {
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+			NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+		}
+	}
+	gain_effect = {
+		if = {
+			limit = {
+				has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_fired_from_council
+				}
+			}
+			remove_opinion = { who = FROM modifier = opinion_fired_from_council }
+			opinion = { who = FROM modifier = opinion_job_security_concerns }
+		}
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+	}
+	dismiss_trigger = { }
+	
+	# action = action_inquisition
+	action = action_advance_cul_tech
+	action = action_improve_rel_relations
+	action = action_charity
+	action = action_build_zeal # Tribal replacement for 'action_advance_cul_tech'
+
+	lift_fow = yes
+}

@@ -1,0 +1,1010 @@
+namespace = feast
+
+##########################################################################
+# Dwarf feast 
+##########################################################################
+# Drink Preparations
+character_event = {
+	id = feast.1
+	desc = EVTDESCfeast.1
+	picture = GFX_evt_feast
+	
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		war = no
+		has_character_modifier = holding_dwarf_feast
+		NOT = { has_character_flag = lavishly_food }
+		NOT = { has_character_flag = medium_food }
+		NOT = { has_character_flag = low_food }
+	}
+	
+	option = { #The best food and drinks 
+		name = EVTOPTAfeast.1
+		trigger = { NOT = { trait = temperate } }
+		ai_chance = {
+			factor = 30
+			modifier = { factor = 0.5 trait = greedy }
+			modifier = { factor = 3 trait = hedonist }
+			modifier = { factor = 0.1 trait = temperate }
+			modifier = {
+				factor = 2
+				primary_title = { higher_tier_than = DUKE }
+			}
+		}
+		set_character_flag = lavishly_food
+		treasury = -20
+		prestige = 10
+		hidden_tooltip = {
+			character_event = { id = 72010 days = 2 random = 5 }
+		}
+	}
+	option = { #Normal food and drinks 
+		name = EVTOPTBfeast.1
+		ai_chance = {
+			factor = 30
+			modifier = { factor = 0.5 NOT = { trait = greedy } }
+			modifier = { factor = 2 NOT = { trait = hedonist } }
+			modifier = {
+				factor = 2
+				primary_title = { tier = DUKE }
+			}
+		}
+		set_character_flag = medium_food
+		treasury = -10
+		hidden_tooltip = {
+			character_event = { id = 72010 days = 2 random = 5 }
+		}
+	}
+	option = { # The cheapest food and drinks 
+		name = EVTOPTCfeast.1
+		trigger = { NOT = { trait = hedonist } }
+		ai_chance = {
+			factor = 30
+			modifier = { factor = 2.5 trait = greedy }
+			modifier = { factor = 0.5 trait = hedonist }
+			modifier = {
+				factor = 2
+				primary_title = { tier = COUNT }
+			}
+		}
+		set_character_flag = low_food
+		treasury = -5
+		prestige = -5
+		hidden_tooltip = {
+			character_event = { id = 72010 days = 2 random = 5 }
+		}
+		
+	}
+}
+# Feast Notification
+letter_event = {
+	id = feast.2
+	desc = EVTDESCfeast.2
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_tooltip = {
+			character_event = {
+				id =  feast.1
+				days = 25
+				random = 10
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.2
+	}
+}
+#The guests have arrived
+character_event = {
+	id = feast.3
+	desc = EVTDESCfeast.3
+	picture = GFX_evt_feast
+	
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		has_character_modifier = holding_dwarf_feast
+		has_character_flag = sent_invitations
+		NOT = {
+			has_character_flag = host_feast_started
+		}
+		any_vassal = {
+			NOT = {
+				has_character_flag = guest_feast_started
+			}
+			had_character_flag = {
+				flag = coming_to_feast
+				days = 5
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 1
+	}
+	
+	option = {
+		name = EVTOPTAfeast.3
+		set_character_flag = host_feast_started
+		any_vassal = {
+			limit = {
+				has_character_flag = coming_to_feast
+			}
+			character_event = {
+				id = feast.4
+				tooltip = EVTTOOLTIPfeast.4
+			}
+		}
+	}
+}
+#Welcome to the feast!
+character_event = {
+	id = feast.4
+	desc = EVTDESCfeast.4
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.4
+		set_character_flag = guest_feast_started
+	}
+}
+#The best food and drinks 
+character_event = {
+	id = feast.5
+	desc = EVTDESCfeast.5
+	picture = GFX_evt_feast
+	
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		has_character_flag = guest_feast_started
+		any_liege = {
+			NOT = {
+				had_character_flag = {
+					flag = host_feast_started
+					days = 30
+				}
+			}
+			NOT = {
+				has_character_modifier = complain_food_timer
+			}
+			NOT = {
+				has_character_modifier = compliment_food_timer
+			}
+			has_character_flag = host_feast_started
+			has_character_modifier = holding_dwarf_feast
+			has_character_flag = lavishly_food
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 180
+		
+		modifier = {
+			factor = 0.5
+			liege = { trait = hedonist }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 10 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 20 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 30 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 40 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 50 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 60 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 70 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 80 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 90 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 100 }
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.5 #Approve publicly
+		trigger = {
+			NOT = { trait = temperate }
+		}
+		ai_chance = {
+			factor = 40
+			
+			modifier = {
+				factor = 5
+				trait = hedonist
+			}
+		}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_dwarf_feast
+				has_character_flag = lavishly_food
+			}
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = compliment_food_timer
+					duration = 14
+					hidden = yes
+				}
+			}
+			character_event = {
+				id = feast.8
+				tooltip = EVTTOOLTIPfeast.8 #Liege is glad you liked it
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBfeast.5 #Disapprove
+		trigger = {
+			NOT = { trait = hedonist }
+		}
+		ai_chance = {
+			factor = 20
+			
+			modifier = {
+				factor = 5
+				trait = temperate
+			}
+		}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_dwarf_feast
+				has_character_flag = lavishly_food
+			}
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = complain_food_timer
+					duration = 14
+					hidden = yes
+				}
+			}
+			character_event = {
+				id = feast.9
+				tooltip = EVTTOOLTIPfeast.9 #Liege dislike you complaining
+			}
+		}		
+	}
+	option = {
+		name = EVTOPTCfeast.5
+		prestige = -10
+	}
+}
+ #Normal food and drinks 
+character_event = {
+	id = feast.6
+	desc = EVTDESCfeast.6
+	picture = GFX_evt_feast
+	
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		has_character_flag = guest_feast_started
+		any_liege = {
+			NOT = {
+				had_character_flag = {
+					flag = host_feast_started
+					days = 30
+				}
+			}
+			NOT = {
+				has_character_modifier = complain_food_timer
+			}
+			NOT = {
+				has_character_modifier = compliment_food_timer
+			}
+			has_character_flag = host_feast_started
+			has_character_modifier = holding_dwarf_feast
+			has_character_flag = medium_food
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 180
+		
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 10 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 20 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 30 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 40 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 50 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 60 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 70 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 80 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 90 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 100 }
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.6 #Approve publicly
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_dwarf_feast
+				has_character_flag = medium_food
+			}
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = compliment_food_timer
+					duration = 14
+					hidden = yes
+				}
+			}
+			character_event = {
+				id = feast.8
+				tooltip = EVTTOOLTIPfeast.8 #Liege is glad you liked it
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBfeast.6 #Disapprove
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_dwarf_feast
+				has_character_flag = medium_food
+			}
+			
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = complain_food_timer
+					duration = 14
+					hidden = yes
+				}
+			}
+			character_event = {
+				id = feast.9
+				tooltip = EVTTOOLTIPfeast.9 #Liege dislike you complaining
+			}
+		}		
+	}
+	option = {
+		name = EVTOPTCfeast.6
+		prestige = -10
+	}
+}
+# The cheapest food and drinks 
+character_event = {
+	id = feast.7
+	desc = EVTDESCfeast.7
+	picture = GFX_evt_feast
+	
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		war = no
+		has_character_flag = guest_feast_started
+		any_liege = {
+			NOT = {
+				had_character_flag = {
+					flag = host_feast_started
+					days = 30
+				}
+			}
+			NOT = {
+				has_character_modifier = complain_food_timer
+			}
+			NOT = {
+				has_character_modifier = compliment_food_timer
+			}
+			has_character_flag = host_feast_started
+			has_character_modifier = holding_dwarf_feast
+			has_character_flag = low_food
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 180
+		
+		modifier = {
+			factor = 0.5
+			liege = { trait = temperate }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 10 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 20 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 30 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 40 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 50 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 60 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 70 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 80 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 90 }
+		}
+		modifier = {
+			factor = 2
+			liege = { num_of_vassals = 100 }
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.7 #Approve publicly
+		trigger = {
+			NOT = { trait = hedonist }
+		}
+		ai_chance = {
+			factor = 20
+			
+			modifier = {
+				factor = 5
+				trait = temperate
+			}
+		}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_dwarf_feast
+				has_character_flag = low_food
+			}
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = compliment_food_timer
+					duration = 14
+					hidden = yes
+				}
+			}
+			character_event = {
+				id = feast.8
+				tooltip = EVTTOOLTIPfeast.8 #Liege is glad you liked it
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBfeast.7 #Disapprove
+		trigger = {
+			NOT = { trait = temperate }
+		}
+		ai_chance = {
+			factor = 40
+			
+			modifier = {
+				factor = 5
+				trait = gluttonous
+			}
+		}
+		any_liege = {
+			limit = {
+				has_character_flag = host_feast_started
+				has_character_modifier = holding_dwarf_feast
+				has_character_flag = low_food
+			}
+			hidden_tooltip = {
+				add_character_modifier = {
+					name = complain_food_timer
+					duration = 14
+					hidden = yes
+				}
+			}
+			character_event = {
+				id = feast.9
+				tooltip = EVTTOOLTIPfeast.9 #Liege dislike you complaining
+			}
+		}		
+	}
+	option = {
+		name = EVTOPTCfeast.7
+		prestige = -10
+	}
+}
+#Liege is glad you liked the food at the feast
+character_event = {
+	id = feast.8
+	desc = EVTDESCfeast.8
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.8
+		opinion = {
+			modifier = opinion_happy
+			who = FROM
+			years = 10
+		}
+	}
+}
+#Liege dislikes you complaining about the food at the feast
+character_event = {
+	id = feast.9
+	desc = EVTDESCfeast.9
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.9
+		opinion = {
+			modifier = opinion_irritated
+			who = FROM
+			years = 10
+		}
+	}
+}
+
+##########################################################################
+# Velen
+##########################################################################
+# Invitation Sent
+character_event = {
+	id = feast.100
+	desc = EVTDESCfeast.100
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAfeast.100
+		custom_tooltip = { text = velen_invitations_sent }
+		any_vassal = {
+			limit = {
+				age = 15
+				prisoner = no
+				war = no
+				NOT = { trait = incapable }
+				NOT = { has_character_flag = holding_velen }
+			}
+			character_event = { id = feast.101 days = 2 tooltip = EVTTOOLTIPfeast.101 }
+		}
+		hidden_tooltip = { character_event = { id = feast.103 days = 10 } }
+		hidden_tooltip = { character_event = { id = feast.104 days = 12 } }
+	}
+}
+# Invitation Received
+character_event = {
+	id = feast.101
+	desc = EVTDESCfeast.101
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.101
+		ai_chance = {
+			factor = 80
+			modifier = { factor = 0 NOT = {	opinion = { who = ROOT value = -20 } } }
+		}
+		custom_tooltip = { text = invitation_accepted }
+		set_character_flag = attending_velen
+		set_character_flag = do_not_disturb
+		hidden_tooltip = { character_event = { id = feast.103 days = 8 } }
+		hidden_tooltip = { character_event = { id = feast.106 days = 20 } } # Safety catch flag clearing
+	
+	}
+	option = {
+		name = EVTOPTAfeast.102
+		ai_chance = {
+			factor = 20
+		}
+		FROM = {
+			opinion = { modifier = opinion_refused_invitation who = ROOT }
+		}
+		custom_tooltip = { text = invitation_declined }
+		hidden_tooltip = {
+			FROM = { character_event = { id = feast.102 } }
+		}
+	}
+}
+# Invitation Refused
+character_event = {
+	id = feast.102
+	desc = EVTDESCfeast.102
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.102
+		opinion = { modifier = opinion_refused_invitation who = FROM }
+	}
+}
+# Velen Celebration Begins
+character_event = {
+	id = feast.103
+	desc = EVTDESCfeast.103
+	picture = GFX_evt_feast
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.103
+	}
+}
+# Velen Celebration Ends (Host)
+character_event = {
+	id = feast.104
+	desc = EVTDESCfeast.104
+	picture = GFX_evt_feast
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.104
+		any_vassal = {
+			limit = { has_character_flag = attending_velen }
+			opinion = { modifier = opinion_velen who = ROOT }
+			hidden_tooltip = {
+				character_event = { id = feast.105 }
+			}
+		}
+		add_character_modifier = { name = held_velen duration = 365 }
+		prestige = 50
+		piety = 50
+		clr_character_flag = holding_velen
+		clr_character_flag = do_not_disturb
+	}
+}
+# Velen Celebration Ends (Guest)
+character_event = {
+	id = feast.105
+	desc = EVTDESCfeast.105
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.105
+		clr_character_flag = attending_velen
+		clr_character_flag = do_not_disturb
+		add_character_modifier = { name = attended_velen duration = 365 }
+	}
+}
+# Safety catch - clears character flags and modifiers
+character_event = {
+	id = feast.106
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_character_flag = do_not_disturb
+		clr_character_flag = holding_velen
+		clr_character_flag = attending_velen
+	}
+}
+
+##########################################################################
+# Birke
+##########################################################################
+# Invitation Sent
+character_event = {
+	id = feast.120
+	desc = EVTDESCfeast.120
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	hide_from = yes
+	
+	option = {
+		name = EVTOPTAfeast.120
+		custom_tooltip = { text = birke_invitations_sent }
+		any_vassal = {
+			limit = {
+				age = 15
+				prisoner = no
+				war = no
+				NOT = { trait = incapable }
+				NOT = { has_character_flag = holding_birke }
+			}
+			character_event = { id = feast.121 days = 2 tooltip = EVTTOOLTIPfeast.121 }
+		}
+		hidden_tooltip = { character_event = { id = feast.123 days = 10 } }
+		hidden_tooltip = { character_event = { id = feast.124 days = 12 } }
+	}
+}
+# Invitation Received
+character_event = {
+	id = feast.121
+	desc = EVTDESCfeast.121
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.121
+		ai_chance = {
+			factor = 80
+			modifier = { factor = 0 NOT = {	opinion = { who = ROOT value = -20 } } }
+		}
+		custom_tooltip = { text = invitation_accepted }
+		set_character_flag = attending_birke
+		set_character_flag = do_not_disturb
+		hidden_tooltip = { character_event = { id = feast.123 days = 8 } }
+		hidden_tooltip = { character_event = { id = feast.126 days = 20 } } # Safety catch flag clearing
+	}
+	option = {
+		name = EVTOPTBfeast.121
+		ai_chance = {
+			factor = 20
+		}
+		FROM = {
+			opinion = { modifier = opinion_refused_invitation who = ROOT }
+		}
+		custom_tooltip = { text = invitation_declined }
+		hidden_tooltip = {
+			FROM = { character_event = { id = feast.122 } }
+		}
+	}
+}
+# Invitation Refused
+character_event = {
+	id = feast.122
+	desc = EVTDESCfeast.122
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.122
+		opinion = { modifier = opinion_refused_invitation who = FROM }
+	}
+}
+# Birke Celebration Begins
+character_event = {
+	id = feast.123
+	desc = EVTDESCfeast.123
+	picture = GFX_evt_feast
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.123
+	}
+}
+# Birke Celebration Ends (Host)
+character_event = {
+	id = feast.124
+	desc = EVTDESCfeast.124
+	picture = GFX_evt_feast
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.124
+		any_vassal = {
+			limit = { has_character_flag = attending_birke }
+			opinion = { modifier = opinion_birke who = ROOT }
+			hidden_tooltip = {
+				character_event = { id = feast.125 }
+			}
+		}
+		add_character_modifier = { name = held_birke duration = 365 }
+		prestige = 50
+		piety = 50
+		clr_character_flag = holding_birke
+		clr_character_flag = do_not_disturb
+	}
+}
+# Birke Celebration Ends (Guest)
+character_event = {
+	id = feast.125
+	desc = EVTDESCfeast.125
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.125
+		clr_character_flag = attending_birke
+		clr_character_flag = do_not_disturb
+		add_character_modifier = { name = attended_birke duration = 365 }
+	}
+}
+# Safety catch - clears character flags and modifiers
+character_event = {
+	id = feast.126
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_character_flag = do_not_disturb
+		clr_character_flag = holding_birke
+		clr_character_flag = attending_birke
+	}
+}
+
+##########################################################################
+# Events for feast duel
+##########################################################################
+# Duelist won duel
+character_event = {
+	id = feast.200
+	desc = EVTDESCfeast.200
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		FROM = {
+			OR = { 
+				has_character_flag = duel_lost
+				has_character_flag = duel_barely_lost
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.200
+		hidden_tooltip = { FROM = { character_event = { id = feast.202} } }
+	}
+}
+# Opponent won duel
+character_event = {
+	id = feast.201
+	desc = EVTDESCfeast.201
+	picture = GFX_evt_melee
+	
+	show_from_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = { 
+			has_character_flag = duel_won
+			has_character_flag = duel_barely_won
+		}
+	}
+	
+	option = {
+		name = EVTOPTAfeast.200
+		hidden_tooltip = { FROMFROM = { character_event = { id = feast.203} } }
+	}
+}
+# Duelist won duel. inform opponent
+character_event = {
+	id = feast.202
+	desc = EVTDESCfeast.202
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.202
+		random_list = {
+			50 = { }
+			30 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			20 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+		}
+	}
+}
+# Opponent won duel, inform duelist
+character_event = {
+	id = feast.203
+	desc = EVTDESCfeast.203
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAfeast.203
+		random_list = {
+			50 = { }
+			30 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			20 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+		}
+	}
+}

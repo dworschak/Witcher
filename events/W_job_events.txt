@@ -1,0 +1,2805 @@
+namespace = job
+
+################################################
+# Fake claim fabrication for AI
+################################################
+# Hidden - Independant ruler - Give claim on county if have no claims and have weak neighbours
+character_event = {
+	id = job.1
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		independent = yes
+		job_chancellor = {
+			NOT = { has_job_action = action_fabricate_claims }
+		}
+		any_realm_province = {
+			any_neighbor_province = {
+				NOT = { terrain = dryad_forest }
+				owner = {
+					NOT = { same_realm = ROOT }
+					OR = {
+						AND = {
+							top_liege = { NOT = { relative_power = { who = ROOT power = 1 } } }
+							independent = no
+						}
+						AND = {
+							NOT = { relative_power = { who = ROOT power = 0.75 } }
+							independent = yes
+						}
+					}
+				}
+			}
+		}
+		trait = ambitious
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+		modifier = {
+			factor = 2
+			any_claim = {
+				count = 1
+				tier = count
+			}
+		}
+		modifier = {
+			factor = 1000
+			any_claim = {
+				count = 2
+				tier = count
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						NOT = { same_realm = ROOT }
+						OR = {
+							AND = {
+								top_liege = { NOT = { relative_power = { who = ROOT power = 1 } } }
+								independent = no
+							}
+							AND = {
+								NOT = { relative_power = { who = ROOT power = 0.75 } }
+								independent = yes
+							}
+						}
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						NOT = { same_realm = ROOT }
+						OR = {
+							AND = {
+								top_liege = { NOT = { relative_power = { who = ROOT power = 1 } } }
+								independent = no
+							}
+							AND = {
+								NOT = { relative_power = { who = ROOT power = 0.75 } }
+								independent = yes
+							}
+						}
+					}
+				}
+				county = { add_claim = ROOT }
+			}
+		}
+	}
+}
+# Hidden - Independant ruler - Give claim on duchy if have no claims and have weak neighbours
+character_event = {
+	id = job.2
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		independent = yes
+		job_chancellor = {
+			NOT = { has_job_action = action_fabricate_claims }
+		}
+		any_realm_province = {
+			any_neighbor_province = {
+				NOT = { terrain = dryad_forest }
+				duchy = {
+					holder_scope = {
+						NOT = { same_realm = ROOT }
+						OR = {
+							AND = {
+								top_liege = { NOT = { relative_power = { who = ROOT power = 1 } } }
+								independent = no
+							}
+							AND = {
+								NOT = { relative_power = { who = ROOT power = 0.75 } }
+								independent = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		trait = ambitious
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+		modifier = { factor = 1000 any_claim = { tier = duke } }
+	}
+	
+	option = {
+		name = OK
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					NOT = { terrain = dryad_forest }
+					duchy = {
+						holder_scope = {
+							NOT = { same_realm = ROOT }
+							OR = {
+								AND = {
+									top_liege = { NOT = { relative_power = { who = ROOT power = 1 } } }
+									independent = no
+								}
+								AND = {
+									NOT = { relative_power = { who = ROOT power = 0.75 } }
+									independent = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					NOT = { terrain = dryad_forest }
+					duchy = {
+						holder_scope = {
+							NOT = { same_realm = ROOT }
+							OR = {
+								AND = {
+									top_liege = { NOT = { relative_power = { who = ROOT power = 1 } } }
+									independent = no
+								}
+								AND = {
+									NOT = { relative_power = { who = ROOT power = 0.75 } }
+									independent = yes
+								}
+							}
+						}
+					}
+				}
+				duchy = { add_claim = ROOT }
+			}
+		}
+	}
+}
+# Hidden - Vassal - Give claim on county if have no claims and have weak neighbours
+character_event = {
+	id = job.3
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		independent = no
+		num_of_claims = 0
+		job_chancellor = {
+			NOT = { has_job_action = action_fabricate_claims }
+		}
+		any_realm_province = {
+			any_neighbor_province = {
+				NOT = { terrain = dryad_forest }
+				owner = {
+					same_liege = ROOT
+					NOT = { relative_power = { who = ROOT power = 0.75 } }
+				}
+			}
+		}
+		trait = ambitious
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+		modifier = {
+			factor = 2
+			any_claim = {
+				count = 1
+				tier = count
+			}
+		}
+		modifier = {
+			factor = 1000
+			any_claim = {
+				count = 2
+				tier = count
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						same_liege = ROOT
+						NOT = { relative_power = { who = ROOT power = 0.75 } }
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					NOT = { terrain = dryad_forest }
+					owner = {
+						same_liege = ROOT
+						NOT = { relative_power = { who = ROOT power = 0.75 } }
+					}
+				}
+				county = { add_claim = ROOT }
+			}
+		}
+	}
+}
+# Hidden - Vassal - Give claim on duchy if have no claims and have weak neighbours
+character_event = {
+	id = job.4
+	
+	hide_window = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		independent = no
+		num_of_claims = 0
+		job_chancellor = {
+			NOT = { has_job_action = action_fabricate_claims }
+		}
+		any_realm_province = {
+			any_neighbor_province = {
+				NOT = { terrain = dryad_forest }
+				duchy = {
+					holder_scope = {
+						same_liege = ROOT
+						NOT = { relative_power = { who = ROOT power = 0.75 } }
+					}
+				}
+			}
+		}
+		trait = ambitious
+	}
+	
+	mean_time_to_happen = {
+		months = 5000
+		modifier = { factor = 1000 any_claim = { tier = duke } }
+	}
+	
+	option = {
+		name = OK
+		random_realm_province = {
+			limit = {
+				any_neighbor_province = {
+					NOT = { terrain = dryad_forest }
+					duchy = {
+						holder_scope = {
+							same_liege = ROOT
+							NOT = { relative_power = { who = ROOT power = 0.75 } }
+						}
+					}
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					NOT = { terrain = dryad_forest }
+					duchy = {
+						holder_scope = {
+							same_liege = ROOT
+							NOT = { relative_power = { who = ROOT power = 0.75 } }
+						}
+					}
+				}
+				duchy = { add_claim = ROOT }
+			}
+		}
+	}
+}
+
+################################################
+# Chancellor promotes weak claim to strong
+################################################
+# Chancellor promotes weak claim to strong
+character_event = {
+	id = job.10
+	desc = EVTDESCjob.10
+	picture = GFX_evt_spymaster
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	only_men = yes
+	
+	trigger = {
+		job_chancellor = {
+			diplomacy = 14
+		}
+		any_claim = {
+				ROOT = { has_weak_claim = PREV }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 720
+		modifier = {
+			factor = 0.95
+			diplomacy = 15
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 16
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 17
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 18
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 19
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 20
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 21
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 22
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 24
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 26
+		}
+		modifier = {
+			factor = 0.95
+			diplomacy = 29
+		}
+	}
+	
+	option = {
+		name = EVTOPTAjob.10
+		random_claim = {
+			limit = {
+				ROOT = { has_weak_claim = PREV }
+			}
+			ROOT = { 
+				hidden_tooltip = { remove_claim = PREV }
+				add_pressed_claim = PREV
+			}
+		}
+		scaled_wealth = -1.0
+		if = { # Emperor or King
+			limit = { primary_title = { higher_tier_than = DUKE } }
+			prestige = -150
+		}
+		if = { # Duke
+			limit = { primary_title = { tier = DUKE } }
+			prestige = -100
+		}
+		if = { # Count or Patrician
+			limit = {
+				OR = {
+					primary_title = { tier = COUNT }
+					AND = {
+						is_patrician = yes
+						primary_title = { NOT = { higher_tier_than = COUNT } }
+					}
+				}
+				primary_title = { tier = DUKE }
+			}
+			prestige = -50
+		}
+		ai_chance ={
+			factor = 5
+			modifier = { factor = 0 NOT = { prestige = 0 } }
+			modifier = { factor = 0 NOT = { scaled_wealth = 1.25 } }
+			modifier = { factor = 0 trait = content }
+			modifier = { factor = 2 trait = ambitious }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.10
+		piety = 10
+		ai_chance ={
+			factor = 1
+		}
+	}
+}
+
+################################################
+# Job flavor events from Prince and the Thane
+################################################
+# Chancellor deals with petitioners
+character_event = {
+	id = job.100
+	desc = EVTDESCjob.100
+	picture = GFX_evt_throne_room
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_chancellor
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.100
+		prestige = -10
+		employer = {
+			prestige = -10
+			wealth = -10
+			opinion = { modifier = opinion_disgruntled who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = patient 
+			hidden_tooltip = { character_event = { id = 38264 } }
+		}
+		random = {
+			chance = 10
+			add_trait = stressed 
+			hidden_tooltip = { character_event = { id = 38282 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = just }
+			modifier = { factor = 1.5 trait = patient }
+			modifier = { factor = 0 trait = slothful }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.100
+		prestige = 10
+		employer = {
+			wealth = -5
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = incompetent_rule duration = 365 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = just 
+			hidden_tooltip = { character_event = { id = 38267 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = proud }
+			modifier = { factor = 1.5 trait = just }
+			modifier = { factor = 0 trait = arbitrary }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.100
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = 10
+		employer = {
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+	option = {
+		name = EVTOPTDjob.100
+		trigger = { learning = 15 }
+		tooltip_info = learning
+		piety = 10
+		employer = {
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = { chance = 25
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+}
+# Chancellor deals with a diplomatic incident
+character_event = {
+	id = job.101
+	desc = EVTDESCjob.101
+	picture = GFX_evt_scandal
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_chancellor
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.101
+			prestige = -10
+		employer = {
+			prestige = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = just 
+			hidden_tooltip = { character_event = { id = 38267 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = just }
+			modifier = { factor = 1.5 trait = humble }
+			modifier = { factor = 0 trait = proud }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.101
+		employer = {
+			opinion = { modifier = opinion_disgruntled who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = incompetent_rule duration = 730 }
+			}
+		}
+		random = {
+			chance = 20
+			add_trait = cynical 
+			hidden_tooltip = { character_event = { id = 38258 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0 trait = humble }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.101
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 10
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = gregarious 
+			hidden_tooltip = { character_event = { id = 38265 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = gregarious }
+			modifier = { factor = 0 trait = shy }
+		}
+	}
+}
+# Chancellor deals with a foreign envoy
+character_event = {
+	id = job.102
+	desc = EVTDESCjob.102
+	picture = GFX_evt_emissary_muslim
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_chancellor
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.102
+		prestige = 10
+		employer = {
+			prestige = 10
+			scaled_wealth = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = kind 
+			hidden_tooltip = { character_event = { id = 38268 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 1.5 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.102
+		employer = {
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 1.5 trait = proud }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.102
+		prestige = 10
+		employer = {
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 1.5 trait = zealous }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Chancellor deals with a scandal
+character_event = {
+	id = job.103
+	desc = EVTDESCjob.103
+	picture = GFX_evt_brothel
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_chancellor
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.103
+		employer = {
+			wealth = -10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 1.5 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.103
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 10
+		employer = {
+			prestige = 10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.103
+		piety = 10
+		employer = {
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.6 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+}
+# Chancellor deals with a foreign envoy bringing gifts
+character_event = {
+	id = job.104
+	desc = EVTDESCjob.104
+	picture = GFX_evt_throne_room
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_chancellor
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.104
+		prestige = -10
+		wealth = 10
+		employer = {
+			wealth = 5
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 1.5 trait = greedy }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.104
+		prestige = 10
+		wealth = 5
+		employer = {
+			wealth = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = honest 
+			hidden_tooltip = { character_event = { id = 38262 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = honest }
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.104
+		trigger = { trait = zealous }
+		tooltip_info = zealous
+		piety = 20
+		employer = {
+			piety = 20
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Chancellor deals with a diplomatic insult
+character_event = {
+	id = job.105
+	desc = EVTDESCjob.105
+	picture = GFX_evt_scandal
+	border = GFX_event_normal_frame_diplomacy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_chancellor
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.105
+		piety = -10
+		employer = {
+			piety = -10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		random_independent_ruler = {
+			opinion = { modifier = opinion_angry who = liege years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 1.5 trait = cruel }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.105
+		prestige = -10
+		employer = {
+			wealth = 10
+			prestige = -10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = just 
+			hidden_tooltip = { character_event = { id = 38267 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = just }
+			modifier = { factor = 1.5 trait = honest }
+			modifier = { factor = 0 trait = proud }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.105
+		piety = 20
+		employer = {
+			prestige = -20
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 30
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = wroth }
+		}
+	}
+}
+# Chaplain deals with a philosophical book
+character_event = {
+	id = job.110
+	desc = EVTDESCjob.110
+	picture = GFX_evt_monk
+	border = GFX_event_normal_frame_religious
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spiritual
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.110
+		piety = -10
+		employer = {
+			prestige = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.110
+		trigger = { learning = 15 }
+		tooltip_info = learning
+		prestige = 10
+		employer = {
+			prestige = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 5
+			add_trait = cynical
+			hidden_tooltip = { character_event = { id = 38258 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.110
+		piety = 10
+		employer = {
+			piety = 10
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				add_province_modifier = { name = incompetent_rule duration = 1000 }
+			}
+		}
+		random = {
+			chance = 30
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0 trait = cynical }
+			modifier = { factor = 2 trait = zealous }
+		}
+	}
+}
+# Chaplain deals with heretic talks
+character_event = {
+	id = job.111
+	desc = EVTDESCjob.111
+	picture = GFX_evt_heretic
+	border = GFX_event_normal_frame_religious
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spiritual
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.111
+		piety = -20
+		employer = {
+			piety = -20
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = cynical
+			hidden_tooltip = { character_event = { id = 38258 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.111
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 10
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.111
+		piety = 10
+		employer = {
+			piety = 10
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = religious_tension duration = 730 }
+			}
+		}
+		random = {
+			chance = 30
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0 trait = cynical }
+			modifier = { factor = 2 trait = zealous }
+		}
+	}
+}
+# Chaplain deals with a woman accused of being witch
+character_event = {
+	id = job.112
+	desc = EVTDESCjob.112
+	picture = GFX_evt_peasants
+	border = GFX_event_normal_frame_religious
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spiritual
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.112
+		piety = 5
+		employer = {
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = cruel
+			hidden_tooltip = { character_event = { id = 38259 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0 trait = kind }
+			modifier = { factor = 2 trait = cruel }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.112
+		trigger = { learning = 15 }
+		tooltip_info = learning
+		prestige = 10
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = just
+			hidden_tooltip = { character_event = { id = 38267 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = just }
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.112
+		piety = 10
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = incompetent_rule duration = 730 }
+			}
+		}
+		random = {
+			chance = 30
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+}
+# Chaplain deals with a sexual scandal 
+character_event = {
+	id = job.113
+	desc = EVTDESCjob.113
+	picture = GFX_evt_sultan
+	border = GFX_event_normal_frame_religious
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			trait = lustful 
+		}
+		has_job_title = job_spiritual
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.113
+		employer = {
+			wealth = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = EVTOPTBjob.113
+		piety = -10
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = cynical 
+			hidden_tooltip = { character_event = { id = 38258 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = lustful }
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.113
+		piety = 20
+		employer = {
+			piety = -20
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = religious_tension duration = 730 }
+			}
+		}
+		random = {
+			chance = 30
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0 trait = cynical }
+			modifier = { factor = 2 trait = zealous }
+		}
+	}
+}
+# Steward deals with the interests on the realm's debts
+character_event = {
+	id = job.120
+	desc = EVTDESCjob.120
+	picture = GFX_evt_market
+	border = GFX_event_normal_frame_economy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			OR = {
+				has_character_modifier = loan_100
+				has_character_modifier = loan_200
+				has_character_modifier = loan_300
+			}
+		}
+		has_job_title = job_treasurer
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.120
+		prestige = -10
+		employer = {
+			prestige = -10
+			wealth = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 1.5 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.120
+		prestige = 10
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 1.5 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.120
+		prestige = -10
+		employer = {
+			prestige = -10
+			wealth = 10
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = high_taxes duration = 730 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+		factor = 0.3
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+}
+# Steward deals with ineffective policies
+character_event = {
+	id = job.121
+	desc = EVTDESCjob.121
+	picture = GFX_evt_spymaster
+	border = GFX_event_normal_frame_economy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			NOT = { wealth = 0 }
+		}
+		has_job_title = job_treasurer
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.121
+		employer = {
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 5
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.121
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = 10
+		employer = {
+			wealth = 20
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 5
+			add_trait = diligent 
+			hidden_tooltip = { character_event = { id = 38256 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 1.5 trait = diligent }
+			modifier = { factor = 1.5 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.121
+		prestige = -10
+		employer = {
+			prestige = -10
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = high_taxes duration = 730 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+}
+# Steward deals with the need of money during wartime
+character_event = {
+	id = job.122
+	desc = EVTDESCjob.122
+	picture = GFX_evt_large_army
+	border = GFX_event_normal_frame_economy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			war = yes
+		}
+		has_job_title = job_treasurer
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.122
+		prestige = -10
+		employer = {
+			prestige = -10
+			scaled_wealth = 10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = EVTOPTBjob.122
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = 10
+		employer = {
+			wealth = 20
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.122
+		prestige = -10
+		employer = {
+			prestige = -10
+			wealth = 20
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = high_taxes duration = 365 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = greedy
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = charitable }
+		}
+	}
+}
+# Steward deals with dwarven bankers in the realm
+character_event = {
+	id = job.123
+	desc = EVTDESCjob.123
+	picture = GFX_evt_jewish_banker
+	border = GFX_event_normal_frame_economy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			religion = eternal_fire
+		}
+		has_job_title = job_treasurer
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.123
+		piety = -20
+		employer = {
+			piety = -20
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = religious_tension duration = 365 }
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.123
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		piety = -10
+		employer = {
+			piety = -10
+			wealth = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.123
+		piety = 10
+		employer = {
+			scaled_wealth = -10
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = religious_tension duration = 365 }
+			}
+		}
+		random = {
+			chance = 20
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = zealous }
+			modifier = { factor = 0 trait = tolerant }
+		}
+	}
+}
+# Steward deals with foreign merchants
+character_event = {
+	id = job.124
+	desc = EVTDESCjob.124
+	picture = GFX_evt_throne_room
+	border = GFX_event_normal_frame_economy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_treasurer
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.124
+		prestige = -10
+		employer = {
+			prestige = -10
+			wealth = 10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 1.5 trait = greedy }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.124;
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = 10
+		employer = {
+			wealth = 20
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = greedy }
+			modifier = { factor = 0 trait = zealous }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.124
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random_independent_ruler = {
+			limit =  { NOT = { culture = ROOT } }
+			opinion = { modifier = opinion_angry who = liege years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		random = {
+			chance = 25
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = zealous }
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 0 trait = tolerant }
+		}
+	}
+}
+# Steward deals with liege spending too much
+character_event = {
+	id = job.125
+	desc = EVTDESCjob.125
+	picture = GFX_evt_market
+	border = GFX_event_normal_frame_economy
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			OR = {
+				trait = charitable
+				trait = drunkard
+				trait = lustful
+				trait = gluttonous 
+			}
+		}
+		has_job_title = job_treasurer
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.125
+		piety = 10
+		employer = {
+			wealth = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = temperate
+			hidden_tooltip = { character_event = { id = 38276 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = temperate }
+			modifier = { factor = 1.5 trait = gregarious }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.125
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = 10
+		employer = {
+			wealth = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = diligent 
+			hidden_tooltip = { character_event = { id = 38256 } }
+		}
+		random = {
+			chance = 10
+			add_trait = stressed 
+			hidden_tooltip = { character_event = { id = 38282 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = diligent }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.125
+		piety = 20
+		employer = {
+			prestige = -20
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = proud 
+			hidden_tooltip = { character_event = { id = 38261 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 0 trait = humble }
+		}
+	}
+}
+# Marshal deals with badly disciplined soldiers
+character_event = {
+	id = job.130
+	desc = EVTDESCjob.130
+	picture = GFX_evt_large_army
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_marshal
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.130
+		prestige = 10
+		employer = {
+			wealth = -10
+			add_character_modifier = { name = troops_likes_marshal duration = 730 }
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 5
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.130
+		trigger = { martial = 15 }
+		tooltip_info = martial
+		prestige = 10
+		employer = {
+			prestige = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = diligent 
+			hidden_tooltip = { character_event = { id = 38256 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = diligent }
+			modifier = { factor = 0 trait = slothful }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.130
+		piety = -10
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = cruel 
+			hidden_tooltip = { character_event = { id = 38259 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = cruel }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Marshal deals with poorly equipped soldiers
+character_event = {
+	id = job.131
+	desc = EVTDESCjob.131
+	picture = GFX_evt_large_army
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_marshal
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.131
+		prestige = 10
+		employer = {
+			wealth = -10
+			add_character_modifier = { name = troops_likes_marshal duration = 730 }
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.131
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = 10
+		employer = {
+			prestige = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 5
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 1.5 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.131
+		piety = 20
+		employer = {
+			add_character_modifier = { name = demotivated_troops duration = 730 }
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+}
+# Spymaster deals with a foreign spy
+character_event = {
+	id = job.140
+	desc = EVTDESCjob.140
+	picture = GFX_evt_spymaster
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spymaster
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.140
+		piety = -10
+		employer = {
+			add_character_modifier = { name = spy_imprison duration = 365 }
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		if = {
+			limit = { NOT = { lifestyle_traits = 1 } }
+			random = {
+				chance = 20
+				add_trait = impaler 
+				hidden_tooltip = { character_event = { id = trait_notification.7 } }
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = cruel }
+			modifier = { factor = 2 trait = impaler }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.140
+		piety = 10
+		employer = {
+			add_character_modifier = { name = vulnerable duration = 730 }
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = kind 
+			hidden_tooltip = { character_event = { id = 38268 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 2 trait = kind }
+			modifier = { factor = 0 trait = wroth }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.140
+		piety = -10
+		employer = {
+			piety = -10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = { chance = 15 add_trait = wroth }
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = wroth }
+			modifier = { factor = 0 trait = deceitful }
+		}
+	}
+}
+# Spymaster deals with street informants about liege assassination plans
+character_event = {
+	id = job.141
+	desc = EVTDESCjob.141
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spymaster
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.141
+		employer = {
+			wealth = -10
+			add_character_modifier = { name = spy_imprison duration = 365 }
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.141
+		piety = 10
+		employer = {
+			add_character_modifier = { name = vulnerable duration = 730 }
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.141
+		piety = -10
+		employer = {
+			piety = -10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = wroth
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Spymaster deals with hiding a scandal
+character_event = {
+	id = job.142
+	desc = EVTDESCjob.142
+	picture = GFX_evt_shadowy_cabal
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spymaster
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.142
+		prestige = -10
+		employer = {
+			wealth = -10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.142
+		wealth = 10
+		employer = {
+			prestige = -20
+			add_character_modifier = { name = vulnerable duration = 730 }
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = greedy 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 5 trait = greedy }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.142
+		piety = -10
+		employer = {
+			piety = -10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+}
+# Spymaster deals with unfaithful liege's spouse
+character_event = {
+	id = job.143
+	desc = EVTDESCjob.143
+	picture = GFX_evt_lovers
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = {
+			ai = yes
+			is_married = yes
+			spouse = { has_lover = yes }
+		}
+		has_job_title = job_spymaster
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.143
+		prestige = -10
+		employer = {
+			wealth = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.143
+		piety = -10
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.143
+		trigger = { intrigue = 15 }
+		tooltip_info = intrigue
+		employer = {
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 2
+		}
+	}
+}
+# The spymaster's interests clash with the church's
+character_event = {
+	id = job.144
+	desc = EVTDESCjob.144
+	picture = GFX_evt_bishop
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spymaster
+		NOT = {
+			piety = 200
+			trait = zealous
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.144
+		piety = -10
+		employer = {
+			piety = -10
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = cynical 
+			hidden_tooltip = { character_event = { id = 38258 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0 trait = zealous }
+			modifier = { factor = 2 trait = cynical }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.144
+		piety = 10
+		employer = {
+			add_character_modifier = { name = vulnerable duration = 730 }
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = zealous 
+			hidden_tooltip = { character_event = { id = 38269 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0 trait = cynical }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.144
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 10
+		piety = 10
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = gregarious 
+			hidden_tooltip = { character_event = { id = 38265 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 2 trait = gregarious }
+		}
+	}
+}
+# Spymaster deals with a turncloak foreign spy
+character_event = {
+	id = job.145
+	desc = EVTDESCjob.145
+	picture = GFX_evt_spymaster
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		has_job_title = job_spymaster
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.145
+		piety = -10
+		employer = {
+			opinion = { modifier = opinion_unconvinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 01
+			modifier = { factor = 1.5 trait = paranoid }
+			modifier = { factor = 2 trait = wroth }
+			modifier = { factor = 0 trait = deceitful }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.145
+		employer = {
+			wealth = -10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = trusting 
+			hidden_tooltip = { character_event = { id =38250 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = trusting }
+			modifier = { factor = 0 trait = deceitful }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.145
+		trigger = { intrigue = 15 }
+		tooltip_info = intrigue
+		piety = -10
+		employer = {
+			add_character_modifier = { name = vulnerable duration = 730 }
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+	option = {
+		name = EVTOPTDjob.145
+		trigger = { intrigue = 15 }
+		tooltip_info = intrigue
+		prestige = 20
+		employer = {
+			prestige = 20
+			add_character_modifier = { name = the_suspicious duration = 730 }
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = paranoid 
+			hidden_tooltip = { character_event = { id = 38275 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 1.5 trait = deceitful }
+			modifier = { factor = 2 trait = paranoid }
+			modifier = { factor = 0 trait = trusting }
+		}
+	}
+}
+# Councillor deals with a death menace
+character_event = {
+	id = job.150
+	desc = EVTDESCjob.150
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		is_councillor = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.150
+		piety = -20
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = incompetent_rule duration = 730 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = wroth }
+			modifier = { factor = 1.5 trait = cruel }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.150
+		wealth = -20
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = honest 
+			hidden_tooltip = { character_event = { id = 38262 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 1.5 trait = honest }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.150
+		trigger = { intrigue = 15 }
+		tooltip_info = intrigue
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = deceitful 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 1.5 trait = paranoid }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+}
+# Councillor deals with the liege's concerns on his policies
+character_event = {
+	id = job.151
+	desc = EVTDESCjob.151
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		is_councillor = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.151
+		prestige = -10
+		employer = {
+			prestige = 10 
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = humble 
+			hidden_tooltip = { character_event = { id = 38260 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = humble }
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 0 trait = proud }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.151
+		trigger = { NOT = { diplomacy = 15 } }
+		prestige = 10
+		employer = {
+			prestige = -10
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 10
+			add_trait = proud
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 0 trait = humble }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.151
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 20
+		employer = {
+			prestige = -20
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = proud
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 0 trait = humble }
+		}
+	}
+	option = {
+		name = EVTOPTDjob.151
+		trigger = { intrigue = 15 }
+		tooltip_info = intrigue
+		prestige = 20
+		employer = {
+			prestige = -20
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = deceitful
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+}
+# Councillor quarrels with liege
+character_event = {
+	id = job.152
+	desc = EVTDESCjob.152
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		is_councillor = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.152
+		prestige = 10
+		employer = {
+			prestige = -10 
+			opinion = { modifier = opinion_angry who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = proud 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = proud }
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 0 trait = humble }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.152
+		trigger = { stewardship = 15 }
+		tooltip_info = stewardship
+		prestige = -10
+		employer = {
+			prestige = 10
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		random = {
+		chance = 25
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = charitable }
+			modifier = { factor = 1.5 trait = humble }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.152
+		prestige = -10
+		employer = {
+			prestige = 10
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 15
+			add_trait = humble 
+			hidden_tooltip = { character_event = { id = 38260 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = humble }
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 0 trait = proud }
+		}
+	}
+	option = {
+		name = EVTOPTDjob.152
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 20
+		employer = {
+			prestige = -20
+			opinion = { modifier = opinion_disgruntled who = ROOT years = 5 }
+		}
+		random = {
+			chance = 25
+			add_trait = deceitful
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 1.5 trait = proud }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+}
+# Councillor deals with insults in the streets
+character_event = {
+	id = job.153
+	desc = EVTDESCjob.153
+	picture = GFX_evt_carriage
+	
+	is_triggered_only = yes
+	
+	prisoner = no
+	capable_only = yes
+	min_age = 15
+	
+	trigger = {
+		employer = { ai = yes }
+		is_councillor = yes
+	}
+	
+	weight_multiplier = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAjob.153
+		piety = -20
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = incompetent_rule duration = 730 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = wroth 
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = wroth }
+			modifier = { factor = 1.5 trait = cruel }
+			modifier = { factor = 0 trait = kind }
+		}
+	}
+	option = {
+		name = EVTOPTBjob.153
+		wealth = -10
+		employer = {
+			opinion = { modifier = opinion_convinced who = ROOT years = 5 }
+		}
+		random = {
+			chance = 20
+			add_trait = charitable 
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = charitable }
+			modifier = { factor = 1.5 trait = kind }
+			modifier = { factor = 0 trait = greedy }
+		}
+	}
+	option = {
+		name = EVTOPTCjob.153
+		prestige = -20
+		employer = {
+			opinion = { modifier = opinion_worried who = ROOT years = 5 }
+			random_demesne_province = {
+				limit = { is_capital = yes }
+				add_province_modifier = { name = incompetent_rule duration = 365 }
+			}
+		}
+		random = {
+			chance = 25
+			add_trait = humble 
+			hidden_tooltip = { character_event = { id = 38260 } }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 trait = humble }
+			modifier = { factor = 1.5 trait = slothful }
+			modifier = { factor = 0 trait = proud }
+		}
+	}
+	option = {
+		name = EVTOPTDjob.153
+		trigger = { diplomacy = 15 }
+		tooltip_info = diplomacy
+		prestige = 20
+		employer = {
+			opinion = { modifier = opinion_satisfied who = ROOT years = 5 }
+		}
+		ai_chance = {
+			factor = 2
+			modifier = { factor = 2 trait = deceitful }
+			modifier = { factor = 0 trait = honest }
+		}
+	}
+}

@@ -1,0 +1,1602 @@
+# Become court magician
+obj_become_mage = {
+	type = character
+	
+	expectation_of_liege = yes
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_nilfgaard_academy }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		NOT = { liege = { has_landed_title = d_thanedd } }
+		NOT = { liege = { has_landed_title = d_nilfgaard_academy } }
+		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
+		prisoner = no
+		is_adult = yes
+		is_councillor = no
+		trait = sorcerer
+		liege = {
+			NOT = { character = ROOT }
+		}
+		NOT = { trait = incapable }
+	}
+	 
+	chance = {
+		factor = 100
+		modifier = { factor = 0.01 trait = content }
+		modifier = { factor = 0.1 trait = shy }
+		modifier = { factor = 0.25 trait = slothful }
+		modifier = { factor = 1.25 from_ruler_dynasty = yes }
+		modifier = { factor = 1.5 trait = scholar }
+		modifier = { factor = 1.5 trait = alchemist }
+		modifier = { factor = 1.5 trait = cynical }
+		modifier = { factor = 1.5 trait = diligent }
+		modifier = { factor = 2.0 trait = ambitious }
+		modifier = { factor = 5.0 trait = sorcerer }
+	}
+	 
+	success = {
+		has_job_title = job_mage
+	}
+	 
+	abort = {
+		OR = {
+			independent = yes
+			AND = {
+				is_councillor = yes
+				NOT = { has_job_title = job_mage }
+			}
+		}
+	}
+	 
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_character_flag = successful_council_ambition }
+			}
+			change_learning = 1
+		}
+		opinion = { who = liege modifier = opinion_ambition_fulfilled months = 24 }
+		set_character_flag = successful_council_ambition
+	}
+}
+# Gain tower
+obj_gain_tower = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		is_landed = no
+		prisoner = no
+		is_adult = yes
+		trait = sorcerer
+		NOT = { trait = incapable }
+	}
+	 
+	chance = {
+		factor = 200
+		modifier = { factor = 2 trait = ambitious }
+		modifier = { factor = 0.01 trait = content }
+		modifier = { factor = 5 trait = scholar }
+		modifier = { factor = 3 trait = shy }
+		modifier = { factor = 0.01 trait = gregarious }
+		modifier = { factor = 2 trait = thrifty_clerk }
+		modifier = {
+			factor = 5
+			OR = {
+				trait = fortune_builder
+				trait = midas_touched
+			}
+		}
+		modifier = { factor = 2 wealth = 100 }
+		modifier = { factor = 5 wealth = 500 }
+		modifier = { factor = 0.1 NOT = { yearly_income = 5 } }
+		modifier = { factor = 0.5 NOT = { yearly_income = 10 } }
+	}
+	 
+	success = {
+		any_demesne_province = {
+			culture = magic
+		}
+	}
+	 
+	abort = {
+		OR = {
+			trait = incapable
+			any_demesne_province = {
+				NOT = { culture = magic }
+			}
+			higher_tier_than = COUNT
+		}
+	}
+	 
+	effect = {
+		prestige = 100
+	}
+}
+# Cure infertility
+obj_cure_infertility = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		prisoner = no
+		is_adult = yes
+		trait = sorcerer
+		NOT = { trait = incapable }
+		NOT = { trait = fertile_sorcerer }
+	}
+	 
+	chance = {
+		factor = 50
+	}
+	 
+	success = {
+		trait = fertile_sorcerer
+	}
+	 
+	abort = {
+		OR = {
+			has_character_modifier = old_age
+			trait = incapable
+		}
+	}
+	 
+	effect = { }
+}
+# Improve combat trait (no trait to poor warrior)
+obj_cta_0 = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies for your liege/yourself (and meet the base criteria),
+		# then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad_race
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		NOT = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }# weird things happen (cta_done is not normally set for the 0->1 tier transition)
+	}
+	
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 }# implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	
+	success = {
+		OR = { # CTA only advances 1 level, but external code or console might jump the trait higher
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad_race
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+		}
+	}
+	
+	effect = {
+		prestige = 25
+	}
+}
+# Improve combat trait (poor warrior to trained warrior)
+obj_cta_1 = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies (and meet the base criteria), then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad_race
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		trait = poor_warrior
+		NOT = {
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }
+	}
+	
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 }# implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	
+	success = {
+		OR = {
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad_race
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+			
+			NOT = { # external code might demote a character
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+	}
+	
+	effect = {
+		prestige = 50
+	}
+}
+# Improve combat trait (trained warrior to skilled warrior)
+obj_cta_2 = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies (and meet the base criteria), then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad_race
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		trait = trained_warrior
+		NOT = {
+			trait = poor_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }
+	}
+	
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 0.75
+			age = 40
+		}
+		modifier = {
+			factor = 0.333
+			age = 45
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 }# implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	
+	success = {
+		OR = {
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+	}
+	
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad_race
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+			
+			# external code might demote a character
+			trait = poor_warrior
+			NOT = {
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+	}
+	
+	effect = {
+		prestige = 75
+	}
+}
+# Improve combat trait (skilled warrior to master warrior)
+obj_cta_3 = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		OR = {
+			is_ruler = yes
+			liege = { job_marshal = { character = ROOT } }
+		}
+		is_adult = yes
+		NOT = {
+			has_character_modifier = old_age
+			age = 50
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+		}
+		
+		# ladies, if you can command armies (and meet the base criteria), then this ambition is for you too.
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad_race
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+		
+		trait = skilled_warrior
+		NOT = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = master_warrior
+		}
+		
+		NOT = { has_character_flag = cta_done }
+	}
+	chance = {
+		factor = 100
+		
+		modifier = {
+			factor = 0
+			NOT = { martial = 8 }
+		}
+		modifier = {
+			factor = 10
+			liege = { job_marshal = { character = ROOT } }
+		}
+		modifier = {
+			factor = 0.75
+			age = 40
+		}
+		modifier = {
+			factor = 0.333
+			age = 45
+		}
+		modifier = {
+			factor = 1.25
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+			martial = 12
+		}
+		modifier = {
+			factor = 2.5
+			trait = brave
+		}
+		modifier = {
+			factor = 2.5
+			trait = veteran
+		}
+		modifier = {
+			factor = 2.5
+			trait = military_officer
+		}
+		modifier = {
+			factor = 1.75
+			trait = scarred # already has proven battle experience, likely candidate to be in future battles
+		}
+		modifier = {
+			factor = 1.75
+			trait = agile
+		}
+		modifier = {
+			factor = 2
+			trait = strong
+		}
+		modifier = {
+			factor = 6
+			trait = duelist
+		}
+		modifier = {
+			factor = 2.5
+			trait = hunter
+		}
+		modifier = {
+			factor = 0.25
+			trait = hedonist
+		}
+		modifier = {
+			factor = 0.333
+			trait = weak
+		}
+		modifier = {
+			factor = 0.333
+			trait = clubfooted
+		}
+		modifier = {
+			factor = 0.75
+			trait = content
+		}
+		modifier = {
+			factor = 0.25
+			trait = craven
+		}
+		modifier = {
+			factor = 0.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.667
+			OR = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+			}
+		}
+		modifier = {
+			factor = 0.333
+			OR = {
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = {
+			factor = 8
+			trait = brilliant_strategist
+		}
+		modifier = {
+			factor = 5
+			trait = skilled_tactician
+		}
+		modifier = {
+			factor = 3
+			trait = tough_soldier
+		}
+		modifier = {
+			factor = 2
+			trait = misguided_warrior
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { martial = 10 }# implies martial = 8 or 9 (martial < 8 is disabled for AI)
+		}
+		# TODO: martial scaling should be less coarse-grained
+		modifier = {
+			factor = 1.5
+			martial = 12
+		}
+		modifier = {
+			factor = 1.5
+			martial = 15
+		}
+		modifier = {
+			factor = 1.5
+			martial = 18
+		}
+		modifier = {
+			factor = 1.5
+			martial = 21
+		}
+		modifier = {
+			factor = 1.5
+			martial = 24
+		}
+	}
+	
+	success = {
+		trait = master_warrior
+	}
+	
+	abort = {
+		OR = {
+			NOT = {
+				is_ruler = yes
+				liege = { job_marshal = { character = ROOT } }
+			}
+			is_adult = no # weird stuff happens.
+			has_character_modifier = old_age
+			prisoner = yes
+			trait = incapable
+			trait = blinded
+			
+			# and ladies should abort if conditions change such that they can no longer command armies
+			NOT = {
+				trait = dryad_race
+				trait = sorcerer
+				has_character_flag = special_marshal
+			}
+			
+			# external code might demote a character
+			trait = poor_warrior
+			trait = trained_warrior
+			NOT = {
+				trait = poor_warrior
+				trait = trained_warrior
+				trait = skilled_warrior
+				trait = master_warrior
+			}
+		}
+	}
+	
+	effect = {
+		prestige = 100
+	}
+}
+# Amass forune
+obj_amass_fortune = { # Wealth 2
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+		NOT = { has_character_flag = amassed_fortune }
+		NOT = { has_character_flag = amassed_hoard }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_ruler = yes
+		OR = {
+			AND = {
+				wealth = 200
+				NOT = { wealth = 500 }
+			}
+			AND = {
+				NOT = { wealth = 700 }
+				has_character_flag = amassed_wealth
+			}
+		}
+		NOT = { trait = charitable }
+		NOT = { trait = incapable }
+	}
+	
+	chance = {
+		factor = 100
+		modifier = { factor = 1.25 trait = patient }
+		modifier = { factor = 1.25 trait = fortune_builder }
+		modifier = { factor = 1.25 trait = midas_touched }
+		modifier = { factor = 10.0 trait = greedy }
+		modifier = { factor = 0.01 trait = content }
+	}
+	
+	success = {
+		wealth = 1000
+	}
+	
+	abort = {
+		OR = {
+			trait = charitable
+			trait = incapable
+		}
+	}
+	
+	effect = {
+		if = {
+			limit = { NOT = { has_character_flag = amassed_wealth } }
+			change_stewardship = 1
+			set_character_flag = amassed_wealth
+		}
+		change_stewardship = 1
+		set_character_flag = amassed_fortune
+	}
+}
+# Amass hoard
+obj_amass_hoard = { # Wealth 3
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+		NOT = { has_character_flag = amassed_hoard }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_ruler = yes
+		OR = {
+			AND = {
+				wealth = 500
+				NOT = { wealth = 1000 }
+				NOT = { has_character_flag = amassed_wealth }
+			}
+			AND = {
+				NOT = { wealth = 1500 }
+				wealth = 700
+				has_character_flag = amassed_wealth
+			}
+			AND = {
+				NOT = { wealth = 1500 }
+				has_character_flag = amassed_fortune
+			}
+		}
+		NOT = { trait = charitable }
+		NOT = { trait = incapable }
+	}
+	
+	chance = {
+		factor = 100
+		modifier = { factor = 1.25 trait = patient }
+		modifier = { factor = 1.25 trait = fortune_builder }
+		modifier = { factor = 1.25 trait = midas_touched }
+		modifier = { factor = 10.0 trait = greedy }
+		modifier = { factor = 0.01 trait = content }
+	}
+	
+	success = {
+		wealth = 2500
+	}
+	
+	abort = {
+		OR = {
+			trait = charitable
+			trait = incapable
+		}
+	}
+	
+	effect = {
+		if = {
+			limit = { NOT = { has_character_flag = amassed_wealth } }
+			change_stewardship = 1
+			set_character_flag = amassed_wealth
+		}
+		if = {
+			limit = { NOT = { has_character_flag = amassed_fortune } }
+			change_stewardship = 1
+			set_character_flag = amassed_fortune
+		}
+		change_stewardship = 1
+		set_character_flag = amassed_hoard
+	}
+}
+# Publicly pious
+obj_publicly_pious = { # Piety 1
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+		NOT = { has_character_flag = publicly_pious }
+		NOT = { has_character_flag = known_for_virtue }
+		NOT = { has_character_flag = paragon_of_virtue }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_ruler = yes
+		NOT = { piety = 200 }
+		NOT = { trait = cruel }
+		NOT = { trait = impaler }
+		NOT = { trait = incapable }
+	}
+	
+	chance = {
+		factor = 50
+		modifier = { factor = 1.25 trait = patient }
+		modifier = {
+			factor = 0.01
+			NOT = { tier = king }
+			NOT = { tier = emperor }
+		}
+		modifier = {
+			factor = 10.0
+			OR = {
+				trait = detached_priest
+				trait = martial_cleric
+				trait = scholarly_theologian
+				trait = mastermind_theologian
+			}
+		}
+		modifier = { factor = 10.0 trait = zealous }
+		modifier = { factor = 0.01 trait = cynical }
+	}
+	
+	success = {
+		piety = 500
+	}
+	abort = {
+		OR = {
+			trait = cruel
+			trait = impaler
+			trait = incapable
+		}
+	}
+	
+	effect = {
+		change_learning = 1
+		set_character_flag = publicly_pious
+	}
+}
+# Known for virtue
+obj_known_for_virtue = { # Piety 2
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+		NOT = { has_character_flag = known_for_virtue }
+		NOT = { has_character_flag = paragon_of_virtue }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_ruler = yes
+		OR = {
+			AND = {
+				piety = 200
+				NOT = { piety = 500 }
+			}
+			AND = {
+				NOT = { piety = 700 }
+				has_character_flag = publicly_pious
+			}
+		}
+		NOT = { trait = cruel }
+		NOT = { trait = impaler }
+		NOT = { trait = incapable }
+	}
+	
+	chance = {
+		factor = 50
+		modifier = { factor = 1.25 trait = patient }
+		modifier = {
+			factor = 0.01
+			NOT = { tier = king }
+			NOT = { tier = emperor }
+		}
+		modifier = {
+			factor = 10.0
+			OR = {
+				trait = detached_priest
+				trait = martial_cleric
+				trait = scholarly_theologian
+				trait = mastermind_theologian
+			}
+		}
+		modifier = { factor = 10.0 trait = zealous }
+		modifier = { factor = 0.01 trait = cynical }
+	}
+	
+	success = {
+		piety = 1000
+	}
+	
+	abort = {
+		OR = {
+			trait = cruel
+			trait = impaler
+			trait = incapable
+		}
+	}
+	
+	effect = {
+		if = {
+			limit = { NOT = { has_character_flag = publicly_pious } }
+			change_learning = 1
+			set_character_flag = publicly_pious
+		}
+		change_learning = 1
+		set_character_flag = known_for_virtue
+	}
+}
+# Become distinguished
+obj_become_distinguished = { # Prestige 1
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+		NOT = { has_character_flag = distinguished }
+		NOT = { has_character_flag = fame_glory }
+		NOT = { has_character_flag = exalted }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_ruler = yes
+		NOT = { prestige = 200 }
+		NOT = { trait = content }
+		NOT = { trait = humble }
+		NOT = { trait = incapable }
+	}
+	
+	chance = {
+		factor = 50
+		modifier = { factor = 1.25 trait = patient }
+		modifier = {
+			factor = 0.01
+			NOT = { tier = king }
+			NOT = { tier = emperor }
+		}
+		modifier = { factor = 5.0 trait = ambitious }
+		modifier = { factor = 10.0 trait = proud }
+	}
+	
+	success = {
+		prestige = 500
+	}
+	
+	abort = {
+		OR = {
+			trait = content
+			trait = humble
+			trait = incapable
+		}
+	}
+	
+	effect = {
+		change_diplomacy = 1
+		set_character_flag = distinguished
+	}
+}
+# Seek fame and glory
+obj_seek_fame_glory = { # Prestige 2
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+		NOT = { has_character_flag = fame_glory }
+		NOT = { has_character_flag = exalted }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_ruler = yes
+		OR = {
+			AND = {
+				NOT = { prestige = 500 }
+				prestige = 200
+			}
+			AND = {
+				NOT = { prestige = 700 }
+				has_character_flag = distinguished
+			}
+		}
+		NOT = { trait = content }
+		NOT = { trait = humble }
+		NOT = { trait = incapable }
+	}
+	
+	chance = {
+		factor = 50
+		modifier = { factor = 1.25 trait = patient }
+		modifier = {
+			factor = 0.01
+			NOT = { tier = king }
+			NOT = { tier = emperor }
+		}
+		modifier = { factor = 5.0 trait = ambitious }
+		modifier = { factor = 10.0 trait = proud }
+	}
+	
+	success = {
+		prestige = 1000
+	}
+	
+	abort = {
+		OR = {
+			trait = content
+			trait = humble
+			trait = incapable
+		}
+	}
+	
+	effect = {
+		prestige = 150
+		if = {
+			limit = { NOT = { has_character_flag = distinguished } }
+			change_diplomacy = 1
+			set_character_flag = distinguished
+		}
+		change_diplomacy = 1
+		set_character_flag = fame_glory
+	}
+}
+# Expand by conquest
+obj_expand_by_conquest = {
+	type = character
+	
+	can_cancel = no
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		is_adult = yes
+		is_playable = yes
+		is_landed = yes
+		higher_tier_than = baron
+		NOT = { has_character_flag = obj_expand_by_conquest_taken }
+		NOT = { trait = incapable }
+		trait = ambitious
+	}
+	
+	chance = {
+		factor = 100
+		modifier = { factor = 1.25 higher_tier_than = count }
+		modifier = { factor = 1.25 higher_tier_than = duke }
+	}
+	
+	creation_effect = {
+		set_character_flag = obj_expand_by_conquest_taken
+	}
+	
+	success = {
+		custom_tooltip = {
+			text = obj_expand_by_conquest_succeeded
+			has_character_flag = obj_expand_by_conquest_succeeded
+		}
+	}
+	
+	effect = {
+		prestige = 200
+		clr_character_flag = obj_expand_by_conquest_succeeded
+	}
+	
+	abort = {
+		OR = {
+			trait = incapable
+			is_ruler = no
+		}
+	}
+	
+	abort_effect = {
+		clr_character_flag = obj_expand_by_conquest_failed
+	}
+}
+# Make a friend
+obj_make_a_friend = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		prisoner = no
+		age = 15
+		NOT = { trait = incapable }
+		NOT = { num_of_friends = 1 }
+	}
+	
+	chance = {
+		factor = 10
+		modifier = { factor = 2.0 trait = gregarious }
+		modifier = { factor = 2.0 trait = kind }
+		modifier = { factor = 1.5 trait = just }
+		modifier = { factor = 0.1 trait = shy }
+		modifier = { factor = 0.75 trait = envious }
+		modifier = { factor = 0.5 trait = cruel }
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = { factor = 0.5 trait = deceitful }
+		modifier = { factor = 0.1 is_married = no }
+		modifier = { factor = 0.5 has_character_modifier = old_age }
+		modifier = { factor = 0.5 is_female = yes }
+		modifier = { factor = 0.5 is_ruler = no }
+	}
+	
+	success = {
+		num_of_friends = 1
+	}
+	
+	abort = {
+		trait = incapable
+	}
+	
+	effect = {
+		prestige = 10
+	}
+}
+# Find a lover
+obj_find_a_lover = {
+	type = character
+	
+	potential = {
+		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		prisoner = no
+		is_adult = yes
+		is_priest = no
+		is_ruler = yes
+		has_lover = no
+		NOT = { has_landed_title = k_eternal_fire }
+		NOT = { trait = celibate }
+		NOT = { trait = incapable }
+		NOT = { trait = eunuch }
+		OR = {
+			is_female = no
+			NOT = { has_character_modifier = old_age }
+		}
+	}
+	
+	chance = {
+		factor = 100
+		modifier = { factor = 0.1 trait = chaste }
+		modifier = { factor = 0.5 trait = shy }
+		modifier = { factor = 2 trait = lustful }
+		modifier = { factor = 2 trait = hedonist }
+	}
+	
+	success = {
+		has_lover = yes
+	}
+	
+	abort = {
+		OR = {
+			is_priest = yes
+			AND = {
+				is_female = yes
+				is_ruler = no
+				has_character_modifier = old_age
+			}
+			trait = celibate
+			trait = incapable
+			has_landed_title = k_eternal_fire
+			trait = eunuch
+		}
+	}
+	
+	effect = {
+		prestige = 10
+	}
+}

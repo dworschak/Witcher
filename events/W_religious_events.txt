@@ -1,0 +1,765 @@
+namespace = religious
+
+################################################
+# Spider Cult sacrifices a prisoner
+################################################
+# Liege Informed of Sacrifice
+character_event = {
+	id = religious.1
+	desc = EVTDESCreligious.1
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAreligious.1
+	}
+}
+# Sacrifice Prisoner 
+character_event = {
+	id = religious.2
+	desc = EVTDESCreligious.2
+	picture = GFX_evt_shadowy_cabal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAreligious.2
+		piety = 10
+		hidden_tooltip = {
+			random_list = {
+				90 = { }
+				5 = { character_event = { id = religious.5 days = 182 random = 30 } }
+				5 = { character_event = { id = religious.6 days = 182 random = 30 } }
+			}
+		}
+	}
+}
+
+################################################
+# Spider cultist gets impaler, cruel
+################################################
+# Spider cultist enjoys torturing
+character_event = {
+	id = religious.5
+	desc = EVTDESCreligious.5
+	picture = GFX_evt_torture
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		NOT = { lifestyle_traits = 1 }
+		religion = spider
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 3 trait = zealous }
+		modifier = { factor = 1.5 trait = cruel }
+		modifier = { factor = 1.5 trait = envious }
+		modifier = { factor = 1.2 trait = proud }
+		modifier = { factor = 1.5 trait = wroth }
+		modifier = { factor = 0.6 trait = kind }
+		modifier = { factor = 0.9 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAreligious.5
+		add_trait = impaler
+	}
+	option = {
+		name = EVTOPTBreligious.5
+		piety = 20
+	}
+}
+# Spider cultist enjoys cruelity
+character_event = {
+	id = religious.6
+	desc = EVTDESCreligious.6
+	picture = GFX_evt_lunatic
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		NOT = { trait = cruel }
+		religion = spider
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = { factor = 3 trait = zealous }
+		modifier = { factor = 1.5 trait = impaler }
+		modifier = { factor = 1.5 trait = envious }
+		modifier = { factor = 1.2 trait = proud }
+		modifier = { factor = 1.5 trait = wroth }
+		modifier = { factor = 0.6 trait = kind }
+		modifier = { factor = 0.9 trait = just }
+	}
+	
+	option = {
+		name = EVTOPTAreligious.6
+		random = {
+			chance = 25
+			if = {
+				limit = { trait = kind }
+				remove_trait = kind
+			}
+			add_trait = cruel
+			hidden_tooltip = {
+				character_event = {
+					id = 38259 #Notify Cruel
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBreligious.6
+		prestige = 20
+	}
+}
+
+################################################
+# Prayers from VIET
+################################################
+# Church Prayer
+character_event = {
+	id = religious.10
+	desc = EVTDESCreligious.10
+	picture = GFX_evt_bishop
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		is_ruler = yes
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = zealous
+		}
+		modifier = {
+			factor = 0.5
+			trait = cynical
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 1.5
+			trait = depressed
+		}
+		modifier = {
+			factor = 1.5
+			trait = stressed
+		}
+	}
+	
+	option = {
+		name = EVTOPTAreligious.10 #healing
+		ai_chance = {
+			factor = 1
+		}
+		piety = 3
+		if = {
+			limit = {
+				trait = stressed
+			}
+			remove_trait = stressed
+		}
+		if = {
+			limit = {
+				trait = depressed
+			}
+			remove_trait = depressed
+		}
+	}
+}
+
+################################################
+# Female priests for freya and melitele
+################################################
+# Hidden - Kill landed randomly generated male priests without family
+character_event = {
+	id = religious.20
+	
+	hide_window = yes
+	
+	only_men = yes
+	only_rulers = yes
+	
+	trigger = {
+		NOT = { culture = wilderness}
+		is_theocracy = yes
+		OR = {
+			religion = freya
+			religion = melitele
+		}
+		NOT = { father_even_if_dead = { always = yes } }
+		NOT = { mother_even_if_dead = { always = yes } }
+		NOT ={ any_demesne_province = { culture = magic } }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = OK
+		if = {
+			limit = { religion = freya }
+			create_random_priest = {
+				random_traits = yes
+				dynasty = none
+				female = yes
+				religion = freya
+			}
+		}
+		if = {
+			limit = { religion = melitele }
+			create_random_priest = {
+				random_traits = yes
+				dynasty = none
+				female = yes
+				religion = melitele
+			}
+		}
+		new_character = {
+			ROOT = {
+				any_demesne_title = {
+					gain_title = PREVPREV
+				}
+			}
+		}
+		death = yes
+	}
+}
+
+##########################################
+# Temple of Melitele in Ellander
+##########################################
+# Temple of Melitele is very influential
+character_event = {
+	id = religious.30
+	
+	hide_window = yes
+	
+	ai = yes
+	only_capable = yes
+	prisoner = no
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		has_landed_title = b_melitele
+		is_priest = yes
+		religion = melitele
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	immediate = {
+		piety = 50
+		prestige = 25
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Donate to Temple of Melitele
+narrative_event = {
+	id = religious.31
+	title = EVTNAMEreligious.31
+	desc = EVTDESCreligious.31
+	picture = GFX_evt_monastery_nuns
+	border = GFX_event_narrative_frame_religion
+	
+	only_rulers = yes
+	only_capable = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		b_melitele = {
+			holder_scope = {
+				is_priest = yes
+				religion = ROOT
+			}
+		}
+		religion = melitele
+		wealth = 200
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+	}
+	
+	option = {
+		name = EVTOPTAreligious.31
+		ai_chance = {
+			factor = 20
+		}
+		if = {
+			limit = { NOT = { wealth = 600 } }
+			wealth = -100
+			prestige = 50
+			piety = 50
+			b_melitele = {
+				holder_scope = {
+					wealth = 100
+				}
+			}
+		}
+		if = {
+			limit = {
+				wealth = 600
+			}
+			wealth = -300
+			prestige = 100
+			piety = 100
+			b_melitele = {
+				holder_scope = {
+					wealth = 300
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBreligious.31
+		ai_chance = {
+			factor = 80
+		}
+	}
+}
+# Visit Temple of Melitele?
+narrative_event = {
+	id = religious.32
+	title = EVTNAMEreligious.32
+	desc = EVTDESCreligious.32
+	picture = GFX_evt_monastery_nuns
+	border = GFX_event_narrative_frame_religion
+	
+	ai = no
+	prisoner = no
+	only_rulers = yes
+	only_capable = yes
+	min_age = 15
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		b_melitele = {
+			holder_scope = {
+				is_priest = yes
+				religion = ROOT
+			}
+		}
+		religion = melitele
+		distance = {
+			where = 8 # Ellander
+			value = 300 # Not too far away
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+	}
+	
+	option = {
+		name = EVTOPTAreligious.32
+		wealth = -10
+		hidden_tooltip = { narrative_event = { id = religious.33 days = 10 } }
+	}
+	option = {
+		name = EVTOPTBreligious.32
+		piety = -5
+	}
+}
+# Visiting Temple of Melitele
+narrative_event = {
+	id = religious.33
+	title = EVTNAMEreligious.33
+	desc = EVTDESCreligious.33
+	picture = GFX_evt_monastery_nuns
+	border = GFX_event_narrative_frame_religion
+
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAreligious.33
+		random = {
+			chance = 20
+			change_stewardship = 1
+		}
+	}
+	option = {
+		name = EVTOPTBreligious.33
+		if = {
+			limit = { NOT = { lifestyle_traits = 1 } }
+			random = {
+				chance = 50
+				add_trait = scholar
+			}
+		}
+		random = {
+			chance = 20
+			change_learning = 1
+		}
+	}
+	option = {
+		name = EVTOPTCreligious.33
+		piety = 30
+		add_character_modifier = { name = the_pious duration = 24 }
+	}
+}
+
+##########################################
+# Schools of thought for Solar religion
+##########################################
+# Adopts Solarist
+character_event = {
+	id = religious.100
+	desc =EVTDESCreligious.100
+	picture = GFX_evt_kaaba
+	border = GFX_event_normal_frame_religion
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAreligious.100
+		add_trait = solarist
+		piety = 50
+	}
+}
+# Adopts Imperialist
+character_event = {
+	id = religious.101
+	desc =EVTDESCreligious.101
+	picture = GFX_evt_kaaba
+	border = GFX_event_normal_frame_religion
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAreligious.101
+		add_trait = imperialist
+		prestige = 50
+	}
+}
+# Hidden - Solarist liege has Imperialist vassal
+character_event = {
+	id = religious.110
+	
+	hide_window = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = imperialist
+		liege = { 
+			trait = solarist 
+			NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_rejected_school } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 320
+		modifier = { factor = 2 any_independent_ruler = { trait = strong_emperor } }
+	}
+	
+	option = {
+		liege = { character_event = { id = religious.111 } }
+	}
+}
+# Solarist liege has Imperialist vassal
+character_event = {
+	id = religious.111
+	desc = EVTDESC_SoA_603
+	picture = GFX_evt_kaaba
+	border = GFX_event_normal_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_603
+		FROM = { letter_event = { id = religious.112 days = 3 tooltip = EVTTOOLTIP_SoA_604 } }
+	}
+	option = {
+		name = EVTOPTB_SoA_603
+	}
+}
+# Imperialist vassal receives letter
+letter_event = {
+	id = religious.112
+	desc = EVTDESC_SoA_604
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_604
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0.5 trait = zealous }
+			modifier = { factor = 0.5 trait = stubborn }
+			modifier = { factor = 2 trait = reasonable }
+			modifier = { factor = 1.5 any_independent_ruler = { trait = strong_emperor } }
+		}
+		FROM = { letter_event = { id = religious.113 days = 3 tooltip = EVTTOOLTIP_SoA_605 } }
+		remove_trait = imperialist
+		add_trait = solarist
+	}
+	option = {
+		name = EVTOPTB_SoA_604
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 trait = cynical }
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 2 trait = stubborn }
+			modifier = { factor = 0.5 trait = reasonable }
+			modifier = { factor = 2 any_independent_ruler = { trait = strong_emperor } }
+		}
+		FROM = { 
+			opinion = { modifier = opinion_rejected_school who = ROOT }
+			letter_event = { id = religious.114 days = 3 tooltip = EVTTOOLTIP_SoA_606 }
+		}
+	}
+}
+# Imperialist vassal complies
+letter_event = {
+	id = religious.113
+	desc = EVTDESC_SoA_605
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_605
+		tooltip = {
+			FROM = {
+				remove_trait = imperialist
+				add_trait = solarist
+			}
+		}
+	}
+}
+# Imperialist vassal refuses
+letter_event = {
+	id = religious.114
+	desc = EVTDESC_SoA_606
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_606
+	}
+}
+# Hidden - Imperialist liege has Solarist vassal
+character_event = {
+	id = religious.120
+	
+	hide_window = yes
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = solarist
+		liege = { 
+			trait = imperialist 
+			NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_rejected_school } }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 320
+		modifier = { factor = 1.5 any_independent_ruler = { NOT = { trait = strong_emperor } } }
+	}
+	
+	option = {
+		liege = { character_event = { id = religious.121 } }
+	}
+}
+# Imperialist liege has Solarist vassal
+character_event = {
+	id = religious.121
+	desc = EVTDESC_SoA_603
+	picture = GFX_evt_kaaba
+	border = GFX_event_normal_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_603
+		FROM = { letter_event = { id = religious.122 days = 3 tooltip = EVTTOOLTIP_SoA_604 } }
+	}
+	option = {
+		name = EVTOPTB_SoA_603
+	}
+}
+# Solarist vassal receives letter
+letter_event = {
+	id = religious.122
+	desc = EVTDESC_SoA_604
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_604
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 trait = cynical }
+			modifier = { factor = 2 trait = zealous }
+			modifier = { factor = 0.5 trait = stubborn }
+			modifier = { factor = 2 trait = reasonable }
+			modifier = { factor = 2 any_independent_ruler = { trait = strong_emperor } }
+		}
+		FROM = { letter_event = { id = religious.123 days = 3 tooltip = EVTTOOLTIP_SoA_605 } }
+		remove_trait = solarist
+		add_trait = imperialist
+	}
+	option = {
+		name = EVTOPTB_SoA_604
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = cynical }
+			modifier = { factor = 0.5 trait = zealous }
+			modifier = { factor = 2 trait = stubborn }
+			modifier = { factor = 0.5 trait = reasonable }
+			modifier = { factor = 1.5 any_independent_ruler = { NOT = { trait = strong_emperor } } }
+		}
+		FROM = { 
+			opinion = { modifier = opinion_rejected_school who = ROOT }
+			letter_event = { id = religious.124 days = 3 tooltip = EVTTOOLTIP_SoA_606 }
+		}
+	}
+}
+# Solarist vassal complies
+letter_event = {
+	id = religious.123
+	desc = EVTDESC_SoA_605
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_605
+		tooltip = {
+			FROM = {
+				remove_trait = solarist
+				add_trait = imperialist
+			}
+		}
+	}
+}
+# Solarist vassal refuses
+letter_event = {
+	id = religious.124
+	desc = EVTDESC_SoA_606
+	border = GFX_event_letter_frame_religion
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_SoA_606
+	}
+}
+# Cynical Solarist considers Imperialist
+character_event = {
+	id = religious.130
+	desc = EVTDESC_SoA_620
+	picture = GFX_evt_kaaba
+	border = GFX_event_normal_frame_religion
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = solarist
+		trait = cynical
+	}
+	
+	mean_time_to_happen = {
+		months = 140
+	}
+	
+	option = {
+		name = EVTOPTA_SoA_620
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 trait = stubborn }
+			modifier = { factor = 2 trait = reasonable }
+		}
+		remove_trait = solarist
+		add_trait = imperialist
+	}
+	option = {
+		name = EVTOPTB_SoA_620
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = stubborn }
+			modifier = { factor = 0.5 trait = reasonable }
+		}
+		remove_trait = cynical
+		add_trait = zealous
+	}
+}
+# Zealous Imperialist considers Solarist
+character_event = {
+	id = religious.131
+	desc = EVTDESC_SoA_621
+	picture = GFX_evt_kaaba
+	border = GFX_event_normal_frame_religion
+	
+	trigger = {
+		has_dlc = "Sons of Abraham"
+		trait = imperialist
+		trait = zealous
+	}
+	
+	mean_time_to_happen = {
+		months = 140
+	}
+	
+	option = {
+		name = EVTOPTA_SoA_620
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 0.5 trait = stubborn }
+			modifier = { factor = 2 trait = reasonable }
+		}
+		remove_trait = imperialist
+		add_trait = solarist
+	}
+	option = {
+		name = EVTOPTB_SoA_621
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 trait = stubborn }
+			modifier = { factor = 0.5 trait = reasonable }
+		}
+		remove_trait = zealous
+		add_trait = cynical
+	}
+}

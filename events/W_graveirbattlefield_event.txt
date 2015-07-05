@@ -1,0 +1,460 @@
+namespace = graveirbattlefield
+
+#Graveir Catches Someone While Foraging Battlefield 
+character_event = {
+	id = graveirbattlefield.0
+	desc = graveirbattlefield.0.desc
+	picture = GFX_evt_pale_rider
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		death = {
+			death_reason = death_murder_unknown
+		}
+	}
+	
+	option = {
+		name = ALAS
+		liege = { character_event = { id = graveirbattlefield.100 } }
+	}
+}
+
+#Liege Informed
+character_event = {
+	id = graveirbattlefield.100
+	desc = graveirbattlefield.100.desc
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+
+	option = {
+		name = graveirbattlefield.101 #Send Your Marshal To Hunt It
+		trigger = {
+			any_courtier = {
+				has_job_title = job_marshal
+			}
+		}
+		job_marshal = {
+			letter_event = { id = graveirbattlefield.200 days = 1 }
+		}
+		set_character_flag = sent_marshal_to_hunt_graveir
+	}
+	
+	
+	option = {
+		name = graveirbattlefield.102 #I Will Avenge Him Myself
+		random = {
+			chance = 20
+			add_trait = brave
+		}
+		prestige = 75
+		FROM = {
+			any_dynasty_member = {
+				opinion = {
+					modifier = opinion_grateful
+					who = ROOT
+					years = 2
+				}
+			}
+			any_friend = {
+				opinion = {
+					modifier = opinion_grateful
+					who = ROOT
+					years = 2
+				}
+			}
+		}
+		trigger = {
+				trait = brave
+				NOT = { trait = craven }
+		}
+		hidden_tooltip = {
+			character_event = { id = graveirbattlefield.250 days = 1 }
+		}
+	}
+	
+	
+	option = {
+		name = graveirbattlefield.103	#Take A Group To Hunt It
+		random = {
+			chance = 10
+			add_trait = brave
+		}
+		prestige = 30
+		FROM = {
+			any_dynasty_member = {
+				opinion = {
+					modifier = opinion_grateful
+					who = ROOT
+					years = 2
+				}
+			}
+			any_friend = {
+				opinion = {
+					modifier = opinion_grateful
+					who = ROOT
+					years = 2
+				}
+			}
+		}
+		hidden_tooltip = {
+			character_event = { id = graveirbattlefield.300 days = 1 }
+		}
+	}
+	
+	
+	option = {
+		name = graveirbattlefield.104 #It's Too Dangerous
+		random = {
+			chance = 20
+			add_trait = craven
+		}
+		prestige = -25
+		FROM = {
+			any_dynasty_member = {
+				opinion = {
+					modifier = opinion_hatred
+					who = ROOT
+					years = 3
+				}
+			}
+			any_friend = {
+				opinion = {
+					modifier = opinion_hatred
+					who = ROOT
+					years = 3
+				}
+			}
+		}
+	}
+}
+
+#Marshal Asked To Hunt Graveir
+letter_event = {
+	id = graveirbattlefield.200
+	desc = graveirbattlefield.200.desc
+	picture = GFX_evt_throne_room
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = graveirbattlefield.201 #Accept
+		random = {
+			chance = 20
+			add_trait = brave
+		}
+		prestige = 50
+		FROM = {
+			letter_event = { id = graveirbattlefield.210 days = 1 }
+		}
+		character_event = { id = graveirbattlefield.250 days = 1 }
+	}
+	
+	
+	option = {
+		name = graveirbattlefield.202 #Refuse
+		random = {
+			chance = 20
+			add_trait = craven 
+		}
+		prestige = -35
+		FROM = {
+			letter_event = { id = graveirbattlefield.220 days = 1 }
+		}
+	}
+}
+
+#Marshal Accepted
+letter_event = {
+	id = graveirbattlefield.210
+	desc = graveirbattlefield.210.desc
+	picture = GFX_evt_large_army
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = GOODMAN
+		opinion = {
+			modifier = opinion_grateful
+			who = FROM
+			years = 1
+		}
+	}
+}
+
+#Marshal Refused
+letter_event = {
+	id = graveirbattlefield.220
+	desc = graveirbattlefield.220.desc
+	picture = GFX_evt_scandal
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = HOWDAREHE
+		opinion = {
+			modifier = opinion_angry
+			who = FROM
+			years = 1
+		}
+	}
+}
+
+#Hunting Graveir
+character_event = {
+	id = graveirbattlefield.250
+	desc = graveirbattlefield.250.desc
+	picture = GFX_evt_pale_rider
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = graveirbattlefield.251 #Charge!
+		random = {
+			chance = 70
+			add_trait = brave
+		}
+		hidden_tooltip = {
+			random_list = {
+				55 = { character_event = { id = graveirbattlefield.260 days = 1 } }
+				30 = { character_event = { id = graveirbattlefield.270 days = 1 } }
+				10 = { character_event = { id = graveirbattlefield.280 days = 1 } }
+				5 = { character_event = { id = graveirbattlefield.290 } }
+			}
+		}
+	}
+	
+	option = {
+		name = graveirbattlefield.252 #RunAway
+		random = {
+			chance = 80
+			add_trait = craven
+		}
+		hidden_tooltip = {
+			random_list = {
+				90 = { character_event = { id = graveirbattlefield.400 days = 1 } }
+				10 = { character_event = { id = graveirbattlefield.290 } }
+			}
+		}
+	}
+}
+
+#Victory!
+character_event = {
+	id = graveirbattlefield.260
+	desc = graveirbattlefield.260.desc
+	picture = GFX_evt_pale_rider
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = GLORIOUS
+		random = {
+			chance = 50
+			change_martial = 1
+		}
+		prestige = 50
+		if = { 
+			limit = { liege = { has_character_flag = sent_marshal_to_hunt_graveir } }
+			liege = { letter_event = { id = graveirbattlefield.265 } }
+		}
+	}
+}
+
+#Wounded
+character_event = {
+	id = graveirbattlefield.270
+	desc = graveirbattlefield.270.desc
+	picture = GFX_evt_large_army
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DAMN
+		add_trait = wounded
+		random = {
+			chance = 40
+			change_martial = 1
+		}
+		prestige = 50
+		if = {
+			limit = { liege = { has_character_flag = sent_marshal_to_hunt_graveir } }
+			liege = { letter_event = { id = graveirbattlefield.275 } }
+		}
+	}
+}
+
+#Maimed
+character_event = {
+	id = graveirbattlefield.280
+	desc = graveirbattlefield.280.desc
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = UGH
+		add_trait = maimed
+		random = { 
+			chance = 30
+			change_martial = 1
+		}
+		prestige = 50
+		if = {
+			limit = { liege = { has_character_flag = sent_marshal_to_hunt_graveir } }
+			liege = { letter_event = { id = graveirbattlefield.285 } }
+		}
+	}
+}
+
+#Death
+character_event = {
+	id = graveirbattlefield.290
+	desc = graveirbattlefield.290.desc
+	picture = GFX_evt_bloody_man
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = ALAS
+		death = {
+			death_reason = death_battle
+		}
+		if = {
+			limit = { liege = { has_character_flag = sent_marshal_to_hunt_graveir } }
+			liege = { letter_event = { id = graveirbattlefield.295 } }
+		}
+	}
+}
+
+#Take A Group To Hunt It
+character_event = {
+	id = graveirbattlefield.300
+	desc = graveirbattlefield.300.desc
+	picture = GFX_evt_large_army
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = graveirbattlefield.301 #Attack!
+		random = {
+			chance = 20
+			add_trait = brave
+		}
+		hidden_tooltip = {
+			random_list = {
+				75 = { character_event = { id = graveirbattlefield.260 days = 1 } }
+				15 = { character_event = { id = graveirbattlefield.270 days = 1 } }
+				7 = { character_event = { id = graveirbattlefield.280 days = 1 } }
+				3 = { character_event = { id = graveirbattlefield.290 } }
+			}
+		}
+	}
+	
+	option = {
+		name = graveirbattlefield.302 #RunAway!
+		add_trait = craven
+		hidden_tooltip = {
+			random_list = {
+				98 = { character_event = { id = graveirbattlefield.400 days = 1 } }
+				2 = { character_event = { id = graveirbattlefield.290 } }
+			}
+		}
+	}
+}
+
+#Liege Informed Events
+#Victory
+letter_event = {
+	id = graveirbattlefield.265
+	desc = graveirbattlefield.265.desc
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = HURRAH
+		clr_character_flag = sent_marshal_to_hunt_graveir
+	}
+}
+#Wounded
+letter_event = {
+	id = graveirbattlefield.275
+	desc = graveirbattlefield.275.desc
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = WELLDONE
+		clr_character_flag = sent_marshal_to_hunt_graveir
+	}
+}
+#Maimed
+letter_event = {
+	id = graveirbattlefield.285
+	desc = graveirbattlefield.285.desc
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DAMN
+		clr_character_flag = sent_marshal_to_hunt_graveir
+	}
+}
+#Death
+letter_event = {
+	id = graveirbattlefield.295
+	desc = graveirbattlefield.295.desc
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = ASHAME
+		random_list = {
+			10 = { add_trait = stressed }
+			5 = { add_trait = depressed }
+		}
+		clr_character_flag = sent_marshal_to_hunt_graveir
+	}
+}
+#Fled (Informed)
+letter_event = {
+	id = graveirbattlefield.405
+	desc = graveirbattlefield.405.desc
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = COWARD
+		clr_character_flag = sent_marshal_to_hunt_graveir
+		job_marshal = {
+			opinion = {
+				modifier = opinion_disappointed
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
+
+#Fled
+character_event = {
+	id = graveirbattlefield.400
+	desc = graveirbattlefield.400.desc
+	picture = GFX_evt_lunatic
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = WHEW
+		if = {
+			limit = { liege = { has_character_flag = sent_marshal_to_hunt_graveir } }
+			liege = { letter_event = { id = graveirbattlefield.405 } }
+		}
+	}
+}

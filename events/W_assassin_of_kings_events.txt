@@ -1,0 +1,2080 @@
+namespace = aok
+# TO DO - remake Foltest and Arjan chain
+
+################################################
+# Foltest vs Arjan
+################################################
+# Foltet Starting Narrative
+narrative_event = {
+	id = aok.1
+	desc = EVTDESCaok.1
+	title = EVTNAMEaok.1
+	picture = GFX_evt_large_army
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_foltest
+	}
+	
+	option = {
+		name = EVTOPTAaok.1
+		clr_character_flag = aok_foltest
+		set_character_flag = aok_foltest_start
+	}
+}
+# Arjan Starting Narrative
+narrative_event = {
+	id = aok.2
+	desc = EVTDESCaok.2
+	title = EVTNAMEaok.2
+	picture = GFX_evt_large_army
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_arjan
+	}
+	
+	option = {
+		name = EVTOPTAaok.2
+		clr_character_flag = aok_arjan
+		set_character_flag = aok_arjan_start
+		
+		k_temeria = {
+			reverse_war = {
+				target = ROOT
+				casus_belli = depose_liege
+			}
+		}
+	}
+}
+# Foltest offer Arjan to surrender during siege
+character_event = {
+	id = aok.3
+	desc = EVTDESCaok.3
+	picture = GFX_evt_siege
+	
+	trigger = {
+		has_character_flag = aok_foltest_start
+		siege = {
+			location = { province_id = 13 } # La Valette
+		}
+	}
+	
+	option = { # Offer
+		name = EVTOPTAaok.3
+		#random_playable_ruler = {
+		#	limit = { has_character_flag = aok_arjan_start }
+		#	character_event = { id = aok.4 tooltip = EVTTOOLTIPaok.4 }
+		#}
+		location = {
+			county = {
+				holder_scope = {
+					character_event = { id = aok.4 days = 1 }
+				}
+			}
+		}
+		clr_character_flag = aok_foltest_start
+		set_character_flag = aok_foltest_offers_surrender
+		#character_event = { id = aok.7 tooltip = EVTTOOLTIPaok.7 }
+		ai_chance = { factor = 100 }
+	}
+	option = { # Don't offer
+		name = EVTOPTBaok.3
+		clr_character_flag = aok_foltest_start
+		set_character_flag = aok_foltest_siege
+		ai_chance = { factor = 0 }
+	}
+}
+
+# Who do we want to send in?
+character_event = {
+	id = aok.7
+	desc = EVTDESCaok.7
+	picture = GFX_evt_siege
+	
+	is_triggered_only = yes
+		
+	immediate = {
+		random_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_arjan_start }
+			character_event = { id = aok.4 tooltip = EVTTOOLTIPaok.4 }
+		}
+	}
+	
+	option = {	# Send the Witcher
+		name = EVTOPTAaok.7
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 5
+			}
+		}
+	}
+	option = {	# Send my marshal
+		name = EVTOPTBaok.7
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 5
+			}
+		}
+	}
+	option = {	# Go in myself
+		name = EVTOPTCaok.7
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 5
+				trait = brave
+			}
+		}
+	}
+}
+
+# Arjan decides if surrender
+character_event = {
+	id = aok.4
+	desc = EVTDESCaok.4
+	picture = GFX_evt_siege
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_arjan_start
+	}
+	
+	option = { # Surrender
+		name = EVTOPTAaok.4
+		ROOT = { imprison = FROM }
+		clr_character_flag = aok_arjan_start
+		set_character_flag = aok_arjan_surrender
+		ai_chance = { factor = 10 }
+	}
+	option = { # Don't surrender
+		name = EVTOPTBaok.4
+		clr_character_flag = aok_arjan_start
+		set_character_flag = aok_arjan_fight
+		ai_chance = { factor = 1 }
+	}
+}
+# Foltest wins the siege of La Valette (on_siege_won_leader)
+character_event = {
+	id = aok.5
+	desc = EVTDESCaok.5
+	picture = GFX_evt_siege
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			has_character_flag = aok_foltest_siege
+			AND = {
+				has_character_flag = aok_foltest_offers_surrender
+				any_playable_ruler = { has_character_flag = aok_arjan_fight }
+			}
+		}
+		FROM = { title = b_la_valette_castle }
+	}
+	
+	option = {
+		name = EVTOPTAaok.5
+		clr_character_flag = aok_foltest_siege
+		clr_character_flag = aok_foltest_offers_surrender
+		set_character_flag = aok_foltest_won
+	}
+}
+# Foltest wins the war decide what to do with bastards
+character_event = {
+	id = aok.6
+	desc = EVTDESCaok.6
+	picture = GFX_evt_child_play
+	
+	trigger = {
+		trait = foltest
+		OR = {
+			AND = {
+				has_character_flag = aok_foltest_won
+				any_playable_ruler = { has_character_flag = aok_arjan_surrender }
+			}
+			AND = {
+				war = no
+				age = 1
+				OR = {
+					has_character_flag = aok_foltest_start
+					has_character_flag = aok_foltest_offers_surrender
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		clr_character_flag = aok_foltest_start
+		clr_character_flag = aok_foltest_offers_surrender
+	}
+	
+	option = { # Legitimize them
+		name = EVTOPTAaok.6
+		random_playable_ruler = {
+			limit = { 
+				OR = {
+					has_character_flag = aok_arjan_surrender
+					has_character_flag = aok_arjan_fight
+				}
+			}
+			mother_even_if_dead = {
+				any_child = {
+					limit = {
+						trait = bastard
+						father = { character = ROOT }
+					}
+					remove_trait = bastard
+					add_trait = legit_bastard
+					move_character = ROOT
+				}
+			}
+		}
+		ai_chance = { factor = 10 }
+	}
+	option = { # Take them with you
+		name = EVTOPTBaok.6
+		random_playable_ruler = {
+			limit = { 
+				OR = {
+					has_character_flag = aok_arjan_surrender
+					has_character_flag = aok_arjan_fight
+				}
+			}
+			mother_even_if_dead = {
+				any_child = {
+					limit = {
+						trait = bastard
+						father = { character = ROOT }
+					}
+					move_character = ROOT
+				}
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # Do nothing
+		name = EVTOPTCaok.6
+		ai_chance = { factor = 1 }
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Parley
+################################################
+# Henselt - Intro
+narrative_event = {
+	id = aok.1003
+	desc = EVTDESCaok.1003
+	title = EVTNAMEaok.1003
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1003
+		hidden_tooltip = { narrative_event = { id = aok.1000 } }
+	}
+}
+# Henselt - Parely choose your stance
+narrative_event = {
+	id = aok.1000
+	desc = EVTDESCaok.1000
+	title = EVTNAMEaok.1000
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	immediate = {
+		character_event = { id = aok.1010 days = 1 }
+	}
+	
+	option = { # Peace
+		name = EVTOPTAaok.1000
+		set_global_flag = parly_henselt_wishes_peace
+		random = {
+			chance = 10
+			add_trait = craven
+			hidden_tooltip = { character_event = { id = 38257 } }
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # War
+		name = EVTOPTBaok.1000
+		set_global_flag = parly_henselt_wishes_war
+		ai_chance = { factor = 2 }
+	}
+}
+# Saskia - Intro
+narrative_event = {
+	id = aok.1004
+	desc = EVTDESCaok.1004
+	title = EVTNAMEaok.1004
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1004
+		hidden_tooltip = { narrative_event = { id = aok.1001 } }
+	}
+}
+# Saskia - Parely choose your stance
+narrative_event = {
+	id = aok.1001
+	desc = EVTDESCaok.1001
+	title = EVTNAMEaok.1000
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = { # Peace
+		name = EVTOPTAaok.1001
+		set_global_flag = parly_saskia_interrupted
+		ai_chance = { factor = 1 }
+	}
+	option = { # War
+		name = EVTOPTBaok.1001
+		set_global_flag = parly_saskia_interrupted
+		ai_chance = { factor = 1 }
+	}
+	option = { # Leave it up to Stennis
+		name = EVTOPTCaok.1001
+		random = {
+			chance = 10
+			add_trait = content
+			hidden_tooltip = { character_event = { id = 38279 } }
+		}
+		ai_chance = { factor = 3 }
+	}
+}
+# Sennis - Intro
+narrative_event = {
+	id = aok.1005
+	desc = EVTDESCaok.1005
+	title = EVTNAMEaok.1003
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1005
+		hidden_tooltip = { narrative_event = { id = aok.1002 } }
+	}
+}
+# Sennis - Parely choose your stance
+narrative_event = {
+	id = aok.1002
+	desc = EVTDESCaok.1002
+	title = EVTNAMEaok.1000
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	immediate = {
+		any_vassal = {
+			opinion = { modifier = your_not_your_father who = ROOT years = 10 }
+		}
+	}
+	option = { # Peace
+		name = EVTOPTAaok.1002
+		set_global_flag = parly_stennis_wishes_peace
+		ai_chance = { factor = 2 }
+	}
+	option = { # War
+		name = EVTOPTBaok.1002
+		set_global_flag = parly_stennis_wishes_war
+		random = {
+			chance = 10
+			add_trait = brave
+			hidden_tooltip = { character_event = { id = 38270 } }
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+
+
+################################################
+# Henselt vs Saskia & Stennis - Parley resolve
+################################################
+# Henselt - Hidden
+character_event = {
+	id = aok.1010
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = { # Peace
+		trigger = {
+			has_global_flag = parly_henselt_wishes_peace
+			has_global_flag = parly_stennis_wishes_peace
+		}
+		clr_global_flag = parly_henselt_wishes_peace
+		clr_global_flag = parly_henselt_wishes_war
+		clr_global_flag = parly_saskia_interrupted
+		clr_global_flag = parly_stennis_wishes_peace
+		clr_global_flag = parly_stennis_wishes_war
+		narrative_event = { id = aok.1020 }
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_saskia }
+			narrative_event = { id = aok.1021 }
+		}
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			narrative_event = { id = aok.1022 }
+		}
+	}
+	option = { # War
+		trigger = {
+			has_global_flag = parly_henselt_wishes_war
+			has_global_flag = parly_stennis_wishes_war
+		}
+		clr_global_flag = parly_henselt_wishes_peace
+		clr_global_flag = parly_henselt_wishes_war
+		clr_global_flag = parly_saskia_interrupted
+		clr_global_flag = parly_stennis_wishes_peace
+		clr_global_flag = parly_stennis_wishes_war
+		narrative_event = { id = aok.1030 }
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_saskia }
+			narrative_event = { id = aok.1031 }
+		}
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			narrative_event = { id = aok.1032 }
+		}
+	}
+	option = { # Henselt wishes peace, Stennis not, rethink your choice
+		trigger = {
+			has_global_flag = parly_henselt_wishes_peace
+			has_global_flag = parly_stennis_wishes_war
+		}
+		clr_character_flag = parly_henselt_wishes_peace
+		clr_character_flag = parly_henselt_wishes_war
+		clr_character_flag = parly_saskia_interrupted
+		clr_character_flag = parly_stennis_wishes_peace
+		clr_character_flag = parly_stennis_wishes_war
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			narrative_event = { id = aok.1040 }
+		}
+	}
+	option = { # Stennis wishes peace, Henselt not, offer something
+		trigger = {
+			has_global_flag = parly_henselt_wishes_war
+			has_global_flag = parly_stennis_wishes_peace
+		}
+		clr_global_flag = parly_henselt_wishes_peace
+		clr_global_flag = parly_henselt_wishes_war
+		clr_global_flag = parly_saskia_interrupted
+		clr_global_flag = parly_stennis_wishes_peace
+		clr_global_flag = parly_stennis_wishes_war
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			narrative_event = { id = aok.1050 }
+		}
+	}
+	option = { # War because Saskia interrupted
+		trigger = {
+			has_global_flag = parly_saskia_interrupted
+		}
+		clr_global_flag = parly_henselt_wishes_peace
+		clr_global_flag = parly_henselt_wishes_war
+		clr_global_flag = parly_saskia_interrupted
+		clr_global_flag = parly_stennis_wishes_peace
+		clr_global_flag = parly_stennis_wishes_war
+		narrative_event = { id = aok.1070 }
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_saskia }
+			narrative_event = { id = aok.1071 }
+		}
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			narrative_event = { id = aok.1072 }
+		}
+		ai_chance = { factor = 1000 }
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Peace
+################################################
+# Henselt
+narrative_event = {
+	id = aok.1020
+	desc = EVTDESCaok.1020
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1020
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						ai = yes
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							ai = yes
+						}
+						any_playable_ruler = {
+							has_character_flag = aok_stennis
+							ai = yes
+						}
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = { character = ROOT }
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			remove_claim = d_upper_aedirn
+		}
+	}
+}
+# Saskia
+narrative_event = {
+	id = aok.1021
+	desc = EVTDESCaok.1021
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1021
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							ai = yes
+						}
+						ai = yes
+						any_playable_ruler = {
+							has_character_flag = aok_stennis
+							ai = yes
+						}
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							character = PREV
+						}
+					}
+					defender = { character = ROOT }
+				}
+				end_war = invalid
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt}
+				remove_claim = d_upper_aedirn
+			}
+		}
+	}
+}
+# Stennis
+narrative_event = {
+	id = aok.1022
+	desc = EVTDESCaok.1022
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1022
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							ai = yes
+						}
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							ai = yes
+						}
+						ai = yes
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							character = PREV
+						}
+					}
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt}
+				remove_claim = d_upper_aedirn
+			}
+		}
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - War
+################################################
+# Henselt
+narrative_event = {
+	id = aok.1030
+	desc = EVTDESCaok.1030
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1030
+	}
+}
+# Saskia
+narrative_event = {
+	id = aok.1031
+	desc = EVTDESCaok.1031
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1031
+	}
+}
+# Stennis
+narrative_event = {
+	id = aok.1032
+	desc = EVTDESCaok.1032
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1032
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Henselt offers peace
+################################################
+# Stennis - Rethink your choice
+narrative_event = {
+	id = aok.1040
+	desc = EVTDESCaok.1040
+	title = EVTNAMEaok.1040
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = { # Agree to peace
+		name = EVTOPTAaok.1040
+		random = {
+			chance = 10
+			add_trait = reasonable
+			# hidden_tooltip = { character_event = { id = 38266 } }
+		}
+		tooltip = {
+			any_war = {
+				limit = {
+					attacker = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							character = PREV
+						}
+					}
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt}
+				remove_claim = d_upper_aedirn
+			}
+		}
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt }
+				narrative_event = { id = aok.1041 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1043 }
+			}
+		}
+		ai_chance = { factor = 3 }
+	}
+	option = { # Don't agree to peace
+		name = EVTOPTBaok.1040
+		prestige = 50
+		random = {
+			chance = 10
+			add_trait = stubborn
+			# hidden_tooltip = { character_event = { id = 38266 } }
+		}
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt }
+				narrative_event = { id = aok.1042 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1044 }
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+# Henselt - Stennis agree to peace
+narrative_event = {
+	id = aok.1041
+	desc = EVTDESCaok.1041
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1041
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						ai = yes
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							ai = yes
+						}
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {  character = ROOT }
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			remove_claim = d_upper_aedirn
+		}
+	}
+}
+# Henselt - Stennis doesn't agree to peace
+narrative_event = {
+	id = aok.1042
+	desc = EVTDESCaok.1042
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1042
+	}
+}
+# Saskia - Stennis agree to peace
+narrative_event = {
+	id = aok.1043
+	desc = EVTDESCaok.1043
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1043
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							ai = yes
+						}
+						ai = yes
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							character = PREV
+						}
+					}
+					defender = { character = ROOT }
+				}
+				end_war = invalid
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt}
+				remove_claim = d_upper_aedirn
+			}
+		}
+	}
+}
+# Saskia - Stennis doesn't agree to peace
+narrative_event = {
+	id = aok.1044
+	desc = EVTDESCaok.1044
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1044
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Stennis offers compensation
+################################################
+# Stennis
+narrative_event = {
+	id = aok.1050
+	desc = EVTDESCaok.1050
+	title = EVTNAMEaok.1050
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = { # War
+		name = EVTOPTAaok.1050
+		random = {
+			chance = 10
+			add_trait = brave
+			hidden_tooltip = { character_event = { id = 38270 } }
+		}
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt }
+				narrative_event = { id = aok.1030 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1031 }
+			}
+		}
+		ai_chance = { factor = 3 }
+	}
+	option = { # Upper Aedirn
+		name = EVTOPTBaok.1050
+		random = {
+			chance = 10
+			add_trait = content
+			hidden_tooltip = { character_event = { id = 38279 } }
+		}
+		custom_tooltip = { text = henselt_decides_about_offer }
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt }
+				narrative_event = { id = aok.1053 days = 1 }
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # Saskia
+		name = EVTOPTCaok.1050
+		random = {
+			chance = 10
+			add_trait = deceitful
+			hidden_tooltip = { character_event = { id = 38255 } }
+		}
+		custom_tooltip = { text = henselt_decides_about_offer }
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt }
+				narrative_event = { id = aok.1054 days = 1 }
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = { # Compensation
+		name = EVTOPTDaok.1050
+		random = {
+			chance = 10
+			add_trait = charitable
+			hidden_tooltip = { character_event = { id = 38273 } }
+		}
+		custom_tooltip = { text = henselt_decides_about_offer }
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt }
+				narrative_event = { id = aok.1055 days = 1 }
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+}
+# Henselt - Decide about offer to give Upper Aedirn
+narrative_event = {
+	id = aok.1053
+	desc = EVTDESCaok.1053
+	title = EVTNAMEaok.1053
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = { # Accept
+		name = EVTOPTAaok.1053
+		custom_tooltip = { text = henselt_accepts_offer }
+		tooltip = {
+			d_upper_aedirn = { gain_title = ROOT }
+		}
+		hidden_tooltip = {
+			narrative_event = { id = aok.1056 }
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1057 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				narrative_event = { id = aok.1058 }
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = { # Decline
+		name = EVTOPTBaok.1053
+		custom_tooltip = { text = henselt_declines_offer }
+		random = {
+			chance = 10
+			add_trait = wroth
+			hidden_tooltip = { character_event = { id = 38254 } }
+		}
+		hidden_tooltip = { 
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1059 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				narrative_event = { id = aok.1060 }
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+# Henselt - Decide about offer to give Sakia
+narrative_event = {
+	id = aok.1054
+	desc = EVTDESCaok.1054
+	title = EVTNAMEaok.1053
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = { # Accept
+		name = EVTOPTAaok.1054
+		random = {
+			chance = 10
+			add_trait = lustful
+			hidden_tooltip = { character_event = { id = 38272 } }
+		}
+		custom_tooltip = { text = henselt_accepts_offer }
+		tooltip = {
+			any_war = {
+				limit = {
+					attacker = { character = ROOT }
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			remove_claim = d_upper_aedirn
+		}
+		hidden_tooltip = {
+			narrative_event = { id = aok.1056 }
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1063 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				narrative_event = { id = aok.1058 }
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+	option = { # Decline
+		custom_tooltip = { text = henselt_declines_offer }
+		name = EVTOPTBaok.1054
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1059 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				narrative_event = { id = aok.1060 }
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+}
+# Henselt - Decide about offer to give compensation
+narrative_event = {
+	id = aok.1055
+	desc = EVTDESCaok.1055
+	title = EVTNAMEaok.1053
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = { # Accept
+		random = {
+			chance = 10
+			add_trait = greedy
+			hidden_tooltip = { character_event = { id = 38252 } }
+		}
+		name = EVTOPTAaok.1055
+		custom_tooltip = { text = henselt_accepts_offer }
+		tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				transfer_scaled_wealth = { to = ROOT value = 2 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				transfer_scaled_wealth = { to = ROOT value = 2 }
+			}
+			any_war = {
+				limit = {
+					attacker = { character = ROOT }
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			remove_claim = d_upper_aedirn
+		}
+		hidden_tooltip = { 
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1061 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				narrative_event = { id = aok.1062 }
+			}
+		}
+		ai_chance = { factor = 2 }
+	}
+	option = { # Decline
+		name = EVTOPTBaok.1055
+		custom_tooltip = { text = henselt_declines_offer }
+		hidden_tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1059 }
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_stennis }
+				narrative_event = { id = aok.1060 }
+			}
+		}
+		ai_chance = { factor = 3 }
+	}
+}
+# Henselt - Accepted Upper Aedirn/Saskia, but Saskia intervenes
+narrative_event = {
+	id = aok.1056
+	desc = EVTDESCaok.1056
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1056
+	}
+}
+# Saskia - Henselt accepted Upper Aedirn, intervention
+narrative_event = {
+	id = aok.1057
+	desc = EVTDESCaok.1057
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1057
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			reverse_opinion = { modifier = opinion_betrayed who = ROOT years = 5 }
+		}
+	}
+}
+# Saskia - Henselt accepted me, intervention
+narrative_event = {
+	id = aok.1063
+	desc = EVTDESCaok.1063
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1063
+		any_playable_ruler = {
+			limit = { age=1 has_character_flag = aok_stennis }
+			reverse_opinion = { modifier = opinion_betrayed who = ROOT years = 5 }
+		}
+	}
+}
+# Stennis - Henselt accepted Saskia/Upper Aedirn, but Saskia intervenes
+narrative_event = {
+	id = aok.1058
+	desc = EVTDESCaok.1058
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1058
+		tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				opinion = { modifier = opinion_betrayed who = ROOT years = 5 }
+			}
+		}
+	}
+}
+# Saskia - Henselt declined gold
+narrative_event = {
+	id = aok.1059
+	desc = EVTDESCaok.1059
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1059
+	}
+}
+# Stennis - Henselt declined gold
+narrative_event = {
+	id = aok.1060
+	desc = EVTDESCaok.1060
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1060
+	}
+}
+# Saskia - Henselt accepted gold
+narrative_event = {
+	id = aok.1061
+	desc = EVTDESCaok.1061
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1061
+		transfer_scaled_wealth = { to = FROM value = 2 }
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						ai = yes
+						any_playable_ruler = {
+							has_character_flag = aok_stennis
+							ai = yes
+						}
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							character = PREV
+						}
+					}
+					defender = { character = ROOT }
+				}
+				end_war = invalid
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt}
+				remove_claim = d_upper_aedirn
+			}
+		}
+	}
+}
+# Stennis - Henselt accepted gold
+narrative_event = {
+	id = aok.1062
+	desc = EVTDESCaok.1062
+	title = EVTNAMEaok.1020
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1062
+		transfer_scaled_wealth = { to = FROM value = 2 }
+		if = {
+			limit = {
+				OR = {
+					ai = no
+					AND = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							ai = yes
+						}
+						ai = yes
+					}
+				}
+			}
+			any_war = {
+				limit = {
+					attacker = {
+						any_playable_ruler = {
+							has_character_flag = aok_henselt
+							character = PREV
+						}
+					}
+					defender = {
+						any_playable_ruler = {
+							has_character_flag = aok_saskia
+							character = PREV
+						}
+					}
+				}
+				end_war = invalid
+			}
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_henselt}
+				remove_claim = d_upper_aedirn
+			}
+		}
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Saskia interupted
+################################################
+ # Henselt
+narrative_event = {
+	id = aok.1070
+	desc = EVTDESCaok.1070
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1070
+	}
+}
+# Saskia
+narrative_event = {
+	id = aok.1071
+	desc = EVTDESCaok.1071
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1071
+	}
+}
+# Stennis
+narrative_event = {
+	id = aok.1072
+	desc = EVTDESCaok.1072
+	title = EVTNAMEaok.1030
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1072
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Henselt wins
+################################################
+# Henselt
+narrative_event = {
+	id = aok.1100
+	desc = EVTDESCaok.1100
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = { # Usurp Saskia's titles
+		name = EVTOPTAaok.1100
+		tooltip = {
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				any_demesne_title = { usurp_title = ROOT }
+			}
+		}
+		hidden_tooltip = {
+			narrative_event = { id = aok.1104 }
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1101 }
+			}
+		}
+		ai_chance = { factor = 5 }
+	}
+	option = { # Let Saskia keep her titles
+		name = EVTOPTBaok.1100
+		hidden_tooltip = {
+			narrative_event = { id = aok.1105 }
+			any_playable_ruler = {
+				limit = { age=1 has_character_flag = aok_saskia }
+				narrative_event = { id = aok.1102 }
+			}
+		}
+		ai_chance = { factor = 1 }
+	}
+}
+# Henselt - Usurp title
+narrative_event = {
+	id = aok.1104
+	desc = EVTDESCaok.1104
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1104
+	}
+}
+# Saskia - Henselt usurped your titles
+narrative_event = {
+	id = aok.1101
+	desc = EVTDESCaok.1101
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1101
+		any_demesne_title = { usurp_title = ROOT }
+	}
+}
+# Henselt - Do nothing
+narrative_event = {
+	id = aok.1105
+	desc = EVTDESCaok.1105
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1105
+	}
+}
+# Saskia - Henselt let you keep your titles
+narrative_event = {
+	id = aok.1102
+	desc = EVTDESCaok.1102
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1102
+	}
+}
+# Stennis
+narrative_event = {
+	id = aok.1103
+	desc = EVTDESCaok.1103
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1103
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Henselt loses
+################################################
+# Henselt
+narrative_event = {
+	id = aok.1110
+	desc = EVTDESCaok.1110
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_henselt
+	}
+	
+	option = {
+		name = EVTOPTAaok.1110
+		remove_claim = d_upper_aedirn
+	}
+}
+# Saskia - You won as most participating defender
+narrative_event = {
+	id = aok.1111
+	desc = EVTDESCaok.1111
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = { # Do nothing
+		name = EVTOPTAaok.1111
+		hidden_tooltip = { narrative_event = { id = aok.1115 } }
+		ai_chance = { factor = 8 }
+	}
+	option = { # Get claim on Aedirn
+		name = EVTOPTBaok.1111
+		add_claim = e_aedirn
+		hidden_tooltip = { narrative_event = { id = aok.1116 } }
+		ai_chance = { factor = 1 }
+	}
+	option = { # Create Pontar title
+		name = EVTOPTCaok.1111
+		trigger = {
+			k_pontar = { has_holder = no }
+		}
+		k_pontar = { gain_title = ROOT }
+		d_upper_aedirn = { de_jure_liege = k_pontar }
+		hidden_tooltip = { narrative_event = { id = aok.1117 } }
+		ai_chance = { factor = 2 }
+	}
+}
+# Saskia - Do nothing
+narrative_event = {
+	id = aok.1115
+	desc = EVTDESCaok.1115
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1115
+	}
+}
+# Saskia - Claim Aedirn
+narrative_event = {
+	id = aok.1116
+	desc = EVTDESCaok.1116
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1116
+	}
+}
+# Saskia - Create independant Pontar
+narrative_event = {
+	id = aok.1117
+	desc = EVTDESCaok.1117
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1117
+	}
+}
+# Stennis - Saskia won as most participating defender
+narrative_event = {
+	id = aok.1112
+	desc = EVTDESCaok.1112
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1112
+	}
+}
+# Saskia - Stennis won as most participating defender
+narrative_event = {
+	id = aok.1113
+	desc = EVTDESCaok.1113
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_saskia
+	}
+	
+	option = {
+		name = EVTOPTAaok.1113
+	}
+}
+# Stennis - You won as most participating defender
+narrative_event = {
+	id = aok.1114
+	desc = EVTDESCaok.1114
+	title = EVTNAMEaok.1100
+	picture = GFX_evt_council
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_stennis
+	}
+	
+	option = {
+		name = EVTOPTAaok.1114
+		any_vassal = {
+			remove_opinion = { modifier = your_not_your_father who = ROOT }
+			opinion = { modifier = proven_your_worth who = ROOT years = 10 }
+		}
+	}
+}
+
+################################################
+# Henselt vs Saskia & Stennis - Minor events
+################################################
+# Saskia retreat
+# Henselt sieges Vergen
+# Henselt rapes Saskia
+# Henselt flayers
+# Stennis plot against Saskia
+
+################################################
+# Letho - Secnd assassination
+################################################
+# Choose assassination target
+character_event = {
+	id = aok.2000
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = { # Temeria
+		random_independent_ruler = {
+			limit = { has_landed_title = k_temeria }
+			character_event = { id = aok.2001 days = 100 random = 100 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 }
+			modifier = {
+				factor = 0
+				any_independent_ruler = {
+					has_landed_title = k_temeria
+					ai = no
+				}
+			}
+		}
+	}
+	option = { # Kaedwen
+		random_independent_ruler = {
+			limit = { has_landed_title = k_kaedwen }
+			character_event = { id = aok.2001 days = 100 random = 100 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 2 }
+			modifier = {
+				factor = 0
+				any_independent_ruler = {
+					has_landed_title = k_kaedwen
+					ai = no
+				}
+			}
+		}
+	}
+	option = { # Lyria and Rivia
+		random_independent_ruler = {
+			limit = { has_landed_title = e_lyria_rivia }
+			character_event = { id = aok.2001 days = 100 random = 100 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				any_independent_ruler = {
+					has_landed_title = e_lyria_rivia
+					ai = no
+				}
+			}
+		}
+	}
+	option = { # Redania
+		random_independent_ruler = {
+			limit = { has_landed_title = k_redania }
+			character_event = { id = aok.2001 days = 100 random = 100 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 1.5 }
+			modifier = {
+				factor = 0
+				any_independent_ruler = {
+					has_landed_title = e_lyria_rivia
+					ai = no
+				}
+			}
+		}
+	}
+	option = { # Kovir and Poviss
+		random_independent_ruler = {
+			limit = { has_landed_title = k_kovir_poviss }
+			character_event = { id = aok.2001 days = 100 random = 100 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				any_independent_ruler = {
+					has_landed_title = k_kovir_poviss
+					ai = no
+				}
+			}
+		}
+	}
+	option = { # Hengfors League
+		random_independent_ruler = {
+			limit = { has_landed_title = k_hengfors_league }
+			character_event = { id = aok.2001 days = 100 random = 100 }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				any_independent_ruler = {
+					has_landed_title = k_hengfors_league
+					ai = no
+				}
+			}
+		}
+	}
+	option = { # Cancle assassination
+		random_playable_ruler = {
+			limit = {
+				has_landed_title = e_nilfgaard
+				has_character_flag = aok_emhyr
+			}
+			letter_event = { id = aok.2002 }
+		}
+		ai_chance = { factor = 0 }
+	}
+}
+# Kill chosen target
+character_event = {
+	id = aok.2001
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	option = {
+		death = {
+			death_reason = death_murder_unknown
+		}
+		random_playable_ruler = {
+			limit = {
+				has_landed_title = e_nilfgaard
+				has_character_flag = aok_emhyr
+			}
+			letter_event = { id = aok.2003 }
+		}
+		random_playable_ruler = {
+			limit = {
+				independent = yes
+				culture_group = northern_group
+				ai = no
+			}
+			narrative_event = { id = aok.2004 }
+		}
+	}
+}
+# Assassination cancelled - Nilfgaard notification
+letter_event = {
+	id = aok.2002
+	desc = EVTDESCaok.2002
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = aok_emhyr
+	}
+	
+	option = {
+		name = EVTOPTAaok.2002
+	}
+}
+# Assassination successful - Nilfgaard notification
+letter_event = {
+	id = aok.2003
+	desc = EVTDESCaok.2003
+	
+	is_triggered_only = yes
+	show_from_from = yes
+	
+	trigger = {
+		has_character_flag = aok_emhyr
+	}
+	
+	option = {
+		name = EVTOPTAaok.2003
+	}
+}
+# Assassination successful - Northern lord notification
+narrative_event = {
+	id = aok.2004
+	title = EVTNAMEaok.2004
+	desc = EVTDESCaok.2004
+	picture = GFX_evt_death
+	
+	major = yes
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		independent = yes
+		culture_group = northern_group
+		ai = no
+	}
+	
+	option = {
+		name = EVTOPTAaok.2004
+	}
+}

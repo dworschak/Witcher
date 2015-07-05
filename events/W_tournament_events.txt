@@ -1,0 +1,1326 @@
+namespace = tournament
+
+################################################
+# Archery competition - Start
+################################################
+# Liege - Sent invitations
+character_event = {
+	id = tournament.1
+	title = archery_competition_title
+	desc = EVTDESCtournament.1
+	picture = GFX_evt_courier
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.1
+	}
+}
+# Any realm character - Recieved Invitation
+character_event = {
+	id = tournament.2
+	title = archery_competition_title
+	desc = EVTDESCtournament.2
+	picture = GFX_evt_courier
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA70000
+		prestige = 50
+		set_character_flag = attending_archery_competition
+		set_character_flag = do_not_disturb
+	}
+	option = {
+		name = EVTOPTBtournament.2
+	}
+}
+# Liege - Start of competition
+character_event = {
+	id = tournament.10
+	title = archery_competition_title
+	desc = EVTDESCtournament.10
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.10
+		trigger = { war = no }
+		hidden_tooltip = {
+			set_character_flag = archery_competition_begins
+			set_character_flag = attending_archery_competition
+		}
+	}
+	option = {
+		name = EVTOPTBtournament.10
+		trigger = { war = yes }
+		wealth = 200
+		prestige = -100
+		hidden_tooltip = {
+			any_realm_character = {
+				limit = { has_character_flag = attending_archery_competition }
+				character_event = { id = tournament.11 }
+			}
+		}
+		clr_character_flag = archery_competition
+		clr_character_flag = do_not_disturb
+	}
+}
+# Any realm character - Competition has been cancelled
+character_event = {
+	id = tournament.11
+	title = archery_competition_title
+	desc = EVTDESCtournament.11
+	picture = GFX_evt_longbowman
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.11
+		prestige = -50
+		clr_character_flag = attending_archery_competition
+		clr_character_flag = do_not_disturb
+	}
+}
+# Liege - You have died, the competition is over (on_death)
+character_event = {
+	id = tournament.12
+	title = archery_competition_title
+	desc = EVTDESCtournament.12
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = archery_competition_begins
+	}
+	
+	option = {
+		name = EVTOPTAtournament.12
+		clr_character_flag = archery_competition_begins
+		clr_character_flag = has_archery_competition_first_place
+		clr_character_flag = has_archery_competition_second_place
+		clr_character_flag = has_archery_competition_third_place
+		clr_character_flag = attending_archery_competition
+		clr_character_flag = attending_archery_competition_event
+		clr_character_flag = archery_competition_first_place
+		clr_character_flag = archery_competition_second_place
+		clr_character_flag = archery_competition_third_place
+		clr_character_flag = do_not_disturb
+		any_vassal = {
+			limit = {
+				has_character_flag = attending_archery_competition
+				NOT = { character = PREV }
+				NOT = { has_character_flag = archery_competition_first_place }
+				NOT = { has_character_flag = archery_competition_second_place }
+				NOT = { has_character_flag = archery_competition_third_place }
+			}
+			set_character_flag = archery_competition_has_ended
+			clr_character_flag = attending_archery_competition
+			clr_character_flag = attending_archery_competition_event
+			clr_character_flag = do_not_disturb
+			letter_event = { id = tournament.13 days = 2 random = 2 tooltip = EVTTOOLTIP70042 }
+		}
+		any_vassal = {
+			limit = {
+				has_character_flag = attending_archery_competition
+				OR = {
+					has_character_flag = archery_competition_first_place
+					has_character_flag = archery_competition_second_place
+					has_character_flag = archery_competition_third_place
+				}
+			}
+			letter_event = { id = tournament.13 days = 2 random = 2 tooltip = EVTTOOLTIP70042 }
+			set_character_flag = archery_competition_has_ended
+			clr_character_flag = archery_competition_first_place
+			clr_character_flag = archery_competition_second_place
+			clr_character_flag = archery_competition_third_place
+			clr_character_flag = attending_archery_competition
+			clr_character_flag = attending_archery_competition_event
+			clr_character_flag = do_not_disturb
+		}
+	}
+}
+# Any realm character - The competition has been cancelled due to Ruler's death
+letter_event = {
+	id = tournament.13
+	title = archery_competition_title
+	desc = EVTDESCtournament.13
+	picture = GFX_evt_death
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.13
+	}
+}
+
+################################################
+# Archery competition - Winners
+################################################
+# Any realm character - Wins first place in the competition
+character_event = {
+	id = tournament.100
+	title = archery_competition_title
+	desc = EVTDESCtournament.100
+	picture = GFX_evt_longbowman
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			had_character_flag = { flag = archery_competition_begins days = 40 }
+			NOT = { has_character_flag = has_archery_competition_first_place }
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 100
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = archery_competition_begins days = 50 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = archery_competition_begins days = 60 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = archery_competition_begins days = 70 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = archery_competition_begins days = 80 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = archery_competition_begins days = 90 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = archery_competition_begins days = 100 } } }
+		modifier = { factor = 0.75 martial = 20 }
+		modifier = { factor = 0.75 martial = 18 }
+		modifier = { factor = 0.75 martial = 16 }
+		modifier = { factor = 0.75 martial = 14 }
+		modifier = { factor = 0.75 martial = 12 }
+		modifier = { factor = 1.25 NOT = { martial = 10 } }
+		modifier = { factor = 1.25 NOT = { martial = 8 } }
+		modifier = { factor = 1.25 NOT = { martial = 6 } }
+		modifier = { factor = 1.25 NOT = { martial = 4 } }
+		modifier = { factor = 1.25 NOT = { martial = 2 } }
+		modifier = { factor = 0.5 trait = zefhar_bow }
+		modifier = { factor = 0.5 trait = hunter }
+		modifier = { factor = 0.75 trait = ambidextrous }
+		modifier = { factor = 0.5 trait = lucky }
+		modifier = { factor = 1.5 trait = cursed }
+		modifier = { factor = 0.5 trait = perceptive }
+		modifier = { factor = 1.5 trait = blind }
+		modifier = { factor = 1.5 trait = blinded }
+		modifier = { factor = 0.75 trait = strong }
+		modifier = { factor = 1.25 trait = weak }
+		modifier = { factor = 0.75 trait = patient }
+		modifier = { factor = 1.25 trait = wroth }
+		modifier = {
+			factor = 2
+			NOT = {
+				trait = elf_race
+				trait = dryad_race
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+		set_character_flag = archery_competition_first_place
+		top_liege = { set_character_flag = has_archery_competition_first_place }
+	}
+	
+	option = {
+		name = EVTOPTAtournament.100
+		wealth = 75
+		prestige = 200
+		hidden_tooltip = {
+			if = {
+				limit = { top_liege = { NOT = { character = ROOT } } }
+				top_liege = { character_event = { id = tournament.101 } }
+			}
+		}
+	}
+}
+# Liege - Inform about first place
+character_event = {
+	id = tournament.101
+	title = archery_competition_title
+	desc = EVTDESCtournament.101
+	picture = GFX_evt_longbowman
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.101
+		opinion = { modifier = opinion_archery_competition_first_place who = FROM years = 20 }
+	}
+}
+# Any realm character - Wins second place in the competition
+character_event = {
+	id = tournament.102
+	title = archery_competition_title
+	desc = EVTDESCtournament.102
+	picture = GFX_evt_longbowman
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { has_character_flag = archery_competition_first_place }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			had_character_flag = { flag = archery_competition_begins days = 50 }
+			has_character_flag = has_archery_competition_first_place
+			NOT = { has_character_flag = has_archery_competition_second_place }
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 100
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 10 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 20 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 30 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 40 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 50 } } }
+		modifier = { factor = 0.75 martial = 20 }
+		modifier = { factor = 0.75 martial = 18 }
+		modifier = { factor = 0.75 martial = 16 }
+		modifier = { factor = 0.75 martial = 14 }
+		modifier = { factor = 0.75 martial = 12 }
+		modifier = { factor = 1.25 NOT = { martial = 10 } }
+		modifier = { factor = 1.25 NOT = { martial = 8 } }
+		modifier = { factor = 1.25 NOT = { martial = 6 } }
+		modifier = { factor = 1.25 NOT = { martial = 4 } }
+		modifier = { factor = 1.25 NOT = { martial = 2 } }
+		modifier = { factor = 0.5 trait = zefhar_bow }
+		modifier = { factor = 0.5 trait = hunter }
+		modifier = { factor = 0.75 trait = ambidextrous }
+		modifier = { factor = 0.5 trait = lucky }
+		modifier = { factor = 1.5 trait = cursed }
+		modifier = { factor = 0.5 trait = perceptive }
+		modifier = { factor = 1.5 trait = blind }
+		modifier = { factor = 1.5 trait = blinded }
+		modifier = { factor = 0.75 trait = strong }
+		modifier = { factor = 1.25 trait = weak }
+		modifier = { factor = 0.75 trait = patient }
+		modifier = { factor = 1.25 trait = wroth }
+		modifier = {
+			factor = 2
+			NOT = {
+				trait = elf_race
+				trait = dryad_race
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+		set_character_flag = archery_competition_second_place
+		top_liege = { set_character_flag = has_archery_competition_second_place }
+	}
+	
+	option = {
+		name = EVTOPTAtournament.102
+		wealth = 50
+		prestige = 150
+		hidden_tooltip = {
+			if = {
+				limit = { top_liege = { NOT = { character = ROOT } } }
+				top_liege = { character_event = { id = tournament.103 } }
+			}
+		}
+	}
+}
+# Liege - Inform about second place
+character_event = {
+	id = tournament.103
+	title = archery_competition_title
+	desc = EVTDESCtournament.103
+	picture = GFX_evt_longbowman
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.103
+		opinion = { modifier = opinion_archery_competition_second_place who = FROM years = 15 }
+	}
+}
+# Any realm character - Wins third place in the competition
+character_event = {
+	id = tournament.104
+	title = archery_competition_title
+	desc = EVTDESCtournament.104
+	picture = GFX_evt_longbowman
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { has_character_flag = archery_competition_first_place }
+		NOT = { has_character_flag = archery_competition_second_place }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			had_character_flag = { flag = archery_competition_begins days = 60 }
+			has_character_flag = has_archery_competition_second_place
+			NOT = { has_character_flag = has_archery_competition_third_place }
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 100
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 10 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 20 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 30 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 40 } } }
+		modifier = { factor = 0.5 top_liege = { had_character_flag = { flag = has_archery_competition_first_place days = 50 } } }
+		modifier = { factor = 0.75 martial = 20 }
+		modifier = { factor = 0.75 martial = 18 }
+		modifier = { factor = 0.75 martial = 16 }
+		modifier = { factor = 0.75 martial = 14 }
+		modifier = { factor = 0.75 martial = 12 }
+		modifier = { factor = 1.25 NOT = { martial = 10 } }
+		modifier = { factor = 1.25 NOT = { martial = 8 } }
+		modifier = { factor = 1.25 NOT = { martial = 6 } }
+		modifier = { factor = 1.25 NOT = { martial = 4 } }
+		modifier = { factor = 1.25 NOT = { martial = 2 } }
+		modifier = { factor = 0.5 trait = zefhar_bow }
+		modifier = { factor = 0.5 trait = hunter }
+		modifier = { factor = 0.75 trait = ambidextrous }
+		modifier = { factor = 0.5 trait = lucky }
+		modifier = { factor = 1.5 trait = cursed }
+		modifier = { factor = 0.5 trait = perceptive }
+		modifier = { factor = 1.5 trait = blind }
+		modifier = { factor = 1.5 trait = blinded }
+		modifier = { factor = 0.75 trait = strong }
+		modifier = { factor = 1.25 trait = weak }
+		modifier = { factor = 0.75 trait = patient }
+		modifier = { factor = 1.25 trait = wroth }
+		modifier = {
+			factor = 2
+			NOT = {
+				trait = elf_race
+				trait = dryad_race
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+		set_character_flag = archery_competition_third_place
+		top_liege = {
+			set_character_flag = has_archery_competition_third_place
+		}
+	}
+	
+	option = {
+		name = EVTOPTAtournament.104
+		wealth = 25
+		prestige = 100
+		hidden_tooltip = {
+			if = {
+				limit = { top_liege = { NOT = { character = ROOT } } }
+				top_liege = { character_event = { id = tournament.105 } }
+			}
+		}
+	}
+}
+# Liege - Inform about third place
+character_event = {
+	id = tournament.105
+	title = archery_competition_title
+	desc = EVTDESCtournament.105
+	picture = GFX_evt_longbowman
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.105
+		opinion = { modifier = opinion_archery_competition_third_place who = FROM years = 10 }
+	}
+}
+
+################################################
+# Archery competition - Random events
+################################################
+# Character is maimed
+character_event = {
+	id = tournament.200
+	title = archery_competition_title
+	desc = EVTDESCtournament.200
+	picture = GFX_evt_melee
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { trait = maimed }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			has_character_flag = archery_competition_begins
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 2000
+		modifier = { factor = 2 trait = strong }
+		modifier = { factor = 0.5 trait = weak }
+		modifier = { factor = 10 trait = lucky }
+		modifier = { factor = 0.2 trait = cursed }
+		modifier = { factor = 0.5 trait = wounded }
+		modifier = { factor = 0.75 trait = ill }
+	}
+	
+	immediate = {
+		clr_character_flag = attending_archery_competition
+		clr_character_flag = do_not_disturb
+	}
+	
+	option = {
+		name = EVTOPTAtournament.200
+		add_trait = maimed
+	}
+}
+# Character is wounded
+character_event = {
+	id = tournament.201
+	title = archery_competition_title
+	desc = EVTDESCtournament.201
+	picture = GFX_evt_melee
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { trait = wounded }
+		NOT = { trait = maimed }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			has_character_flag = archery_competition_begins
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1000
+		modifier = { factor = 2 trait = strong }
+		modifier = { factor = 0.5 trait = weak }
+		modifier = { factor = 2 trait = lucky }
+		modifier = { factor = 0.5 trait = cursed }
+		modifier = { factor = 0.5 trait = wounded }
+		modifier = { factor = 0.75 trait = ill }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.201
+		add_trait = wounded
+	}
+}
+# Character becomes homosexual
+character_event = {
+	id = tournament.210
+	title = archery_competition_title
+	desc = EVTDESCtournament.210
+	picture = GFX_evt_shadowy_cabal
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = {
+			trait = homosexual
+			trait = celibate
+			trait = eunuch
+		}
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 0.8 trait = drug_addict }
+		modifier = { factor = 0.9 trait = drunkard }
+		modifier = { factor = 0.75 trait = hedonist }
+		modifier = { factor = 0.9 trait = lustful }
+		modifier = { factor = 2 trait = temperate }
+		modifier = { factor = 3 trait = chaste }
+		modifier = { factor = 3 trait = zealous }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.210
+		add_trait = homosexual
+	}
+}
+# Character becomes syphilitic
+character_event = {
+	id = tournament.211
+	title = archery_competition_title
+	desc = EVTDESCtournament.211
+	picture = GFX_evt_lovers
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = {
+			trait = syphilitic
+			trait = celibate
+			trait = eunuch
+		}
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 0.8 trait = drug_addict }
+		modifier = { factor = 0.9 trait = drunkard }
+		modifier = { factor = 0.5 trait = hedonist }
+		modifier = { factor = 0.75 trait = lustful }
+		modifier = { factor = 2 trait = temperate }
+		modifier = { factor = 3 trait = chaste }
+		modifier = { factor = 3 trait = zealous }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.211
+		add_trait = syphilitic
+	}
+}
+# Character becomes drunkard
+character_event = {
+	id = tournament.212
+	title = archery_competition_title
+	desc = EVTDESCtournament.212
+	picture = GFX_evt_drunk
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { trait = drunkard }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 500
+		modifier = { factor = 0.75 trait = gluttonous }
+		modifier = { factor = 0.9 trait = lustful }
+		modifier = { factor = 3 trait = temperate }
+		modifier = { factor = 2 trait = chaste }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.212
+		add_trait = drunkard
+	}
+}
+# Character becomes duelist
+character_event = {
+	id = tournament.220
+	title = archery_competition_title
+	desc = EVTDESCtournament.220
+	picture = GFX_evt_melee
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		NOT = {
+			trait = content
+			trait = kind
+			trait = craven
+			trait = weak
+			lifestyle_traits = 1
+		}
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 800
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 0.75 trait = wroth }
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 0.75 trait = strong }
+		modifier = { factor = 0.75 trait = poor_warrior }
+		modifier = { factor = 0.7 trait = trained_warrior }
+		modifier = { factor = 0.65 trait = skilled_warrior }
+		modifier = { factor = 0.6 trait = master_warrior }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.220
+		add_trait = duelist
+	}
+}
+# Character becomes hunter
+character_event = {
+	id = tournament.221
+	title = archery_competition_title
+	desc = EVTDESCtournament.221
+	picture = GFX_evt_hunt
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = {
+			trait = content
+			trait = craven
+			trait = slothful
+			trait = weak
+			lifestyle_traits = 1
+		}
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 0.75 trait = wroth }
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 0.75 trait = strong }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.221
+		add_trait = hunter
+	}
+}
+# Character becomes wroth
+character_event = {
+	id = tournament.230
+	title = archery_competition_title
+	desc = EVTDESCtournament.230
+	picture = GFX_evt_longbowman
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { trait = wroth }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			has_character_flag = archery_competition_begins
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 500
+		modifier = { factor = 1.1 martial = 20 }
+		modifier = { factor = 1.1 martial = 18 }
+		modifier = { factor = 1.1 martial = 16 }
+		modifier = { factor = 1.1 martial = 14 }
+		modifier = { factor = 1.1 martial = 12 }
+		modifier = { factor = 0.9 NOT = { martial = 10 } }
+		modifier = { factor = 0.9 NOT = { martial = 8 } }
+		modifier = { factor = 0.9 NOT = { martial = 6 } }
+		modifier = { factor = 0.9 NOT = { martial = 4 } }
+		modifier = { factor = 0.9 NOT = { martial = 2 } }
+		modifier = { factor = 1.3 trait = zefhar_bow }
+		modifier = { factor = 1.3 trait = hunter }
+		modifier = { factor = 1.2 trait = ambidextrous }
+		modifier = { factor = 1.2 trait = perceptive }
+		modifier = { factor = 0.8 trait = blind }
+		modifier = { factor = 0.8 trait = blinded }
+		modifier = { factor = 1.1 trait = strong }
+		modifier = { factor = 0.9 trait = weak }
+		modifier = {
+			factor = 0.7
+			NOT = {
+				trait = elf_race
+				trait = dryad_race
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.230
+		add_trait = wroth
+	}
+}
+# Character becomes patient
+character_event = {
+	id = tournament.231
+	title = archery_competition_title
+	desc = EVTDESCtournament.231
+	picture = GFX_evt_longbowman
+
+	min_age = 15
+	#only_men = yes
+	capable_only = yes
+	prisoner = no
+
+	trigger = {
+		NOT = { trait = patient }
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+		top_liege = {
+			has_character_flag = archery_competition_begins
+			NOT = { has_character_flag = archery_competition_has_ended }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 500
+		modifier = { factor = 0.9 martial = 20 }
+		modifier = { factor = 0.9 martial = 18 }
+		modifier = { factor = 0.9 martial = 16 }
+		modifier = { factor = 0.9 martial = 14 }
+		modifier = { factor = 0.9 martial = 12 }
+		modifier = { factor = 1.1 NOT = { martial = 10 } }
+		modifier = { factor = 1.1 NOT = { martial = 8 } }
+		modifier = { factor = 1.1 NOT = { martial = 6 } }
+		modifier = { factor = 1.1 NOT = { martial = 4 } }
+		modifier = { factor = 1.1 NOT = { martial = 2 } }
+		modifier = { factor = 0.7 trait = zefhar_bow }
+		modifier = { factor = 0.7 trait = hunter }
+		modifier = { factor = 0.8 trait = ambidextrous }
+		modifier = { factor = 0.8 trait = perceptive }
+		modifier = { factor = 1.2 trait = blind }
+		modifier = { factor = 1.2 trait = blinded }
+		modifier = { factor = 0.9 trait = strong }
+		modifier = { factor = 1.1 trait = weak }
+		modifier = {
+			factor = 1.5
+			NOT = {
+				trait = elf_race
+				trait = dryad_race
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.231
+		add_trait = patient
+	}
+}
+# Character gains intrigue
+character_event = {
+	id = tournament.240
+	title = archery_competition_title
+	desc = EVTDESCtournament.240
+	picture = GFX_evt_whispers
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+		modifier = { factor = 0.8 trait = elusive_shadow }
+		modifier = { factor = 0.9 trait = intricate_webweaver }
+		modifier = { factor = 1.1 trait = flamboyant_schemer }
+		modifier = { factor = 1.5 trait = amateurish_plotter }
+		modifier = {
+			factor = 1.8
+			NOT = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = { factor = 0.9 trait = deceitful }
+		modifier = { factor = 1.5 trait = honest }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.240
+		change_intrigue = 1
+	}
+}
+# Character loses intrigue
+character_event = {
+	id = tournament.241
+	title = archery_competition_title
+	desc = EVTDESCtournament.241
+	picture = GFX_evt_whispers
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+		modifier = { factor = 1.5 trait = elusive_shadow }
+		modifier = { factor = 1.1 trait = intricate_webweaver }
+		modifier = { factor = 0.9 trait = flamboyant_schemer }
+		modifier = { factor = 0.8 trait = amateurish_plotter }
+		modifier = {
+			factor = 1.8
+			NOT = {
+				trait = elusive_shadow
+				trait = intricate_webweaver
+				trait = flamboyant_schemer
+				trait = amateurish_plotter
+			}
+		}
+		modifier = { factor = 1.5 trait = deceitful }
+		modifier = { factor = 0.9 trait = honest }
+	}
+	
+	immediate =	 {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.241
+		change_intrigue = -1
+	}
+}
+# Character gains stewardship
+character_event = {
+	id = tournament.242
+	title = archery_competition_title
+	desc = EVTDESCtournament.242
+	picture = GFX_evt_market
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+		modifier = { factor = 0.8 trait = midas_touched }
+		modifier = { factor = 0.9 trait = fortune_builder }
+		modifier = { factor = 1.1 trait = thrifty_clerk }
+		modifier = { factor = 1.5 trait = indulgent_wastrel }
+		modifier = {
+			factor = 1.8
+			NOT = {
+					trait = midas_touched
+					trait = fortune_builder
+					trait = thrifty_clerk
+					trait = indulgent_wastrel
+			}
+		}
+		modifier = { factor = 0.9 trait = diligent }
+		modifier = { factor = 1.5 trait = slothful }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.242
+		change_stewardship = 1
+	}
+}
+# Character loses stewardship
+character_event = {
+	id = tournament.243
+	title = archery_competition_title
+	desc = EVTDESCtournament.243
+	picture = GFX_evt_market
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+		modifier = { factor = 1.5 trait = midas_touched }
+		modifier = { factor = 1.1 trait = fortune_builder }
+		modifier = { factor = 0.9 trait = thrifty_clerk }
+		modifier = { factor = 0.8 trait = indulgent_wastrel }
+		modifier = {
+			factor = 1.8
+			NOT = {
+					trait = midas_touched
+					trait = fortune_builder
+					trait = thrifty_clerk
+					trait = indulgent_wastrel
+			}
+		}
+		modifier = { factor = 1.5 trait = diligent }
+		modifier = { factor = 0.9 trait = slothful }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.243
+		change_stewardship = -1
+	}
+}
+# Character gains diplomacy
+character_event = {
+	id = tournament.244
+	title = archery_competition_title
+	desc = EVTDESCtournament.244
+	picture = GFX_evt_council
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+		modifier = { factor = 0.8 trait = grey_eminence }
+		modifier = { factor = 0.9 trait = charismatic_negotiator }
+		modifier = { factor = 1.1 trait = underhanded_rogue }
+		modifier = { factor = 1.5 trait = naive_appeaser }
+		modifier = {
+			factor = 1.5
+			NOT = {
+				trait = grey_eminence
+				trait = charismatic_negotiator
+				trait = underhanded_rogue
+				trait = naive_appeaser
+			}
+		}
+		modifier = { factor = 0.9 trait = gregarious }
+		modifier = { factor = 1.5 trait = shy }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.244
+		change_diplomacy = 1
+	}
+}
+# Character loses diplomacy
+character_event = {
+	id = tournament.245
+	title = archery_competition_title
+	desc = EVTDESCtournament.245
+	picture = GFX_evt_council
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		has_character_flag = attending_archery_competition
+		NOT = { has_character_flag = attending_archery_competition_event }
+		NOT = { has_character_flag = archery_competition_has_ended }
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+		modifier = { factor = 1.5 trait = grey_eminence }
+		modifier = { factor = 1.1 trait = charismatic_negotiator }
+		modifier = { factor = 0.9 trait = underhanded_rogue }
+		modifier = { factor = 0.8 trait = naive_appeaser }
+		modifier = {
+			factor = 1.5
+			NOT = {
+				trait = grey_eminence
+				trait = charismatic_negotiator
+				trait = underhanded_rogue
+				trait = naive_appeaser
+			}
+		}
+		modifier = { factor = 1.5 trait = gregarious }
+		modifier = { factor = 0.9 trait = shy }
+	}
+	
+	immediate = {
+		set_character_flag = attending_archery_competition_event
+	}
+	
+	option = {
+		name = EVTOPTAtournament.245
+		change_diplomacy = -1
+	}
+}
+
+################################################
+# Archery competition - Ending
+################################################
+# Liege - Competition is over
+character_event = {
+	id = tournament.300
+	title = archery_competition_title
+	desc = EVTDESCtournament.300
+	picture = GFX_evt_longbowman
+	
+	trigger = {
+		has_character_flag = has_archery_competition_first_place
+		has_character_flag = has_archery_competition_second_place
+		has_character_flag = has_archery_competition_third_place
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = EVTOPTAtournament.300
+		clr_character_flag = archery_competition_begins
+		clr_character_flag = archery_competition
+		clr_character_flag = has_archery_competition_third_place
+		clr_character_flag = has_archery_competition_second_place
+		clr_character_flag = has_archery_competition_first_place
+		clr_character_flag = attending_archery_competition
+		clr_character_flag = attending_archery_competition_event
+		clr_character_flag = archery_competition_third_place
+		clr_character_flag = archery_competition_second_place
+		clr_character_flag = archery_competition_first_place
+		set_character_flag = archery_competition_has_ended
+		clr_character_flag = do_not_disturb
+		any_realm_character = {
+			limit = {
+				has_character_flag = attending_archery_competition_event
+				OR = {
+					has_character_flag = archery_competition_third_place
+					has_character_flag = archery_competition_second_place
+					has_character_flag = archery_competition_first_place
+				}
+			}
+			clr_character_flag = attending_archery_competition
+			clr_character_flag = attending_archery_competition_event
+			clr_character_flag = archery_competition_third_place
+			clr_character_flag = archery_competition_second_place
+			clr_character_flag = archery_competition_first_place
+			set_character_flag = archery_competition_has_ended
+			clr_character_flag = do_not_disturb
+			opinion = { modifier = opinion_archery_competition_participant who = PREV years = 2 }
+		}
+		any_realm_character = {
+			limit = {
+				has_character_flag = attending_archery_competition_event
+				NOT = { character = PREV }
+				NOT = { has_character_flag = archery_competition_third_place }
+				NOT = { has_character_flag = archery_competition_second_place }
+				NOT = { has_character_flag = archery_competition_first_place }
+			}
+			hidden_tooltip = {
+				random_list = {
+					16 = { character_event = { id = tournament.310 } }
+					22 = { character_event = { id = tournament.311 } }
+					22 = { character_event = { id = tournament.312 } }
+					16 = { character_event = { id = tournament.313 } }
+					12 = { character_event = { id = tournament.314 } }
+					12 = { character_event = { id = tournament.315 } }
+				}
+			}
+			opinion = { modifier = opinion_archery_competition_participant who = PREV years = 2 }
+			clr_character_flag = attending_archery_competition
+			clr_character_flag = attending_archery_competition_event
+			set_character_flag = archery_competition_has_ended
+			clr_character_flag = do_not_disturb
+		}
+	}
+}
+# Any realm character - Competition is over - You almost won
+character_event = {
+	id = tournament.310
+	title = archery_competition_title
+	desc = EVTDESCtournament.310
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.310
+		prestige = 50
+	}
+}
+# Any realm character - Competition is over - You were good
+character_event = {
+	id = tournament.311
+	title = archery_competition_title
+	desc = EVTDESCtournament.311
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.311
+		prestige = 20
+	}
+}
+# Any realm character - Competition is over - You were bad
+character_event = {
+	id = tournament.312
+	title = archery_competition_title
+	desc = EVTDESCtournament.312
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.312
+		prestige = -20
+	}
+}
+# Any realm character - Competition is over - You were the worst
+character_event = {
+	id = tournament.313
+	title = archery_competition_title
+	desc = EVTDESCtournament.313
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.313
+		prestige = -50
+	}
+}
+# Any realm character - Competition is over - Learned from competition
+character_event = {
+	id = tournament.314
+	title = archery_competition_title
+	desc = EVTDESCtournament.314
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.314
+		change_martial = 1
+	}
+}
+# Any realm character - Competition is over - Didn't learn from competition
+character_event = {
+	id = tournament.315
+	title = archery_competition_title
+	desc = EVTDESCtournament.315
+	picture = GFX_evt_joust
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAtournament.315
+		change_martial = -1
+	}
+}
+# Safety catch - Clears character flags and modifiers
+character_event = {
+	id = tournament.400
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_character_flag = do_not_disturb
+		clr_character_flag = attending_archery_competition
+		clr_character_flag = attending_archery_competition_event
+		clr_character_flag = archery_competition_begins
+		clr_character_flag = archery_competition
+		clr_character_flag = archery_competition_has_ended
+		clr_character_flag = archery_competition_first_place
+		clr_character_flag = has_archery_competition_first_place
+		clr_character_flag = archery_competition_second_place
+		clr_character_flag = has_archery_competition_second_place
+		clr_character_flag = archery_competition_third_place
+		clr_character_flag = has_archery_competition_third_place
+		any_realm_character = {
+			limit = { has_character_flag = attending_archery_competition }
+			clr_character_flag = do_not_disturb
+			clr_character_flag = attending_archery_competition
+			clr_character_flag = attending_archery_competition_event
+			clr_character_flag = archery_competition_third_place
+			clr_character_flag = tournament_second_place
+			clr_character_flag = archery_competition_first_place
+		}
+	}
+}

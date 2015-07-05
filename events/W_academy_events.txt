@@ -1,0 +1,1238 @@
+namespace = academy
+
+################################################
+# University of Oxenfurt and Nilfgaard Academy
+################################################
+# Child - Wants to study in academy
+character_event = {
+	id = academy.1
+	
+	hide_window = yes
+	
+	ai = yes
+	min_age = 15
+	max_age = 25
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_landed = no
+		in_command = no
+		OR = {
+			location = { empire = { title = e_the_north } }
+			location = { empire = { title = e_nilfgaard } }
+		}
+		NOT = { 
+			trait = academic 
+			has_character_flag = wants_educ_academy
+			has_character_flag = denied_educ_academy
+			trait = military_officer 
+			has_character_flag = wants_mil_academy
+			has_character_flag = denied_mil_academy
+			has_character_flag = studying_mil_academy
+		}
+		father = {
+			is_alive = yes
+			is_ruler = yes
+			is_liege_of = ROOT
+			prisoner = no
+			NOT = { trait = incapable }
+			ROOT = {
+				host = { character = PREVPREV }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = { factor = 2 trait = content }
+		modifier = { factor = 0.75 trait = quick }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 0.5 trait = genius }
+		modifier = { factor = 2 trait = imbecile }
+		modifier = { factor = 0.75 trait = gregarious }
+		modifier = { factor = 1.5 trait = shy }
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.5 trait = slothful }
+		modifier = { factor = 0.75 trait = scholar }
+		modifier = { factor = 1.5 is_primary_heir = yes }
+		modifier = { factor = 1.5 is_female = yes }
+		modifier = { factor = 1.8 NOT = { learning = 2 } }
+		modifier = { factor = 1.6 NOT = { learning = 4 } }
+		modifier = { factor = 1.4 NOT = { learning = 6 } }
+		modifier = { factor = 1.2 NOT = { learning = 8 } }
+		modifier = { factor = 0.8 learning = 12 }
+		modifier = { factor = 0.8 learning = 14 }
+		modifier = { factor = 0.8 learning = 16 }
+		modifier = { factor = 0.8 learning = 18 }
+		modifier = { factor = 2 culture = skellige }
+	}
+	
+	option = { # Nilfgaard academy
+		name = OK
+		trigger =	{
+			location = { empire = { title = e_nilfgaard } }
+		}
+		father = { character_event = { id = academy.2 } }
+		set_character_flag = wants_educ_academy
+	}
+	option = { # Oxenfurt univesity
+		name = OK
+		trigger =	{
+			location = { empire = { title = e_the_north } }
+		}
+		father = { character_event = { id = academy.3 } }
+		set_character_flag = wants_educ_academy
+	}
+}
+# Father - Child wants to study in Nilfgaard academy
+character_event = {
+	id = academy.2
+	desc = EVTDESCacademy.2
+	picture = GFX_evt_son_asking_father
+	
+	is_triggered_only = yes
+	
+	option = { # Allow
+		name = EVTOPTAacademy.2
+		b_nilfgaard = {
+			holder_scope = {
+				FROM = {
+					move_character = PREV
+				}
+				character_event = { id = academy.4 }
+			}
+		}
+		hidden_tooltip = {
+			FROM = { 
+				character_event = { id = academy.4 days = 1460 }
+			}
+		}
+		prestige = 50
+		scaled_wealth = -0.10
+	}
+	option = { # Deny
+		name = EVTOPTBacademy.2
+		FROM = {
+			opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT }
+			clr_character_flag = wants_educ_academy
+			set_character_flag = denied_educ_academy
+		}
+		prestige = -50
+	}
+}
+# Father - Child wants to study in Oxenfurt academy
+character_event = {
+	id = academy.3
+	desc = EVTDESCacademy.3
+	picture = GFX_evt_son_asking_father
+	
+	is_triggered_only = yes
+	
+	option = { # Allow
+		name = EVTOPTAacademy.3
+		c_oxenfurt = {
+			holder_scope = {
+				FROM = {
+					move_character = PREV
+				}
+			}
+		}
+		hidden_tooltip = {
+			FROM = { 
+				character_event = { id =academy.4 days = 1460 }
+			}
+		}
+		prestige = 50
+		scaled_wealth = -0.10
+	}
+	option = { # Deny
+		name = EVTOPTBacademy.3
+		FROM = {
+			opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT }
+			clr_character_flag = wants_educ_academy
+			set_character_flag = denied_educ_academy
+		}
+		prestige = -50
+	}
+}
+# Child - Studied a few years
+character_event = {
+	id = academy.4
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = wants_educ_academy
+	}
+	
+	immediate = {
+		set_character_flag = studying_educ_academy
+		clr_character_flag = wants_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Child - Child returns a drunkard
+character_event = {
+	id = academy.10
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		NOT = { trait = drunkard }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = gluttonous }
+		modifier = { factor = 1.25 trait = temperate }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.11 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns a drunkard
+character_event = {
+	id = academy.11
+	desc = EVTDESCacademy.11
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.11
+		FROM = {
+			move_character = ROOT
+			add_trait = drunkard
+			add_trait = academic
+		}
+	}
+}
+# Child - Child returns better educated
+character_event = {
+	id = academy.12
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		NOT = { trait = elusive_shadow }
+		NOT = { trait = grey_eminence }
+		NOT = { trait = midas_touched }
+		NOT = { trait = mastermind_theologian }
+		NOT = { trait = wise_sage }
+		OR = {
+			trait = amateurish_plotter
+			trait = flamboyant_schemer
+			trait = intricate_webweaver
+			trait = naive_appeaser
+			trait = underhanded_rogue
+			trait = charismatic_negotiator
+			trait = indulgent_wastrel
+			trait = thrifty_clerk
+			trait = fortune_builder
+			trait = detached_priest
+			trait = martial_cleric
+			trait = scholarly_theologian
+			trait = uneducated_buffoon
+			trait = jack_of_all_trades
+			trait = well_versed_polymath
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.25 trait = slothful }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.13 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns better educated
+character_event = {
+	id = academy.13
+	desc = EVTDESCacademy.13
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.13
+		FROM = {
+			move_character = ROOT
+			if = {
+				limit = { trait = intricate_webweaver }
+				remove_trait = intricate_webweaver
+				add_trait = elusive_shadow
+			}
+			if = {
+				limit = { trait = flamboyant_schemer }
+				remove_trait = flamboyant_schemer
+				add_trait = intricate_webweaver
+			}
+			if = {
+				limit = { trait = amateurish_plotter }
+				remove_trait = amateurish_plotter
+				add_trait = flamboyant_schemer
+			}
+			if = {
+				limit = { trait = charismatic_negotiator }
+				remove_trait = charismatic_negotiator
+				add_trait = grey_eminence
+			}
+			if = {
+				limit = { trait = underhanded_rogue }
+				remove_trait = underhanded_rogue
+				add_trait = charismatic_negotiator
+			}
+			if = {
+				limit = { trait = naive_appeaser }
+				remove_trait = naive_appeaser
+				add_trait = underhanded_rogue
+			}
+			if = {
+				limit = { trait = fortune_builder }
+				remove_trait = fortune_builder
+				add_trait = midas_touched
+			}
+			if = {
+				limit = { trait = thrifty_clerk }
+				remove_trait = thrifty_clerk
+				add_trait = fortune_builder
+			}
+			if = {
+				limit = { trait = indulgent_wastrel }
+				remove_trait = indulgent_wastrel
+				add_trait = thrifty_clerk
+			}
+			if = {
+				limit = { trait = scholarly_theologian }
+				remove_trait = scholarly_theologian
+				add_trait = mastermind_theologian
+			}
+			if = {
+				limit = { trait = martial_cleric }
+				remove_trait = martial_cleric
+				add_trait = scholarly_theologian
+			}
+			if = {
+				limit = { trait = detached_priest }
+				remove_trait = detached_priest
+				add_trait = martial_cleric
+			}
+			if = {
+				limit = { trait = well_versed_polymath }
+				remove_trait = well_versed_polymath
+				add_trait = wise_sage
+			}
+			if = {
+				limit = { trait = jack_of_all_trades }
+				remove_trait = jack_of_all_trades
+				add_trait = well_versed_polymath
+			}
+			if = {
+				limit = { trait = uneducated_buffoon }
+				remove_trait = uneducated_buffoon
+				add_trait = jack_of_all_trades
+			}
+			add_trait = academic
+		}
+	}
+}
+# Child - Child returns depressed
+character_event = {
+	id = academy.14
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		NOT = { trait = depressed }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = kind }
+		modifier = { factor = 1.25 trait = envious }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.15 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns depressed
+character_event = {
+	id = academy.15
+	desc = EVTDESCacademy.15
+	picture = GFX_evt_shadow
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.15
+		FROM = {
+			move_character = ROOT
+			add_trait = depressed
+			add_trait = academic
+		}
+	}
+}
+# Child - Child returns married
+character_event = {
+	id = academy.16
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		is_married = no
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = lustful }
+		modifier = { factor = 1.25 trait = chaste }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.17 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns married
+character_event = {
+	id = academy.17
+	desc = EVTDESCacademy.17
+	picture = GFX_evt_marriage
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.17
+		trigger = { FROM = { is_female = no } }
+		create_character = {
+			random_traits = yes
+			dynasty = NONE
+			female = yes
+			age = 18
+		}
+		new_character = {
+			add_spouse = FROM
+			if = {
+				limit = { location = { county = { de_jure_liege_or_above = e_nilfgaard } } }
+				random_list = {
+					80 = { religion = solar }
+					20 = { religion = melitele }
+				}
+				random_list = {
+					60 = { culture = nilfgaardian }
+					10 = { culture = vicovarian }
+					10 = { culture = gemmeran }
+					10 = { culture = etolian }
+					10 = { culture = maechts }
+				}
+			}
+			if = {
+				limit = { location = { county = { de_jure_liege_or_above = e_the_north } } }
+				random_list = {
+					25 = { religion = kreve }
+					25 = { religion = lebioda }
+					25 = { religion = eternal_fire }
+					25 = { religion = melitele }
+				}
+				random_list = {
+					20 = { culture = temerian }
+					20 = { culture = redanian }
+					20 = { culture = kaedweni }
+					20 = { culture = koviri }
+					10 = { culture = aedirnian }
+					10 = { culture = lyrian }
+				}
+			}
+		}
+		FROM = {
+			move_character = ROOT
+			add_trait = academic
+		}
+	}
+	option = {
+		name = EVTOPTBacademy.17
+		trigger = { FROM = { is_female = yes } }
+		create_character = {
+			random_traits = yes
+			dynasty = NONE
+			female = no
+			age = 18
+		}
+		new_character = {
+			add_spouse_matrilineal = FROM
+			if = {
+				limit = { location = { county = { de_jure_liege_or_above = e_nilfgaard } } }
+				random_list = {
+					80 = { religion = solar }
+					20 = { religion = melitele }
+				}
+				random_list = {
+					60 = { culture = nilfgaardian }
+					10 = { culture = vicovarian }
+					10 = { culture = gemmeran }
+					10 = { culture = etolian }
+					10 = { culture = maechts }
+				}
+			}
+			if = {
+				limit = { location = { county = { de_jure_liege_or_above = e_the_north } } }
+				random_list = {
+					25 = { religion = kreve }
+					25 = { religion = lebioda }
+					25 = { religion = eternal_fire }
+					25 = { religion = melitele }
+				}
+				random_list = {
+					20 = { culture = temerian }
+					20 = { culture = redanian }
+					20 = { culture = kaedweni }
+					20 = { culture = koviri }
+					10 = { culture = aedirnian }
+					10 = { culture = lyrian }
+				}
+			}
+		}
+		FROM = {
+			move_character = ROOT
+			add_trait = academic
+		}
+	}
+}
+# Child - Child returns ill
+character_event = {
+	id = academy.18
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		NOT = { trait = ill }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = weak }
+		modifier = { factor = 1.25 trait = strong }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.19 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns ill
+character_event = {
+	id = academy.19
+	desc = EVTDESCacademy.19
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.19
+		FROM = {
+			move_character = ROOT
+			add_trait = ill
+		}
+	}
+}
+# Child - Son returns scholar
+character_event = {
+	id = academy.20
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		NOT = { trait = scholar }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = shy }
+		modifier = { factor = 1.25 trait = gregarious }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.21 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns scholar
+character_event = {
+	id = academy.21
+	desc = EVTDESCacademy.21
+	picture = GFX_evt_library
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.21
+		FROM = {
+			move_character = ROOT
+			add_trait = scholar
+		}
+	}
+}
+# Child - Child returns hedonist
+character_event = {
+	id = academy.22
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_educ_academy
+		NOT = { trait = hedonist }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = lustful }
+		modifier = { factor = 1.25 trait = chaste }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.23 } }
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Child returns hedonist
+character_event = {
+	id = academy.23
+	desc = EVTDESCacademy.23
+	picture = GFX_evt_brothel
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.23
+		FROM = {
+			move_character = ROOT
+			add_trait = hedonist
+		}
+	}
+}
+# Child - Father dies and you are heir
+character_event = {
+	id = academy.30
+	desc = EVTDESCacademy.30
+	picture = GFX_evt_death
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			has_character_flag = wants_educ_academy
+			has_character_flag = studying_educ_academy
+		}
+		father = { is_alive = no }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	immediate = {
+		clr_character_flag = wants_educ_academy
+		clr_character_flag = studying_educ_academy
+	}
+	
+	option = {
+		name = EVTOPTAacademy.30
+		add_trait = academic
+	}
+}
+
+################################################
+# Military Academy
+################################################
+# Son - Wants to study in Military academy
+character_event = {
+	id = academy.100
+	
+	hide_window = yes
+	
+	ai = yes
+	min_age = 15
+	max_age = 25
+	only_men = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_landed = no
+		in_command = no
+		location = { empire = { title = e_nilfgaard } }
+		NOT = { 
+			trait = military_officer 
+			has_character_flag = wants_mil_academy
+			has_character_flag = denied_mil_academy
+			trait = academic 
+			has_character_flag = wants_educ_academy
+			has_character_flag = denied_educ_academy
+			has_character_flag = studying_educ_academy
+		}
+		father = {
+			is_alive = yes
+			is_ruler = yes
+			is_liege_of = ROOT
+			prisoner = no
+			NOT = { trait = incapable }
+			ROOT = {
+				host = { character = PREVPREV }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = { factor = 2 trait = content }
+		modifier = { factor = 0.75 trait = quick }
+		modifier = { factor = 1.5 trait = slow }
+		modifier = { factor = 0.5 trait = genius }
+		modifier = { factor = 2 trait = imbecile }
+		modifier = { factor = 0.5 trait = brave }
+		modifier = { factor = 2 trait = craven }
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.5 trait = slothful }
+		modifier = { factor = 0.75 trait = strong }
+		modifier = { factor = 1.5 trait = weak }
+		modifier = { factor = 1.5 is_primary_heir = yes }
+	}
+	
+	option = {
+		name = OK
+		father = { character_event = { id = academy.101 } }
+		set_character_flag = wants_academy
+	}
+}
+# Father - Son wants to study in Military academy
+character_event = {
+	id = academy.101
+	desc = EVTDESCacademy.101
+	picture = GFX_evt_son_asking_father
+	
+	is_triggered_only = yes
+	
+	option = { # Allow
+		name = EVTOPTAacademy.101
+		b_graupian = {
+			holder_scope = {
+				FROM = {
+					move_character = PREV
+				}
+			}
+		}
+		hidden_tooltip = {
+			FROM = { 
+				character_event = { id = academy.102 days = 1460 }
+			}
+		}
+		prestige = 50
+		scaled_wealth = -0.10
+	}
+	option = { # Deny
+		name = EVTOPTBacademy.101
+		FROM = {
+			opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT }
+			clr_character_flag = wants_mil_academy
+			set_character_flag = denied_mil_academy
+		}
+		prestige = -50
+	}
+}
+# Son - Studied a few years
+character_event = {
+	id = academy.102
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = wants_mil_academy
+	}
+	
+	immediate = {
+		set_character_flag = studying_mil_academy
+		clr_character_flag = wants_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Son - Son returns with better education
+character_event = {
+	id = academy.110
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		NOT = { trait = brilliant_strategist }
+		OR = {
+			trait = misguided_warrior
+			trait = tough_soldier
+			trait = skilled_tactician
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.25 trait = slothful }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.111 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns with better education
+character_event = {
+	id = academy.111
+	desc = EVTDESCacademy.111
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.111
+		FROM = {
+			move_character = ROOT
+			if = {
+				limit = { trait = skilled_tactician }
+				remove_trait = skilled_tactician
+				add_trait = brilliant_strategist
+			}
+			if = {
+				limit = { trait = tough_soldier }
+				remove_trait = tough_soldier
+				add_trait = skilled_tactician
+			}
+			if = {
+				limit = { trait = misguided_warrior }
+				remove_trait = misguided_warrior
+				add_trait = tough_soldier
+			}
+			add_trait = military_officer
+		}
+	}
+}
+# Son - Son returns strategist
+character_event = {
+	id = academy.112
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		can_have_more_leadership_traits = yes
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = diligent }
+		modifier = { factor = 1.25 trait = slothful }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.113 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns strategist
+character_event = {
+	id = academy.113
+	desc = EVTDESCacademy.113
+	picture = GFX_evt_council
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.113
+		FROM = {
+			move_character = ROOT
+			if = {
+				limit = {
+					NOT = {
+						trait = cavalry_leader
+						trait = heavy_infantry_leader
+						trait = light_foot_leader
+					}
+				}
+				random_list = {
+					33 = {add_trait = cavalry_leader }
+					33 = {add_trait = heavy_infantry_leader }
+					33 = {add_trait = light_foot_leader }
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						trait = defensive_leader
+						trait = aggressive_leader
+						trait = inspiring_leader
+						trait = unyielding_leader
+						trait = siege_leader
+					}
+				}
+				random_list = {
+					20 = {add_trait = defensive_leader }
+					20 = {add_trait = aggressive_leader }
+					20 = {add_trait = inspiring_leader }
+					20 = {add_trait = unyielding_leader }
+					20 = {add_trait = siege_leader }
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						trait = organizer
+						trait = experimenter
+						trait = trickster
+						trait = flanker
+						trait = narrow_flank_leader
+					}
+				}
+				random_list = {
+					20 = {add_trait = organizer }
+					20 = {add_trait = experimenter }
+					20 = {add_trait = trickster }
+					20 = {add_trait = flanker }
+					20 = {add_trait = narrow_flank_leader }
+				}
+			}
+			add_trait = military_officer
+		}
+	}
+}
+# Son - Son returns depressed
+character_event = {
+	id = academy.114
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		NOT = {trait = depressed }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = quick }
+		modifier = { factor = 0.75 trait = genius }
+		modifier = { factor = 1.25 trait = slow }
+		modifier = { factor = 1.25 trait = imbecile }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.115 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns depressed
+character_event = {
+	id = academy.115
+	desc = EVTDESCacademy.115
+	picture = GFX_evt_shadow
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.115
+		FROM = {
+			move_character = ROOT
+			add_trait = depressed
+			add_trait = military_officer
+		}
+	}
+}
+# Son - Son returns injured
+character_event = {
+	id = academy.116
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		NOT = { trait = wounded }
+		NOT = { trait = maimed }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = weak }
+		modifier = { factor = 1.25 trait = strong }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.117 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns injured
+character_event = {
+	id = academy.117
+	desc = EVTDESCacademy.117
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.117
+		FROM = {
+			move_character = ROOT
+			random_list = {
+				50 = { add_trait = wounded }
+				50 = { add_trait = maimed }
+			}
+			add_trait = military_officer
+		}
+	}
+}
+# Son - Son returns better fighter
+character_event = {
+	id = academy.118
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		NOT = { trait = master_warrior }
+		OR = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 1.25 trait = craven }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.119 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns better fighter
+character_event = {
+	id = academy.119
+	desc = EVTDESCacademy.119
+	picture = GFX_evt_melee
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.119
+		FROM = {
+			move_character = ROOT
+			if = {
+				limit = { trait = skilled_warrior }
+				remove_trait = skilled_warrior
+				add_trait = master_warrior
+			}
+			if = {
+				limit = { trait = trained_warrior }
+				remove_trait = trained_warrior
+				add_trait = skilled_warrior
+			}
+			if = {
+				limit = { trait = poor_warrior }
+				remove_trait = poor_warrior
+				add_trait = trained_warrior
+			}
+			add_trait = military_officer
+		}
+	}
+}
+# Son - Son returns scarred
+character_event = {
+	id = academy.120
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		NOT = { trait = scarred }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = brave }
+		modifier = { factor = 1.25 trait = craven }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.121 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns scarred
+character_event = {
+	id = academy.121
+	desc = EVTDESCacademy.121
+	picture = GFX_evt_knight_kneeling
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.121
+		FROM = {
+			move_character = ROOT
+			add_trait = scarred
+			add_trait = military_officer
+		}
+	}
+}
+# Son - Son returns craven
+character_event = {
+	id = academy.122
+	
+	hide_window = yes
+	
+	trigger = {
+		has_character_flag = studying_mil_academy
+		NOT = { trait = craven }
+	}
+	
+	mean_time_to_happen = {
+		months = 160
+		modifier = { factor = 0.75 trait = humble }
+		modifier = { factor = 1.25 trait = proud }
+	}
+	
+	immediate = {
+		father = { character_event = { id = academy.123 } }
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = OK
+	}
+}
+# Father - Son returns craven
+character_event = {
+	id = academy.123
+	desc = EVTDESCacademy.123
+	picture = GFX_evt_shadow
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAacademy.123
+		FROM = {
+			move_character = ROOT
+			add_trait = craven
+			add_trait = military_officer
+		}
+	}
+}
+# Child - Father dies and you are heir
+character_event = {
+	id = academy.130
+	desc = EVTDESCacademy.130
+	picture = GFX_evt_death
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			has_character_flag = wants_mil_academy
+			has_character_flag = studying_mil_academy
+		}
+		father = { is_alive = no }
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	immediate = {
+		clr_character_flag = wants_mil_academy
+		clr_character_flag = studying_mil_academy
+	}
+	
+	option = {
+		name = EVTOPTAacademy.130
+		add_trait = military_officer
+	}
+}

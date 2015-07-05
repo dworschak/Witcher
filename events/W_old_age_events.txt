@@ -1,0 +1,876 @@
+namespace = old_age
+
+################################################
+# Main events
+################################################
+# Become old
+character_event = {
+	id = old_age.1
+	desc = EVTDESCold_age.1
+	picture = GFX_evt_pale_rider
+	
+	trigger = {
+		NOT = { has_character_modifier = old_age }
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				age = 50
+				NOT = { trait = elf_race }
+				NOT = { trait = dwarf_race}
+				NOT = { trait = halfling_race }
+				NOT = { trait = gnome_race }
+				NOT = { trait = dryad_race}
+				NOT = { trait = witcher }
+				NOT = { trait = sorcerer }
+			}
+			AND = {
+				age = 75
+				OR = {
+					trait = halfling_race
+					trait = gnome_race
+				}
+			}
+			AND = {
+				age = 100
+					trait = dwarf_race
+			}
+			AND = {
+				age = 300
+				OR = {
+					trait = sorcerer
+					trait = elf_race
+					trait = dryad_race
+					trait = witcher
+				}
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		years = 6
+		modifier = { trait = strong factor = 1.5 }
+		modifier = { trait = weak factor = 0.8 }
+		modifier = { trait = inbred factor = 0.8 }
+		modifier = { trait = stressed factor = 0.9 }
+		modifier = { trait = depressed factor = 0.9 }
+		modifier = { trait = infirm factor = 0.1 }
+		modifier = { trait = incapable factor = 0.1 }
+		modifier = { trait = gluttonous factor = 0.95 }
+		modifier = { trait = drunkard factor = 0.95 }
+		modifier = { trait = hedonist factor = 0.9 }
+		modifier = { trait = diligent factor = 1.05 }
+		modifier = { trait = paranoid factor = 1.05 }
+		modifier = { trait = lunatic factor = 0.9 }
+		modifier = { trait = possessed factor = 1.1 }
+		modifier = { trait = ill factor = 0.75 }
+		modifier = { trait = maimed factor = 0.75 }
+		modifier = { trait = celibate factor = 1.05 }
+		modifier = { trait = duelist factor = 1.05 }
+		modifier = { trait = falconer factor = 1.05 }
+		modifier = { trait = hunter factor = 1.05 }
+		modifier = { factor = 5 trait = dwarf_race }
+		modifier = { factor = 5 trait = halfling_race }
+		modifier = { factor = 5 trait = gnome_race }
+		modifier = { factor = 10 trait = elf_race }
+		modifier = { factor = 10 trait = dryad_race }
+		modifier = { factor = 10 trait = witcher }
+		modifier = { factor = 10 trait = sorcerer }
+	}
+	
+	option = {
+		name = EVTOPTAold_age.1
+		add_character_modifier = { name = old_age duration = -1 }
+	}
+}
+
+# Elf and dryad old age culling
+character_event = {
+	id = old_age.2
+	
+	hide_window = yes
+	
+	min_age = 300
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		has_character_modifier = old_age
+		OR = {
+			trait = elf_race
+			trait = dryad_race
+		}
+		NOT = { trait = sorcerer }
+	}
+	
+	mean_time_to_happen = {
+		months = 1200
+		modifier = { factor = 0.9 age = 300 NOT = { age = 325 } }
+		modifier = { factor = 0.8 age = 325 NOT = { age = 350 } }
+		modifier = { factor = 0.65 age = 350 NOT = { age = 375 } }
+		modifier = { factor = 0.4 age = 375 NOT = { age = 400 } }
+		modifier = { factor = 0.1 age = 400 }
+		modifier = { factor = 0.01 trait = incapable }
+	}
+	
+	option = {
+		name = OK
+		trigger = { NOT = { trait = incapable } }
+		death = { death_reason = death_natural }
+	}
+	option = {
+		name = OK
+		trigger = { trait = incapable }
+		death = { death_reason = death_trait }
+	}
+}
+
+# Dwarf old age culling
+character_event = {
+	id = old_age.4
+	
+	hide_window = yes
+	
+	min_age = 100
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = dwarf_race
+		has_character_modifier = old_age
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+
+		modifier = { factor = 0.65 age = 100 NOT = { age = 125 } }
+		modifier = { factor = 0.4 age = 125 NOT = { age = 150 } }
+		modifier = { factor = 0.1 age = 150 }
+		modifier = { factor = 0.01 trait = incapable }
+	}
+	
+	option = {
+		name = OK
+		trigger = { NOT = { trait = incapable } }
+		death = { death_reason = death_natural }
+	}
+	option = {
+		name = OK
+		trigger = { trait = incapable }
+		death = { death_reason = death_trait }
+	}
+}
+
+# Halfling old age culling
+character_event = {
+	id = old_age.5
+	
+	hide_window = yes
+	
+	min_age = 75
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = halfling_race
+		has_character_modifier = old_age
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.65 age = 75 NOT = { age = 100 } }
+		modifier = { factor = 0.4 age = 100 NOT = { age = 125 } }
+		modifier = { factor = 0.1 age = 125 }
+		modifier = { factor = 0.01 trait = incapable }
+	}
+	
+	option = {
+		name = OK
+		trigger = { NOT = { trait = incapable } }
+		death = { death_reason = death_natural }
+	}
+	option = {
+		name = OK
+		trigger = { trait = incapable }
+		death = { death_reason = death_trait }
+	}
+}
+
+# Incapable elf dryad and sorcerer culling
+character_event = {
+	id = old_age.3
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = incapable
+		OR = {
+			trait = elf_race
+			trait = dryad_race
+			trait = sorcerer
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = { factor = 0.1 has_character_modifier = old_age }
+	}
+	
+	option = {
+		name = OK
+		death = { death_reason = death_trait }
+	}
+}
+
+# Incapable dwarf, halfling, and gnome culling
+character_event = {
+	id = old_age.6
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		trait = incapable
+		OR = {
+			trait = dwarf_race
+			trait = halfling_race
+			trait = gnome_race
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+		modifier = { factor = 0.1 has_character_modifier = old_age }
+	}
+	
+	option = {
+		name = OK
+		death = { death_reason = death_trait }
+	}
+}
+
+################################################
+# Old age flavor events from VIET
+################################################
+# Hunting in old age
+character_event = {
+	id = old_age.10
+	desc = EVTDESCold_age.10
+	picture = GFX_evt_hunt
+	
+	is_triggered_only = yes
+	
+	min_age = 55
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		war = no
+		in_command = no
+		is_ruler = yes
+		has_character_modifier = old_age
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = weak
+		}
+		modifier = {
+			factor = 2
+			trait = ill
+		}
+		modifier = {
+			factor = 1.2
+			trait = brave
+		}
+		modifier = {
+			factor = 1.2
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = strong
+		}
+		modifier = {
+			factor = 0.8
+			trait = humble
+		}
+		modifier = {
+			factor = 0.8
+			trait = craven
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 3
+			has_character_flag = holding_grand_hunt
+		}
+	}
+	
+	option = { #I'll be fine
+		name = EVTOPTAold_age.10
+		prestige = 10
+		random_list = {
+			75 = {}
+			20 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			4 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+			1 = {
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_accident
+					}
+				}
+			}
+		}
+	}
+	option = { #Watch old age
+		name = EVTOPTBold_age.10
+		piety = 5
+		random_list = {
+			75 = { }
+			25 = { add_trait = humble }
+		}
+	}
+	option = { #Don't participate as much
+		name = EVTOPTCold_age.10
+		prestige = 5
+		random_list = {
+			40 = {}
+			30 = { add_trait = gregarious }
+			20 = { add_trait = humble }
+			9 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			1 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+		}
+	}
+	option = { #God will protect
+		name = EVTOPTDold_age.10
+		tooltip_info = zealous
+		trigger = {
+			trait = zealous
+		}
+		piety = 15
+		random_list = {
+			85 = {}
+			12 = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+			2 = {
+				add_trait = maimed
+				hidden_tooltip = { character_event = { id = 38281 } }
+			}
+			1 = {
+				if = {
+					limit = { NOT = { has_character_modifier = protection_spell } }
+					death = {
+						death_reason = death_accident
+					}
+				}
+			}
+		}
+	}
+}
+# Character complains about youth
+character_event = {
+	id = old_age.11
+	desc = EVTDESCold_age.11
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	min_age = 55
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		in_command = no
+		is_ruler = yes
+		has_character_modifier = old_age
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 1.5
+			trait = envious
+		}
+		modifier = {
+			factor = 1.5
+			trait = proud
+		}
+		modifier = {
+			factor = 1.2
+			trait = cynical
+		}
+		modifier = {
+			factor = 1.2
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.6
+			trait = humble
+		}
+		modifier = {
+			factor = 0.8
+			trait = patient
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.8
+			trait = kind
+		}
+	}
+	
+	option = { #I was like that once
+		name = EVTOPTAold_age.11
+		random_list = {
+			80 = { }
+			10 = { add_trait = humble }
+			10 = { add_trait = patient }
+		}
+		add_character_modifier = { name = reminiscing duration = 100 }
+	}
+	option = { #Kids don't understand hardship
+		name = EVTOPTBold_age.11
+		prestige = 10
+	}
+	option = { #Pray God gives strength to young folks
+		name = EVTOPTCold_age.11
+		prestige = 5
+		random_list = {
+			70 = {}
+			15 = { add_trait = zealous }
+			15 = { add_trait = temperate }
+		}
+	}
+	option = { #Kids are useless crud these days
+		name = EVTOPTDold_age.11
+		random_list = {
+			70 = { prestige = 5 }
+			20 = { add_trait = proud }
+			10 = { add_trait = wroth }
+		}
+	}
+}
+# Character worrying about the afterlife
+character_event = {
+	id = old_age.12
+	desc = EVTDESCold_age.12
+	picture = GFX_evt_knight_kneeling
+	
+	is_triggered_only = yes
+	
+	min_age = 55
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		has_character_modifier = old_age
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 1.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 1.5
+			trait = ambitious
+		}
+		modifier = {
+			factor = 1.2
+			trait = diligent
+		}
+		modifier = {
+			factor = 1.2
+			trait = paranoid
+		}
+		modifier = {
+			factor = 1.2
+			trait = envious
+		}
+		modifier = {
+			factor = 1.2
+			trait = craven
+		}
+		modifier = {
+			factor = 0.7
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.7
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.7
+			trait = content
+		}
+		modifier = {
+			factor = 0.6
+			trait = brave
+		}
+	}
+	
+	option = { #Pray
+		name = EVTOPTAold_age.12
+		piety = 10
+	}
+	option = { #Don't care
+		name = EVTOPTBold_age.12
+		ai_chance = {
+			factor = 5
+		}
+		tooltip_info = cynical
+		trigger = { 
+			trait = cynical
+		}
+		prestige = 10
+	}
+	option = { #Lived a good life
+		name = EVTOPTCold_age.12
+		trigger = {
+			OR = {
+				trait = kind
+				trait = chaste
+				trait = charitable
+				trait = patient
+				trait = temperate
+				trait = humble
+				trait = diligent
+				trait = zealous
+				trait = just
+			}
+			NOT = {
+				trait = cruel
+				trait = arbitrary
+				trait = impaler
+			}
+		}
+		prestige = 5
+		piety = 5
+	}
+}
+# Character feels weaker and weaker as they get older and older
+character_event = {
+	id = old_age.13
+	desc = EVTDESCold_age.13
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	min_age = 55
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		has_character_modifier = old_age
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 1.5
+			trait = weak
+		}
+		modifier = {
+			factor = 1.3
+			NOT = { health = 3 }
+		}
+		modifier = {
+			factor = 1.1
+			NOT = { health = 6 }
+			health = 3
+		}
+		modifier = {
+			factor = 1.2
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 1.1
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.6
+			health = 6
+		}
+		modifier = {
+			factor = 0.8
+			trait = temperate
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 0.3
+			trait = strong
+		}
+	}
+	
+	option = { #It's nothing
+		name = EVTOPTAold_age.13
+		ai_chance = {
+			factor = 100
+		}
+		tooltip_info = strong
+		trigger = { 
+			trait = strong
+		}
+		prestige = 10
+	}
+	option = { #Can't work much
+		name = EVTOPTBold_age.13
+		prestige = -5
+		random_list = {
+			10 = { add_trait = ill }
+			90 = { }
+		}
+	}
+	option = { #Work harder
+		name = EVTOPTCold_age.13
+		prestige = 10
+		random_list = {
+			15 = { add_trait = stressed }
+			10 = { add_trait = stressed add_trait = diligent }
+			15 = { add_trait = ill }
+			10 = { add_trait = ill add_trait = diligent }
+			50 = { }
+		}
+	}
+	option = { #Get help from others
+		name = EVTOPTDold_age.13
+		prestige = -25
+		random_list = {
+			25 = { }
+			15 = { add_trait = gregarious }
+			15 = { add_trait = diligent }
+			15 = { add_trait = slothful }
+			15 = { add_trait = trusting }
+			15 = { add_trait = humble }
+		}
+	}
+}
+# Old age is sad
+character_event = {
+	id = old_age.14 
+	desc = EVTDESCold_age.14
+	picture = GFX_evt_illness
+	
+	is_triggered_only = yes
+	
+	min_age = 55
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		NOT = { culture = wilderness }
+		is_ruler = yes
+		war = no
+		in_command = no
+		has_character_modifier = old_age
+	}
+	
+	weight_multiplier = {
+		days = 1
+		
+		modifier = {
+			factor = 2
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.5
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = cynical
+		}
+		modifier = {
+			factor = 0.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 2
+			trait = envious
+		}
+		modifier = {
+			factor = 0.5
+			trait = kind
+		}
+		modifier = {
+			factor = 2
+			trait = depressed
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+	}
+	
+	option = {
+		name = EVTOPTAold_age.14  #will join the rest in heaven
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 0.5
+				trait = cynical
+			}
+			modifier = {
+				factor = 2
+				trait = patient
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+		}
+		piety = 4	
+	}
+	option = {
+		name = EVTOPTBold_age.14  #enjoy life while I can
+		trigger = {
+			NOT = { trait = depressed }
+			NOT = { trait = stressed }
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+		}
+		prestige = 4
+	}
+	option = {
+		name = EVTOPTCold_age.14  #no longer fear death
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = brave
+			}
+			modifier = {
+				factor = 0.5
+				trait = craven
+			}
+			modifier = {
+				factor = 2
+				trait = humble
+			}
+			modifier = {
+				factor = 0.5
+				trait = proud
+			}
+		}
+		prestige = 2
+		piety = 2
+	}
+}
+
+################################################
+# Misc. events
+################################################
+# Combat trait demotion
+character_event = {
+	id = old_age.20
+	desc = EVTDESCold_age.20
+	picture = GFX_evt_illness
+	
+	min_age = 45
+	
+	trigger = {
+		OR = {
+			trait = poor_warrior
+			trait = trained_warrior
+			trait = skilled_warrior
+			trait = master_warrior
+		}
+		has_character_modifier = old_age
+		NOT = { has_character_flag = demoted }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		# Personality traits
+		modifier = { factor = 1.2 trait = diligent }
+		modifier = { factor = 1.2 trait = brave }
+		modifier = { factor = 0.7 trait = slothful }
+		# Congenital traits
+		modifier = { factor = 1.5 trait = strong }
+		modifier = { factor = 1.2 trait = tall }
+		modifier = { factor = 1.2 trait = agile }
+		modifier = { factor = 1.2 trait = ambidextrous }
+		modifier = { factor = 0.7 trait = weak }
+		# Other traits
+		modifier = { factor = 2 trait = dwarf_race }
+		modifier = { factor = 5 trait = witcher }
+		modifier = { factor = 1.2 guardian = { trait = duelist } }
+		modifier = { factor = 1.4 guardian = { trait = veteran } }
+		modifier = { factor = 1.2 guardian = { trait = raider } }
+		modifier = { factor = 1.2 guardian = { trait = military_officer } }
+	}
+	
+	option = {
+		name = EVTOPTAold_age.20
+		if = {
+			limit = { trait = poor_warrior }
+			remove_trait = poor_warrior
+			set_character_flag = demoted
+		}
+		if = {
+			limit = { trait = trained_warrior }
+			remove_trait = trained_warrior
+			add_trait = poor_warrior
+		}
+		if = {
+			limit = { trait = skilled_warrior }
+			remove_trait = skilled_warrior
+			add_trait = trained_warrior
+			set_character_flag = demoted
+		}
+		if = {
+			limit = { trait = master_warrior }
+			remove_trait = master_warrior
+			add_trait = skilled_warrior
+			set_character_flag = demoted
+		}
+	}
+}

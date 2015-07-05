@@ -1,0 +1,1513 @@
+namespace = court
+
+################################################
+# Drinking events from VIET
+################################################
+# Drinking contest
+character_event = {
+	id = court.1
+	desc = EVTDESCcourt.1
+	picture = GFX_evt_brothel
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		is_female = no
+		war = no
+		in_command = no
+		any_courtier = {
+			ai = no
+			is_adult = yes
+			is_female = no
+			OR = {
+				trait = gregarious
+				trait = hedonist
+				trait = drunkard
+				trait = gluttonous
+				trait = poet
+				trait = slothful
+				trait = dwarf_race
+				trait = halfling_race
+				trait = gnome_race
+			}
+			NOT = {
+				trait = temperate
+				trait = zealous
+				trait = incapable
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 4
+			trait = drunkard
+		}
+		modifier = {
+			factor = 0.5
+			trait = zealous
+		}
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = gluttonous
+		}
+		modifier = {
+			factor = 0.5
+			trait = temperate
+		}
+		modifier = {
+			factor = 1
+			trait = gnome_race
+		}
+		modifier = {
+			factor = 1.5
+			trait = halfling_race
+		}
+		modifier = {
+			factor = 2
+			trait = dwarf_race
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.1  #Sure!
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				trait = drunkard
+			}
+			modifier = {
+				factor = 0.5
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = slothful
+			}
+			modifier = {
+				factor = 0.5
+				trait = diligent
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 1
+				trait = gnome_race
+			}
+			modifier = {
+				factor = 1.5
+				trait = halfling_race
+			}
+			modifier = {
+				factor = 2
+				trait = dwarf_race
+			}
+		}
+		random_list = {
+			50 = {
+				character_event = { #lose
+					id = court.3
+					tooltip = EVTTOOLTIPcourt.3
+				}
+			}
+			50 = {
+				character_event = { #win
+					id = court.2
+					tooltip = EVTTOOLTIPcourt.2
+				}
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBcourt.1  #No
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				trait = drunkard
+			}
+			modifier = {
+				factor = 2
+				trait = zealous
+			}
+			modifier = {
+				factor = 0.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+			modifier = {
+				factor = 0.5
+				trait = slothful
+			}
+			modifier = {
+				factor = 2
+				trait = diligent
+			}
+			modifier = {
+				factor = 0.5
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 2
+				trait = temperate
+			}
+		}
+		piety = 5
+	}
+}
+#Character wins drinking contest
+character_event = {
+	id = court.2
+	desc = EVTDESCcourt.2
+	picture = GFX_evt_brothel
+	
+	is_triggered_only = yes
+	
+	option = { #Great
+		name = EVTOPTAcourt.2
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				is_female = no
+				OR = {
+					trait = gregarious
+					trait = hedonist
+					trait = drunkard
+					trait = gluttonous
+					trait = poet
+					trait = slothful
+					trait = dwarf_race
+					trait = halfling_race
+					trait = gnome_race
+				}
+				NOT = {
+					trait = temperate
+					trait = zealous
+					trait = incapable
+				}
+			}
+			opinion = {
+				modifier = opinion_gained_respect
+				who = FROM
+				years = 10
+			}
+		}
+		prestige = 5
+		random_list = {
+			5 = { add_trait = drunkard }
+			15 = { add_trait = gregarious }
+			80 = { }
+		}
+	}
+	option = { #Never again
+		name = EVTOPTBcourt.2
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				trait = gregarious
+			}
+			modifier = {
+				factor = 2
+				trait = shy
+			}
+			modifier = {
+				factor = 0.1
+				trait = drunkard
+			}
+			modifier = {
+				factor = 0.1
+				trait = hedonist
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				is_female = no
+				OR = {
+					trait = gregarious
+					trait = hedonist
+					trait = drunkard
+					trait = gluttonous
+					trait = poet
+					trait = slothful
+					trait = dwarf_race
+					trait = halfling_race
+					trait = gnome_race
+				}
+				NOT = {
+					trait = temperate
+					trait = zealous
+					trait = incapable
+				}
+			}
+			opinion = {
+				modifier = opinion_gained_respect
+				who = FROM
+				years = 10
+			}
+		}
+		prestige = 5
+		if = {
+			limit = {
+				trait = drunkard
+			}
+			random_list = {
+				50 = { }
+				50 = { remove_trait = drunkard }
+			}
+		}
+		if = {
+			limit = {
+				trait = gregarious
+			}
+			random_list = {
+				50 = { }
+				50 = { remove_trait = gregarious }
+			}
+		}
+	}
+}
+#Character loses drinking contest
+character_event = {
+	id = court.3
+	desc = EVTDESCcourt.3
+	picture = GFX_evt_brothel
+
+	is_triggered_only = yes
+
+	option = { #Great
+		name = EVTOPTAcourt.3
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = shy
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				is_female = no
+				OR = {
+					trait = gregarious
+					trait = hedonist
+					trait = drunkard
+					trait = gluttonous
+					trait = poet
+					trait = slothful
+					trait = dwarf_race
+					trait = halfling_race
+					trait = gnome_race
+				}
+				NOT = {
+					trait = temperate
+					trait = zealous
+					trait = incapable
+				}
+			}
+			opinion = {
+				modifier = opinion_gained_respect
+				who = FROM
+				years = 10
+			}
+		}
+		prestige = -2
+	}
+}
+# Drunk courtier interrupts court
+character_event = {
+	id = court.4
+	desc = EVTDESCcourt.4
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+		any_courtier = {
+			ai = no
+			is_adult = yes
+			trait = drunkard
+			NOT = { trait = incapable }
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.5
+			trait = content
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.4  #Punish
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				trait = just
+			}
+			modifier = {
+				factor = 0.5
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 2
+				trait = diligent
+			}
+			modifier = {
+				factor = 0.5
+				trait = slothful
+			}
+			modifier = {
+				factor = 2
+				trait = patient
+			}
+			modifier = {
+				factor = 0.5
+				trait = wroth
+			}
+		}
+		prestige = 5
+		wealth = 2
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				trait = drunkard
+				NOT = {	trait = incapable }
+			}
+			opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+	option = {
+		name = EVTOPTBcourt.4  #Funny
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				trait = gluttonous
+			}
+			modifier = {
+				factor = 0.5
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				trait = charitable
+			}
+			modifier = {
+				factor = 0.5
+				trait = just
+			}
+			modifier = {
+				factor = 2
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 0.5
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = kind
+			}
+			modifier = {
+				factor = 0.5
+				trait = envious
+			}
+		}
+		prestige = -5
+		any_courtier = {
+			limit = {
+				NOT = { trait = drunkard }
+				NOT = { trait = zealous }
+				OR = {
+					trait = gregarious
+					trait = hedonist
+				}
+			}
+			opinion = {
+				modifier = opinion_amused
+				who = ROOT
+				years = 1
+			}
+		}
+		random_courtier = {
+			limit = {
+				ai = no
+				is_adult = yes
+				trait = drunkard
+				NOT = {	trait = incapable }
+			}
+			opinion = {
+				modifier = opinion_confused
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_disapprove
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
+
+################################################
+# Misc. court from VIET
+################################################
+# Innocent man executed
+character_event = {
+	id = court.10
+	desc = EVTDESCcourt.10
+	picture = GFX_evt_beheading
+	
+	is_triggered_only = yes
+	
+	only_rulers = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = yes
+		war = no
+		in_command = no
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = diligent
+		}
+		modifier = {
+			factor = 0.5
+			trait = slothful
+		}
+		modifier = {
+			factor = 2
+			trait = proud
+		}
+		modifier = {
+			factor = 0.5
+			trait = humble
+		}
+		modifier = {
+			factor = 2
+			trait = wroth
+		}
+		modifier = {
+			factor = 0.5
+			trait = patient
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2
+			trait = paranoid
+		}
+		modifier = {
+			factor = 0.5
+			trait = trusting
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.10  #whoops
+		prestige = -5
+	}
+}
+# Annoying courtier
+character_event = {
+	id = court.11
+	desc = EVTDESCcourt.11
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	min_age = 15
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	
+	trigger = { 
+		always = no 
+		war = no 
+		in_command = no 
+		is_abroad = no
+		any_courtier = {
+			OR = {
+				trait = lunatic
+				trait = imbecile
+				trait = possessed
+				AND = {
+					trait = gregarious
+					trait = cruel
+				}
+			}
+			ai = yes
+			NOT = { trait = incapable }
+			is_adult = yes
+		}
+	}
+	
+	weight_multiplier = {
+		days = 1
+		modifier = {
+			factor = 2
+			trait = gregarious
+		}
+		modifier = {
+			factor = 0.5
+			trait = shy
+		}
+		modifier = {
+			factor = 2
+			trait = slothful
+		}
+		modifier = {
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = {
+			factor = 2
+			trait = gluttonous 
+		}
+		modifier = {
+			factor = 0.5
+			trait = temperate
+		}
+		modifier = {
+			factor = 2
+			trait = just
+		}
+		modifier = {
+			factor = 0.5
+			trait = arbitrary
+		}
+		modifier = {
+			factor = 2
+			trait = kind
+		}
+		modifier = {
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = {
+			factor = 2
+			trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			trait = wroth
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.11
+		set_character_flag = annoyed_by_courtier_1
+		random_courtier = {
+			limit = {
+			OR = {
+				trait = lunatic
+				trait = imbecile
+				trait = possessed
+				AND = {
+					trait = gregarious
+					trait = cruel
+				}
+			}
+			ai = yes
+			NOT = { trait = incapable }
+			is_adult = yes
+			}
+			character_event = { id = court.12 tooltip = EVTTOOLTIPcourt.12 }
+		}
+	}
+}
+# Annoying courtier - Courtier ping
+character_event = {
+	id = court.12
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				FROM = {
+					NOT = { has_character_flag = annoyed_by_courtier_7 }
+				}
+			}
+			FROM = {character_event = { id = court.13 } }
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_character_flag = annoyed_by_courtier_7
+				}
+			}
+			FROM = {character_event = { id = court.14 } }
+		}
+	}
+}
+# Annoying courtier - Annoying you (looping 7 times)
+character_event = {
+	id = court.13
+	desc = EVTDESCcourt.13
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_1 }
+		clr_character_flag = annoyed_by_courtier_1
+		set_character_flag = annoyed_by_courtier_2
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTBcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_2 }
+		clr_character_flag = annoyed_by_courtier_2
+		set_character_flag = annoyed_by_courtier_3
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTCcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_3 }
+		clr_character_flag = annoyed_by_courtier_3
+		set_character_flag = annoyed_by_courtier_4
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTDcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_4 }
+		clr_character_flag = annoyed_by_courtier_4
+		set_character_flag = annoyed_by_courtier_5
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTEcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_5 }
+		clr_character_flag = annoyed_by_courtier_5
+		set_character_flag = annoyed_by_courtier_6
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+	option = {
+		name = EVTOPTFcourt.13
+		trigger = { has_character_flag = annoyed_by_courtier_6 }
+		clr_character_flag = annoyed_by_courtier_6
+		set_character_flag = annoyed_by_courtier_7
+		FROM = { character_event = { id = court.12 tooltip = EVTTOOLTIP2court.12 } }
+	}
+}
+# Annoying courtier - Punched him in face
+character_event = {
+	id = court.14
+	desc = EVTDESCcourt.14
+	picture = GFX_evt_castle_construction
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.14
+		clr_character_flag = annoyed_by_courtier_7
+		random = {
+			chance = 15
+			FROM = {
+				add_trait = wounded
+				hidden_tooltip = { character_event = { id = 38280 } }
+			}
+		}
+		FROM = {
+			opinion = {
+				modifier = opinion_amused
+				who = ROOT
+				years = 1
+			}
+			reverse_opinion = {
+				modifier = opinion_angry
+				who = ROOT
+				years = 1
+			}
+		}
+	}
+}
+
+################################################
+# Replace mage
+################################################
+# Character - I would make better court mage
+character_event = {
+	id = court.20
+	desc = EVTDESCcourt.20
+	picture = GFX_evt_spymaster
+	
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			trait = sorcerer
+			trait = druid
+		}
+		is_ruler = no
+		independent = no
+		is_councillor = no
+		NOT = { liege = { has_character_flag = asked_mage_petition } }
+		NOT = { has_character_flag = asked_for_job }
+		liege = {
+			job_mage = {
+				same_liege = ROOT
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { has_landed_title = d_thanedd }
+		NOT = { has_landed_title = d_nilfgaard_academy }
+		NOT = { has_landed_title = d_ban_ard_academy }
+		NOT = { liege = { has_landed_title = d_thanedd } }
+		NOT = { liege = { has_landed_title = d_nilfgaard_academy } }
+		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = { factor = 0.5 has_ambition = obj_become_mage }
+	}
+	immediate = {
+		set_character_flag = asked_for_job
+		liege = {  set_character_flag = asked_mage_petition }
+	}
+	
+	option = {
+		name = EVTOPTAcourt.20
+		liege = { letter_event = { id = court.21 tooltip = EVTTOOLTIPcourt.21 } }
+	}
+}
+# Liege - Someone wants to be my mage
+letter_event = {
+	id = court.21
+	desc = EVTDESCcourt.21
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.21
+		job_mage = {
+			opinion = {
+				modifier = opinion_fired_from_council
+				who = ROOT
+				years = 5
+			}
+			remove_title = job_mage
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			give_job_title = job_mage
+			hidden_tooltip = {  letter_event = { id = court.25 } }
+		}
+		clr_character_flag = asked_mage_petition
+	}
+	option = {
+		name = EVTOPTBcourt.21
+		trigger = {
+			job_mage = { 
+				NOT = { trait = stressed } 
+				NOT = { trait = depressed } 
+			}
+		}
+		job_mage = {
+			letter_event = { id = court.22 tooltip = EVTTOOLTIPcourt.22 }
+		}
+		hidden_tooltip = { FROM  = { character_event = { id = court.23 days = 128 random = 63 } } }
+	}
+	option = {
+		name = EVTOPTCcourt.21
+		FROM = {
+			prestige = -10
+		}
+		FROM = {
+			opinion = {
+				who = ROOT
+				modifier = opinion_refused_council
+			}
+		}
+		clr_character_flag = asked_mage_petition
+	}
+}
+# Court Mage - I am being replaced...
+letter_event = {
+	id = court.22
+	desc = EVTDESCcourt.22
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_job_title = job_mage
+	}
+	
+	option = {
+		name = EVTOPTAcourt.22
+		random_list = {
+			50 = {}
+			30 = { change_learning = 1 }
+			20 = { add_trait = stressed hidden_tooltip = { character_event = { id = 38282 }} }
+		}
+	}
+	option = {
+		name = EVTOPTBcourt.22
+		trigger = {
+			NOT = { trait = ambitious }
+			NOT = { trait = proud }
+		}
+		prestige = -5
+	}
+}
+# Character - Ask again
+character_event = {
+	id = court.23
+	desc = EVTDESCcourt.23
+	picture = GFX_evt_spymaster
+	
+	prisoner = no
+	capable_only = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_character_flag = asked_for_job
+		independent = no
+		NOT = { has_job_title = job_mage }
+		liege = {
+			job_mage = { 
+				NOT = { stewardship = prev }
+				same_liege = ROOT
+				NOT = {
+					ROOT = {
+						is_liege_of = PREV
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTAcourt.23
+		liege = { letter_event = { id = court.24 tooltip = EVTTOOLTIPcourt.24 } }
+	}
+}
+# Liege - Asking again...
+letter_event = {
+	id = court.24
+	desc = EVTDESCcourt.24
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.24 
+		job_mage = {
+			opinion = {
+				modifier = opinion_fired_from_council
+				who = ROOT
+				years = 5
+			}
+			remove_title = job_mage
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			give_job_title = job_mage
+			hidden_tooltip = { letter_event = { id = court.25 } }
+		}
+		clr_character_flag = asked_mage_petition
+	}
+	option = {
+		name = EVTOPTBcourt.24
+		FROM = {
+			prestige = -10
+		}
+		FROM = {
+			opinion = {
+				who = ROOT
+				modifier = opinion_refused_council
+			}
+		}
+		clr_character_flag = asked_mage_petition
+	}
+}
+# Character - We are replaced
+letter_event = {
+	id = court.25
+	desc = EVTDESCcourt.25
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAcourt.25
+		prestige = -5
+	}
+}
+
+################################################
+# Females with very high relevant stat will ask for councillor position
+################################################
+# Female - Want to be marshal
+character_event = {
+	id = court.50
+	desc = EVTDESCcourt.50
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		martial = 22
+		liege = {
+			job_marshal = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = martial value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_marshal = {
+					ROOT = { attribute_diff = { character = PREV attribute = martial value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_marshal = {
+					ROOT = { attribute_diff = { character = PREV attribute = martial value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_marshal = {
+					ROOT = { attribute_diff = { character = PREV attribute = martial value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.50
+		liege = { letter_event = { id = court.51 tooltip = EVTTOOLTIPcourt.51 } }
+	}
+}
+# Liege - Someone wants to be my marshal
+letter_event = {
+	id = court.51
+	desc = EVTDESCcourt.51
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.51
+		job_marshal = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_marshal
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_marshal
+			give_job_title = job_marshal
+			hidden_tooltip = {  letter_event = { id = court.52 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new marshal
+letter_event = {
+	id = court.52
+	desc = EVTDESCcourt.52
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.52
+	}
+}
+# Female - Want to be spymaster
+character_event = {
+	id = court.60
+	desc = EVTDESCcourt.60
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		intrigue = 22
+		liege = {
+			job_spymaster = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_spymaster = {
+					ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_spymaster = {
+					ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_spymaster = {
+					ROOT = { attribute_diff = { character = PREV attribute = intrigue value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.60
+		liege = { letter_event = { id = court.61 tooltip = EVTTOOLTIPcourt.61 } }
+	}
+}
+# Liege - Someone wants to be my spymaster
+letter_event = {
+	id = court.61
+	desc = EVTDESCcourt.61
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.61
+		job_spymaster = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_spymaster
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_spymaster
+			give_job_title = job_spymaster
+			hidden_tooltip = {  letter_event = { id = court.62 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new spymaster
+letter_event = {
+	id = court.62
+	desc = EVTDESCcourt.62
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.62
+	}
+}
+# Female - Want to be treasurer
+character_event = {
+	id = court.70
+	desc = EVTDESCcourt.70
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		stewardship = 22
+		liege = {
+			job_treasurer = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_treasurer = {
+					ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_treasurer = {
+					ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_treasurer = {
+					ROOT = { attribute_diff = { character = PREV attribute = stewardship value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.70
+		liege = { letter_event = { id = court.71 tooltip = EVTTOOLTIPcourt.71 } }
+	}
+}
+# Liege - Someone wants to be my treasurer
+letter_event = {
+	id = court.71
+	desc = EVTDESCcourt.71
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.71
+		job_treasurer = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_treasurer
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_treasurer
+			give_job_title = job_treasurer
+			hidden_tooltip = {  letter_event = { id = court.72 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new treasurer
+letter_event = {
+	id = court.72
+	desc = EVTDESCcourt.72
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.72
+	}
+}
+# Female - Want to be chancellor
+character_event = {
+	id = court.80
+	desc = EVTDESCcourt.80
+	picture = GFX_evt_spymaster
+	
+	only_women = yes
+	min_age = 15
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		is_ruler = no
+		is_councillor = no
+		independent = no
+		NOT = { has_character_flag = asked_for_job }
+		diplomacy = 22
+		liege = {
+			job_chancellor = {
+				same_liege = ROOT
+				ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 4 } }
+				NOT = { has_minor_title = title_regent }
+			}
+		}
+		NOT = { trait = dryad_race }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = { factor = 0.5 trait = ambitious }
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_chancellor = {
+					ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 6 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_chancellor = {
+					ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 8 } }
+				}
+			}
+		}
+		modifier = {
+			factor = 0.8
+			liege = {
+				job_chancellor = {
+					ROOT = { attribute_diff = { character = PREV attribute = diplomacy value = 10 } }
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_character_flag = asked_for_job
+	}
+	
+	option = {
+		name = EVTOPTAcourt.80
+		liege = { letter_event = { id = court.81 tooltip = EVTTOOLTIPcourt.81 } }
+	}
+}
+# Liege - Someone wants to be my chancellor
+letter_event = {
+	id = court.81
+	desc = EVTDESCcourt.81
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.81
+		job_chancellor = {
+			opinion = { modifier = opinion_fired_from_council who = ROOT years = 5 }
+			remove_title = job_chancellor
+		}
+		FROM = {
+			clr_character_flag = asked_for_job
+			set_character_flag = special_chancellor
+			give_job_title = job_chancellor
+			hidden_tooltip = {  letter_event = { id = court.82 } }
+		}
+		prestige = -20
+	}
+	option = {
+		name = EVTOPTBcourt.51
+	}
+}
+# Female - I am the new chancellor
+letter_event = {
+	id = court.82
+	desc = EVTDESCcourt.82
+	picture = GFX_evt_spymaster
+	
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTAcourt.82
+	}
+}
