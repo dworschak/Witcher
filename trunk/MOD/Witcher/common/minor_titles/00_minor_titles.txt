@@ -4,7 +4,8 @@
 ########################################################
 #	grant_limit: Max number of holders.
 #	realm_in_name: Append the name of the country after the title (Queen [of Sweden])
-#	allow: conditions for the character to hold the title
+#	allowed_to_hold: conditions for the character to hold the title
+#	allowed_to_grant: conditions for a ruler to grant the title
 #	regent: This is the title for regents (not really "minor")
 #	gain_effect: fires when the title is granted
 #	lose_effect: fires when a title is lost if dismissal_trigger evaluates to false
@@ -40,13 +41,14 @@ title_appointed_regent = {
 	monthly_salary = 0.05
 	monthly_prestige = 0.02
 
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		prisoner = no
 		has_regent = no
-		FROM = {
-			has_regent = no
-		}
+	}
+	
+	allowed_to_grant = {
+		has_regent = no
 	}
 
 	gain_effect = {
@@ -143,6 +145,46 @@ title_courtesan = {
 	message = no
 }
 
+# Commander, granted via its own interaction, so very special
+title_commander = {
+	is_high_prio = yes
+	
+	attribute = martial
+	dignity = 0.05
+	opinion_effect = 10
+	realm_in_name = yes
+	
+	monthly_salary = 0.05
+	monthly_prestige = 0.005
+	
+	allowed_to_hold = {
+		NOT = { culture = wilderness }
+		OR = {
+			AND = {
+				OR = {
+					is_female = no
+					trait = dryad_race
+					trait = sorcerer
+				}
+				is_adult = yes
+			}
+			has_character_flag = special_marshal
+		}
+
+		prisoner = no
+		NOT = { trait = incapable }
+		NOT = { trait = in_hiding }
+		NOT = { trait = witcher }
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+	
+	message = yes
+}
+
 #######################################
 # SOFT: GRANTABLE - FULLY MODDABLE
 #######################################
@@ -156,19 +198,20 @@ title_court_eunuch = {
 	monthly_salary = 0.02
 	monthly_prestige = 0.01
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		trait = eunuch
-		FROM = {
+	}
+	
+	allowed_to_grant = {			
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
+		primary_title = {
 			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			primary_title = {
-				OR = {
-					tier = king
-					tier = emperor
-				}
+				tier = king
+				tier = emperor
 			}
 		}
 	}
@@ -193,19 +236,20 @@ title_court_dwarf = {
 	monthly_salary = 0.02
 	monthly_prestige = 0.01
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		trait = dwarf
-		FROM = {
+	}
+	
+	allowed_to_grant = {
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
+		primary_title = {
 			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			primary_title = {
-				OR = {
-					tier = king
-					tier = emperor
-				}
+				tier = king
+				tier = emperor
 			}
 		}
 	}
@@ -232,19 +276,20 @@ title_court_jester = {
 	
 	is_unique = yes
 	
-	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
+	allowed_to_hold = {
 		is_adult = yes
-		FROM = {
+	}
+	
+	allowed_to_grant = {
+		NOT = { has_landed_title = e_hakland }
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
+		primary_title = {
 			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			primary_title = {
-				OR = {
-					tier = king
-					tier = emperor
-				}
+				tier = king
+				tier = emperor
 			}
 		}
 	}
@@ -269,19 +314,19 @@ title_keeper_of_swans = {
 	
 	is_unique = yes
 	
-	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
+	allowed_to_hold = {
 		is_adult = yes
-		FROM = {
+	}
+	allowed_to_grant = {
+		NOT = { has_landed_title = e_hakland }
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
+		primary_title = {
 			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			primary_title = {
-				OR = {
-					tier = king
-					tier = emperor
-				}
+				tier = king
+				tier = emperor
 			}
 		}
 	}
@@ -305,15 +350,17 @@ title_master_of_the_horse = {
 	
 	is_unique = yes
 	
-	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
+	}
+	
+	allowed_to_grant = {
+		NOT = { has_landed_title = e_hakland }
+		
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
 	}
 	
@@ -336,15 +383,17 @@ title_master_of_the_hunt = {
 	
 	is_unique = yes
 	
-	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
+	}
+	
+	allow = {
+		NOT = { has_landed_title = e_hakland }
+		
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
 	}
 	
@@ -367,14 +416,15 @@ title_high_almoner = {
 	
 	is_unique = yes
 	
-	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
+	allowed_to_hold = {
 		is_adult = yes
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
+	}
+	
+	allowed_to_grant = {
+		NOT = { has_landed_title = e_hakland }
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
 	}
 	
@@ -397,15 +447,18 @@ title_cupbearer = {
 	
 	is_unique = yes
 	
-	allow = {
-		FROM = { NOT = { has_landed_title = e_hakland } }
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
+	}
+	
+	allowed_to_grant = {
+		NOT = { has_landed_title = e_hakland }
+		
+		
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
 	}
 	
@@ -428,19 +481,20 @@ title_seneschal = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
+	}
+	
+	allowed_to_grant = {
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
+		primary_title = {
 			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			primary_title = {
-				OR = {
-					tier = king
-					tier = emperor
-				}
+				tier = king
+				tier = emperor
 			}
 		}
 	}
@@ -482,12 +536,13 @@ title_state_inquisitor = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			is_merchant_republic = yes
-		}
+	}
+
+	allowed_to_grant = {
+		is_merchant_republic = yes
 	}
 	
 	gain_effect = {
@@ -509,12 +564,13 @@ title_high_admiral = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			is_merchant_republic = yes
-		}
+	}
+	
+	allowed_to_grant = {
+		is_merchant_republic = yes
 	}
 	
 	gain_effect = {
@@ -536,12 +592,13 @@ title_high_judge = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			is_merchant_republic = yes
-		}
+	}
+
+	allowed_to_grant = {
+		is_merchant_republic = yes
 	}
 	
 	gain_effect = {
@@ -554,6 +611,8 @@ title_high_judge = {
 
 # Special - This title determines the heir of a Patrician
 title_patrician_heir = {
+	is_high_prio = yes
+	
 	dignity = 0.05
 	realm_in_name = yes
 	grant_limit = 1
@@ -564,13 +623,14 @@ title_patrician_heir = {
 	monthly_salary = 0.01
 	monthly_prestige = 0.002
 	
-	allow = {
+	allowed_to_hold = {
 		is_female = no
 		dynasty = FROM
 		NOT = { trait = bastard }
-		FROM = {
-			is_patrician = yes
-		}
+	}
+
+	allowed_to_grant = {
+		is_patrician = yes
 	}
 	
 	gain_effect = {
@@ -593,18 +653,17 @@ title_volva = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = yes
 		trait = mystic
 		OR = {
 			religion = freya
 		}
-		FROM = {
-			OR = {
-				religion = freya
-			}
-		}
+	}
+	
+	allowed_to_grant = {	
+		religion = freya
 	}
 	
 	gain_effect = {
@@ -626,20 +685,17 @@ title_lawspeaker = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			OR = {
-				religion = freya
-			}
-		}
+		religion = freya
+	}
+	
+	allowed_to_grant = {	
 		OR = {
-			religion = freya
+			is_feudal = yes
+			is_tribal = yes
 		}
+		religion = freya
 	}
 	
 	gain_effect = {
@@ -661,18 +717,19 @@ title_drottseti = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			OR = {
-				religion = freya
-			}
-			higher_tier_than = DUKE
+	}
+	
+	allowed_to_grant = {
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
+		OR = {
+			religion = freya
+		}
+		higher_tier_than = DUKE
 	}
 	
 	gain_effect = {
@@ -694,18 +751,17 @@ title_court_skald = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			OR = {
-				religion = freya
-			}
-		}
 		trait = poet
+	}
+
+	allowed_to_grant = {
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
+		}
+		religion = freya
 	}
 	
 	gain_effect = {
@@ -727,18 +783,17 @@ title_marksman = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
 		is_female = no
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			OR = {
-				religion = freya
-			}
+	}
+
+	allowed_to_grant = {
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
+		religion = freya
 	}
 	
 	gain_effect = {
@@ -759,18 +814,17 @@ title_hirdman = {
 	
 	is_unique = yes
 	
-	allow = {
+	allowed_to_hold = {
 		is_adult = yes
-		is_female = no
-		FROM = {
-			OR = {
-				is_feudal = yes
-				is_tribal = yes
-			}
-			OR = {
-				religion = freya
-			}
+		is_female = no	
+	}
+
+	allowed_to_grant = {
+		OR = {
+			is_feudal = yes
+			is_tribal = yes
 		}
+		religion = freya
 	}
 	
 	gain_effect = {
