@@ -17,6 +17,7 @@ character_event = {
 	only_men = yes
 	min_age = 15	
 	capable_only = yes
+	only_rulers = yes
 	prisoner = no
 	
 	trigger = {
@@ -38,7 +39,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 2400
+		months = 1200
 		modifier = {
 			factor = 0.8
 			trait = gregarious
@@ -116,10 +117,10 @@ character_event = {
 	min_age = 15	
 	only_men = yes
 	capable_only = yes
+	only_rulers = yes
 	prisoner = no
 	
 	trigger = {
-		NOT = { culture = wilderness}
 		in_command = yes
 		in_battle = yes
 		independent = no
@@ -141,7 +142,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 2400
+		months = 1200
 		modifier = {
 			factor = 0.5
 			trait = brave
@@ -176,10 +177,12 @@ character_event = {
 				clr_character_flag = campaign_friend
 				prestige = 5
 				
-				opinion = {
-					modifier = saved_on_battlefield
-					who = ROOT
-					years = 10
+				add_friend = ROOT
+				if = {
+					limit = {
+						has_dlc = "Zeus"
+					}
+					add_favor = ROOT
 				}
 				hidden_tooltip = {
 					character_event = { id = 6911 days = 1 }
@@ -200,11 +203,13 @@ character_event = {
 	option = {
 		name = EVTOPTA6911
 		add_trait = wounded
-		reverse_opinion = {
-			modifier = saved_him_on_battlefield
-			who = FROM
-			years = 10
-		}		
+		add_friend = FROM		
+		if = {
+			limit = {
+				has_dlc = "Zeus"
+			}
+			add_favor = FROM
+		}
 	}
 }
 
@@ -217,6 +222,7 @@ character_event = {
 	only_men = yes
 	min_age = 15
 	capable_only = yes
+	only_rulers = yes
 	prisoner = no
 	
 	trigger = {
@@ -236,7 +242,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 2400
+		months = 1200
 		modifier = {
 			factor = 0.8
 			trait = deceitful
