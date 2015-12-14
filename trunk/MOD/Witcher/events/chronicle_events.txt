@@ -520,8 +520,8 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		ai = no
 		ROOT = {
+			ai = no
 			any_demesne_title = {
 				NOT = { title = FROM }
 				FROM = {
@@ -585,9 +585,9 @@ character_event = {
 	immediate = {
 		if = {
 			limit = {
-				mother_even_if_dead = { always = yes }
-				OR = {
-					new_character = {
+				new_character = {
+					mother_even_if_dead = { always = yes }
+					OR = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -595,8 +595,8 @@ character_event = {
 								}
 							}
 						}
+						NOT = { father_even_if_dead = { always = yes } }
 					}
-					NOT = { father_even_if_dead = { always = yes } }
 				}
 			}
 			FROM = {
@@ -608,9 +608,9 @@ character_event = {
 		}
 		if = {
 			limit = {
-				father_even_if_dead = { always = yes }
-				OR = {
-					new_character = {
+				new_character = {
+					father_even_if_dead = { always = yes }
+					OR = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -618,8 +618,8 @@ character_event = {
 								}
 							}
 						}
+						NOT = { mother_even_if_dead = { always = yes } }
 					}
-					NOT = { mother_even_if_dead = { always = yes } }
 				}
 			}
 			FROM = {
@@ -847,9 +847,12 @@ character_event = {
 			limit = {
 				any_vassal = { ai = no }
 			}
-			chronicle = {
-				entry = CHRONICLE_LIEGE_CONVERTED_RELIGION
-				portrait = [Root.GetID]
+			any_vassal = {
+				limit = { ai = no }
+				chronicle = {
+					entry = CHRONICLE_LIEGE_CONVERTED_RELIGION
+					portrait = [Root.GetID]
+				}
 			}
 		}
 		if = {
@@ -1154,9 +1157,9 @@ character_event = {
 	immediate = {
 		if = {
 			limit = {
-				mother_even_if_dead = { always = yes }
-				OR = {
-					new_character = {
+				new_character = {
+					mother_even_if_dead = { always = yes }
+					OR = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -1164,8 +1167,8 @@ character_event = {
 								}
 							}
 						}
+						NOT = { father_even_if_dead = { always = yes } }
 					}
-					NOT = { father_even_if_dead = { always = yes } }
 				}
 			}
 			any_playable_ruler = {
@@ -1181,9 +1184,9 @@ character_event = {
 		}
 		if = {
 			limit = {
-				father_even_if_dead = { always = yes }
-				OR = {
-					new_character = {
+				new_character = {
+					father_even_if_dead = { always = yes }
+					OR = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -1191,8 +1194,8 @@ character_event = {
 								}
 							}
 						}
+						NOT = { mother_even_if_dead = { always = yes } }
 					}
-					NOT = { mother_even_if_dead = { always = yes } }
 				}
 			}
 			any_playable_ruler = {
@@ -1236,13 +1239,64 @@ character_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		ai = no
+		OR = {
+			ai = no
+			FROM = { 
+				ai = no 
+			}
+		}
 	}
 
 	immediate = {
-		chronicle = {
-			entry = CHRONICLE_DIVORCED
-			portrait = [Spouse.GetID]
+		# Chronicle entries with a religious head
+		if = {
+			limit = {
+				new_character = {
+					always = yes 
+				}
+			}
+			if = {
+				limit = {
+					ai = no
+				}
+				chronicle = {
+					entry = CHRONICLE_DIVORCED
+					portrait = [From.GetID]
+				}
+			}
+			FROM = {
+				if = {
+					limit = {
+						ai = no
+					}
+					chronicle = {
+						entry = CHRONICLE_DIVORCED
+						portrait = [From.GetID]
+					}
+				}
+			}
+			break = yes
+		}
+		 # Chronicle entries without a religious head
+		if = {
+			limit = {
+				ai = no
+			}
+			chronicle = {
+				entry = CHRONICLE_DIVORCED_NO_HEAD
+				portrait = [From.GetID]
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					ai = no
+				}
+				chronicle = {
+					entry = CHRONICLE_DIVORCED_NO_HEAD
+					portrait = [From.GetID]
+				}
+			}
 		}
 	}
 }
@@ -1301,7 +1355,7 @@ character_event = {
 			}
 			chronicle = {
 				entry = CHRONICLE_INHERIT_MAJOR_TITLE
-				PICTURE = GFX_evt_throne_room
+				picture = GFX_evt_throne_room
 			}
 		}
 	}

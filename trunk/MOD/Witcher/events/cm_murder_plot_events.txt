@@ -18,7 +18,7 @@ namespace = CM
 # Notify that character has gone into hiding
 character_event = {
 	id = CM.6000
-	desc = EVTDESC_CM_6000
+	desc = EVTDESC_CM_6000
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
@@ -56,7 +56,7 @@ character_event = {
 # Notify that character has come out of hiding
 character_event = {
 	id = CM.6001
-	desc = EVTDESC_CM_6001
+	desc = EVTDESC_CM_6001
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
@@ -91,10 +91,10 @@ character_event = {
 	}
 }
 
-# Notify that character has sent spouse or child into hiding
+# Notify that character has sent spouse into hiding
 character_event = {
 	id = CM.6002
-	desc = EVTDESC_CM_6002
+	desc = EVTDESC_CM_6002
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
@@ -105,38 +105,30 @@ character_event = {
 	option = {
 		name = EVTOPTA_CM_6002
 		trigger = {
-			NOT = { FROM = { spouse = { is_plot_target_of = ROOT } } }
-			NOT = {	FROM = { spouse = { any_known_plotter = { any_plot_backer = { character = ROOT }	} }	} }
-			FROM = {
-				spouse = {
-					NOT = { is_rival = ROOT }
-				}
-			}
-			FROM = {
-				spouse = {
-					any_child  = { character = ROOT }
-				}
-			}
+			NOT = { FROM = { is_plot_target_of = ROOT } }
+			NOT = {	FROM = { any_known_plotter = { any_plot_backer = { character = ROOT }	} }	}
+			NOT = { FROM = { is_rival = ROOT } }
+			FROM = { any_child  = { character = ROOT } }
 		}
-		tooltip = { FROM = { spouse = { add_trait = in_hiding } } }
+		tooltip = { FROM = { add_trait = in_hiding } }
 	}
 	option = {
 		name = EVTOPTB_CM_6002
 		trigger = {
 			OR = {
-				FROM = { spouse = { is_plot_target_of = ROOT } }
-				FROM = { spouse = { any_known_plotter = { any_plot_backer = { character = ROOT } } } }
+				FROM = { is_plot_target_of = ROOT }
+				FROM = { any_known_plotter = { any_plot_backer = { character = ROOT } } }
 				FROM = { spouse = { is_rival = ROOT } }
 			}
 		}
-		tooltip = { FROM = { spouse = { add_trait = in_hiding } } }
+		tooltip = { FROM = { add_trait = in_hiding } }
 	}
 }
 
-# Notify that character has taken spouse or child out of hiding
+# Notify that character has taken spouse out of hiding
 character_event = {
 	id = CM.6003
-	desc = EVTDESC_CM_6003
+	desc = EVTDESC_CM_6003
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
@@ -147,31 +139,91 @@ character_event = {
 	option = {
 		name = EVTOPTA_CM_6003
 		trigger = {
-			NOT = { FROM = { spouse = { is_plot_target_of = ROOT } } }
-			NOT = {	FROM = { spouse = { any_known_plotter = { any_plot_backer = { character = ROOT }	} }	} }
-			FROM = {
-				spouse = {
-					NOT = { is_rival = ROOT }
-				}
-			}
-			FROM = {
-				spouse = {
-					any_child  = { character = ROOT }
-				}
-			}
+			NOT = { FROM = { is_plot_target_of = ROOT } }
+			NOT = {	FROM = { any_known_plotter = { any_plot_backer = { character = ROOT }	} }	}
+			NOT = { FROM = { is_rival = ROOT } }
+			FROM = { any_child  = { character = ROOT } }
 		}
-		tooltip = { FROM = { spouse = { remove_trait = in_hiding } } }
+		tooltip = { FROM = { remove_trait = in_hiding } }
 	}
 	option = {
 		name = EVTOPTB_CM_6003
 		trigger = {
 			OR = {
-				FROM = { spouse = { is_plot_target_of = ROOT } }
-				FROM = { spouse = { any_known_plotter = { any_plot_backer = { character = ROOT } } } }
+				FROM = { is_plot_target_of = ROOT }
+				FROM = { any_known_plotter = { any_plot_backer = { character = ROOT } } }
+				FROM = { is_rival = ROOT }
+			}
+		}
+		tooltip = { FROM = { remove_trait = in_hiding } }
+	}
+}
+
+# Notify that character has sent child into hiding
+character_event = {
+	id = CM.6004
+	desc = EVTDESC_CM_6004
+	picture = GFX_evt_spymaster
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	ai = no
+	
+	option = {
+		name = EVTOPTA_CM_6004
+		trigger = {
+			NOT = { FROMFROM = { is_plot_target_of = ROOT } }
+			NOT = {	FROMFROM = { any_known_plotter = { any_plot_backer = { character = ROOT }	} }	}
+			NOT = { FROMFROM = { is_rival = ROOT } }
+			FROMFROM = { any_child  = { character = ROOT } }
+		}
+		tooltip = { FROMFROM = { add_trait = in_hiding } }
+	}
+	option = {
+		name = EVTOPTB_CM_6004
+		trigger = {
+			OR = {
+				FROM = { is_plot_target_of = ROOT }
+				FROM = { any_known_plotter = { any_plot_backer = { character = ROOT } } }
 				FROM = { spouse = { is_rival = ROOT } }
 			}
 		}
-		tooltip = { FROM = { spouse = { remove_trait = in_hiding } } }
+		tooltip = { FROM = { add_trait = in_hiding } }
+	}
+}
+
+# Notify that character has taken child out of hiding
+character_event = {
+	id = CM.6005
+	desc = EVTDESC_CM_6005
+	picture = GFX_evt_spymaster
+	border = GFX_event_normal_frame_intrigue
+	
+	is_triggered_only = yes
+	
+	ai = no
+	
+	option = {
+		name = EVTOPTA_CM_6005
+		trigger = {
+			NOT = { FROM = { is_plot_target_of = ROOT } }
+			NOT = {	FROM = { any_known_plotter = { any_plot_backer = { character = ROOT }	} }	}
+			NOT = { FROM = { is_rival = ROOT } }
+			FROM = { any_child  = { character = ROOT } }
+		}
+		tooltip = { FROM = { remove_trait = in_hiding } }
+	}
+	option = {
+		name = EVTOPTB_CM_6005
+		trigger = {
+			OR = {
+				FROM = { is_plot_target_of = ROOT }
+				FROM = { any_known_plotter = { any_plot_backer = { character = ROOT } } }
+				FROM = { is_rival = ROOT }
+			}
+		}
+		tooltip = { FROM = { remove_trait = in_hiding } }
 	}
 }
 
@@ -246,7 +298,7 @@ character_event = {
 # Goes insane
 character_event = {
 	id = CM.6100
-	desc = EVTDESC_CM_6100
+	desc = EVTDESC_CM_6100
 	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
@@ -289,7 +341,7 @@ character_event = {
 # Lunatic - notify close family
 character_event = {
 	id = CM.6101
-	desc = EVTDESC_CM_6101
+	desc = EVTDESC_CM_6101
 	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
@@ -311,7 +363,7 @@ character_event = {
 # Goes paranoid
 character_event = {
 	id = CM.6102
-	desc = EVTDESC_CM_6102
+	desc = EVTDESC_CM_6102
 	picture = GFX_evt_shadowy_cabal
 	
 	is_triggered_only = yes
@@ -331,14 +383,14 @@ character_event = {
 # Goes celibate
 character_event = {
 	id = CM.6104
-	desc = EVTDESC_CM_6104
+	desc = EVTDESC_CM_6104
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
 
 	trigger = {
 		trait = in_hiding
-		NOT = { lifestyle_traits = 1 }
+		NOT = { trait = celibate }
 		age = 15
 	}
 	
@@ -397,7 +449,7 @@ character_event = {
 # Celibate - notify wife or lover
 character_event = {
 	id = CM.6105
-	desc = EVTDESC_CM_6105
+	desc = EVTDESC_CM_6105
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
@@ -435,7 +487,7 @@ character_event = {
 # Becomes zealous
 character_event = {
 	id = CM.6106
-	desc = EVTDESC_CM_6106
+	desc = EVTDESC_CM_6106
 	picture = GFX_evt_bishop
 	
 	is_triggered_only = yes
@@ -462,7 +514,7 @@ character_event = {
 # Becomes depressed
 character_event = {
 	id = CM.6108
-	desc = EVTDESC_CM_6108
+	desc = EVTDESC_CM_6108
 	picture = GFX_evt_bad_news
 	
 	is_triggered_only = yes
@@ -482,7 +534,7 @@ character_event = {
 # Becomes ill or pneumonic
 character_event = {
 	id = CM.6110
-	desc = EVTDESC_CM_6110
+	desc = EVTDESC_CM_6110
 	picture = GFX_evt_illness
 	
 	is_triggered_only = yes
@@ -508,7 +560,7 @@ character_event = {
 # Eats for consolation and becomes a glutton
 character_event = {
 	id = CM.6112
-	desc = EVTDESC_CM_6112
+	desc = EVTDESC_CM_6112
 	picture = GFX_evt_pope_feast
 	
 	is_triggered_only = yes
@@ -536,7 +588,7 @@ character_event = {
 # Becomes lethargic
 character_event = {
 	id = CM.6114
-	desc = EVTDESC_CM_6114
+	desc = EVTDESC_CM_6114
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
@@ -556,7 +608,7 @@ character_event = {
 # Becomes shy
 character_event = {
 	id = CM.6116
-	desc = EVTDESC_CM_6116
+	desc = EVTDESC_CM_6116
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
@@ -576,7 +628,7 @@ character_event = {
 # Becomes craven
 character_event = {
 	id = CM.6118
-	desc = EVTDESC_CM_6118
+	desc = EVTDESC_CM_6118
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
@@ -596,7 +648,7 @@ character_event = {
 # Becomes content
 character_event = {
 	id = CM.6120
-	desc = EVTDESC_CM_6120
+	desc = EVTDESC_CM_6120
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
@@ -616,7 +668,7 @@ character_event = {
 # Vows to live life to the fullest henceforth
 character_event = {
 	id = CM.6122
-	desc = EVTDESC_CM_6122
+	desc = EVTDESC_CM_6122
 	picture = GFX_evt_brothel
 	
 	is_triggered_only = yes
@@ -637,7 +689,7 @@ character_event = {
 # Spends time poring over books
 character_event = {
 	id = CM.6124
-	desc = EVTDESC_CM_6124
+	desc = EVTDESC_CM_6124
 	picture = GFX_evt_book_carolingian_script
 	
 	is_triggered_only = yes
@@ -658,7 +710,7 @@ character_event = {
 # Spends time contemplating mystical and weird things
 character_event = {
 	id = CM.6126
-	desc = EVTDESC_CM_6126
+	desc = EVTDESC_CM_6126
 	picture = GFX_evt_library
 	
 	is_triggered_only = yes
@@ -679,7 +731,7 @@ character_event = {
 # Takes up writing poetry
 character_event = {
 	id = CM.6128
-	desc = EVTDESC_CM_6128
+	desc = EVTDESC_CM_6128
 	picture = GFX_evt_monk
 	
 	is_triggered_only = yes
@@ -699,7 +751,7 @@ character_event = {
 # Becomes possessed
 character_event = {
 	id = CM.6130
-	desc = EVTDESC_CM_6130
+	desc = EVTDESC_CM_6130
 	picture = GFX_evt_lunatic
 	
 	is_triggered_only = yes
@@ -723,7 +775,7 @@ character_event = {
 # Starts drinking...
 character_event = {
 	id = CM.6132
-	desc = EVTDESC_CM_6132
+	desc = EVTDESC_CM_6132
 	picture = GFX_evt_drunk
 	
 	is_triggered_only = yes
@@ -760,7 +812,7 @@ character_event = {
 
 character_event = {
 	id = CM.6180
-	desc = EVTDESC_CM_6180
+	desc = EVTDESC_CM_6180
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -819,7 +871,7 @@ character_event = {
 # Gets whiff of murder plot against self
 character_event = {
 	id = CM.6200
-	desc = EVTDESC_CM_6200
+	desc = EVTDESC_CM_6200
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
@@ -1068,6 +1120,7 @@ character_event = {
 	immediate = {
 		random_child = {
 			limit = {
+				is_alive = yes
 				NOT = { has_character_modifier = suspected_murder_plot }
 				OR = {
 					ROOT = { trait = paranoid }
@@ -1242,7 +1295,7 @@ character_event = {
 
 character_event = {
 	id = CM.6210
-	desc = EVTDESC_CM_6210
+	desc = EVTDESC_CM_6210
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -1287,12 +1340,13 @@ character_event = {
 # Assassin ninja-style
 character_event = {
 	id = CM.6300
-	desc = EVTDESC_CM_6300
+	desc = EVTDESC_CM_6300
 	picture = GFX_evt_shadow
 	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
+	is_part_of_plot = yes
 	
 	trigger = {
 		OR = {
@@ -1361,7 +1415,7 @@ character_event = {
 # Ninja - notify backers of plan
 character_event = {
 	id = CM.6301
-	desc = EVTDESC_CM_6301
+	desc = EVTDESC_CM_6301
 	picture = GFX_evt_shadow
 	border = GFX_event_normal_frame_intrigue
 
@@ -1407,7 +1461,7 @@ character_event = {
 narrative_event = {
 	id = CM.6303
 	title = EVTTITLE_CM_6303
-	desc = EVTDESC_CM_6303
+	desc = EVTDESC_CM_6303
 	picture = GFX_evt_shadow
 	border = GFX_event_narrative_frame_intrigue
 
@@ -1445,7 +1499,7 @@ narrative_event = {
 # Ninja - target dies, plotter unknown - notify plotters
 character_event = {
 	id = CM.6304
-	desc = EVTDESC_CM_6304
+	desc = EVTDESC_CM_6304
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -1460,7 +1514,7 @@ character_event = {
 narrative_event = {
 	id = CM.6305
 	title = EVTTITLE_CM_6303
-	desc = EVTDESC_CM_6303
+	desc = EVTDESC_CM_6303
 	picture = GFX_evt_death
 	border = GFX_event_narrative_frame_intrigue
 
@@ -1511,7 +1565,7 @@ narrative_event = {
 # Ninja - target dies, plotter revealed - notify plotters
 character_event = {
 	id = CM.6306
-	desc = EVTDESC_CM_6306
+	desc = EVTDESC_CM_6306
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -1526,7 +1580,7 @@ character_event = {
 narrative_event = {
 	id = CM.6307
 	title = EVTTITLE_CM_6303
-	desc = EVTDESC_CM_6307
+	desc = EVTDESC_CM_6307
 	picture = GFX_evt_shadow
 	border = GFX_event_normal_frame_intrigue
 
@@ -1547,7 +1601,7 @@ narrative_event = {
 # Ninja - target lives, plotter unknown - notify plotters
 character_event = {
 	id = CM.6308
-	desc = EVTDESC_CM_6308
+	desc = EVTDESC_CM_6308
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -1562,7 +1616,7 @@ character_event = {
 narrative_event = {
 	id = CM.6309
 	title = EVTTITLE_CM_6303
-	desc = EVTDESC_CM_6307
+	desc = EVTDESC_CM_6307
 	picture = GFX_evt_shadow
 	border = GFX_event_normal_frame_intrigue
 
@@ -1592,7 +1646,7 @@ narrative_event = {
 # Ninja - target lives, plotter revealed - notify plotters
 character_event = {
 	id = CM.63099
-	desc = EVTDESC_CM_63099
+	desc = EVTDESC_CM_63099
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -1606,12 +1660,14 @@ character_event = {
 # Poisoned food
 character_event = {
 	id = CM.6310
-	desc = EVTDESC_CM_6310
+	desc = EVTDESC_CM_6310
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
+	
+	is_part_of_plot = yes
 	
 	trigger = {
 		OR = {
@@ -1680,7 +1736,7 @@ character_event = {
 # Poisoned food - notify backers of plan
 character_event = {
 	id = CM.6311
-	desc = EVTDESC_CM_6311
+	desc = EVTDESC_CM_6311
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -1726,7 +1782,7 @@ character_event = {
 narrative_event = {
 	id = CM.6313
 	title = EVTTITLE_CM_6313
-	desc = EVTDESC_CM_6313
+	desc = EVTDESC_CM_6313
 	picture = GFX_evt_bad_news
 	border = GFX_event_narrative_frame_intrigue
 
@@ -1766,7 +1822,7 @@ narrative_event = {
 # Poisoned food - target dies, plotter unknown - notify plotters
 character_event = {
 	id = CM.6314
-	desc = EVTDESC_CM_6314
+	desc = EVTDESC_CM_6314
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -1781,7 +1837,7 @@ character_event = {
 narrative_event = {
 	id = CM.6315
 	title = EVTTITLE_CM_6313
-	desc = EVTDESC_CM_6313
+	desc = EVTDESC_CM_6313
 	picture = GFX_evt_bad_news
 	border = GFX_event_narrative_frame_intrigue
 
@@ -1832,7 +1888,7 @@ narrative_event = {
 # Poisoned food - target dies, plotter revealed - notify plotters
 character_event = {
 	id = CM.6316
-	desc = EVTDESC_CM_6316
+	desc = EVTDESC_CM_6316
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -1847,7 +1903,7 @@ character_event = {
 narrative_event = {
 	id = CM.6317
 	title = EVTTITLE_CM_6313
-	desc = EVTDESC_CM_6317
+	desc = EVTDESC_CM_6317
 	picture = GFX_evt_recovery
 	border = GFX_event_normal_frame_intrigue
 
@@ -1868,7 +1924,7 @@ narrative_event = {
 # Poisoned food - target lives, plotter unknown - notify plotters
 character_event = {
 	id = CM.6318
-	desc = EVTDESC_CM_6318
+	desc = EVTDESC_CM_6318
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -1883,7 +1939,7 @@ character_event = {
 narrative_event = {
 	id = CM.6319
 	title = EVTTITLE_CM_6313
-	desc = EVTDESC_CM_6317
+	desc = EVTDESC_CM_6317
 	picture = GFX_evt_recovery
 	border = GFX_event_normal_frame_intrigue
 
@@ -1912,7 +1968,7 @@ narrative_event = {
 # Poisoned food - target lives, plotter revealed - notify plotters
 character_event = {
 	id = CM.63199
-	desc = EVTDESC_CM_63199
+	desc = EVTDESC_CM_63199
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -1929,12 +1985,13 @@ character_event = {
 # Bribed guard to kill target
 character_event = {
 	id = CM.6320
-	desc = EVTDESC_CM_6320
+	desc = EVTDESC_CM_6320
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
+	is_part_of_plot = yes
 	
 	trigger = {
 		OR = {
@@ -2003,7 +2060,7 @@ character_event = {
 # Bribed guard to kill target - notify backers of plan
 character_event = {
 	id = CM.6321
-	desc = EVTDESC_CM_6321
+	desc = EVTDESC_CM_6321
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2049,7 +2106,7 @@ character_event = {
 narrative_event = {
 	id = CM.6323
 	title = EVTTITLE_CM_6323
-	desc = EVTDESC_CM_6323
+	desc = EVTDESC_CM_6323
 	picture = GFX_evt_recieve_letter
 	border = GFX_event_narrative_frame_intrigue
 
@@ -2087,7 +2144,7 @@ narrative_event = {
 # Bribed guard to kill target - target dies, plotter unknown - notify plotters
 character_event = {
 	id = CM.6324
-	desc = EVTDESC_CM_6324
+	desc = EVTDESC_CM_6324
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2102,7 +2159,7 @@ character_event = {
 narrative_event = {
 	id = CM.6325
 	title = EVTTITLE_CM_6323
-	desc = EVTDESC_CM_6323
+	desc = EVTDESC_CM_6323
 	picture = GFX_evt_recieve_letter
 	border = GFX_event_narrative_frame_intrigue
 
@@ -2153,7 +2210,7 @@ narrative_event = {
 # Bribed guard to kill target - target dies, plotter revealed - notify plotters
 character_event = {
 	id = CM.6326
-	desc = EVTDESC_CM_6326
+	desc = EVTDESC_CM_6326
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2168,7 +2225,7 @@ character_event = {
 narrative_event = {
 	id = CM.6327
 	title = EVTTITLE_CM_6323
-	desc = EVTDESC_CM_6327
+	desc = EVTDESC_CM_6327
 	picture = GFX_evt_recieve_letter
 	border = GFX_event_normal_frame_intrigue
 
@@ -2189,7 +2246,7 @@ narrative_event = {
 # Bribed guard to kill target - target lives, plotter unknown - notify plotters
 character_event = {
 	id = CM.6328
-	desc = EVTDESC_CM_6328
+	desc = EVTDESC_CM_6328
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2204,7 +2261,7 @@ character_event = {
 narrative_event = {
 	id = CM.6329
 	title = EVTTITLE_CM_6323
-	desc = EVTDESC_CM_6327
+	desc = EVTDESC_CM_6327
 	picture = GFX_evt_recieve_letter
 	border = GFX_event_normal_frame_intrigue
 
@@ -2233,7 +2290,7 @@ narrative_event = {
 # Bribed guard to kill target - target lives, plotter revealed - notify plotters
 character_event = {
 	id = CM.63299
-	desc = EVTDESC_CM_63299
+	desc = EVTDESC_CM_63299
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2250,12 +2307,13 @@ character_event = {
 # Snake charmer
 character_event = {
 	id = CM.6330
-	desc = EVTDESC_CM_6330
+	desc = EVTDESC_CM_6330
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
+	is_part_of_plot = yes
 	
 	trigger = {
 		OR = {
@@ -2324,7 +2382,7 @@ character_event = {
 # Snake charmer - notify backers of plan
 character_event = {
 	id = CM.6331
-	desc = EVTDESC_CM_6331
+	desc = EVTDESC_CM_6331
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2370,7 +2428,7 @@ character_event = {
 narrative_event = {
 	id = CM.6333
 	title = EVTTITLE_CM_6333
-	desc = EVTDESC_CM_6333
+	desc = EVTDESC_CM_6333
 	picture = GFX_evt_shadow
 	border = GFX_event_narrative_frame_intrigue
 
@@ -2408,7 +2466,7 @@ narrative_event = {
 # Snake charmer - target dies, plotter unknown - notify plotters
 character_event = {
 	id = CM.6334
-	desc = EVTDESC_CM_6334
+	desc = EVTDESC_CM_6334
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -2423,7 +2481,7 @@ character_event = {
 narrative_event = {
 	id = CM.6335
 	title = EVTTITLE_CM_6333
-	desc = EVTDESC_CM_6333
+	desc = EVTDESC_CM_6333
 	picture = GFX_evt_shadow
 	border = GFX_event_narrative_frame_intrigue
 
@@ -2474,7 +2532,7 @@ narrative_event = {
 # Snake charmer - target dies, plotter revealed - notify plotters
 character_event = {
 	id = CM.6336
-	desc = EVTDESC_CM_6336
+	desc = EVTDESC_CM_6336
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -2489,9 +2547,9 @@ character_event = {
 narrative_event = {
 	id = CM.6337
 	title = EVTTITLE_CM_6333
-	desc = EVTDESC_CM_6337
+	desc = EVTDESC_CM_6337
 	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	border = GFX_event_narrative_frame_intrigue
 
 	is_triggered_only = yes
 
@@ -2510,7 +2568,7 @@ narrative_event = {
 # Snake charmer - target lives, plotter unknown - notify plotters
 character_event = {
 	id = CM.6338
-	desc = EVTDESC_CM_6338
+	desc = EVTDESC_CM_6338
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2525,7 +2583,7 @@ character_event = {
 narrative_event = {
 	id = CM.6339
 	title = EVTTITLE_CM_6333
-	desc = EVTDESC_CM_6337
+	desc = EVTDESC_CM_6337
 	picture = GFX_evt_shadow
 	border = GFX_event_normal_frame_intrigue
 
@@ -2554,7 +2612,7 @@ narrative_event = {
 # Snake charmer - target lives, plotter revealed - notify plotters
 character_event = {
 	id = CM.63399
-	desc = EVTDESC_CM_63399
+	desc = EVTDESC_CM_63399
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2571,14 +2629,14 @@ character_event = {
 # Incapable
 character_event = {
 	id = CM.6340
-	desc = EVTDESC_CM_6340
+	desc = EVTDESC_CM_6340
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
 	prisoner = no
+	is_part_of_plot = yes
 	
 	trigger = {
-		trait = incapable
 		OR = {
 			has_plot = plot_kill_character
 			has_plot = plot_kill_spouse
@@ -2644,7 +2702,7 @@ character_event = {
 # Incapable - notify backers of plan
 character_event = {
 	id = CM.6341
-	desc = EVTDESC_CM_6341
+	desc = EVTDESC_CM_6341
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2690,7 +2748,7 @@ character_event = {
 narrative_event = {
 	id = CM.6343
 	title = EVTTITLE_CM_6343
-	desc = EVTDESC_CM_6343
+	desc = EVTDESC_CM_6343
 	picture = GFX_evt_illness
 	border = GFX_event_narrative_frame_intrigue
 
@@ -2728,7 +2786,7 @@ narrative_event = {
 # Incapable - target dies, plotter unknown - notify plotters
 character_event = {
 	id = CM.6344
-	desc = EVTDESC_CM_6344
+	desc = EVTDESC_CM_6344
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2743,7 +2801,7 @@ character_event = {
 narrative_event = {
 	id = CM.6345
 	title = EVTTITLE_CM_6343
-	desc = EVTDESC_CM_6343
+	desc = EVTDESC_CM_6343
 	picture = GFX_evt_illness
 	border = GFX_event_narrative_frame_intrigue
 
@@ -2794,7 +2852,7 @@ narrative_event = {
 # Incapable - target dies, plotter revealed - notify plotters
 character_event = {
 	id = CM.6346
-	desc = EVTDESC_CM_6346
+	desc = EVTDESC_CM_6346
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2809,7 +2867,7 @@ character_event = {
 narrative_event = {
 	id = CM.6347
 	title = EVTTITLE_CM_6343
-	desc = EVTDESC_CM_6347
+	desc = EVTDESC_CM_6347
 	picture = GFX_evt_illness
 	border = GFX_event_normal_frame_intrigue
 
@@ -2830,7 +2888,7 @@ narrative_event = {
 # Incapable - target lives, plotter unknown - notify plotters
 character_event = {
 	id = CM.6348
-	desc = EVTDESC_CM_6348
+	desc = EVTDESC_CM_6348
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2845,7 +2903,7 @@ character_event = {
 narrative_event = {
 	id = CM.6349
 	title = EVTTITLE_CM_6343
-	desc = EVTDESC_CM_6347
+	desc = EVTDESC_CM_6347
 	picture = GFX_evt_illness
 	border = GFX_event_normal_frame_intrigue
 
@@ -2874,7 +2932,7 @@ narrative_event = {
 # Incapable - target lives, plotter revealed - notify plotters
 character_event = {
 	id = CM.63499
-	desc = EVTDESC_CM_63499
+	desc = EVTDESC_CM_63499
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -2891,12 +2949,13 @@ character_event = {
 # Child
 character_event = {
 	id = CM.6350
-	desc = EVTDESC_CM_6350
+	desc = EVTDESC_CM_6350
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
+	is_part_of_plot = yes
 	
 	trigger = {
 		OR = {
@@ -2965,7 +3024,7 @@ character_event = {
 # Child - notify backers of plan
 character_event = {
 	id = CM.6351
-	desc = EVTDESC_CM_6351
+	desc = EVTDESC_CM_6351
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -3011,7 +3070,7 @@ character_event = {
 narrative_event = {
 	id = CM.6353
 	title = EVTTITLE_CM_6353
-	desc = EVTDESC_CM_6353
+	desc = EVTDESC_CM_6353
 	picture = GFX_evt_child_play
 	border = GFX_event_narrative_frame_intrigue
 
@@ -3049,7 +3108,7 @@ narrative_event = {
 # Child - target dies, plotter unknown - notify plotters
 character_event = {
 	id = CM.6354
-	desc = EVTDESC_CM_6354
+	desc = EVTDESC_CM_6354
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -3064,7 +3123,7 @@ character_event = {
 narrative_event = {
 	id = CM.6355
 	title = EVTTITLE_CM_6353
-	desc = EVTDESC_CM_6353
+	desc = EVTDESC_CM_6353
 	picture = GFX_evt_child_play
 	border = GFX_event_narrative_frame_intrigue
 
@@ -3115,7 +3174,7 @@ narrative_event = {
 # Child - target dies, plotter revealed - notify plotters
 character_event = {
 	id = CM.6356
-	desc = EVTDESC_CM_6356
+	desc = EVTDESC_CM_6356
 	picture = GFX_evt_death
 	border = GFX_event_normal_frame_intrigue
 
@@ -3130,7 +3189,7 @@ character_event = {
 narrative_event = {
 	id = CM.6357
 	title = EVTTITLE_CM_6353
-	desc = EVTDESC_CM_6357
+	desc = EVTDESC_CM_6357
 	picture = GFX_evt_child_play
 	border = GFX_event_normal_frame_intrigue
 
@@ -3151,7 +3210,7 @@ narrative_event = {
 # Child - target lives, plotter unknown - notify plotters
 character_event = {
 	id = CM.6358
-	desc = EVTDESC_CM_6358
+	desc = EVTDESC_CM_6358
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 
@@ -3166,7 +3225,7 @@ character_event = {
 narrative_event = {
 	id = CM.6359
 	title = EVTTITLE_CM_6353
-	desc = EVTDESC_CM_6357
+	desc = EVTDESC_CM_6357
 	picture = GFX_evt_child_play
 	border = GFX_event_normal_frame_intrigue
 
@@ -3195,7 +3254,7 @@ narrative_event = {
 # Child - target lives, plotter revealed - notify plotters
 character_event = {
 	id = CM.63599
-	desc = EVTDESC_CM_63599
+	desc = EVTDESC_CM_63599
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_intrigue
 

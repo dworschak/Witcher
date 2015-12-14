@@ -918,7 +918,7 @@ character_event = {
 	}
 }
 
-# IDs to 37049 reserved for more events concerning this ambition
+# IDs to 37048 reserved for more events concerning this ambition
 
 
 
@@ -927,64 +927,65 @@ character_event = {
 ##############################################################
 
 # First event of the series
+
 character_event = {
-	id = 37050
-	desc = EVTDESC37050
-	picture = GFX_evt_marriage
+	id = 37049
 	
-	min_age = 15
+	hide_window = yes
+	
+	ai = no
 	capable_only = yes
 	prisoner = no
 	
 	trigger = {
-		is_ruler = no
-		NOT = {
-			trait = bastard
-		}
-		has_ambition = obj_get_married
-		NOT = {
-			has_minor_title = title_regent
-		}
-		is_betrothed = no
-		NOT = {
-			any_consort = {
-				always = yes
-			}
-		}
-		
-		liege = {
-				is_close_relative = ROOT
-		}
-		
-		NOT = { has_character_flag = flag_denied_marriage }
-		NOT = { has_character_flag = flag_promised_marriage }
 	}
 	
 	mean_time_to_happen = {
-		months = 48
-		
-		modifier = {
-			factor = 0.25
-			is_female = yes
-			trait = lustful
-		}
-		modifier = {
-			factor = 0.5
-			trait = ambitious
-		}
-		modifier = {
-			factor = 2.0
-			trait = slothful
-		}
-		modifier = {
-			factor = 5.0
-			trait = content
+		months = 24
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_ruler = no
+				is_marriage_adult = yes
+				NOT = { age = 40 }
+				prisoner = no
+				is_betrothed = no
+				is_consort = no
+				is_married = no
+				
+				NOT = { trait = incapable }
+				NOT = {
+					trait = bastard
+				}
+				has_ambition = obj_get_married
+				liege = {
+					character = ROOT
+				}
+				is_close_relative = ROOT
+				
+				NOT = {
+					has_minor_title = title_regent
+				}
+				
+				NOT = { has_character_flag = flag_denied_marriage }
+				NOT = { has_character_flag = flag_promised_marriage }
+			}
+			character_event = { id = 37050 }
 		}
 	}
+}
+
+character_event = {
+	id = 37050
+
+	hide_window = yes
+
+	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTA37050 # Ask liege
-		liege = { character_event = { id = 37051 days = 3 tooltip = EVTTOOLTIP37051 } }
+	immediate = {
+		liege = { character_event = { id = 37051 days = 3 } }
 	}
 	
 }
@@ -1004,6 +1005,10 @@ character_event = {
 	
 	option = {
 		name = EVTOPTB37051 # Mention a Church career...
+		trigger = {
+			religion_group = christian
+			FROM = { religion_group = christian }
+		}
 		FROM = { character_event = { id = 37053 tooltip = EVTTOOLTIP37053 } }
 	}
 }
@@ -1141,6 +1146,8 @@ character_event = {
 	option = {
 		name = EVTOPTB37055 # You're off to the monastery!
 		trigger = {
+			religion_group = christian
+			FROM = { religion_group = christian }
 			FROM = {
 				is_married = no
 			}
