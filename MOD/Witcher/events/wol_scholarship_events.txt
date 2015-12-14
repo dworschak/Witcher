@@ -175,8 +175,6 @@ character_event = {
 						ai = yes
 						trait = zealous
 						at_location = ROOT
-						NOT = { religion = zun_pagan }
-						NOT = { religion = zun_pagan_reformed }
 									OR = {
 							mother = { character = ROOT }
 							father = { character = ROOT }
@@ -198,8 +196,6 @@ character_event = {
 			limit = {
 				trait = zealous
 				at_location = ROOT
-				NOT = { religion = zun_pagan }
-				NOT = { religion = zun_pagan_reformed }
 					OR = {
 					mother = { character = ROOT }
 					father = { character = ROOT }
@@ -377,7 +373,6 @@ character_event = {
 			limit = {
 				religion_head = { is_alive = yes }
 				religion_head = { ai = yes }
-				NOT = { religion = zun_pagan_reformed }
 			}
 			religion_head = {
 				character_event = { id = WoL.6151 } # Religious head opines
@@ -513,28 +508,11 @@ character_event = {
 				10 = {
 					give_nickname = nick_the_scholar
 				}
-				10 = {
-					modifier = {
-						factor = 0
-						OR = {
-							religion = zun_pagan
-							religion = zun_pagan_reformed
-							religion = buddhist
-						}
-					}
-					give_nickname = nick_priest_hater
-				}
 			}
 		}
-		if = {
-			limit = {
-				NOT = { religion = zun_pagan }
-				NOT = { religion = zun_pagan_reformed }
-				}
-			add_character_modifier = {
-				name = annoyed_religious
-				years = -1
-			}
+		add_character_modifier = {
+			name = annoyed_religious
+			years = -1
 		}
 		any_realm_character = {
 			limit = {
@@ -542,8 +520,6 @@ character_event = {
 					is_priest = yes
 					trait = zealous
 				}
-				NOT = { religion = zun_pagan }
-				NOT = { religion = zun_pagan_reformed }
 				}
 			opinion = {
 				modifier = opinion_heretic
@@ -571,8 +547,6 @@ character_event = {
 	option = {
 		name = EVTOPTD_WoL_6170 # This is heretical - I must burn it!
 		trigger = {
-			NOT = { religion = zun_pagan }
-			NOT = { religion = zun_pagan_reformed }
 		}
 		remove_character_modifier = studying_the_stars
 		add_trait = zealous
