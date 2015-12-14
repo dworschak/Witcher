@@ -20,6 +20,8 @@ province_event = {
 	picture = "GFX_evt_burning_house"
 
 	trigger = {
+		num_of_settlements = 1
+		
 		# Rebel occupied
 		NOT = {
 			any_province_lord = {
@@ -541,8 +543,15 @@ province_event = {
 	picture = GFX_evt_peasants
 	
 	trigger = {
+		NOT = { has_dlc = "The Old Gods" }
+		
 		NOT = { has_global_flag = possible_province_defection }
+		
+		
+		num_of_settlements = 1
+		
 		# Rebel occupied
+		controlled_by = e_rebels
 		NOT = {
 			any_province_lord = {
 				any_demesne_title = {
@@ -554,6 +563,7 @@ province_event = {
 				}
 			}
 		}
+		
 		# Not for those in an independence war
 		owner = {
 			top_liege = {
@@ -630,6 +640,15 @@ province_event = {
 	immediate = {
 		hidden_tooltip = {
 			set_global_flag = possible_province_defection
+		}
+		log = "[Root.GetName] fired event: 80062."
+		if = {
+			limit = {
+				holder_scope = {
+					government = nomadic_government
+				}
+			}
+			log = "Which is a nomad."
 		}
 	}
 	
