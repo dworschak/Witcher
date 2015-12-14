@@ -143,8 +143,8 @@ character_event = {
 character_event = {
 	id = WoL.2002
 	
-	picture = GFX_evt_whispers
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
 	
 	desc = EVTDESC_WOL_2002
 	
@@ -191,8 +191,8 @@ character_event = {
 	id = WoL.2003
 	desc = EVTDESC_WOL_2003
 	
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -285,8 +285,8 @@ character_event = {
 character_event = {
 	id = WoL.2050
 	desc = EVTDESC_WOL_2050
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
@@ -298,6 +298,8 @@ character_event = {
 			save_event_target_as = target_spy_on
 		}
 		save_event_target_as = target_snooper
+		
+		set_character_flag = spy_on_confirmed
 	}
 	
 	option = {
@@ -624,8 +626,8 @@ character_event = {
 	id = WoL.2061
 	
 	desc = EVTDESC_WOL_2061
-	picture = GFX_evt_death
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_death
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -644,7 +646,7 @@ character_event = {
 character_event = {
 	id = WoL.2062
 	
-	desc = EVTDESC_WOL_2062
+	desc = EVTDESC_WOL_2062
 	picture = GFX_evt_into_the_dungeon
 	border = GFX_event_normal_frame_intrigue
 	
@@ -665,7 +667,7 @@ character_event = {
 character_event = {
 	id = WoL.2063
 	
-	desc = EVTDESC_WOL_2063
+	desc = EVTDESC_WOL_2063
 	picture = GFX_evt_illness
 	border = GFX_event_normal_frame_intrigue
 	
@@ -687,8 +689,8 @@ character_event = {
 	id = WoL.2064
 	
 	desc = EVTDESC_WOL_2064
-	picture = GFX_evt_courier
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_courier
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -708,8 +710,8 @@ character_event = {
 	id = WoL.2065
 	
 	desc = EVTDESC_WOL_2065
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -747,12 +749,15 @@ character_event = {
 			modifier = opinion_spying_on
 		}
 		
+		clear_delayed_event = { id = WoL.2060 }
+		
 		clr_character_flag = charge_illegitimate
 		clr_character_flag = charge_heretic
 		clr_character_flag = charge_infidel
 		clr_character_flag = charge_deviant
 		clr_character_flag = charge_traitor
 		clr_character_flag = charge_slanderer
+		clr_character_flag = spy_on_confirmed
 	}
 }
 
@@ -773,8 +778,8 @@ character_event = {
 	id = WoL.2071
 	
 	desc = EVTDESC_WOL_2071
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadowy_cabal
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -808,84 +813,88 @@ character_event = {
 # Dirt uncovered: blackmail or expose to give imprisonment reasons
 character_event = {
 	id = WoL.2080
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
 	immediate = {
-		if = {
-			limit = {
-				FROMFROMFROM = {
-					is_father_real_father = no
+		hidden_tooltip = {
+			if = {
+				limit = {
+					FROMFROMFROM = {
+						is_father_real_father = no
+						NOT = { trait = bastard }
+						NOT = { trait = legit_bastard }
+					}
 				}
+				set_character_flag = charge_illegitimate
+				break = yes
 			}
-			set_character_flag = charge_illegitimate
-			break = yes
-		}
-		
-		if = {
-			limit = {
-				FROMFROMFROM = {
-					OR = {
-						trait = cynical
-						AND = {
-							liege = { religion_group = PREV }
-							NOT = { liege = { religion = PREV } }
-							NOT = { religion_group = pagan_group }
+			
+			if = {
+				limit = {
+					FROMFROMFROM = {
+						OR = {
+							trait = cynical
+							AND = {
+								liege = { religion_group = PREV }
+								NOT = { liege = { religion = PREV } }
+								NOT = { religion_group = pagan_group }
+							}
 						}
 					}
 				}
+				set_character_flag = charge_heretic
+				break = yes
 			}
-			set_character_flag = charge_heretic
-			break = yes
-		}
-		if = {
-			limit = {
-				FROMFROMFROM = {
-					OR = {
-						NOT = { liege = { religion_group = PREV } }
-						AND = {
-							NOT = { liege = { religion = PREV } }
-							religion_group = pagan_group
+			if = {
+				limit = {
+					FROMFROMFROM = {
+						OR = {
+							NOT = { liege = { religion_group = PREV } }
+							AND = {
+								NOT = { liege = { religion = PREV } }
+								religion_group = pagan_group
+							}
 						}
 					}
 				}
+				set_character_flag = charge_infidel
+				break = yes
 			}
-			set_character_flag = charge_infidel
-			break = yes
-		}
-		if = {
-			limit = {
-				FROMFROMFROM = {
-					OR = {
-						trait = decadent
-						trait = hedonist
-						trait = homosexual
-						trait = possessed
-						trait = lunatic
-						trait = arbitrary
-						trait = cruel
-						trait = impaler
-						trait = seducer
-						trait = seductress
-						has_character_modifier = incestuous_adulterer
-						has_character_modifier = incestuous_adulteress
-						has_character_modifier = adulterer
-						has_character_modifier = adulteress
-						has_character_modifier = known_sodomite
-						has_character_modifier = cradle_robber
-						has_character_modifier = adulterous_priest
+			if = {
+				limit = {
+					FROMFROMFROM = {
+						OR = {
+							trait = decadent
+							trait = hedonist
+							trait = homosexual
+							trait = possessed
+							trait = lunatic
+							trait = arbitrary
+							trait = cruel
+							trait = impaler
+							trait = seducer
+							trait = seductress
+							has_character_modifier = incestuous_adulterer
+							has_character_modifier = incestuous_adulteress
+							has_character_modifier = adulterer
+							has_character_modifier = adulteress
+							has_character_modifier = known_sodomite
+							has_character_modifier = cradle_robber
+							has_character_modifier = adulterous_priest
+						}
 					}
 				}
+				set_character_flag = charge_deviant
+				break = yes
 			}
-			set_character_flag = charge_deviant
-			break = yes
-		}
-		
-		random_list = {
-			10 = { set_character_flag = charge_traitor }
-			90 = { set_character_flag = charge_slanderer }
+			
+			random_list = {
+				10 = { set_character_flag = charge_traitor }
+				90 = { set_character_flag = charge_slanderer }
+			}
 		}
 	}
 	
@@ -937,11 +946,10 @@ character_event = {
 		
 		hidden_tooltip = {
 			FROMFROMFROM = { liege = { character_event = { id = WoL.2082 } } }
-		}
-		
-		opinion = {
-			who = FROMFROMFROM
-			modifier = opinion_spy_blackmailed
+			opinion = {
+				who = FROMFROMFROM
+				modifier = opinion_spy_blackmailed
+			}
 		}
 
 		# Mudslinger achievement check event
@@ -1137,8 +1145,8 @@ character_event = {
 # Dirt uncovered: target exposed, notification
 character_event = {
 	id = WoL.2081
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1192,8 +1200,8 @@ character_event = {
 # Dirt uncovered: liege of target given the information
 character_event = {
 	id = WoL.2082
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1378,8 +1386,8 @@ character_event = {
 # Dirt uncovered: liege thanks spy and tells of denouncement
 character_event = {
 	id = WoL.2083
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	desc = EVTDESC_WOL_2083
 	
 	is_triggered_only = yes
@@ -1392,8 +1400,8 @@ character_event = {
 # Dirt uncovered: liege thanks spy and tells of blackmail
 character_event = {
 	id = WoL.2084
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	desc = EVTDESC_WOL_2084
 	
 	is_triggered_only = yes
@@ -1406,8 +1414,8 @@ character_event = {
 # Dirt uncovered: liege thanks spy, and tells of no further action
 character_event = {
 	id = WoL.2085
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	desc = EVTDESC_WOL_2085
 	
 	is_triggered_only = yes
@@ -1421,8 +1429,8 @@ character_event = {
 # Dirt uncovered: target threatened with blackmail to stay out of factions
 character_event = {
 	id = WoL.2086
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1595,8 +1603,8 @@ character_event = {
 # Dirt uncovered: blackmailer notified of factionalism prevention
 character_event = {
 	id = WoL.2087
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1610,8 +1618,8 @@ character_event = {
 # Dirt uncovered: blackmailer notified of factionalism prevention refusal
 character_event = {
 	id = WoL.2088
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1685,8 +1693,8 @@ character_event = {
 # Dirt uncovered: target threatened with blackmail to join factions
 character_event = {
 	id = WoL.2089
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1822,8 +1830,8 @@ character_event = {
 # Dirt uncovered: blackmailer notified of faction join
 character_event = {
 	id = WoL.2090
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1837,8 +1845,8 @@ character_event = {
 # Dirt uncovered: blackmailer notified of faction join refusal
 character_event = {
 	id = WoL.2091
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -1910,8 +1918,8 @@ character_event = {
 # Spy gets a chance to start a smear campaign against the target
 character_event = {
 	id = WoL.2100
-	picture = GFX_evt_whispers
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2114,8 +2122,8 @@ character_event = {
 # Target finds out about the vicious rumours
 character_event = {
 	id = WoL.2101
-	picture = GFX_evt_whispers
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_whispers
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2135,8 +2143,8 @@ character_event = {
 # Spy gets a chance to murder the target!
 character_event = {
 	id = WoL.2110
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2148,6 +2156,17 @@ character_event = {
 		ai_chance = {
 			factor = 100
 			modifier = {
+				factor = 0
+				FROMFROMFROM = {
+					same_liege = ROOT # No use for vassals to kill other vassals
+					NOT = { is_foe = ROOT }
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = { wealth = 5 }
+			}
+			modifier = {
 				factor = 2.0
 				trait = arbitrary
 			}
@@ -2156,8 +2175,24 @@ character_event = {
 				trait = cruel
 			}
 			modifier = {
-				factor = 5.0
-				is_rival = FROMFROMFROM
+				factor = 10.0
+				is_foe = FROMFROMFROM
+			}
+			modifier = {
+				factor = 0.1
+				trait = just
+			}
+			modifier = {
+				factor = 0.25
+				FROMFROMFROM = {
+					liege = {
+						ROOT = {
+							character = PREV
+						}
+					}
+					in_faction = no
+					NOT = { is_foe = ROOT }
+				}
 			}
 		}
 		
@@ -2189,8 +2224,8 @@ character_event = {
 
 character_event = {
 	id = WoL.2111
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2361,8 +2396,8 @@ character_event = {
 # Killer notified of success - not discovered
 character_event = {
 	id = WoL.2112
-	picture = GFX_evt_death
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_death
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2376,8 +2411,8 @@ character_event = {
 # Killer notified of success - discovered
 character_event = {
 	id = WoL.2113
-	picture = GFX_evt_death
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_death
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2392,8 +2427,8 @@ character_event = {
 # Killer notified of wounding - not discovered
 character_event = {
 	id = WoL.2114
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2407,8 +2442,8 @@ character_event = {
 # Killer notified of wounding - discovered
 character_event = {
 	id = WoL.2115
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2422,8 +2457,8 @@ character_event = {
 # Killer notified of failure - not discovered
 character_event = {
 	id = WoL.2116
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2437,8 +2472,8 @@ character_event = {
 # Killer notified of failure - discovered
 character_event = {
 	id = WoL.2117
-	picture = GFX_evt_shadow
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadow
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2452,8 +2487,8 @@ character_event = {
 # Spy gets a chance to abduct the target!
 character_event = {
 	id = WoL.2120
-	picture = GFX_evt_bandits
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_bandits
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2463,6 +2498,45 @@ character_event = {
 		name = EVTOPTA_WOL_2120
 		ai_chance = {
 			factor = 100
+			modifier = {
+				factor = 0
+				NOT = { wealth = 5 }
+			}
+			modifier = {
+				factor = 0
+				FROMFROMFROM = {
+					same_liege = ROOT # No use for vassals to imprison other vassals
+					NOT = { is_foe = ROOT }
+				}
+			}
+			modifier = {
+				factor = 0.1
+				trait = just
+			}
+			modifier = {
+				factor = 2.0
+				trait = arbitrary
+			}
+			modifier = {
+				factor = 3.0
+				trait = cruel
+			}
+			modifier = {
+				factor = 0.25
+				FROMFROMFROM = {
+					liege = {
+						ROOT = {
+							character = PREV
+						}
+					}
+					in_faction = no
+					NOT = { is_foe = ROOT }
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = { wealth = 10 }
+			}
 		}
 		
 		wealth = -5
@@ -2488,8 +2562,8 @@ character_event = {
 # Target gets abducted... or not.
 character_event = {
 	id = WoL.2121
-	picture = GFX_evt_bandits
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_bandits
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2542,8 +2616,8 @@ character_event = {
 # Target gets abducted!
 character_event = {
 	id = WoL.2122
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2561,8 +2635,8 @@ character_event = {
 # Abduction fails
 character_event = {
 	id = WoL.2123
-	picture = GFX_evt_bandits
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_bandits
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -2581,8 +2655,8 @@ character_event = {
 character_event = {
 	id = WoL.2200
 	desc = EVTDESC_WOL_2200
-	picture = GFX_evt_jailbreak
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_jailbreak
+	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
@@ -2608,8 +2682,8 @@ character_event = {
 character_event = {
 	id = WoL.2201
 	desc = EVTDESC_WOL_2201
-	picture = GFX_evt_jailbreak
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_jailbreak
+	border = GFX_event_normal_frame_intrigue
 	
 	capable_only = yes
 	prisoner = no
@@ -2796,8 +2870,8 @@ character_event = {
 	id = WoL.2211
 	
 	desc = EVTOPTA_WOL_2211
-	picture = GFX_evt_death
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_death
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -2817,8 +2891,8 @@ character_event = {
 	id = WoL.2212
 	
 	desc = EVTDESC_WOL_2212
-	picture = GFX_evt_illness
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_illness
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -2838,8 +2912,8 @@ character_event = {
 	id = WoL.2213
 	
 	desc = EVTDESC_WOL_2213
-	picture = GFX_evt_courier
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_courier
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -2890,8 +2964,8 @@ character_event = {
 	id = WoL.2221
 	
 	desc = EVTDESC_WOL_2221
-	picture = GFX_evt_courtiers_talking
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_courtiers_talking
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3135,8 +3209,8 @@ character_event = {
 	id = WoL.2223
 	
 	desc = EVTDESC_WOL_2223
-	picture = GFX_evt_jailbreak
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_jailbreak
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3199,8 +3273,8 @@ character_event = {
 		trigger = { FROM = { prisoner = no } }
 	}
 	
-	picture = GFX_evt_jailbreak
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_jailbreak
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3214,8 +3288,8 @@ character_event = {
 	id = WoL.2225
 	
 	desc = EVTDESC_WOL_2225
-	picture = GFX_evt_jailbreak
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_jailbreak
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3235,8 +3309,8 @@ character_event = {
 	id = WoL.2226
 	
 	desc = EVTDESC_WOL_2226
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3264,8 +3338,8 @@ character_event = {
 character_event = {
 	id = WoL.2227
 	
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3338,8 +3412,8 @@ character_event = {
 	id = WoL.2228
 	
 	desc = EVTDESC_WOL_2228
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3353,8 +3427,8 @@ character_event = {
 	id = WoL.2229
 	
 	desc = EVTDESC_WOL_2229
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3374,8 +3448,8 @@ character_event = {
 	id = WoL.2230
 	
 	desc = EVTDESC_WOL_2230
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -3391,7 +3465,7 @@ letter_event = {
 	id = WoL.2231
 	
 	desc = EVTDESC_WOL_2231
-	border = GFX_event_letter_frame_intrigue
+	border = GFX_event_letter_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3449,8 +3523,8 @@ character_event = {
 	id = WoL.2232
 	
 	desc = EVTDESC_WOL_2232
-	picture = GFX_evt_into_the_dungeon
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_into_the_dungeon
+	border = GFX_event_normal_frame_intrigue
 	
 	show_from_from_from = yes
 	
@@ -3486,8 +3560,8 @@ character_event = {
 	id = WoL.2300
 	
 	desc = EVTDESC_WOL_2300
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	only_playable = yes
 	prisoner = no
@@ -3688,8 +3762,8 @@ character_event = {
 	
 	desc = EVTDESC_WOL_2302
 	
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadowy_cabal
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3775,8 +3849,8 @@ character_event = {
 	
 	desc = EVTDESC_WOL_2303
 	
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadowy_cabal
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3791,8 +3865,8 @@ character_event = {
 	
 	desc = EVTDESC_WOL_2304
 	
-	picture = GFX_evt_shadowy_cabal
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_shadowy_cabal
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
@@ -3825,8 +3899,8 @@ character_event = {
 	
 	desc = EVTDESC_WOL_2305
 	
-	picture = GFX_evt_eavesdropping
-	border = GFX_event_normal_frame_intrigue
+	picture = GFX_evt_eavesdropping
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
 	
