@@ -1002,15 +1002,6 @@ character_event = {
 		name = EVTOPTA37051 # Promise that you'll arrange it
 		FROM = { character_event = { id = 37052 tooltip = EVTTOOLTIP37052 } }
 	}
-	
-	option = {
-		name = EVTOPTB37051 # Mention a Church career...
-		trigger = {
-			religion_group = christian
-			FROM = { religion_group = christian }
-		}
-		FROM = { character_event = { id = 37053 tooltip = EVTTOOLTIP37053 } }
-	}
 }
 
 # The relative is delighted
@@ -1140,36 +1131,6 @@ character_event = {
 				can_marry = FROM
 			}
 			add_spouse = FROM
-		}
-	}
-	
-	option = {
-		name = EVTOPTB37055 # You're off to the monastery!
-		trigger = {
-			religion_group = christian
-			FROM = { religion_group = christian }
-			FROM = {
-				is_married = no
-			}
-			any_realm_lord = {
-				is_theocracy = yes
-			}
-		}
-		random_realm_lord = {
-			limit = {
-				is_theocracy = yes
-			}
-			reverse_banish = FROM
-		}
-		FROM = { 
-			cancel_ambition = yes
-			remove_character_modifier = promised_a_marriage
-			clr_character_flag = flag_promised_marriage
-			opinion = {
-				who = ROOT
-				modifier = opinion_sent_to_church
-				months = 120
-			}
 		}
 	}
 	
