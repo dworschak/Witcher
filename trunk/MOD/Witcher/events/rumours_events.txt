@@ -8,7 +8,7 @@
 ###################################
 #
 # Designed by Johan Andersson
-# Written by Sara Wendel-Örtqvist
+# Written by Sara Wendel-Ã–rtqvist
 
 ###  Homosexual ### 
 
@@ -919,13 +919,13 @@ character_event = {
 	only_rulers = yes
 	min_age = 15
 	capable_only = yes
+	only_rulers = yes
 	prisoner = no
 	
 	is_triggered_only = yes
 	
 	trigger = {
 		intrigue = 10
-		is_ruler = yes
 		NOT = {
 			has_character_flag = rumour_spreader
 		}
@@ -1149,7 +1149,8 @@ character_event = {
 		any_sibling = {
 			has_character_flag = sister_suspected_of_incest
 		}
-		any_child = {
+		any_realm_character = {
+			prisoner = no
 			NOT = {
 				father = {
 					character = ROOT
@@ -1160,13 +1161,9 @@ character_event = {
 					sibling = ROOT
 				}
 			}
-			age = 6
-			NOT = {
-				age = 15
-			}
-			NOT = {
-				trait = maimed
-			}
+			NOT = { trait = maimed }
+			NOT = { trait = incapable }
+			NOT = { trait = blinded }
 		}
 	}
 	
@@ -2112,6 +2109,7 @@ character_event = {
 		any_courtier = {
 			prisoner = no
 			is_female = no
+			is_married = yes
 			age = 15
 			diplomacy = 12
 			NOT = {
@@ -2164,6 +2162,7 @@ character_event = {
 			limit = {
 				prisoner = no
 				is_female = no
+				is_married = yes
 				age = 15
 				diplomacy = 12
 				NOT = {
@@ -2201,6 +2200,7 @@ character_event = {
 			limit = {
 				prisoner = no
 				is_female = no
+				is_married = yes
 				age = 15
 				diplomacy = 12
 				NOT = {
@@ -2319,7 +2319,12 @@ character_event = {
 	option = {
 		name = EVTOPTB69039 #Confess to wife
 		clr_character_flag = committed_adultery
-		remove_lover = yes
+		random_lover = {
+			limit = {
+				NOT = { Spouse = { character = ROOT } }
+			}
+			remove_lover = yes
+		}
 		spouse = {
 			remove_opinion = { who = ROOT modifier = opinion_mad_as_hell }
 			opinion = {
