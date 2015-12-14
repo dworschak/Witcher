@@ -141,7 +141,7 @@ character_event = {
 						num_of_friends = 2
 					}
 				}
-				add_rival = FROM
+				add_rival = ROOT
 				character_event = {
 					id = 100001
 					days = 1
@@ -845,9 +845,9 @@ character_event = {
 			prisoner = no
 			is_married = no
 			age = 15
-			#NOT = {
-			#	age = 25
-			#}
+			NOT = {
+				age = 25
+			}
 			NOT = {
 				num_of_friends = 5
 			}
@@ -863,7 +863,11 @@ character_event = {
 			NOT = {
 				is_rival = ROOT
 			}
-			#trait = shy
+			OR = {
+				trait = chaste
+				religion_group = muslim
+			}
+			trait = shy
 		}
 	}
 	
@@ -895,33 +899,33 @@ character_event = {
 			limit = {
 				at_location = ROOT
 				#same_liege = ROOT
-				#is_female = no
+				is_female = no
 				prisoner = no
-				#is_married = no
+				is_married = no
 				age = 15
-				#NOT = {
-				#	age = 25
-				#}
+				NOT = {
+					age = 25
+				}
 				NOT = {
 					num_of_friends = 5
 				}
 				NOT = {
 					num_of_rivals = 5
 				}
-				#NOT = {
-				#	sibling = ROOT
-				#}
+				NOT = {
+					sibling = ROOT
+				}
 				NOT = {
 					is_friend = ROOT
 				}
 				NOT = {
 					is_rival = ROOT
 				}
-				#OR = {
-				#	trait = chaste
-				#	religion_group = muslim
-				#}
-				#trait = shy
+				OR = {
+					trait = chaste
+					religion_group = muslim
+				}
+				trait = shy
 			}
 			character_event = {
 				id = 100021
@@ -2946,9 +2950,6 @@ character_event = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					num_of_traits = 5
-				}
 				trait = wroth
 				NOT = {
 					trait = envious
@@ -2958,9 +2959,6 @@ character_event = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					num_of_traits = 5
-				}
 				trait = cruel
 				NOT = {
 					trait = wroth
@@ -2970,9 +2968,6 @@ character_event = {
 		}
 		if = {
 			limit = {
-				NOT = {
-					num_of_traits = 5
-				}
 				trait = envious
 				NOT = {
 					trait = cruel
@@ -3187,6 +3182,7 @@ character_event = {
 	max_age = 14
 	prisoner = no
 	only_playable = yes
+	religion_group = christian
 	
 	trigger = {
 		trait = zealous
@@ -4206,7 +4202,7 @@ character_event = {
 					is_abroad = no
 					prisoner = no
 					is_councillor = yes
-					at_location = ROOT
+#					at_location = ROOT
 					same_liege = ROOT
 					NOT = {
 						sibling = ROOT
@@ -4973,6 +4969,7 @@ character_event = {
 				war = yes
 				is_ruler = yes
 				prisoner = no
+				NOT = { is_vassal_or_below = ROOT }
 				OR = {
 					is_primary_war_attacker = yes
 					is_primary_war_defender = yes
@@ -5862,6 +5859,7 @@ character_event = { # Only available to eternal fire religion zealots
 			war = no
 			in_command = no
 			prisoner = no
+			religion_group = ROOT
 			NOT = {
 				religion = ROOT
 			}
@@ -6001,7 +5999,7 @@ character_event = { # Only available to eternal fire religion zealots
 					}
 				}
 			}
-			remove_friend = FROM
+			remove_friend = ROOT
 			character_event = {
 				id = 100184
 				days = 7
@@ -6079,11 +6077,13 @@ character_event = {
 				who = ROOT
 				years = 2
 			}
-			character_event = {
-				id = 100186
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100186
+			hidden_tooltip = {
+				character_event = {
+					id = 100186
+					days = 7
+					random = 7
+					tooltip = EVTTOOLTIP100186
+				}
 			}
 		}
 	}
@@ -8472,6 +8472,7 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
+		NOT = { has_dlc = "Way of Life" }
 		war = no
 		in_command = no
 		num_of_friends = 1
@@ -8486,7 +8487,7 @@ character_event = {
 			war = no
 			in_command = no
 			prisoner = no
-			#trait = scholar 
+			trait = scholar 
 		}
 	}
 	
@@ -8637,10 +8638,12 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA100263
-		opinion = {
-			modifier = opinion_sad
-			who = FROM
-			years = 2
+		tooltip = {
+			opinion = {
+				modifier = opinion_sad
+				who = FROM
+				years = 2
+			}
 		}
 	}
 }
@@ -9891,12 +9894,12 @@ character_event = {
 	only_rulers = yes
 	only_men = yes
 	prisoner = no
+	has_character_flag = attending_tournament
 	
 	trigger = {
 		war = no
 		in_command = no
 		num_of_rivals = 1
-		has_character_flag = attending_tournament
 		any_rival = {
 			war = no
 			in_command = no
@@ -10612,6 +10615,7 @@ character_event = {
 	capable_only = yes
 	only_rulers = yes
 	prisoner = no
+	religion_group = christian
 	
 	trigger = {
 		war = no
@@ -11923,6 +11927,7 @@ character_event = {
 	capable_only = yes
 	only_rulers = yes
 	prisoner = no
+	religion_group = christian
 	
 	is_triggered_only = yes
 	
@@ -12475,7 +12480,7 @@ character_event = {
 				id = 100513
 				days = 7
 				random = 7
-				tooltip = EVTTOOLTIPA100513
+				tooltip = EVTTOOLTIPA100512
 			}
 		}
 	}
@@ -12651,11 +12656,11 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	has_character_flag = guest_feast_started
 	
 	trigger = {
 		war = no
 		in_command = no
-		has_character_flag = guest_feast_started
 		NOT = {
 			has_character_modifier = master_poisoner
 		}
