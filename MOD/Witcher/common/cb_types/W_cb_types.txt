@@ -930,7 +930,7 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		modifier = { factor = 0.8 FROM = { realm_martial = 20 } }
 		modifier = { factor = 0.8 FROM = { realm_martial = 25 } }
 		modifier = { factor = 0.8 FROM = { realm_martial = 30 } }
-		modifier = { factor = 0.1 FROM = { job_mage = { trait = sorcerer } } }
+		# modifier = { factor = 0.1 FROM = { job_mage = { trait = sorcerer } } }
 		modifier = { factor = 0.01 ROOT = { relative_power = { who = FROM power = 3 } } }
 		modifier = { factor = 0.05 ROOT = { relative_power = { who = FROM power = 2 } } }
 		modifier = { factor = 0.1 ROOT = { relative_power = { who = FROM power = 1 } } }
@@ -1769,10 +1769,12 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		ROOT = {
+			if = {
 				limit = { has_character_flag = obj_expand_by_conquest_taken }
 				set_character_flag = obj_expand_by_conquest_succeeded
 				clr_character_flag = obj_expand_by_conquest_cb_used
 			}
+		}
 	}
 	
 	on_reverse_demand = {
