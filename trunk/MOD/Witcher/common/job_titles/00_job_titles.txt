@@ -92,12 +92,12 @@ job_chancellor = {
 	
 	action = action_improve_relations
 	action = action_fabricate_claims
+	action = action_clan_sentiment # Replaces Fabricate Claims for Nomads
 	action = action_sow_dissent
 
 	lift_fow = yes
 }
 
-# NOTE: The allow trigger for this job also determines who can command armies!
 job_marshal = {
 	is_marshal = yes
 	attribute = martial
@@ -149,6 +149,7 @@ job_marshal = {
 	
 	action = action_assist_arrest
 	action = action_train_troops
+	action = action_train_troops_nomadic
 	action = action_advance_mil_tech
 	action = action_organize_raid # Replaces action_advance_mil_tech for Tribes
 
@@ -202,6 +203,7 @@ job_treasurer = {
 	}
 	
 	action = action_squeeze_peasants
+	action = action_collect_tribute # Replaces action_squeeze_peasants for Nomads
 	action = action_settle_tribe # Replaces action_squeeze_peasants for Tribes
 	action = action_oversee_construction
 	action = action_advance_eco_tech
@@ -297,6 +299,7 @@ job_spiritual = {
 					}
 					AND = {
 						is_female = yes
+						# religion_allows_female_temple_holders = yes
 						OR = {
 							religion = melitele
 							religion = freya
@@ -320,7 +323,23 @@ job_spiritual = {
 				liege = { is_tribal = yes }
 				is_ruler = no
 			}
-			is_ruler = no
+			AND = {
+				clan = yes
+				liege = {
+					is_nomadic = yes
+				}
+			}
+			AND = {
+				has_autocephaly = no
+				is_ruler = no
+			}
+			AND = {
+				has_autocephaly = yes
+				is_ruler = no
+				NOT = {
+					any_vassal = { is_theocracy = yes }
+				}
+			}
 		}
 		OR = {
 			trait = detached_priest
