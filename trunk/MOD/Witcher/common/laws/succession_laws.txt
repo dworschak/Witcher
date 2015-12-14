@@ -27,21 +27,25 @@ succession_laws = {
 				}
 				is_merchant_republic = no
 				is_patrician = no
+				OR = {
+					independent = yes
+					NOT = {
+						any_demesne_title = {
+							is_vice_royalty = yes
+						}
+					}
+				}
+				in_revolt = no
 			}
 			OR = {
 				is_landless_type_title = no
 				is_tribal_type_title = yes
 				temporary = yes
 			}
+			
 			rebel = no
+			
 			OR = {
-				AND = {
-					tier = baron
-					OR = {
-						is_feudal = yes
-						is_tribal = yes
-					}
-				}
 				holder_scope = { is_feudal = yes }
 				holder_scope = { is_tribal = yes }
 			}
@@ -64,6 +68,7 @@ succession_laws = {
 	
 		potential = {
 			holder_scope = {
+				is_nomadic = no
 				OR = {
 					independent = yes
 					NOT = {
@@ -74,28 +79,29 @@ succession_laws = {
 				}
 				is_merchant_republic = no
 				is_patrician = no
+				OR = {
+					independent = yes
+					NOT = {
+						any_demesne_title = {
+							is_vice_royalty = yes
+						}
+					}
+				}
+				in_revolt = no
 			}
 			OR = {
 				is_landless_type_title = no
 				is_tribal_type_title = yes
 				temporary = yes
 			}
+			
 			rebel = no
+			
 			OR = {
-				AND = {
-					tier = baron
-					OR = {
-						is_feudal = yes
-						is_tribal = yes
-					}
-				}
 				holder_scope = { is_feudal = yes }
 				holder_scope = { is_tribal = yes }
 			}
 			is_primary_type_title = no
-		}
-		allow = {
-			holder_scope = { is_tribal = yes }
 		}
 		effect = {
 			succession = elective_gavelkind
@@ -139,6 +145,14 @@ succession_laws = {
 					is_republic = no
 					is_patrician = yes
 				}
+				OR = {
+					independent = yes
+					NOT = {
+						any_demesne_title = {
+							is_vice_royalty = yes
+						}
+					}
+				}
 			}
 			OR = {
 				is_landless_type_title = no
@@ -173,6 +187,12 @@ succession_laws = {
 						is_merchant_republic = no
 						PREV = {
 							is_primary_holder_title = no
+						}
+						NOT = {
+							in_revolt = yes
+							succ_law_title = {
+								title = PREV
+							}
 						}
 					}
 				}
@@ -214,41 +234,56 @@ succession_laws = {
 					has_landed_title = d_nilfgaard_academy
 					has_landed_title = d_thanedd
 				}
-				OR = {
-					independent = yes
-					NOT = {
-						any_liege = {
-							holy_order = yes
-						}
+			}	
+			OR = {
+				holder_scope = { # Viceroyalties can always have primogeniture if not muslim
+					any_demesne_title = {
+						is_vice_royalty = yes
 					}
 				}
-				
-				is_merchant_republic = no
-				is_patrician = no
-			}
-			OR = {
-				is_landless_type_title = no
-				is_tribal_type_title = yes
-				temporary = yes
-			}
-			is_primary_type_title = no
-			OR = {
 				AND = {
-					tier = baron
-					is_feudal = yes
+					holder_scope = {
+						OR = {
+							independent = yes
+							NOT = {
+								any_liege = {
+									holy_order = yes
+								}
+							}
+						}
+					}
+					OR = {
+						is_landless_type_title = no
+						is_tribal_type_title = yes
+						temporary = yes
+					}
+					is_primary_type_title = no
+					OR = {
+						AND = {
+							tier = baron
+							is_feudal = yes
+						}
+						holder_scope = { is_feudal = yes }
+					}
 				}
-				holder_scope = { is_feudal = yes }
 			}
 		}
 		allow = {
 			OR = {
-				hidden_tooltip = {
-					has_crown_law_title = no
+				holder_scope = { # Viceroyalties can always have primogeniture if not muslim
+					any_demesne_title = {
+						is_vice_royalty = yes
+					}
 				}
-				crownlaw_title = {
-					OR = {
-						has_law = crown_authority_2
-						has_law = crown_authority_3
+				OR = {
+					hidden_tooltip = {
+						has_crown_law_title = no
+					}
+					crownlaw_title = {
+						OR = {
+							has_law = crown_authority_2
+							has_law = crown_authority_3
+						}
 					}
 				}
 			}
@@ -293,6 +328,14 @@ succession_laws = {
 				}
 				is_merchant_republic = no
 				is_patrician = no
+				OR = {
+					independent = yes
+					NOT = {
+						any_demesne_title = {
+							is_vice_royalty = yes
+						}
+					}
+				}
 			}
 			OR = {
 				is_landless_type_title = no
@@ -301,13 +344,7 @@ succession_laws = {
 			}
 			is_primary_type_title = no
 			NOT = { tier = baron }
-			OR = {
-				AND = {
-					tier = baron
-					is_feudal = yes
-				}
-				holder_scope = { is_feudal = yes }
-			}
+			holder_scope = { is_feudal = yes }
 		}
 		
 		allow = {
@@ -352,6 +389,14 @@ succession_laws = {
 				}
 				is_merchant_republic = no
 				is_patrician = no
+				OR = {
+					independent = yes
+					NOT = {
+						any_demesne_title = {
+							is_vice_royalty = yes
+						}
+					}
+				}
 			}
 			OR = {
 				is_landless_type_title = no
@@ -421,6 +466,14 @@ succession_laws = {
 				}
 				is_merchant_republic = no
 				is_patrician = no
+				OR = {
+					independent = yes
+					NOT = {
+						any_demesne_title = {
+							is_vice_royalty = yes
+						}
+					}
+				}
 			}
 			OR = {
 				is_landless_type_title = no
@@ -624,13 +677,38 @@ succession_laws = {
 	
 	succ_patrician_elective = {
 		potential = {
-			is_primary_holder_title = yes
+			OR = {
+				is_primary_holder_title = yes
+				AND = {
+					holder_scope = {
+						in_revolt = yes
+						succ_law_title = {
+							title = PREVPREV
+						}
+					}
+				}
+			}
 			holder_scope = {
 				is_merchant_republic = yes
 			}
 		}
 		effect = {
 			succession = patrician_elective
+		}
+		revoke_allowed = {
+			always = no
+		}			
+	}
+
+	succ_nomad_succession = {
+		potential = {
+			has_dlc = "Horse Lords"
+			holder_scope = {
+				is_nomadic = yes
+			}
+		}
+		effect = {
+			succession = nomad_succession
 		}
 		revoke_allowed = {
 			always = no
@@ -651,6 +729,9 @@ gender_laws = {
 					}
 					is_merchant_republic = yes
 				}
+
+				is_tribal = no
+				is_nomadic = no
 				has_horde_culture = no
 				is_merchant_republic = no
 				is_patrician = no
@@ -665,15 +746,18 @@ gender_laws = {
 			OR = {
 				AND = {
 					tier = baron
-					is_feudal = yes
+					is_theocracy = no
+					is_republic = no
 				}
 				holder_scope = {
-					is_feudal = yes
+					is_theocracy = no
+					is_republic = no
 				}
 			}
 			
 			is_primary_type_title = no
 		}
+		
 		effect = {
 			gender_succ = cognatic
 		}
@@ -709,6 +793,9 @@ gender_laws = {
 		
 		potential = {
 			holder_scope = { 
+
+				is_tribal = no
+				is_nomadic = no
 				has_horde_culture = no
 				is_merchant_republic = no
 				is_patrician = no
@@ -722,9 +809,13 @@ gender_laws = {
 			OR = {
 				AND = {
 					tier = baron
-					is_feudal = yes
+					is_theocracy = no
+					is_republic = no
 				}
-				holder_scope = { is_feudal = yes }
+				holder_scope = {
+					is_theocracy = no
+					is_republic = no
+				}
 			}
 			
 			is_primary_type_title = no
