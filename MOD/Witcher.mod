@@ -18,6 +18,7 @@ replace_path = "common/minor_titles"
 replace_path = "common/objectives"
 replace_path = "common/religions"
 replace_path = "common/religious_titles"
+replace_path = "common/trade_routes"
 replace_path = "events"
 replace_path = "decisions"
 tags={ Map Complete Overhaul Witcher }
