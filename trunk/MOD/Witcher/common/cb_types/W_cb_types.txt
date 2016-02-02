@@ -739,35 +739,20 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		# }
 		# The attacker needs at least one county in the target kingdom, or a border, or be only two sea zones away from one of your counties
 		any_direct_de_jure_vassal_title = {
-			OR = {
-				holder_scope = {
-					OR = {
-						character = ROOT
-						is_liege_or_above = ROOT
-					}
-				}
-				location = {
-					any_neighbor_province = {
+			any_direct_de_jure_vassal_title = {
+				OR = {
+					holder_scope = {
 						OR = {
-							AND = {
-								has_owner = yes
-								owner = {
-									OR = {
-										character = ROOT
-										is_liege_or_above = ROOT
-									}
-								}
-							}
-							AND = {
-								is_land = no
-								any_neighbor_province = {
-									has_owner = yes
-									owner = {
-										OR = {
-											character = ROOT
-											is_liege_or_above = ROOT
-										}
-									}
+							character = ROOT
+							is_liege_or_above = ROOT
+						}
+					}
+					location = {
+						any_neighbor_province = {
+							owner = {
+								OR = {
+									character = ROOT
+									is_liege_or_above = ROOT
 								}
 							}
 						}
@@ -2460,8 +2445,10 @@ reclamation = { # Usable by elven and dwarven empires
 		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			OR = {
-				has_landed_title = e_hen_caerme
-				has_landed_title = e_dwarf_empire
+				culture = aen_seidhe
+				culture = dwarven
+				culture = gnomish
+				culture = halfling
 			}
 			NOT = { same_realm = FROM }
 		}
