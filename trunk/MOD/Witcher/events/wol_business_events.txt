@@ -281,7 +281,6 @@ character_event = {
 					if = {
 						limit = { has_character_flag = trade_bandits_fail }
 						character_event = { id = WoL.10110 days = 7 }
-						break = yes
 					}
 					character_event = { id = WoL.10111 days = 14 }
 				}
@@ -468,6 +467,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA_WOL_10111
+		#add_trait = expedition
 		hidden_tooltip = {
 			if = {
 				limit = {
@@ -491,14 +491,10 @@ character_event = {
 		random_independent_ruler = {
 			limit = {
 				ai = yes
-				controls_religion = no
 				is_adult = yes
 				is_within_diplo_range = ROOT
 				mercenary = no
 				holy_order = no
-				primary_title = {
-					is_landless_type_title = no
-				}
 				NOT = {
 					OR = {
 						is_rival = ROOT
@@ -519,14 +515,10 @@ character_event = {
 		random_independent_ruler = {
 			limit = {
 				ai = yes
-				controls_religion = no
 				is_adult = yes
 				is_within_diplo_range = ROOT
 				mercenary = no
 				holy_order = no
-				primary_title = {
-					is_landless_type_title = no
-				}
 				NOT = {
 					OR = {
 						is_rival = ROOT
@@ -547,14 +539,10 @@ character_event = {
 		random_independent_ruler = {
 			limit = {
 				ai = yes
-				controls_religion = no
 				is_adult = yes
 				is_within_diplo_range = ROOT
 				mercenary = no
 				holy_order = no
-				primary_title = {
-					is_landless_type_title = no
-				}
 				NOT = {
 					OR = {
 						is_rival = ROOT
@@ -574,13 +562,9 @@ character_event = {
 		random_independent_ruler = {
 			limit = {
 				ai = yes
-				controls_religion = no
 				is_adult = yes
 				mercenary = no
 				holy_order = no
-				primary_title = {
-					is_landless_type_title = no
-				}
 				NOT = {
 					OR = {
 						is_rival = ROOT
@@ -606,8 +590,9 @@ character_event = {
 	id = WoL.10999
 	is_triggered_only = yes
 	desc = EVTDESC_WOL_10999
-	picture = GFX_evt_market
+	picture = GFX_evt_priest
 	border = GFX_event_normal_frame_economy
+	hide_window = yes
 	
 	option = {
 		name = EVTOPTA_WOL_10999
@@ -1130,11 +1115,11 @@ character_event = {
 	option = {
 		name = EVTOPTA_WOL_10123
 		if = {
-			limit = { trait = fortune_builder }
+			limit = { trait = indulgent_wastrel }
 			hidden_tooltip = {
-				remove_trait = fortune_builder
+				remove_trait = indulgent_wastrel
 			}
-			add_trait = midas_touched 
+			add_trait = thrifty_clerk
 		}
 		if = {
 			limit = { trait = thrifty_clerk }
@@ -1144,11 +1129,11 @@ character_event = {
 			add_trait = fortune_builder
 		}
 		if = {
-			limit = { trait = indulgent_wastrel }
+			limit = { trait = fortune_builder }
 			hidden_tooltip = {
-				remove_trait = indulgent_wastrel
+				remove_trait = fortune_builder
 			}
-			add_trait = thrifty_clerk
+			add_trait = midas_touched 
 		}
 	}
 }
@@ -1352,6 +1337,7 @@ character_event = {
 		clr_character_flag = trade_bandits_fail
 		clr_character_flag = trade_bandits
 		clr_character_flag = trade_is_land
+		clr_character_flag = trade_route_progress
 		clr_character_flag = trade_priest
 		clr_character_flag = trade_friend
 		clr_character_flag = trade_success
@@ -1388,15 +1374,9 @@ province_event = {
 		ai_chance = {
 			factor = 1
 		}
-		holder_scope = {
-			if = {
-				limit = { NOT = { yearly_income = 80 } }
-				scaled_wealth = -2.5
-			}
-			if = {
-				limit = { yearly_income = 80 }
-				wealth = -200
-			}
+		scaled_wealth = -2.5
+		hidden_tooltip = {
+			remove_province_modifier = trade_route
 		}
 		add_province_modifier = {
 			name = trade_route
@@ -1417,9 +1397,7 @@ province_event = {
 		ai_chance = {
 			factor = 3
 		}
-		holder_scope = {
-			prestige = -25
-		}
+		prestige = -25
 	}
 }
 
@@ -1441,15 +1419,13 @@ province_event = {
 		ai_chance = {
 			factor = 1
 		}
-		holder_scope = {
-			if = {
-				limit = { NOT = { yearly_income = 80 } }
-				scaled_wealth = -2.5
-			}
-			if = {
-				limit = { yearly_income = 80 }
-				wealth = -200
-			}
+		if = {
+			limit = { NOT = { yearly_income = 80 } }
+			scaled_wealth = -2.5
+		}
+		if = {
+			limit = { yearly_income = 80 }
+			wealth = -200
 		}
 		
 		hidden_tooltip = {
@@ -1474,9 +1450,7 @@ province_event = {
 		ai_chance = {
 			factor = 3
 		}
-		holder_scope = {
-			prestige = -25
-		}
+		prestige = -25
 	}
 }
 
@@ -1714,7 +1688,7 @@ character_event = {
 	desc = {
 		text = EVTDESCB_WOL_10204
 		trigger = {
-			NOT = { has_character_flag = tower_street_mason }
+			NOT = { has_character_flag tower_street_mason }
 		}
 	}
 	
@@ -2747,12 +2721,6 @@ long_character_event = {
 						set_defacto_liege = PREV
 					}
 					random_demesne_title = {
-						limit = {
-							tier = COUNT
-							any_province_holding = {
-								NOT = { holding_type = nomad }
-							}
-						}
 						grant_title = PREVPREV
 					}
 				}
@@ -3250,7 +3218,6 @@ character_event = {
 								}
 							}
 							NOT = { has_province_modifier = artisan_workshop }
-							NOT = { has_province_flag = workshop_construction }
 						}
 					}
 					factor = 0
@@ -3264,7 +3231,6 @@ character_event = {
 							}
 						}
 						NOT = { has_province_modifier = artisan_workshop }
-						NOT = { has_province_flag = workshop_construction }
 					}
 					province_event = { id = WoL.10439 }
 				}
@@ -3306,10 +3272,6 @@ character_event = {
 			}
 			30 = {
 				character_event = { id = WoL.10420 }
-				modifier = {
-					has_character_modifier = wol_debase_timer
-					factor = 0
-				}
 			}
 			30 = {
 				modifier = {
@@ -3357,7 +3319,6 @@ character_event = {
 				modifier = {
 					OR = {
 						is_tribal = yes
-						is_nomadic = yes
 						NOT = { has_character_modifier = trader }
 						lifestyle_traits = 1
 						has_character_flag = tower_start
@@ -3411,18 +3372,13 @@ character_event = {
 								}
 							}
 						}
+						has_character_flag = trade_route_progress
 						has_character_flag = est_trade_route
-						NOT = { demesne_size = 1 }
 					}
 					factor = 0
 				}
-				modifier = {
-					has_character_flag = trade_route_progress
-					factor = 0.1
-				}
+				set_character_flag = trade_route_progress
 				character_event = { id = WoL.10100 }
-			}
-			1 = { # No event
 			}
 		}
 	}
@@ -3506,14 +3462,6 @@ character_event = {
 	desc = EVTDESC_WOL_10420
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_economy
-	
-	immediate = {
-		add_character_modifier = {
-			modifier = wol_debase_timer
-			duration = 730
-			hidden = yes
-		}
-	}
 	
 	option = {
 		name = EVTOPTA_WOL_10420
@@ -3618,7 +3566,6 @@ province_event = {
 	hide_window = yes
 	
 	immediate = {
-		set_province_flag = workshop_construction
 		FROM = {
 			character_event = { id = WoL.10440 }
 		}
@@ -3652,11 +3599,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTB_WOL_10440
-		hidden_tooltip = {
-			FROM = { 
-				clr_province_flag = workshop_construction
-			}
-		}
 	}
 }
 
@@ -3675,7 +3617,6 @@ character_event = {
 				name = artisan_workshop
 				duration = 3650
 			}
-			clr_province_flag = workshop_construction
 		}
 		hidden_tooltip = {
 			character_event = { id = WoL.10500 days = 7 }
@@ -3692,11 +3633,6 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA_WOL_10442
-		hidden_tooltip = {
-			FROMFROM = {
-				clr_province_flag = workshop_construction
-			}
-		}
 	}
 }
 

@@ -739,20 +739,35 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		# }
 		# The attacker needs at least one county in the target kingdom, or a border, or be only two sea zones away from one of your counties
 		any_direct_de_jure_vassal_title = {
-			any_direct_de_jure_vassal_title = {
-				OR = {
-					holder_scope = {
-						OR = {
-							character = ROOT
-							is_liege_or_above = ROOT
-						}
+			OR = {
+				holder_scope = {
+					OR = {
+						character = ROOT
+						is_liege_or_above = ROOT
 					}
-					location = {
-						any_neighbor_province = {
-							owner = {
-								OR = {
-									character = ROOT
-									is_liege_or_above = ROOT
+				}
+				location = {
+					any_neighbor_province = {
+						OR = {
+							AND = {
+								has_owner = yes
+								owner = {
+									OR = {
+										character = ROOT
+										is_liege_or_above = ROOT
+									}
+								}
+							}
+							AND = {
+								is_land = no
+								any_neighbor_province = {
+									has_owner = yes
+									owner = {
+										OR = {
+											character = ROOT
+											is_liege_or_above = ROOT
+										}
+									}
 								}
 							}
 						}
@@ -915,7 +930,7 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		modifier = { factor = 0.8 FROM = { realm_martial = 20 } }
 		modifier = { factor = 0.8 FROM = { realm_martial = 25 } }
 		modifier = { factor = 0.8 FROM = { realm_martial = 30 } }
-		# modifier = { factor = 0.1 FROM = { job_mage = { trait = sorcerer } } }
+		modifier = { factor = 0.1 FROM = { job_mage = { trait = sorcerer } } }
 		modifier = { factor = 0.01 ROOT = { relative_power = { who = FROM power = 3 } } }
 		modifier = { factor = 0.05 ROOT = { relative_power = { who = FROM power = 2 } } }
 		modifier = { factor = 0.1 ROOT = { relative_power = { who = FROM power = 1 } } }
@@ -1097,18 +1112,6 @@ lower_crown_levy_law = {
 				}
 			}
 		}
-		ROOT = {
-			OR = {
-				liege = {
-					character = PREV # either independent
-				}
-				liege = { 
-					FROM = { 
-						is_liege_or_above = PREV # or have shared liege
-					}
-				}
-			}
-		}
 	}
 
 	on_success = {
@@ -1219,6 +1222,21 @@ lower_crown_levy_law = {
 	defender_ai_defeat_worth = {
 		factor = 100
 	}
+	
+	is_valid = {
+		ROOT = {
+			OR = {
+				liege = {
+					character = PREV # either independent
+				}
+				liege = { 
+					FROM = { 
+						is_liege_or_above = PREV # or have shared liege
+					}
+				}
+			}
+		}
+	}
 }
 
 lower_crown_obligation_law = {
@@ -1256,18 +1274,6 @@ lower_crown_obligation_law = {
 				in_revolt = no
 				liege_before_war = {
 					in_revolt = no
-				}
-			}
-		}
-		ROOT = {
-			OR = {
-				liege = {
-					character = PREV # either independent
-				}
-				liege = { 
-					FROM = { 
-						is_liege_or_above = PREV # or have shared liege
-					}
 				}
 			}
 		}
@@ -1384,6 +1390,21 @@ lower_crown_obligation_law = {
 	
 	defender_ai_defeat_worth = {
 		factor = 100
+	}
+	
+	is_valid = {
+		ROOT = {
+			OR = {
+				liege = {
+					character = PREV # either independent
+				}
+				liege = { 
+					FROM = { 
+						is_liege_or_above = PREV # or have shared liege
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -1748,12 +1769,10 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		ROOT = {
-			if = {
 				limit = { has_character_flag = obj_expand_by_conquest_taken }
 				set_character_flag = obj_expand_by_conquest_succeeded
 				clr_character_flag = obj_expand_by_conquest_cb_used
 			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -2439,10 +2458,8 @@ reclamation = { # Usable by elven and dwarven empires
 		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
 			OR = {
-				culture = aen_seidhe
-				culture = dwarven
-				culture = gnomish
-				culture = halfling
+				has_landed_title = e_hen_caerme
+				has_landed_title = e_dwarf_empire
 			}
 			NOT = { same_realm = FROM }
 		}
@@ -2662,11 +2679,11 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 		hidden_tooltip = {
 			any_attacker = {
 				limit = { has_character_flag = aok_henselt }
-				narrative_event = { id = aok.1100 }
+				character_event = { id = aok.1100 }
 			}
 			any_defender = {
 				limit = { has_character_flag = aok_stennis }
-				narrative_event = { id = aok.1103 }
+				character_event = { id = aok.1103 }
 			}
 		}
 	}
@@ -2690,28 +2707,28 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 		hidden_tooltip = {
 			any_attacker = {
 				limit = { has_character_flag = aok_henselt }
-				narrative_event = { id = aok.1110 }
+				character_event = { id = aok.1110 }
 			}
 			if = {
 				limit = { most_participating_defender = { has_character_flag = aok_saskia } }
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
-					narrative_event = { id = aok.1111 }
+					character_event = { id = aok.1111 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
-					narrative_event = { id = aok.1112 }
+					character_event = { id = aok.1112 }
 				}
 			}
 			if = {
 				limit = { most_participating_defender = { has_character_flag = aok_stennis } }
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
-					narrative_event = { id = aok.1113 }
+					character_event = { id = aok.1113 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
-					narrative_event = { id = aok.1114 }
+					character_event = { id = aok.1114 }
 				}
 			}
 		}
@@ -2742,28 +2759,28 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 		hidden_tooltip = {
 			any_attacker = {
 				limit = { has_character_flag = aok_henselt }
-				narrative_event = { id = aok.1110 }
+				character_event = { id = aok.1110 }
 			}
 			if = {
 				limit = { most_participating_defender = { has_character_flag = aok_saskia } }
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
-					narrative_event = { id = aok.1111 }
+					character_event = { id = aok.1111 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
-					narrative_event = { id = aok.1112 }
+					character_event = { id = aok.1112 }
 				}
 			}
 			if = {
 				limit = { most_participating_defender = { has_character_flag = aok_stennis } }
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
-					narrative_event = { id = aok.1113 }
+					character_event = { id = aok.1113 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
-					narrative_event = { id = aok.1114 }
+					character_event = { id = aok.1114 }
 				}
 			}
 		}

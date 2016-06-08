@@ -1039,7 +1039,6 @@ character_event = {
 	trigger = {
 		independent = no
 		NOT = { has_character_flag = requested_de_jure_title }
-		NOT = { government = nomadic_goverment }
 		liege = {
 			NOT = {
 				character = ROOT
@@ -1268,11 +1267,8 @@ character_event = {
 				NOT = { trait = incapable }
 				NOT = { character = PREV }
 				OR = {
-					is_friend = ROOT
-					AND = {
-						dynasty = ROOT
-						NOT = { is_rival = ROOT }
-					}
+					dynasty = ROOT
+					reverse_opinion = { who = ROOT value = 25 }
 				}
 			}
 		}
@@ -1299,11 +1295,8 @@ character_event = {
 					NOT = { trait = incapable }
 					NOT = { character = PREV }
 					OR = {
-						is_friend = ROOT
-						AND = {
-							dynasty = ROOT
-							NOT = { is_rival = ROOT }
-						}
+						dynasty = ROOT
+						reverse_opinion = { who = ROOT value = 25 }
 					}
 				}
 				letter_event = { id = 63051 days = 4 tooltip = EVTTOOLTIP63051 }
@@ -1325,27 +1318,13 @@ letter_event = {
 	
 	option = {
 		name = EVTOPTA63051 # Intercede on behalf of the prisoner
-		ai_chance = {
-			factor = 1
-			modifier = {
-				factor = 0.5
-				NOT = { trait = kind }
-				NOT = { opinion = { who = FROM value = 50 } }
-			}
-			modifier = {
-				factor = 0
-				NOT = { trait = kind }
-				NOT = { opinion = { who = FROM value = 0 } }
-			}
-		}
+		ai_chance = { factor = 100 }
 		liege = { letter_event = { id = 63052 days = 4 tooltip = EVTTOOLTIP63052 } }
 	}
 	
 	option = {
 		name = EVTOPTB63051 # Better not
-		ai_chance = {
-			factor = 1
-		}
+		ai_chance = { factor = 0 }
 	}
 }
 
@@ -1771,20 +1750,6 @@ character_event = {
 				}
 			}
 			modifier = {
-				factor = 0.25
-				is_nomadic = yes
-				new_character = {
-					trait = strong
-				}
-			}
-			modifier = {
-				factor = 4
-				is_nomadic = yes
-				new_character = {
-					trait = weak
-				}
-			}
-			modifier = {
 				factor = 0.5
 				trait = just
 			}
@@ -1840,20 +1805,6 @@ character_event = {
 			modifier = {
 				factor = 4
 				is_tribal = yes
-				new_character = {
-					trait = weak
-				}
-			}
-			modifier = {
-				factor = 0.25
-				is_nomadic = yes
-				new_character = {
-					trait = strong
-				}
-			}
-			modifier = {
-				factor = 4
-				is_nomadic = yes
 				new_character = {
 					trait = weak
 				}

@@ -718,24 +718,23 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 	
 	only_playable = yes
-	religion_group = christian
 	
 	trigger = {
+		religion = catholic
 		controls_religion = yes
-		OR = {
-			religion = catholic
-			religion = fraticelli
-		}
-		
 		war = no
 		religion_authority = 0.20
 
 		any_playable_ruler = {
-			religion = ROOT
+			religion = catholic
 			rightful_religious_head = ROOT
 			NOT = { has_character_flag = pope_dislikes_heathen_employed }
 			any_courtier = {
 				prisoner = no
+				OR = {
+					religion_group = muslim
+					religion_group = pagan_group
+				}
 				OR = {
 					has_job_title = job_chancellor
 					has_job_title = job_marshal
@@ -760,12 +759,16 @@ character_event = {
 		ai_chance = { factor = 100 }
 		random_playable_ruler = {
 			limit = {
-				religion = ROOT
+				religion = catholic
 				rightful_religious_head = ROOT
 				NOT = { has_character_flag = pope_dislikes_heathen_employed }
 
 				any_courtier = {
 					prisoner = no
+					OR = {
+						religion_group = muslim
+						religion_group = pagan_group
+					}
 					OR = {
 						has_job_title = job_chancellor
 						has_job_title = job_marshal
@@ -803,6 +806,10 @@ character_event = {
 		random_courtier = {
 			limit = {
 				prisoner = no
+				OR = {
+					religion_group = muslim
+					religion_group = pagan_group
+				}
 				OR = {
 					has_job_title = job_chancellor
 					has_job_title = job_marshal
@@ -922,11 +929,15 @@ character_event = {
 		religion_authority = 0.20
 
 		any_playable_ruler = {
-			religion = orthodox
+			religion = catholic
 			rightful_religious_head = ROOT
 			NOT = { has_character_flag = patriarch_dislikes_heathen_employed }
 			any_courtier = {
 				prisoner = no
+				OR = {
+					religion_group = muslim
+					religion_group = pagan_group
+				}
 				OR = {
 					has_job_title = job_chancellor
 					has_job_title = job_marshal
@@ -951,12 +962,16 @@ character_event = {
 		ai_chance = {	factor = 100 }
 		random_playable_ruler = {
 			limit = {
-				religion = orthodox
+				religion = catholic
 				rightful_religious_head = ROOT
 				NOT = { has_character_flag = patriach_dislikes_heathen_employed }
 
 				any_courtier = {
 					prisoner = no
+					OR = {
+						religion_group = muslim
+						religion_group = pagan_group
+					}
 					OR = {
 						has_job_title = job_chancellor
 						has_job_title = job_marshal
@@ -994,6 +1009,10 @@ character_event = {
 		random_courtier = {
 			limit = {
 				prisoner = no
+				OR = {
+					religion_group = muslim
+					religion_group = pagan_group
+				}
 				OR = {
 					has_job_title = job_chancellor
 					has_job_title = job_marshal
@@ -1498,31 +1517,25 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 	
 	only_playable = yes
-	religion_group = christian
 	
 	trigger = {
+		religion = catholic
 		controls_religion = yes
-		OR = {
-			religion = catholic
-			religion = fraticelli
-		}
-	
 		war = no
 		religion_authority = 0.30
 		prestige = 20
 
 		any_playable_ruler = {
 			independent = yes
-			religion = ROOT
+			religion = catholic
 			rightful_religious_head = ROOT
 			OR = {
 				is_feudal = yes
 				is_tribal = yes
-				is_nomadic = yes
 			}
 			any_vassal = {
 				is_theocracy = yes
-				religion = ROOT
+				religion = catholic
 				opinion = { who = liege value = 50 }
 				not = { opinion = { who = ROOT value = 20 } }
 			}
@@ -1542,16 +1555,15 @@ character_event = {
 		ai_chance = {	factor = 100 }
 		random_playable_ruler = {
 			limit = {
-				religion = ROOT
+				religion = catholic
 				rightful_religious_head = ROOT
 				OR = {
 					is_feudal = yes
 					is_tribal = yes
-					is_nomadic = yes
 				}
 				any_vassal = {
 					is_theocracy = yes
-					religion = ROOT
+					religion = catholic
 					opinion = { who = liege value = 50 }
 					not = { opinion = { who = ROOT value = 20 } }
 				}
@@ -1583,7 +1595,7 @@ character_event = {
 		random_vassal = {
 			limit = {
 				is_theocracy = yes
-				religion = ROOT
+				religion = catholic
 				opinion = { who = liege value = 50 }
 				not = { opinion = { who = from value = 20 } }
 			}
@@ -1682,15 +1694,9 @@ character_event = {
 
 	only_playable = yes
 	
-	religion_group = christian
-	
 	trigger = {
+		religion = catholic
 		controls_religion = yes
-		OR = {
-			religion = catholic
-			religion = fraticelli
-		}
-	
 		war = no
 		any_vassal = {
 			tier = baron
@@ -1782,10 +1788,67 @@ character_event = {
 	option = {
 		name = EVTOPTA39600 # Throw the preacher in jail
 		ai_chance = {
-			factor = 2
-			# Always allow them if you already like that religion
+			factor = 3
+			modifier = {
+				factor = 3
+				trait = zealous
+			}
+			modifier = {
+				factor = 5
+				any_vassal = { controls_religion = yes }
+			}
+			
+			modifier = {
+				factor = 5
+				NOT = { year = 930 }
+				NOT = { culture_group = magyar }
+			}
+			modifier = {
+				factor = 5
+				culture_group = baltic # The most stubborn pagans
+			}
+			modifier = {
+				factor = 3
+				culture_group = east_slavic # Angry at Muslim Tatars, also like alcohol
+				FROM = {
+					religion_group = muslim
+				}
+			}
+			modifier = {
+				factor = 5
+				culture_group = north_germanic # Vikings do like their alcohol
+				FROM = {
+					religion_group = muslim
+				}
+			}
+			modifier = {
+				factor = 10
+				any_war = {
+					using_cb = religious
+					attacker = {
+						character = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				any_war = {
+					using_cb = pagan_holy_war
+					attacker = {
+						character = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				any_war = {
+					using_cb = viking_invasion
+					attacker = {
+						character = ROOT
+					}
+				}
+			}
 		}
-		
 		FROM = {
 			imprison = ROOT
 			liege = {
@@ -1806,14 +1869,16 @@ character_event = {
 		custom_tooltip = { text = preacher_imprisoned }
 	}
 	option = {
-		name = EVTOPTB39600 # Allow them to preach
+		name = EVTOPTB39600
 		ai_chance = {
 			factor = 1
-			
-			# Traits
 			modifier = {
-				factor = 0.3
-				trait = zealous
+				factor = 4
+				NOT = { year = 930 }
+				culture_group = north_germanic # Historical outcome
+				FROM = {
+					religion = catholic
+				}
 			}
 			modifier = {
 				factor = 3
@@ -1823,69 +1888,11 @@ character_event = {
 				factor = 2
 				trait = arbitrary
 			}
-			
-			# Personal
 			modifier = {
-				factor = 0.3
+				factor = 3
+				culture_group = east_slavic # Historical outcome
 				FROM = {
-					is_rival = ROOT
-				}
-			}
-			modifier = {
-				factor = 1.5
-				OR = {
-					any_spouse = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_consort = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_lover = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_child = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-				}
-			}
-			
-			# Political
-			modifier = {
-				factor = 0.2
-				any_vassal = {
-					religion = ROOT
-					controls_religion = yes
-				}
-			}
-			modifier = {
-				factor = 0.1
-				any_war = {
-					using_cb = religious
-					attacker = {
-						character = ROOT
-					}
-				}
-			}
-			modifier = {
-				factor = 0.1
-				any_war = {
-					using_cb = pagan_holy_war
-					attacker = {
-						character = ROOT
-					}
-				}
-			}
-			modifier = {
-				factor = 0.1
-				any_war = {
-					using_cb = viking_invasion
-					attacker = {
-						character = ROOT
-					}
+					religion = orthodox
 				}
 			}
 			modifier = {
@@ -1906,105 +1913,7 @@ character_event = {
 					}
 				}
 			}
-			modifier = {
-				factor = 2
-				any_realm_province = {
-					religion = FROM
-				}
-			}
-			
-			# Historical			
-			modifier = {
-				factor = 2
-				NOT = { government = nomadic_government }  # We're already adopting civilized ways...
-				NOT = { government = tribal_government }
-			}
-			
-			# Pragmatism
-			modifier = {
-				factor = 3  # Powerful rulers want a modern religion
-				tier = KING
-				realm_size = 12
-			}
-			modifier = {
-				factor = 5
-				is_reformed_religion = no
-				primary_title = { has_law = tribal_organization_4 }  # Need it to reform government
-				OR = {
-					capital_scope = {
-						port = yes
-						capital_holding = {
-							OR = {
-								AND = {
-									holding_type = tribal
-									has_building = tb_market_town_4
-								}
-								holding_type = city
-							}
-						}
-					}
-					capital_scope = {
-						capital_holding = {
-							OR = {
-								AND = {
-									holding_type = tribal
-									has_building = tb_hillfort_4
-								}
-								holding_type = castle
-							}
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 0.2
-				is_reformed_religion = no
-				OR = {
-					AND = {
-						any_realm_title = {
-							count = 3 
-							is_holy_site = ROOT  # Close to reforming own religion instead
-						}
-						religion_authority = 0.4
-					}
-					religion_authority = 0.65 # Just very high authority, doing well
-				}
-			}
-			modifier = {
-				factor = 2
-				any_realm_province = {
-					any_neighbor_province = {
-						owner = {
-							top_liege = {
-								religion = FROM
-								relative_power = { who = ROOT power = 2.0 } # Powerful neighbor of that religion
-							}
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 0.2
-				NOR = {
-					religion = tengri_pagan
-					religion = aztec
-					any_realm_province = {
-						any_neighbor_province = {
-							owner = {
-								top_liege = {
-									NAND = {
-										religion_group = pagan_group
-										is_reformed_religion = no
-									}
-									any_realm_province = { TECH_RECRUITMENT = 4 } # More cocky when pagan homeland attrition effect is active against neighbors
-								}
-							}
-						}
-					}
-				}
-			}
 		}
-		
 		FROM = {
 			liege = {
 				opinion = {
@@ -2033,11 +1942,6 @@ character_event = {
 		name = EVTOPTA39601
 		ai_chance = {
 			factor = 1
-			# Traits
-			modifier = {
-				factor = 0.3
-				trait = zealous
-			}
 			modifier = {
 				factor = 3
 				trait = cynical
@@ -2046,254 +1950,11 @@ character_event = {
 				factor = 2
 				trait = arbitrary
 			}
-			
-			# Personal
 			modifier = {
-				factor = 0.3
+				factor = 2
+				culture_group = east_slavic # Historical
 				FROM = {
-					is_rival = ROOT
-				}
-			}
-			modifier = {
-				factor = 1.5
-				OR = {
-					any_spouse = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_consort = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_lover = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_child = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-				}
-			}
-			
-			# Political
-			modifier = {
-				factor = 0.2
-				any_vassal = {
-					religion = ROOT
-					controls_religion = yes
-				}
-			}
-			modifier = {
-				factor = 0.1
-				any_war = {
-					using_cb = religious
-					attacker = {
-						character = ROOT
-					}
-				}
-			}
-			modifier = {
-				factor = 0.1
-				any_war = {
-					using_cb = pagan_holy_war
-					attacker = {
-						character = ROOT
-					}
-				}
-			}
-			modifier = {
-				factor = 0.1
-				any_war = {
-					using_cb = viking_invasion
-					attacker = {
-						character = ROOT
-					}
-				}
-			}
-			modifier = {
-				factor = 4
-				any_war = {
-					using_cb = religious
-					defender = {
-						character = ROOT
-					}
-					NOT = { war_score = 50 }
-				}
-			}
-			modifier = {
-				factor = 4
-				any_war = {
-					using_cb = crusade
-					defender = {
-						character = ROOT
-					}
-					NOT = { war_score = 50 }
-				}
-			}
-			
-			# Historical			
-			modifier = {
-				factor = 2
-				NOT = { government = nomadic_government }  # We're already adopting civilized ways...
-				NOT = { government = tribal_government }
-			}
-			
-			# Pragmatism
-			modifier = {
-				factor = 3  # Powerful rulers want a modern religion
-				tier = KING
-				realm_size = 12
-			}
-			modifier = {
-				factor = 5
-				is_reformed_religion = no
-				primary_title = { has_law = tribal_organization_4 }  # Need it to reform government
-				OR = {
-					capital_scope = {
-						port = yes
-						capital_holding = {
-							OR = {
-								AND = {
-									holding_type = tribal
-									has_building = tb_market_town_4
-								}
-								holding_type = city
-							}
-						}
-					}
-					capital_scope = {
-						capital_holding = {
-							OR = {
-								AND = {
-									holding_type = tribal
-									has_building = tb_hillfort_4
-								}
-								holding_type = castle
-							}
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 0
-				is_reformed_religion = yes
-			}
-			modifier = {
-				factor = 0.3
-				is_reformed_religion = no
-				OR = {
-					AND = {
-						any_realm_title = {
-							count = 3 
-							is_holy_site = ROOT  # Close to reforming own religion instead
-						}
-						religion_authority = 0.4
-					}
-					religion_authority = 0.65 # Just very high authority, doing well
-				}
-			}
-			modifier = {
-				factor = 2
-				any_realm_province = {
-					any_neighbor_province = {
-						owner = {
-							top_liege = {
-								religion = FROM
-								relative_power = { who = ROOT power = 2.0 } # Powerful neighbor of that religion
-							}
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 0.2
-				NOR = {
-					religion = tengri_pagan
-					religion = aztec
-					any_realm_province = {
-						any_neighbor_province = {
-							owner = {
-								top_liege = {
-									NAND = {
-										religion_group = pagan_group
-										is_reformed_religion = no
-									}
-									any_realm_province = { TECH_RECRUITMENT = 4 } # More cocky when pagan homeland attrition effect is active against neighbors
-								}
-							}
-						}
-					}
-				}
-			}
-
-			# Realm stability
-			modifier = {
-				factor = 10
-				num_of_vassals = 3
-				NOT = {
-					any_vassal = {
-						NOT = { religion = FROM }
-					}
-				}
-			}
-			modifier = {
-				factor = 10
-				NOT = {
-					any_realm_province = {
-						NOT = { religion = FROM }
-					}
-				}
-			}
-			modifier = {
-				factor = 0.3
-				NOT = {
-					any_realm_province = {
-						religion = FROM
-					}
-				}
-			}
-			modifier = {
-				factor = 0.3
-				any_vassal = {
-					NOT = { opinion = { who = ROOT value = 25 } }
-					NOT = { religion = FROM }
-				}
-			}
-			modifier = {
-				factor = 0.3
-				any_war = {
-					NOT  = {
-						using_cb = religious
-						defender = {
-							character = ROOT
-						}
-					}
-					NOT  = {
-						using_cb = crusade
-						defender = {
-							character = ROOT
-						}
-					}
-					NOT = { war_score = 50 }
-				}
-			}
-			modifier = {
-				factor = 0.3
-				any_war = {
-					NOT  = {
-						using_cb = religious
-						defender = {
-							character = ROOT
-						}
-					}
-					NOT  = {
-						using_cb = crusade
-						defender = {
-							character = ROOT
-						}
-					}
-					NOT = { war_score = 10 }
+					religion = orthodox
 				}
 			}
 		}
@@ -2311,7 +1972,7 @@ character_event = {
 		}
 		if = {
 			limit = {
-				NOR = {
+				NOT = { 
 					trait = cynical
 					trait = zealous
 				}
@@ -2323,14 +1984,9 @@ character_event = {
 			}
 		}		
 		
-		religion = FROM
 		prestige = -500
+		religion = FROM
 		piety = 250
-		
-		if = {
-			limit = { ai = yes }
-			capital_scope = { religion = FROM }
-		}
 		
 		any_courtier = {
 			limit = { is_close_relative = ROOT }
@@ -2348,24 +2004,15 @@ character_event = {
 			female = no
 			age = 32
 			attributes = {
-				learning = 20
-				diplomacy = 10
+				learning = 6
 			}
 		}
 		new_character = {
 			give_job_title = job_spiritual
-			save_event_target_as = convert_lord_spiritual
 		}
 		hidden_tooltip = {
-			any_vassal = {
-				limit = {
-					NOT = { religion = ROOT }
-					ROOT = { ai = yes } # Only for AI!
-				}
-				letter_event = { id = 39617 } # Send out letter to vassals
-			}
 			FROM = {
-				character_event = { id = 39614 days = 1 } # Notify liege of the the proselytizer who converted you
+				character_event = { id = 39614 days = 1 }
 			}
 		}
 		custom_tooltip = { text = preacher_convert }
@@ -2373,9 +2020,38 @@ character_event = {
 	option = {
 		name = EVTOPTB39601
 		ai_chance = {
-			factor = 1
+			factor = 2
+			modifier = {
+				factor = 5
+				trait = zealous
+			}
+			modifier = {
+				factor = 2
+				culture_group = baltic # The most stubborn pagans
+			}
+			modifier = {
+				factor = 3
+				culture_group = east_slavic # Angry at Muslim Tatars, also like alcohol
+				FROM = {
+					religion_group = muslim
+				}
+			}
+			modifier = {
+				factor = 5
+				culture_group = north_germanic # Vikings like their alcohol
+				FROM = {
+					religion_group = muslim
+				}
+			}
+			modifier = {
+				factor = 5
+				any_vassal = { controls_religion = yes }
+			}
+			modifier = {
+				factor = 5
+				is_reformed_religion = yes
+			}
 		}
-		
 		FROM = {
 			liege = {
 				opinion = {
@@ -2397,168 +2073,7 @@ character_event = {
 	}
 }
 
-# Vassals receive letter
-letter_event = {
-	id = 39617
-	desc = EVTDESC_39617
-	picture = GFX_evt_bishop
-	border = GFX_event_letter_frame_religion
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTA_39617 # Convert
-		ai_chance = {
-			factor = 1
-			
-			# Traits
-			modifier = {
-				factor = 0.3
-				trait = zealous
-			}
-			modifier = {
-				factor = 3
-				trait = cynical
-			}
-			modifier = {
-				factor = 2
-				trait = arbitrary
-			}
-			modifier = {
-				factor = 0
-				relative_power = { who = FROM power = 1.0 } # Very powerful vassal who is also zealous NEVER accepts
-				trait = zealous
-			}
-			
-			# Personal
-			modifier = {
-				factor = 0.3
-				FROM = {
-					is_rival = ROOT
-				}
-			}
-			modifier = {
-				factor = 1.5
-				OR = {
-					any_spouse = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_consort = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_lover = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-					any_child = {
-						religion = FROM
-						reverse_opinion = { who = ROOT value = 50 }
-					}
-				}
-			}
-			
-			# Historical			
-			modifier = {
-				factor = 2
-				NOT = { government = nomadic_government }  # We're already adopting civilized ways...
-				NOT = { government = tribal_government }
-			}
-			
-		}
-		
-		prestige = -250
-		religion = FROM
-		any_courtier = {
-			limit = { is_close_relative = ROOT }
-			religion = FROM
-		}
-		any_spouse = {
-			limit = { is_consort = no }
-			religion = FROM
-		}
-		create_random_priest = {
-			random_traits = yes
-			dynasty = random
-			culture = ROOT
-			religion = FROM
-			female = no
-			attributes = {
-				learning = 20
-				diplomacy = 10
-			}
-		}
-		new_character = {
-			give_job_title = job_spiritual
-		}
-	}
-	option = {
-		name = EVTOPTB_39617 # Don't convert
-		ai_chance = {
-			factor = 1
-		}
-		piety = 100
-	}
-	option = {
-		name = EVTOPTC_39617 # Respond with anger
-		ai_chance = {
-			factor = 0
-		}
-		prestige = 100
-		piety = 100
-		reverse_opinion = {
-			modifier = opinion_angry
-			who = ROOT
-			years = 5
-		}
-	}
-}
-
-# Courtier converts (hidden)
-character_event = {
-	id = 39610
-	hide_window = yes
-	
-	is_triggered_only = yes
-	
-	immediate = {
-		if = {
-			limit = {
-				trait = cynical
-				NOT = { trait = zealous }
-				age = 12
-			}
-			random = {
-				chance = 60
-				add_trait = sympathy_pagans
-			}
-		}
-		if = {
-			limit = {
-				NOT = { 
-					trait = cynical 
-					trait = zealous 
-				}
-				age = 12
-			}
-			random = {
-				chance = 50
-				add_trait = sympathy_pagans
-			}
-		}
-		religion = FROM
-		liege = {
-			character_event = { id = 39602 }
-		}
-	}
-	
-	option = {
-		name = OK
-	}
-}
-
-# Courtier Converts - notify liege
+# Courtier Converts
 character_event = {
 	id = 39602
 	desc = EVTDESC39602
@@ -2781,6 +2296,48 @@ letter_event = {
 	}
 }
 
+# Courtier converts (hidden)
+character_event = {
+	id = 39610
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				trait = cynical
+				NOT = { trait = zealous }
+				age = 12
+			}
+			random = {
+				chance = 60
+				add_trait = sympathy_pagans
+			}
+		}
+		if = {
+			limit = {
+				NOT = { 
+					trait = cynical 
+					trait = zealous 
+				}
+				age = 12
+			}
+			random = {
+				chance = 50
+				add_trait = sympathy_pagans
+			}
+		}
+		religion = FROM
+		liege = {
+			character_event = { id = 39602 }
+		}
+	}
+	
+	option = {
+		name = OK
+	}
+}
 
 # Chaplain fights with other Chaplain
 character_event = {

@@ -520,8 +520,8 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		ai = no
 		ROOT = {
-			ai = no
 			any_demesne_title = {
 				NOT = { title = FROM }
 				FROM = {
@@ -585,9 +585,9 @@ character_event = {
 	immediate = {
 		if = {
 			limit = {
-				new_character = {
-					mother_even_if_dead = { always = yes }
-					OR = {
+				mother_even_if_dead = { always = yes }
+				OR = {
+					new_character = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -595,8 +595,8 @@ character_event = {
 								}
 							}
 						}
-						NOT = { father_even_if_dead = { always = yes } }
 					}
+					NOT = { father_even_if_dead = { always = yes } }
 				}
 			}
 			FROM = {
@@ -608,9 +608,9 @@ character_event = {
 		}
 		if = {
 			limit = {
-				new_character = {
-					father_even_if_dead = { always = yes }
-					OR = {
+				father_even_if_dead = { always = yes }
+				OR = {
+					new_character = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -618,8 +618,8 @@ character_event = {
 								}
 							}
 						}
-						NOT = { mother_even_if_dead = { always = yes } }
 					}
+					NOT = { mother_even_if_dead = { always = yes } }
 				}
 			}
 			FROM = {
@@ -847,12 +847,9 @@ character_event = {
 			limit = {
 				any_vassal = { ai = no }
 			}
-			any_vassal = {
-				limit = { ai = no }
-				chronicle = {
-					entry = CHRONICLE_LIEGE_CONVERTED_RELIGION
-					portrait = [Root.GetID]
-				}
+			chronicle = {
+				entry = CHRONICLE_LIEGE_CONVERTED_RELIGION
+				portrait = [Root.GetID]
 			}
 		}
 		if = {
@@ -1026,6 +1023,119 @@ character_event = {
 	}
 }
 
+# My forces captured major settlement
+character_event = {
+	id = CM.10034
+	
+	hide_window = yes
+
+	is_triggered_only = yes
+	
+	ai = yes
+	
+	trigger = {
+		OR = {
+			FROM = { title = b_roma }
+			FROM = { title = b_constantinople }
+			FROM = { title = b_bagdad }
+			FROM = { title = b_indraprastha }
+			FROM = { title = b_jerusalem }
+			FROM = { title = b_mecca }
+			FROM = { title = b_alexandria }
+			FROM = { title = b_cordoba }
+			AND = {
+				year = 900
+				FROM = { title = b_venezia }
+			}
+			AND = {
+				year = 1164
+				FROM = { title = b_koln }
+			}
+			AND = {
+				year = 1200
+				FROM = { title = b_paris }
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				top_liege = {
+					ai = no
+					NOT = { at_location = ROOT }
+				}
+			}
+			top_liege = {
+				chronicle = {
+					entry = CHRONICLE_MY_FORCES_CAPTURED_MAJOR_SETTLEMENT
+					portrait = [Root.GetID] # The commander
+				}
+			}
+		}
+	}
+}
+
+# Enemy forces captured major settlement
+character_event = {
+	id = CM.10035
+	
+	hide_window = yes
+
+	is_triggered_only = yes
+	
+	ai = yes
+	
+	trigger = {
+		OR = {
+			FROM = { title = b_roma }
+			FROM = { title = b_constantinople }
+			FROM = { title = b_bagdad }
+			FROM = { title = b_indraprastha }
+			FROM = { title = b_jerusalem }
+			FROM = { title = b_mecca }
+			FROM = { title = b_alexandria }
+			FROM = { title = b_cordoba }
+			AND = {
+				year = 900
+				FROM = { title = b_venezia }
+			}
+			AND = {
+				year = 1164
+				FROM = { title = b_koln }
+			}
+			AND = {
+				year = 1200
+				FROM = { title = b_paris }
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				FROM = {
+					owner = {
+						top_liege = {
+							ai = no
+						}
+					}
+				}
+			}
+			FROM = {
+				owner = {
+					top_liege = {
+						chronicle = {
+							entry = CHRONICLE_ENEMY_FORCES_CAPTURED_MAJOR_SETTLEMENT
+							portrait = [Root.GetID] # The owner of the enemy forces
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 # Marriage of primary heir  - ROOT is employer. FROM is employers "employee". new_character is the other spouse.
 character_event = {
 	id = CM.10036
@@ -1044,9 +1154,9 @@ character_event = {
 	immediate = {
 		if = {
 			limit = {
-				new_character = {
-					mother_even_if_dead = { always = yes }
-					OR = {
+				mother_even_if_dead = { always = yes }
+				OR = {
+					new_character = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -1054,8 +1164,8 @@ character_event = {
 								}
 							}
 						}
-						NOT = { father_even_if_dead = { always = yes } }
 					}
+					NOT = { father_even_if_dead = { always = yes } }
 				}
 			}
 			any_playable_ruler = {
@@ -1071,9 +1181,9 @@ character_event = {
 		}
 		if = {
 			limit = {
-				new_character = {
-					father_even_if_dead = { always = yes }
-					OR = {
+				father_even_if_dead = { always = yes }
+				OR = {
+					new_character = {
 						father_even_if_dead = {
 							PREV = {
 								mother_even_if_dead = {
@@ -1081,8 +1191,8 @@ character_event = {
 								}
 							}
 						}
-						NOT = { mother_even_if_dead = { always = yes } }
 					}
+					NOT = { mother_even_if_dead = { always = yes } }
 				}
 			}
 			any_playable_ruler = {
@@ -1126,64 +1236,13 @@ character_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			ai = no
-			FROM = { 
-				ai = no 
-			}
-		}
+		ai = no
 	}
 
 	immediate = {
-		# Chronicle entries with a religious head
-		if = {
-			limit = {
-				new_character = {
-					always = yes 
-				}
-			}
-			if = {
-				limit = {
-					ai = no
-				}
-				chronicle = {
-					entry = CHRONICLE_DIVORCED
-					portrait = [From.GetID]
-				}
-			}
-			FROM = {
-				if = {
-					limit = {
-						ai = no
-					}
-					chronicle = {
-						entry = CHRONICLE_DIVORCED
-						portrait = [From.GetID]
-					}
-				}
-			}
-			break = yes
-		}
-		 # Chronicle entries without a religious head
-		if = {
-			limit = {
-				ai = no
-			}
-			chronicle = {
-				entry = CHRONICLE_DIVORCED_NO_HEAD
-				portrait = [From.GetID]
-			}
-		}
-		FROM = {
-			if = {
-				limit = {
-					ai = no
-				}
-				chronicle = {
-					entry = CHRONICLE_DIVORCED_NO_HEAD
-					portrait = [From.GetID]
-				}
-			}
+		chronicle = {
+			entry = CHRONICLE_DIVORCED
+			portrait = [Spouse.GetID]
 		}
 	}
 }
@@ -1242,7 +1301,7 @@ character_event = {
 			}
 			chronicle = {
 				entry = CHRONICLE_INHERIT_MAJOR_TITLE
-				picture = GFX_evt_throne_room
+				PICTURE = GFX_evt_throne_room
 			}
 		}
 	}

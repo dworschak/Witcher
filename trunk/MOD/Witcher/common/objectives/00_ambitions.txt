@@ -12,9 +12,7 @@ obj_become_chancellor = {
 	
 	expectation_of_liege = yes
 	
-	
 	potential = {
-		independent = no
 		NOT = { culture = wilderness }
 	}
 	
@@ -23,6 +21,7 @@ obj_become_chancellor = {
 		is_adult = yes
 		is_councillor = no
 		diplomacy = 10
+		independent = no
 		OR = {
 			is_female = no
 			AND = {
@@ -33,7 +32,6 @@ obj_become_chancellor = {
 		NOT = { trait = incapable }
 		NOT = { trait = witcher }
 	}
-	
 	chance = {
 		factor = 100
 		
@@ -137,14 +135,13 @@ obj_become_marshal = {
 	type = character
 	
 	potential = {
-		independent = no
 		NOT = { culture = wilderness }
 	}
-	
 	allow = {
 		prisoner = no
 		is_adult = yes
 		is_councillor = no
+		independent = no
 		OR = {
 			is_female = no
 			AND = {
@@ -259,14 +256,13 @@ obj_become_treasurer = {
 	type = character
 	
 	potential = {
-		independent = no
 		NOT = { culture = wilderness }
 	}
-	
 	allow = {
 		prisoner = no
 		is_adult = yes
 		is_councillor = no
+		independent = no
 		OR = {
 			is_female = no
 			AND = {
@@ -387,16 +383,14 @@ obj_become_treasurer = {
 
 obj_become_spymaster = {
 	type = character
-	
 	potential = {
-		independent = no
 		NOT = { culture = wilderness }
 	}
-	
 	allow = {
 		prisoner = no
 		is_adult = yes
 		is_councillor = no
+		independent = no
 		OR = {
 			is_female = no
 			liege = { mother = { character = ROOT } }
@@ -410,7 +404,6 @@ obj_become_spymaster = {
 		intrigue = 10
 		NOT = { trait = witcher }
 	}
-	
 	chance = {
 		factor = 100
 		
@@ -528,7 +521,6 @@ obj_become_spiritual = {
 	type = character
 	
 	potential = {
-		independent = no
 		NOT = { culture = wilderness }
 	}
 	
@@ -536,6 +528,7 @@ obj_become_spiritual = {
 		prisoner = no
 		is_adult = yes
 		is_councillor = no
+		independent = no
 		OR = {
 			is_female = no
 			AND = {
@@ -779,7 +772,6 @@ obj_become_paragon_of_virtue = { # Piety 3
 		NOT = { trait = impaler }
 		NOT = { trait = incapable }
 	}
-	
 	chance = {
 		factor = 50
 		
@@ -964,24 +956,24 @@ obj_get_married = {
 	type = character
 	
 	potential = {
-		NOT = { has_landed_title = k_eternal_fire }
 		NOT = { culture = wilderness }
-		is_married = no
-		is_consort = no
-		can_marry = yes
 	}
 	
 	allow = {
 		prisoner = no
 		is_marriage_adult = yes
+		is_married = no
+		is_betrothed = no
+		is_consort = no
+		can_marry = yes
+		NOT = { has_landed_title = k_eternal_fire }
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
 		NOT = { trait = eunuch }
-		NOT = { trait = monk }
-		NOT = { trait = nun }
 		NOT = { trait = witcher }
-		
+		NOT = { trait = kind2 }
 		OR = { 
+			NOT = { trait = sorcerer }
 			trait =  fertile_sorcerer
 		}
 		OR = {
@@ -992,11 +984,8 @@ obj_get_married = {
 			is_ruler = no
 			is_feudal = yes
 			is_tribal = yes
-			is_nomadic = yes
-			is_patrician = yes
 		}
 	}
-	
 	chance = {
 		factor = 100
 		
@@ -1059,8 +1048,6 @@ obj_get_married = {
 			trait = incapable
 			NOT = { has_landed_title = k_eternal_fire }
 			trait = eunuch
-			trait = monk
-			trait = nun
 			trait = witcher
 			trait = kind2
 			AND = { 
@@ -1092,21 +1079,22 @@ obj_get_married = {
 	}
 }
 
+
 obj_marry_ruler = {
 	type = character
 	
 	potential = {
-		is_married = no
-		is_consort = no
-		can_marry = yes
 		NOT = { culture = wilderness }
 	}
-	
-	
 	
 	allow = {
 		prisoner = no
 		is_marriage_adult = yes
+		is_female = yes
+		is_married = no
+		is_consort = no
+		can_marry = yes
+		NOT = { has_landed_title = k_eternal_fire }
 		NOT = { trait = celibate }
 		NOT = { trait = incapable }
 		NOT = { trait = eunuch }
@@ -1122,7 +1110,6 @@ obj_marry_ruler = {
 			}
 		}
 	}
-	
 	chance = {
 		factor = 100
 		
@@ -1233,7 +1220,6 @@ obj_have_a_daughter = {
 			}
 		}
 	}
-	
 	chance = {
 		factor = 50
 		
@@ -1389,7 +1375,6 @@ obj_wants_landed_title = {
 	type = character
 	
 	potential = {
-		is_ruler = no
 		NOT = { culture = wilderness }
 	}
 	
@@ -1397,10 +1382,9 @@ obj_wants_landed_title = {
 		prisoner = no
 		is_adult = yes
 		is_female = no
+		is_ruler = no
 		NOT = { trait = incapable }
 		NOT = { trait = eunuch }
-		NOT = { trait = monk }
-		NOT = { trait = nun }
 		liege = {
 			OR = {
 				is_feudal = yes
@@ -1479,11 +1463,6 @@ obj_wants_landed_title = {
 				NOT = { num_of_extra_landed_titles = 1 }
 			}
 		}
-		OR = {
-			trait = eunuch
-			trait = monk
-			trait = nun
-		}
 	}	
 	abort_effect = {
 		clr_character_flag = flag_denied_title
@@ -1512,9 +1491,15 @@ obj_wants_landed_title = {
 obj_become_heir = {
 	type = character
 	
-	
 	potential = {
 		NOT = { culture = wilderness }
+	}
+	
+	allow = {
+		prisoner = no
+		is_adult = yes
+		is_primary_heir = no
+		NOT = { trait = incapable }
 		liege = { any_child = { character = ROOT } }
 		liege = {
 			any_child = {
@@ -1534,14 +1519,6 @@ obj_become_heir = {
 			}
 		}
 	}
-	
-	allow = {
-		prisoner = no
-		is_adult = yes
-		is_primary_heir = no
-		NOT = { trait = incapable }
-	}
-	
 	chance = {
 		factor = 50
 		
@@ -1574,10 +1551,7 @@ obj_become_heir = {
 		is_primary_heir = yes
 	}
 	abort = {
-		OR = {
-			trait = incapable
-			independent = yes
-		}
+		trait = incapable
 	}
 	abort_effect = {
 	}
