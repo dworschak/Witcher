@@ -1,30 +1,11 @@
+# Vassal decisions are listed for each courtier and direct vassal. The ruler is in the FROM scope.
 
-# Targetted decisions are possible vs _all_ other characters and shown are in the Diplomacy View, not the Intrigue View. The taker is in the FROM scope.
-#
-# filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/all] ('self' MUST be set for decisions targetting only the taker, the other filter types can be set to lessen CPU load)
-# ai_target_filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/all] (which characters for which the AI evaluates the decision.)
-#	court: all characters in the AI's host court, including prisoners, and characters currently away (wards, prisoners, etc)
-#	home_court: all characters in the AI's home court, including prisoners, and characters currently away (wards, prisoners, etc)
-#	vassals: direct vassal rulers of the AI's employer
-#	sub_realm: all characters below the AI's employer
-#	realm: all characters in the same top realm as the AI
-#	dynasty: all members of the same dynasty
-#	rivals: your rivals plus any character you have an opinion modifier with 'crime = yes' set (the same set of characters the 'is_foe' trigger evaluates)
-#	all: all living characters (Avoid if possible. VERY CPU-HEAVY!)
-#	
-
-
-targetted_decisions = {
+vassal_decisions = {
 
 	# vassal_fatwa_decision
 	
 	vassal_castrate_decision = {
-		filter = court
-		ai_target_filter = court
-
 		from_potential = {
-			has_dlc = "Legacy of Rome"
-			is_ruler = yes
 			NOT = { culture = wilderness }
 			OR = {
 				ai = yes
@@ -33,10 +14,11 @@ targetted_decisions = {
 		}
 	
 		potential = {
-			host = { character = FROM }
+			has_dlc = "Legacy of Rome"
 			prisoner = yes
 			is_female = no
 			NOT = { trait = eunuch }
+			host = { character = FROM }
 		}
 		allow = {
 			prisoner = yes
@@ -162,12 +144,8 @@ targetted_decisions = {
 	}
 	
 	vassal_blinding_decision = {
-		filter = court
-		ai_target_filter = court
 	
 		from_potential = {
-			has_dlc = "Legacy of Rome"
-			is_ruler = yes
 			NOT = { culture = wilderness }
 			OR = {
 				ai = yes
@@ -176,9 +154,10 @@ targetted_decisions = {
 		}
 	
 		potential = {
-			host = { character = FROM }
+			has_dlc = "Legacy of Rome"
 			prisoner = yes
 			NOT = { trait = blinded }
+			host = { character = FROM }
 		}
 		allow = {
 			prisoner = yes
@@ -300,114 +279,4 @@ targetted_decisions = {
 	}
 	
 	# vassal_zun_judgement_decision
-		prisoner_to_oubilette = {
-		filter = court
-		ai_target_filter = court
-
-		from_potential = {
-			ai = no
-		}
-	
-		potential = {
-			host = { character = FROM }
-			prisoner = yes
-			NOT = { has_character_modifier = the_oubliette }
-		}
-		allow = {
-			prisoner = yes
-		}
-		effect = {
-			add_character_modifier = { 
-				name = the_oubliette
-				duration = -1
-			}
-			hidden_tooltip = {
-				remove_character_modifier = the_dungeon
-				remove_character_modifier = house_arrest
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
-	prisoner_to_dungeon = {
-		filter = court
-		ai_target_filter = court
-
-		from_potential = {
-			ai = no
-		}
-	
-		potential = {
-			host = { character = FROM }
-			prisoner = yes
-			OR = {
-				has_character_modifier = the_oubliette
-				has_character_modifier = house_arrest
-			}
-		}
-		allow = {
-			prisoner = yes
-		}
-		effect = {
-			add_character_modifier = { 
-				name = the_dungeon
-				duration = -1
-			}
-			hidden_tooltip = {
-				remove_character_modifier = the_oubliette
-				remove_character_modifier = house_arrest
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
-	prisoner_to_suite = {
-		filter = court
-		ai_target_filter = court
-
-		from_potential = {
-			ai = no
-		}
-	
-		potential = {
-			host = { character = FROM }
-			prisoner = yes
-			NOT = { has_character_modifier = house_arrest }
-		}
-		allow = {
-			prisoner = yes
-		}
-		effect = {
-			add_character_modifier = { 
-				name = house_arrest
-				duration = -1
-			}
-			hidden_tooltip = {
-				remove_character_modifier = the_oubliette
-				remove_character_modifier = the_dungeon
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}	
 }

@@ -224,16 +224,16 @@ character_event = {
 	option = {
 		name = EVTOPTA61101
 		random_demesne_title = {
-			limit = {
-				NOT = {	tier = duke }
-				NOT = {	tier = king }
-				NOT = {	tier = emperor }
-				NOT = {
-					location = { is_capital = yes }
+				limit = {
+					NOT = {	tier = duke }
+					NOT = {	tier = king }
+					NOT = {	tier = emperor }
+					NOT = {
+						location = { is_capital = yes }
+						}
+					}
+				grant_title = FROM
 				}
-			}
-		grant_title = FROM
-		}
 	}
 	option = {
 		name = EVTOPTB61101
@@ -244,10 +244,10 @@ character_event = {
 				NOT = {	tier = emperor }
 				NOT = {
 					location = { is_capital = yes }
+					}
 				}
+			grant_title = FROM
 			}
-		grant_title = FROM
-		}
 	}
 }
 
@@ -752,7 +752,6 @@ character_event = {
 	
 	trigger = {
 		NOT = { has_character_flag = pushed_regent }
-		is_nomadic = no
 	}
 	
 	mean_time_to_happen = {
@@ -1827,17 +1826,15 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	immediate = {
-		imprison = FROM
-	}
-	
 	option = {
 		name = EVTOPTA61213
-		random = {
-			chance = 80
-			add_trait = lunatic
-			hidden_tooltip = {
-				character_event = { id = 38304 } # notify lunatic
+		random_list = {
+			80 = { 
+				add_trait = lunatic
+				imprison = yes
+			}
+			20 = {
+				imprison = yes
 			}
 		}
 	}

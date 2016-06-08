@@ -281,78 +281,6 @@ targetted_decisions = {
 		}
 	}
 	
-	stop_seduce_decision = {
-		filter = self
-		ai_target_filter = self
-	
-		potential = {
-			ai = no
-			is_marriage_adult = yes
-			has_focus = focus_seduction
-			has_character_flag = seduction_confirmed
-			has_any_opinion_modifier = opinion_seducing
-		}
-		
-		effect = {
-			random_opinion_modifier_target = {
-				limit = {
-					ROOT = {
-						has_opinion_modifier = {
-							who = PREV
-							name = opinion_seducing
-						}
-					}
-				}
-				save_event_target_as = target_seduced
-				ROOT = { character_event = { id = WoL.118 tooltip = stop_seduce_decision_tt } }
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
-	stop_seduce_decision_target = {
-		ai_target_filter = realm
-	
-		from_potential = {
-			ai = no
-			is_marriage_adult = yes
-			has_focus = focus_seduction
-			has_character_flag = seduction_confirmed
-			has_any_opinion_modifier = opinion_seducing
-		}
-		
-		potential = {
-			FROM = {
-				has_opinion_modifier = {
-					who = ROOT
-					name = opinion_seducing
-				}
-			}
-		}
-		
-		effect = {
-			save_event_target_as = target_seduced
-			hidden_tooltip = {
-				FROM = { character_event = { id = WoL.118 } }
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
 	decision_spy_on = {
 		ai_target_filter = realm
 		
@@ -443,76 +371,6 @@ targetted_decisions = {
 				in_faction = no
 				same_liege = FROM
 			}
-		}
-	}
-	
-	stop_spy_on_decision = {
-		filter = self
-		ai_target_filter = self
-	
-		potential = {
-			ai = no
-			has_focus = focus_intrigue
-			has_character_flag = spy_on_confirmed
-			has_any_opinion_modifier = opinion_spying_on
-		}
-		
-		effect = {
-			random_opinion_modifier_target = {
-				limit = {
-					ROOT = {
-						has_opinion_modifier = {
-							who = PREV
-							name = opinion_spying_on
-						}
-					}
-				}
-				save_event_target_as = target_spy_on
-				ROOT = { character_event = { id = WoL.2069 tooltip = stop_spy_on_decision_tt } }
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
-		}
-	}
-	
-	stop_spy_on_decision_target = {
-		ai_target_filter = realm
-	
-		from_potential = {
-			ai = no
-			has_focus = focus_intrigue
-			has_character_flag = spy_on_confirmed
-			has_any_opinion_modifier = opinion_spying_on
-		}
-		
-		potential = {
-			FROM = {
-				has_opinion_modifier = {
-					who = ROOT
-					name = opinion_spying_on
-				}
-			}
-		}
-		
-		effect = {
-			save_event_target_as = target_spy_on
-			hidden_tooltip = {
-				FROM = { character_event = { id = WoL.2069 } }
-			}
-		}
-		
-		revoke_allowed = {
-			always = no
-		}
-		
-		ai_will_do = {
-			factor = 0
 		}
 	}
 	
@@ -625,14 +483,7 @@ targetted_decisions = {
 					who = FROM
 				}
 			}
-			ROOT = {
-				custom_tooltip = {
-					text = tooltip_not_busy
-					NOT = { has_character_flag = do_not_disturb }
-				}
-			}
 			FROM = {
-				
 				NOT = { has_character_modifier = party_timer }
 			}
 		}
@@ -701,7 +552,6 @@ targetted_decisions = {
 			}
 			OR = {
 				is_female = no
-				is_nomadic = yes
 				culture = dryad
 			}
 		}
@@ -716,6 +566,7 @@ targetted_decisions = {
 			NOT = { character = FROM }
 			is_ill = no
 			NOT = { trait = incapable }
+			NOT = { age = 60 }
 		}
 		
 		allow = {
@@ -736,7 +587,6 @@ targetted_decisions = {
 				}
 				NOT = { has_opinion_modifier = { who = ROOT modifier = opinion_fled_duel } }
 			}
-			ROOT = { NOT = { age = 60 } }
 			custom_tooltip = {
 				text = duel_tooltip_fought_before
 				hidden_tooltip = {
@@ -764,12 +614,7 @@ targetted_decisions = {
 				hidden_tooltip = { ### Not female or challenger religion accepts female warriors
 					OR = {
 						is_female = no
-						FROM = { 
-							OR = {
-								is_nomadic = yes
-								culture = dryad
-							}
-						}
+						FROM = { culture = dryad }
 					} ### Not priest or challenger religion is pagan
 					is_priest = no
 				}
@@ -861,6 +706,11 @@ targetted_decisions = {
 				}
 			}
 			FROM = {
+				if = {
+					limit = { religion = jain }
+					piety = -20
+					custom_tooltip = { text = jain_ahimsa_tooltip }
+				}
 				add_character_modifier = {
 					modifier = recent_duel_timer
 					duration = 365

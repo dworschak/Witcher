@@ -20,7 +20,6 @@ character_event = {
 	only_men = yes
 	capable_only = yes
 	prisoner = no
-	only_playable = yes
 
 	trigger = {
 		has_character_modifier = holding_grand_hunt
@@ -169,13 +168,12 @@ character_event = {
 
 	prisoner = no
 	capable_only = yes
-	only_playable = yes
 
 	trigger = {
+		has_character_modifier = holding_grand_hunt
 		NOT = { has_character_flag = hunt_paranoia }
 		trait = paranoid
 		NOT = {	health_traits = 1 }
-		has_character_modifier = holding_grand_hunt
 		any_courtier = {
 			has_plot = plot_kill_character
 			plot_target_char = {
@@ -197,7 +195,6 @@ character_event = {
 	
 	immediate = {
 		set_character_flag = hunt_event_happened
-		set_character_flag = hunt_paranoia
 	}	
 
 	mean_time_to_happen = {
@@ -214,6 +211,9 @@ character_event = {
 		}		
 	}
 
+	immediate = {
+		set_character_flag = hunt_paranoia
+	}
 
 	option = {
 		name = "EVTOPTA36001"
@@ -701,6 +701,7 @@ character_event = {
 	prisoner = no
 	capable_only = yes
 
+
 	trigger = {
 		has_character_modifier = holding_grand_hunt
 		NOT = {	health_traits = 1 }
@@ -846,8 +847,8 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
-		NOT = { has_character_flag = hunt_good_hounds }
 		has_character_modifier = holding_grand_hunt
+		NOT = { has_character_flag = hunt_good_hounds }
 		NOT = { trait = craven }
 		NOT = { trait = content }
 		OR = {
@@ -1129,7 +1130,6 @@ character_event = {
 
 	immediate = {
 		set_character_flag = hunt_event_happened
-		set_character_flag = hunt_killed_something
 	}	
 	
 	mean_time_to_happen = {
@@ -1171,6 +1171,11 @@ character_event = {
 		}
 	}
 
+	immediate = {
+		set_character_flag = hunt_killed_something
+
+	}
+
 	option = {
 		name = "EVTOPTA36040"
 		prestige = -20
@@ -1207,10 +1212,10 @@ character_event = {
 	capable_only = yes
 
 	trigger = {
+		has_character_modifier = holding_grand_hunt
 		martial = 10
 		NOT = {	health_traits = 1 }
 		NOT = { has_character_flag = hunt_killed_something }
-		has_character_modifier = holding_grand_hunt
 		OR = {
 			NOT = { has_character_flag = hunt_event_happened }
 			had_character_flag = {
@@ -1226,7 +1231,6 @@ character_event = {
 
 	immediate = {
 		set_character_flag = hunt_event_happened
-		set_character_flag = hunt_killed_something
 	}	
 	
 	mean_time_to_happen = {
@@ -1258,6 +1262,11 @@ character_event = {
 			factor = 0.75
 			trait = hunter
 		}
+
+	}
+
+	immediate = {
+		set_character_flag = hunt_killed_something
 
 	}
 
@@ -1475,9 +1484,6 @@ character_event = {
 	id = 36089
 	desc = "EVTDESC36089"
 	picture = "GFX_evt_hunt"
-
-	only_playable = yes
-
 	trigger = {
 		war = yes
 		has_character_modifier = holding_grand_hunt
