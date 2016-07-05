@@ -21,5 +21,6 @@ replace_path = "common/religious_titles"
 replace_path = "common/trade_routes"
 replace_path = "events"
 replace_path = "decisions"
+replace_path = "map/statics"
 tags={ "Map" "Complete Overhaul" "Witcher" }
 picture="WitcherKings.jpg"
