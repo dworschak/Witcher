@@ -82,6 +82,12 @@ nick_the_headless = {}
 nick_the_beheader = {}
 nick_the_ruthless = {}
 nick_the_strange = {}
+nick_the_red = {}
+nick_the_sea_devil = {}
+nick_the_lioness = {}
+nick_the_flail_of = {}
+nick_the_scourge_of = {}
+
 
 # GIVEN BY TRAITS
 #################
@@ -143,7 +149,7 @@ nick_the_troubadour = {
 nick_the_strong = {
 	allow = {
 		age = 20
-		trait = strong
+		is_strong_trigger = yes
 		OR = {
 			trait = brave
 			trait = ambitious
@@ -169,7 +175,7 @@ nick_the_simple = {
 	allow = {
 		age = 20
 		trait = humble
-		trait = slow
+		is_dumb_trigger = yes
 	}
 	chance = {
 		factor = 1
@@ -358,8 +364,7 @@ nick_the_just = {
 		trait = just
 		stewardship = 5
 		NOT = { trait = deceitful }
-		NOT = { trait = imbecile }
-		NOT = { trait = slow }
+		is_dumb_trigger = no
 		NOT = { trait = incapable }
 		OR = {
 			trait = thrifty_clerk
@@ -552,13 +557,11 @@ nick_the_wise = {
 		age = 20
 		NOT = { trait = arbitrary }
 		NOT = { trait = wroth }
-		NOT = { trait = slow }
-		NOT = { trait = imbecile }
+		is_dumb_trigger = no
 		NOT = { trait = inbred }
 		NOT = { trait = incapable }
 		OR = {
-			trait = quick
-			trait = genius
+			is_smart_trigger = yes
 			trait = just
 			trait = patient
 			trait = scholar
@@ -573,7 +576,10 @@ nick_the_wise = {
 		}
 		modifier = {
 			factor = 2.0
-			trait = quick
+			OR = {
+				trait = quick
+				trait = shrewd
+			}
 		}
 		modifier = {
 			factor = 2.0
@@ -899,11 +905,9 @@ nick_the_ironside = {
 		prestige = 50
 		OR = {
 			trait = brave
-			trait = strong
+			is_strong_trigger = yes
 		}
-		NOT = {
-			trait = weak
-		}
+		is_weak_trigger = no
 	}
 	chance = {
 		factor = 2
@@ -919,15 +923,13 @@ nick_the_lion = {
 		ruled_years = 15
 		OR = {
 			trait = brave
-			trait = strong
+			is_strong_trigger = yes
 		}
 		OR = {
 			trait = skilled_tactician
 			trait = brilliant_strategist
 		}
-		NOT = {
-			trait = weak
-		}
+		is_weak_trigger = no
 	}
 	chance = {
 		factor = 3
@@ -939,22 +941,20 @@ nick_the_lionheart = {
 		ruled_years = 15
 		OR = {
 			trait = brave
-			trait = strong
+			is_strong_trigger = yes
 		}
 		OR = {
 			trait = skilled_tactician
 			trait = brilliant_strategist
 		}
-		NOT = {
-			trait = weak
-		}
+		is_weak_trigger = no
 	}
 	chance = {
 		factor = 4
 		modifier = {
 			factor = 2
 			trait = brave
-			trait = strong
+			is_strong_trigger = yes
 		}
 	}
 }
@@ -965,7 +965,7 @@ nick_the_bold = {
 		piety = 50
 		OR = {
 			trait = brave
-			trait = strong
+			is_strong_trigger = yes
 		}
 		NOT = {
 			trait = paranoid
@@ -1041,14 +1041,8 @@ nick_the_magnificent = {
 	allow = {
 		age = 30
 		ruled_years = 15
-		OR = {
-			trait = quick
-			trait = genius
-		}
-		NOT = {
-			trait = slow
-			trait = imbecile
-		}
+		is_smart_trigger = yes
+		is_dumb_trigger = no
 		OR = {
 			trait = grey_eminence
 			trait = intricate_webweaver
@@ -1141,7 +1135,7 @@ nick_the_careless = {
 			trait = paranoid
 		}
 		OR = {
-			trait = weak
+			is_weak_trigger = yes
 			trait = content
 		}
 		NOT = {
@@ -1288,8 +1282,7 @@ nick_the_wolf = {
 				# NOT = { culture = khitan }
 				OR = {
 					trait = brilliant_strategist
-					trait = quick
-					trait = genius
+					is_smart_trigger = yes
 				}
 			}
 			AND = {
