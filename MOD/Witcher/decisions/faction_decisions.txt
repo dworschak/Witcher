@@ -28,9 +28,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -142,9 +142,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -256,9 +256,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -369,9 +369,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -471,9 +471,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -585,9 +585,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -713,9 +713,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -758,22 +758,7 @@ plot_decisions = {
 					}
 				}
 			}
-			
-			modifier = {
-				factor = 0
-				liege = {
-					religion = ROOT					
-					any_war = {
-						AND = {
-							defender = { character = PREV }
-							OR = {
-								# using_cb = religious
-								using_cb = crusade
-							}
-						}
-					}
-				}
-			}			
+					
 			modifier = {
 				factor = 0.1
 				NOT = { 
@@ -845,9 +830,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -1008,7 +993,6 @@ plot_decisions = {
 									}
 								}
 								OR = {
-									using_cb = crusade
 									using_cb = invasion
 									using_cb = tribal_invasion
 									using_cb = claim_all
@@ -1039,9 +1023,9 @@ plot_decisions = {
 				NOT = { war_with = ROOT }
 				NOT = { reverse_has_truce = ROOT }
 			}
-			capital_holding = {
-				controller = {
-					character = ROOT
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
 				}
 			}
 		}
@@ -1067,6 +1051,90 @@ plot_decisions = {
 					faction_power = 
 					{
 						faction = faction_antiking
+						power = 0.5
+					}
+				}
+			}
+			
+			modifier = {
+				factor = 0.5 # Slow it down a bit
+			}
+			
+			modifier = {
+				factor = 0
+				liege = {
+					any_war = {
+						OR = {
+							AND = {
+								defender = { character = PREV }
+								NOT = { using_cb = depose_liege }
+								NOT = { using_cb = overthrow_ruler }
+								NOT = { using_cb = overthrow_ruler_no_calls }
+								NOT = { using_cb = succession_on_liege }
+								NOT = { using_cb = other_succession_on_liege }
+							}
+							AND = {
+								attacker = { character = PREV }
+								OR = {
+									using_cb = invasion
+									using_cb = tribal_invasion
+									using_cb = claim_all
+									using_cb = claim
+									using_cb = other_claim
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	faction_overthrow_ultimatum = {
+		is_high_prio = yes
+		
+		potential = {
+			leads_faction = faction_overthrow
+			OR = {
+				NOT = { has_character_flag = faction_overthrow_ultimatum_taken }
+				had_character_flag = { flag = faction_overthrow_ultimatum_taken days = 7 }
+			}
+		}
+		allow = {
+			war = no
+			prisoner = no
+			liege = {
+				NOT = { war_with = ROOT }
+				NOT = { reverse_has_truce = ROOT }
+			}
+			NOT = {
+				any_realm_title = {
+					is_occupied = yes
+				}
+			}
+		}
+		
+		effect = {
+			liege = {
+				letter_event = { id = 8210 days = 3 tooltip = EVTTOOLTIP8005 }
+			}
+			hidden_tooltip = {
+				set_character_flag = faction_overthrow_ultimatum_taken
+			}
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { 
+					faction_power = 
+					{
+						faction = faction_overthrow
 						power = 0.5
 					}
 				}

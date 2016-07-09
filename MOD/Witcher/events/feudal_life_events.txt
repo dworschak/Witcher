@@ -1036,12 +1036,12 @@ character_event = {
 
 	min_age = 20
 	capable_only = yes
+	only_rulers = yes
 	prisoner = no
 	
 	trigger = {
 		war = no
 		in_command = no
-		is_ruler = yes
 		tier = count
 		NOT = {
 			has_character_modifier = the_merciful
@@ -2415,33 +2415,6 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTC4115
-		trigger = {
-			is_female = yes
-			NOT = {
-				trait = greedy
-			}
-			NOT = {
-				trait = arbitrary
-			}
-			NOT = {
-				trait = cynical
-			}
-			NOT = {
-				trait = depressed
-			}
-		}
-		random_list = {
-			50 = {
-				add_trait = depressed
-			}
-			50 = {
-				add_trait = cynical
-			}
-		}
-	}
-	
-	option = {
 		name = EVTOPTD4115
 		#tooltip_info = 
 		trigger = {
@@ -3165,7 +3138,7 @@ character_event = {
 	trigger = {
 		war = no
 		in_command = no
-		father = {
+		father_even_if_dead = {
 			is_alive = no
 		}
 		OR = {
@@ -3241,12 +3214,16 @@ character_event = {
 	option = {
 		name = EVTOPTE4150
 		create_character = {
-			learning = 8
 			random_traits = yes
 			dynasty = random
 			age = 65
 			female = no
-			has_nickname = nick_the_clueless
+			attributes = {
+				learning = 8
+			}
+		}
+		new_character = {
+			give_nickname = nick_the_clueless
 		}
 	}
 	
@@ -3357,9 +3334,19 @@ character_event = {
 	
 	option = {
 		name = EVTOPTE4155
+		trigger = {
+			trait = gregarious
+			any_vassal = {
+				learning = 15
+				NOT = { trait = incapable }
+				prisoner = no
+			}
+		}
 		random_vassal = {
 			limit = {
 				learning = 15
+				NOT = { trait = incapable }
+				prisoner = no
 			}
 			opinion = {
 				modifier = gregarious_pos

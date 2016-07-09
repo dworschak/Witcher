@@ -24,6 +24,7 @@ decisions = {
 			OR = {
 				is_feudal = yes
 				is_tribal = yes
+				is_nomadic = yes
 			}
 			prisoner = no
 			NOT = {
@@ -44,7 +45,6 @@ decisions = {
 				}
 			}			
 			num_of_vassals = 1
-			NOT = { has_character_flag = do_not_disturb }
 		}
 		allow = {
 			war = no
@@ -56,6 +56,10 @@ decisions = {
 			scaled_wealth = 0.20
 			month = 10
 			prestige = 100
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
+			}
 		}
 		effect = {
 			scaled_wealth = -0.20
@@ -140,7 +144,6 @@ decisions = {
 				has_character_modifier = summer_fair_timer
 			}
 			num_of_vassals = 1
-			NOT = { has_character_flag = do_not_disturb }
 			OR = {
 				NOT = { has_character_flag = recent_summer_fair }
 				had_character_flag = {
@@ -160,6 +163,10 @@ decisions = {
 			month = 4
 			NOT = {
 				month = 7
+			}
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
 			}
 		}
 		effect = {
@@ -233,7 +240,6 @@ decisions = {
 			is_female = no
 			prisoner = no
 			NOT = {	has_character_modifier = holding_grand_hunt }
-			NOT = { has_character_flag = do_not_disturb }
 			OR = {
 				NOT = { has_dlc = "Way of Life" }
 				has_focus = focus_hunting
@@ -250,6 +256,10 @@ decisions = {
 			NOT = {	health_traits = 1 }
 			prisoner = no
 			NOT = { trait = in_hiding }
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
+			}
 		}
 		effect = {
 			scaled_wealth = -0.20
@@ -364,7 +374,6 @@ decisions = {
 			NOT = { trait = incapable }
 			NOT = { trait = scholar }
 			NOT = { trait = mystic }
-			NOT = { has_character_flag = do_not_disturb }
 			NOT = { has_character_flag = building_observatory }
 			NOT = { has_character_flag = built_observatory }
 			NOT = { has_character_modifier = studying_the_stars }
@@ -375,6 +384,10 @@ decisions = {
 			prisoner = no
 			wealth = 50
 			is_adult = yes
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
+			}
 		}
 		effect = {
 			wealth = -50
@@ -406,6 +419,66 @@ decisions = {
 				factor = 0
 				NOT = { wealth = 100 }
 			}
+		}
+	}
+	
+	# Sky burial
+	sky_burial_decision = {
+		is_high_prio = yes
+		potential = {
+			#age = 16
+			has_character_flag = sky_burial
+		}
+		allow = {
+			in_command = no
+			prisoner = no
+			NOT = { trait = incapable }
+			NOT = { trait = infirm }
+			NOT = { trait = in_hiding }
+			NOT = { has_character_flag = do_not_disturb }
+		}
+		effect = {
+			custom_tooltip = { text = sky_burial_custom_tooltip }
+			hidden_tooltip = {
+				character_event = { id = HL.8005 }
+				clr_character_flag = sky_burial
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.05
+			}
+		}
+	}
+
+	# Choose Warhorse (Nomad)
+	choose_warhorse_nomad = {
+		potential = {
+			ai = no
+			is_nomadic = yes
+			NOT = { has_character_modifier = nomad_warhorse }
+		}
+		allow = {
+			is_adult = yes
+			prisoner = no
+			NOT = { trait = incapable }
+			custom_tooltip = {
+				text = is_not_busy_trigger_tooltip
+				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
+			}
+		}
+		effect = {
+			wealth = -20
+			custom_tooltip = { text = nomad_acquires_warhorse_tooltip }
+			hidden_tooltip = { long_character_event = { id = HL.6000 } } # Select and name horse
+			hidden_tooltip = { character_event = { id = HL.6500 days = 3500 random = 2000 } } # Horse dies
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 0
 		}
 	}
 }

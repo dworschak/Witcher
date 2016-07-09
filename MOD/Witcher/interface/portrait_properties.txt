@@ -8,6 +8,10 @@
 			factor = 0
 			NOT = { religion_group = northern_religions }
 		}
+		modifier = {
+			factor = 0
+			is_nomadic = yes
+		}
 	}
 
 	1 = { #throne room
@@ -17,6 +21,11 @@
 			NOT = { real_tier = king }
 			NOT = { real_tier = emperor }
 		}
+		modifier = {
+			factor = 0
+			is_nomadic = yes
+			is_tribal = yes
+		}
 	}
 
 	2 = { # dungeon
@@ -24,6 +33,7 @@
 		modifier = {
 			factor = 0
 			prisoner = no
+			NOT = { death_reason = death_dungeon }
 		}
 	}
 
@@ -33,18 +43,37 @@
 			factor = 0
 			religion_group = muslim
 		}
+		modifier = {
+			factor = 0.01
+			is_nomadic = yes
+		}
+		modifier = {
+			factor = 10
+			is_tribal = yes
+		}
 	}
 
 	4 = { # bed
 		factor = 100
 		modifier = {
 			factor = 0
+			is_alive = yes
 			NOT = { trait = incapable }
 			NOT = { trait = infirm }
 		}
 		modifier = {
-			factor = 0.01
+			factor = 0.001
+			OR = {
+				death_reason = death_sacrificed
+				death_reason = death_battle
+				death_reason = death_execution
+				death_reason = death_dungeon
+			}
+		}
+		modifier = {
+			factor = 0.02
 			trait = infirm
+			is_alive = yes
 		}
 	}
 	
@@ -66,24 +95,57 @@
 		factor = 100
 		modifier = {
 			factor = 0
-			in_command = no
-			NOT = { has_job_title  = job_marshal }
+			OR = {
+				AND = {
+					is_alive = yes
+					in_command = no
+					NOT = { has_job_title  = job_marshal }
+				}
+				AND = {
+					is_alive = no
+					NOT = { death_reason = death_battle }
+				}
+			}
 		}
 		modifier = {
 			factor = 0.02
 			has_job_title = job_marshal
 		}
 	}
+	
 	7 = { # Dolmen
-		factor = 1
+		factor = 5
 		modifier = {
 			factor = 0
 			NOT = { religion_group = northern_religions }
 		}
+		modifier = {
+			factor = 100
+			is_alive = no
+		}
+		modifier = {
+			factor = 2
+			is_priest = yes
+		}
 	}
+	
 	8 = { # Gallows
-		factor = 0
+		factor = 5
+		modifier = {
+			factor = 0
+			NOT = { trait = cruel }
+			NOT = { trait = impaler }
+			NOT = { death_reason = death_execution }
+		}
+		modifier = {
+			factor = 20
+			OR = {
+				trait = impaler
+				death_reason = death_execution
+			}
+		}
 	}
+	
 	9 = { # Church
 		factor = 100
 		modifier = {
@@ -92,63 +154,80 @@
 		}
 		modifier = {
 			factor = 0
-			is_ruler = no
-			
-			}
-		modifier = {
-			factor = 0
 			OR = {
 				is_ruler = no
 				is_theocracy = no
 			}
 		}
 	}
+	
 	10 = { # Desert
-		factor = 1
+		factor = 5
 		modifier = {
 			factor = 0
-			NOT = { religion_group = muslim }
-			#NOT = { capital_scope = { terrain = desert } }
-			#NOT = { capital_scope = { terrain = coastal_desert } }
+			# NOT = { religion_group = muslim }
+			# NOT = { religion_group = zoroastrian_group }
+			# NOT = { religion = zun_pagan }
 		}
 	}
+	
 	11 = { # Steppe
 		factor = 1
 		modifier = {
 			factor = 0
-			#NOT = { capital_scope = { terrain = steppe } }
-			#NOT = { capital_scope = { terrain = plains } }
 			NOT = { culture_group = altaic }
 		}
+		
+		#modifier = {
+		#	factor = 10
+		#	culture_group = altaic
+		#	NOT = { culture = turkish }
+		#}
 		modifier = {
 			factor = 10
-			culture_group = altaic
-			NOT = { culture = turkish }
+			is_nomadic = yes
 		}
 	}
+	
 	12 = { # Ocean w ships
-		factor = 0
-		#modifier = {
-			#factor = 0
-			#NOT = { location = { terrain = ocean } }
-		#}
-	}
-	13 = { # Muslim interior
-		factor = 1
+		factor = 10
 		modifier = {
 			factor = 0
-			NOT = { religion_group = muslim }
+			is_patrician = no
 		}
 	}
+	
+	13 = { # Muslim interior
+		factor = 2
+		modifier = {
+			factor = 0
+			# NOT = { religion_group = muslim }
+			# NOT = { religion_group = zoroastrian_group }
+			# NOT = { religion = zun_pagan }
+			# NOT = { religion_group = indian_group }
+		}
+	}
+	
 	14 = { # Harem
 		factor = 1
 		modifier = {
 			factor = 0
-			NOT = { religion_group = muslim }
+			# NOT = { religion_group = muslim }
+			# NOT = { religion_group = indian_group }
+			# NOT = { religion_group = zoroastrian_group }
+			# NOT = { religion = zun_pagan }
+		}
+		modifier = {
+			factor = 100
+			OR = {
+				trait = lustful
+				trait = hedonist
+			}
 		}
 	}
+	
 	15 = { # Muslim interior 2
-		# factor = 1
+		# factor = 5
 		# modifier = {
 			factor = 0
 		# 	NOT = { religion_group = muslim }
@@ -185,12 +264,6 @@
 			factor = 0
 			NOT = { religion_group = muslim }
 		}
-
-		modifier = {
-			factor = 0
-			is_ruler = no
-			
-			}
 		modifier = {
 			factor = 0
 			OR = {
@@ -205,6 +278,15 @@
 		modifier = {
 			factor = 0
 			NOT = { religion_group = northern_religions }
+			NOT = { death_reason = death_sacrificed }
+		}
+		modifier = {
+			factor = 1000
+			death_reason = death_sacrificed
+		}
+		modifier = {
+			factor = 10
+			is_priest = yes
 		}
 	}
 }
@@ -908,13 +990,6 @@
 		}
 		modifier = {
 			factor = 0
-			OR = {
-				culture = temerian
-				culture = bruggian
-			}
-		}
-		modifier = {
-			factor = 0
 			is_feudal = no
 		}
 		modifier = {
@@ -1257,29 +1332,6 @@
 			}
 		}	
 	}
-	
-	# Temerian Crown
-	12 = {
-		factor = 300
-		modifier = {
-			factor = 0
-			NOT = {
-				OR = {
-					real_tier = emperor
-					real_tier = king
-				}
-			}
-		}
-		modifier = {
-			factor = 0
-			NOT = { 
-				OR = {
-					culture = temerian
-					culture = bruggian
-				}
-			}
-		}
-	}
 }
 
 # p6 imprisoned
@@ -1379,131 +1431,21 @@
 		modifier = {
 			factor = 0
 			OR = {
-				# trait = has_measles
-				# trait = has_small_pox
-				trait = foltest
-				trait = kind2
-				trait = roche
-				trait = triss
-				trait = iorweth
-				trait = isengrim
-				trait = radowid
-				trait = henselt
-				trait = stennis
-				trait = arjan
-				trait = zoltan
-				trait = geralt
-				trait = emhyr
+				trait = has_measles
+				trait = has_small_pox
 			}
 		}
 	}
-	#1 = { 
-	#	factor = 100
-	#	modifier = {
-	#		factor = 0
-	#		OR = {
-	#			NOT = {
-	#				trait = has_measles
-	#				trait = has_small_pox
-	#			}
-	#		}
-	#	}
-	#}
-	1 = {
+	1 = { 
 		factor = 100
 		modifier = {
 			factor = 0
-			NOT = {
-				trait = foltest
+			OR = {
+				NOT = {
+					trait = has_measles
+					trait = has_small_pox
+				}
 			}
-		}
-	}
-	2 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = {
-				trait = kind2
-			}
-		}
-	}
-	3 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = {
-				trait = roche
-			}
-		}
-	}
-	4 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = triss }
-		}
-	}
-	5 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = iorweth }
-		}
-	}
-	6 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = isengrim }
-		}
-	}
-	7 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = radowid }
-		}
-	}
-	8 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = henselt }
-		}
-	}
-	9 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = stennis }
-		}
-	}
-	10 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = arjan }
-		}
-	}
-	11 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = zoltan }
-		}
-	}
-	12 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = geralt }
-		}
-	}
-	13 = {
-		factor = 100
-		modifier = {
-			factor = 0
-			NOT = { trait = emhyr }
 		}
 	}
 }
@@ -1551,6 +1493,31 @@
 			factor = 0
 			NOT = {
 				trait = blinded
+			}
+		}
+	}
+}
+
+# p11 player
+11 = {
+	0 = { # blank
+		factor = 100
+		modifier = {
+			factor = 0
+			AND = {
+				ai = no
+				multiplayer = yes
+			}
+		}
+	}
+
+	1 = { # player
+		factor = 100
+		modifier = {
+			factor = 0
+			OR = {
+				ai = yes
+				multiplayer = no
 			}
 		}
 	}

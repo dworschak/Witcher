@@ -19,6 +19,7 @@ decisions = {
 				NOT = { religion = ROOT }
 				religion_group = ROOT
 			}
+			controls_religion = no
 			OR = {
 				AND = { 
 					OR = { trait = elf_race trait = halfelf_race }
@@ -34,7 +35,6 @@ decisions = {
 				}
 				AND = { 
 					OR = { trait = gnome_race trait = halfgnome_race }
-					liege = { trait = gnome_race }
 				}
 				AND = { 
 					trait = dryad_race
@@ -182,6 +182,7 @@ decisions = {
 			}
 			NOT = { culture = wilderness }
 			is_playable = yes
+			is_nomadic = no
 			capital_scope = {
 				NOT = { culture = ROOT }
 			}
@@ -192,6 +193,7 @@ decisions = {
 				}
 			}
 			holy_order = no
+			mercenary = no
 			has_dlc = "Rajas of India"
 			OR = {
 				AND = {
@@ -310,6 +312,7 @@ decisions = {
 			}
 			NOT = { culture = wilderness }
 			is_playable = yes
+			is_nomadic = no
 			capital_scope = {
 				NOT = { religion = ROOT }
 			}
@@ -361,13 +364,13 @@ decisions = {
 		allow = {
 			OR = {
 				AND = {
-					piety = 500
+					prestige = 500
 					capital_scope = {
 						religion_group = ROOT
 					}
 				}
 				AND = {
-					piety = 1000
+					prestige = 1000
 					capital_scope = {
 						NOT = { religion_group = ROOT }
 					}
@@ -381,7 +384,7 @@ decisions = {
 						NOT = { religion_group = ROOT }
 					}
 				}
-				piety = -1000
+				prestige = -1000
 			}
 			if = {
 				limit = {
@@ -389,8 +392,9 @@ decisions = {
 						religion_group = ROOT
 					}
 				}
-				piety = -500
+				prestige = -500
 			}
+			piety = 250
 			religion_authority = {
 				modifier = ruler_converted_from
 			}
@@ -419,6 +423,7 @@ decisions = {
 			ai = no
 			is_playable = yes
 			independent = yes
+			controls_religion = no
 			is_heretic = yes
 		}
 		allow = {
@@ -426,6 +431,7 @@ decisions = {
 		}
 		effect = {
 			prestige = -500
+			piety = 250
 			if = {
 				limit = { higher_tier_than = BARON }
 				religion_authority = {
@@ -443,7 +449,6 @@ decisions = {
 					}
 				}
 			}
-			piety = 200
 		}
 		revoke_allowed = {
 			always = no
@@ -452,4 +457,4 @@ decisions = {
 			factor = 0
 		}
 	}
-}
+}			
