@@ -569,12 +569,8 @@ character_event = {
 # Peasants seize a holding. Fired from 'on_siege_over_winner'.
 character_event = {
 	id = TOG.1005
-	picture = GFX_evt_siege
-	
 	hide_window = yes
 	is_triggered_only = yes
-	
-	desc = OK
 	
 	trigger = {
 		trait = peasant_leader
@@ -598,10 +594,6 @@ character_event = {
 				}
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -1461,12 +1453,8 @@ character_event = {
 # Heretics seize a holding. Fired from 'on_siege_over_winner'.
 character_event = {
 	id = TOG.1025
-	picture = GFX_evt_siege
-	
 	hide_window = yes
 	is_triggered_only = yes
-	
-	desc = OK
 	
 	trigger = {
 		trait = heresiarch
@@ -1499,10 +1487,6 @@ character_event = {
 				}
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -2059,12 +2043,8 @@ character_event = {
 # Nationalists seize a holding. Fired from 'on_siege_over_winner'.
 character_event = {
 	id = TOG.1045
-	picture = GFX_evt_siege
-	
 	hide_window = yes
 	is_triggered_only = yes
-	
-	desc = OK
 	
 	trigger = {
 		rebel = yes
@@ -2102,10 +2082,6 @@ character_event = {
 				}
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -2146,6 +2122,10 @@ province_event = {
 	}
 	
 	immediate = {
+		add_province_modifier = {
+			name = recent_county_uprising
+			duration = 1825 # Five years of -100% revolt risk in this county
+		}
 		owner = {
 			top_liege = {
 				any_war = {
@@ -2621,13 +2601,13 @@ character_event = {
 	option = {
 		name = EVTOPTA_TOG_1060
 		trigger = {
-			owner = { religion_group = FROM }
+			religion_group = FROM
 		}
 	}
 	option = {
 		name = EVTOPTB_TOG_1060
 		trigger = {
-			owner = { NOT = { religion_group = FROM	} }
+			NOT = { religion_group = FROM	}
 		}
 	}
 }
@@ -2635,12 +2615,8 @@ character_event = {
 # Religious Rebels seize a holding. Fired from 'on_siege_over_winner'. Owner of the winning unit is ROOT. The taken Holding title is in FROM.
 character_event = {
 	id = TOG.1065
-	picture = GFX_evt_siege
-	
 	hide_window = yes
 	is_triggered_only = yes
-	
-	desc = OK
 	
 	trigger = {
 		has_character_flag = religious_revolter
@@ -2673,10 +2649,6 @@ character_event = {
 				}
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 

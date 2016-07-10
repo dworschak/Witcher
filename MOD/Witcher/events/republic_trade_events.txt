@@ -148,10 +148,6 @@ character_event = {
 			}
 		}
 	}
-	
-	option = {
-		name = OK
-	}
 }
 
 # Thieving Captain (Player)
@@ -329,10 +325,6 @@ character_event = {
 				}
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -571,6 +563,7 @@ character_event = {
 	
 	trigger = {
 		has_dlc = "The Republic"
+		in_revolt = no
 	}
 	
 	mean_time_to_happen = {
@@ -1055,10 +1048,6 @@ character_event = {
 				}
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -1641,10 +1630,6 @@ character_event = {
 			}
 		}
 	}
-	
-	option = {
-		name = OK
-	}
 }
 
 # Mutiny! (Player)
@@ -1984,7 +1969,6 @@ character_event = {
 letter_event = {
 	id = REP.310
 	desc = EVTDESC_REP_310
-	picture = GFX_evt_kraken
 	
 	is_triggered_only = yes
 	
@@ -2011,7 +1995,7 @@ letter_event = {
 		}
 		FROM = {
 			plot_target_char = {
-				character_event = { id = REP.311 days = 5 tooltip =  EVTTOOLTIPREP.311 }
+				letter_event = { id = REP.311 days = 5 tooltip =  EVTTOOLTIPREP.311 }
 				opinion = {
 					who = ROOT
 					modifier = opinion_disgruntled
@@ -2020,7 +2004,7 @@ letter_event = {
 			}
 		}
 		FROM = {
-			character_event = { id = REP.313 days = 5 tooltip = EVTTOOLTIPREP.311 }
+			letter_event = { id = REP.313 days = 5 tooltip = EVTTOOLTIPREP.311 }
 			opinion = {
 				who = ROOT
 				modifier = opinion_glad
@@ -2041,7 +2025,7 @@ letter_event = {
 			}
 		}
 		FROM = {
-			character_event = { id = REP.312 days = 5 tooltip = EVTTOOLTIPREP.313 }
+			letter_event = { id = REP.312 days = 5 tooltip = EVTTOOLTIPREP.313 }
 			opinion = {
 				who = ROOT
 				modifier = opinion_disgruntled
@@ -2055,7 +2039,6 @@ letter_event = {
 letter_event = {
 	id = REP.311
 	desc = EVTDESC_REP_311
-	picture = GFX_evt_kraken
 	
 	is_triggered_only = yes
 	
@@ -2069,7 +2052,6 @@ letter_event = {
 letter_event = {
 	id = REP.312
 	desc = EVTDESC_REP_312
-	picture = GFX_evt_kraken
 	
 	is_triggered_only = yes
 	
@@ -2085,7 +2067,6 @@ letter_event = {
 letter_event = {
 	id = REP.313
 	desc = EVTDESC_REP_313
-	picture = GFX_evt_kraken
 	
 	is_triggered_only = yes
 	
@@ -2125,7 +2106,10 @@ character_event = {
 		is_pretender = no
 		is_theocracy = no
 		is_priest = no
-		NOT = { trait = chaste }
+		NOR = { 
+			trait = chaste
+			trait = monk
+		}
 		liege = {
 			NOT = { any_child = { character = ROOT } }
 			is_patrician = yes
@@ -2164,10 +2148,6 @@ character_event = {
 				character_event = { id = REP.403 }
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -2299,10 +2279,6 @@ character_event = {
 			}
 		}
 	}
-	
-	option = {
-		name = OK
-	}
 }
 
 # Family member marries bar wench
@@ -2421,10 +2397,6 @@ character_event = {
 			character_event = { id = REP.409 }
 		}
 	}
-	
-	option = {
-		name = OK
-	}
 }
 
 # Old family member marries young woman
@@ -2488,10 +2460,6 @@ character_event = {
 		liege = {
 			character_event = { id = REP.411 }
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -2558,10 +2526,6 @@ character_event = {
 		liege = {
 			character_event = { id = REP.413 }
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -3006,15 +2970,17 @@ province_event = {
 				is_patrician = no
 			}
 		}
+
 		trade_post_owner = {
 			is_patrician = yes
 			ROOT = {
 				owner = {
-					any_realm_character = {
-						NOT = { character = PREVPREVPREV }
+					NOT = {
+						any_realm_character = { character = PREVPREVPREV }
 					}
 					top_liege = {
-						NOT = { 
+						NOR = {
+							is_vassal_or_below = PREVPREVPREV #this is backwards
 							opinion = { who = PREVPREVPREV value =  0 }
 							has_opinion_modifier = { who = PREVPREVPREV modifier = opinion_bribed_tp }
 							has_opinion_modifier = { who = PREVPREVPREV modifier = opinion_thwarted_tp_destruction }
@@ -3022,6 +2988,11 @@ province_event = {
 							has_opinion_modifier = { who = PREVPREVPREV modifier = opinion_burned_tp_despite_bribe }
 							war_with = PREVPREVPREV
 						}
+					}
+					
+					# Only if there is no non-aggression-pact with the trade post owner
+					NOT = {
+						has_non_aggression_pact_with = PREVPREV
 					}
 				}
 			}
@@ -3087,10 +3058,6 @@ province_event = {
 				character_event = { id = REP.601 }
 			}
 		}
-	}
-	
-	option = {
-		name = OK
 	}
 }
 
@@ -3314,8 +3281,4 @@ province_event = {
 			character_event = { id = REP.604 }
 		}
 	}		
-	
-	option = {
-		name = OK
-	}
 }

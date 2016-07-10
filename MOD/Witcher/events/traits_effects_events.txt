@@ -172,15 +172,20 @@ character_event = {
 		trait = lustful
 		war = no
 		in_command = no
-		NOT = { trait = in_hiding }
-		NOT = { trait = wounded }
-		NOT = { trait = craven }
+		NOR = {
+			trait = in_hiding
+			trait = wounded
+			trait = maimed
+			trait = craven
+		}
 		any_courtier = {
 			is_female = yes
 			age = 15
-			NOT = { age = 35 }
-			NOT = { trait = ugly }
-			NOT = { is_close_relative = ROOT }
+			NOR = {
+				age = 35
+				trait = ugly
+				is_close_relative = ROOT
+			}
 		}
 	}
 	
@@ -274,7 +279,6 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
-	is_triggered_only = yes 
 	only_rulers = yes
 
 	is_triggered_only = yes
@@ -776,10 +780,10 @@ character_event = {
 						is_consort = yes
 					}
 				}
-				impregnate_cuckoo = FROM
+				impregnate_cuckoo = ROOT
 				break = yes
 			}
-			impregnate = FROM
+			impregnate = ROOT
 		}
 	}
 	
@@ -903,7 +907,7 @@ character_event = {
 		
 		modifier = {
 			factor = 4.0
-			trait = weak
+			is_weak_trigger = yes
 		}
 		modifier = {
 			factor = 5.0
@@ -1625,9 +1629,7 @@ character_event = {
 			NOT = {
 				reverse_has_opinion_modifier = { who = ROOT modifier = opinion_betrayed }
 			}
-			NOT = {
-				trait = slow
-			}
+			is_dumb_trigger = no
 		}
 	}
 	
@@ -1663,9 +1665,7 @@ character_event = {
 				NOT = {
 					reverse_has_opinion_modifier = { who = ROOT modifier = opinion_betrayed }
 				}
-				NOT = {
-					trait = slow
-				}
+				is_dumb_trigger = no
 			}
 			opinion = {
 				modifier = opinion_betrayed
@@ -1926,12 +1926,18 @@ character_event = {
 		OR = {
 			any_courtier = {
 				age = 15
+				prisoner = no
+				NOT = { trait = in_hiding }
+				NOT = { trait = incapable }
 				NOT = { opinion = { who = ROOT value = 0 } }
 			}
 			AND = {
 				is_ruler = yes
 				any_vassal = {
 					age = 15
+					prisoner = no
+					NOT = { trait = in_hiding }
+					NOT = { trait = incapable }
 					NOT = { opinion = { who = ROOT value = 0 } }
 				}
 			}
@@ -1951,12 +1957,18 @@ character_event = {
 		trigger = {
 			any_courtier = {
 				age = 15
+				prisoner = no
+				NOT = { trait = in_hiding }
+				NOT = { trait = incapable }
 				NOT = { opinion = { who = ROOT value = 0 } }
 			}
 		}
 		random_courtier = {
 			limit = {
 				age = 15
+				prisoner = no
+				NOT = { trait = in_hiding }
+				NOT = { trait = incapable }
 				NOT = { opinion = { who = ROOT value = 0 } }
 			}
 			opinion = { who = ROOT modifier = charitable_to_you }
@@ -1968,12 +1980,18 @@ character_event = {
 			is_ruler = yes
 			any_vassal = {
 				age = 15
+				prisoner = no
+				NOT = { trait = in_hiding }
+				NOT = { trait = incapable }
 				NOT = { opinion = { who = ROOT value = 0 } }
 			}
 		}
 		random_vassal = {
 			limit = {
 				age = 15
+				prisoner = no
+				NOT = { trait = in_hiding }
+				NOT = { trait = incapable }
 				NOT = { opinion = { who = ROOT value = 0 } }
 			}
 			opinion = { who = ROOT modifier = charitable_to_you }
@@ -1999,10 +2017,13 @@ character_event = {
 		NOT = { trait = in_hiding }
 		any_courtier = {
 			OR = {
-				has_disease = yes
+				is_ill = yes
 				health_traits = 1
 			}
-			NOT = {
+			prisoner = no
+			NOR = {
+				trait = in_hiding
+				trait = incapable
 				has_opinion_modifier = {
 					who = ROOT
 					modifier = charitable_to_you
@@ -2018,46 +2039,45 @@ character_event = {
 			trait = slothful
 		}
 	}
-	option = {
-		name = EVTOPTA3081
+	
+	immediate = {
 		random_courtier = {
 			limit = {
-				OR = {
-					has_disease = yes
-					health_traits = 1
-				}
-				NOT = {
+				prisoner = no
+				NOR = {
+					trait = in_hiding
+					trait = incapable
 					has_opinion_modifier = {
 						who = ROOT
 						modifier = charitable_to_you
-					}			
+					}
+				}
+				OR = {
+					is_ill = yes
+					health_traits = 1
 				}
 			}
+			save_event_target_as = ill_courtier
+		}
+	}
+	option = {
+		name = EVTOPTA3081
+		event_target:ill_courtier = {
 			opinion = { who = ROOT modifier = charitable_to_you }
 		}			
 	}
 	option = {
 		name = EVTOPTB3081	
 		trigger = {
-			NOT = { trait = proud }
-			NOT = {	personality_traits = 6	}
+			NOR = {
+				trait = proud
+				personality_traits = 6
+			}
 		}
 		opinion = { who = ROOT modifier = charitable_to_you }
 		add_trait = humble
 		piety = 10
-		random_courtier = {
-			limit = {
-				OR = {
-					has_disease = yes
-					health_traits = 1
-				}
-				NOT = {
-					has_opinion_modifier = {
-						who = ROOT
-						modifier = charitable_to_you
-					}			
-				}
-			}
+		event_target:ill_courtier = {
 			opinion = { who = ROOT modifier = charitable_to_you }
 		}			
 	}
@@ -2577,7 +2597,7 @@ character_event = {
 			OR = {
 				trait = slothful
 				trait = paranoid
-				trait = slow
+				is_dumb_trigger = yes
 				trait = depressed
 				trait = stressed
 			}
@@ -4281,7 +4301,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 5.0
-			trait = weak
+			is_weak_trigger = yes
 		}
 
 		modifier = {
@@ -7460,15 +7480,13 @@ character_event = {
 		in_command = no
 		is_priest = no
 		NOT = { trait = in_hiding }
-		OR = {
-			any_courtier = {
-				opinion = { who = ROOT value = 75 }
-				reverse_opinion = { who = ROOT value = 50 }
-				NOT = { trait = in_hiding }
-				OR = {
-					is_priest = yes
-					has_job_title = job_spiritual
-				}
+		any_courtier = {
+			opinion = { who = ROOT value = 75 }
+			reverse_opinion = { who = ROOT value = 50 }
+			NOT = { trait = in_hiding }
+			OR = {
+				is_priest = yes
+				has_job_title = job_spiritual
 			}
 		}				
 	}
@@ -13721,8 +13739,7 @@ character_event = {
 		war = no
 		in_command = no
 		OR = {
-			trait = quick
-			trait = genius
+			is_smart_trigger = yes
 			learning = 8
 		}
 		OR = {
@@ -13916,8 +13933,7 @@ character_event = {
 		war = no
 		in_command = no
 		OR = {
-			trait = quick
-			trait = genius
+			is_smart_trigger = yes
 			learning = 10
 		}
 		is_ill = yes
@@ -14583,6 +14599,7 @@ character_event = {
 				NOT = {
 					reverse_opinion = { who = ROOT value = 0 }
 				}
+				reverse_opinion = { who = ROOT value = -20 }
 			}
 		}
 		FROM = {
@@ -14599,7 +14616,7 @@ character_event = {
 		}
 	}
 	option = {
-		name = EVTOPTD3602
+		name = EVTOPTC3602
 		trigger = {
 			FROM = {
 				NOT = {
@@ -19713,16 +19730,7 @@ character_event = {
 		factor = 1
 	}
 	
-	option = {
-		name = EVTOPTA3700
-		if = {
-			limit = {
-				NOT = {
-					trait = deceitful
-				}
-			}
-			add_trait = deceitful
-		}
+	immediate = {
 		random_courtier = {
 			limit = {
 				prisoner = no
@@ -19736,7 +19744,26 @@ character_event = {
 				}
 				martial = 6
 			}
+			set_character_flag = event_3700_flag
+		}
+	}
+	
+	option = {
+		name = EVTOPTA3700
+		if = {
+			limit = {
+				NOT = {
+					trait = deceitful
+				}
+			}
+			add_trait = deceitful
+		}
+		random_courtier = {
+			limit = {
+				has_character_flag = event_3700_flag
+			}
 			set_character_flag = sold_falcon
+			clr_character_flag = event_3700_flag
 			opinion = {
 				modifier = opinion_happy
 				who = ROOT
@@ -19768,17 +19795,9 @@ character_event = {
 		treasury = 10
 		random_courtier = {
 			limit = {
-				prisoner = no
-				opinion = { who = ROOT value = 20 }
-				age = 15
-				NOT = {
-					trait = falconer
-				}
-				NOT = {
-					trait = craven
-				}
-				martial = 6
+				has_character_flag = event_3700_flag
 			}
+			clr_character_flag = event_3700_flag
 			opinion = {
 				modifier = opinion_glad
 				who = ROOT
@@ -19821,18 +19840,10 @@ character_event = {
 		name = EVTOPTC3700
 		random_courtier = {
 			limit = {
-				prisoner = no
-				opinion = { who = ROOT value = 20 }
-				age = 15
-				NOT = {
-					trait = falconer
-				}
-				NOT = {
-					trait = craven
-				}
-				martial = 6
+				has_character_flag = event_3700_flag
 			}
 			set_character_flag = trained_falcon
+			clr_character_flag = event_3700_flag
 			opinion = {
 				modifier = opinion_delighted
 				who = ROOT
@@ -19863,19 +19874,11 @@ character_event = {
 		prestige = -5
 		random_courtier = {
 			limit = {
-				prisoner = no
-				opinion = { who = ROOT value = 20 }
-				age = 15
-				NOT = {
-					trait = falconer
-				}
-				NOT = {
-					trait = craven
-				}
-				martial = 6
+				has_character_flag = event_3700_flag
 			}
 			add_friend = ROOT
 			set_character_flag = deceitful_falconer
+			clr_character_flag = event_3700_flag
 		}
 		hidden_tooltip = {
 			character_event = {

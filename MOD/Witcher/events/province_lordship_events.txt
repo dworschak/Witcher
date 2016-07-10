@@ -144,6 +144,7 @@ province_event = {
 			has_province_modifier = prima_noctae
 		}
 		any_province_lord = {
+			is_adult = yes
 			is_female = no
 			is_feudal = yes
 			ROOT = {
@@ -155,17 +156,13 @@ province_event = {
 			}
 		}
 	}
-	
-	mean_time_to_happen = {
-		months = 36000
-	}
-	
-	option = {
-		name = EVTOPTA77002
+
+	immediate = {
 		random_province_lord = {
 			limit = {
-				is_feudal = yes
+				is_adult = yes
 				is_female = no
+				is_feudal = yes
 				ROOT = {
 					owner = {
 						NOT = {
@@ -174,6 +171,17 @@ province_event = {
 					}
 				}
 			}
+			save_event_target_as = target_province_lord
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 36000
+	}
+	
+	option = {
+		name = EVTOPTA77002
+		event_target:target_province_lord = {
 			opinion = {
 				modifier = opinion_happy
 				who = ROOT
@@ -187,18 +195,7 @@ province_event = {
 	}
 	option = {
 		name = EVTOPTB77002
-		random_province_lord = {
-			limit = {
-				is_feudal = yes
-				is_female = no
-				ROOT = {
-					owner = {
-						NOT = {
-							character = PREVPREV
-						}
-					}
-				}
-			}
+		event_target:target_province_lord = {
 			opinion = {
 				modifier = opinion_dislike
 				who = ROOT
@@ -268,10 +265,13 @@ province_event = {
 	
 	trigger = {
 		any_province_lord = {
+			is_adult = yes
 			is_feudal = yes
 			is_female = no
+			NOT = { trait = incapable }
 		}
 		any_province_lord = {
+			NOT = { trait = incapable }
 			is_theocracy = yes
 		}
 	}
@@ -280,24 +280,36 @@ province_event = {
 		months = 36000
 		
 	}
+
+	immediate = {
+		random_province_lord = {
+			limit = {
+				is_adult = yes
+				is_feudal = yes
+				is_female = no
+				NOT = { trait = incapable }
+			}
+			save_event_target_as = target_feudal
+		}
+		random_province_lord = {
+			limit = {
+				NOT = { trait = incapable }
+				is_theocracy = yes
+			}
+			save_event_target_as = target_bishop
+		}
+	}
 	
 	option = {
 		name = EVTOPTA77004
-		random_province_lord = {
-			limit = {
-				is_feudal = yes
-				is_female = no
-			}
+		event_target:target_feudal = {
 			opinion = {	
 				modifier = opinion_happy
 				who = ROOT
 				years = 2
 			}
 		}
-		random_province_lord = {
-			limit = {
-				is_theocracy = yes
-			}
+		event_target:target_bishop = {
 			opinion = {	
 				modifier = opinion_dislike
 				who = ROOT
@@ -307,21 +319,14 @@ province_event = {
 	}
 	option = {
 		name = EVTOPTB77004
-		random_province_lord = {
-			limit = {
-				is_theocracy = yes
-			}
+		event_target:target_bishop = {
 			opinion = {	
 				modifier = opinion_happy
 				who = ROOT
 				years = 2
 			}
 		}
-		random_province_lord = {
-			limit = {
-				is_feudal = yes
-				is_female = no
-			}
+		event_target:target_feudal = {
 			opinion = {	
 				modifier = opinion_dislike
 				who = ROOT

@@ -43,7 +43,6 @@ character_event = {
 letter_event = {
 	id = RoI.2001
 	desc = EVTDESC_RoI_2001
-	picture = GFX_evt_emissary
 	
 	is_triggered_only = yes
 	
@@ -132,7 +131,6 @@ letter_event = {
 letter_event = {
 	id = RoI.2003
 	desc = EVTDESC_RoI_2003
-	picture = GFX_evt_emissary
 	
 	is_triggered_only = yes
 	
@@ -469,7 +467,12 @@ character_event = {
 				character_event = { id = RoI.2105 } # Always loses
 			}
 			if = {
-				limit = { trait = slow }
+				limit = { 
+					OR = {
+						trait = slow
+						trait = dull
+					} 
+				}
 				random_list = {
 					50 = { character_event = { id = RoI.2105 } } # Loses
 					50 = { character_event = { id = RoI.2106 } } # Breaks even
@@ -477,11 +480,9 @@ character_event = {
 			}
 			if= {
 				limit = {
-					NOT = { trait = imbecile }
+					is_dumb_trigger = no
 					NOT = { trait = inbred }
-					NOT = { trait = slow }
-					NOT = { trait = quick }
-					NOT = { trait = genius }
+					is_smart_trigger = no
 				}
 				random_list = {
 					33 = { character_event = { id = RoI.2105 } } # Loses
@@ -490,7 +491,12 @@ character_event = {
 				}
 			}
 			if = {
-				limit = { trait = quick }
+				limit = { 
+					OR = {
+						trait = quick
+						trait = shrewd
+					}
+				}
 				random_list = {
 					10 = { character_event = { id = RoI.2105 } } # Loses
 					30 = { character_event = { id = RoI.2106 } } # Breaks even
@@ -520,7 +526,12 @@ character_event = {
 				character_event = { id = RoI.2105 } # Always loses
 			}
 			if = {
-				limit = { trait = slow }
+				limit = { 
+					OR = {
+						trait = slow
+						trait = dull
+					}
+				}
 				random_list = {
 					50 = { character_event = { id = RoI.2105 } } # Loses
 					50 = { character_event = { id = RoI.2106 } } # Breaks even
@@ -528,11 +539,9 @@ character_event = {
 			}
 			if= {
 				limit = {
-					NOT = { trait = imbecile }
 					NOT = { trait = inbred }
-					NOT = { trait = slow }
-					NOT = { trait = quick }
-					NOT = { trait = genius }
+					is_dumb_trigger = no
+					is_smart_trigger = no
 				}
 				random_list = {
 					33 = { character_event = { id = RoI.2105 } } # Loses
@@ -541,7 +550,12 @@ character_event = {
 				}
 			}
 			if = {
-				limit = { trait = quick }
+				limit = { 
+					OR = {
+						trait = quick
+						trait = shrewd
+					} 
+				}
 				random_list = {
 					10 = { character_event = { id = RoI.2105 } } # Loses
 					30 = { character_event = { id = RoI.2106 } } # Breaks even
@@ -721,7 +735,7 @@ character_event = {
 					OR = {
 						trait = hunter
 						trait = duelist
-						trait = strong
+						is_strong_trigger = yes
 						trait = varangian
 						trait = berserker
 						has_character_modifier = killed_an_old_one
@@ -737,7 +751,7 @@ character_event = {
 				limit = {
 					NOT = { trait = hunter }
 					NOT = { trait = duelist }
-					NOT = { trait = strong }
+					is_strong_trigger = no
 					NOT = { trait = varangian }
 					NOT = { trait = berserker }
 					NOT = { has_character_modifier = killed_an_old_one }

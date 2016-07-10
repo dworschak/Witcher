@@ -380,7 +380,7 @@ character_event = {
 	trigger = {
 		has_minor_title = title_regent
 		independent = no
-		NOT = {
+		NOR	= {
 			opinion = { who = liege value = -30 }
 			has_character_flag = mean_regent
 		}
@@ -929,7 +929,7 @@ character_event = {
 	trigger = {
 		has_minor_title = title_regent
 		independent = no
-		NOT = { 
+		NOR = { 
 			trait = lunatic 
 			has_character_flag = declared_ruler_insane
 		}
@@ -1297,7 +1297,7 @@ character_event = {
 		months = 180
 		modifier = {
 			factor = 0.15
-			trait = genius
+			is_smart_trigger = yes
 		}
 		modifier = {
 			factor = 0.25
@@ -1321,7 +1321,10 @@ character_event = {
 		}
 		modifier = {
 			factor = 3.0
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 		}
 		modifier = {
 			factor = 5.0
@@ -3063,6 +3066,7 @@ character_event = {
 	only_playable = yes # Only titled Regents do this
 	
 	trigger = {
+		NOT = { has_dlc = "Zeus" }
 		is_landed = yes
 		has_minor_title = title_regent
 		NOT = { trait = content }
@@ -3192,6 +3196,7 @@ character_event = {
 	only_playable = yes # Only titled Regents do this
 	
 	trigger = {
+		NOT = { has_dlc = "Zeus" }
 		is_landed = yes
 		has_minor_title = title_regent
 		NOT = { trait = content }

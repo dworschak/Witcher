@@ -86,7 +86,6 @@ character_event = {
 letter_event = {
 	id = RoI.1001
 	desc = EVTDESC_RoI_1001
-	picture = GFX_evt_emissary
 	
 	is_triggered_only = yes
 	
@@ -166,7 +165,6 @@ letter_event = {
 letter_event = {
 	id = RoI.1940
 	desc = EVTDESC_RoI_1940
-	picture = GFX_evt_emissary
 	
 	is_triggered_only = yes
 	
@@ -245,7 +243,6 @@ letter_event = {
 letter_event = {
 	id = RoI.1002
 	desc = EVTDESC_RoI_1002
-	picture = GFX_evt_emissary
 	
 	is_triggered_only = yes
 	
@@ -466,6 +463,7 @@ character_event = {
 			is_married = yes
 		}
 		random_lover = {
+			limit = { is_female = yes }
 			opinion = {
 				modifier = opinion_very_grateful
 				who = ROOT
@@ -488,6 +486,7 @@ character_event = {
 			is_married = no
 		}
 		random_lover = {
+			limit = { is_female = yes }
 			opinion = {
 				modifier = opinion_very_grateful
 				who = ROOT
@@ -503,6 +502,7 @@ character_event = {
 			is_married = yes
 		}
 		random_lover = {
+			limit = { is_female = yes }
 			opinion = {
 				modifier = opinion_grateful
 				who = ROOT
@@ -525,6 +525,7 @@ character_event = {
 			is_married = no
 		}
 		random_lover = {
+			limit = { is_female = yes }
 			opinion = {
 				modifier = opinion_grateful
 				who = ROOT
@@ -539,6 +540,7 @@ character_event = {
 			has_character_flag = diwali_no_gift_to_lover
 		}
 		random_lover = {
+			limit = { is_female = yes }
 			opinion = {
 				modifier = opinion_disappointed
 				who = ROOT
@@ -589,6 +591,7 @@ character_event = {
 			is_married = yes
 		}
 		random_lover = {
+			limit = { is_female = no }
 			opinion = {
 				modifier = opinion_very_grateful
 				who = ROOT
@@ -611,6 +614,7 @@ character_event = {
 			is_married = no
 		}
 		random_lover = {
+			limit = { is_female = no }
 			opinion = {
 				modifier = opinion_very_grateful
 				who = ROOT
@@ -626,6 +630,7 @@ character_event = {
 			is_married = yes
 		}
 		random_lover = {
+			limit = { is_female = no }
 			opinion = {
 				modifier = opinion_grateful
 				who = ROOT
@@ -648,6 +653,7 @@ character_event = {
 			is_married = no
 		}
 		random_lover = {
+			limit = { is_female = no }
 			opinion = {
 				modifier = opinion_grateful
 				who = ROOT
@@ -662,6 +668,7 @@ character_event = {
 			has_character_flag = diwali_no_gift_to_lover
 		}
 		random_lover = {
+			limit = { is_female = no }
 			opinion = {
 				modifier = opinion_disappointed
 				who = ROOT
@@ -695,8 +702,8 @@ character_event = {
 		hidden_tooltip = {
 			random_list = { # Choose random event
 				10 = { character_event = { id = RoI.1050 days = 10 random = 5 } } # Snake charmer
-				2 = { character_event = { id = RoI.1140 days = 10 random = 5 } } # Apsara
-				2 = { character_event = { id = RoI.1143 days = 10 random = 5 } } # Ghandarva
+#				2 = { character_event = { id = RoI.1140 days = 10 random = 5 } } # Apsara
+#				2 = { character_event = { id = RoI.1143 days = 10 random = 5 } } # Ghandarva
 				10 = { character_event = { id = RoI.1150 days = 10 random = 5 } } # Magician
 				10 = { character_event = { id = RoI.1160 days = 10 random = 5 } } # Monkeys
 				100 = {} # No random event
@@ -725,8 +732,8 @@ character_event = {
 	immediate = {
 		set_character_flag = attending_diwali_feast
 		random_list = { # Choose random event
-			1 = { character_event = { id = RoI.1140 days = 10 random = 5 } } # Apsara
-			1 = { character_event = { id = RoI.1143 days = 10 random = 5 } } # Ghandarva
+#			1 = { character_event = { id = RoI.1140 days = 10 random = 5 } } # Apsara
+#			1 = { character_event = { id = RoI.1143 days = 10 random = 5 } } # Ghandarva
 			10 = { character_event = { id = RoI.1150 days = 10 random = 5 } } # Magician
 			10 = { character_event = { id = RoI.1160 days = 10 random = 5 } } # Monkeys
 			120 = {} # No random event
@@ -1145,8 +1152,7 @@ character_event = {
 		name = EVTOPTB_RoI_1153 # Angry - I think you are cheating!
 		tooltip_info = wroth
 		trigger = {
-			NOT = { trait = genius } 
-			NOT = { trait = quick } 
+			is_smart_trigger = no 
 			trait = wroth
 		}
 		prestige = 15
@@ -1162,7 +1168,12 @@ character_event = {
 		tooltip_info = genius
 		trigger = {
 			trait = genius
-			NOT = { trait = quick }
+			NOT = { 
+				OR = {
+				trait = quick
+				trait = shrewd
+				} 
+			}
 		}
 		prestige = 30
 	}
@@ -1170,7 +1181,10 @@ character_event = {
 		name = EVTOPTC_RoI_1153 # I saw you cheating!
 		tooltip_info = quick
 		trigger = {
-			trait = quick
+			OR = {
+				trait = quick
+				trait = shrewd
+			}
 			NOT = { trait = genius }
 		}
 		prestige = 30
@@ -1197,7 +1211,10 @@ narrative_event = {
 		name = EVTOPTB_RoI_1154 # They cheat, I can see the hidden wire
 		tooltip_info = quick
 		trigger = {
-			trait = quick
+			OR = {
+				trait = quick
+				trait = shrewd
+			}
 			NOT = { trait = genius }
 		}
 		prestige = 30
@@ -1207,7 +1224,12 @@ narrative_event = {
 		tooltip_info = genius
 		trigger = {
 			trait = genius
-			NOT = { trait = quick }
+			NOT = { 
+				OR = {
+				trait = quick
+				trait = shrewd
+				} 
+			}
 		}
 		prestige = 30
 	}

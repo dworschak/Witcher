@@ -598,10 +598,14 @@ character_event = {
 	desc = {
 		text = EVTDESC_WOL_55_F_MARRIED
 		trigger = {
-			OR = {
-				has_character_flag = scandal_temp_f_married
-				has_character_flag = scandal_temp_ff_married
-			}
+			has_character_flag = scandal_temp_f_married
+		}
+	}
+	desc = {
+		text = EVTDESC_WOL_55_FF_MARRIED
+		trigger = {
+			has_character_flag = scandal_temp_ff_married
+			NOT = { has_character_flag = scandal_temp_f_married }
 		}
 	}
 	desc = {
@@ -1804,6 +1808,15 @@ character_event = {
 	immediate = {
 		if = {
 			limit = {
+				FROMFROM = { has_character_modifier = dismissed_proposal } # My target is known to refuse seduction
+			}
+			character_event = { id = WoL.119 }
+			character_event = { id = WoL.118 }
+			break = yes # Stop execution here
+		}
+
+		if = {
+			limit = {
 				prisoner = yes # I have become imprisoned
 			}
 			character_event = { id = WoL.118 }
@@ -2428,6 +2441,49 @@ character_event = {
 	}
 }
 
+character_event = {
+	id = WoL.119
+	desc = EVTDESC_WOL_119
+	picture = GFX_evt_marriage
+	border = GFX_event_normal_frame_intrigue
+
+	is_triggered_only = yes
+
+	trigger = {
+		FROMFROMFROM = { has_character_modifier = dismissed_proposal }
+	}
+
+	option = {
+		name = EVTOPTA_WOL_119
+	}
+}
+
+character_event = {
+	id = WoL.120
+	desc = EVTDESC_WOL_120
+	picture = GFX_evt_marriage
+	border = GFX_event_normal_frame_intrigue
+
+	is_triggered_only = yes
+
+	trigger = {
+		FROM = { has_character_modifier = dismissed_proposal }
+	}
+
+	option = {
+		name = EVTOPTA_WOL_120
+		tooltip = {
+			FROM = {
+				add_character_modifier = { name = dismissed_proposal years = 10 }
+				opinion = {
+					who = ROOT
+					modifier = opinion_seduced_refused
+				}
+			}
+		}
+		character_event = { id = WoL.118 }
+	}
+}
 
 
 ######################################
@@ -3008,6 +3064,90 @@ character_event = {
 		}
 		
 		FROM = { character_event = { id = WoL.203 tooltip = EVTTOOLTIP_WoL_203 } }
+	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROM
+						father = { lower_tier_than = FROM }
+						mother = { lower_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROM
+						father = { higher_tier_than = FROM }
+						mother = { higher_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROM = { character_event = { id = WoL.120 } }
 	}
 }
 
@@ -3758,6 +3898,90 @@ character_event = {
 		}
 		
 		FROM = { character_event = { id = WoL.213 tooltip = EVTTOOLTIP_WoL_203 } }
+	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROM
+						father = { lower_tier_than = FROM }
+						mother = { lower_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROM
+						father = { higher_tier_than = FROM }
+						mother = { higher_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROM = { character_event = { id = WoL.120 } }
 	}
 }
 
@@ -4547,6 +4771,90 @@ character_event = {
 		
 		FROM = { character_event = { id = WoL.223 tooltip = EVTTOOLTIP_WoL_203 } }
 	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROM
+						father = { lower_tier_than = FROM }
+						mother = { lower_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROM
+						father = { higher_tier_than = FROM }
+						mother = { higher_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROM = { character_event = { id = WoL.120 } }
+	}
 }
 
 # Opinion booster - Gossip - Positive response
@@ -4985,6 +5293,90 @@ character_event = {
 			factor = 100
 		}
 		FROM = { character_event = { id = WoL.302 tooltip = EVTTOOLTIP_WoL_302 } }
+	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROM
+						father = { lower_tier_than = FROM }
+						mother = { lower_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROM
+						father = { higher_tier_than = FROM }
+						mother = { higher_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROM = { character_event = { id = WoL.120 } }
 	}
 }
 
@@ -6104,6 +6496,90 @@ character_event = {
 		clr_character_flag = seduction_whisper_poet
 		clr_character_flag = seduction_whisper_breath
 	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROM
+						father = { lower_tier_than = FROM }
+						mother = { lower_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROM
+						father = { higher_tier_than = FROM }
+						mother = { higher_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROM = { character_event = { id = WoL.120 } }
+	}
 }
 
 
@@ -7066,6 +7542,90 @@ character_event = {
 		clr_character_flag = seduction_whisper_breath
 		clr_character_flag = seduction_outing_note
 	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROM
+						father = { lower_tier_than = FROM }
+						mother = { lower_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROM
+						father = { higher_tier_than = FROM }
+						mother = { higher_tier_than = FROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROM = { character_event = { id = WoL.120 } }
+	}
 }
 
 # Seducer: Success End
@@ -7714,6 +8274,90 @@ character_event = {
 		hidden_tooltip = {
 			FROMFROM = { character_event = { id = WoL.420 } }
 		}
+	}
+
+	option = {
+		name = EVTOPTREFUSE_WOL100
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 2.0
+				trait = stubborn
+			}
+			modifier = {
+				factor = 0.2
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					NOT = { num_of_dynasty_members = 2 }
+					AND = {
+						lower_tier_than = FROMFROM
+						father = { lower_tier_than = FROMFROM }
+						mother = { lower_tier_than = FROMFROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				is_married = no
+				is_consort = no
+				OR = {
+					is_lowborn = yes
+					AND = {
+						higher_tier_than = FROMFROM
+						father = { higher_tier_than = FROMFROM }
+						mother = { higher_tier_than = FROMFROM }
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				NOR = {
+					trait = lustful 
+					trait = deceitful
+					trait = arbitrary
+					trait = hedonist
+					trait = seductress
+					trait = seducer
+				}
+			}
+			modifier = {
+				factor = 2.0
+				trait = chaste
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 25
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 50
+					}
+				}
+			}
+			modifier = {
+				factor = 2.0
+				spouse = {
+					reverse_personal_opinion = {
+						who = ROOT
+						value = 75
+					}
+				}
+			}
+		}
+		opinion = { who = FROMFROM modifier = opinion_seduced_refused }
+		add_character_modifier = { name = dismissed_proposal duration = 3650 }
+		FROMFROM = { character_event = { id = WoL.120 } }
 	}
 }
 
@@ -9671,6 +10315,7 @@ character_event = {
 			duration = -1
 		}
 		hidden_tooltip = { remove_character_modifier = the_dungeon }
+		hidden_tooltip = { character_event = { id = ZE.12219 } } # Loses pet rat
 		opinion = {
 			who = FROM
 			modifier = opinion_grateful

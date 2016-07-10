@@ -595,7 +595,7 @@ long_character_event = {
 			}
 			hidden_tooltip = {
 				event_target:opponent = {
-					character_event = { id = WoL.11007 }
+					long_character_event = { id = WoL.11007 }
 				}
 				random = {
 					chance = 25
@@ -1158,9 +1158,7 @@ character_event = {
 			}
 			30 = {
 				modifier = {
-					OR = { 
-						has_character_modifier = wargame_timer
-					}
+					has_character_modifier = wargame_timer
 					factor = 0
 				}
 				character_event = { id = WoL.11115 }
@@ -1264,14 +1262,16 @@ character_event = {
 			limit = {
 				is_female = no
 				prisoner = no
-				NOT = {
-					OR = {
-						character = ROOT
-						is_rival = ROOT
-					}
+				is_adult = yes
+				NOR = {
+					trait = incapable
+					trait = infirm
+					character = ROOT
+					is_rival = ROOT
 				}
 			}
 			opinion = {
+				who = ROOT
 				modifier = opinion_held_contest
 				months = 6
 			}
@@ -3096,7 +3096,7 @@ character_event = {
 			}
 			5 = {
 				modifier = {
-					trait = strong
+					is_strong_trigger = yes
 					factor = 0
 				}
 				character_event = { id = WoL.11206 } # strong
@@ -3251,25 +3251,26 @@ character_event = {
 	desc = {
 		text = EVTDESCA_WOL_11206
 		trigger = {
-			NOT = { trait = weak }
+			is_weak_trigger = no
 		}
 	}
 	desc = {
 		text = EVTDESCB_WOL_11206
 		trigger = {
-			trait = weak 
+			is_weak_trigger = yes
 		}
 	}
 	
 	option = {
 		name = EVTOPTA_WOL_11206
-		trigger = {	NOT = { trait = weak } }
-		add_trait = strong
+		trigger = {	is_weak_trigger = no }
+		add_trait = robust
 	}
 	
 	option = {
 		name = EVTOPTB_WOL_11206
-		trigger = { trait = weak }
+		trigger = { is_weak_trigger = yes }
 		remove_trait = weak
+		remove_trait = feeble
 	}
 }
