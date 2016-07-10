@@ -219,6 +219,7 @@ targetted_decisions = {
 		potential = {
 			mercenary = yes
 			primary_title = {
+				NOT = { has_title_flag = ze_dyn_merc }
 				band_creator = {
 					character = FROM
 				}
@@ -325,8 +326,15 @@ decisions = {
 		potential = {
 			has_dlc = "Horse Lords"
 			primary_title = {
+				NOT = { has_title_flag = ze_dyn_merc }
 				mercenary = yes
 				adventurer = yes
+				band_creator = {
+					OR = {
+						government = nomadic_government
+						has_character_modifier = mercenary_traditions
+					}
+				}
 			}
 		}
 		allow = {
@@ -354,8 +362,10 @@ decisions = {
 
 			modifier = {
 				factor = 0.025
-				band_creator = {
-					is_alive = yes
+				primary_title = {
+					band_creator = {
+						is_alive = yes
+					}
 				}
 			}
 
@@ -406,9 +416,14 @@ decisions = {
 		potential = {
 			has_dlc = "Horse Lords"
 			primary_title = {
+				NOT = { has_title_flag = ze_dyn_merc }
 				mercenary = yes
 				band_creator = {
-					is_alive = yes
+					is_alive = yes	
+					OR = {
+						government = nomadic_government
+						has_character_modifier = mercenary_traditions
+					}
 				}
 			}
 		}
@@ -497,8 +512,10 @@ decisions = {
 			
 			modifier = {
 				factor = 0.1
-				band_creator = {
-					is_alive = no
+				primary_title = {
+					band_creator = {
+						is_alive = no
+					}
 				}
 			}
 		}

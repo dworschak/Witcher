@@ -1,7 +1,7 @@
 # Targetted decisions are possible vs _all_ other characters and shown are in the Diplomacy View, not the Intrigue View. The taker is in the FROM scope.
 #
-# filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/all] ('self' MUST be set for decisions targetting only the taker, the other filter types can be set to lessen CPU load)
-# ai_target_filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/all] (which characters for which the AI evaluates the decision.)
+# filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/rivals/all] ('self' MUST be set for decisions targetting only the taker, the other filter types can be set to lessen CPU load)
+# ai_target_filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/rivals/all] (which characters for which the AI evaluates the decision.)
 #	court: all characters in the AI's host court, including prisoners, and characters currently away (wards, prisoners, etc)
 #	home_court: all characters in the AI's home court, including prisoners, and characters currently away (wards, prisoners, etc)
 #	vassals: direct vassal rulers of the AI's employer
@@ -118,6 +118,10 @@ targetted_decisions = {
 		}
 		
 		allow = {
+			NOR = {
+				has_opinion_modifier = { who = FROM modifier = opinion_seduced_refused }
+				has_character_modifier = dismissed_proposal
+			}
 			NOT = { trait = celibate }
 			NOT = { FROM = { trait = celibate } }
 			religion_group = FROM
@@ -202,11 +206,13 @@ targetted_decisions = {
 				factor = 0.2
 				OR = {
 					ai = no
-					any_spouse = {
-						ai = no
-					}
-					any_consort = {
-						ai = no
+					OR = {
+						any_spouse = {
+							ai = no
+						}
+						any_consort = {
+							ai = no
+						}
 					}
 				}
 			}
@@ -299,7 +305,7 @@ targetted_decisions = {
 					ROOT = {
 						has_opinion_modifier = {
 							who = PREV
-							name = opinion_seducing
+							modifier = opinion_seducing
 						}
 					}
 				}
@@ -332,7 +338,7 @@ targetted_decisions = {
 			FROM = {
 				has_opinion_modifier = {
 					who = ROOT
-					name = opinion_seducing
+					modifier = opinion_seducing
 				}
 			}
 		}
@@ -453,7 +459,6 @@ targetted_decisions = {
 		potential = {
 			ai = no
 			has_focus = focus_intrigue
-			has_character_flag = spy_on_confirmed
 			has_any_opinion_modifier = opinion_spying_on
 		}
 		
@@ -463,7 +468,7 @@ targetted_decisions = {
 					ROOT = {
 						has_opinion_modifier = {
 							who = PREV
-							name = opinion_spying_on
+							modifier = opinion_spying_on
 						}
 					}
 				}
@@ -481,13 +486,13 @@ targetted_decisions = {
 		}
 	}
 	
+	
 	stop_spy_on_decision_target = {
 		ai_target_filter = realm
 	
 		from_potential = {
 			ai = no
 			has_focus = focus_intrigue
-			has_character_flag = spy_on_confirmed
 			has_any_opinion_modifier = opinion_spying_on
 		}
 		
@@ -495,7 +500,7 @@ targetted_decisions = {
 			FROM = {
 				has_opinion_modifier = {
 					who = ROOT
-					name = opinion_spying_on
+					modifier = opinion_spying_on
 				}
 			}
 		}
@@ -595,6 +600,7 @@ targetted_decisions = {
 	}
 
 	invite_to_party = {
+		is_high_prio = yes
 		ai_target_filter = court
 		
 		from_potential = {
@@ -602,13 +608,11 @@ targetted_decisions = {
 			is_adult = yes
 			has_focus = focus_carousing
 			prisoner = no
-			war = no
 			NOT = { trait = incapable }
 			NOT = { had_character_flag = { flag = inviting_guests_to_party_timer days = 90 } }
 		}
 		potential = {
 			is_adult = yes
-			war = no
 			prisoner = no
 			NOT = { trait = incapable }
 			is_within_diplo_range = FROM
@@ -619,6 +623,7 @@ targetted_decisions = {
 			same_realm = FROM   # Can only invite characters in same realm!
 			NOT = { has_character_modifier = organizing_party }
 			NOT = { has_character_modifier = party_carousing }
+			war = no
 			NOT = {
 				reverse_has_opinion_modifier = {
 					modifier = opinion_declined_party
@@ -633,6 +638,7 @@ targetted_decisions = {
 			}
 			FROM = {
 				
+				war = no
 				NOT = { has_character_modifier = party_timer }
 			}
 		}
@@ -643,7 +649,7 @@ targetted_decisions = {
 						NOT = { has_character_modifier = organizing_party }
 					}
 					add_character_modifier = {
-						name = organizing_party
+						modifier = organizing_party
 						duration = 120
 					}
 					hidden_tooltip = { character_event = { id = WoL.4010 days = 120 } } # Party to be held in four months
@@ -714,8 +720,6 @@ targetted_decisions = {
 				FROM = { is_female = yes }
 			}
 			NOT = { character = FROM }
-			is_ill = no
-			NOT = { trait = incapable }
 		}
 		
 		allow = {
@@ -724,12 +728,10 @@ targetted_decisions = {
 					is_foe = ROOT
 					custom_tooltip = {
 						text = duel_tooltip_excommunicated
-						AND = {
-							trait = zealous
-							ROOT = { 
-								trait = excommunicated
-								religion = ROOT
-							}
+						trait = zealous
+						ROOT = { 
+							trait = excommunicated
+							religion = ROOT
 						}
 					}
 					trait = zealous
