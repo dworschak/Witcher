@@ -152,19 +152,12 @@ change_council_job_potential_trigger = {
 }
 
 can_be_chancellor_trigger = {
+	NOT = { culture = wilderness }
 	OR = {
 		AND = {
 			OR = {
 				is_female = no
-				trait = horse # So we can have female glitterhoofs! :D
-				AND = {
-					religion = cathar
-					liege = { religion = cathar }
-				}
-				AND = {
-					religion = messalian
-					liege = { religion = messalian }
-				}
+				culture = dryad
 				AND = {
 					liege = {
 						primary_title = {
@@ -189,10 +182,10 @@ can_be_chancellor_trigger = {
 					}
 				}
 				liege = {
-	primary_title = {
-		has_law = status_of_women_4
-	}
-}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+				}
 			}
 			is_adult = yes
 		}
@@ -205,21 +198,13 @@ can_be_chancellor_trigger = {
 }
 
 can_be_marshal_trigger = {
+	NOT = { culture = wilderness }
 	OR = {
 		AND = {
 			OR = {
 				is_female = no
-				trait = horse # So we can have female glitterhoofs! :D
-				OR = {
-					AND = {
-						religion = cathar
-						liege = { religion = cathar }
-					}
-					AND = {
-						religion = messalian
-						liege = { religion = messalian }
-					}
-				}
+				trait = dryad_race
+				trait = sorcerer
 				AND = {
 					liege = {
 						primary_title = {
@@ -242,10 +227,10 @@ can_be_marshal_trigger = {
 					}
 				}
 				liege = {
-	primary_title = {
-		has_law = status_of_women_4
-	}
-}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+				}
 			}
 			OR = {
 				NOT = { religion = hindu }
@@ -259,23 +244,22 @@ can_be_marshal_trigger = {
 	prisoner = no
 	NOT = { trait = incapable }
 	NOT = { trait = in_hiding }
+	NOT = { trait = witcher }
 	NOT = { has_character_flag = guru }
+	
+	liege = {
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+	}
 }
 
 can_be_treasurer_trigger = {
+	NOT = { culture = wilderness }
 	OR = {
 		AND = {
 			OR = {
 				is_female = no
-				trait = horse # So we can have female glitterhoofs! :D
-				AND = {
-					religion = cathar
-					liege = { religion = cathar }
-				}
-				AND = {
-					religion = messalian
-					liege = { religion = messalian }
-				}
+				culture = dryad
 				AND = {
 					liege = {
 						primary_title = {
@@ -300,10 +284,10 @@ can_be_treasurer_trigger = {
 					}
 				}
 				liege = {
-	primary_title = {
-		has_law = status_of_women_4
-	}
-}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+				}
 			}
 			is_adult = yes
 		}
@@ -312,35 +296,28 @@ can_be_treasurer_trigger = {
 	prisoner = no
 	NOT = { trait = incapable }
 	NOT = { trait = in_hiding }
+	NOT = { trait = witcher }
 	NOT = { has_character_flag = guru }
+	
+	liege = {
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+	}
 }
 
 can_be_spymaster_trigger = {
+	NOT = { culture = wilderness }
 	OR = {
 		AND = {
 			OR = {
 				is_female = no
-				trait = horse # So we can have female glitterhoofs! :D
 				liege = { 
 					OR = {
 						mother = { character = ROOT }
 						any_spouse = { character = ROOT }
 					}
 				}
-				AND = {
-					religion_group = pagan_group
-					liege = {
-						religion_group = pagan_group
-					}
-				}
-				AND = {
-					religion = cathar
-					liege = { religion = cathar }
-				}
-				AND = {
-					religion = messalian
-					liege = { religion = messalian }
-				}
+				culture = dryad
 				AND = {
 					liege = {
 						primary_title = {
@@ -366,10 +343,10 @@ can_be_spymaster_trigger = {
 					}
 				}
 				liege = {
-	primary_title = {
-		has_law = status_of_women_4
-	}
-}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+				}
 			}
 			is_adult = yes
 		}
@@ -379,10 +356,17 @@ can_be_spymaster_trigger = {
 	prisoner = no
 	NOT = { trait = incapable }
 	NOT = { trait = in_hiding }
+	NOT = { trait = witcher }
 	NOT = { has_character_flag = guru }
+	
+	liege = {
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
+	}
 }
 
 can_be_spiritual_trigger = {
+	NOT = { culture = wilderness }
 	prisoner = no
 	NOT = { trait = incapable }
 	NOT = { trait = in_hiding }
@@ -393,16 +377,33 @@ can_be_spiritual_trigger = {
 		AND = {
 			is_adult = yes
 			OR = {
-				is_female = no
-				religion_allows_female_temple_holders = yes
-			}
-			OR = {
-				NOT = { religion = hindu }
-				trait = brahmin
+				AND = {
+					is_female = no
+					NOT = { religion = melitele }
+					NOT = { religion = freya }
+					NOT = { religion = dryad }
+				}
+				AND = {
+					is_female = yes
+					# religion_allows_female_temple_holders = yes
+					OR = {
+						religion = melitele
+						religion = freya
+					}
+				}
+				AND = { 
+					religion = dryad
+					trait = dryad_race
+				}
+				trait = druid
 			}
 		}
 		has_character_flag = special_spiritual
 	}
+	
+	NOT = { trait = incapable }
+	NOT = { trait = in_hiding }
+	NOT = { trait = witcher }
 	
 	OR = {
 		is_theocracy = yes
@@ -437,6 +438,12 @@ can_be_spiritual_trigger = {
 		trait = martial_cleric
 		trait = scholarly_theologian
 		trait = mastermind_theologian
+		trait = druid
+	}
+	
+	liege = {
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_left_council } }
+		NOT = { has_opinion_modifier = { who = PREV modifier = opinion_refused_council } }
 	}
 }
 

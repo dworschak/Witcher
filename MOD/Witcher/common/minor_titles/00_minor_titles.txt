@@ -20,9 +20,10 @@ title_regent = {
 	realm_in_name = yes
 	dignity = 0.9
 	revoke_allowed = no
+	is_voter = yes
 	
 	monthly_salary = 0.1
-	monthly_prestige = 0.02
+	monthly_prestige = 1.50
 	
 	gain_effect = {
 	}
@@ -35,11 +36,11 @@ title_regent = {
 title_appointed_regent = {
 	dignity = 0.9
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 10
 	revoke_allowed = yes
 
 	monthly_salary = 0.05
-	monthly_prestige = 0.02
+	monthly_prestige = 0.75
 
 	allowed_to_hold = {
 		is_adult = yes
@@ -66,7 +67,7 @@ title_ruler_consort = {
 	revoke_allowed = no
 	
 	monthly_salary = 0.1
-	monthly_prestige = 0.02
+	monthly_prestige = 1.00
 	
 	gain_effect = {
 	}
@@ -84,7 +85,7 @@ title_tanist = {
 	revoke_allowed = no
 	
 	monthly_salary = 0.07
-	monthly_prestige = 0.02
+	monthly_prestige = 0.75
 	
 	gain_effect = {
 	}
@@ -101,7 +102,7 @@ title_queen_mother = {
 	revoke_allowed = no
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.01
+	monthly_prestige = 1.00
 	
 	gain_effect = {
 	}
@@ -118,7 +119,7 @@ title_prince = {
 	revoke_allowed = no
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.01
+	monthly_prestige = 0.25
 	
 	gain_effect = {
 	}
@@ -135,7 +136,7 @@ title_courtesan = {
 	revoke_allowed = no
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.10
 	
 	gain_effect = {
 	}
@@ -155,14 +156,28 @@ title_commander = {
 	realm_in_name = yes
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.005
+	monthly_prestige = 0.50
 	
 	allowed_to_hold = {
 		NOT = { culture = wilderness }
 		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
+		liege = { character = FROM }
+		OR = {
 			AND = {
 				OR = {
 					is_female = no
+					liege = {
+						primary_title = {
+							has_law = status_of_women_4
+						}
+					}
 					trait = dryad_race
 					trait = sorcerer
 				}
@@ -196,9 +211,17 @@ title_court_eunuch = {
 	opinion_effect = 10
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.25
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		trait = eunuch
 	}
@@ -217,9 +240,6 @@ title_court_eunuch = {
 	}
 	
 	gain_effect = {
-		FROM = {
-			prestige = 10
-		}
 	}
 	lose_effect = {
 	}
@@ -234,9 +254,17 @@ title_court_dwarf = {
 	opinion_effect = 10
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.25
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		trait = dwarf
 	}
@@ -255,9 +283,6 @@ title_court_dwarf = {
 	}
 	
 	gain_effect = {
-		FROM = {
-			prestige = 10
-		}
 	}
 	lose_effect = {
 	}
@@ -269,14 +294,22 @@ title_court_jester = {
 	dignity = 0.01
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = -10
+	opinion_effect = -5
 	
 	monthly_salary = 0.02
-	monthly_prestige = -0.01
+	monthly_prestige = -0.25
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 	}
 	
@@ -307,14 +340,22 @@ title_keeper_of_swans = {
 	dignity = 0.05
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 10
+	opinion_effect = 5
 	
 	monthly_salary = 0.01
-	monthly_prestige = 0.002
+	monthly_prestige = 0.50
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 	}
 	allowed_to_grant = {
@@ -339,18 +380,30 @@ title_keeper_of_swans = {
 	message = yes
 }
 
+#title_master_of_the_horse = {
+
+#}
+
 title_master_of_the_hunt = {
 	dignity = 0.05
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 10
+	opinion_effect = 5
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.004
+	monthly_prestige = 0.40
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -376,14 +429,22 @@ title_high_almoner = {
 	dignity = 0.03
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 10
+	opinion_effect = 5
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.004
+	monthly_prestige = 0.40
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 	}
 	
@@ -407,14 +468,22 @@ title_cupbearer = {
 	dignity = 0.1
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 5
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.006
+	monthly_prestige = 0.60
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -441,14 +510,22 @@ title_seneschal = {
 	dignity = 0.15
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 10
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.006
+	monthly_prestige = 0.60
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -479,7 +556,7 @@ title_paramount_knight = {
 	grant_limit = 0 
 	opinion_effect = 0
 
-	monthly_prestige = 0.5
+	monthly_prestige = 1.50
 
 	gain_effect = {
 	}
@@ -496,14 +573,22 @@ title_state_inquisitor = {
 	dignity = 0.06
 	realm_in_name = yes
 	grant_limit = 3
-	opinion_effect = 12
+	opinion_effect = 6
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.004
+	monthly_prestige = 0.40
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -524,14 +609,22 @@ title_high_admiral = {
 	dignity = 0.1
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 10
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.006
+	monthly_prestige = 0.60
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -552,14 +645,22 @@ title_high_judge = {
 	dignity = 0.15
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 10
 	
 	monthly_salary = 0.05
-	monthly_prestige = 0.006
+	monthly_prestige = 0.60
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -583,17 +684,20 @@ title_patrician_heir = {
 	dignity = 0.05
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 50
+	opinion_effect = 25
 	
 	patrician_heir = yes
 	
 	monthly_salary = 0.01
-	monthly_prestige = 0.002
+	monthly_prestige = 0.20
 	
 	allowed_to_hold = {
 		is_female = no
 		dynasty = FROM
+		NOT = { trait = incapable }
 		NOT = { trait = bastard }
+		NOT = { trait = monk }
+		NOT = { trait = eunuch }
 	}
 
 	allowed_to_grant = {
@@ -616,11 +720,19 @@ title_volva = {
 	opinion_effect = 5
 	
 	monthly_salary = 0.02
-	monthly_prestige = 0.01
+	monthly_prestige = 0.25
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = yes
 		trait = mystic
@@ -645,14 +757,22 @@ title_lawspeaker = {
 	dignity = 0.2
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 20
+	opinion_effect = 10
 	
 	monthly_salary = 0.1
-	monthly_prestige = 0.075
+	monthly_prestige = 0.75
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		religion = freya
 	}
@@ -677,14 +797,22 @@ title_drottseti = {
 	dignity = 0.15
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 10
 	
 	monthly_salary = 0.1
-	monthly_prestige = 0.05
+	monthly_prestige = 0.5
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 	}
 	
@@ -711,14 +839,22 @@ title_court_skald = {
 	dignity = 0.15
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 10
 	
 	monthly_salary = 0.075
-	monthly_prestige = 0.075
+	monthly_prestige = 0.75
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		trait = poet
 	}
@@ -743,14 +879,22 @@ title_marksman = {
 	dignity = 0.1
 	realm_in_name = yes
 	grant_limit = 1
-	opinion_effect = 15
+	opinion_effect = 10
 	
 	monthly_salary = 0.075
-	monthly_prestige = 0.075
+	monthly_prestige = 0.75
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no
 	}
@@ -774,14 +918,22 @@ title_marksman = {
 title_hirdman = {
 	dignity = 0.075
 	grant_limit = 4
-	opinion_effect = 10
+	opinion_effect = 5
 	
 	monthly_salary = 0.005
-	monthly_prestige = 0.005
+	monthly_prestige = 0.25
 	
 	is_unique = yes
 	
 	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
 		is_adult = yes
 		is_female = no	
 	}
@@ -799,5 +951,95 @@ title_hirdman = {
 	lose_effect = {
 	}
 
+	message = yes
+}
+title_councilmember_king = {
+	dignity = 0.050
+	grant_limit = 1
+	opinion_effect = 10
+	monthly_salary = 0.00
+	monthly_prestige = 0.75
+	is_voter = yes
+	allowed_to_grant = {
+		higher_tier_than = DUKE
+		has_dlc = "Zeus"
+		primary_title = { has_law = law_voting_power_1 }
+	}
+	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
+		can_be_councilmember_king_trigger = yes
+	}
+	revoke_trigger = {
+		FROM = {
+			primary_title = {
+				NOT = { 
+					AND = {
+						has_law = succession_voting_power_1
+						ROOT = { is_powerful_vassal = yes }
+					}
+				}
+			}
+		}
+	}
+	gain_effect = {
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+		opinion = { who = FROM modifier = opinion_recently_fired }
+	}
+	retire_effect = {
+	}
+	message = yes
+}
+title_councilmember_emperor = {
+	dignity = 0.060
+	grant_limit = 1
+	opinion_effect = 10
+	monthly_salary = 0.00
+	monthly_prestige = 1.00
+	is_voter = yes
+	allowed_to_grant = {
+		higher_tier_than = KING
+		has_dlc = "Zeus"
+		primary_title = { has_law = law_voting_power_1 }
+	}
+	allowed_to_hold = {
+		OR = {
+			primary_title = { temporary = no }
+			NOT = {
+				primary_title = {
+					always = yes
+				}
+			}
+		}
+		can_be_councilmember_emperor_trigger = yes
+	}
+	revoke_trigger = {
+		FROM = {
+			primary_title = {
+				NOT = { 
+					AND = {
+						has_law = succession_voting_power_1
+						ROOT = { is_powerful_vassal = yes }
+					}
+				}
+			}
+		}
+	}
+	gain_effect = {
+	}
+	lose_effect = {
+		opinion = { who = FROM modifier = opinion_fired_from_council }
+		opinion = { who = FROM modifier = opinion_recently_fired }
+	}
+	retire_effect = {
+	}
 	message = yes
 }
