@@ -33,18 +33,6 @@ can_be_mercenary_leader_potential_trigger = {
 	same_realm = FROM
 	OR = {
 		is_female = no
-		AND = {
-			religion = cathar
-			FROM = {
-				religion = cathar
-			}
-		}
-		AND = {
-			religion = messalian
-			FROM = {
-				religion = messalian
-			}
-		}
 		FROM = {
 			has_law = true_cognatic_succession
 		}
@@ -94,7 +82,6 @@ change_council_job_potential_trigger = {
 	NOT = {
 		AND = {
 			has_job_title = job_spiritual
-			liege = { religion_group = muslim }
 			religion = FROM
 		}
 	}
@@ -109,10 +96,7 @@ change_council_job_potential_trigger = {
 				can_be_marshal_trigger = yes
 				can_be_treasurer_trigger = yes
 				can_be_spymaster_trigger = yes
-				AND = {
-					can_be_spiritual_trigger = yes
-					ROOT = { NOT = { religion_group = muslim } }
-				}
+				can_be_spiritual_trigger = yes
 			}
 		}
 		AND = {
@@ -411,7 +395,6 @@ can_be_spiritual_trigger = {
 			liege = { is_tribal = yes }
 			is_ruler = no
 		}
-		liege = { religion_group = muslim }
 		AND = {
 			clan = yes
 			liege = {
@@ -432,8 +415,6 @@ can_be_spiritual_trigger = {
 	}
 	
 	OR = {
-		NOT = { religion_group = muslim }
-		NOT = { liege = { religion_group = muslim } }
 		trait = detached_priest
 		trait = martial_cleric
 		trait = scholarly_theologian
@@ -455,10 +436,6 @@ can_be_councilmember_king_trigger = {
 		OR = {
 			is_female = no
 			AND = {
-				OR = {
-					religion = cathar
-					religion = messalian
-				}
 				liege = { religion = ROOT }
 			}
 			AND = {
@@ -487,14 +464,6 @@ can_be_councilmember_emperor_trigger = {
 		AND = {
 			OR = {
 				is_female = no
-				AND = {
-					religion = cathar
-					liege = { religion = cathar }
-				}
-				AND = {
-					religion = messalian
-					liege = { religion = messalian }
-				}
 				AND = {
 					liege = {
 						primary_title = {
