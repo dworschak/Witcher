@@ -24,6 +24,7 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
+		NOT = { has_dlc = "Conclave" }
 		NOT = {
 			num_of_friends = 2
 		}
@@ -95,27 +96,14 @@ character_event = {
 			trait = shy
 		}
 	}
-	
-	option = {
-		name = EVTOPTA100000
+
+	immediate = {
 		host = {
 			random_courtier = {
 				limit = {
 					is_abroad = no
 					prisoner = no
 					at_location = ROOT
-					NOT = {
-						is_friend = ROOT
-					}
-					NOT = {
-						is_rival = ROOT
-					}
-					NOT = {
-						trait = craven
-					}
-					NOT = {
-						trait = honest
-					}
 					OR = {
 						AND = {
 							ROOT = {
@@ -131,65 +119,6 @@ character_event = {
 						}
 					}
 					NOT = {
-						sibling = ROOT
-					}
-					age = 4
-					NOT = {
-						age = 14
-					}
-					NOT = {
-						num_of_friends = 2
-					}
-				}
-				add_rival = ROOT
-				character_event = {
-					id = 100001
-					days = 1
-					random = 2
-					tooltip = EVTTOOLTIP100001
-				}
-				if = {
-					limit = {
-						NOT = {
-							num_of_traits = 5
-						}
-						NOT = {
-							trait = wroth
-						}
-						trait = greedy
-					}
-					add_trait = wroth
-				}
-				if = {
-					limit = {
-						NOT = {
-							num_of_traits = 5
-						}
-						NOT = {
-							trait = greedy
-						}
-						trait = wroth
-					}
-					add_trait = greedy
-				}
-			}
-		}
-	}
-	option = {
-		name = EVTOPTB100000
-		host = {
-			random_courtier = {
-				limit = {
-					is_abroad = no
-					prisoner = no
-					at_location = ROOT
-					NOT = {
-						is_friend = ROOT
-					}
-					NOT = {
-						is_rival = ROOT
-					}
-					NOT = {
 						trait = craven
 					}
 					NOT = {
@@ -205,12 +134,64 @@ character_event = {
 					NOT = {
 						num_of_friends = 2
 					}
+					NOT = {
+						num_of_rivals = 2
+					}
+					NOT = {
+						is_friend = ROOT
+					}
+					NOT = {
+						is_rival = ROOT
+					}
 				}
-				add_friend = ROOT
-				character_event = {
-					id = 100002
-					tooltip = EVTTOOLTIP100002
+				save_event_target_as = troublemaker_child
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA100000
+		event_target:troublemaker_child = {
+			add_rival = ROOT
+			character_event = {
+				id = 100001
+				days = 1
+				random = 2
+				tooltip = EVTTOOLTIP100001
+			}
+			if = {
+				limit = {
+					NOT = {
+						num_of_traits = 5
+					}
+					NOT = {
+						trait = wroth
+					}
+					trait = greedy
 				}
+				add_trait = wroth
+			}
+			if = {
+				limit = {
+					NOT = {
+						num_of_traits = 5
+					}
+					NOT = {
+						trait = greedy
+					}
+					trait = wroth
+				}
+				add_trait = greedy
+			}
+		}
+	}
+	option = {
+		name = EVTOPTB100000
+		event_target:troublemaker_child = {
+			add_friend = ROOT
+			character_event = {
+				id = 100002
+				tooltip = EVTTOOLTIP100002
 			}
 		}
 	}
@@ -250,7 +231,9 @@ character_event = {
 	desc = EVTDESC100005
 	picture = GFX_evt_child_talking
 	
-	min_age = 4
+	is_triggered_only = yes
+	
+	min_age = 6
 	max_age = 14
 	prisoner = no
 	
@@ -268,11 +251,12 @@ character_event = {
 		}
 		host = {
 			any_courtier = {
+				NOT = { character = ROOT }
 				at_location = ROOT
 				prisoner = no
-				age = 4
+				age = 6
 				NOT = {
-					age = 14
+					age = 15
 				}
 				NOT = {
 					is_friend = ROOT
@@ -296,50 +280,48 @@ character_event = {
 		NOT = { trait = in_hiding }
 	}
 	
-	mean_time_to_happen = {
-		months = 80
+	weight_multiplier = {
+		days = 1
 		
 		modifier = {
-			factor = 0.5
+			factor = 1.5
 			trait = honest
 		}
 		modifier = {
-			factor = 2
+			factor = 0.65
 			trait = wroth
 		}
 		modifier = {
-			factor = 2
+			factor = 0.65
 			trait = cruel
+		}
+	}
+	
+	immediate = {
+		host = {
+			random_courtier = {
+				limit = {
+					NOT = { character = ROOT }
+					at_location = ROOT
+					prisoner = no
+					age = 6
+					NOT = { age = 15 }
+					NOT = { is_friend = ROOT }
+					NOT = { is_rival = ROOT }
+					NOT = { num_of_friends = 2 }
+					NOT = { num_of_rivals = 2 }
+					NOT = { sibling = ROOT }
+					trait = shy
+					NOT = { trait = in_hiding }
+				}
+				save_event_target_as = shy_child
+			}
 		}
 	}
 	
 	option = {
 		name = EVTOPTA100005
-		random_courtier = {
-			limit = {
-				at_location = ROOT
-				prisoner = no
-				age = 4
-				NOT = {
-					age = 14
-				}
-				NOT = {
-					is_friend = ROOT
-				}
-				NOT = {
-					is_rival = ROOT
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					sibling = ROOT
-				}
-				trait = shy
-			}
+		event_target:shy_child = {
 			character_event = {
 				id = 100006
 				days = 2
@@ -351,31 +333,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTB100005
-		random_courtier = {
-			limit = {
-				at_location = ROOT
-				prisoner = no
-				age = 4
-				NOT = {
-					age = 14
-				}
-				NOT = {
-					is_friend = ROOT
-				}
-				NOT = {
-					is_rival = ROOT
-				}
-				NOT = {
-					num_of_friends = 2
-				}
-				NOT = {
-					num_of_rivals = 2
-				}
-				NOT = {
-					sibling = ROOT
-				}
-				trait = shy
-			}
+		event_target:shy_child = {
 			character_event = {
 				id = 100007
 				days = 2
@@ -574,6 +532,8 @@ character_event = {
 	id = 100015
 	desc = EVTDESC100015
 	picture = GFX_evt_child_bully
+	
+	is_triggered_only = yes
 
 	min_age = 11
 	max_age = 15
@@ -591,6 +551,7 @@ character_event = {
 		}
 		host = {
 			any_courtier = {
+				NOT = { character = ROOT }
 				is_female = no
 				same_guardian = ROOT
 				NOT = {
@@ -601,6 +562,7 @@ character_event = {
 					trait = kind
 					trait = ambitious
 				}
+				NOT = { trait = in_hiding }
 				NOT = {
 					num_of_friends = 3
 				}
@@ -617,24 +579,23 @@ character_event = {
 		}
 	}
 	
-	mean_time_to_happen = {
-		months = 80
-		
+	weight_multiplier = {
+		days = 1
 		modifier = {
-			factor = 0.5
+			factor = 1.5
 			trait = gregarious
 		}
 		modifier = {
-			factor = 2
+			factor = 0.66
 			trait = wroth
 		}
 	}
 	
-	option = {
-		name = EVTOPTA100015
+	immediate = {
 		host = {
 			random_courtier = {
 				limit = {
+					NOT = { character = ROOT }
 					is_female = no
 					same_guardian = ROOT
 					NOT = {
@@ -645,6 +606,7 @@ character_event = {
 						trait = kind
 						trait = ambitious
 					}
+					NOT = { trait = in_hiding }
 					NOT = {
 						num_of_friends = 3
 					}
@@ -658,6 +620,15 @@ character_event = {
 						is_rival = ROOT
 					}
 				}
+				save_event_target_as = helping_child
+			}
+		}
+	}
+	
+	option = {
+		name = EVTOPTA100015
+		host = {
+			event_target:helping_child = {
 				add_friend = ROOT
 				character_event = {
 					id = 100016
@@ -671,31 +642,7 @@ character_event = {
 	option = {
 		name = EVTOPTB100015
 		host = {
-			random_courtier = {
-				limit = {
-					is_female = no
-					same_guardian = ROOT
-					NOT = {
-						sibling = ROOT
-					}
-					OR = {
-						trait = charitable
-						trait = kind
-						trait = ambitious
-					}
-					NOT = {
-						num_of_friends = 3
-					}
-					NOT = {
-						num_of_rivals = 3
-					}
-					NOT = {
-						is_friend = ROOT
-					}
-					NOT = {
-						is_rival = ROOT
-					}
-				}
+			event_target:helping_child = {
 				reverse_opinion = {
 					modifier = opinion_irritated
 					who = ROOT
@@ -814,119 +761,183 @@ character_event = {
 }
 	
 ### A fellow student lacks even the ability to talk to a girl ###
-character_event = {
-	id = 100020
-	desc = EVTDESC100020
-	picture = GFX_evt_courtiers_talking
+character_event = { # Relay event for rulers
+	id = 100019
+	hide_window = yes
 	
-	only_men = yes
-	prisoner = no
-	min_age = 15
-	max_age = 25
+	is_triggered_only = yes
+	
+	only_rulers = yes
 	
 	trigger = {
-		is_married = no
-		trait = lustful
-		NOT = {
-			num_of_friends = 5
-		}
-		NOT = {
-			num_of_rivals = 5
-		}
 		OR = {
-			trait = gregarious
-			trait = kind
-			trait = charitable
-		}
-		any_courtier = {
-			at_location = ROOT
-			#same_liege = ROOT
-			is_female = no
-			prisoner = no
-			is_married = no
-			age = 15
-			NOT = {
-				age = 25
+			AND = {
+				is_female = no
+				is_married = no
+				trait = lustful
+				prisoner = no
+				age = 16
+				NOT = { age = 25 }
+				NOT = { num_of_friends = 5 }
+				NOT = { num_of_rivals = 5 }
+				OR = {
+					trait = gregarious
+					trait = kind
+					trait = charitable
+				}
+				any_courtier = {
+					NOT = { character = ROOT }
+					at_location = ROOT
+					is_female = no
+					prisoner = no
+					is_married = no
+					age = 15
+					NOT = { age = 25 }
+					NOT = { num_of_friends = 5 }
+					NOT = { num_of_rivals = 5 }
+					NOT = { sibling = ROOT }
+					NOT = { is_friend = ROOT }
+					NOT = { is_rival = ROOT }
+					OR = { 
+						trait = chaste
+						religion_group = muslim
+					}
+					trait = shy
+				}
 			}
-			NOT = {
-				num_of_friends = 5
+			any_courtier = {
+				is_female = no
+				is_married = no
+				trait = lustful
+				prisoner = no
+				age = 16
+				NOT = { age = 25 }
+				NOT = { num_of_friends = 5 }
+				NOT = { num_of_rivals = 5 }
+				OR = {
+					trait = gregarious
+					trait = kind
+					trait = charitable
+				}
+				ROOT = {
+					OR = {
+						AND = {
+							NOT = { character = PREV }
+							at_location = PREV
+							is_female = no
+							prisoner = no
+							is_married = no
+							age = 16
+							NOT = { age = 25 }
+							NOT = { num_of_friends = 5 }
+							NOT = { num_of_rivals = 5 }
+							NOT = { sibling = PREV }
+							NOT = { is_friend = PREV }
+							NOT = { is_rival = PREV }
+							
+							trait = shy
+						}
+						any_courtier = {
+							NOT = { character = PREVPREV }
+							at_location = PREVPREV
+							is_female = no
+							prisoner = no
+							is_married = no
+							age = 16
+							NOT = { age = 25 }
+							NOT = { num_of_friends = 5 }
+							NOT = { num_of_rivals = 5 }
+							NOT = { sibling = PREVPREV }
+							NOT = { is_friend = PREVPREV }
+							NOT = { is_rival = PREVPREV }
+							
+							trait = shy
+						}
+					}
+				}
 			}
-			NOT = {
-				num_of_rivals = 5
-			}
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				is_friend = ROOT
-			}
-			NOT = {
-				is_rival = ROOT
-			}
-			OR = {
-				trait = chaste
-				religion_group = muslim
-			}
-			trait = shy
 		}
 	}
 	
-	mean_time_to_happen = {
-		months = 80
-		
-		modifier = {
-			factor = 2
-			trait = wroth
-		}
-		modifier = {
-			factor = 2
-			trait = cruel
-		}
-		
-		modifier = {
-			factor = 0.5
-			trait = flamboyant_schemer
-		}
-		modifier = {
-			factor = 0.5
-			trait = charismatic_negotiator
-		}
+	weight_multiplier = {
+		days = 1
 	}
 	
-	option = {
-		name = EVTOPTA100020
+	immediate = {
 		random_courtier = {
 			limit = {
-				at_location = ROOT
-				#same_liege = ROOT
+				is_female = no
+				is_married = no
+				trait = lustful
+				prisoner = no
+				age = 15
+				NOT = { age = 25 }
+				NOT = { num_of_friends = 5 }
+				NOT = { num_of_rivals = 5 }
+				OR = {
+					trait = gregarious
+					trait = kind
+					trait = charitable
+				}
+			}
+			save_event_target_as = lustful_courtier
+		}
+		if = {
+			limit = {
+				NOT = { event_target:lustful_courtier = { always = yes } }
+			}
+			save_event_target_as = lustful_courtier
+		}
+		random_courtier = {
+			limit = {
+				NOT = { character = event_target:lustful_courtier }
+				at_location = event_target:lustful_courtier
 				is_female = no
 				prisoner = no
 				is_married = no
-				age = 15
-				NOT = {
-					age = 25
-				}
-				NOT = {
-					num_of_friends = 5
-				}
-				NOT = {
-					num_of_rivals = 5
-				}
-				NOT = {
-					sibling = ROOT
-				}
-				NOT = {
-					is_friend = ROOT
-				}
-				NOT = {
-					is_rival = ROOT
-				}
-				OR = {
+				age = 16
+				NOT = { age = 25 }
+				NOT = { num_of_friends = 5 }
+				NOT = { num_of_rivals = 5 }
+				NOT = { sibling = event_target:lustful_courtier }
+				NOT = { is_friend = event_target:lustful_courtier }
+				NOT = { is_rival = event_target:lustful_courtier }
+				OR = { 
 					trait = chaste
 					religion_group = muslim
 				}
 				trait = shy
 			}
+			save_event_target_as = shy_courtier
+		}
+		if = {
+			limit = {
+				NOT = { event_target:shy_courtier = { always = yes } }
+			}
+			save_event_target_as = shy_courtier
+		}
+		if = { # sanity check
+			limit = {
+				event_target:lustful_courtier = {
+					character = event_target:shy_courtier
+				}
+			}
+			break = yes
+		}
+		event_target:lustful_courtier = { character_event = { id = 100020 } }
+	}
+}
+
+character_event = {
+	id = 100020
+	desc = EVTDESC100020
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100020
+		event_target:shy_courtier = {
 			character_event = {
 				id = 100021
 				days = 1
@@ -1090,95 +1101,217 @@ character_event = {
 
 ### Ladies shun me, I need help! ###
 character_event = {
-	id = 100025
-	desc = EVTDESC100025
-	picture = GFX_evt_courtiers_talking
+	id = 100024
+	hide_window = yes
 	
-	only_men = yes
-	prisoner = no
-	min_age = 15
-	max_age = 25
+	is_triggered_only = yes
+	
+	only_rulers = yes
 	
 	trigger = {
-		war = no
-		in_command = no
-		is_married = no
-		NOT = {
-			num_of_friends = 5
-		}
-		NOT = {
-			num_of_rivals = 5
-		}
-		trait = chaste
 		OR = {
-			trait = paranoid
-			trait = shy
-		}
-		any_courtier = {
-			at_location = ROOT
-			is_female = no
-			war = no
-			in_command = no
-			prisoner = no
-			is_married = no
-			age = 15
-			NOT = {
-				age = 25
+			AND = {
+				is_female = no
+				prisoner = no
+				age = 16
+				NOT = { age = 25 }
+				in_command = no
+				is_married = no
+				NOT = {
+					num_of_friends = 5
+				}
+				NOT = {
+					num_of_rivals = 5
+				}
+				OR = {
+					trait = chaste
+					religion_group = muslim
+				}
+				OR = {
+					trait = paranoid
+					trait = shy
+				}
+				war = no
+				any_courtier = {
+					at_location = ROOT
+					is_female = no
+					in_command = no
+					prisoner = no
+					is_married = no
+					age = 16
+					NOT = {
+						age = 25
+					}
+					NOT = {
+						sibling = ROOT
+					}
+					NOT = {
+						num_of_friends = 5
+					}
+					NOT = {
+						num_of_rivals = 5
+					}
+					trait = lustful
+					OR = {
+						trait = charitable
+						trait = kind
+						trait = gregarious
+					}
+					NOT = {
+						is_friend = ROOT
+					}
+					NOT = {
+						is_rival = ROOT
+					}
+					war = no
+				}
 			}
-			NOT = {
-				sibling = ROOT
-			}
-			NOT = {
-				num_of_friends = 5
-			}
-			NOT = {
-				num_of_rivals = 5
-			}
-			trait = lustful
-			OR = {
-				trait = charitable
-				trait = kind
-				trait = gregarious
-			}
-			NOT = {
-				is_friend = ROOT
-			}
-			NOT = {
-				is_rival = ROOT
+			any_courtier = {
+				is_female = no
+				prisoner = no
+				age = 16
+				NOT = { age = 25 }
+				in_command = no
+				is_married = no
+				NOT = {
+					num_of_friends = 5
+				}
+				NOT = {
+					num_of_rivals = 5
+				}
+				OR = {
+					trait = chaste
+					religion_group = muslim
+				}
+				OR = {
+					trait = paranoid
+					trait = shy
+				}
+				war = no
+				ROOT = {
+					OR = {
+						AND = {
+							at_location = PREV
+							is_female = no
+							in_command = no
+							prisoner = no
+							is_married = no
+							age = 16
+							NOT = {
+								age = 25
+							}
+							NOT = {
+								sibling = PREV
+							}
+							NOT = {
+								num_of_friends = 5
+							}
+							NOT = {
+								num_of_rivals = 5
+							}
+							trait = lustful
+							OR = {
+								trait = charitable
+								trait = kind
+								trait = gregarious
+							}
+							NOT = {
+								is_friend = PREV
+							}
+							NOT = {
+								is_rival = PREV
+							}
+							war = no
+						}
+						any_courtier = {
+							at_location = PREVPREV
+							is_female = no
+							in_command = no
+							prisoner = no
+							is_married = no
+							age = 16
+							NOT = {
+								age = 25
+							}
+							NOT = {
+								sibling = PREVPREV
+							}
+							NOT = {
+								num_of_friends = 5
+							}
+							NOT = {
+								num_of_rivals = 5
+							}
+							trait = lustful
+							OR = {
+								trait = charitable
+								trait = kind
+								trait = gregarious
+							}
+							NOT = {
+								is_friend = PREVPREV
+							}
+							NOT = {
+								is_rival = PREVPREV
+							}
+							war = no
+						}
+					}
+				}
 			}
 		}
 	}
 	
-	mean_time_to_happen = {
-		months = 80
-		
-		modifier = {
-			factor = 0.5
-			trait = flamboyant_schemer
-		}
-		modifier = {
-			factor = 2
-			trait = indulgent_wastrel
-		}
-		modifier = { factor = 0.8 has_ambition = obj_make_a_friend }
+	weight_multiplier = {
+		days = 1
 	}
 	
-	option = {
-		name = EVTOPTA100025
+	immediate = {
 		random_courtier = {
 			limit = {
-				at_location = ROOT
 				is_female = no
+				prisoner = no
+				age = 16
+				NOT = { age = 25 }
+				in_command = no
+				is_married = no
+				NOT = {
+					num_of_friends = 5
+				}
+				NOT = {
+					num_of_rivals = 5
+				}
+				OR = {
+					trait = chaste
+					religion_group = muslim
+				}
+				OR = {
+					trait = paranoid
+					trait = shy
+				}
 				war = no
+			}
+			save_event_target_as = shy_courtier
+		}
+		if = {
+			limit = {
+				NOT = { event_target:shy_courtier = { always = yes } }
+			}
+			save_event_target_as = shy_courtier
+		}
+		random_courtier = {
+			limit = {
+				at_location = event_target:shy_courtier
+				is_female = no
 				in_command = no
 				prisoner = no
 				is_married = no
-				age = 15
+				age = 16
 				NOT = {
 					age = 25
 				}
 				NOT = {
-					sibling = ROOT
+					sibling = event_target:shy_courtier
 				}
 				NOT = {
 					num_of_friends = 5
@@ -1193,12 +1326,41 @@ character_event = {
 					trait = gregarious
 				}
 				NOT = {
-					is_friend = ROOT
+					is_friend = event_target:shy_courtier
 				}
 				NOT = {
-					is_rival = ROOT
+					is_rival = event_target:shy_courtier
 				}
+				war = no
 			}
+			save_event_target_as = lustful_courtier
+		}
+		if = {
+			limit = {
+				NOT = { event_target:lustful_courtier = { always = yes } }
+			}
+			save_event_target_as = lustful_courtier
+		}
+		if = { # sanity check
+			limit = {
+				event_target:shy_courtier = { character = event_target:lustful_courtier }
+			}
+			break = yes
+		}
+		event_target:shy_courtier = { character_event = { id = 100025 } }
+	}
+}
+
+character_event = {
+	id = 100025
+	desc = EVTDESC100025
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA100025
+		event_target:lustful_courtier = {
 			character_event = {
 				id = 100026
 				days = 2
@@ -1209,40 +1371,7 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTB100025
-		random_courtier = {
-			limit = {
-				at_location = ROOT
-				is_female = no
-				war = no
-				in_command = no
-				prisoner = no
-				is_married = no
-				age = 15
-				NOT = {
-					age = 25
-				}
-				NOT = {
-					sibling = ROOT
-				}
-				NOT = {
-					num_of_friends = 5
-				}
-				NOT = {
-					num_of_rivals = 5
-				}
-				trait = lustful
-				OR = {
-					trait = charitable
-					trait = kind
-					trait = gregarious
-				}
-				NOT = {
-					is_friend = ROOT
-				}
-				NOT = {
-					is_rival = ROOT
-				}
-			}
+		event_target:lustful_courtier = {
 			character_event = {
 				id = 100030
 				days = 2
@@ -4160,7 +4289,10 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.5
-			trait = quick
+			OR = {
+				trait = quick
+				trait = shrewd
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -4181,7 +4313,10 @@ character_event = {
 		}
 		modifier = {
 			factor = 2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 		}
 		modifier = {
 			factor = 5
@@ -5064,7 +5199,6 @@ character_event = {
 letter_event = {
 	id = 100151
 	desc = EVTDESC100151
-	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
 	
@@ -5100,7 +5234,6 @@ letter_event = {
 letter_event = {
 	id = 100152
 	desc = EVTDESC100152
-	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
 	
@@ -5254,7 +5387,6 @@ character_event = {
 letter_event = {
 	id = 100161
 	desc = EVTDESC100161
-	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
 	
@@ -5333,7 +5465,6 @@ letter_event = {
 letter_event = {
 	id = 100162
 	desc = EVTDESC100162
-	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
 	
@@ -5458,7 +5589,6 @@ character_event = {
 letter_event = {
 	id = 100164
 	desc = EVTDESC100164
-	picture = GFX_evt_large_army
 	
 	is_triggered_only = yes
 	
@@ -5478,7 +5608,7 @@ character_event = {
 	desc = EVTDESC100170
 	picture = GFX_evt_courtiers_talking
 	
-	age = 15
+	min_age = 15
 	prisoner = no
 	
 	trigger = {
@@ -5499,6 +5629,9 @@ character_event = {
 				}
 				NOT = {
 					character = ROOT
+				}
+				NOT = {
+					is_close_relative = ROOT
 				}
 				NOT = {
 					is_friend = ROOT
@@ -5566,10 +5699,18 @@ character_event = {
 			limit = {
 				prisoner = no
 				any_friend = {
+					prisoner = no
+					war = no
+					in_command = no
+					NOT = {
+						num_of_friends = 5
+					}
 					NOT = {
 						character = ROOT
 					}
-					prisoner = no
+					NOT = {
+						is_close_relative = ROOT
+					}
 					NOT = {
 						is_friend = ROOT
 					}
@@ -5586,10 +5727,18 @@ character_event = {
 			}
 			random_friend = {
 				limit = {
+					prisoner = no
+					war = no
+					in_command = no
+					NOT = {
+						num_of_friends = 5
+					}
 					NOT = {
 						character = ROOT
 					}
-					prisoner = no
+					NOT = {
+						is_close_relative = ROOT
+					}
 					NOT = {
 						is_friend = ROOT
 					}
@@ -5641,10 +5790,18 @@ character_event = {
 			limit = {
 				prisoner = no
 				any_friend = {
+					prisoner = no
+					war = no
+					in_command = no
+					NOT = {
+						num_of_friends = 5
+					}
 					NOT = {
 						character = ROOT
 					}
-					prisoner = no
+					NOT = {
+						is_close_relative = ROOT
+					}
 					NOT = {
 						is_friend = ROOT
 					}
@@ -5655,10 +5812,18 @@ character_event = {
 			}
 			random_friend = {
 				limit = {
+					prisoner = no
+					war = no
+					in_command = no
+					NOT = {
+						num_of_friends = 5
+					}
 					NOT = {
 						character = ROOT
 					}
-					prisoner = no
+					NOT = {
+						is_close_relative = ROOT
+					}
 					NOT = {
 						is_friend = ROOT
 					}
@@ -9333,14 +9498,28 @@ character_event = {
 	trigger = {
 		NOT = { has_character_modifier = old_age }
 		war = no
+		liege = {
+			war = no
+		}
 		in_command = no
 		independent = no
 		num_of_rivals = 1
-		NOT = {
+		NOR = {
+			religion = jain
 			trait = wounded
-		}
-		NOT = {
 			trait = maimed
+			trait = in_hiding
+			has_character_flag = do_not_disturb
+			trait = infirm
+			trait = has_aztec_disease
+			trait = has_small_pox
+			trait = has_measles
+			trait = has_bubonic_plague
+			trait = has_typhus
+			trait = has_typhoid_fever
+			trait = has_tuberculosis
+			trait = leper
+			trait = pneumonic
 		}
 		any_rival = {
 			is_female = no
@@ -9349,25 +9528,54 @@ character_event = {
 			prisoner = no
 			age = 15
 			same_liege = ROOT
-			NOT = {
+			NOR = {
 				has_character_modifier = old_age
-			}
-			NOT = {
 				trait = wounded
-			}
-			NOT = {
 				trait = maimed
-			}
-			NOT = {
 				has_character_flag = duel_rival
+				trait = in_hiding
+				has_character_flag = do_not_disturb
+				trait = incapable
+				trait = infirm
+				trait = has_aztec_disease
+				trait = has_small_pox
+				trait = has_measles
+				trait = has_bubonic_plague
+				trait = has_typhus
+				trait = has_typhoid_fever
+				trait = has_tuberculosis
+				trait = leper
+				trait = pneumonic
+				ROOT = {
+					liege = {
+						character = PREVPREV
+					}
+				}
+				AND = {
+					has_dlc = "Way of Life"
+					OR = {
+						has_opinion_modifier = {
+							who = ROOT
+							modifier = opinion_fought_duel
+						}
+						ROOT = {
+							has_opinion_modifier = {
+								who = PREV
+								modifier = opinion_fought_duel
+							}
+							has_opinion_modifier = {
+								who = PREV
+								modifier = opinion_fled_duel
+							}
+						}
+					}
+				}
 			}
-			NOT = { trait = in_hiding }
 		}
-		NOT = { trait = in_hiding }
 	}
 	
 	mean_time_to_happen = {
-		months = 500
+		months = 1500
 		
 		modifier = {
 			factor = 0.5
@@ -9385,6 +9593,75 @@ character_event = {
 		modifier = {
 			factor = 2
 			trait = kind
+		}
+		modifier = {
+			factor = 2
+			liege = {
+				realm_size = 100
+			}
+		}
+		modifier = {
+			factor = 2
+			liege = {
+				realm_size = 150
+			}
+		}
+	}
+	
+	immediate = {
+		random_rival = {
+			limit = {
+				is_female = no
+				war = no
+				in_command = no
+				prisoner = no
+				age = 16
+				same_liege = ROOT
+				NOR = {
+					age = 60
+					trait = wounded
+					trait = maimed
+					has_character_flag = duel_rival
+					trait = in_hiding
+					has_character_flag = do_not_disturb
+					trait = incapable
+					trait = infirm
+					trait = has_aztec_disease
+					trait = has_small_pox
+					trait = has_measles
+					trait = has_bubonic_plague
+					trait = has_typhus
+					trait = has_typhoid_fever
+					trait = has_tuberculosis
+					trait = leper
+					trait = pneumonic
+					ROOT = {
+						liege = {
+							character = PREVPREV
+						}
+					}
+					AND = {
+						has_dlc = "Way of Life"
+						OR = {
+							has_opinion_modifier = {
+								who = ROOT
+								modifier = opinion_fought_duel
+							}
+							ROOT = {
+								has_opinion_modifier = {
+									who = PREV
+									modifier = opinion_fought_duel
+								}
+								has_opinion_modifier = {
+									who = PREV
+									modifier = opinion_fled_duel
+								}
+							}
+						}
+					}
+				}
+			}
+			save_event_target_as = duel_rival
 		}
 	}
 	
@@ -9411,23 +9688,7 @@ character_event = {
 				trait = kind
 			}
 		}
-		random_rival = {
-			limit = {
-				war = no
-				in_command = no
-				prisoner = no
-				same_liege = ROOT
-				age = 15
-				NOT = {
-					has_character_modifier = old_age
-				}
-				NOT = {
-					trait = wounded
-				}
-				NOT = {
-					trait = maimed
-				}
-			}
+		event_target:duel_rival = {
 			set_character_flag = duel_rival
 			tooltip = {
 				character_event = {
@@ -9449,10 +9710,8 @@ character_event = {
 		name = EVTOPTB100410
 		if = {
 			limit = {
-				NOT = {
+				NOR = {
 					num_of_traits = 5
-				}
-				NOT = {
 					trait = craven
 				}
 			}
@@ -9488,11 +9747,25 @@ character_event = {
 				who = ROOT
 				years = 5
 			}
-			character_event = {
-				id = 100412
-				days = 7
-				random = 7
-				tooltip = EVTTOOLTIP100412
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "Way of Life"
+					}
+				}
+				character_event = {
+					id = 100412
+					days = 7
+					random = 7
+					tooltip = EVTTOOLTIP100412
+				}
+				event_target:duel_rival = {}
+				break = yes
+			}
+			event_target:duel_rival = {
+				character_event = {
+					id = WoL.11000
+				}
 			}
 		}
 	}
@@ -9559,10 +9832,7 @@ character_event = {
 				years = 5
 			}
 		}
-		random_rival = {
-			limit = {
-				has_character_flag = duel_rival
-			}
+		event_target:duel_rival = {
 			clr_character_flag = duel_rival
 			if = {
 				limit = {
@@ -11018,9 +11288,9 @@ character_event = {
 				}
 				if = {
 					limit = {
-						is_friend = PREV
+						is_friend = ROOT
 					}
-					remove_friend = PREV
+					remove_friend = ROOT
 				}
 			}
 			hidden_tooltip = {
@@ -11396,58 +11666,8 @@ character_event = {
 			in_command = no
 			is_ruler = yes
 			prisoner = no
-			OR = {
-				AND = {
-					is_female = no
-					ROOT = {
-						is_female = no
-					}
-				}
-				AND = {
-					is_female = yes
-					ROOT = {
-							is_female = yes
-					}
-				}
-			}
-			OR = {
-				AND = {
-					tier = baron
-					ROOT = {
-						OR = {
-							tier = count
-							tier = duke
-							tier = king
-							tier = emperor
-						}
-					}
-				}
-				AND = {
-					tier = count
-					ROOT = {
-						OR = {
-							tier = duke
-							tier = king
-							tier = emperor
-						}
-					}
-				}
-				AND = {
-					tier = duke
-					ROOT = {
-						OR = {
-							tier = king
-							tier = emperor
-						}
-					}
-				}
-				AND = {
-					tier = king
-					ROOT = {
-						tier = emperor
-					}
-				}
-			}
+			same_sex = ROOT
+			lower_tier_than = ROOT
 		}
 	}
 	
@@ -11484,46 +11704,8 @@ character_event = {
 				in_command = no
 				is_ruler = yes
 				prisoner = no
-				OR = {
-					AND = {
-						is_female = no
-						ROOT = {
-							is_female = no
-						}
-					}
-					AND = {
-						is_female = yes
-						ROOT = {
-							is_female = yes
-						}
-					}
-				}
-				OR = {
-					AND = {
-						tier = baron
-						ROOT = {
-							tier = count
-						}
-					}
-					AND = {
-						tier = count
-						ROOT = {
-							tier = duke
-						}
-					}
-					AND = {
-						tier = duke
-						ROOT = {
-							tier = king
-						}
-					}
-					AND = {
-						tier = king
-						ROOT = {
-							tier = emperor
-						}
-					}
-				}
+				same_sex = ROOT
+				lower_tier_than = ROOT
 			}
 			remove_rival = ROOT
 			if = {

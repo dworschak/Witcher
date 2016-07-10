@@ -3652,7 +3652,6 @@ character_event = {
 letter_event = {
 	id = 2481
 	desc = EVTDESC2481
-	picture = GFX_evt_council
 	
 	is_triggered_only = yes
 	
@@ -3691,7 +3690,6 @@ letter_event = {
 letter_event = {
 	id = 2482
 	desc = EVTDESC2482
-	picture = GFX_evt_council
 	
 	is_triggered_only = yes
 	
@@ -3734,7 +3732,6 @@ letter_event = {
 letter_event = {
 	id = 2483
 	desc = EVTDESC2483
-	picture = GFX_evt_council
 	
 	is_triggered_only = yes
 	
@@ -3772,6 +3769,7 @@ character_event = {
 	max_age = 15
 	
 	trigger = {
+		NOT = { has_dlc = "Zeus" }
 		has_guardian = yes
 		guardian = { 
 			NOT = { religion = ROOT }
@@ -3924,6 +3922,7 @@ character_event = {
 	max_age = 15
 	
 	trigger = {
+		NOT = { has_dlc = "Zeus" }
 		has_guardian = yes
 		father = {
 			NOT = { is_nomadic = yes }
@@ -5550,12 +5549,14 @@ character_event = {
 			any_courtier = {
 				age = 8
 				NOT = { age = 15}
+				NOT = { character = FROM }
 			}
 		}
 		any_courtier = {
 			limit = {
 				age = 8
 				NOT = { age = 15}
+				NOT = { character = FROM }
 			}
 			opinion = {
 				modifier = opinion_coward
@@ -6078,10 +6079,7 @@ character_event = {
 		if = {
 			limit = {
 				FROM = {
-					OR = {
-						trait = genius
-						trait = quick
-					}
+					is_smart_trigger = yes
 				}
 			}
 			FROM = {
@@ -6212,10 +6210,7 @@ character_event = {
 		if = {
 			limit = {
 				FROM = {
-					OR = {
-						trait = genius
-						trait = quick
-					}
+					is_smart_trigger = yes
 				}
 			}
 			FROM = {
@@ -6301,10 +6296,7 @@ character_event = {
 		if = {
 			limit = {
 				FROM = {
-					OR = {
-						trait = genius
-						trait = quick
-					}
+					is_smart_trigger = yes
 				}
 			}
 			FROM = {
@@ -6721,11 +6713,6 @@ character_event = {
 						character_event = {
 							id = 38281 #Notify Maimed
 						}
-					}
-					opinion = {
-						modifier = opinion_murder_attempt
-						who = ROOT
-						years = 5
 					}
 				}
 			}
@@ -7220,10 +7207,7 @@ character_event = {
 		FROM = {
 			if = {
 				limit = {
-					OR = {
-						trait = quick
-						trait = genius
-					}
+					is_smart_trigger = yes
 				}
 				change_intrigue = 1
 			}

@@ -276,6 +276,11 @@ character_event = {
 	picture = GFX_evt_lovers
 
 	is_triggered_only = yes
+
+	trigger = {
+		FROM = { is_alive = yes }
+	}
+
 	option = {
 		name = EVTOPTA451 # Make a move
 		ai_chance = { factor = 90 }
@@ -364,42 +369,12 @@ character_event = {
 				}
 			}
 			if = {
-				if = {
-					limit = {
-						fertility = 0.5
-						FROM = { fertility = 0.5 }
-					}
-					random_list = {
-						75 = {
-							if = { 
-								limit = {
-									OR = {
-										AND = {
-											is_female = yes 
-											is_married = no
-											is_consort = no
-										}
-										FROM = {
-											is_female = yes
-											is_married = no
-											is_consort = no
-										}
-									}
-								}
-								impregnate = FROM
-#								log = "452: [From.GetBestName] impregnates [Root.GetBestName]"
-								break = yes
-							}
-							impregnate_cuckoo = FROM
-#							log = "452: [From.GetBestName] cuckoo impregnates [Root.GetBestName]"
-						}
-						25 = { }
-					}
-					break = yes
+				limit = {
+					fertility = 0.5
+					FROM = { fertility = 0.5 }
 				}
-				
 				random_list = {
-					50 = {
+					75 = {
 						if = { 
 							limit = {
 								OR = {
@@ -416,14 +391,42 @@ character_event = {
 								}
 							}
 							impregnate = FROM
-#							log = "452: [From.GetBestName] impregnates [Root.GetBestName]"
+#								log = "452: [From.GetBestName] impregnates [Root.GetBestName]"
 							break = yes
 						}
 						impregnate_cuckoo = FROM
-#						log = "452: [From.GetBestName] cuckoo impregnates [Root.GetBestName]"
+#							log = "452: [From.GetBestName] cuckoo impregnates [Root.GetBestName]"
 					}
-					50 = { }
+					25 = { }
 				}
+				break = yes
+			}
+			
+			random_list = {
+				50 = {
+					if = { 
+						limit = {
+							OR = {
+								AND = {
+									is_female = yes 
+									is_married = no
+									is_consort = no
+								}
+								FROM = {
+									is_female = yes
+									is_married = no
+									is_consort = no
+								}
+							}
+						}
+						impregnate = FROM
+#							log = "452: [From.GetBestName] impregnates [Root.GetBestName]"
+						break = yes
+					}
+					impregnate_cuckoo = FROM
+#						log = "452: [From.GetBestName] cuckoo impregnates [Root.GetBestName]"
+				}
+				50 = { }
 			}
 		}
 	}
@@ -680,30 +683,12 @@ character_event = {
 						AND = {
 							NOT = { trait = homosexual }
 							ROOT = { NOT = { trait = homosexual } }
-							OR = {
-								AND = {
-									is_female = no
-									ROOT = { is_female = yes }
-								}
-								AND = {
-									is_female = yes
-									ROOT = { is_female = no }
-								}
-							}
+							is_opposite_sex = ROOT
 						}
 						AND = {
 							trait = homosexual
 							ROOT = { trait = homosexual }
-							OR = {
-								AND = {
-									is_female = no
-									ROOT = { is_female = no }
-								}
-								AND = {
-									is_female = yes
-									ROOT = { is_female = yes }
-								}
-							}
+							same_sex = ROOT
 						}
 					}
 					
@@ -802,7 +787,7 @@ character_event = {
 		# Chance of impregnation
 		if = {
 			limit = {
-				same_sex = no
+				is_opposite_sex = FROM
 				fertility = 0.25
 				FROM = { fertility = 0.25 }
 				OR = {

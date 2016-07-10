@@ -341,6 +341,24 @@ character_event = {
 							}
 							ROOT = { diplomacy = 15 }
 						}
+						AND = {
+							ROOT = {
+								liege = { has_ambition = obj_become_king }
+							}
+							kingdom = {
+								NOT = { claimed_by = PREVPREVPREV }
+								holder_scope = {
+									NOT = { is_liege_of = ROOT }
+									NOT = { character = ROOT }
+									NOT = {
+										AND = {
+											religion = catholic
+											ROOT = { liege = { religion_head = { character = PREVPREVPREV } } }
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -435,7 +453,137 @@ character_event = {
 	option = {
 		name = "EVTOPTA913"
 		hidden_tooltip = {
-			# Try to claim duchy title
+			# Try to claim Kingdom title - only available with Become King ambition
+			if = {
+				limit = {
+					diplomacy = 22
+					liege = {
+						has_ambition = obj_become_king
+						ROOT = {
+							location = {
+								kingdom = {
+									NOT = { claimed_by = PREVPREVPREV }
+									holder_scope = {
+										NOT = { character = ROOT }
+										owns = PREVPREV
+									}
+								}
+							}
+						}
+					}
+				}
+				random = {
+					chance = 20
+					location = {
+						kingdom = {
+							holder_scope = {
+								set_character_flag = kingdom_claimed
+								character_event = { id = 20130 days = 1 }
+							}
+						}
+					}
+					set_character_flag = claim_done
+					break = yes
+				}
+			}
+			if = {
+				limit = {
+					diplomacy = 18
+					NOT = { diplomacy = 22 }
+					liege = {
+						has_ambition = obj_become_king
+						ROOT = {
+							location = {
+								kingdom = {
+									NOT = { claimed_by = PREVPREVPREV }
+									holder_scope = {
+										NOT = { character = ROOT }
+										owns = PREVPREV
+									}
+								}
+							}
+						}
+					}
+				}
+				random = {
+					chance = 10
+					location = {
+						kingdom = {
+							holder_scope = {
+								set_character_flag = kingdom_claimed
+								character_event = { id = 20130 days = 1 }
+							}
+						}
+					}
+					set_character_flag = claim_done
+					break = yes
+				}
+			}
+			if = {
+				limit = {
+					diplomacy = 15
+					NOT = { diplomacy = 18 }
+					liege = {
+						has_ambition = obj_become_king
+						ROOT = {
+							location = {
+								kingdom = {
+									NOT = { claimed_by = PREVPREVPREV }
+									holder_scope = {
+										NOT = { character = ROOT }
+										owns = PREVPREV
+									}
+								}
+							}
+						}
+					}
+				}
+				random = {
+					chance = 5
+					location = {
+						kingdom = {
+							holder_scope = {
+								set_character_flag = kingdom_claimed
+								character_event = { id = 20130 days = 1 }
+							}
+						}
+					}
+					set_character_flag = claim_done
+					break = yes
+				}
+			}
+			if = {
+				limit = {
+					NOT = { diplomacy = 15 }
+					liege = {
+						has_ambition = obj_become_king
+						ROOT = {
+							location = {
+								kingdom = {
+									NOT = { claimed_by = PREVPREVPREV }
+									holder_scope = {
+										NOT = { character = ROOT }
+										owns = PREVPREV
+									}
+								}
+							}
+						}
+					}
+				}
+				random = {
+					chance = 2
+					location = {
+						kingdom = {
+							holder_scope = {
+								set_character_flag = kingdom_claimed
+								character_event = { id = 20130 days = 1 }
+							}
+						}
+					}
+					set_character_flag = claim_done
+					break = yes
+				}
+			}
 			if = {
 				limit = {
 					diplomacy = 15
@@ -577,7 +725,12 @@ character_event = {
 		hidden_tooltip = {
 			# Claim county
 			if = {
-				limit = { NOT = { has_character_flag = duchy_claimed } }
+				limit = {
+					NOR = {
+						has_character_flag = duchy_claimed
+						has_character_flag = kingdom_claimed
+					}
+				}
 				FROM = { liege = { letter_event = { id = 20131 days = 1 } } }
 			}
 			# Claim duchy
@@ -585,6 +738,12 @@ character_event = {
 				limit = { has_character_flag = duchy_claimed }
 				FROM = { liege = { letter_event = { id = 20133 days = 1 } } }
 				clr_character_flag = duchy_claimed
+			}
+			# Claim Kingdom
+			if = {
+				limit = { has_character_flag = kingdom_claimed }
+				FROM = { liege = { letter_event = { id = 20134 days = 1 } } }
+				clr_character_flag = kingdom_claimed
 			}
 		}
 	}
@@ -865,6 +1024,106 @@ letter_event = {
 			FROM = {
 				location = {
 					duchy = {
+						add_claim = ROOT
+					}
+				}
+			}
+		}
+		FROM = {
+			opinion = {
+				modifier = opinion_furious
+				who = ROOT
+				years = 20
+			}
+			hidden_tooltip = {
+				character_event = { id = 20132 days = 7 }
+			}
+		}
+	}
+	option = {
+		name = "EVTOPTB20131" #Let it go
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				scaled_wealth = 2.25
+			}
+		}
+		piety = 20
+	}
+}
+
+# 20134: The liege is informed and has a choice to press the claim or not
+letter_event = {
+	id = 20134
+	desc = "EVTDESC20134"
+	border = GFX_event_letter_frame_diplomacy
+	
+	show_from_from = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		FROM = {
+			FROM = {
+				has_job_action = action_fabricate_claims
+				location = {
+					kingdom = {
+						NOT = { claimed_by = ROOT }
+					}
+				}
+			}
+		}
+	}
+
+	option = {	# Duke
+		name = "EVTOPTA20131" #Press the Claim
+		trigger = { primary_title = { tier = DUKE } }
+		ai_chance = {
+			factor = 90
+			modifier = {
+				factor = 0
+				NOT = { scaled_wealth = 2.25 }
+			}
+		}
+		scaled_wealth = -2.0
+		prestige = -200
+		FROM = {
+			FROM = {
+				location = {
+					kingdom = {
+						add_claim = ROOT
+					}
+				}
+			}
+		}
+		FROM = {
+			opinion = {
+				modifier = opinion_furious
+				who = ROOT
+				years = 20
+			}
+			hidden_tooltip = {
+				character_event = { id = 20132 days = 7 }
+			}
+		}
+	}
+	option = {	# Count
+		name = "EVTOPTA20131" #Press the Claim
+		trigger = { primary_title = { tier = COUNT } }
+		ai_chance = {
+			factor = 90
+			modifier = {
+				factor = 0
+				NOT = { scaled_wealth = 2.25 }
+			}
+		}
+		scaled_wealth = -2.0
+		prestige = -100
+		FROM = {
+			FROM = {
+				location = {
+					kingdom = {
 						add_claim = ROOT
 					}
 				}

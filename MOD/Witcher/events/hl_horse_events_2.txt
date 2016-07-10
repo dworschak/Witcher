@@ -66,9 +66,19 @@ character_event = {
 		has_character_modifier = nomad_warhorse
 		NOT = { trait = incapable }
 		NOT = { trait = in_hiding }
-		any_courtier = { 
-			NOT = { trait = incapable }
-			ai = yes
+		OR = {
+		    any_vassal = {
+			    is_adult = yes
+			    prisoner = no
+			    NOT = { trait = incapable }
+		    	ai = yes
+		    }
+		    any_courtier = {
+			    is_adult = yes
+			    prisoner = no
+			    NOT = { trait = incapable }
+			    ai = yes
+		    }
 		}
 	}
 	
@@ -80,18 +90,18 @@ character_event = {
 		if = {
 			limit = {
 				any_vassal = {
-					NOT = { 
-						trait = incapable
-					}
-					ai = yes
+					is_adult = yes
+				    prisoner = no
+				    NOT = { trait = incapable }
+			    	ai = yes
 				}
 			}
 			random_vassal = {
 				limit = {
-					NOT = { 
-						trait = incapable
-					}
-					ai = yes
+					is_adult = yes
+				    prisoner = no
+				    NOT = { trait = incapable }
+			    	ai = yes
 				}
 				character_event = { id = HL.6511 }
 				break = yes
@@ -99,10 +109,10 @@ character_event = {
 		}
 		random_courtier = {
 			limit = {
-				NOT = { 
-					trait = incapable
-					ai = yes
-				}
+				is_adult = yes
+			    prisoner = no
+			    NOT = { trait = incapable }
+			    ai = yes
 			}
 			character_event = { id = HL.6511 }
 		}

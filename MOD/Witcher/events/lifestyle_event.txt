@@ -564,6 +564,27 @@ character_event = {
 	
 	immediate = {
 		set_character_flag = LE_ST
+		random_courtier = {
+			limit = {
+				age = 25
+				NOT = {
+					age = 35
+				}
+				is_female = yes
+				is_married = no
+				NOT = {
+					trait = celibate
+				}
+				NOT = {
+					trait = homosexual
+				}
+				NOT = {
+					opinion = { who = ROOT value = 20 }
+				}
+				reverse_opinion = { who = ROOT value = 20 }
+			}
+			save_event_target_as = target_courtier
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -596,25 +617,7 @@ character_event = {
 					days = 14
 					tooltip = "EVTTOOLTIPA5031"
 				}
-				random_courtier = {
-					limit = {
-						age = 25
-						NOT = {
-							age = 35
-						}
-						is_female = yes
-						is_married = no
-						NOT = {
-							trait = celibate
-						}
-						NOT = {
-							trait = homosexual
-						}
-						NOT = {
-							opinion = { who = ROOT value = 20 }
-						}
-						reverse_opinion = { who = ROOT value = 20 }
-					}
+				event_target:target_courtier = {
 					set_character_flag = ignore_courtship
 					opinion = {
 						modifier = opinion_disgusted
@@ -629,25 +632,7 @@ character_event = {
 					days = 14
 					tooltip = "EVTTOOLTIP5032"
 				}
-				random_courtier = {
-					limit = {
-						age = 25
-						NOT = {
-							age = 35
-						}
-						is_female = yes
-						is_married = no
-						NOT = {
-							trait = celibate
-						}
-						NOT = {
-							trait = homosexual
-						}
-						NOT = {
-							opinion = { who = ROOT value = 20 }
-						}
-						reverse_opinion = { who = ROOT value = 20 }
-					}
+				event_target:target_courtier = {
 					set_character_flag = encourage_courtship
 					opinion = {
 						modifier = opinion_approves
@@ -668,25 +653,7 @@ character_event = {
 					days = 14
 					tooltip = "EVTTOOLTIPB5031"
 				}
-				random_courtier = {
-					limit = {
-						age = 25
-						NOT = {
-							age = 35
-						}
-						is_female = yes
-						is_married = no
-						NOT = {
-							trait = celibate
-						}
-						NOT = {
-							trait = homosexual
-						}
-						NOT = {
-							opinion = { who = ROOT value = 20 }
-						}
-						reverse_opinion = { who = ROOT value = 20 }
-					}
+				event_target:target_courtier = {
 					set_character_flag = ignore_courtship
 					opinion = {
 						modifier = opinion_disgusted
@@ -701,25 +668,7 @@ character_event = {
 					days = 14
 					tooltip = "EVTTOOLTIP5033"
 				}
-				random_courtier = {
-					limit = {
-						age = 25
-						NOT = {
-							age = 35
-						}
-						is_female = yes
-						is_married = no
-						NOT = {
-							trait = celibate
-						}
-						NOT = {
-							trait = homosexual
-						}
-						NOT = {
-							opinion = { who = ROOT value = 20 }
-						}
-						reverse_opinion = { who = ROOT value = 20 }
-					}
+				event_target:target_courtier = {
 					set_character_flag = encourage_courtship
 					opinion = {
 						modifier = opinion_approves
@@ -1149,7 +1098,17 @@ character_event = {
 #Hunting - Really fun!
 character_event = {
 	id = 5042
-	desc = "EVTDESC5042"
+	desc = {
+		text = "EVTDESC5042"
+		
+	}
+	desc = {
+		text = "EVTDESC5047"
+		trigger = {
+			religion_group = muslim
+		}
+	}
+		
 	picture = "GFX_evt_hunt"
 	
 	is_triggered_only = yes	

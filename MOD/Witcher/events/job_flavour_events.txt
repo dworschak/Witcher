@@ -26,10 +26,7 @@ character_event = {
 		is_tribal = no
 		job_chancellor = {
 			diplomacy = 12
-			OR = {
-				trait = quick
-				trait = genius
-			}
+			is_smart_trigger = yes
 		}
 		NOT = {
 			has_character_modifier = town_appreciate
@@ -73,10 +70,7 @@ character_event = {
 	trigger = {
 		job_marshal = {
 			martial = 12
-			OR = {
-				trait = quick
-				trait = genius
-			}
+			is_smart_trigger = yes
 			location = {
 				NOT = {
 					has_province_modifier = troops_increases
@@ -132,10 +126,7 @@ character_event = {
 		}
 		job_treasurer = {
 			stewardship = 12
-			OR = {
-				trait = quick
-				trait = genius
-			}
+			is_smart_trigger = yes
 		}
 		NOT = {
 			has_character_modifier = steward_taxincome
@@ -179,10 +170,7 @@ character_event = {
 	trigger = {
 		job_spymaster = {
 			intrigue = 12
-			OR = {
-				trait = quick
-				trait = genius
-			}
+			is_smart_trigger = yes
 		}
 		NOT = {
 			has_character_modifier = increase_arrest_chance
@@ -226,10 +214,7 @@ character_event = {
 	trigger = {
 		job_spiritual = {
 			learning = 12
-			OR = {
-				trait = quick
-				trait = genius
-			}
+			is_smart_trigger = yes
 		}
 		NOT = {
 			has_character_modifier = church_appreciates
@@ -295,11 +280,10 @@ character_event = {
 				at_location = ROOT
 				is_female = no
 				trait = lustful
-				NOT = {
+				NOR = {
 					character = ROOT
-				}
-				NOT = {
 					trait = celibate
+					trait = blinded
 				}
 			}
 		}
@@ -1424,6 +1408,7 @@ character_event = {
 	trigger = {
 		has_job_title = job_treasurer
 		trait = deceitful
+		NOT = { wealth = 1500 }
 		any_demesne_province = {
 			OR = {
 				has_province_modifier = highway_robber_band
@@ -1493,10 +1478,10 @@ character_event = {
 		if = {
 			limit = {	
 				FROM = {
-					treasury = 1
+					treasury = 50
 				}
 			}
-			wealth = FROM
+			wealth = 50
 		}
 		FROM = {
 			hidden_tooltip = {
@@ -1533,7 +1518,7 @@ character_event = {
 	
 	option = {
 		name = "EVTOPTA75093"
-		clear_wealth = yes
+		wealth = -50
 	}
 }
 
@@ -1550,6 +1535,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		NOT = { has_dlc = "Zeus" }
 		job_treasurer = {
 			trait = greedy
 			NOT = {
