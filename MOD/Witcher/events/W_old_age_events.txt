@@ -1,5 +1,7 @@
 namespace = old_age
 
+# Note: all old age checks should be replaced by has_character_modifier = old_age
+
 ################################################
 # Main events
 ################################################
@@ -12,8 +14,6 @@ character_event = {
 	trigger = {
 		NOT = { has_character_modifier = old_age }
 		NOT = { culture = wilderness }
-		NOT = { trait = elf_race }
-		NOT = { trait = dryad_race }
 		OR = {
 			AND = {
 				age = 50
@@ -91,8 +91,10 @@ character_event = {
 	trigger = {
 		NOT = { culture = wilderness }
 		NOT = { trait = sorcerer }
-		trait = elf_race
-		trait = dryad_race
+		OR = {
+			trait = elf_race
+			trait = dryad_race
+		}	
 		has_character_modifier = old_age
 	}
 	mean_time_to_happen = {
@@ -278,12 +280,12 @@ character_event = {
 	min_age = 55
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
 		NOT = { culture = wilderness }
 		war = no
 		in_command = no
-		is_ruler = yes
 		has_character_modifier = old_age
 	}
 	
@@ -414,11 +416,11 @@ character_event = {
 	min_age = 55
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
 		NOT = { culture = wilderness }
 		in_command = no
-		is_ruler = yes
 		has_character_modifier = old_age
 	}
 	
@@ -701,10 +703,10 @@ character_event = {
 	min_age = 55
 	capable_only = yes
 	prisoner = no
+	only_rulers = yes
 	
 	trigger = {
 		NOT = { culture = wilderness }
-		is_ruler = yes
 		war = no
 		in_command = no
 		has_character_modifier = old_age
