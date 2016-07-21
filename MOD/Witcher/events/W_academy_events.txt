@@ -19,8 +19,8 @@ character_event = {
 		is_landed = no
 		in_command = no
 		OR = {
-			location = { empire = { title = e_the_north } }
-			location = { empire = { title = e_nilfgaard } }
+			location = { region = world_the_north }
+			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
 		NOT = { 
 			trait = academic 
@@ -72,7 +72,7 @@ character_event = {
 	option = { # Nilfgaard academy
 		name = OK
 		trigger =	{
-			location = { empire = { title = e_nilfgaard } }
+			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
 		father = { character_event = { id = academy.2 } }
 		set_character_flag = wants_educ_academy
@@ -80,7 +80,8 @@ character_event = {
 	option = { # Oxenfurt univesity
 		name = OK
 		trigger =	{
-			location = { empire = { title = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		father = { character_event = { id = academy.3 } }
 		set_character_flag = wants_educ_academy
@@ -447,7 +448,9 @@ character_event = {
 		new_character = {
 			add_spouse = FROM
 			if = {
-				limit = { location = { county = { de_jure_liege_or_above = e_nilfgaard } } }
+				limit = { 
+					top_liege = { primary_title = { title = e_nilfgaard } }
+				}
 				random_list = {
 					80 = { religion = solar }
 					20 = { religion = melitele }
@@ -461,7 +464,10 @@ character_event = {
 				}
 			}
 			if = {
-				limit = { location = { county = { de_jure_liege_or_above = e_the_north } } }
+				limit = { 
+					location = { region = world_the_north }
+					NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
+				}
 				random_list = {
 					25 = { religion = kreve }
 					25 = { religion = lebioda }

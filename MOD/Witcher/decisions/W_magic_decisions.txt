@@ -21,7 +21,8 @@ targetted_decisions = {
 				is_child_of = FROM
 				guardian = { character = FROM }
 			}
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			trait = magic_talent
 		}
 		effect = {
@@ -30,6 +31,10 @@ targetted_decisions = {
 			character_event = { id = magic.60 days = 5475 random = 1825 }
 			b_aretuza = {
 				holder_scope = {
+					random_courtier = {
+						limit = { is_adult = yes }
+						ROOT = { set_guardian = PREV }
+					}
 					ROOT = { move_character = PREV }
 				}
 			}
@@ -58,15 +63,20 @@ targetted_decisions = {
 				is_child_of = FROM
 				guardian = { character = FROM }
 			}
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			trait = magic_talent
 		}
 		effect = {
 			add_trait = adept
 			remove_trait = magic_talent
 			character_event = { id = magic.60 days = 5475 random = 1825 }
-			b_akademia = {
+			b_akademia = {				
 				holder_scope = {
+					random_courtier = {
+						limit = { is_adult = yes }
+						ROOT = { set_guardian = PREV }
+					}
 					ROOT = { move_character = PREV }
 				}
 			}

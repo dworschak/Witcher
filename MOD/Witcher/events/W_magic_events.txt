@@ -353,7 +353,8 @@ character_event = {
 		name = EVTOPTEmagic.50
 		trigger = {
 			ai = yes
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			FROM = {
 				is_ruler = no
 				is_female = no
@@ -398,7 +399,8 @@ character_event = {
 		name = EVTOPTFmagic.50
 		trigger = {
 			ai = yes
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			FROM = {
 				is_ruler = no
 				is_female = yes
@@ -443,7 +445,7 @@ character_event = {
 		name = EVTOPTGmagic.50
 		trigger = {
 			ai = yes
-			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
 		d_nilfgaard_academy = {
 			holder_scope = {
@@ -585,7 +587,8 @@ character_event = {
 	option = { # Send to Ban Ard academy - option 1
 		name = EVTOPTAmagic.52
 		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			FROM = {
 				is_ruler = no
 				is_female = no
@@ -617,7 +620,8 @@ character_event = {
 	option = { # Send to Aretuza academy - option 1
 		name = EVTOPTBmagic.52
 		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			FROM = {
 				is_ruler = no
 				is_female = yes
@@ -649,7 +653,7 @@ character_event = {
 	option = { # Send to Nilfgaard Academy - option 1
 		name = EVTOPTCmagic.52
 		trigger = {
-			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
 		d_nilfgaard_academy = {
 			holder_scope = {
@@ -880,7 +884,8 @@ character_event = {
 	option = { # Check if you can hire magician from Ban Ard academy
 		name = OK
 		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			b_akademia = {
 				holder_scope = {
 					any_courtier = {
@@ -925,7 +930,8 @@ character_event = {
 	option = { # Check if you can hire magician from Aretuza academy
 		name = OK
 		trigger = {
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 			b_aretuza = {
 				holder_scope = {
 					any_courtier = {
@@ -1312,14 +1318,10 @@ character_event = {
 			NOT = { trait = incapable }
 			ROOT = { host = { character = PREVPREV } }
 		}
-		location = {
-			county = {
-				OR = {
-					de_jure_liege_or_above = e_the_north
-					de_jure_liege_or_above = e_nilfgaard
-				}
-			}
-		}
+		OR = {
+			location = { region = world_the_north }
+			top_liege = { primary_title = { title = e_nilfgaard } }
+		}		
 	}
 	
 	mean_time_to_happen = {
@@ -1360,7 +1362,8 @@ character_event = {
 		name = EVTOPTBmagic.121
 		trigger = {
 			is_female = yes
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		d_thanedd = {
 			holder_scope = {
@@ -1377,7 +1380,8 @@ character_event = {
 		name = EVTOPTBmagic.121
 		trigger = {
 			is_female = yes
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		d_ban_ard_academy = {
 			holder_scope = {
@@ -1511,7 +1515,8 @@ character_event = {
 		name = OK
 		trigger = {
 			is_female = yes
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		d_thanedd = {
 			holder_scope = {
@@ -1525,7 +1530,8 @@ character_event = {
 		name = OK
 		trigger = {
 			is_female = no
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		d_ban_ard_academy = {
 			holder_scope = {
@@ -1724,7 +1730,7 @@ character_event = {
 			holder_scope = {
 				any_demesne_title = {
 					tier = count
-					de_jure_liege_or_above = e_the_north
+					region = world_the_north
 					dejure_liege_title = {
 						holder_scope = {
 							always = yes
@@ -1752,7 +1758,7 @@ character_event = {
 				random_demesne_title = {
 					limit = {
 						tier = count
-						de_jure_liege_or_above = e_the_north
+						region = world_the_north
 						dejure_liege_title = {
 							holder_scope = {
 								always = yes
@@ -1794,7 +1800,7 @@ character_event = {
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
-					de_jure_liege_or_above = e_the_north
+					region = world_the_north
 					dejure_liege_title = {
 						holder_scope = {
 							always = yes
@@ -1821,7 +1827,7 @@ character_event = {
 			holder_scope = {
 				random_demesne_title = {
 					limit = {
-						de_jure_liege_or_above = e_the_north
+						region = world_the_north
 						dejure_liege_title = {
 							holder_scope = {
 								always = yes
@@ -1862,7 +1868,7 @@ character_event = {
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
-					NOT = { de_jure_liege_or_above = e_the_north }
+					region = world_the_south
 					dejure_liege_title = {
 						holder_scope = {
 							always = yes
@@ -1889,7 +1895,7 @@ character_event = {
 			holder_scope = {
 				random_demesne_title = {
 					limit = {
-						de_jure_liege_or_above = e_the_north
+						region = world_the_north
 						dejure_liege_title = {
 							holder_scope = {
 								always = yes
@@ -1987,7 +1993,8 @@ character_event = {
 		name = OK
 		trigger = {
 			is_female = yes
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		liege = { letter_event = { id = magic.1042 } }
 		remove_title = job_mage
@@ -2002,7 +2009,8 @@ character_event = {
 		name = OK
 		trigger = {
 			is_female = no
-			location = { county = { de_jure_liege_or_above = e_the_north } }
+			location = { region = world_the_north }
+			NOT = { top_liege = { primary_title = { title = e_nilfgaard } } }
 		}
 		liege = { letter_event = { id = magic.1042 } }
 		remove_title = job_mage
@@ -2016,7 +2024,7 @@ character_event = {
 	option = { # Nilfgaard mage
 		name = OK
 		trigger = {
-			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
+			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
 		liege = { letter_event = { id = magic.1023 } }
 		remove_title = job_mage
