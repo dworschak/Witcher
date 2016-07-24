@@ -1,43 +1,82 @@
 namespace = spell
 
+
+# There are 3 events per type of spell:
+
+# Event A: attempt to cast spell on target, caster gets drained
+# The target is notified of the effect of the spell
+# This event is logged, to be able to tune the balance of AI modifiers
+# The spell casting happens as an event on the target rather than the caster, so that target could potentially react via magic
+# ROOT = target
+# FROM = caster
+# FROMFROMFROM = requester
+
+# Event B: ping event for Event A, so that caster gets in FROM scope
+# Fired from targeted decision by a caster
+# ROOT = caster
+# FROM = target
+# FROMFROM = requester
+
+# Event C: liege asks the caster to cast a spell on the target, if caster agrees it triggers Event A
+# Fired from targeted decision by a liege, using their Court Mage
+# ROOT = caster 
+# FROM = target 
+# FROMFROM = requester
+
 ################################################
-# Heal spell
+# Heal spell (spell.0 -> spell.9)
 ################################################
-# Court mage casts heal spell
+
+# Cast heal spell
+# ROOT = target
+# FROM = caster
+# FROMFROMFROM = requester
 character_event = {
-	id = spell.1
-	desc = EVTDESCspell.1
+	id = spell.0
+	desc = EVTDESCspell.0
 	picture = GFX_evt_recovery
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTAspell.1
-		job_mage = {
+		name = EVTOPTAspell.0
+		log = "[From.GetTitledName] is casting a heal spell on [Root.GetTitledName] by order of [FromFromFrom.GetTitledName]"
+		
+		cure_illness = yes
+		remove_trait = wounded
+		remove_trait = maimed
+		remove_trait = infirm
+		remove_trait = blinded
+		remove_trait = eunuch
+		
+		FROM = { 
 			add_character_modifier = { name = drained duration = 180 }
-			hidden_tooltip = {# Court mage notification
-				character_event = { id = spell.3 }
-			}
 		}
-		if = { limit = { trait = ill } remove_trait = ill }
-		if = { limit = { trait = pneumonic } remove_trait = pneumonic }
-		if = { limit = { trait = syphilitic } remove_trait = syphilitic }
-		if = { limit = { trait = leper } remove_trait = leper }
-		if = { limit = { trait = has_tuberculosis } remove_trait = has_tuberculosis }
-		if = { limit = { trait = has_typhoid_fever } remove_trait = has_typhoid_fever }
-		if = { limit = { trait = has_typhus } remove_trait = has_typhus }
-		if = { limit = { trait = has_bubonic_plague } remove_trait = has_bubonic_plague }
-		if = { limit = { trait = has_measles } remove_trait = has_measles }
-		if = { limit = { trait = has_small_pox } remove_trait = has_small_pox }
-		if = { limit = { trait = has_aztec_disease } remove_trait = has_aztec_disease }
-		if = { limit = { trait = wounded } remove_trait = wounded }
-		if = { limit = { trait = maimed } remove_trait = maimed }
-		if = { limit = { trait = infirm } remove_trait = infirm }
-		if = { limit = { trait = blinded } remove_trait = blinded }
-		if = { limit = { trait = eunuch } remove_trait = eunuch }
 	}
 }
-# You cast heal spell
+
+# Ping event
+# ROOT = caster
+# FROM = target
+# FROMFROM = requester
+character_event = {
+	id = spell.1
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = OK
+		FROM = {
+			character_event = { id = spell.0 }
+		}
+	}
+}
+
+# Caster is asked to cast heal spell
+# ROOT = caster 
+# FROM = target 
+# FROMFROM = requester
 character_event = {
 	id = spell.2
 	desc = EVTDESCspell.2
@@ -46,46 +85,15 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = {
-		name = EVTOPTAspell.1
-		FROM = { add_character_modifier = { name = drained duration = 180 } }
-		if = { limit = { trait = ill } remove_trait = ill }
-		if = { limit = { trait = pneumonic } remove_trait = pneumonic }
-		if = { limit = { trait = syphilitic } remove_trait = syphilitic }
-		if = { limit = { trait = leper } remove_trait = leper }
-		if = { limit = { trait = has_tuberculosis } remove_trait = has_tuberculosis }
-		if = { limit = { trait = has_typhoid_fever } remove_trait = has_typhoid_fever }
-		if = { limit = { trait = has_typhus } remove_trait = has_typhus }
-		if = { limit = { trait = has_bubonic_plague } remove_trait = has_bubonic_plague }
-		if = { limit = { trait = has_measles } remove_trait = has_measles }
-		if = { limit = { trait = has_small_pox } remove_trait = has_small_pox }
-		if = { limit = { trait = has_aztec_disease } remove_trait = has_aztec_disease }
-		if = { limit = { trait = wounded } remove_trait = wounded }
-		if = { limit = { trait = maimed } remove_trait = maimed }
-		if = { limit = { trait = infirm } remove_trait = infirm }
-		if = { limit = { trait = blinded } remove_trait = blinded }
-		if = { limit = { trait = eunuch } remove_trait = eunuch }
-	}
-}
-# Court mage notification
-character_event = {
-	id = spell.3
-	desc = EVTDESCspell.3
-	picture = GFX_evt_recovery
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		ai = no
-	}
-	
-	option = {
-		name = EVTOPTAspell.3
-		add_character_modifier = { name = drained duration = 180 }
+		name = EVTOPTAspell.2
+		FROM = {
+			character_event = { id = spell.0 }
+		}
 	}
 }
 
 ################################################
-# Glamour spell
+# Glamour spell (spell.10 -> spell.19)
 ################################################
 # You cast glamour spell
 character_event = {
@@ -98,18 +106,19 @@ character_event = {
 	option = {
 		name = EVTOPTAspell.10
 		FROM = { add_character_modifier = { name = drained duration = 180 } }
+		
 		add_trait = fair
-		if = { limit = { trait = harelip } remove_trait = harelip }
-		if = { limit = { trait = hunchback } remove_trait = hunchback }
-		if = { limit = { trait = lisp } remove_trait = lisp }
-		if = { limit = { trait = stutter } remove_trait = stutter }
-		if = { limit = { trait = ugly } remove_trait = ugly }
-		if = { limit = { trait = dwarf } remove_trait = dwarf }
+		remove_trait = harelip
+		remove_trait = hunchback
+		remove_trait = lisp
+		remove_trait = stutter
+		remove_trait = ugly
+		remove_trait = dwarf
 	}
 }
 
 ################################################
-# Foresight spell
+# Foresight spell (spell.20 -> spell.29)
 ################################################
 # Court mage casts foresight spell
 character_event = {
@@ -190,15 +199,19 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.22
 		add_character_modifier = { name = drained duration = 180 }
 	}
 }
 
 ################################################
-# Protection spell
+# Protection spell (spell.30 -> spell.39)
 ################################################
-# Court mage casts protection spell
+
+# Cast protection spell
+# ROOT = target
+# FROM = caster
+# FROMFROMFROM = requester
 character_event = {
 	id = spell.30
 	desc = EVTDESCspell.30
@@ -208,30 +221,36 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAspell.30
-		job_mage = {
-			add_character_modifier = { name = drained duration = 180 }
-			hidden_tooltip = {# Court mage notification
-				character_event = { id = spell.32 }
-			}
-		}
+		log = "[From.GetTitledName] is casting a protection spell on [Root.GetTitledName] by order of [FromFromFrom.GetTitledName]"
 		add_character_modifier = { name = protection_spell duration = -1 }
+		FROM = { 
+			add_character_modifier = { name = drained duration = 180 }
+		}
 	}
 }
-# You cast protection spell
+
+# Ping event
+# ROOT = caster
+# FROM = target
+# FROMFROM = requester
 character_event = {
 	id = spell.31
-	desc = EVTDESCspell.31
-	picture = GFX_evt_knight_kneeling
 	
 	is_triggered_only = yes
+	hide_window = yes
 	
 	option = {
-		name = EVTOPTAspell.30
-		FROM = { add_character_modifier = { name = drained duration = 180 } }
-		add_character_modifier = { name = protection_spell duration = -1 }
+		name = OK
+		FROM = {
+			character_event = { id = spell.30 }
+		}
 	}
 }
-# Court mage notification
+
+# Caster is asked to cast protection spell
+# ROOT = caster 
+# FROM = target 
+# FROMFROM = requester
 character_event = {
 	id = spell.32
 	desc = EVTDESCspell.32
@@ -239,18 +258,79 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	trigger = {
-		ai = no
-	}
-	
 	option = {
-		name = EVTOPTAspell.3
-		add_character_modifier = { name = drained duration = 180 }
+		name = EVTOPTAspell.32
+		FROM = {
+			character_event = { id = spell.30 }
+		}
 	}
 }
 
 ################################################
-# Siege spell
+# Charm spell (spell.40 -> spell.49)
+################################################
+
+# Cast charm spell
+# ROOT = target
+# FROM = caster
+# FROMFROMFROM = requester
+character_event = {
+	id = spell.40
+	desc = EVTDESCspell.40
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.40
+		log = "[From.GetTitledName] is casting a charm spell on [Root.GetTitledName] by order of [FromFromFrom.GetTitledName]"
+		opinion = { modifier = opinion_charmed who = FROMFROMFROM }
+		FROM = { 
+			add_character_modifier = { name = drained duration = 180 }
+		}
+	}
+}
+
+# Ping event
+# ROOT = caster
+# FROM = target
+# FROMFROM = requester
+character_event = {
+	id = spell.41
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		name = OK
+		FROM = {
+			character_event = { id = spell.40 }
+		}
+	}
+}
+
+# Caster is asked to cast charm spell
+# ROOT = caster 
+# FROM = target 
+# FROMFROM = requester
+character_event = {
+	id = spell.42
+	desc = EVTDESCspell.42
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTAspell.42
+		FROM = {
+			character_event = { id = spell.40 }
+		}
+	}
+}
+
+
+################################################
+# Siege spell (spell.100 -> spell.199)
 ################################################
 # Court mage casts meteor spell
 character_event = {
@@ -339,7 +419,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.102
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -447,7 +527,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.112
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -555,7 +635,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.122
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -663,7 +743,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.132
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -771,7 +851,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.142
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -794,7 +874,7 @@ character_event = {
 }
 
 ################################################
-# Battle spell
+# Battle spell (spell.200 -> spell.299)
 ################################################
 # Court mage casts meteor spell
 character_event = {
@@ -1037,7 +1117,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.202
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -1299,7 +1379,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.212
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -1562,7 +1642,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.222
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -1825,7 +1905,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.232
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
@@ -2087,7 +2167,7 @@ character_event = {
 	}
 	
 	option = {
-		name = EVTOPTAspell.3
+		name = EVTOPTAspell.242
 		add_character_modifier = { name = drained duration = 360 }
 	}
 }
