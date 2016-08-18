@@ -102,7 +102,7 @@ Section "Install"
   ; Copy mod files (excluding configuration files)
   File "${mod_path}\changelog.txt" ; Copy changelog to open it after installation
   File "*.mod" ; Copy all .mod descriptors
-  ;File /r /x "*.exe" "${mod_path}*" ; Note: sub-mod paths start with same as main mod path
+  File /r /x "*.exe" "${mod_path}*" ; Note: sub-mod paths start with same as main mod path
   
 SectionEnd
 
