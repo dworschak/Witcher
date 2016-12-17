@@ -24,7 +24,7 @@ character_event = {
 		has_dlc = "Zeus"
 		NOR = {
 			has_character_flag = had_royal_coffers_robbed
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 			trait = blinded
 		}
 		prisoner = no
@@ -32,7 +32,7 @@ character_event = {
 			job_chancellor = {
 				NOR = { 
 					trait = incapable
-					trait = in_hiding
+					is_inaccessible_trigger = yes
 					has_character_flag = caught_stealing_from_coffers
 				}
 				prisoner = no
@@ -53,7 +53,7 @@ character_event = {
 			job_marshal = {
 				NOR = { 
 					trait = incapable
-					trait = in_hiding
+					is_inaccessible_trigger = yes
 					has_character_flag = caught_stealing_from_coffers
 				}
 				prisoner = no
@@ -74,7 +74,7 @@ character_event = {
 			job_treasurer = {
 				NOR = { 
 					trait = incapable
-					trait = in_hiding
+					is_inaccessible_trigger = yes
 					has_character_flag = caught_stealing_from_coffers
 				}
 				prisoner = no
@@ -95,7 +95,7 @@ character_event = {
 			job_spymaster = {
 				NOR = { 
 					trait = incapable
-					trait = in_hiding
+					is_inaccessible_trigger = yes
 					has_character_flag = caught_stealing_from_coffers
 				}
 				prisoner = no
@@ -116,7 +116,7 @@ character_event = {
 			job_spiritual = {
 				NOR = { 
 					trait = incapable
-					trait = in_hiding
+					is_inaccessible_trigger = yes
 					has_character_flag = caught_stealing_from_coffers
 				}
 				prisoner = no
@@ -151,7 +151,7 @@ character_event = {
 						job_chancellor = {
 							NOR = { 
 								trait = incapable
-								trait = in_hiding
+								is_inaccessible_trigger = yes
 							}
 							prisoner = no
 							OR = {
@@ -178,7 +178,7 @@ character_event = {
 						job_marshal = {
 							NOR = { 
 								trait = incapable
-								trait = in_hiding
+								is_inaccessible_trigger = yes
 							}
 							prisoner = no
 							OR = {
@@ -208,7 +208,7 @@ character_event = {
 						job_treasurer = {
 							NOR = { 
 								trait = incapable
-								trait = in_hiding
+								is_inaccessible_trigger = yes
 							}
 							prisoner = no
 							OR = {
@@ -238,7 +238,7 @@ character_event = {
 						job_spymaster = {
 							NOR = { 
 								trait = incapable
-								trait = in_hiding
+								is_inaccessible_trigger = yes
 							}
 							prisoner = no
 							OR = {
@@ -268,7 +268,7 @@ character_event = {
 						job_spiritual = {
 							NOR = { 
 								trait = incapable
-								trait = in_hiding
+								is_inaccessible_trigger = yes
 							}
 							prisoner = no
 							OR = {
@@ -591,13 +591,13 @@ character_event = {
 	trigger = {
 		has_dlc = "Zeus"
 		NOT = {
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 		prisoner = no
 		job_spymaster = {
 			NOR = {
 				trait = honest
-				trait = in_hiding
+				is_inaccessible_trigger = yes
 				opinion = { who = liege value = -74 }
 			}
 		}
@@ -632,7 +632,7 @@ character_event = {
 							ai = yes
 							prisoner = no
 							NOT = { trait = incapable }
-							NOT = { trait = in_hiding }
+							NOT = { is_inaccessible_trigger = yes }
 							NOT = {
 								ROOT = {
 									job_spymaster = {
@@ -649,7 +649,7 @@ character_event = {
 						ai = yes
 						prisoner = no
 						NOT = { trait = incapable }
-						NOT = { trait = in_hiding }
+						NOT = { is_inaccessible_trigger = yes }
 						NOT = {
 							ROOT = {
 								job_spymaster = {
@@ -668,7 +668,7 @@ character_event = {
 							ai = yes
 							prisoner = no
 							NOT = { trait = incapable }
-							NOT = { trait = in_hiding }
+							NOT = { is_inaccessible_trigger = yes }
 							NOT = {
 								ROOT = {
 									job_spymaster = {
@@ -685,7 +685,7 @@ character_event = {
 						ai = yes
 						prisoner = no
 						NOT = { trait = incapable }
-						NOT = { trait = in_hiding }
+						NOT = { is_inaccessible_trigger = yes }
 						NOT = {
 							ROOT = {
 								job_spymaster = {
@@ -820,12 +820,12 @@ character_event = {
 		has_dlc = "Zeus"
 		NOR = { 
 			has_character_flag = had_spymaster_safety_help
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 			trait = blinded
 		}
 		prisoner = no
 		job_spymaster = {
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 			OR = {
 				trait = diligent
 				trait = lunatic
@@ -855,21 +855,23 @@ character_event = {
 		scaled_wealth = -0.15
 		custom_tooltip = {
 			text = EVTTOOLTIP_ZE_2075
-			random_list = {
-				10 = {
-					character_event = { id = ZE.2076 days = 100 random = 60 }
-				}
-				10 = {
-					character_event = { id = ZE.2077 days = 100 random = 60 }
-				}
-				80 = {
-					modifier = {
-						factor = 0
-						event_target:safety_measure_spymaster = {
-							NOT = { trait = lunatic }
-						}
+			hidden_tooltip = {
+				random_list = {
+					10 = {
+						character_event = { id = ZE.2076 days = 100 random = 60 }
 					}
-					character_event = { id = ZE.2078 days = 100 random = 60 }
+					10 = {
+						character_event = { id = ZE.2077 days = 100 random = 60 }
+					}
+					80 = {
+						modifier = {
+							factor = 0
+							event_target:safety_measure_spymaster = {
+								NOT = { trait = lunatic }
+							}
+						}
+						character_event = { id = ZE.2078 days = 100 random = 60 }
+					}
 				}
 			}
 		}
@@ -950,7 +952,7 @@ character_event = {
 		if = {
 			limit = {
 				NOR = { 
-					trait = maimed
+					is_maimed_trigger = yes
 					trait = wounded
 				}
 			}
@@ -1036,7 +1038,7 @@ character_event = {
 			limit = {
 				NOR = {
 					trait = wounded
-					trait = maimed
+					is_maimed_trigger = yes
 				}
 			}
 			random = {
@@ -1076,7 +1078,7 @@ character_event = {
 				limit = {
 					NOR = {
 						trait = wounded
-						trait = maimed
+						is_maimed_trigger = yes
 					}
 				}
 				random = {
@@ -1106,9 +1108,10 @@ character_event = {
 		name = EVTOPTA_ZE_2078
 		add_character_modifier = {
 			modifier = bad_breath
+			years = 1
 		}
 		hidden_tooltip = {
-			character_event = { 
+			character_event = {
 				id = ZE.2080
 				days = 100
 				random = 50
@@ -1241,7 +1244,7 @@ character_event = {
 					is_adult = yes
 					NOR = {
 						trait = incapable
-						trait = in_hiding
+						is_inaccessible_trigger = yes
 					}
 				}
 				save_event_target_as = spiritual
@@ -1261,7 +1264,7 @@ character_event = {
 					prisoner = no
 					is_adult = yes
 					NOR = { 
-						trait = in_hiding
+						is_inaccessible_trigger = yes
 						trait = incapable
 					}
 				}

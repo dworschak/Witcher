@@ -51,7 +51,7 @@ character_event = {
 		# Chance of various Intrigue boosters
 		character_event = { id = WoL.2001 days = 7 } 
 		
-		# Chance of levelling up Schemer skills
+		# Chance of leveling up Schemer skills
 		if = {
 			limit = {
 				has_character_modifier = wol_schemer_2
@@ -385,7 +385,7 @@ character_event = {
 				FROMFROM = {
 					OR = {
 						trait = on_hajj
-						trait = in_hiding
+						is_inaccessible_trigger = yes
 						trait = on_pilgrimage
 					}
 				}
@@ -594,6 +594,26 @@ character_event = {
 						}
 					}
 				}
+				
+				modifier = {
+					factor = 0
+					NOR = {
+						trait = schemer
+						has_character_modifier = wol_schemer_1
+						has_character_modifier = wol_schemer_2
+					}
+				}
+				
+				modifier = {
+					factor = 0.25
+					has_character_modifier = wol_schemer_1
+				}
+				
+				modifier = {
+					factor = 0.5
+					has_character_modifier = wol_schemer_2
+				}
+				
 				character_event = { id = WoL.2000 days = 1 } # Chance of levelling up Intrigue skills
 				
 				character_event = { id = WoL.2110 }
@@ -608,6 +628,25 @@ character_event = {
 							value = 0
 						}
 					}
+				}
+				
+				modifier = {
+					factor = 0
+					NOR = {
+						trait = schemer
+						has_character_modifier = wol_schemer_1
+						has_character_modifier = wol_schemer_2
+					}
+				}
+				
+				modifier = {
+					factor = 0.25
+					has_character_modifier = wol_schemer_1
+				}
+				
+				modifier = {
+					factor = 0.5
+					has_character_modifier = wol_schemer_2
 				}
 				
 				character_event = { id = WoL.2000 days = 1 } # Chance of levelling up Intrigue skills
@@ -937,10 +976,13 @@ character_event = {
 		trigger = {
 			NOT = { is_liege_of = FROMFROMFROM }
 			FROMFROMFROM = { independent = no }
+			FROMFROMFROM = { liege = { NOT = { war_with = ROOT } } }
 		}
 		ai_chance = {
 			factor = 100
 		}
+
+		custom_tooltip = { text = EVTOPTC_WOL_2080_TOOLTIP }
 		
 		hidden_tooltip = {
 			FROMFROMFROM = { liege = { character_event = { id = WoL.2082 } } }
@@ -985,6 +1027,8 @@ character_event = {
 			who = FROMFROMFROM
 			modifier = opinion_spy_blackmailed
 		}
+
+		custom_tooltip = { text = EVTOPTB_WOL_2080_TOOLTIP }
 		
 		if = {
 			limit = { has_character_flag = charge_illegitimate }
@@ -1071,6 +1115,8 @@ character_event = {
 				}
 			}
 		}
+
+		custom_tooltip = { text = EVTOPTC_WOL_2080_TOOLTIP }
 		
 		opinion = {
 			who = FROMFROMFROM
@@ -1097,6 +1143,8 @@ character_event = {
 			factor = 100
 		}
 		
+		custom_tooltip = { text = EVTOPTD_WOL_2080_TOOLTIP }
+
 		opinion = {
 			who = FROMFROMFROM
 			modifier = opinion_spy_blackmailed
@@ -1112,6 +1160,8 @@ character_event = {
 		ai_chance = {
 			factor = 1
 		}
+
+		custom_tooltip = { text = EVTOPTE_WOL_2080_TOOLTIP }
 		
 		clr_character_flag = charge_illegitimate
 		clr_character_flag = charge_heretic
@@ -1125,6 +1175,8 @@ character_event = {
 		ai_chance = {
 			factor = 1
 		}
+
+		custom_tooltip = { text = EVTOPTF_WOL_2080_TOOLTIP }
 		
 		hidden_tooltip = {
 			character_event = { id = WoL.2069 } # Clear out flags and end spying
@@ -1202,6 +1254,10 @@ character_event = {
 	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
+
+	trigger = {
+		NOT = { FROM = { war_with = ROOT } }
+	}
 	
 	desc = {
 		text = EVTDESC_WOL_2082
@@ -1353,6 +1409,8 @@ character_event = {
 				}
 			}
 		}
+
+		custom_tooltip = { text = EVTOPTC_WOL_2080_TOOLTIP }
 		
 		hidden_tooltip = {
 			FROMFROMFROMFROM = { character_event = { id = WoL.2086 } }
@@ -1366,6 +1424,8 @@ character_event = {
 		ai_chance = {
 			factor = 1
 		}
+
+		custom_tooltip = { text = EVTOPTE_WOL_2082_TOOLTIP }
 		
 		hidden_tooltip = {
 			FROM = {

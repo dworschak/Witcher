@@ -477,7 +477,10 @@ character_event = {
 				}
 				modifier = {
 					factor = 20
-					has_character_modifier = cannibal
+					OR = {
+						has_character_modifier = cannibal
+						trait = cannibal_trait
+					}
 				}
 				modifier = {
 					factor = 1.5
@@ -663,7 +666,7 @@ character_event = {
 	}
 }
 
-# Cannibal - whos is the possible cannibal?
+# Cannibal - who is the possible cannibal?
 character_event = {
 	id = WoL.4100
 
@@ -734,7 +737,7 @@ character_event = {
 		}
 		if = {
 			limit = {
-				NOT = { trait = craven }
+				NOR = { trait = craven trait = berserker }
 			}
 			add_trait = craven
 		}
@@ -748,11 +751,13 @@ character_event = {
 			factor = 1
 		}
 		if = {
-			limit = { NOT = { has_character_modifier = cannibal } }
-			add_character_modifier = {
-				name = cannibal
-				duration = -1
+			limit = { 
+				NOR = { 
+					has_character_modifier = cannibal
+					trait = cannibal_trait
+				}
 			}
+			add_trait = cannibal_trait
 		}
 		top_liege = {
 			random_realm_character = {
@@ -763,7 +768,7 @@ character_event = {
 					}
 				}
 				death = {
-					death_reason = death_murder_unknown
+					death_reason = death_murder_unknown_butchered
 					killer = ROOT
 				}
 			}
@@ -778,15 +783,17 @@ character_event = {
 			factor = 1
 		}
 		if = {
-			limit = { NOT = { has_character_modifier = cannibal } }
-			add_character_modifier = {
-				name = cannibal
-				duration = -1
+			limit = { 
+				NOR = { 
+					has_character_modifier = cannibal
+					trait = cannibal_trait
+				}
 			}
+			add_trait = cannibal_trait
 		}
 		FROM = {
 			death = {
-				death_reason = death_murder_unknown
+				death_reason = death_murder_unknown_butchered
 				killer = ROOT
 			}
 		}
@@ -914,6 +921,11 @@ character_event = {
 			random = {
 				chance = 50
 				add_trait = stressed
+				hidden_tooltip = {
+					character_event = {
+						id = 38282 #Notify Stressed
+					}
+				}
 			}
 		}
 		if = {
@@ -924,6 +936,11 @@ character_event = {
 			random = {
 				chance = 50
 				add_trait = depressed
+				hidden_tooltip = {
+					character_event = {
+						id = 38288 #Notify Depressed
+					}
+				}
 			}
 		}
 		if = {
@@ -934,6 +951,11 @@ character_event = {
 				}
 			}
 			add_trait = chaste
+			hidden_tooltip = {
+				character_event = {
+					id = 38274 #Notify Chaste
+				}
+			}
 		}
 	}
 }
@@ -954,74 +976,9 @@ character_event = {
 			duration = 730
 		}
 		hidden_tooltip = {
-			if = {
-				limit = {
-					is_female = no
-					FROM = {
-						is_female = yes
-						is_pregnant = no
-						OR = {
-							AND = {
-								is_married = no
-								is_consort = no
-							}
-							AND = {
-								is_consort = yes
-								consort = {
-									character = ROOT
-								}
-							}
-							AND = {
-								spouse = {
-									character = ROOT
-								}
-							}
-						}
-						NOT = { health_traits = 1 }
-					}
-				}
-				random = {
-					chance = 10
-					impregnate = FROM
-				}
-			}
-			if = {
-				limit = {
-					is_female = no
-					FROM = {
-						is_female = yes
-						is_pregnant = no
-						OR = {
-							is_married = yes
-							is_consort = yes
-						}
-						NOR = {
-							health_traits = 1
-							consort = {
-								character = ROOT
-							}
-							spouse = {
-								character = ROOT
-							}
-						}
-					}
-				}
-				random = {
-					chance = 10
-					impregnate_cuckoo = FROM
-				}
-			}
+			unprotected_sex_effect = yes
+			FROM = { character_event = { id = WoL.4113 } }
 		}
-		if = {
-			limit = {
-				FROM = { trait = syphilitic }
-			}
-			random = {
-				chance = 20
-				add_trait = syphilitic
-			}
-		}
-		hidden_tooltip = { FROM = { character_event = { id = WoL.4113 } } }
 	}
 	option = {
 		name = EVTOPTB_WoL_4112 # No
@@ -1057,75 +1014,6 @@ character_event = {
 		add_character_modifier = {
 			name = good_times
 			duration = 730
-		}
-		hidden_tooltip = {
-			if = {
-				limit = {
-					is_female = no
-					FROM = {
-						is_female = yes
-						is_pregnant = no
-						OR = {
-							AND = {
-								is_married = no
-								is_consort = no
-							}
-							AND = {
-								is_consort = yes
-								consort = {
-									character = ROOT
-								}
-							}
-							AND = {
-								is_married = yes
-								spouse = {
-									character = ROOT
-								}
-							}
-						}
-						NOT = { health_traits = 1 }
-					}
-				}
-				random = {
-					chance = 10
-					impregnate = FROM
-				}
-			}
-			if = {
-				limit = {
-					is_female = no
-					FROM = {
-						is_female = yes
-						is_pregnant = no
-						OR = {
-							is_married = yes
-							is_consort = yes
-						}
-						NOR = {
-							health_traits = 1
-							spouse = {
-								character = ROOT
-							}
-							consort = {
-								character = ROOT
-							}
-						}
-					}
-				}
-				random = {
-					chance = 10
-					impregnate_cuckoo = FROM
-				}
-			}
-		}
-		if = {
-			limit = {
-				FROM = { trait = syphilitic }
-			}
-			random = {
-				chance = 20
-				add_trait = syphilitic
-			}
 		}
 	}
 }
@@ -1316,7 +1204,7 @@ character_event = {
 				add_trait = wounded
 			}
 			1 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 			}
 		}
 		random = {
@@ -1357,11 +1245,17 @@ character_event = {
 				NOR = {
 					trait = craven
 					trait = brave
+					trait = berserker
 				}
 			}
 			random = {
 				chance = 30
 				add_trait = craven
+				hidden_tooltip = {
+					character_event = {
+						id = 38257 #Notify Craven
+					}
+				}
 			}
 		}
 		if = {
@@ -1420,7 +1314,7 @@ character_event = {
 				add_trait = wounded
 			}
 			1 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 			}
 		}
 		if = {
@@ -1677,29 +1571,29 @@ character_event = {
 						modifier = opinion_carousing
 						who = ROOT
 					}
-					NOT = { trait = drunkard }
 				}
-				opinion = {
-					modifier = despise_drunkard
-					who = ROOT
-					years = 4
-				}
-				hidden_tooltip = { character_event = { id = WoL.4152 } }
-			}
-			any_realm_character = {
-				limit = {
-					has_opinion_modifier = {
-						modifier = opinion_carousing
+
+				if = {
+					limit = { NOT = { trait = drunkard } }
+
+					opinion = {
+						modifier = despise_drunkard
 						who = ROOT
+						years = 4
 					}
-					trait = drunkard
+					hidden_tooltip = { character_event = { id = WoL.4152 } }
 				}
-				opinion = {
-					modifier = opinion_gained_respect
-					who = ROOT
-					years = 4
+
+				if = {
+					limit = { trait = drunkard }
+
+					opinion = {
+						modifier = opinion_gained_respect
+						who = ROOT
+						years = 4
+					}
+					hidden_tooltip = { character_event = { id = WoL.4152 } }
 				}
-				hidden_tooltip = { character_event = { id = WoL.4152 } }
 			}
 		}
 	}
@@ -1825,12 +1719,16 @@ character_event = {
 	
 	option = { # Play for money
 		name = EVTOPTA_WoL_4161
-		FROM = { character_event = { id = WoL.4162 } }
 		set_character_flag = game_play_for_money
+		hidden_tooltip = {
+			FROM = { character_event = { id = WoL.4162 } }
+		}
 	}
 	option = { # Play just for fun
 		name = EVTOPTB_WoL_4161
-		FROM = { character_event = { id = WoL.4162 } }
+		hidden_tooltip = {
+			FROM = { character_event = { id = WoL.4162 } }
+		}
 	}
 }
 	
@@ -2031,7 +1929,7 @@ character_event = {
 		}
 		add_character_modifier = {
 			name = party_timer
-			duration = 500
+			duration = 200
 		}
 	}
 	option = {
@@ -2044,7 +1942,12 @@ character_event = {
 		prestige = 20
 		remove_character_modifier = dedicated_carouser
 		add_trait = hedonist
-		set_character_flag = achievement_lets_play
+		if = {
+			limit = {
+				ai = no
+			}
+			set_character_flag = achievement_lets_play
+		}
 		clr_character_flag = played_games_today
 		clr_character_flag = game_play_for_money
 		if = {
@@ -2063,7 +1966,7 @@ character_event = {
 		}
 		add_character_modifier = {
 			name = party_timer
-			duration = 500
+			duration = 200
 		}
 	}
 	option = {
@@ -2094,7 +1997,7 @@ character_event = {
 		}
 		add_character_modifier = {
 			name = party_timer
-			duration = 500
+			duration = 200
 		}
 	}
 	option = {
@@ -2102,15 +2005,12 @@ character_event = {
 		trigger = {
 			has_character_flag = played_games_today
 			has_character_modifier = apprentice_boardgamer
-			NOT = { trait = gamer }
+			NOT = { lifestyle_traits = 1 }
 		}
 		clr_character_flag = played_games_today
 		clr_character_flag = game_play_for_money
 		remove_character_modifier = apprentice_boardgamer
-		if = {
-			limit = { NOT = { lifestyle_traits = 1 } }
-			add_trait = gamer
-		}
+		add_trait = gamer
 		if = {
 			limit = { trait = stressed }
 			random = {
@@ -2127,7 +2027,7 @@ character_event = {
 		}
 		add_character_modifier = {
 			name = party_timer
-			duration = 500
+			duration = 200
 		}
 	}
 }
