@@ -1,6 +1,7 @@
 decisions = {
 	
 	convert_to_liege_religion = { # only those with same race as liege or halves
+		only_playable = yes
 		potential = {
 			OR = {
 				ai = yes
@@ -83,6 +84,7 @@ decisions = {
 	}
 	
 	convert_to_liege_culture = { # only those with same race as liege or halves
+		only_playable = yes
 		potential = {
 			OR = {
 				ai = yes
@@ -169,6 +171,7 @@ decisions = {
 	}
 	
 	convert_to_local_culture = { # only humans with human culture capital and halves with either human or their race culture capital
+		only_playable = yes
 		potential = {
 			OR = {
 				ai = yes
@@ -362,6 +365,7 @@ decisions = {
 			}
 		}
 		allow = {
+			NOT = { trait = zealous }
 			OR = {
 				AND = {
 					prestige = 500
@@ -398,6 +402,71 @@ decisions = {
 			religion_authority = {
 				modifier = ruler_converted_from
 			}
+			if = {
+				limit = {
+					religion_group = christian
+					NOT = { trait = sympathy_christendom }
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+				random = {
+					chance = 60
+					add_trait = sympathy_christendom
+				}
+			}
+			if = {
+				limit = {
+					religion_group = muslim
+					NOT = { trait = sympathy_islam }
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+				random = {
+					chance = 60
+					add_trait = sympathy_islam
+				}
+			}
+			if = {
+				limit = {
+					religion_group = pagan_group
+					NOT = { trait = sympathy_pagans }
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+				random = {
+					chance = 60
+					add_trait = sympathy_pagans
+				}
+			}
+			if = {
+				limit = {
+					religion_group = zoroastrian_group
+					NOT = { trait = sympathy_zoroastrianism }
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+				random = {
+					chance = 60
+					add_trait = sympathy_zoroastrianism
+				}
+			}
+			if = {
+				limit = {
+					religion_group = jewish_group
+					NOT = { trait = sympathy_judaism }
+					capital_scope = {
+						NOT = { religion_group = ROOT }
+					}
+				}
+				random = {
+					chance = 60
+					add_trait = sympathy_judaism
+				}
+			}
 			capital_scope = {
 				reverse_religion = ROOT
 			}
@@ -419,6 +488,7 @@ decisions = {
 	}
 	
 	convert_to_parent_religion = {
+		only_playable = yes
 		potential = {
 			ai = no
 			is_playable = yes
@@ -457,4 +527,126 @@ decisions = {
 			factor = 0
 		}
 	}
+	# Pagans are allowed to convert to the attacker's religion when under holy war
 }			
+
+	# Carolingian renaissance - Old Frankish conversion to French
+	
+			
+			
+	
+	# Pictish character may convert to Scottish
+			
+			
+	
+	# Arabic or Visigothic character may convert to Andalusian
+
+	# Visigothic character may convert to Castillan
+			
+			
+
+	# Visigothic character may convert to catalan
+			
+			
+
+	# Suebi or Visigothic character may convert to Portuguese
+			
+			
+	
+	# Old Frankish or Old Saxon character may convert to dutch
+			
+			
+	
+	# Lombard character may convert to italian
+			
+
+			
+	
+	# Visigothic character may convert to occitan
+			
+			
+
+	# East Slavic character may convert to Russian
+			
+			
+
+	# Byzantine Emperor may renounce Iconoclasm
+
+
+targetted_decisions = {
+
+	convert_to_spouse_religion= {
+		only_playable = yes
+		filter = home_court
+		ai_target_filter = home_court
+	
+		from_potential = {
+			ai = no
+			is_playable = yes
+			religion_group = pagan_group
+			controls_religion = no
+		}
+		
+		potential = {
+			OR = {
+				spouse = {
+					character = FROM
+				}
+				consort = {
+					character = FROM
+				}
+			}
+			is_alive = yes
+		}
+		
+		allow = {
+			FROM = { NOT = { trait = zealous } }
+		}
+		
+		effect = {
+			FROM = {
+				prestige = -500
+				religion_authority = {
+					modifier = ruler_converted_from
+				}
+			
+				if = {
+					limit = {
+						trait = cynical
+					}
+					random = {
+						chance = 60
+						add_trait = sympathy_pagans
+					}
+				}
+				if = {
+					limit = {
+						NOT = { trait = cynical }
+					}
+					random = {
+						chance = 50
+						add_trait = sympathy_pagans
+					}
+				}		
+			
+				religion = ROOT
+				
+				hidden_tooltip = {
+					religion_authority = {
+						modifier = ruler_converted_to
+					}
+				}
+				piety = 200
+			}
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}	
+			
