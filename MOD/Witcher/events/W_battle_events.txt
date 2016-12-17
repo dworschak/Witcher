@@ -98,7 +98,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 	}
 	
@@ -142,7 +142,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.8
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 0.8
@@ -158,7 +158,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.4
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 0.3
@@ -217,7 +217,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 	}
 	
@@ -288,7 +288,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 		age = 24
 		martial = 8
@@ -402,7 +402,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 	}
 	
@@ -488,7 +488,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.1
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 1.25
@@ -504,7 +504,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.25
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 2.0
@@ -559,7 +559,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 	}
 	
@@ -645,7 +645,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.1
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 1.25
@@ -661,7 +661,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.25
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 2.0
@@ -716,7 +716,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 	}
 	
@@ -756,7 +756,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		is_alive = yes
 	}
 	
@@ -1113,7 +1113,14 @@ character_event = {
 		name = EVTOPTAbattle.104
 		random = {
 			chance = 50
-			add_trait = ill
+			if = {
+				limit = { NOT = { has_dlc = "Reapers" } }
+				add_trait = ill
+			}
+			if = { 
+				limit = { has_dlc = "Reapers" }
+				add_symptom_effect = yes
+			}
 			hidden_tooltip = { character_event = { id = 38290 } } 
 		}
 		hidden_tooltip = { troops = -0.15 }
@@ -1146,7 +1153,14 @@ character_event = {
 		name = EVTOPTAbattle.105
 		random = {
 			chance = 20
-			add_trait = ill
+			if = {
+				limit = { NOT = { has_dlc = "Reapers" } }
+				add_trait = ill
+			}
+			if = { 
+				limit = { has_dlc = "Reapers" }
+				add_symptom_effect = yes
+			}
 			hidden_tooltip = { character_event = { id = 38290 } } 
 		}
 		hidden_tooltip = { troops = -0.1 }

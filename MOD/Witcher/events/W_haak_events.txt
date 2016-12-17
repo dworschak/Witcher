@@ -15,6 +15,27 @@ narrative_event = {
 	only_playable = yes
 	
 	trigger = {
+		NOT = {
+			has_game_rule = {
+				name = haak_invasions
+				value = off
+			}
+		}
+		OR = {
+			AND = {
+				has_game_rule = {
+					name = haak_invasions
+					value = historical
+				}
+				year = 1330
+			}
+			AND = {
+				has_game_rule = {
+					name = haak_invasions
+					value = random
+				}
+			}
+		}
 		year = 1330
 		
 		religion = eternal_fire
@@ -1399,9 +1420,8 @@ narrative_event = {
 	
 	immediate = {
 		set_global_flag = mongols_sack_nilfgaard
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				OR = {
 					has_landed_title = e_hakland
 					liege = { has_landed_title = e_hakland }

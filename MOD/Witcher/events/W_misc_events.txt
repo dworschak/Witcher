@@ -2681,7 +2681,14 @@ character_event = {
 		name = EVTOPTAmisc.110
 		random = {
 			chance = 5
-			add_trait = ill
+			if = {
+				limit = { NOT = { has_dlc = "Reapers" } }
+				add_trait = ill
+			}
+			if = { 
+				limit = { has_dlc = "Reapers" }
+				add_symptom_effect = yes
+			}
 			hidden_tooltip = { character_event = { id = 38290 } }
 		}
 		if = {
@@ -2703,7 +2710,14 @@ character_event = {
 		}
 		random = {
 			chance = 20
-			add_trait = ill
+			if = {
+				limit = { NOT = { has_dlc = "Reapers" } }
+				add_trait = ill
+			}
+			if = { 
+				limit = { has_dlc = "Reapers" }
+				add_symptom_effect = yes
+			}
 			hidden_tooltip = { character_event = { id = 38290 } }
 		}
 	}
@@ -4922,7 +4936,7 @@ character_event = {
 			10 = { }
 			10 = { add_trait = scarred }
 			50 = { add_trait = wounded }
-			25 = { add_trait = maimed }
+			25 = { add_maimed_trait_effect = yes }
 			5 = {
 				death = {
 					death_reason = death_rabble
