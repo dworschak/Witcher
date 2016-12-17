@@ -15,19 +15,21 @@ character_event = {
 	is_triggered_only = yes
 	
 	only_playable = yes
+	min_age = 16
 	prisoner = no
+	religion = catholic
+	war = no
 	
 	picture = GFX_evt_emissary
 
 	trigger = {
-		is_adult = yes
-		war = no
 		in_command = no
 		NOT = { has_character_flag = hedge_knights_visiting }
 		NOT = { has_character_flag = hates_hedge_knights }
 		any_courtier = {
 			has_job_title = job_chancellor
 		}
+		NOT = { has_character_flag = in_seclusion }
 	}
 
 	weight_multiplier = {
@@ -70,7 +72,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.9
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 0.8
@@ -90,7 +92,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.8
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 0.5
@@ -219,7 +221,9 @@ character_event = {
 	desc = EVTDESC71001	
 	
 	only_playable = yes
+	min_age = 16
 	prisoner = no
+	religion = catholic
 
 	has_character_flag = hedge_knights_visiting
 	
@@ -262,7 +266,10 @@ character_event = {
 	desc = EVTDESC71002	
 	
 	only_playable = yes
+	min_age = 16
 	prisoner = no
+	religion = catholic
+	ai = no
 
 	has_character_flag = hedge_knights_visiting
 	
@@ -327,7 +334,9 @@ character_event = {
 	
 	
 	only_playable = yes
+	min_age = 16
 	prisoner = no
+	religion = catholic
 
 	has_character_flag = hedge_knights_visiting
 	
@@ -403,7 +412,10 @@ character_event = {
 	desc = EVTDESC71004	
 	
 	only_playable = yes
+	min_age = 16
 	prisoner = no
+	religion = catholic
+	ai = no
 
 	has_character_flag = hedge_knights_visiting
 	
@@ -508,7 +520,10 @@ character_event = {
 	desc = EVTDESC71005	
 	
 	only_playable = yes
+	min_age = 16
 	prisoner = no
+	religion = catholic
+	
 	has_character_flag = hedge_knights_visiting
 	
 	trigger = {
@@ -551,11 +566,11 @@ character_event = {
 	only_playable = yes
 	prisoner = no
 	religion = catholic
+	war = no
 	
 	picture = GFX_evt_melee
 	
 	trigger = {
-		war = no
 		in_command = no
 		NOT = { has_character_flag = hedge_knights_visiting }
 		any_courtier = {
@@ -566,20 +581,22 @@ character_event = {
 	option = {
 		name = EVTOPTA71006  #order him released
 		job_marshal = {
+			prestige = -25
 			opinion = {
 				modifier = marshal_overruled
 				who = ROOT
 			}
 		}
-		piety = 5
+		piety = 10
 		clr_character_flag = hates_hedge_knights
 	}
 	option = {
 		name = EVTOPTB71006 #it is not my concern
 		job_marshal = {
-			prestige = 10
+			prestige = 25
 		}
-		prestige = -5
+		prestige = 25
+		piety = -10
 		set_character_flag = hates_hedge_knights
 	}
 }	

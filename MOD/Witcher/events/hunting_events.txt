@@ -146,8 +146,7 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			4 = {
-				add_trait = maimed
-				hidden_tooltip = { character_event = { id = 38281 } }
+				add_maimed_trait_effect = yes
 			}
 			1 = {
 				if = {
@@ -167,15 +166,16 @@ character_event = {
 	desc = "EVTDESC36001"
 	picture = "GFX_evt_hunt"
 
-	prisoner = no
+	min_age =  16
 	capable_only = yes
 	only_playable = yes
+	prisoner = no
 
 	trigger = {
+		has_character_modifier = holding_grand_hunt
 		NOT = { has_character_flag = hunt_paranoia }
 		trait = paranoid
 		NOT = {	health_traits = 1 }
-		has_character_modifier = holding_grand_hunt
 		any_courtier = {
 			has_plot = plot_kill_character
 			plot_target_char = {
@@ -227,7 +227,7 @@ character_event = {
 				}
 			}
 			4 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 				character_event = {
 					id = 36003
 					days = 1
@@ -236,20 +236,33 @@ character_event = {
 			1 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
-					any_courtier = {
+					random_courtier = {
 						limit = {
 							has_plot = plot_kill_character
 							plot_target_char = {
-								character = ROOT
+								character = root
 							}
 						}
-						character_event = {
-							id = 36002
-							days = 1
+						save_event_target_as = killer_target
+					}
+					death = { 
+						death_reason = death_murder_unknown_arrow 
+						killer = event_target:killer_target 
+					}
+						any_courtier = {
+							limit = {
+								has_plot = plot_kill_character
+								plot_target_char = {
+									character = ROOT
+								}
+							}
+							character_event = {
+								id = 36002
+								days = 1
+							}
 						}
 					}
-				}
+				}	
 			}
 		}
 	}
@@ -299,23 +312,35 @@ character_event = {
 					}
 				}
 			}
-			}
 			5 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-				death = { death_reason = death_accident }
-				any_courtier = {
-					limit = {
-						has_plot = plot_kill_character
-						plot_target_char = {
-							character = root
+					random_courtier = {
+						limit = {
+							has_plot = plot_kill_character
+							plot_target_char = {
+								character = root
+							}
+						}
+						save_event_target_as = killer_target
+					}
+					death = { 
+						death_reason = death_murder_unknown_arrow 
+						killer = event_target:killer_target 
+					}
+					any_courtier = {
+						limit = {
+							has_plot = plot_kill_character
+							plot_target_char = {
+								character = root
+							}
+						}
+						character_event = {
+							id = 36002
+							days = 1
 						}
 					}
-					character_event = {
-						id = 36002
-						days = 1
-					}
-				}
+				}	
 			}
 		}
 	}
@@ -357,7 +382,10 @@ character_event = {
 
 	option = {
 		name = "EVTOPTA36004"
-		death = { death_reason = death_accident }
+		death = { 
+			death_reason = death_murder_unknown_arrow
+			killer = FROM
+		}
 	}
 }
 
@@ -370,7 +398,10 @@ character_event = {
 
 	option = {
 		name = "EVTOPTA36005"
-		death = { death_reason = death_accident }
+		death = { 
+			death_reason = death_murder_unknown_arrow
+			killer = FROM
+		}
 	}
 }
 
@@ -381,6 +412,7 @@ character_event = {
 	desc = "EVTDESC36010"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
@@ -535,8 +567,7 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			5 = {
-				add_trait = maimed
-				hidden_tooltip = { character_event = { id = 38281 } }
+				add_maimed_trait_effect = yes
 			}
 		}
 		prestige = 10
@@ -551,6 +582,7 @@ character_event = {
 	desc = "EVTDESC36015"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
@@ -643,7 +675,13 @@ character_event = {
 		prestige = 5
 		random_list = {
 			70 = {}
-			30 = { add_trait = craven hidden_tooltip = { character_event = { id = 38257 } } }
+			30 = { 
+				if = { 
+					limit = { NOT = { trait = berserker } }
+					add_trait = craven 
+					hidden_tooltip = { character_event = { id = 38257 } } 
+				}
+			}
 		}
 	}
 
@@ -679,8 +717,7 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			5 = {
-				add_trait = maimed
-				hidden_tooltip = { character_event = { id = 38281 } }
+				add_maimed_trait_effect = yes
 			}
 		}
 
@@ -697,6 +734,7 @@ character_event = {
 	desc = "EVTDESC36020"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
@@ -805,8 +843,7 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			5 = {
-				add_trait = maimed
-				hidden_tooltip = { character_event = { id = 38281 } }
+				add_maimed_trait_effect = yes
 			}
 		}
 		set_character_flag = hunt_killed_something
@@ -841,13 +878,14 @@ character_event = {
 	desc = "EVTDESC36025"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
 
 	trigger = {
-		NOT = { has_character_flag = hunt_good_hounds }
 		has_character_modifier = holding_grand_hunt
+		NOT = { has_character_flag = hunt_good_hounds }
 		NOT = { trait = craven }
 		NOT = { trait = content }
 		OR = {
@@ -956,6 +994,7 @@ character_event = {
 	desc = "EVTDESC36030"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
@@ -1035,6 +1074,8 @@ character_event = {
 	desc = "EVTDESC36035"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
+	only_playable = yes
 	prisoner = no
 	capable_only = yes
 
@@ -1105,6 +1146,7 @@ character_event = {
 	desc = "EVTDESC36040"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
@@ -1202,15 +1244,16 @@ character_event = {
 	desc = "EVTDESC36045"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
 	prisoner = no
 	capable_only = yes
 
 	trigger = {
+		has_character_modifier = holding_grand_hunt
 		martial = 10
 		NOT = {	health_traits = 1 }
 		NOT = { has_character_flag = hunt_killed_something }
-		has_character_modifier = holding_grand_hunt
 		OR = {
 			NOT = { has_character_flag = hunt_event_happened }
 			had_character_flag = {
@@ -1289,8 +1332,7 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			10 = {
-				add_trait = maimed
-				hidden_tooltip = { character_event = { id = 38281 } }
+				add_maimed_trait_effect = yes
 			}
 			5 = {
 					if = {
@@ -1305,9 +1347,12 @@ character_event = {
 	}
 	option = {
 		name = "EVTOPTB36045"
-		add_trait = craven
+		if = {
+			limit = { NOT = { trait = berserker } }
+			add_trait = craven
+			hidden_tooltip = { character_event = { id = 38257 } } 
+		}
 	}
-
 }
 
 # courtier/vassal with hunter trait kills something,
@@ -1316,16 +1361,18 @@ character_event = {
 	desc = "EVTDESC36050"
 	picture = "GFX_evt_hunt"
 
-	capable_only = yes
+	min_age =  16
+	only_playable = yes
 	prisoner = no
+	capable_only = yes
+	war = no
+	has_character_flag = hunt_begin
 
 	trigger = {
-		is_adult = yes
 		trait = hunter
 		liege = { has_character_modifier = holding_grand_hunt }
 		in_command = no
 		independent = no
-		war = no
 		NOT = { liege = { has_character_flag = hunt_killed_something } }
 		NOT = {	health_traits = 1 }
 		OR = {
@@ -1476,10 +1523,11 @@ character_event = {
 	desc = "EVTDESC36089"
 	picture = "GFX_evt_hunt"
 
+	min_age =  16
 	only_playable = yes
+	war = yes
 
 	trigger = {
-		war = yes
 		has_character_modifier = holding_grand_hunt
 	}
 
@@ -1541,11 +1589,12 @@ character_event = {
 	only_men = yes
 	capable_only = yes
 	prisoner = no
+	war = no
+	has_character_flag = hunt_begin
 
 	trigger = {
-		war = no
-		in_command = no
 		has_character_modifier = holding_grand_hunt
+		in_command = no
 		NOT = { has_character_flag = hunt_killed_something }
 		job_treasurer = {
 			NOT = {

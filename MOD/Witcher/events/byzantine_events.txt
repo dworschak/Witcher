@@ -30,7 +30,7 @@ character_event = {
 		NOT = {
 			any_courtier = { trait = eunuch }
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -314,16 +314,17 @@ narrative_event = {
 	prisoner = no
 	only_playable = yes
 	ai = no
+	min_age = 15
+	religion_group = christian
 	
 	trigger = {
 		NOT = { culture = wilderness}
 		has_dlc = "Legacy of Rome"
 		has_landed_title = e_nilfgaard
 		NOT = { has_global_flag = greek_fire }
-		age = 15
 		in_command = no
 		capital_scope = { province_id = 162 }
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -858,12 +859,13 @@ character_event = {
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
+	min_age = 16
 	
 	trigger = {
 		NOT = { culture = wilderness}
 		has_dlc = "Legacy of Rome"
-		is_adult = yes
 		in_command = no
+		NOT = { trait = in_hiding }
 	}
 	
 	mean_time_to_happen = {
@@ -916,14 +918,16 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTALoR.887
+	immediate = {
 		create_random_steward = {
 			random_traits = no
 			dynasty = NONE
 			female = no
 			age = 22
 			religion = ROOT
+			attributes = {
+				stewardship = 6
+			}
 			trait = eunuch
 			trait = diligent
 			trait = temperate
@@ -934,11 +938,51 @@ character_event = {
 				modifier = opinion_loyal_servant
 				who = ROOT
 			}
+			random_list = {
+				25 = {
+					add_trait = just
+				}
+				25 = {
+					add_trait = shrewd
+				}
+				25 = {
+					add_trait = stubborn
+				}
+				25 = {
+					add_trait = patient
+				}
+			}
+			random_list = {
+				33 = {
+					add_trait = administrator
+				}
+				33 = {
+					add_trait = architect
+				}
+				33 = {
+					add_trait = gardener
+				}
+			}
+			save_event_target_as = eunuch_gift
+		}
+	}
+	
+	option = {
+		name = EVTOPTALoR.887
+		custom_tooltip = {
+			text = eunuch_gift_tooltip
 		}
 	}
 	option = {
 		name = EVTOPTBLoR.887
 		custom_tooltip = { text = eunuch_declined }
+		hidden_tooltip = {
+			event_target:eunuch_gift = {
+				death = {
+					death_reason = death_missing
+				}
+			}
+		}
 	}
 }
 
@@ -952,14 +996,16 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTALoR.887
+	immediate = {
 		create_random_diplomat = {
 			random_traits = no
 			dynasty = NONE
 			female = no
 			age = 22
 			religion = ROOT
+			attributes = {
+				diplomacy = 6
+			}
 			trait = eunuch
 			trait = diligent
 			trait = temperate
@@ -970,11 +1016,53 @@ character_event = {
 				modifier = opinion_loyal_servant
 				who = ROOT
 			}
+			random_list = {
+				25 = {
+					add_trait = honest
+				}
+				25 = {
+					add_trait = kind
+				}
+				25 = {
+					add_trait = gregarious
+				}
+				25 = {
+					add_trait = trusting
+				}
+			}
+			random_list = {
+				25 = {
+					add_trait = socializer
+				}
+				25 = {
+					add_trait = gamer
+				}
+				25 = {
+					add_trait = poet
+				}
+				25 = {
+					add_trait = falconer
+				}
+			}
+			save_event_target_as = eunuch_gift
+		}
+	}
+	option = {
+		name = EVTOPTALoR.887
+		custom_tooltip = {
+			text = eunuch_gift_tooltip
 		}
 	}
 	option = {
 		name = EVTOPTBLoR.887
 		custom_tooltip = { text = eunuch_declined }
+		hidden_tooltip = {
+			event_target:eunuch_gift = {
+				death = {
+					death_reason = death_missing
+				}
+			}
+		}
 	}
 }
 
@@ -988,14 +1076,16 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTALoR.887
+	immediate = {
 		create_random_intriguer = {
 			random_traits = no
 			dynasty = NONE
 			female = no
 			age = 22
 			religion = ROOT
+			attributes = {
+				intrigue = 6
+			}
 			trait = eunuch
 			trait = diligent
 			trait = temperate
@@ -1006,11 +1096,47 @@ character_event = {
 				modifier = opinion_loyal_servant
 				who = ROOT
 			}
+			random_list = {
+				25 = {
+					add_trait = deceitful
+				}
+				25 = {
+					add_trait = paranoid
+				}
+				25 = {
+					add_trait = shrewd
+				}
+				25 = {
+					add_trait = cynical
+				}
+			}
+			random_list = {
+				50 = {
+					add_trait = schemer
+				}
+				50 = {
+					add_trait = impaler
+				}
+			}
+			save_event_target_as = eunuch_gift
+		}
+	}
+	option = {
+		name = EVTOPTALoR.887
+		custom_tooltip = {
+			text = eunuch_gift_tooltip
 		}
 	}
 	option = {
 		name = EVTOPTBLoR.887
 		custom_tooltip = { text = eunuch_declined }
+		hidden_tooltip = {
+			event_target:eunuch_gift = {
+				death = {
+					death_reason = death_missing
+				}
+			}
+		}
 	}
 }
 
@@ -1024,14 +1150,16 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	option = {
-		name = EVTOPTALoR.887
+	immediate = {
 		create_random_soldier = {
 			random_traits = no
 			dynasty = NONE
 			female = no
 			age = 22
 			religion = ROOT
+			attributes = {
+				martial = 6
+			}
 			trait = eunuch
 			trait = diligent
 			trait = temperate
@@ -1042,10 +1170,64 @@ character_event = {
 				modifier = opinion_loyal_servant
 				who = ROOT
 			}
+			random_list = {
+				25 = {
+					add_trait = brave
+				}
+				25 = {
+					add_trait = wroth
+				}
+				25 = {
+					add_trait = cruel
+				}
+				25 = {
+					add_trait = robust
+				}
+			}
+			random_list = {
+				25 = {
+					add_trait = organizer
+				}
+				25 = {
+					add_trait = inspiring_leader
+				}
+				25 = {
+					add_trait = defensive_leader
+				}
+				25 = {
+					add_trait = desert_terrain_leader
+				}
+			}
+			random_list = {
+				33 = {
+					add_trait = duelist
+				}
+				33 = {
+					add_trait = strategist
+				}
+				33 = {
+					add_trait = hunter
+				}
+			}
+			save_event_target_as = eunuch_gift
+		}
+	}
+	
+	option = {
+		name = EVTOPTALoR.887
+		custom_tooltip = {
+			text = eunuch_gift_tooltip
 		}
 	}
 	option = {
 		name = EVTOPTBLoR.887
 		custom_tooltip = { text = eunuch_declined }
+		hidden_tooltip = {
+			event_target:eunuch_gift = {
+				death = {
+					death_reason = death_missing
+				}
+			}
+		}
 	}
 }

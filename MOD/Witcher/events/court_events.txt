@@ -52,7 +52,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.9
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 0.8
@@ -72,7 +72,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.8
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 0.5
@@ -125,16 +125,21 @@ character_event = {
 	}	
 	option = {
 		name = EVTOPTB73000 #Ignore him
-		any_dynasty_member = {
-			limit = {
-				NOT = {
-					character = ROOT
+		custom_tooltip = {
+			text = ALL_DYNASTY_MEMBERS_MINUS_5
+			hidden_tooltip = {
+				any_dynasty_member = {
+					limit = {
+						NOT = {
+							character = ROOT
+						}
+					}
+					opinion = {
+						who = ROOT
+						modifier = disrespects_dynasty
+						months = 120
+					}
 				}
-			}
-			opinion = {
-				who = ROOT
-				modifier = disrespects_dynasty
-				months = 120
 			}
 		}
 		random = {
@@ -158,9 +163,9 @@ character_event = {
 	only_playable = yes
 	prisoner = no
 	only_men = yes
+	is_married = yes
 	
 	trigger = {
-		is_married = yes
 		spouse = {
 			is_abroad = no
 			prisoner = no
@@ -190,29 +195,49 @@ character_event = {
 	option = {
 		name = EVTOPTA73001 # Help her, by getting her more to read.
 		wealth = -10
-		spouse = { fertility = 0.1 }
-		if = {
-			limit = { spouse = { not = {trait = lustful } } }
-			spouse = { add_trait = lustful }
+		spouse = {
+			fertility = 0.1
+			if = {
+				limit = {
+					NOT = {
+						trait = lustful
+					}
+				}
+				add_trait = lustful
+			}
+			opinion = {
+				who = ROOT
+				modifier = spouse_encouraged
+				months = 12
+			}
 		}
-		opinion = {
-			who = ROOT
-			modifier = spouse_encouraged
-			months = 12
-		}		
 	}	
 	option = {
 		name = EVTOPTB73001 # That is her interests, not mine.
 		piety = 5
-		spouse = { fertility = -0.1 }
-		opinion = {
-			who = ROOT
-			modifier = spouse_ignores_me
-			months = 12
+		spouse = {
+			fertility = -0.1
+			opinion = {
+				who = ROOT
+				modifier = spouse_ignores_me
+				months = 12
+			}
 		}		
 	}
 	option = {
-		name = EVTOPTC73001 # These are books created by satan!
+		name = {
+			text = EVTOPTC73001 # These are books created by satan!
+			trigger = {
+				religion_group = christian
+			}
+		}
+		name = {
+			text = EVTOPTD73001 # These are books created by Shaytan!
+			trigger = {
+				religion_group = muslim
+			}
+		}
+	
 		ai_chance = {
 			factor = 1
 			modifier = {
@@ -220,7 +245,6 @@ character_event = {
 				NOT= { trait = zealous }
 			}
 		}
-		spouse = { add_trait = chaste }
 		piety = 10
 	}
 }	
@@ -237,6 +261,7 @@ character_event = {
 	min_age = 15
 	only_playable = yes
 	prisoner = no
+	religion = catholic
 	
 	trigger = {
 		in_command = no
@@ -289,6 +314,7 @@ character_event = {
 	min_age = 15
 	only_playable = yes
 	prisoner = no
+	religion_group = christian
 	
 	trigger = {
 		in_command = no
@@ -419,7 +445,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.9
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 0.8
@@ -439,7 +465,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.8
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 0.5
@@ -711,6 +737,7 @@ character_event = {
 	min_age = 15
 	only_playable = yes
 	prisoner = no
+	ai = no
 	
 	trigger = {
 		is_landed = yes
@@ -755,9 +782,9 @@ character_event = {
 	min_age = 15
 	only_playable = yes
 	prisoner = no
+	war = yes
 	
 	trigger = {
-		war = yes
 		any_current_enemy = {
 			culture = ROOT
 		}
@@ -795,7 +822,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.9
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 0.8
@@ -815,7 +842,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.8
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 0.5
@@ -948,7 +975,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.1
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 1.25
@@ -968,7 +995,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 1.25
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		modifier = {
 			factor = 2.0
@@ -1127,9 +1154,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_ruler = no
 		is_councillor = no
 		independent = no
@@ -1399,9 +1426,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Zeus"
 
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_ruler = no
 		independent = no
 		is_councillor = no
@@ -1665,9 +1692,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_ruler = no
 		independent = no
 		is_councillor = no
@@ -1928,9 +1955,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		OR = {
 			is_theocracy = yes
 			is_ruler = no
@@ -2222,9 +2249,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_ruler = no
 		independent = no
 		is_councillor = no

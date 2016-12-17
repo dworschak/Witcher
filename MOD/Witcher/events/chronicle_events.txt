@@ -117,21 +117,17 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		OR = {
-			any_vassal = { ai = no }
-			any_spouse = { ai = no }
-			any_child = { ai = no }
-			any_playable_ruler = {
-				ai = no
+		any_player = {
+			OR = {
+				liege = { character = ROOT }
+				any_spouse = { character = ROOT }
+				is_child_of = ROOT
 				current_heir = {
 					character = ROOT
 				}
-			}
-			AND = {
-				controls_religion = yes
-				any_playable_ruler = {
-					ai = no
+				AND = {
 					religion = ROOT
+					ROOT = { controls_religion = yes }
 				}
 			}
 		}
@@ -176,9 +172,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				current_heir = {
 					character = ROOT
 				}
@@ -189,9 +184,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				religion_head = {
 					character = ROOT
 				}
@@ -384,9 +378,8 @@ character_event = {
 	is_triggered_only = yes
 	
 	immediate = {
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				religion = ROOT
 			}
 			chronicle = {
@@ -394,9 +387,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				religion = new_character
 			}
 			chronicle = {
@@ -434,9 +426,8 @@ character_event = {
 					religion_head = { is_alive = yes }
 				}
 			}
-			any_playable_ruler = {
+			any_player = {
 				limit = {
-					ai = no
 					OR = {
 						religion = FROM
 						religion = new_character
@@ -466,9 +457,8 @@ character_event = {
 					}
 				}
 			}
-			any_playable_ruler = {
+			any_player = {
 				limit = {
-					ai = no
 					OR = {
 						religion = FROM
 						religion = new_character
@@ -494,9 +484,8 @@ character_event = {
 	is_triggered_only = yes
 	
 	immediate = {
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				OR = {
 					religion = FROM
 					religion = new_character
@@ -656,22 +645,18 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		OR = {
-			ai = no
-			any_vassal = { ai = no }
-			any_spouse = { ai = no }
-			any_child = { ai = no }
-			any_playable_ruler = {
-				ai = no
+		any_player = {
+			OR = {
+				character = ROOT
+				liege = { character = ROOT }
+				any_spouse = { character = ROOT }
+				is_child_of = ROOT
 				current_heir = {
 					character = ROOT
 				}
-			}
-			AND = {
-				controls_religion = yes
-				any_playable_ruler = {
-					ai = no
+				AND = {
 					religion = ROOT
+					ROOT = { controls_religion = yes }
 				}
 			}
 		}
@@ -706,9 +691,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				current_heir = {
 					character = ROOT
 				}
@@ -718,9 +702,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				religion_head = {
 					character = ROOT
 				}
@@ -742,22 +725,18 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		OR = {
-			ai = no
-			any_vassal = { ai = no }
-			any_spouse = { ai = no }
-			any_child = { ai = no }
-			any_playable_ruler = {
-				ai = no
+		any_player = {
+			OR = {
+				character = ROOT
+				liege = { character = ROOT }
+				any_spouse = { character = ROOT }
+				is_child_of = ROOT
 				current_heir = {
 					character = ROOT
 				}
-			}
-			AND = {
-				controls_religion = yes
-				any_playable_ruler = {
-					ai = no
+				AND = {
 					religion = ROOT
+					ROOT = { controls_religion = yes }
 				}
 			}
 		}
@@ -792,9 +771,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				current_heir = {
 					character = ROOT
 				}
@@ -804,9 +782,8 @@ character_event = {
 				portrait = [Root.GetID]
 			}
 		}
-		any_playable_ruler = {
+		any_player = {
 			limit = {
-				ai = no
 				religion_head = {
 					character = ROOT
 				}
@@ -1035,8 +1012,7 @@ character_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_playable_ruler = {
-			ai = no
+		any_player = {
 			FROM = { is_primary_heir = PREV }
 		}
 	}
@@ -1058,9 +1034,8 @@ character_event = {
 					}
 				}
 			}
-			any_playable_ruler = {
+			any_player = {
 				limit = {
-					ai = no
 					FROM = { is_primary_heir = PREV }
 				}
 				chronicle = {
@@ -1085,9 +1060,8 @@ character_event = {
 					}
 				}
 			}
-			any_playable_ruler = {
+			any_player = {
 				limit = {
-					ai = no
 					FROM = { is_primary_heir = PREV }
 				}
 				chronicle = {
@@ -1103,9 +1077,8 @@ character_event = {
 					NOT = { mother_even_if_dead = { always = yes } }
 				}
 			}
-			any_playable_ruler = {
+			any_player = {
 				limit = {
-					ai = no
 					FROM = { is_primary_heir = PREV }
 				}
 				chronicle = {
