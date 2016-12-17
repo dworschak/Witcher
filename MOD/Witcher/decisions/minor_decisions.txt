@@ -394,15 +394,28 @@ decisions = {
 		revoke_allowed = {
 			always = no
 		}
+		
 		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 0
 				NOT = { wealth = 300 }
+			}
+			modifier = {
+				factor = 0
+				NOT = { has_character_modifer = old_age }
+			}			
+		}
+	}
 
-
-
-
+	# hold_nerge
+	
+	# hold_blot
+	
+	# ancestor_worship
+	
+	# hold_ukon_juhla
+	
 	pick_main_deity = {
 		only_playable = yes
 		potential = {
@@ -410,18 +423,8 @@ decisions = {
 			is_playable = yes
 			is_adult = yes
 			prisoner = no
-			OR = {
-				religion = slavic_pagan
-				religion = slavic_pagan_reformed
-				religion = west_african_pagan
-				religion = west_african_pagan_reformed
-				religion = baltic_pagan
-				religion = baltic_pagan_reformed
-				religion = finnish_pagan
-				religion = finnish_pagan_reformed
-				religion = baltic_pagan
-				religion = baltic_pagan_reformed
-			}
+			
+			always = no # TODO
 		}
 		allow = {
 			piety = 25
@@ -513,14 +516,7 @@ decisions = {
 				#Event for picking main deity
 				trigger_switch = {
 					on_trigger = religion
-					slavic_pagan 				= { character_event = { id = TOG.7110 } } 
-					slavic_pagan_reformed	 	= { character_event = { id = TOG.7110 } } 
-					west_african_pagan			= { character_event = { id = TOG.7200 } } 
-					west_african_pagan_reformed = { character_event = { id = TOG.7200 } }
-					finnish_pagan				= { character_event = { id = TOG.7300 } } 
-					finnish_pagan_reformed		= { character_event = { id = TOG.7300 } } 
-					baltic_pagan				= { character_event = { id = TOG.7400 } } 
-					baltic_pagan_reformed		= { character_event = { id = TOG.7400 } }   
+					# TODO
 				}
 
 				add_character_modifier = {
@@ -536,16 +532,33 @@ decisions = {
 		ai_will_do = {
 			factor = 0.1
 		}
-	}
-
+	}	
 	
-			}
-			modifier = {
-				factor = 0
-				NOT = { age = 30 }
-			}			
-		}
-	}
+	# hold_uzgavenes
+	
+	# hold_jarilo
+	
+	# celebrate_passover
+	
+	# borrow_money_jews
+	
+	# repay_money_jews
+	
+	# become_kshatriya
+	
+	# become_vaishya
+	
+	# hold_diwali_feast_hindu
+	
+	# hold_diwali_feast_buddhist
+	
+	# hold_diwali_feast_jain
+	
+	# hold_diwali_feast_kali_puja
+	
+	# find_guru
+	
+	# hold_zun_feast	
 	
 	# Sky burial
 	sky_burial_decision = {
@@ -555,18 +568,7 @@ decisions = {
 			is_playable = yes
 			has_character_flag = sky_burial
 			NOT = { has_character_flag = performed_sky_burial }
-			OR = {
-				religion_group = zoroastrian_group
-				AND = {
-					government = nomadic_government
-					OR = {
-						religion = tengri_pagan
-						religion = tengri_pagan_reformed
-						religion_group = zoroastrian_group
-						religion_group = indian_group
-					}
-				}
-			}
+			government = nomadic_government
 		}
 		allow = {
 			in_command = no

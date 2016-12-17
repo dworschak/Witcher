@@ -20,11 +20,11 @@ AddFlag = TraceFlags
 #AddFlag = WarnOnBuggyBehavior
 
 # Ignores the warning when there is only one item in an OR clause
-#AddFlag = ContextValidator.IgnoreOneItemInOrClauseWarning
+AddFlag = ContextValidator.IgnoreOneItemInOrClauseWarning
 # Ignores the warning when there is only one item in an AND clause
-#AddFlag = ContextValidator.IgnoreOneItemInAndClauseWarning
+AddFlag = ContextValidator.IgnoreOneItemInAndClauseWarning
 # Ignores the warning when there is only one item in an NAND clause
-#AddFlag = ContextValidator.IgnoreOneItemInNandClauseWarning
+# AddFlag = ContextValidator.IgnoreOneItemInNandClauseWarning
 # Add a warning when there are multiple clauses in a NOT clause. Use NAND instead.
 #AddFlag = ContextValidator.WarnOnMultiNotClause
 # Add a warning when there is an OR or AND clause inside a NOT clause. Use NAND or NOR instead.
@@ -60,6 +60,9 @@ AddFlag = ContextValidator.IgnoreAlreadyInAndClauseWarning
 # to consider valid anyways.
 #(AddToEnum ReligionGroup) = { }
 
+# DLC names that for some reason don't appear in the files but that you want
+# to consider valid anyways.
+#(AddToEnum Dlc) = { }
 
 ###########################################
 # LOCALIZATION
@@ -132,7 +135,8 @@ AddFlag = CharacterHistory.NoBastardCheck
 #AddFlag = Events.NoCheckLeadingZeroInId
 # Disable checking that events start with GFX_event_[normal|narrative|letter|long]_frame depending on the event type
 #AddFlag = Events.NoCheckEventBorderPrefix
-# Disables checks that an event with hide_window=yes 
+# Disables checks that an event with hide_window=yes not have title, desc, picture, border, and option names.
+# So normally if a hide_window=yes has a title, Validator would warn about it. With this flag, it will not.
 AddFlag = Events.DisableSpecialHideWindowChecks
 
 ###########################################
