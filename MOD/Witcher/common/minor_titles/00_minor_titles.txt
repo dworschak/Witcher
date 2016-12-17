@@ -34,6 +34,8 @@ title_regent = {
 }
 
 title_appointed_regent = {
+	is_high_prio = yes
+	realm_in_name = yes
 	dignity = 0.9
 	grant_limit = 1
 	opinion_effect = 10
@@ -45,11 +47,18 @@ title_appointed_regent = {
 	allowed_to_hold = {
 		is_adult = yes
 		prisoner = no
+		NOT = { trait = incapable }
 		has_regent = no
 	}
 	
 	allowed_to_grant = {
 		has_regent = no
+		NOT = {
+			has_game_rule = {
+				name = regencies
+				value = off
+			}
+		}
 	}
 
 	gain_effect = {
@@ -158,6 +167,8 @@ title_commander = {
 	monthly_salary = 0.05
 	monthly_prestige = 0.50
 	
+	revoke_allowed = no # Handled by diplomatic interaction
+	
 	allowed_to_hold = {
 		NOT = { culture = wilderness }
 		OR = {
@@ -174,8 +185,14 @@ title_commander = {
 				OR = {
 					is_female = no
 					liege = {
-						primary_title = {
-							has_law = status_of_women_4
+						OR = {
+							primary_title = {
+								has_law = status_of_women_4
+							}
+							has_game_rule = {
+								name = gender
+								value = all
+							}
 						}
 					}
 					trait = dryad_race
@@ -188,7 +205,7 @@ title_commander = {
 
 		prisoner = no
 		NOT = { trait = incapable }
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 		NOT = { trait = witcher }
 	}
 	
@@ -357,6 +374,7 @@ title_keeper_of_swans = {
 			}
 		}
 		is_adult = yes
+		NOT = { trait = incapable } 
 	}
 	allowed_to_grant = {
 		NOT = { has_landed_title = e_hakland }
@@ -405,10 +423,27 @@ title_master_of_the_hunt = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_3
+					}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 	
-	allow = {
+	allowed_to_grant = {
 		NOT = { has_landed_title = e_hakland }
 		
 		OR = {
@@ -446,6 +481,7 @@ title_high_almoner = {
 			}
 		}
 		is_adult = yes
+		NOT = { trait = incapable } 
 	}
 	
 	allowed_to_grant = {
@@ -485,7 +521,24 @@ title_cupbearer = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_3
+					}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 	
 	allowed_to_grant = {
@@ -527,7 +580,24 @@ title_seneschal = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_3
+					}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 	
 	allowed_to_grant = {
@@ -557,6 +627,10 @@ title_paramount_knight = {
 	opinion_effect = 0
 
 	monthly_prestige = 1.50
+	
+	allowed_to_hold = {
+		NOT = { trait = incapable } 
+	}
 
 	gain_effect = {
 	}
@@ -590,7 +664,21 @@ title_state_inquisitor = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 
 	allowed_to_grant = {
@@ -626,7 +714,21 @@ title_high_admiral = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 	
 	allowed_to_grant = {
@@ -662,7 +764,21 @@ title_high_judge = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 
 	allowed_to_grant = {
@@ -693,11 +809,13 @@ title_patrician_heir = {
 	
 	allowed_to_hold = {
 		is_female = no
+		is_landed = no
 		dynasty = FROM
 		NOT = { trait = incapable }
 		NOT = { trait = bastard }
 		NOT = { trait = monk }
 		NOT = { trait = eunuch }
+		NOT = { trait = celibate }
 	}
 
 	allowed_to_grant = {
@@ -775,6 +893,7 @@ title_lawspeaker = {
 		}
 		is_adult = yes
 		religion = freya
+		NOT = { trait = incapable } 
 	}
 	
 	allowed_to_grant = {	
@@ -814,6 +933,7 @@ title_drottseti = {
 			}
 		}
 		is_adult = yes
+		NOT = { trait = incapable } 
 	}
 	
 	allowed_to_grant = {
@@ -857,6 +977,7 @@ title_court_skald = {
 		}
 		is_adult = yes
 		trait = poet
+		NOT = { trait = incapable } 
 	}
 
 	allowed_to_grant = {
@@ -896,7 +1017,24 @@ title_marksman = {
 			}
 		}
 		is_adult = yes
-		is_female = no
+		OR = { 
+			is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_3
+					}
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 
 	allowed_to_grant = {
@@ -935,7 +1073,21 @@ title_hirdman = {
 			}
 		}
 		is_adult = yes
-		is_female = no	
+		OR = { 
+		is_female = no
+			liege = {
+				OR = {
+					primary_title = {
+						has_law = status_of_women_4
+					}
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
+			}
+		}
+		NOT = { trait = incapable } 
 	}
 
 	allowed_to_grant = {
@@ -954,6 +1106,7 @@ title_hirdman = {
 	message = yes
 }
 title_councilmember_king = {
+	is_high_prio = yes
 	dignity = 0.050
 	grant_limit = 1
 	opinion_effect = 10
@@ -999,6 +1152,7 @@ title_councilmember_king = {
 	message = yes
 }
 title_councilmember_emperor = {
+	is_high_prio = yes
 	dignity = 0.060
 	grant_limit = 1
 	opinion_effect = 10
@@ -1041,5 +1195,103 @@ title_councilmember_emperor = {
 	}
 	retire_effect = {
 	}
+	message = yes
+}
+
+
+## Court Physician
+title_court_physician = {
+	is_high_prio = yes
+	attribute = learning
+    dignity = 5
+    realm_in_name = yes
+	grant_limit = 1
+	opinion_effect = 10
+	monthly_salary = 0.2
+	monthly_prestige = 0.5
+	
+	allowed_to_grant = {
+		OR = {
+			higher_tier_than = BARON
+			is_patrician = yes
+		}
+		has_dlc = "Reapers"
+	}
+	
+	allowed_to_hold = {
+		custom_tooltip = {
+			text = court_physician_tooltip_1
+			OR = {
+				primary_title = { temporary = no }
+				NOT = {
+					primary_title = {
+						always = yes
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = court_physician_tooltip_2
+			OR = {
+				is_female = no
+				AND = {
+					OR = {
+						religion = messalian
+						religion = cathar
+					}
+					liege = { religion = ROOT }
+				}
+				liege = {
+					OR = {
+						primary_title = {
+							has_law = status_of_women_4
+						}
+						has_game_rule = {
+							name = gender
+							value = all
+						}
+					}
+				}
+			}
+		}
+		OR = {
+			learning = 15
+			AND = {
+				learning = 10
+				OR = {
+					trait = physician
+					trait = scholar
+					trait = mystic
+					trait = mutazilite
+				}
+			}
+			custom_tooltip = { 
+				text = educated_court_physician
+				hidden_tooltip = {
+					has_character_flag = is_court_physician
+				}
+			}
+		}
+		OR = {
+			NOT = { religion = hindu }
+			trait = brahmin
+		}
+		is_adult = yes
+
+		prisoner = no
+		NOT = { trait = in_hiding }
+		NOT = { trait = incapable }
+	}
+
+	revoke_trigger = {
+	}
+	
+	gain_effect = {
+	}
+	lose_effect = {
+	}
+	retire_effect = {
+	}
+
 	message = yes
 }

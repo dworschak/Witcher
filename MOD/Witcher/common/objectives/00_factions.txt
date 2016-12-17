@@ -26,6 +26,7 @@ faction_succ_seniority = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -162,13 +163,13 @@ faction_succ_seniority = {
 		factor = 1
 		
 		modifier = {
-			factor = 0.2
-			FROM = { pacifist = yes }
-		}
-		
-		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -251,6 +252,11 @@ faction_succ_seniority = {
 		}
 		
 		modifier = {
+			factor = 0.2
+			FROM = { pacifist = yes }
+		}
+		
+		modifier = {
 			factor = 1.5
 			NOT = { FROM = { opinion = { who = LIEGE value = 0 } } }
 		}
@@ -280,7 +286,12 @@ faction_succ_seniority = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -610,7 +621,10 @@ faction_succ_seniority = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -711,6 +725,7 @@ faction_succ_primogeniture = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -853,7 +868,12 @@ faction_succ_primogeniture = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -950,7 +970,12 @@ faction_succ_primogeniture = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -1280,7 +1305,10 @@ faction_succ_primogeniture = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -1382,6 +1410,7 @@ faction_succ_gavelkind = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -1480,9 +1509,7 @@ faction_succ_gavelkind = {
 					modifier = opinion_coerced_into_leaving_faction
 				}
 			}
-			
 		}
-		
 	}
 	
 	# Faction member scope (ROOT = joiner, FROM = target)
@@ -1513,7 +1540,7 @@ faction_succ_gavelkind = {
 			NOT = { in_faction = faction_succ_ultimogeniture }
 			NOT = { in_faction = faction_succ_tanistry }
 		}
-	}	
+	}
 	
 	# AI creation weight
 	chance = {
@@ -1526,7 +1553,12 @@ faction_succ_gavelkind = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -1550,16 +1582,14 @@ faction_succ_gavelkind = {
 		
 		modifier = {
 			factor = 0
-			OR = {
-				FROM = { higher_tier_than = COUNT }
-				holder_scope = { lower_tier_than = KING }
-			}
-		}
-		
-		modifier = {
-			factor = 0
-			# Is not a child of the title holder
+			# Is not a child of the title holder, and no need to split the demesne
 			holder_scope = {
+				NOT = {
+					any_demesne_title = {
+						tier = PREVPREV
+						NOT = { title = PREVPREV }
+					}
+				}
 				FROM = {
 					OR = {
 						NOT = { is_child_of = PREV }
@@ -1680,7 +1710,12 @@ faction_succ_gavelkind = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -1964,7 +1999,10 @@ faction_succ_gavelkind = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -2064,6 +2102,7 @@ faction_succ_feudal_elective = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -2214,7 +2253,12 @@ faction_succ_feudal_elective = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -2389,7 +2433,12 @@ faction_succ_feudal_elective = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -2707,7 +2756,10 @@ faction_succ_feudal_elective = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -2847,6 +2899,7 @@ faction_lower_crown_authority = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		NOT = { trait = incapable }
 		liege = { 
 			is_feudal = yes 
@@ -2923,7 +2976,12 @@ faction_lower_crown_authority = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -3053,7 +3111,12 @@ faction_lower_crown_authority = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -3300,7 +3363,10 @@ faction_lower_crown_authority = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -3404,6 +3470,7 @@ faction_lower_tribal_organization = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		NOT = { trait = incapable }
 		OR = {
 			is_tribal = yes
@@ -3509,7 +3576,12 @@ faction_lower_tribal_organization = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -3634,7 +3706,12 @@ faction_lower_tribal_organization = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -3865,7 +3942,10 @@ faction_lower_tribal_organization = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -3969,6 +4049,7 @@ faction_independence = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -4119,7 +4200,14 @@ faction_independence = {
 		modifier = {
 			factor = 0.2
 			FROM = { pacifist = yes }
-		}		
+		}
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				has_character_modifier = in_seclusion
+			}
+		}
 		
 		modifier = {
 			factor = 0
@@ -4306,7 +4394,10 @@ faction_independence = {
 		}
 		modifier = {
 			factor = 0.1
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -4739,7 +4830,10 @@ faction_independence = {
 		}
 		modifier = {
 			factor = 0.1
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -4878,6 +4972,7 @@ faction_claimant = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -4982,6 +5077,17 @@ faction_claimant = {
 				has_claim = ROOT
 			}
 			
+			OR = {
+				is_ruler = no
+				primary_title = {
+					OR = {
+						is_primary_type_title = no # Static Mercs, the Pope, Holy Orders, etc
+						higher_tier_than = ROOT
+						tier = ROOT
+					}
+				}
+			}
+			
 			ROOT = {
 				holder_scope = {
 					NOT = {
@@ -5049,7 +5155,12 @@ faction_claimant = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -5305,7 +5416,13 @@ faction_claimant = {
 			factor = 0.2
 			NAND = {
 				has_dlc = "Zeus"
-				has_law = status_of_women_4
+				OR = {
+					has_law = status_of_women_4
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
 			}
 			new_character = {
 				is_female = yes
@@ -5416,7 +5533,12 @@ faction_claimant = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 1.5
@@ -5739,7 +5861,13 @@ faction_claimant = {
 			factor = 0.2
 			NAND = {
 				has_dlc = "Zeus"
-				has_law = status_of_women_4
+				OR = {
+					has_law = status_of_women_4
+					has_game_rule = {
+						name = gender
+						value = all
+					}
+				}
 			}
 			FROMFROM = {
 				new_character = {
@@ -5909,7 +6037,10 @@ faction_claimant = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -5987,6 +6118,7 @@ faction_antiking = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -6091,7 +6223,12 @@ faction_antiking = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -6168,7 +6305,12 @@ faction_antiking = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -6364,7 +6506,10 @@ faction_antiking = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -6459,6 +6604,7 @@ faction_overthrow = {
 		is_landed = yes
 		is_adult = yes
 		is_nomadic = yes
+		primary_title = { holy_order = no }
 		OR = {
 			NOT = { has_dlc = "Zeus" }
 			is_voter = no
@@ -6559,7 +6705,12 @@ faction_overthrow = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -6586,7 +6737,7 @@ faction_overthrow = {
 					trait = envious
 				}
 				liege = {
-					NOT = { trait = weak }
+					NOT = { is_weak_trigger = yes }
 					health = 4
 				}
 			}
@@ -6602,7 +6753,7 @@ faction_overthrow = {
 					trait = envious
 				}
 				liege = {
-					NOT = { trait = weak }
+					NOT = { is_weak_trigger = yes }
 					health = 4
 				}		
 			}
@@ -6744,7 +6895,10 @@ faction_overthrow = {
 			factor = 1.5
 			FROM = {
 				liege = {
-					trait = slow
+					OR = {
+						trait = slow
+						trait = dull
+					}
 				}
 			}
 		}
@@ -6780,7 +6934,7 @@ faction_overthrow = {
 			factor = 3
 			FROM = {
 				liege = {
-					trait = weak
+					is_weak_trigger = yes
 				}
 			}
 		}
@@ -6789,7 +6943,10 @@ faction_overthrow = {
 			factor = 0.01
 			FROM = {
 				liege = {
-					trait = strong
+					OR = {
+						trait = strong
+						trait = robust
+					}
 				}
 			}
 		}
@@ -6830,7 +6987,12 @@ faction_overthrow = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -6939,7 +7101,7 @@ faction_overthrow = {
 			factor = 0
 			opinion = { who = LIEGE value = 50 }
 			liege = {
-				NOT = { trait = weak }
+				NOT = { is_weak_trigger = yes }
 				health = 4
 			}
 			NOT = {	
@@ -6992,7 +7154,10 @@ faction_overthrow = {
 			factor = 1.5
 			FROM = {
 				liege = {
-					trait = slow
+					OR = {
+						trait = slow
+						trait = dull
+					}
 				}
 			}
 		}
@@ -7028,7 +7193,7 @@ faction_overthrow = {
 			factor = 3
 			FROM = {
 				liege = {
-					trait = weak
+					is_weak_trigger = yes
 				}
 			}
 		}
@@ -7037,7 +7202,10 @@ faction_overthrow = {
 			factor = 0.01
 			FROM = {
 				liege = {
-					trait = strong
+					OR = {
+						trait = strong
+						trait = robust
+					}
 				}
 			}
 			NOT = {	
@@ -7257,7 +7425,10 @@ faction_overthrow = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -7349,6 +7520,7 @@ faction_increase_council_power = {
 		independent = no
 		is_landed = yes
 		is_adult = yes
+		primary_title = { holy_order = no }
 		OR = {
 			is_voter = no
 			is_nomadic = yes
@@ -7443,6 +7615,7 @@ faction_increase_council_power = {
 			is_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
+			NOT = { has_character_modifier = faction_council_power_ultimatum_timer }
 			OR = {
 				is_voter = no
 				is_nomadic = yes
@@ -7469,7 +7642,12 @@ faction_increase_council_power = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -7589,7 +7767,12 @@ faction_increase_council_power = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -7840,7 +8023,10 @@ faction_increase_council_power = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
@@ -7946,10 +8132,10 @@ faction_powerful_vassal_takeover = {
 		is_landed = yes
 		is_adult = yes
 		is_feudal = yes
+		primary_title = { holy_order = no }
 		OR = {
 			is_voter = no
-			liege = { 
-				NOT = { controls_religion = yes }
+			liege = {
 				OR = {
 					is_council_content = no
 					NOT = { primary_title = { has_law = war_voting_power_1 } }
@@ -7960,6 +8146,7 @@ faction_powerful_vassal_takeover = {
 		NOT = { trait = incapable }
 		liege = {
 			is_feudal = yes
+			NOT = { controls_religion = yes }
 			NOT = {
 				any_demesne_title = {
 					temporary = yes
@@ -8002,10 +8189,14 @@ faction_powerful_vassal_takeover = {
 				}
 			}
 			
-			NOT = {
+			NOR = {
 				reverse_has_opinion_modifier = {
 					who = FROM
 					modifier = opinion_coerced_into_leaving_faction
+				}
+				reverse_has_opinion_modifier = {
+					who = FROM
+					modifier = opinion_replaced_bad_ruler
 				}
 			}
 		}
@@ -8020,6 +8211,7 @@ faction_powerful_vassal_takeover = {
 			is_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
+			NOT = { has_character_modifier = faction_powerful_vassal_takeover_ultimatum_timer }
 			OR = {
 				is_voter = no
 				liege = { 
@@ -8044,7 +8236,12 @@ faction_powerful_vassal_takeover = {
 		
 		modifier = {
 			factor = 0
-			FROM = { prisoner = yes }
+			FROM = {
+				OR = {
+					prisoner = yes
+					has_character_modifier = in_seclusion
+				}
+			}
 		}
 		
 		modifier = {
@@ -8126,9 +8323,11 @@ faction_powerful_vassal_takeover = {
 		}
 		modifier = {
 			factor = 0.75
-			NOR = {
-				has_opinion_modifier = { who = LIEGE modifier = opinion_evil_tyrant }
-				has_opinion_modifier = { who = LIEGE modifier = opinion_tyrant }
+			FROM = {
+				NOR = {
+					has_opinion_modifier = { who = LIEGE modifier = opinion_evil_tyrant }
+					has_opinion_modifier = { who = LIEGE modifier = opinion_tyrant }
+				}
 			}
 		}
 		modifier = {
@@ -8149,7 +8348,12 @@ faction_powerful_vassal_takeover = {
 		}
 		modifier = {
 			factor = 0.2
-			FROM = { trait = slow }
+			FROM = { 
+				OR = {
+					trait = slow
+					trait = dull
+				}
+			}
 		}
 		modifier = {
 			factor = 0.5
@@ -8387,7 +8591,10 @@ faction_powerful_vassal_takeover = {
 		}
 		modifier = {
 			factor = 0.2
-			trait = slow
+			OR = {
+				trait = slow
+				trait = dull
+			}
 			NOT = {	
 				has_opinion_modifier = {
 					who = FROM
