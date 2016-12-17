@@ -20,35 +20,27 @@ character_event = {
 
 	is_triggered_only = yes
 
+	trigger = { NOT = { is_inaccessible_trigger = yes } }
+
 	option = {
 		name = "EVTOPTA70000"
 		ai_chance = {
-			factor = 1
+			factor = 100
 			modifier  = {
-				factor = 0.1
+				factor = 0.001
 				ai = yes
-				trait = in_hiding
+				is_inaccessible_trigger = yes
 			}
 		}
 		prestige = 50
 		set_character_flag = attending_tournament
 		set_character_flag = do_not_disturb
 		hidden_tooltip = { character_event = { id = 70999 days = 300 } } # Safety catch flag clearing
-		if = {
-			limit = { trait = in_hiding	}
-			remove_trait = in_hiding
-			add_character_modifier = {
-				name = went_out_of_hiding_timer
-				duration = 180
-				hidden = yes
-			}
-			hidden_tooltip = { character_event = { id = CM.6400 } } # Notify plotters and family
-		}
 	}
 	option = {
 		name = "EVTOPTB70000"
 		ai_chance = {
-			factor = 1
+			factor = 0.1
 		}
 	}
 }
@@ -61,15 +53,17 @@ character_event = {
 	picture = "GFX_evt_feast"
 
 	is_triggered_only = yes
+	
+	war = no
 
 	option = {
 		name = "EVTOPTA70001"
+		
 		trigger = {
-			war = no
 		}
+		
 		hidden_tooltip = {
 			set_character_flag = tournament_begins
-			set_character_flag = tournament_60_days
 			set_character_flag = attending_tournament
 			chronicle = {
 				entry = CHRONICLE_GRAND_TOURNAMENT
@@ -109,7 +103,7 @@ character_event = {
 				character_event = { id = 70037 }
 			}
 		}
-		clr_character_flag = epic_tournament
+		hidden_tooltip = { remove_character_modifier = epic_tournament }
 		clr_character_flag = do_not_disturb
 		clr_character_flag = attending_tournament
 	}
@@ -215,7 +209,19 @@ character_event = {
 		custom_tooltip = {
 			text = EVTOPTA70002_TOOLTIP
 		}
-		clr_character_flag = tournament_60_days
+		if = {
+			limit = {
+				has_dlc = "Reapers"
+			}
+			custom_tooltip = {
+				text = capital_prospers_custom_tooltip
+				hidden_tooltip = {
+					capital_scope = {
+						change_variable = { which = prosperity_value value = 15 }
+					}
+				}
+			}
+		}
 		clr_character_flag = tournament_begins
 		clr_character_flag = attending_tournament
 		clr_character_flag = attending_tournament_event
@@ -241,7 +247,7 @@ character_event = {
 				opinion = {
 					modifier = opinion_tournament_participant
 					who = PREV
-					years = 2
+					years = 5
 				}
 			}
 			clr_character_flag = attending_tournament
@@ -251,16 +257,10 @@ character_event = {
 		any_realm_character = {
 			limit = {
 				has_character_flag = attending_tournament
-				NOT = {
+				NOR = {
 					character = PREV
-				}
-				NOT = {
 					has_character_flag = tournament_third_place
-				}
-				NOT = {
 					has_character_flag = tournament_second_place
-				}
-				NOT = {
 					has_character_flag = tournament_winner
 				}
 			}
@@ -288,7 +288,7 @@ character_event = {
 				opinion = {
 					modifier = opinion_tournament_participant
 					who = PREV
-					years = 2
+					years = 5
 				}
 				set_character_flag = tournament_has_ended
 				clr_character_flag = attending_tournament
@@ -472,9 +472,7 @@ character_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = {
-			trait = maimed
-		}
+		can_be_maimed_trigger = yes
 		NOT = {
 			has_character_flag = tournament_has_ended
 		}
@@ -494,7 +492,7 @@ character_event = {
 
 	option = {
 		name = "EVTOPTA70010"
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		hidden_tooltip = {
 			if = {
 				limit = {
@@ -534,7 +532,7 @@ character_event = {
 			trait = wounded
 		}
 		NOT = {
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 		top_liege = {
 			has_character_flag = tournament_begins
@@ -587,8 +585,9 @@ character_event = {
 		NOT = {
 			has_character_flag = tournament_has_ended
 		}
-		NOT = {
+		NOR = {
 			trait = craven
+			trait = berserker
 		}
 		top_liege = {
 			has_character_flag = tournament_begins
@@ -1180,11 +1179,11 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	has_character_flag = attending_tournament
+	lacks_dlc = "Way of Life"
 
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		NOT = {
 			has_character_flag = tournament_has_ended
 		}
@@ -1548,7 +1547,7 @@ character_event = {
 				}
 				modifier = {
 					factor = 2
-					trait = maimed
+					is_maimed_trigger = yes
 				}
 				character_event = { id = 70009 days = 1 random = 25 }
 			}
@@ -1587,7 +1586,7 @@ character_event = {
 				}
 				modifier = {
 					factor = 0
-					trait = maimed
+					NOT = { can_be_maimed_trigger = yes }
 				}
 				character_event = { id = 70010 days = 1 random = 25 }
 			}
@@ -1626,7 +1625,7 @@ character_event = {
 				}
 				modifier = {
 					factor = 0
-					trait = maimed
+					is_maimed_trigger = yes
 				}
 				character_event = { id = 70011 days = 1 random = 25 }
 			}
@@ -1642,10 +1641,6 @@ character_event = {
 				modifier = {
 					factor = 0.5
 					combat_rating = 2
-				}
-				modifier = {
-					factor = 0.5
-					combat_rating = 1
 				}
 				modifier = {
 					factor = 0.5
@@ -2680,7 +2675,7 @@ character_event = {
 
 # Safety catch - clears character flags and modifiers
 character_event = {
-	id = 70999
+ 	id = 70999
 
 	hide_window = yes
 	

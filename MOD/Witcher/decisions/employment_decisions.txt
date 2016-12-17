@@ -14,10 +14,13 @@ decisions = {
 			}
 		}
 		allow = {
-			scaled_wealth = 0.2
+			scaled_wealth = 0.25
+			NOT = {
+				has_character_modifier = in_seclusion
+			}
 		}
 		effect = {
-			scaled_wealth = -0.2
+			scaled_wealth = -0.25
 			if = {
 				limit = { trait = elf_race }
 				create_random_soldier = {
@@ -26,14 +29,12 @@ decisions = {
 					female = yes
 					trait = elf_race
 					age = 60
-				}
-				new_character = {
-					change_martial = 2
-					remove_trait = inbred
-					remove_trait = imbecile
-					random_list = {
-						50 = { add_trait = trained_warrior }
-						50 = { add_trait = skilled_warrior }
+					attributes = {
+						diplomacy = 2
+						learning = 2
+						stewardship = 2
+						intrigue = 2
+						martial = 8
 					}
 				}
 			}
@@ -43,18 +44,87 @@ decisions = {
 					random_traits = yes
 					dynasty = random
 					female = yes
-				}
-				new_character = {
-					change_martial = 2
-					remove_trait = inbred
-					remove_trait = imbecile
-					random_list = {
-						50 = { add_trait = trained_warrior }
-						50 = { add_trait = skilled_warrior }
+						attributes = {
+						diplomacy = 2
+						learning = 2
+						stewardship = 2
+						intrigue = 2
+						martial = 8
 					}
+				}
+			}	
+				
+			new_character = {
+				remove_trait = weak
+				remove_trait = slow
+				remove_trait = imbecile
+				remove_trait = dull
+				
+				remove_trait = mystic
+				remove_trait = socializer
+				remove_trait = gamer
+				remove_trait = hedonist
+				remove_trait = duelist
+				remove_trait = hunter
+				remove_trait = strategist
+				remove_trait = administrator
+				remove_trait = architect
+				remove_trait = gardener
+				remove_trait = schemer
+				remove_trait = impaler
+				remove_trait = seducer
+				remove_trait = seductress
+				remove_trait = theologian
+				remove_trait = scholar
+				
+				random_list = { # Flavor Randomization
+					35 = { 
+						# Nothing
+					}
+					15 = {
+						change_martial = 2
+					}
+					10 = {
+						add_trait = robust
+					}
+					10 = {
+						add_trait = duelist
+					}
+					10 = {
+						add_trait = hunter
+					}
+					5 = {
+						add_trait = strategist
+					}
+					5 = {
+						change_martial = 4
+					}
+					5 = {
+						if = {
+							limit = {
+								has_dlc = "Reapers"
+							}
+							add_trait = one_eyed
+						}
+					}
+					5 = { 
+						add_trait = shrewd
+					}
+				}
+				random_list = {
+					50 = { add_trait = trained_warrior }
+					50 = { add_trait = skilled_warrior }
+				}
+				set_character_flag = invited_soldier
+				save_event_target_as = invited_character
+			}	
+			if = {
+				limit = { NOT = { trait = elf_race } }
+				new_character = {
 					character_event = { id = racial.1 }
 				}
 			}
+			character_event = { id = NE.1 }
 		}
 		revoke_allowed = {
 			always = no
@@ -110,10 +180,13 @@ decisions = {
 			}
 		}
 		allow = {
-			piety = 5
+			piety = 25
+			NOT = {
+				has_character_modifier = in_seclusion
+			}
 		}
 		effect = {
-			piety = -5
+			piety = -25
 			if = {
 				limit = { trait = elf_race }
 				create_random_priest = {
@@ -122,12 +195,14 @@ decisions = {
 					female = no
 					trait = elf_race
 					age = 60
-				}
-				new_character = {
-					change_learning = 2
-					remove_trait = inbred
-					remove_trait = imbecile
-				}
+					attributes = {
+						diplomacy = 2
+						learning = 8
+						stewardship = 2
+						intrigue = 2
+						martial = 2
+					}
+				}	
 			}
 			if = {
 				limit = { NOT = { trait = elf_race } }
@@ -135,14 +210,73 @@ decisions = {
 					random_traits = yes
 					dynasty = random
 					female = no
+					attributes = {
+						diplomacy = 2
+						learning = 8
+						stewardship = 2
+						intrigue = 2
+						martial = 2
+					}
 				}
+			}	
+			new_character = {
+				remove_trait = slow
+				remove_trait = imbecile
+				remove_trait = dull
+				
+				remove_trait = mystic
+				remove_trait = socializer
+				remove_trait = gamer
+				remove_trait = hedonist
+				remove_trait = duelist
+				remove_trait = hunter
+				remove_trait = strategist
+				remove_trait = administrator
+				remove_trait = architect
+				remove_trait = gardener
+				remove_trait = schemer
+				remove_trait = impaler
+				remove_trait = seducer
+				remove_trait = seductress
+				remove_trait = theologian
+				remove_trait = scholar
+				
+				random_list = { # Flavor Randomization
+					35 = { 
+						# Nothing
+					}
+					15 = {
+						change_learning = 2
+					}
+					20 = {
+						add_trait = theologian
+					}
+					5 = {
+						add_trait = scholar
+					}
+					5 = {
+						add_trait = mystic
+					}
+					10 = {
+						change_learning = 4
+					}
+					5 = {
+						change_learning = 6
+					}
+					5 = {
+						add_trait = shrewd
+					}
+				}
+				
+				save_event_target_as = invited_character
+			}
+			if = {
+				limit = { NOT = { trait = elf_race } }
 				new_character = {
-					change_learning = 2
-					remove_trait = inbred
-					remove_trait = imbecile
 					character_event = { id = racial.1 }
 				}
-			}
+			}	
+			character_event = { id = NE.1 }
 		}
 		revoke_allowed = {
 			always = no
@@ -188,10 +322,13 @@ decisions = {
 			}
 		}
 		allow = {
-			scaled_wealth = 0.2
+			scaled_wealth = 0.25
+			NOT = {
+				has_character_modifier = in_seclusion
+			}
 		}
 		effect = {
-			scaled_wealth = -0.2
+			scaled_wealth = -0.25
 			if = {
 				limit = { trait = elf_race }
 				create_random_steward = {
@@ -200,11 +337,13 @@ decisions = {
 					female = no
 					trait = elf_race
 					age = 60
-				}
-				new_character = {
-					change_stewardship = 2
-					remove_trait = inbred
-					remove_trait = imbecile
+					attributes = {
+						diplomacy = 2
+						learning = 2
+						stewardship = 8
+						intrigue = 2
+						martial = 2
+					}
 				}
 			}
 			if = {
@@ -213,14 +352,72 @@ decisions = {
 					random_traits = yes
 					dynasty = random
 					female = no
+					attributes = {
+						diplomacy = 2
+						learning = 2
+						stewardship = 8
+						intrigue = 2
+						martial = 2
+					}
 				}
-				new_character = {
-					change_stewardship = 2
-					remove_trait = inbred
-					remove_trait = imbecile
-					character_event = { id = racial.1 }
+			}	
+			new_character = {
+				remove_trait = slow
+				remove_trait = imbecile
+				remove_trait = dull
+				
+				remove_trait = mystic
+				remove_trait = socializer
+				remove_trait = gamer
+				remove_trait = hedonist
+				remove_trait = duelist
+				remove_trait = hunter
+				remove_trait = strategist
+				remove_trait = administrator
+				remove_trait = architect
+				remove_trait = gardener
+				remove_trait = schemer
+				remove_trait = impaler
+				remove_trait = seducer
+				remove_trait = seductress
+				remove_trait = theologian
+				remove_trait = scholar
+				
+				random_list = { # Flavor Randomization
+					35 = { 
+						# Nothing
+					}
+					15 = {
+						change_stewardship = 2
+					}
+					10 = {
+						add_trait = gardener
+					}
+					10 = {
+						add_trait = architect
+					}
+					10 = {
+						add_trait = administrator
+					}
+					10 = {
+						change_stewardship = 4
+					}
+					5 = {
+						change_stewardship = 6
+					}
+					5 = {
+						add_trait = shrewd
+					}
 				}
+				save_event_target_as = invited_character
+				if = {
+					limit = { NOT = { trait = elf_race } }
+					new_character = {
+						character_event = { id = racial.1 }
+					}
+				}	
 			}
+			character_event = { id = NE.1 }
 		}
 		revoke_allowed = {
 			always = no
@@ -266,10 +463,13 @@ decisions = {
 			is_ruler = yes
 		}
 		allow = {
-			scaled_wealth = 0.2
+			scaled_wealth = 0.20
+			NOT = {
+				has_character_modifier = in_seclusion
+			}
 		}
 		effect = {
-			scaled_wealth = -0.2
+			scaled_wealth = -0.20
 			if = {
 				limit = { trait = elf_race }
 				create_character = {
@@ -279,13 +479,8 @@ decisions = {
 					trait = elf_race
 					age = 40
 				}
-				new_character = {
-					set_character_flag = debutante
-					random = { chance = 25 add_trait = fair }
-					remove_trait = ugly
-				}
-			}
-			if = {
+			 }
+			 if = {
 				limit = { NOT = { trait = elf_race } }
 				create_character = {
 					random_traits = yes
@@ -293,13 +488,27 @@ decisions = {
 					female = yes
 					age = 15
 				}
+			 }		
+			 new_character = {
+				remove_trait = slow
+				remove_trait = imbecile
+				remove_trait = dull
+				remove_trait = ugly
+				
+				hidden_tooltip = {
+					
+				random = { chance = 25 add_trait = fair }
+				}
+				set_character_flag = debutante
+				save_event_target_as = invited_character
+			}
+			if = {
+				limit = { NOT = { trait = elf_race } }
 				new_character = {
-					set_character_flag = debutante
-					random = { chance = 25 add_trait = fair }
-					remove_trait = ugly
 					character_event = { id = racial.1 }
 				}
-			}
+			}	
+			character_event = { id = NE.1 }
 		}
 		revoke_allowed = {
 			always = no

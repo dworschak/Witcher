@@ -1,6 +1,7 @@
 decisions = {
 	
 	feast_0 = {
+		only_playable = yes
 		potential = {
 			OR = {
 				ai = yes
@@ -20,7 +21,7 @@ decisions = {
 				culture = gnomish
 				culture = dryad
 			}
-			is_ruler = yes
+			is_playable = yes
 			OR = {
 				is_feudal = yes
 				is_tribal = yes
@@ -49,10 +50,11 @@ decisions = {
 		allow = {
 			war = no
 			any_demesne_title = {
+				NOT = { higher_tier_than = count }
 				is_occupied = no
 			}
 			prisoner = no
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 			scaled_wealth = 0.20
 			month = 10
 			prestige = 100
@@ -74,6 +76,19 @@ decisions = {
 			hidden_tooltip = {
 				character_event = { 
 					id = 72109  
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						capital_scope = {
+							change_variable = { which = prosperity_value value = 8 }
+						}
+					}
 				}
 			}
 		}
@@ -111,6 +126,7 @@ decisions = {
 	}
 	
 	summer_fair = {
+		only_playable = yes
 		potential = {
 			OR = {
 				ai = yes
@@ -129,7 +145,7 @@ decisions = {
 				culture = gnomish
 				culture = dryad
 			}
-			is_ruler = yes
+			is_playable = yes
 			prisoner = no
 			NOT = {
 				has_character_modifier = holding_summer_fair
@@ -149,11 +165,12 @@ decisions = {
 		allow = {
 			war = no
 			any_demesne_title = {
+				NOT = { higher_tier_than = count }
 				is_occupied = no
 			}
 			scaled_wealth = 0.25
 			prisoner = no
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 			month = 4
 			NOT = {
 				month = 7
@@ -177,6 +194,19 @@ decisions = {
 					days = 60
 				}
 				character_event = { id = 74050  }
+			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						capital_scope = {
+							change_variable = { which = prosperity_value value = 8 }
+						}
+					}
+				}
 			}
 		}
 		revoke_allowed = {
@@ -217,7 +247,9 @@ decisions = {
 	}
 	
 	hold_grand_hunt = {
+		only_playable = yes
 		potential = {
+			is_ruler = yes
 			OR = {
 				ai = yes
 				NOT = {
@@ -242,6 +274,7 @@ decisions = {
 		allow = {
 			war = no
 			any_demesne_title = {
+				NOT = { higher_tier_than = count }
 				is_occupied = no
 			}
 			month = 8
@@ -249,7 +282,7 @@ decisions = {
 			NOT = { month = 10 }
 			NOT = {	health_traits = 1 }
 			prisoner = no
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 			custom_tooltip = {
 				text = is_not_busy_trigger_tooltip
 				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
@@ -267,6 +300,19 @@ decisions = {
 			hidden_tooltip = { 
 				character_event = { id = 36090 days = 60 }
 				character_event = { id = 36080  }
+			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						capital_scope = {
+							change_variable = { which = prosperity_value value = 8 }
+						}
+					}
+				}
 			}
 		}
 		revoke_allowed = {
@@ -310,6 +356,7 @@ decisions = {
 	}
 	
 	commission_runestone = {
+		only_playable = yes
 		potential = {
 			OR = {
 				ai = yes
@@ -347,6 +394,7 @@ decisions = {
 		revoke_allowed = {
 			always = no
 		}
+		
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -355,80 +403,179 @@ decisions = {
 			}
 			modifier = {
 				factor = 0
-				NOT = { age = 30 }
+				NOT = { has_character_modifier = old_age }
 			}			
 		}
 	}
+
+	# hold_nerge
 	
-	# Build an observatory (learning focus)
-	build_observatory = {
+	# hold_blot
+	
+	# ancestor_worship
+	
+	# hold_ukon_juhla
+	
+	pick_main_deity = {
+		only_playable = yes
 		potential = {
-			is_ruler = yes
-			has_focus = focus_scholarship
-			NOT = { trait = incapable }
-			NOT = { trait = scholar }
-			NOT = { trait = mystic }
-			NOT = { has_character_flag = building_observatory }
-			NOT = { has_character_flag = built_observatory }
-			NOT = { has_character_modifier = studying_the_stars }
-			NOT = { has_character_modifier = heliocentrist_scholar }
-			NOT = { has_character_modifier = weird_scholar }
+			has_dlc = "The Old Gods"
+			is_playable = yes
+			is_adult = yes
+			prisoner = no
+			
+			always = no # TODO
 		}
 		allow = {
-			prisoner = no
-			wealth = 50
-			is_adult = yes
+			piety = 25
 			custom_tooltip = {
-				text = is_not_busy_trigger_tooltip
-				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
+				text = pick_main_deity_timer_tooltip
+				NOT = { has_character_modifier = picked_main_deity_timer }
 			}
+			prisoner = no
 		}
 		effect = {
-			wealth = -50
-			set_character_flag = building_observatory
-			hidden_tooltip = { character_event = { id = WoL.6000 } }
+			if = {
+				limit = { has_character_modifier = follower_of_perun }
+				remove_character_modifier = follower_of_perun
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_veles }
+				remove_character_modifier = follower_of_veles
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_jarilo }
+				remove_character_modifier = follower_of_jarilo
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_morana }
+				remove_character_modifier = follower_of_morana
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_yemoja }
+				remove_character_modifier = follower_of_yemoja
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_ekwensu }
+				remove_character_modifier = follower_of_ekwensu
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_orunmila }
+				remove_character_modifier = follower_of_orunmila
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_shango }
+				remove_character_modifier = follower_of_shango
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_ukko }
+				remove_character_modifier = follower_of_ukko
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_akka }
+				remove_character_modifier = follower_of_akka
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_taipo_and_mielikki }
+				remove_character_modifier = follower_of_taipo_and_mielikki
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_lempo }
+				remove_character_modifier = follower_of_lempo
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_dievas }
+				remove_character_modifier = follower_of_dievas
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_velnias }
+				remove_character_modifier = follower_of_velnias
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_perkunas }
+				remove_character_modifier = follower_of_perkunas
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_zemyna }
+				remove_character_modifier = follower_of_zemyna
+			}
+
+			piety = -25
+
+			custom_tooltip = {
+				text = pick_main_deity_tooltip
+
+				#Starts main deity events
+				hidden_tooltip = {
+					if = {
+						limit = { has_minor_deity_trigger = no }
+						character_event = { id = TOG.7100 days = 10 }
+					}				
+				}
+
+				#Event for picking main deity
+				trigger_switch = {
+					on_trigger = religion
+					# TODO
+				}
+
+				add_character_modifier = {
+					name = picked_main_deity_timer
+					duration = 3650
+					hidden = yes
+				}
+			}
 		}
 		revoke_allowed = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 1
-			
-			modifier = {
-				factor = 0.01
-			}
-			modifier = {
-				factor = 0.1
-				trait = zealous
-			}
-			modifier = {
-				factor = 3
-				trait = cynical
-			}
-			modifier = {
-				factor = 0
-				NOT = { age = 30 }
-			}
-			modifier = {
-				factor = 0
-				NOT = { wealth = 100 }
-			}
+			factor = 0.1
 		}
-	}
+	}	
+	
+	# hold_uzgavenes
+	
+	# hold_jarilo
+	
+	# celebrate_passover
+	
+	# borrow_money_jews
+	
+	# repay_money_jews
+	
+	# become_kshatriya
+	
+	# become_vaishya
+	
+	# hold_diwali_feast_hindu
+	
+	# hold_diwali_feast_buddhist
+	
+	# hold_diwali_feast_jain
+	
+	# hold_diwali_feast_kali_puja
+	
+	# find_guru
+	
+	# hold_zun_feast	
 	
 	# Sky burial
 	sky_burial_decision = {
+		only_playable = yes
 		is_high_prio = yes
 		potential = {
-			#age = 16
+			is_playable = yes
 			has_character_flag = sky_burial
+			NOT = { has_character_flag = performed_sky_burial }
+			government = nomadic_government
 		}
 		allow = {
 			in_command = no
 			prisoner = no
 			NOT = { trait = incapable }
 			NOT = { trait = infirm }
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 			NOT = { has_character_flag = do_not_disturb }
 		}
 		effect = {
@@ -436,6 +583,7 @@ decisions = {
 			hidden_tooltip = {
 				character_event = { id = HL.8005 }
 				clr_character_flag = sky_burial
+				set_character_flag = performed_sky_burial
 			}
 		}
 		ai_will_do = {
@@ -448,8 +596,9 @@ decisions = {
 
 	# Choose Warhorse (Nomad)
 	choose_warhorse_nomad = {
+		only_playable = yes
 		potential = {
-			ai = no
+			is_playable = yes
 			is_nomadic = yes
 			NOT = { has_character_modifier = nomad_warhorse }
 		}
@@ -461,6 +610,7 @@ decisions = {
 				text = is_not_busy_trigger_tooltip
 				hidden_tooltip = { NOT = { has_character_flag = do_not_disturb } }
 			}
+			wealth = 20
 		}
 		effect = {
 			wealth = -20
@@ -472,7 +622,11 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 0.01
+			modifier = {
+				factor = 0
+				NOT = { wealth = 200 }
+			}
 		}
 	}
 }

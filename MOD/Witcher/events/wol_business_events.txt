@@ -640,7 +640,6 @@ character_event = {
 			text = EVTOPTA_WOL_10114_HORSES
 			trigger = { 
 				OR = {
-					religion_group = christian
 					religion_group = halfling_religions
 				}
 			}
@@ -785,7 +784,10 @@ character_event = {
 	
 	immediate = {
 		if = {
-			limit = { FROM = { has_character_flag = trade_priest } }
+			limit = { 
+				FROM = { has_character_flag = trade_priest } 
+				NOT = { religion = FROM }
+			}
 			FROM = {
 				character_event = { id = WoL.10118 days = 7 }
 			}
@@ -862,6 +864,11 @@ character_event = {
 		random = {
 			chance = 50
 			add_trait = zealous
+			hidden_tooltip = {
+				character_event = {
+					id = 38269 #Notify Zealous
+				}
+			}
 		}
 		FROM = {
 			opinion = {
@@ -1161,7 +1168,12 @@ character_event = {
 		}
 		prestige = 150
 		set_character_flag = est_trade_route
-		set_character_flag = achievement_were_in_business
+		if = {
+			limit = {
+				ai = no
+			}
+			set_character_flag = achievement_were_in_business
+		}
 		clr_character_flag = trade_route_progress
 		clr_character_flag = trade_priest
 		capital_scope = {
@@ -1178,7 +1190,18 @@ character_event = {
 					duration = 9125
 					hidden = yes
 				}
-				province_event = { id = WoL.10129 years = 28 }
+				province_event = { id = WoL.10129 days = 10220 }
+			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						change_variable = { which = prosperity_value value = 6 }
+					}
+				}
 			}
 		}
 		
@@ -1241,6 +1264,11 @@ character_event = {
 		random = {
 			chance = 50
 			add_trait = greedy
+			hidden_tooltip = {
+				character_event = {
+					id = 38252 #Notify Greedy
+				}
+			}
 		}
 		event_target:steward = {
 			hidden_tooltip = {
@@ -1387,7 +1415,7 @@ province_event = {
 				duration = 9125
 				hidden = yes
 			}
-			province_event = { id = WoL.10129 years = 28 }
+			province_event = { id = WoL.10129 days = 10220 }
 		}
 	}
 	
@@ -1444,7 +1472,7 @@ province_event = {
 				duration = 9125
 				hidden = yes
 			}
-			province_event = { id = WoL.10129 years = 28 }
+			province_event = { id = WoL.10129 days = 10220 }
 		}
 	}
 	
@@ -1498,7 +1526,7 @@ character_event = {
 		capital_scope = {
 			create_character = {
 				random_traits = no
-				dynasty = culture
+				dynasty = NONE
 				religion = ROOT
 				culture = PREV
 				age = 28
@@ -1536,7 +1564,7 @@ character_event = {
 		capital_scope = {
 			create_character = {
 				random_traits = no
-				dynasty = culture
+				dynasty = NONE
 				religion = PREV
 				culture = PREV
 				age = 17
@@ -1776,6 +1804,17 @@ character_event = {
 			add_province_modifier = {
 				name = stone_quarry
 				duration = 29200 # 80 years
+			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						change_variable = { which = prosperity_value value = 6 }
+					}
+				}
 			}
 		}
 	}
@@ -2023,7 +2062,7 @@ character_event = {
 	
 	immediate = {
 		death = {
-			death_reason = death_accident
+			death_reason = death_accident_fall
 		}
 	}
 	
@@ -2031,7 +2070,7 @@ character_event = {
 		name = EVTOPTA_WOL_10214
 		tooltip = {
 			death = {
-				death_reason = death_accident
+				death_reason = death_accident_fall
 			}
 		}
 	}
@@ -2048,7 +2087,8 @@ character_event = {
 	immediate = {
 		FROMFROM = {
 			death = {
-				death_reason = death_accident
+				death_reason = death_murder_unknown_fall
+				killer = ROOT
 			}
 		}
 	}
@@ -2058,7 +2098,8 @@ character_event = {
 		tooltip = {
 			FROMFROM = {
 				death = {
-					death_reason = death_accident
+					death_reason = death_murder_unknown_fall
+					killer = ROOT
 				}
 			}
 		}
@@ -2114,7 +2155,7 @@ long_character_event = {
 								}
 							}
 						}
-						province_event = { id = WoL.10217 years = 10 }
+						province_event = { id = WoL.10217 days = 3650 }
 					}
 				}
 				if = {
@@ -2128,7 +2169,7 @@ long_character_event = {
 							}
 						}
 					}
-					capital_scope = { province_event = { id = WoL.10217 years = 10 } }
+					capital_scope = { province_event = { id = WoL.10217 days = 3650 } }
 				}
 				break = yes
 			}
@@ -2164,7 +2205,7 @@ long_character_event = {
 								}
 							}
 						}
-						province_event = { id = WoL.10217 years = 10 }
+						province_event = { id = WoL.10217 days = 3650 }
 					}
 				}
 				if = {
@@ -2178,7 +2219,7 @@ long_character_event = {
 							}
 						}
 					}
-					capital_scope = { province_event = { id = WoL.10217 years = 10 } }
+					capital_scope = { province_event = { id = WoL.10217 days = 3650 } }
 				}
 				break = yes
 			} 
@@ -2439,7 +2480,7 @@ character_event = {
 		name = EVTOPTA_WOL_10219
 		hidden_tooltip = {
 			FROM = {
-				long_character_event = { id = WoL.10221 years = 3 }
+				long_character_event = { id = WoL.10221 days = 1095 }
 			}
 		}
 	}
@@ -3194,10 +3235,11 @@ character_event = {
 	hide_window = yes
 	
 	only_playable = yes
+	prisoner = no
+	only_capable = yes
 	
 	trigger = {
 		has_focus = focus_business
-		prisoner = no
 		in_command = no
 		demesne_size = 1
 		NOT = {
@@ -3452,6 +3494,17 @@ long_character_event = {
 				name = carpenters_guild
 				duration = 3650
 			}
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						change_variable = { which = prosperity_value value = 6 }
+					}
+				}
+			}
 		}
 		hidden_tooltip = {
 			random = {
@@ -3659,6 +3712,17 @@ character_event = {
 				duration = 3650
 			}
 			clr_province_flag = workshop_construction
+			if = {
+				limit = {
+					has_dlc = "Reapers"
+				}
+				custom_tooltip = {
+					text = capital_prospers_custom_tooltip
+					hidden_tooltip = {
+						change_variable = { which = prosperity_value value = 6 }
+					}
+				}
+			}
 		}
 		hidden_tooltip = {
 			character_event = { id = WoL.10500 days = 7 }

@@ -63,8 +63,8 @@ character_event = {
 		modifier = { trait = paranoid factor = 1.05 }
 		modifier = { trait = lunatic factor = 0.9 }
 		modifier = { trait = possessed factor = 1.1 }
-		modifier = { trait = ill factor = 0.75 }
-		modifier = { trait = maimed factor = 0.75 }
+		modifier = { is_ill = yes factor = 0.75 }
+		modifier = { is_maimed_trigger = yes factor = 0.75 }
 		modifier = { trait = celibate factor = 1.05 }
 		modifier = { trait = duelist factor = 1.05 }
 		modifier = { trait = falconer factor = 1.05 }
@@ -297,7 +297,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 2
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 1.2
@@ -339,14 +339,14 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			4 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 				hidden_tooltip = { character_event = { id = 38281 } }
 			}
 			1 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
 					death = {
-						death_reason = death_accident
+						death_reason = death_accident_boar
 					}
 				}
 			}
@@ -372,7 +372,7 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			1 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 				hidden_tooltip = { character_event = { id = 38281 } }
 			}
 		}
@@ -391,14 +391,14 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			2 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 				hidden_tooltip = { character_event = { id = 38281 } }
 			}
 			1 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
 					death = {
-						death_reason = death_accident
+						death_reason = death_accident_boar
 					}
 				}
 			}
@@ -664,7 +664,16 @@ character_event = {
 		name = EVTOPTBold_age.13
 		prestige = -5
 		random_list = {
-			10 = { add_trait = ill }
+			10 = { 
+				if = {
+					limit = { NOT = { has_dlc = "Reapers" } }
+					add_trait = ill
+				}
+				if = { 
+					limit = { has_dlc = "Reapers" }
+					add_symptom_effect = yes
+				}
+			}
 			90 = { }
 		}
 	}
@@ -674,7 +683,16 @@ character_event = {
 		random_list = {
 			15 = { add_trait = stressed }
 			10 = { add_trait = stressed add_trait = diligent }
-			15 = { add_trait = ill }
+			15 = { 
+				if = {
+					limit = { NOT = { has_dlc = "Reapers" } }
+					add_trait = ill
+				}
+				if = { 
+					limit = { has_dlc = "Reapers" }
+					add_symptom_effect = yes
+				}
+			}
 			10 = { add_trait = ill add_trait = diligent }
 			50 = { }
 		}

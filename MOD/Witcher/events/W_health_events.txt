@@ -22,7 +22,7 @@ character_event = {
 		liege = {
 			NOT = { trait = incapable }
 			in_command = no
-			trait = ill
+			is_ill = yes
 		}
 	}
 	
@@ -31,7 +31,7 @@ character_event = {
 		modifier = { #slightly increase the chance when ill (for liege)
 			factor = 3
 			liege = {
-				trait = ill
+				is_ill = yes
 			}
 		}		
 		modifier = {
@@ -92,14 +92,14 @@ character_event = {
 	
 	trigger = {
 		in_command = no
-		trait = ill
+		is_ill = yes
 	}
 	
 	weight_multiplier = {
 		days = 1
 		modifier = { #slightly increase the chance when ill
 			factor = 3
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 3
@@ -569,14 +569,14 @@ character_event = {
 				hidden_tooltip = { character_event = { id = 38280 } }
 			}
 			4 = {
-				add_trait = maimed
+				add_maimed_trait_effect = yes
 				hidden_tooltip = { character_event = { id = 38281 } }
 			}
 			1 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
 					death = {
-						death_reason = death_accident
+						death_reason = death_accident_fall
 					}
 				}
 			}
@@ -1408,7 +1408,14 @@ character_event = {
 		random_list = {
 			70 = { }
 			30 = {
-				add_trait = ill
+				if = {
+					limit = { NOT = { has_dlc = "Reapers" } }
+					add_trait = ill
+				}
+				if = { 
+					limit = { has_dlc = "Reapers" }
+					add_symptom_effect = yes
+				}
 				hidden_tooltip = { character_event = { id = 38290 } }
 			}
 		}

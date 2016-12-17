@@ -23,10 +23,10 @@ character_event = {
 	prisoner = no
 	only_men = yes
 	min_age = 15
+	war = no
 	
 	trigger = {
 		independent = no
-		war = no
 		liege = {
 			NOT = { character = ROOT }
 			NOT = { holds_favor_on = ROOT }
@@ -1678,9 +1678,9 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	only_rulers = yes
+	lacks_dlc = "Conclave"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_republic = yes
 		NOT = { wealth = 300 }
 		liege = {
@@ -1885,28 +1885,20 @@ character_event = {
 			factor = 50
 			modifier = {
 				factor = 0.25
-				is_tribal = yes
+				OR = {
+					is_tribal = yes
+					is_nomadic = yes
+				}
 				new_character = {
 					is_strong_trigger = yes
 				}
 			}
 			modifier = {
 				factor = 4
-				is_tribal = yes
-				new_character = {
-					is_weak_trigger = yes
+				OR = {
+					is_tribal = yes
+					is_nomadic = yes
 				}
-			}
-			modifier = {
-				factor = 0.25
-				is_nomadic = yes
-				new_character = {
-					is_strong_trigger = yes
-				}
-			}
-			modifier = {
-				factor = 4
-				is_nomadic = yes
 				new_character = {
 					is_weak_trigger = yes
 				}
@@ -1959,28 +1951,20 @@ character_event = {
 			factor = 50
 			modifier = {
 				factor = 0.25
-				is_tribal = yes
-				new_character = {
-					trait = strong
+				OR = {
+					is_tribal = yes
+					is_nomadic = yes
 				}
-			}
-			modifier = {
-				factor = 4
-				is_tribal = yes
-				new_character = {
-					is_weak_trigger = yes
-				}
-			}
-			modifier = {
-				factor = 0.25
-				is_nomadic = yes
 				new_character = {
 					is_strong_trigger = yes
 				}
 			}
 			modifier = {
 				factor = 4
-				is_nomadic = yes
+				OR = {
+					is_tribal = yes
+					is_nomadic = yes
+				}
 				new_character = {
 					is_weak_trigger = yes
 				}

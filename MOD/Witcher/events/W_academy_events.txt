@@ -408,9 +408,10 @@ character_event = {
 	
 	hide_window = yes
 	
+	is_married = no
+	has_character_flag = studying_educ_academy
+	
 	trigger = {
-		has_character_flag = studying_educ_academy
-		is_married = no
 	}
 	
 	mean_time_to_happen = {
@@ -546,7 +547,7 @@ character_event = {
 	
 	trigger = {
 		has_character_flag = studying_educ_academy
-		NOT = { trait = ill }
+		NOT = { is_ill = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -576,7 +577,14 @@ character_event = {
 		name = EVTOPTAacademy.19
 		FROM = {
 			move_character = ROOT
-			add_trait = ill
+			if = {
+				limit = { NOT = { has_dlc = "Reapers" } }
+				add_trait = ill
+			}
+			if = { 
+				limit = { has_dlc = "Reapers" }
+				add_symptom_effect = yes
+			}
 		}
 	}
 }
@@ -1024,7 +1032,7 @@ character_event = {
 	trigger = {
 		has_character_flag = studying_mil_academy
 		NOT = { trait = wounded }
-		NOT = { trait = maimed }
+		can_be_maimed_trigger = yes
 	}
 	
 	mean_time_to_happen = {
@@ -1056,7 +1064,7 @@ character_event = {
 			move_character = ROOT
 			random_list = {
 				50 = { add_trait = wounded }
-				50 = { add_trait = maimed }
+				50 = { add_maimed_trait_effect = yes }
 			}
 			add_trait = military_officer
 		}

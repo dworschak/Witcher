@@ -109,6 +109,18 @@ character_event = {
 	is_triggered_only = yes
 	
 	hide_from = yes
+	hide_new = yes
+
+	trigger = {
+		NOR = { 
+			AND = {
+				lifestyle_traits = 1 
+				has_character_modifier = wol_steward_2
+				NOT = { religion = jain }
+			}
+			has_character_modifier = wol_raja_dharma
+		}
+	}
 	
 	option = {
 		name = EXCELLENT
@@ -236,9 +248,15 @@ character_event = {
 	picture = GFX_evt_relaxed_ruler
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
+	only_playable = yes
+	only_capable = yes
+	prisoner = no
+	
 	trigger = {
 		trait = administrator
 		stewardship = 12
+		NOT = { has_character_modifier = wol_legendary_wisdom }
 	}
 	
 	mean_time_to_happen = {
@@ -251,7 +269,12 @@ character_event = {
 			modifier = wol_legendary_wisdom
 			duration = -1
 		}
-		set_character_flag = achievement_wise_guy
+		if = {
+			limit = {
+				ai = no
+			}
+			set_character_flag = achievement_wise_guy
+		}
 	}
 }
 
@@ -262,9 +285,15 @@ character_event = {
 	picture = GFX_evt_relaxed_ruler
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
+	only_playable = yes
+	only_capable = yes
+	prisoner = no
+	
 	trigger = {
 		trait = administrator
 		stewardship = 8
+		NOT = { has_character_modifier = wol_respected_ruler }
 	}
 	
 	mean_time_to_happen = {
@@ -296,6 +325,7 @@ province_event = {
 			is_nomadic = no
 			wealth = 400
 			NOT = { has_character_flag = architect_offer }
+			NOT = { has_character_modifier = in_seclusion }
 		}
 		has_empty_holding = yes
 		NOT = { has_global_flag = rulership_castle }
@@ -596,9 +626,9 @@ character_event = {
 	border = GFX_event_normal_frame_economy
 	
 	ai = no
+	has_character_flag = building_castle
 	
 	trigger = {
-		has_character_flag = building_castle
 		any_demesne_province = { 
 			has_province_flag = castle_province
 			has_empty_holding = no
@@ -631,12 +661,12 @@ character_event = {
 	picture = GFX_evt_stressed_ruler
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
 	
 	trigger = {
-		is_adult = yes
 		has_focus = focus_rulership
 		NOT = { trait = depressed }
 	}
@@ -658,12 +688,12 @@ character_event = {
 	picture = GFX_evt_stressed_ruler
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
 	
 	trigger = {
-		is_adult = yes
 		has_focus = focus_rulership
 		NOT = { trait = stressed }
 	}
@@ -687,13 +717,14 @@ character_event = {
 	picture = GFX_evt_throne_room
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
 	
 	trigger = {
-		is_adult = yes
 		has_focus = focus_rulership
+		NOT = { has_character_flag = in_seclusion }
 	}
 	
 	mean_time_to_happen = {
@@ -753,9 +784,14 @@ character_event = {
 	desc = EVTDESC_WoL_12016
 	picture = GFX_evt_bloody_man
 	border = GFX_event_normal_frame_economy
+
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	prisoner = no
+	has_character_flag = peasant_hanged_innocent
 	
 	trigger = {
-		has_character_flag = peasant_hanged_innocent
 	}
 	
 	mean_time_to_happen = {
@@ -782,9 +818,14 @@ character_event = {
 	desc = EVTDESC_WoL_12017
 	picture = GFX_evt_bloody_man
 	border = GFX_event_normal_frame_economy
+
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	prisoner = no
+	has_character_flag = peasant_freed_guilty
 	
 	trigger = {
-		has_character_flag = peasant_freed_guilty
 	}
 	
 	mean_time_to_happen = {
@@ -849,9 +890,14 @@ character_event = {
 	desc = EVTDESC_WoL_12020
 	picture = GFX_evt_bloody_man
 	border = GFX_event_normal_frame_economy
+
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	prisoner = no
+	has_character_flag = peasant_tortured_innocent
 	
 	trigger = {
-		has_character_flag = peasant_tortured_innocent
 	}
 	
 	mean_time_to_happen = {
@@ -874,9 +920,14 @@ character_event = {
 	desc = EVTDESC_WoL_12021
 	picture = GFX_evt_bloody_man
 	border = GFX_event_normal_frame_economy
+
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	prisoner = no
+	has_character_flag = peasant_imprisoned_innocent
 	
 	trigger = {
-		has_character_flag = peasant_imprisoned_innocent
 	}
 	
 	mean_time_to_happen = {
@@ -899,9 +950,14 @@ character_event = {
 	desc = EVTDESC_WoL_12022
 	picture = GFX_evt_bloody_man
 	border = GFX_event_normal_frame_economy
+
+	min_age = 16
+	capable_only = yes
+	only_playable = yes
+	prisoner = no
+	has_character_flag = peasant_imprisoned_innocent
 	
 	trigger = {
-		has_character_flag = peasant_imprisoned_innocent
 	}
 	
 	mean_time_to_happen = {
@@ -923,12 +979,13 @@ character_event = {
 	id = WoL.12025
 	hide_window = yes
 	
+	min_age = 16
 	capable_only = yes
 	only_rulers = yes
 	prisoner = no
+	ai = yes
 	
 	trigger = {
-		is_adult = yes
 		liege = {
 			has_focus = focus_rulership
 			NOT = { trait = incapable }
@@ -952,7 +1009,6 @@ character_event = {
 				ai = yes
 			}
 		}
-		ai = yes
 	}
 	
 	mean_time_to_happen = {
@@ -1061,12 +1117,12 @@ character_event = {
 	picture = GFX_evt_throne_room
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
 	
 	trigger = {
-		is_adult = yes
 		has_focus = focus_rulership
 		any_vassal = {
 			is_adult = yes
@@ -1148,12 +1204,12 @@ character_event = {
 	picture = GFX_evt_throne_room
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
 	
 	trigger = {
-		is_adult = yes
 		has_focus = focus_rulership
 		any_demesne_province = {
 			always = yes
@@ -1168,6 +1224,50 @@ character_event = {
 		random_demesne_province = {
 			save_event_target_as = witch_province
 		}
+		random_list = {
+			10 = {
+				create_character = {
+					random_traits = no
+					dynasty = NONE
+					female = yes
+					age = 28
+					religion = ROOT
+					culture = ROOT
+					trait = ugly
+					trait = kind
+					trait = charitable
+					trait = humble
+					trait = honest
+					trait = shy
+					trait = trusting
+					trait = naive_appeaser
+				}
+				new_character = {
+					save_event_target_as = suspected_witch
+				}
+			}
+			10 = {
+				create_character = {
+					random_traits = no
+					dynasty = NONE
+					female = yes
+					age = 26
+					religion = ROOT
+					culture = ROOT
+					trait = hunchback
+					trait = wroth
+					trait = envious
+					trait = paranoid
+					trait = deceitful
+					trait = shy
+					trait = cynical
+					trait = amateurish_plotter
+				}
+				new_character = {
+					save_event_target_as = suspected_witch
+				}
+			}
+		}
 	}
 	
 	option = {
@@ -1178,29 +1278,19 @@ character_event = {
 				duration = 365
 			}
 		}
+		event_target:suspected_witch = {
+			death = {
+				death_reason = death_execution_burning
+				killer = ROOT
+			}
+		}
 		hidden_tooltip = { character_event = { id = WoL.12500 days = 1 } }
 		piety = 30
 	}
 	option = {
 		name = EVTOPTB_WoL_12028
-		create_character = {
-			random_traits = no
-			dynasty = NONE
-			female = yes
-			age = 28
-			religion = ROOT
-			culture = ROOT
-			trait = ugly
-			trait = kind
-			trait = charitable
-			trait = humble
-			trait = honest
-			trait = shy
-			trait = trusting
-			trait = naive_appeaser
-		}
-		new_character = {
-			prisoner = yes
+		event_target:suspected_witch = {
+			imprison = ROOT
 		}
 		hidden_tooltip = { character_event = { id = WoL.12500 days = 1 } }
 	}
@@ -1224,12 +1314,12 @@ character_event = {
 	picture = GFX_evt_drunk
 	border = GFX_event_normal_frame_economy
 	
+	min_age = 16
 	capable_only = yes
 	only_playable = yes
 	prisoner = no
 	
 	trigger = {
-		is_adult = yes
 		has_focus = focus_rulership
 		any_vassal = {
 			is_adult = yes
@@ -1316,12 +1406,13 @@ character_event = {
 	id = WoL.12030
 	hide_window = yes
 	
+	min_age = 16
 	capable_only = yes
 	only_rulers = yes
 	prisoner = no
+	ai = yes
 	
 	trigger = {
-		is_adult = yes
 		is_republic = yes
 		liege = {
 			has_focus = focus_rulership
@@ -1341,7 +1432,6 @@ character_event = {
 				ai = yes
 			}
 		}
-		ai = yes
 	}
 	
 	mean_time_to_happen = {

@@ -24,7 +24,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 
@@ -140,7 +140,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 
@@ -282,7 +282,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 
@@ -528,7 +528,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 	#alright
@@ -555,7 +555,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 	#oh 
@@ -579,7 +579,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 	#blush
@@ -603,7 +603,7 @@ character_event = {
 		is_adult = yes
 		NOR = { 
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 		}
 	}
 	#you gain a rival
@@ -666,7 +666,18 @@ character_event = {
 	is_triggered_only = yes
 
 	immediate = { 
-		random_demesne_title = { limit = { tier = COUNT can_be_given_away = yes } save_event_target_as = requested_province }
+		random_demesne_title = { 
+			limit = { 
+				tier = COUNT 
+				can_be_given_away = yes
+				NOT = {
+					location = {
+						is_capital = yes
+					}
+				}
+			} 
+			save_event_target_as = requested_province 
+		}
 		FROM = {
 			random_child = {
 				limit = {
@@ -1592,9 +1603,9 @@ character_event = {
 			}
 			if = {
 				limit = { 
-					event_target:moving_councillor = { has_character_flag = is_treasurer }
+					event_target:moving_councillor = { has_character_flag = is_marshal }
 				}
-				give_job_title = job_treasurer
+				give_job_title = job_marshal
 			}
 			if = {
 				limit = { 
@@ -1657,6 +1668,28 @@ character_event = {
 		hidden_tooltip = {
 			character_event = { id = ZE.6022 }
 		}
+	}
+
+	option = {
+		name = EVTOPTF_ZE_6021
+		event_target:moving_councillor = {
+			clr_character_flag = is_chancellor
+			clr_character_flag = is_marshal
+			clr_character_flag = is_treasurer
+			clr_character_flag = is_spymaster
+			clr_character_flag = is_spiritual
+			clr_character_flag = is_councilmember_king
+			clr_character_flag = is_councilmember_emperor
+		}
+		clr_character_flag = option_1_displayed
+		clr_character_flag = option_2_displayed
+		clr_character_flag = option_3_displayed
+		clr_character_flag = option_4_displayed
+		clr_character_flag = option_5_displayed
+		clr_character_flag = option_6_displayed
+		clr_character_flag = option_6_king
+		clr_character_flag = option_6_emperor
+		remove_character_modifier = councillors_changed_jobs
 	}
 }
 
@@ -2045,5 +2078,26 @@ character_event = {
 		hidden_tooltip = {
 			character_event = { id = ZE.6021 }
 		}
+	}
+
+	option = {
+		name = EVTOPTF_ZE_6021
+		event_target:moving_councillor = {
+			clr_character_flag = is_chancellor
+			clr_character_flag = is_marshal
+			clr_character_flag = is_treasurer
+			clr_character_flag = is_spymaster
+			clr_character_flag = is_spiritual
+			clr_character_flag = is_councilmember_king
+			clr_character_flag = is_councilmember_emperor
+		}
+		clr_character_flag = option_1_displayed
+		clr_character_flag = option_2_displayed
+		clr_character_flag = option_3_displayed
+		clr_character_flag = option_4_displayed
+		clr_character_flag = option_5_displayed
+		clr_character_flag = option_6_displayed
+		clr_character_flag = option_6_king
+		clr_character_flag = option_6_emperor
 	}
 }

@@ -8,7 +8,7 @@
 province_event = {
 	id = 55000
 	desc = "EVTDESC55000"
-	picture = GFX_evt_stone_church
+	picture = GFX_evt_culture_change
 	
 	trigger = {
 		owner = {
@@ -31,6 +31,11 @@ province_event = {
 						culture = PREVPREV
 					}
 				}
+			}
+			NOR = {
+				has_province_modifier = depopulated_1
+				has_province_modifier = depopulated_2
+				has_province_modifier = depopulated_3
 			}
 		}
 	}
@@ -107,6 +112,31 @@ province_event = {
 				}
 			}
 		}
+		modifier = {
+			factor = 0.75
+			has_province_flag = recent_depopulation_1
+		}
+		modifier = {
+			factor = 0.5
+			has_province_flag = recent_depopulation_2
+		}
+		modifier = {
+			factor = 0.25
+			has_province_flag = recent_depopulation_3
+		}
+		modifier = {
+			factor = 3
+			OR = {
+				has_game_rule = {
+					name = culture_conversion
+					value = slower_normal
+				}
+				has_game_rule = {
+					name = culture_conversion
+					value = faster_melting_pots_and_slower_normal
+				}
+			}
+		}
 	}
 
 	option = {
@@ -114,6 +144,12 @@ province_event = {
 		owner = {
 			ROOT = {
 				culture = PREV
+				if = {
+					limit = {
+						has_province_modifier = nomad_agitation
+					}
+					remove_province_modifier = nomad_agitation
+				}
 			}
 		}
 	}
@@ -129,9 +165,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Rajas of India" # Controlled by Decision: convert_to_local_culture
 	
 	trigger = {
-		NOT = { has_dlc = "Rajas of India" } # Controlled by Decision: convert_to_local_culture
 		NOT = { government = nomadic_government }
 		primary_title = { 
 			NOT = { conquest_culture = ROOT } 

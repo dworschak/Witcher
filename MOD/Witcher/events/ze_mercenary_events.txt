@@ -91,33 +91,39 @@ character_event = {
 				}
 				modifier = {
 					factor = 1.5
-					band_creator = {
-						ROOT = {
-							relative_power = {
-								who = PREV
-								power = 0.7
+					primary_title = {
+						band_creator = {
+							ROOT = {
+								relative_power = {
+									who = PREV
+									power = 0.7
+								}
 							}
 						}
 					}
 				}
 				modifier = {
 					factor = 1.5
-					band_creator = {
-						ROOT = {
-							relative_power = {
-								who = PREV
-								power = 1
+					primary_title = {
+						band_creator = {
+							ROOT = {
+								relative_power = {
+									who = PREV
+									power = 1
+								}
 							}
 						}
 					}
 				}
 				modifier = {
 					factor = 1.5
-					band_creator = {
-						ROOT = {
-							relative_power = {
-								who = PREV
-								power = 1.3
+					primary_title = {
+						band_creator = {
+							ROOT = {
+								relative_power = {
+									who = PREV
+									power = 1.3
+								}
 							}
 						}
 					}
@@ -231,7 +237,7 @@ character_event = {
 					### reverse trigger
 					NOR = {
 						trait = wounded
-						trait = maimed
+						is_maimed_trigger = yes
 					}
 				}
 				character_event = { id = ZE.10019 }
@@ -240,7 +246,7 @@ character_event = {
 				modifier = {
 					factor = 0
 					### reverse trigger
-					NOT = { trait = maimed }
+					NOT = { can_be_maimed_trigger = yes }
 				}
 				character_event = { id = ZE.10021 }
 			}
@@ -512,7 +518,7 @@ character_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOT = { trait = maimed }
+				NOT = { is_maimed_trigger = yes }
 			}
 			add_trait = wounded
 		}
@@ -527,7 +533,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	immediate = {
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 	}
 }
 
@@ -620,6 +626,11 @@ letter_event = {
 		random = {
 			chance = 50
 			add_trait = cruel
+			hidden_tooltip = {
+				character_event ={
+					id = 38259 #Notify Cruel
+				}
+			}
 		}
 		FROM = {
 			set_character_flag = denied_last_request

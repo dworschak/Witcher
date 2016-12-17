@@ -136,7 +136,16 @@ character_event = {
 		prestige = 5
 		random_list = {
 			50 = { }
-			25 = { add_trait = ill }
+			25 = {
+				if = {
+					limit = { NOT = { has_dlc = "Reapers" } }
+					add_trait = ill
+				}
+				if = { 
+					limit = { has_dlc = "Reapers" }
+					add_symptom_effect = yes
+				}
+			}
 			25 = { add_trait = stressed }
 		}
 	}
@@ -149,7 +158,16 @@ character_event = {
 		piety = 5
 		random_list = {
 			70 = { }
-			15 = { add_trait = ill }
+			15 = { 
+				if = {
+					limit = { NOT = { has_dlc = "Reapers" } }
+					add_trait = ill
+				}
+				if = { 
+					limit = { has_dlc = "Reapers" }
+					add_symptom_effect = yes
+				}
+			}
 			15 = { add_trait = stressed }
 		}
 	}
@@ -373,7 +391,7 @@ character_event = {
 		in_command = no
 		trait = content
 		OR = {
-			trait = ill
+			is_ill = yes
 			trait = pneumonic
 			trait = has_tuberculosis
 			trait = has_typhoid_fever
@@ -382,7 +400,7 @@ character_event = {
 			trait = has_measles
 			trait = has_small_pox
 			trait = wounded
-			trait = maimed
+			is_maimed_trigger = yes
 		}
 	}
 	
@@ -1086,7 +1104,7 @@ character_event = {
 		war = no
 		in_command = no
 		trait = craven
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		NOT = { trait = wounded }
 		NOT = { trait = infirm }
 	}
@@ -1178,7 +1196,7 @@ character_event = {
 		is_ruler = no
 		is_female = no
 		trait = brave
-		NOT = { trait = maimed }
+		NOT = { is_maimed_trigger = yes }
 		NOT = { trait = wounded }
 		NOT = { trait = infirm }
 	}
@@ -1219,7 +1237,7 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.8
-			trait = ill
+			is_ill = yes
 		}
 	}
 	

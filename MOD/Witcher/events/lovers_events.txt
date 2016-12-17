@@ -17,11 +17,11 @@ character_event = {
 	
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		spouse = {
 			in_command = no
 			war = no
@@ -275,15 +275,18 @@ character_event = {
 	
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
+		NOT = {
+			has_dlc = "Reapers"
+		}
 		any_lover = {
 			is_abroad = no
 			OR = {
-				trait = ill
+				is_ill = yes
 				trait = pneumonic
 			}
 		}
@@ -297,7 +300,7 @@ character_event = {
 		
 		modifier = {
 			factor = 0.5
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 2
@@ -310,7 +313,7 @@ character_event = {
 			limit = {
 				is_abroad = no
 				OR = {
-					trait = ill
+					is_ill = yes
 					trait = pneumonic
 				}			
 			}
@@ -334,7 +337,7 @@ character_event = {
 			clr_character_flag = lover_ill_flag_64005
 			if = {
 				limit = {
-					trait = ill
+					is_ill = yes
 				}
 				random = {
 					chance = 10
@@ -368,7 +371,7 @@ character_event = {
 			clr_character_flag = lover_ill_flag_64005
 			if = {
 				limit = {
-					trait = ill
+					is_ill = yes
 				}
 				random = {
 					chance = 10
@@ -419,7 +422,7 @@ character_event = {
 			clr_character_flag = lover_ill_flag_64005
 			if = {
 				limit = {
-					trait = ill
+					is_ill = yes
 				}
 				random = {
 					chance = 10
@@ -469,7 +472,7 @@ character_event = {
 		
 		modifier = {
 			factor = 0.5
-			trait = ill
+			is_ill = yes
 		}
 		modifier = {
 			factor = 2
@@ -542,25 +545,19 @@ character_event = {
 	prisoner = no
 	min_age = 12
 	max_age = 18
+	lacks_dlc = "Way of Life"
+	is_married = no
 	
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		is_married = no
 		has_epidemic = no
 		is_ill = no
 		is_pregnant = no
-		NOT = {
+		NOR = {
 			trait = homosexual
-		}
-		NOT = {
 			trait = celibate
-		}
-		NOT = {
 			trait = incapable
-		}
-		NOT = {
 			trait = eunuch
 		}
 		any_courtier = {
@@ -571,22 +568,12 @@ character_event = {
 			is_abroad = no
 			is_pregnant = no
 			age = 12
-			NOT = {
+			NOR = {
 				trait = homosexual
-			}
-			NOT = {
 				trait = celibate
-			}
-			NOT = {
 				trait = incapable
-			}
-			NOT = {
 				trait = eunuch
-			}
-			NOT = {
 				family = ROOT
-			}
-			NOT = {
 				age = 18
 			}
 			OR = {
@@ -730,7 +717,10 @@ character_event = {
 		}
 		if = {
 			limit = {
-				trait = craven
+				OR = {
+					trait = craven
+					trait = berserker
+				}
 				NOT = {
 					trait = shy
 				}
@@ -740,8 +730,9 @@ character_event = {
 		if = {
 			limit = {
 				trait = shy
-				NOT = {
+				NOR = {
 					trait = craven
+					trait = berserker
 				}
 			}
 			add_trait = craven
@@ -820,10 +811,13 @@ character_event = {
 		name = "EVTOPTA64013" #Accept I'm a failure
 		random_list = {
 			30 = {
-				add_trait = craven
-				hidden_tooltip = {
-					character_event = {
-						id = 38257 #Notify Craven
+				if = {
+					limit = { NOT = { trait = berserker } }
+					add_trait = craven
+					hidden_tooltip = {
+						character_event = {
+							id = 38257 #Notify Craven
+						}
 					}
 				}
 			}
@@ -839,7 +833,7 @@ character_event = {
 				add_trait = shy
 				hidden_tooltip = {
 					character_event = {
-						id = 38263 #Notify 
+						id = 38263 #Notify Shy
 					}
 				}
 			}
@@ -886,11 +880,11 @@ character_event = {
 	only_men = yes
 	only_rulers = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		fertility = 0.5
 		has_epidemic = no
 		is_ill = no
@@ -1171,11 +1165,11 @@ character_event = {
 	capable_only = yes
 	only_rulers = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		OR = {
 			AND = {
 				is_married = yes
@@ -1290,13 +1284,13 @@ character_event = {
 	capable_only = yes
 	only_rulers = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
 	
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		in_command = no
-		war = no
 		is_abroad = no
 		has_lover = yes
 		any_lover = {
@@ -1397,11 +1391,11 @@ character_event = {
 	only_rulers = yes
 	only_men = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		NOT = {
 			trait = homosexual
 		}
@@ -1419,7 +1413,7 @@ character_event = {
 				trait = wroth
 			}
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	weight_multiplier = {
@@ -1521,11 +1515,11 @@ character_event = {
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		spouse = {
 			in_command = no
 			war = no
@@ -1611,11 +1605,12 @@ character_event = {
 	desc = EVTDESC64045
 	picture = GFX_evt_quarrel
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		has_lover = yes
 		any_lover = {
 			OR = {
@@ -1696,10 +1691,10 @@ character_event = {
 	max_age = 25
 	capable_only = yes
 	prisoner = no
+	has_character_flag = teenage_infatuation
+	lacks_dlc = "Way of Life"
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		has_character_flag = teenage_infatuation
 		has_lover = no
 		any_courtier = {
 			has_character_flag = teenage_infatuation
@@ -1818,10 +1813,12 @@ character_event = {
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		any_child = {
+			age = 13
+			NOT = { age = 20 }
 			has_character_flag = teenage_infatuation
 			is_abroad = no
 			prisoner = no
@@ -1844,6 +1841,8 @@ character_event = {
 	immediate = {
 		random_child = {
 			limit = {
+				age = 13
+				NOT = { age = 20 }
 				has_character_flag = teenage_infatuation
 				is_abroad = no
 				prisoner = no
@@ -1928,17 +1927,18 @@ character_event = {
 	desc = EVTDESC64060
 	picture = GFX_evt_bad_news
 	
+	min_age = 16
 	only_men = yes
 	capable_only = yes
 	only_rulers = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = no
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
 		is_ill = no
-		is_married = no
-		prisoner = no
 		OR = {
 			trait = kind
 			trait = just
@@ -2038,14 +2038,15 @@ character_event = {
 	desc = EVTDESC64065
 	picture = GFX_evt_bad_news
 	
+	min_age = 16
 	capable_only = yes
 	only_rulers = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		prisoner = no
 		OR = {
 			trait = kind
 			trait = just
@@ -2165,10 +2166,10 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	min_age = 15
+	lacks_dlc = "Way of Life"
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		is_married = yes
 		has_polygamy = no
 		in_command = no
 		
@@ -2300,16 +2301,17 @@ character_event = {
 	desc = EVTDESC64075
 	picture = GFX_evt_lovers
 	
+	min_age = 16
 	only_men = yes
 	capable_only = yes
 	only_rulers = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		is_married = yes
-		prisoner = no
 		spouse = {
 			is_alive = yes
 			prisoner = no
@@ -2327,9 +2329,9 @@ character_event = {
 			is_pregnant = no
 			prisoner = no
 			NOT = { trait = incapable }
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -2363,7 +2365,9 @@ character_event = {
 					}
 				}
 				is_pregnant = no
-				prisoner = no					
+				prisoner = no
+				NOT = { trait = incapable }
+				NOT = { is_inaccessible_trigger = yes }					
 			}
 			save_event_target_as = target_lover
 		}
@@ -2487,13 +2491,15 @@ character_event = {
 	desc = EVTDESC64080
 	picture = GFX_evt_monastery_nuns
 	
+	min_age = 16
 	only_men = yes
 	capable_only = yes
 	only_rulers = yes
+	religion_group = christian
+	lacks_dlc = "Way of Life"
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		is_married = yes
 		spouse = {
 			is_alive = yes
 			is_abroad = no
@@ -2616,7 +2622,7 @@ character_event = {
 			}
 			25 = {
 			if = {
-				limit = { NOT = { trait = craven } }
+				limit = { NOR = { trait = craven trait = berserker } }
 				add_trait = craven
 					hidden_tooltip = {
 					character_event = {
@@ -2654,14 +2660,14 @@ character_event = {
 	
 	min_age = 15
 	capable_only = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
 		is_married = no
 		is_ruler = no
 		has_lover = yes
 		is_consort = no
-		prisoner = no
 		NOT = { num_of_lovers = 2 }		
 		OR = {
 			trait = ambitious
@@ -2810,12 +2816,13 @@ character_event = {
 	min_age = 25
 	only_rulers = yes
 	capable_only = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		is_married = yes
 		NOT = {
 			num_of_children = 1
 		}
@@ -2889,19 +2896,22 @@ character_event = {
 	desc = EVTDESC64100
 	picture = GFX_evt_lovers
 	
+	min_age = 16
 	capable_only = yes
 	only_rulers = yes
 	only_men = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
+		is_inaccessible_trigger = no
 		in_command = no
-		is_married = yes
 		trait = stressed
-		prisoner = no
 		fertility = 0.4
 		any_lover = {
+			is_inaccessible_trigger = no
 			prisoner = no
 			NOT = { trait = incapable }
 			is_pregnant = no
@@ -2929,7 +2939,11 @@ character_event = {
 	immediate = {
 		random_lover = {
 			limit = {
+				is_inaccessible_trigger = no
+				prisoner = no
+				NOT = { trait = incapable }
 				is_pregnant = no
+				is_female = yes
 				fertility = 0.5
 				NOT = {
 					has_character_modifier = old_age
@@ -3084,14 +3098,16 @@ character_event = {
 	desc = EVTDESC64110
 	picture = GFX_evt_quarrel
 	
+	min_age = 16
 	capable_only = yes
 	only_rulers = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		is_married = yes
 		spouse = {
 			NOT = { trait = incapable }
 			is_alive = yes
@@ -3236,15 +3252,16 @@ character_event = {
 	desc = EVTDESC64115
 	picture = GFX_evt_quarrel
 	
+	min_age = 16
 	prisoner = no
 	capable_only = yes
 	only_rulers = yes
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		is_married = yes
 		spouse = {
 			is_alive = yes
 			is_abroad = no
@@ -3422,14 +3439,16 @@ character_event = {
 	desc = EVTDESC64120
 	picture = GFX_evt_scandal
 	
+	min_age = 16
 	capable_only = yes
 	only_rulers = yes
+	prisoner = no
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		is_married = yes
 		has_lover = yes
 		any_lover = {
 			NOT = {
@@ -3518,15 +3537,17 @@ character_event = {
 	desc = EVTDESC64125
 	picture = GFX_evt_scandal
 	
+	min_age = 16
 	only_men = yes
 	capable_only = yes
+	prisoner = no
 	only_rulers = yes
+	lacks_dlc = "Way of Life"
+	war = no
+	is_married = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
-		is_married = yes
 		has_lover = no
 		spouse = {
 			is_alive = yes
@@ -3549,11 +3570,12 @@ character_event = {
 		prestige = -50
 		random = {
 			chance = 10
-			
-			add_trait = craven
-			hidden_tooltip = {
-				character_event = {
-					id = 38257 #Notify Craven
+			if = { limit = { NOT = { trait = berserker } } 
+				add_trait = craven
+				hidden_tooltip = {
+					character_event = {
+						id = 38257 #Notify Craven
+					}
 				}
 			}
 		}
@@ -3708,9 +3730,9 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	min_age = 15
+	is_married = yes
 	
 	trigger = {
-		is_married = yes
 		OR = {
 			trait = stressed
 			trait = depressed
@@ -3812,10 +3834,10 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	only_rulers = yes
+	lacks_dlc = "Way of Life"
+	war = no
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = no
 		in_command = no
 		is_married = no
 		has_lover = yes
@@ -3824,7 +3846,7 @@ character_event = {
 			prisoner = no
 			is_alive = yes
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -3908,12 +3930,13 @@ character_event = {
 	picture = GFX_evt_bad_news
 	
 	capable_only = yes
+	prisoner = no
 	only_men = yes
 	min_age = 15
+	lacks_dlc = "Way of Life"
+	war = yes
 	
 	trigger = {
-		NOT = { has_dlc = "Way of Life" }
-		war = yes
 		in_command = yes
 		has_lover = yes
 		NOT = { num_of_lovers = 2 }

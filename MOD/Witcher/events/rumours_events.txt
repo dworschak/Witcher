@@ -453,9 +453,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_sodomite
 	
 	trigger = {
-		has_character_flag = suspected_sodomite
 		OR = {
 			NOT = {
 				martial = 2
@@ -473,7 +473,7 @@ character_event = {
 		NOT = {
 			has_character_modifier = whoremaster
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -504,9 +504,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_sodomite
 	
 	trigger = {
-		has_character_flag = suspected_sodomite
 		OR = {
 			NOT = {
 				martial = 2
@@ -521,7 +521,7 @@ character_event = {
 		NOT = {
 			trait = homosexual
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -548,9 +548,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_sodomite
 	
 	trigger = {
-		has_character_flag = suspected_sodomite
 		OR = {
 			NOT = {
 				martial = 2
@@ -1100,10 +1100,10 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_of_incest
 	
 	trigger = {
 		NOT = { has_character_modifier = old_age}
-		has_character_flag = suspected_of_incest
 		NOT = {
 			has_character_modifier = suspected_of_incest_timer
 		}
@@ -1142,10 +1142,10 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_of_incest
 	
 	trigger = {
 		NOT = { has_character_modifier = old_age }
-		has_character_flag = suspected_of_incest
 		any_sibling = {
 			has_character_flag = sister_suspected_of_incest
 		}
@@ -1165,7 +1165,7 @@ character_event = {
 			NOT = {
 				age = 15
 			}
-			NOT = { trait = maimed }
+			can_be_maimed_trigger = yes
 			NOT = { trait = incapable }
 			NOT = { trait = blinded }
 		}
@@ -1195,13 +1195,13 @@ character_event = {
 				NOT = {
 					age = 15
 				}
+				can_be_maimed_trigger = yes
 				NOR = {
-					trait = maimed
 					trait = incapable
 					trait = blinded
 				}
 			}
-			add_trait = maimed
+			add_maimed_trait_effect = yes
 		}
 	}
 	option = {
@@ -1442,6 +1442,11 @@ character_event = {
 				chance = 20
 				
 				add_trait = chaste
+				hidden_tooltip = {
+					character_event = {
+						id = 38274 #Notify Chaste
+					}
+				}
 			}
 		}
 	}
@@ -1639,11 +1644,13 @@ character_event = {
 	desc = EVTDESC69024
 	picture = GFX_evt_whispers
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
+	only_men = yes
+	has_character_flag = impotent_man
 	
 	trigger = {
-		has_character_flag = impotent_man
 		NOT = {
 			num_of_children = 1
 		}
@@ -2246,9 +2253,9 @@ character_event = {
 	
 	capable_only = yes
 	prisoner = no
+	has_character_flag = committed_adultery
 	
 	trigger = {
-		has_character_flag = committed_adultery
 		num_of_children = 2
 		any_child = {
 			age = 6
@@ -2286,6 +2293,7 @@ character_event = {
 	desc = EVTDESC69039
 	picture = GFX_evt_quarrel
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -2727,11 +2735,12 @@ character_event = {
 	desc = EVTDESC69044
 	picture = GFX_evt_scandal
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_occultist
 	
 	trigger = {
-		has_character_flag = suspected_occultist
 		any_courtier = {
 			prisoner = no
 			age = 5
@@ -2785,11 +2794,12 @@ character_event = {
 	desc = EVTDESC69045
 	picture = GFX_evt_whispers
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_occultist
 	
 	trigger = {
-		has_character_flag = suspected_occultist
 		NOT = {
 			has_character_modifier = voice_in_darkness_timer
 		}
@@ -2826,11 +2836,12 @@ character_event = {
 	desc = EVTDESC69046
 	picture = GFX_evt_bishop
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_occultist
 	
 	trigger = {
-		has_character_flag = suspected_occultist
 		NOT = {
 			has_character_modifier = confessor_and_occultist_timer
 		}
@@ -2870,11 +2881,12 @@ character_event = {
 	desc = EVTDESC69047
 	picture = GFX_evt_torture
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_character_flag = suspected_occultist
 	
 	trigger = {
-		has_character_flag = suspected_occultist
 		has_character_flag = occultist_flagged
 		NOT = {
 			has_character_modifier = dabble_dark_arts_timer
@@ -2955,6 +2967,7 @@ character_event = {
 			chance = 33
 			
 			add_trait = possessed
+			character_event = { id = 38315 } # Notify Possessed
 		}
 	}
 }
@@ -3438,6 +3451,7 @@ character_event = {
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
+	religion_group = christian
 	
 	is_triggered_only = yes
 	
@@ -3557,6 +3571,7 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	religion_group = christian
 	
 	is_triggered_only = yes
 	
@@ -3589,6 +3604,29 @@ character_event = {
 	
 	immediate = {
 		set_character_flag = rumour_spreader
+		random_courtier = {
+			limit = {
+				prisoner = no
+				age = 16
+				religion_group = christian
+				NOT = {
+					reverse_opinion = { who = ROOT value = 50 }
+				}
+				NOT = {
+					has_character_flag = flag_unchristian
+				}
+				NOT = {
+					piety = 50
+				}
+				NOT = {
+					learning = 8
+				}
+				NOT = {
+					trait = zealous
+				}
+			}
+			save_event_target_as = 69060_target_courtier
+		}
 	}
 	
 	weight_multiplier = {
@@ -3613,26 +3651,7 @@ character_event = {
 		ai_chance = {
 			factor = 10
 		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				age = 15
-				NOT = {
-					reverse_opinion = { who = ROOT value = 50 }
-				}
-				NOT = {
-					has_character_flag = flag_unchristian
-				}
-				NOT = {
-					piety = 50
-				}
-				NOT = {
-					learning = 8
-				}
-				NOT = {
-					trait = zealous
-				}
-			}
+		event_target:69060_target_courtier = {
 			character_event = {
 				id = 69061
 				days = 3
@@ -3645,27 +3664,8 @@ character_event = {
 		name = EVTOPTB69060
 		ai_chance = {
 			factor = 50
-		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				age = 15
-				NOT = {
-					reverse_opinion = { who = ROOT value = 50 }
-				}
-				NOT = {
-					has_character_flag = flag_unchristian
-				}
-				NOT = {
-					piety = 50
-				}
-				NOT = {
-					learning = 8
-				}
-				NOT = {
-					trait = zealous
-				}
-			}
+		}	
+		event_target:69060_target_courtier = {
 			set_character_flag = flag_unchristian
 			character_event = {
 				id = 69090
@@ -3680,26 +3680,7 @@ character_event = {
 		ai_chance = {
 			factor = 40
 		}
-		random_courtier = {
-			limit = {
-				prisoner = no
-				age = 15
-				NOT = {
-					reverse_opinion = { who = ROOT value = 50 }
-				}
-				NOT = {
-					has_character_flag = flag_unchristian
-				}
-				NOT = {
-					piety = 50
-				}
-				NOT = {
-					learning = 8
-				}
-				NOT = {
-					trait = zealous
-				}
-			}
+		event_target:69060_target_courtier = {
 			character_event = {
 				id = 69062
 				days = 3
@@ -3802,6 +3783,7 @@ character_event = {
 	only_rulers = yes
 	capable_only = yes
 	prisoner = no
+	religion_group = christian
 	
 	is_triggered_only = yes
 	
@@ -3927,9 +3909,9 @@ character_event = {
 	
 	capable_only = yes
 	prisoner = no
+	has_character_flag = flag_unchristian
 	
 	trigger = {
-		has_character_flag = flag_unchristian
 		NOT = {
 			has_character_modifier = unchristian_timer
 		}
@@ -3959,6 +3941,11 @@ character_event = {
 			chance = 25
 			
 			add_trait = cynical
+			hidden_tooltip = {
+				character_event = {
+					id = 38258 #Notify Cynical
+				}
+			}
 		}
 		random_child = {
 			limit = {
@@ -3972,6 +3959,11 @@ character_event = {
 				chance = 25
 			
 				add_trait = zealous
+				hidden_tooltip = {
+					character_event = {
+						id = 38269 #Notify Zealous
+					}
+				}
 				opinion = {
 					modifier = opinion_dislike
 					who = ROOT
@@ -4033,7 +4025,7 @@ character_event = {
 			NOT = {
 				trait = brave
 			}
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 		}
 	}
 	
@@ -4089,7 +4081,7 @@ character_event = {
 				NOT = {
 					trait = brave
 				}
-				NOT = { trait = in_hiding }
+				NOT = { is_inaccessible_trigger = yes }
 			}
 			character_event = {
 				id = 69071
@@ -4130,7 +4122,7 @@ character_event = {
 				NOT = {
 					trait = brave
 				}
-				NOT = { trait = in_hiding }
+				NOT = { is_inaccessible_trigger = yes }
 			}
 			set_character_flag = flag_suspected_coward
 			character_event = {
@@ -4172,7 +4164,7 @@ character_event = {
 				NOT = {
 					trait = brave
 				}
-				NOT = { trait = in_hiding }
+				NOT = { is_inaccessible_trigger = yes }
 			}
 			character_event = {
 				id = 69072
@@ -4315,7 +4307,7 @@ character_event = {
 			NOT = {
 				trait = brave
 			}
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 		}
 	}
 	
@@ -4371,7 +4363,7 @@ character_event = {
 				NOT = {
 					trait = brave
 				}
-				NOT = { trait = in_hiding }
+				NOT = { is_inaccessible_trigger = yes }
 			}
 			character_event = {
 				id = 69071
@@ -4412,7 +4404,7 @@ character_event = {
 				NOT = {
 					trait = brave
 				}
-				NOT = { trait = in_hiding }
+				NOT = { is_inaccessible_trigger = yes }
 			}
 			set_character_flag = flag_suspected_coward
 			character_event = {
@@ -4470,10 +4462,10 @@ character_event = {
 	
 	capable_only = yes
 	prisoner = no
+	has_character_flag = flag_suspected_coward
 	
 	trigger = {
 		has_character_modifier = suspected_coward
-		has_character_flag = flag_suspected_coward
 		NOT = {
 			trait = craven
 		}
@@ -4485,7 +4477,10 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA69075 #Admit that you are a coward
-		add_trait = craven
+		if = {
+			limit = { NOT = { trait = berserker } }
+			add_trait = craven
+		}
 		prestige = -5
 		remove_character_modifier = suspected_coward
 		clr_character_flag = flag_suspected_coward

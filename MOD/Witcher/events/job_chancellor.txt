@@ -29,6 +29,7 @@ character_event = {
 	picture = GFX_evt_emissary
 	border = GFX_event_normal_frame_diplomacy
 
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -134,7 +135,7 @@ character_event = {
 		name = "EVTOPTA20100"
 		hidden_tooltip = {
 			FROM = {
-				liege = { letter_event = { id = 20101 days = 7 } }
+				liege = { letter_event = { id = 20101 } }
 			}
 		}
 	}
@@ -171,6 +172,7 @@ character_event = {
 	picture = GFX_evt_emissary
 	border = GFX_event_normal_frame_diplomacy
 
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -260,7 +262,7 @@ character_event = {
 		name = "EVTOPTA20110"
 		hidden_tooltip = {
 			FROM = {
-				liege = { letter_event = { id = 20111 days = 7 } }
+				liege = { letter_event = { id = 20111 } }
 			}
 		}
 	}
@@ -301,6 +303,7 @@ character_event = {
 	picture = GFX_evt_council
 	border = GFX_event_normal_frame_diplomacy
 
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -343,7 +346,10 @@ character_event = {
 						}
 						AND = {
 							ROOT = {
-								liege = { has_ambition = obj_become_king }
+								liege = { 
+									has_ambition = obj_become_king
+									NOT = { has_character_flag = kingdom_claimed_with_ambition }
+								}
 							}
 							kingdom = {
 								NOT = { claimed_by = PREVPREVPREV }
@@ -459,6 +465,7 @@ character_event = {
 					diplomacy = 22
 					liege = {
 						has_ambition = obj_become_king
+						NOT = { has_character_flag = kingdom_claimed_with_ambition }
 						ROOT = {
 							location = {
 								kingdom = {
@@ -482,6 +489,7 @@ character_event = {
 							}
 						}
 					}
+					liege = { set_character_flag = kingdom_claimed_with_ambition }
 					set_character_flag = claim_done
 					break = yes
 				}
@@ -492,6 +500,7 @@ character_event = {
 					NOT = { diplomacy = 22 }
 					liege = {
 						has_ambition = obj_become_king
+						NOT = { has_character_flag = kingdom_claimed_with_ambition }
 						ROOT = {
 							location = {
 								kingdom = {
@@ -515,6 +524,7 @@ character_event = {
 							}
 						}
 					}
+					liege = { set_character_flag = kingdom_claimed_with_ambition }
 					set_character_flag = claim_done
 					break = yes
 				}
@@ -525,6 +535,7 @@ character_event = {
 					NOT = { diplomacy = 18 }
 					liege = {
 						has_ambition = obj_become_king
+						NOT = { has_character_flag = kingdom_claimed_with_ambition }
 						ROOT = {
 							location = {
 								kingdom = {
@@ -548,6 +559,7 @@ character_event = {
 							}
 						}
 					}
+					liege = { set_character_flag = kingdom_claimed_with_ambition }
 					set_character_flag = claim_done
 					break = yes
 				}
@@ -557,6 +569,7 @@ character_event = {
 					NOT = { diplomacy = 15 }
 					liege = {
 						has_ambition = obj_become_king
+						NOT = { has_character_flag = kingdom_claimed_with_ambition }
 						ROOT = {
 							location = {
 								kingdom = {
@@ -1189,6 +1202,7 @@ character_event = {
 	picture = GFX_evt_emissary
 	border = GFX_event_normal_frame_diplomacy
 	
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -1365,7 +1379,7 @@ letter_event = {
 		name = "EVTOPTA20144"
 		wealth = 50
 		FROM = {
-			letter_event = { id = 20145 days = 7 tooltip = "EVTTOOLTIP20145" }
+			letter_event = { id = 20145 tooltip = "EVTTOOLTIP20145" }
 		}
 		hidden_tooltip = {
 			add_character_modifier = {
@@ -1378,7 +1392,7 @@ letter_event = {
 	option = {
 		name = "EVTOPTB20144"
 		prestige = 5
-		FROM = { letter_event = { id = 20146 days = 7 tooltip = "EVTTOOLTIP20146" } }
+		FROM = { letter_event = { id = 20146 tooltip = "EVTTOOLTIP20146" } }
 	}
 }
 
@@ -1445,6 +1459,7 @@ character_event = {
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_diplomacy
 
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -1553,7 +1568,7 @@ character_event = {
 		hidden_tooltip = {
 			FROM = {
 				liege = {
-					letter_event = { id = 20162 days = 7 }
+					letter_event = { id = 20162 }
 				}
 			}
 		}
@@ -1612,6 +1627,7 @@ character_event = {
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_diplomacy
 
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	
@@ -1688,7 +1704,7 @@ character_event = {
 					NOT = { same_realm = ROOT }
 					independent = no
 				}
-				character_event = { id = 20170 days = 7 tooltip = "EVTTOOLTIP20170" }
+				character_event = { id = 20170 tooltip = "EVTTOOLTIP20170" }
 			}
 		}
 	}
@@ -1711,9 +1727,9 @@ character_event = {
 		hidden_tooltip = {
 			FROM = {
 				character_event = { id = 20171 }
-				liege = { letter_event = { id = 20172 days = 7 } }
+				liege = { letter_event = { id = 20172 } }
 			}
-			liege = { letter_event = { id = 20173 days = 7 } }
+			liege = { letter_event = { id = 20173 } }
 		}
 	}
 	option = {
@@ -1729,9 +1745,9 @@ character_event = {
 		}
 		hidden_tooltip = {
 			FROM = {
-				liege = { letter_event = { id = 20175 days = 7 } }
+				liege = { letter_event = { id = 20175 } }
 			}
-			liege = { letter_event = { id = 20174 days = 7 } }
+			liege = { letter_event = { id = 20174 } }
 		}
 	}
 }
@@ -1784,7 +1800,7 @@ letter_event = {
 						years = 2
 					}
 					hidden_tooltip = {
-						letter_event = { id = 20176 days = 7}
+						letter_event = { id = 20176 }
 					}
 				}
 			}
@@ -1811,7 +1827,7 @@ letter_event = {
 						years = 2
 					}
 					hidden_tooltip = {
-						letter_event = { id = 20176 days = 7 }
+						letter_event = { id = 20176  }
 					}
 				}
 			}
@@ -1885,6 +1901,7 @@ character_event = {
 	picture = GFX_evt_market
 	border = GFX_event_normal_frame_diplomacy
 
+	min_age = 16
 	capable_only = yes
 	prisoner = no
 	

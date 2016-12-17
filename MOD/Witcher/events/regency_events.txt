@@ -387,7 +387,7 @@ character_event = {
 		liege = { 
 			age = 15
 			trait = incapable
-			NOT = { trait = in_hiding }
+			NOT = { is_inaccessible_trigger = yes }
 		}
 	}
 	
@@ -790,7 +790,7 @@ character_event = {
 					if = {
 						limit = { NOT = { has_character_modifier = protection_spell } }
 						death = {
-							death_reason = death_accident
+							death_reason = death_murder_unknown_fall
 						}
 					}
 					if = {
@@ -798,7 +798,6 @@ character_event = {
 						add_trait = wounded
 						opinion = {
 							modifier = opinion_mad_as_hell
-							who = ROOT
 							years = 1
 						}
 					}
@@ -811,7 +810,7 @@ character_event = {
 					opinion = {
 						modifier = opinion_mad_as_hell
 						who = ROOT
-						years = 1
+						years = 5
 					}
 				}
 			}
@@ -1133,12 +1132,15 @@ character_event = {
 	desc = EVTDESC61152
 	picture = GFX_evt_emissary
 	
+	only_playable = yes
+	has_character_flag = imprisoned_by_regent
+	
 	trigger = {
+		has_regent = yes
 		any_courtier = {
 			has_minor_title = title_regent
 			NOT = { has_character_flag = declared_ruler_insane }
 		}
-		has_character_flag = imprisoned_by_regent
 	}
 	
 	mean_time_to_happen = {
@@ -1290,8 +1292,11 @@ character_event = {
 	
 	min_age = 15
 	capable_only = no
+	has_character_flag = imprisoned_by_regent
 	
-	trigger = { has_character_flag = imprisoned_by_regent }
+	trigger = {
+	
+	}
 	
 	mean_time_to_happen = {
 		months = 180
@@ -1470,8 +1475,12 @@ character_event = {
 			20 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
+						death = {
+						death_reason = death_murder_unknown_fall
+						killer = FROM
+					}
 				}
+				
 			}
 		}
 	}
@@ -1549,8 +1558,11 @@ character_event = {
 			20 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
-				}
+					death = {
+						death_reason = death_murder_unknown
+						killer = FROM
+					}
+				}	
 			}
 		}
 	}
@@ -1628,7 +1640,10 @@ character_event = {
 			20 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
+					death = {
+						death_reason = death_murder_unknown_fall
+						killer = FROM
+					}
 				}
 			}
 		}
@@ -1707,7 +1722,10 @@ character_event = {
 			20 = {
 				if = {
 					limit = { NOT = { has_character_modifier = protection_spell } }
-					death = { death_reason = death_accident }
+					death = {
+						death_reason = death_murder_unknown
+						killer = FROM
+					}
 				}
 			}
 		}
@@ -1858,9 +1876,9 @@ character_event = {
 	prisoner = no
 	capable_only = yes
 	only_men = yes
+	war = no
 	
 	trigger = {
-		war = no
 		OR = {
 			liege = {
 				age = 1
@@ -2735,7 +2753,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA61227
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		prestige = -20
 	}
 }
@@ -2823,7 +2841,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA61230
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		prestige = -20
 	}
 }
@@ -2925,11 +2943,11 @@ character_event = {
 	prisoner = no
 	capable_only = yes
 	only_women = yes
+	is_married = yes
 	
 	trigger = {
 		NOT = { has_minor_title = title_regent }
 		has_minor_title = title_ruler_consort
-		is_married = yes
 		spouse = {
 			prisoner = no
 			is_alive = yes
@@ -3064,9 +3082,9 @@ character_event = {
 	prisoner = no
 	capable_only = yes
 	only_playable = yes # Only titled Regents do this
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_landed = yes
 		has_minor_title = title_regent
 		NOT = { trait = content }
@@ -3194,9 +3212,9 @@ character_event = {
 	prisoner = no
 	capable_only = yes
 	only_playable = yes # Only titled Regents do this
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		is_landed = yes
 		has_minor_title = title_regent
 		NOT = { trait = content }

@@ -3571,9 +3571,9 @@ character_event = {
 	trigger = {
 		NOT = { has_character_modifier = old_age }
 		independent = no
-		NOT = { trait = stressed}
-		NOT = { trait = depressed}
-		NOT = { trait = leper}
+		NOT = { trait = stressed }
+		NOT = { trait = depressed }
+		NOT = { trait = leper }
 		health = 4
 		
 		# Not if already having a ward
@@ -3766,10 +3766,12 @@ character_event = {
 	desc = EVTDESC38100
 	picture = GFX_evt_guardian
 	
+	min_age = 6
 	max_age = 15
+	only_capable = yes
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		has_guardian = yes
 		guardian = { 
 			NOT = { religion = ROOT }
@@ -3919,10 +3921,12 @@ character_event = {
 	desc = EVTDESC38110
 	picture = GFX_evt_guardian
 	
+	min_age = 6
 	max_age = 15
+	only_capable = yes
+	lacks_dlc = "Zeus"
 	
 	trigger = {
-		NOT = { has_dlc = "Zeus" }
 		has_guardian = yes
 		father = {
 			NOT = { is_nomadic = yes }
@@ -6703,15 +6707,12 @@ character_event = {
 					}
 				}
 				5 = {
-					add_trait = maimed
+					add_maimed_trait_effect = yes
 					hidden_tooltip = {
 						ROOT = {
 							character_event = {
 								id = 38181 #Notify Child is maimed
 							}
-						}
-						character_event = {
-							id = 38281 #Notify Maimed
 						}
 					}
 				}
@@ -6731,15 +6732,12 @@ character_event = {
 		FROM = {
 			random_list = {
 				80 = {
-					add_trait = maimed
+					add_maimed_trait_effect = yes
 					hidden_tooltip = {
 						ROOT = {
 							character_event = {
 								id = 38181 #Notify Child is maimed
 							}
-						}
-						character_event = {
-							id = 38281 #Notify Maimed
 						}
 					}
 					opinion = {
@@ -6753,7 +6751,7 @@ character_event = {
 						limit = { NOT = { has_character_modifier = protection_spell } }
 						set_character_flag = murdered_by_guardian
 						death = {
-							death_reason = death_murder
+							death_reason = death_murder_unknown
 							killer = ROOT
 						}
 					}
@@ -6892,7 +6890,7 @@ character_event = {
 					add_trait = pneumonic
 				}
 				50 = {
-					remove_trait = ill
+					remove_trait = ill #Not triggered with Reapers
 					hidden_tooltip = {
 						ROOT = {
 							character_event = {

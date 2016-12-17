@@ -2200,24 +2200,26 @@ character_event = {
 	immediate = {
 		set_character_flag = was_playful
 		random_list = {  # Select outcome
-			10 = {
+			15 = {
 				set_character_flag = playful_to_gregarious
 				modifier = {
 					factor = 0
-					OR = {
-						trait = shy
-						trait = gregarious
-					}
+					trait = gregarious
+				}
+				modifier = {
+					factor = 0.1
+					trait = shy
 				}
 			}
-			10 = {
+			15 = {
 				set_character_flag = playful_to_deceitful
 				modifier = {
 					factor = 0
-					OR = {
-						trait = honest
-						trait = deceitful
-					}
+					trait = deceitful
+				}
+				modifier = {
+					factor = 0.1
+					trait = honest
 				}
 			}
 			1 = {
@@ -2233,18 +2235,11 @@ character_event = {
 			}
 		}
 		if = {
+			# This combination should not be possible, but just to be sure...
 			limit = {
-				AND = {
-					OR = {
-						trait = shy
-						trait = gregarious
-					}
-					OR = {
-						trait = honest
-						trait = deceitful
-					}
-					trait = lunatic
-				}
+				trait = gregarious
+				trait = deceitful
+				trait = lunatic
 			}
 			change_diplomacy = 2
 			remove_trait = playful
@@ -2552,6 +2547,11 @@ character_event = {
 			random = {
 				chance = 20
 				add_trait = stressed
+				hidden_tooltip = {
+					character_event = {
+						id = 38282 #Notify Stressed
+					}
+				}
 			}
 		}
 		clr_character_flag = conscientious_to_diligent
@@ -2570,6 +2570,11 @@ character_event = {
 			random = {
 				chance = 20
 				add_trait = stressed
+				hidden_tooltip = {
+					character_event = {
+						id = 38282 #Notify Stressed
+					}
+				}
 			}
 		}
 		clr_character_flag = conscientious_to_temperate
@@ -3191,8 +3196,6 @@ character_event = {
 	only_capable = yes
 	
 	immediate = {
-		
-		
 		if = {
 			limit = {
 				has_character_flag = curious_to_genius
@@ -3207,6 +3210,14 @@ character_event = {
 				trait = slow
 			}
 			set_character_flag = curious_slow_to_normal
+			break = yes
+		}
+		if = {
+			limit = {
+				has_character_flag = curious_to_genius
+				is_dumb_trigger = no
+			}
+			set_character_flag = curious_normal_to_shrewd
 			break = yes
 		}
 	}
@@ -3291,8 +3302,7 @@ character_event = {
 			}
 			remove_trait = curious
 			add_trait = shrewd
-			clr_character_flag = curious_imbecile_to_slow
-			clr_character_flag = curious_slow_to_normal
+			clr_character_flag = curious_normal_to_shrewd
 		}
 	}
 }
@@ -3365,7 +3375,7 @@ character_event = {
 					has_character_flag = add_sympathy_islam
 				}
 			}
-			tooltip = { FROM = { add_trait = sympathy_islam } }
+			tooltip = { FROM = { remove_trait = curious add_trait = sympathy_islam } }
 		}
 		if = {
 			limit = {
@@ -3432,7 +3442,10 @@ character_event = {
 			limit = {
 				FROM = {
 					has_character_flag = curious_to_genius
-					trait = quick
+					OR = {
+						trait = quick
+						trait = genius
+					}
 				}
 			}
 			tooltip = {
@@ -3449,12 +3462,13 @@ character_event = {
 					NOT = { trait = quick }
 					NOT = { trait = slow }
 					NOT = { trait = imbecile }
+					NOT = { trait = genius }
 				}
 			}
 			tooltip = {
 				FROM = {
 					remove_trait = curious
-					add_trait = quick
+					add_trait = shrewd
 				}
 			}
 		}
@@ -3488,6 +3502,33 @@ character_event = {
 	is_triggered_only = yes
 	
 	only_capable = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				has_character_flag = curious_to_genius
+				trait = imbecile
+			}
+			set_character_flag = curious_imbecile_to_slow
+			break = yes
+		}
+		if = {
+			limit = {
+				has_character_flag = curious_to_genius
+				trait = slow
+			}
+			set_character_flag = curious_slow_to_normal
+			break = yes
+		}
+		if = {
+			limit = {
+				has_character_flag = curious_to_genius
+				is_dumb_trigger = no
+			}
+			set_character_flag = curious_normal_to_shrewd
+			break = yes
+		}
+	}
 	
 	option = {
 		name = EVTOPTA_ZE_13104
@@ -3570,16 +3611,10 @@ character_event = {
 			clr_character_flag = curious_slow_to_normal
 		}
 		if = {
-			limit = { has_character_flag = curious_normal_to_quick }
+			limit = { has_character_flag = curious_normal_to_shrewd }
 			remove_trait = curious
 			add_trait = shrewd
-			clr_character_flag = curious_normal_to_quick
-		}
-		if = {
-			limit = { has_character_flag = curious_quick_to_genius }
-			remove_trait = curious
-			add_trait = shrewd
-			clr_character_flag = curious_quick_to_genius
+			clr_character_flag = curious_normal_to_shrewd
 		}
 	}
 }
@@ -3881,7 +3916,7 @@ character_event = {
 	
 	trigger = {
 		age = 14
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 		is_ill = no
 	}
 	
@@ -3938,6 +3973,22 @@ character_event = {
 
 	trigger = {
 		has_dlc = "Zeus"
+		educator = {
+			any_courtier = {	
+				age = 16
+				NOR = { 
+					age = 35
+					same_sex = ROOT
+					trait = incapable
+					trait = ugly
+					trait = blinded
+					trait = celibate
+					trait = eunuch
+					has_character_modifier = the_oubliette
+					has_character_modifier = the_dungeon
+				}
+			}
+		}
 	}
 
 	immediate = {
@@ -4383,7 +4434,7 @@ character_event = {
 	trigger = {
 		NOR = {
 			trait = incapable
-			trait = in_hiding
+			is_inaccessible_trigger = yes
 			has_character_modifier = the_dungeon
 			has_character_modifier = the_oubliette
 		}
@@ -4445,7 +4496,7 @@ character_event = {
 							ROOT = {
 								NOT = { trait = ambitious }
 							}
-							NOT = { is_rival = FROM }
+							NOT = { is_rival = ROOT }
 						}
 						AND = {
 							ROOT = {
@@ -4632,6 +4683,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 30
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 15
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = trusting
+			}
+		}
 		tooltip_info = diplomacy
 		name = EVTOPTA_ZE_13620
 		trigger = {
@@ -4664,6 +4744,31 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 15
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 30
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 10
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = gregarious
+			}
+		}
 		tooltip_info = diplomacy
 		name = EVTOPTB_ZE_13620
 		trigger = {
@@ -4694,6 +4799,9 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 10
+		}
 		name = EVTOPTC_ZE_13620
 	}
 }
@@ -4730,6 +4838,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 30
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 15
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = brave
+			}
+		}
 		tooltip_info = martial
 		name = EVTOPTA_ZE_13621
 		trigger = {
@@ -4759,6 +4896,14 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 20
+				trait = wroth
+			}
+		}
 		tooltip_info = martial
 		name = EVTOPTB_ZE_13621
 		trigger = {
@@ -4793,6 +4938,9 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 10
+		}
 		name = EVTOPTC_ZE_13620
 	}
 }
@@ -4824,6 +4972,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 30
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 15
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = just
+			}
+		}
 		tooltip_info = stewardship
 		name = EVTOPTA_ZE_13622
 		trigger = {
@@ -4853,6 +5030,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 15
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 30
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = temperate
+			}
+		}
 		tooltip_info = stewardship
 		name = EVTOPTB_ZE_13622
 		trigger = {
@@ -4883,6 +5089,9 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 10
+		}
 		name = EVTOPTC_ZE_13620
 	}
 }
@@ -4918,6 +5127,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 30
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 15
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = deceitful
+			}
+		}
 		tooltip_info = intrigue
 		name = EVTOPTA_ZE_13623
 		trigger = {
@@ -4952,6 +5190,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 15
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 30
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = cynical
+			}
+		}
 		tooltip_info = intrigue
 		name = EVTOPTB_ZE_13623
 		trigger = {
@@ -4982,6 +5249,9 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 10
+		}
 		name = EVTOPTC_ZE_13620
 	}
 }
@@ -5013,6 +5283,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 30
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 15
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = erudite
+			}
+		}
 		tooltip_info = learning
 		name = EVTOPTA_ZE_13624
 		trigger = {
@@ -5030,6 +5329,35 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 15
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 30
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = chaste
+			}
+		}
 		tooltip_info = learning
 		name = EVTOPTB_ZE_13624
 		trigger = {
@@ -5060,6 +5388,9 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 10
+		}
 		name = EVTOPTC_ZE_13620
 	}
 }
@@ -5139,6 +5470,35 @@ character_event = {
 	}
 
 	option = { # Give ambitious
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 30
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 15
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = ambitious
+			}
+		}
 		name = EVTOPTA_ZE_13625
 		trigger = {
 			FROM = {
@@ -5167,6 +5527,35 @@ character_event = {
 	}
 
 	option = { # Give diligent
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 20
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 20
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = diligent
+			}
+		}
 		name = EVTOPTB_ZE_13625
 		trigger = {
 			FROM = {
@@ -5193,6 +5582,35 @@ character_event = {
 	}
 
 	option = { # Give patient
+		ai_chance = {
+			factor = 1
+
+			modifier = {
+				factor = 15
+				current_heir = { character = FROM }
+			}
+			modifier = {
+				factor = 30
+				NOT = { current_heir = { character = FROM } }
+				any_child = { character = FROM }
+			}
+			modifier = {
+				factor = 5
+				NOR = {
+					current_heir = { character = FROM }
+					any_child = { character = FROM }
+				}
+				OR = {
+					trait = kind
+					trait = charitable
+					trait = diligent
+				}
+			}
+			modifier = {
+				factor = 5
+				trait = patient
+			}
+		}
 		name = EVTOPTC_ZE_13625
 		trigger = {
 			FROM = {
@@ -5222,6 +5640,9 @@ character_event = {
 	}
 
 	option = {
+		ai_chance = {
+			factor = 10
+		}
 		name = EVTOPTC_ZE_13620
 	}
 }
