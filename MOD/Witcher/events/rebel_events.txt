@@ -18,6 +18,8 @@ province_event = {
 	id = 80000
 	desc = "EVTDESC80000"
 	picture = "GFX_evt_burning_house"
+	
+	lacks_dlc = "The Old Gods"
 
 	trigger = {
 		num_of_settlements = 1
@@ -138,6 +140,7 @@ character_event = {
 	desc = "EVTDESC80005"
 	picture = "GFX_evt_peasants"
 
+	lacks_dlc = "The Old Gods"
 	only_rulers = yes
 	min_age = 15
 	prisoner = no
@@ -160,7 +163,7 @@ character_event = {
 				}
 			}
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -203,7 +206,7 @@ character_event = {
 				liege = { letter_event = { id = 80051 days = 3 } }
 			}
 		}
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		# Clear flags
 		clr_character_flag = character_killed_by_rebels
 		clr_character_flag = character_maimed_by_rebels
@@ -232,6 +235,7 @@ character_event = {
 	desc = "EVTDESC80005"
 	picture = "GFX_evt_peasants"
 
+	lacks_dlc = "The Old Gods"
 	only_rulers = yes
 	min_age = 15
 	prisoner = no
@@ -254,7 +258,7 @@ character_event = {
 				}
 			}
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -297,7 +301,7 @@ character_event = {
 				liege = { letter_event = { id = 80051 days = 3 } }
 			}
 		}
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		# Clear flags
 		clr_character_flag = character_killed_by_rebels
 		clr_character_flag = character_maimed_by_rebels
@@ -326,6 +330,7 @@ character_event = {
 	desc = "EVTDESC80005"
 	picture = "GFX_evt_peasants"
 
+	lacks_dlc = "The Old Gods"
 	only_rulers = yes
 	min_age = 15
 	prisoner = no
@@ -349,7 +354,7 @@ character_event = {
 		}
 		primary_title = { tier = BARON }
 		in_command = no
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -392,7 +397,7 @@ character_event = {
 				liege = { letter_event = { id = 80051 days = 3 } }
 			}
 		}
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		# Clear flags
 		clr_character_flag = character_killed_by_rebels
 		clr_character_flag = character_maimed_by_rebels
@@ -421,10 +426,12 @@ character_event = {
 	desc = "EVTDESC80005"
 	picture = "GFX_evt_peasants"
 
+	lacks_dlc = "The Old Gods"
+	prisoner = no
+	
 	trigger = {
 		is_ruler = no
 		in_command = no
-		prisoner = no
 		# Rebel occupied
 		location = {
 			# Early out
@@ -442,7 +449,7 @@ character_event = {
 				}
 			}
 		}
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -472,17 +479,17 @@ character_event = {
 		clr_character_flag = character_wounded_by_rebels
 	}
 	option = {
-		name = "EVTOPTA80005"
+		name = "EVTOPTB80005"
 		trigger = { has_character_flag = character_maimed_by_rebels }
 		liege = { letter_event = { id = 80051 days = 3 } }
-		add_trait = maimed
+		add_maimed_trait_effect = yes
 		# Clear flags
 		clr_character_flag = character_killed_by_rebels
 		clr_character_flag = character_maimed_by_rebels
 		clr_character_flag = character_wounded_by_rebels
 	}
 	option = {
-		name = "EVTOPTA80005"
+		name = "EVTOPTC80005"
 		trigger = { has_character_flag = character_wounded_by_rebels }
 		liege = { letter_event = { id = 80052 days = 3 } }
 		add_trait = wounded
@@ -542,12 +549,11 @@ province_event = {
 	desc = "EVTDESC80062"
 	picture = GFX_evt_peasants
 	
-	trigger = {
-		NOT = { has_dlc = "The Old Gods" }
-		
+	lacks_dlc = "The Old Gods"
+	
+	trigger = {	
 		NOT = { has_global_flag = possible_province_defection }
-		
-		
+
 		num_of_settlements = 1
 		
 		# Rebel occupied

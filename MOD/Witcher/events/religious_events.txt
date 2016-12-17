@@ -19,11 +19,11 @@ province_event = {
 	picture = "GFX_evt_stone_church"
 	border = "GFX_event_normal_frame_religion"
 	
+	lacks_dlc = "Sons of Abraham"
+	
 	trigger = {
 		is_heretic = no
 		has_heresies = yes
-		
-		NOT = { has_dlc = "Sons of Abraham" }
 	}
 	
 	mean_time_to_happen = {
@@ -35,6 +35,13 @@ province_event = {
 		modifier = {
 			factor = 2.0
 			religion_authority = 0.8
+		}
+		modifier = {
+			factor = 2
+			has_game_rule = {
+				name = religious_conversion
+				value = slower
+			}
 		}
 		modifier = {
 			factor = 0.75
@@ -146,12 +153,19 @@ character_event = {
 		name = "EVTOPTA39400"
 		trigger = {
 			NOT = { religion = FROM }
+			religion_group = FROM
 		}
 	}
 	option = {
 		name = "EXCELLENT"
 		trigger = {
 			religion = FROM
+		}
+	}
+	option = {
+		name = "EVTOPTB39400"
+		trigger = {
+			NOT = { religion_group = FROM }
 		}
 	}
 }
@@ -163,13 +177,16 @@ character_event = {
 	picture = GFX_evt_spymaster
 	border = GFX_event_normal_frame_religion
 
+	min_age = 16
+	only_capable = yes
+	prisoner = no
 	only_rulers = yes
+	religion_group = christian
+	lacks_dlc = "Sons of Abraham"
 	
 	trigger = {
 		independent = no
 		is_heretic = no
-		
-		NOT = { has_dlc = "Sons of Abraham" }
 		
 		liege = {
 			religion = ROOT
@@ -236,6 +253,8 @@ province_event = {
 	picture = "GFX_evt_stone_church"
 	border = "GFX_event_normal_frame_religion"
 	
+	lacks_dlc = "Sons of Abraham"
+	
 	trigger = {
 		is_heretic = no
 		has_heresies = yes
@@ -243,8 +262,6 @@ province_event = {
 		NOT = { province_id = 333 } # Rome
 		NOT = { province_id = 497 } # Thrace
 		NOT = { province_id = 719 } # Mecca
-		
-		NOT = { has_dlc = "Sons of Abraham" }
 		
 		any_neighbor_province = {
 			has_owner = yes
@@ -261,6 +278,13 @@ province_event = {
 		modifier = {
 			factor = 2.0
 			religion_authority = 0.8
+		}
+		modifier = {
+			factor = 2
+			has_game_rule = {
+				name = religious_conversion
+				value = slower
+			}
 		}
 		modifier = {
 			factor = 0.75
@@ -323,11 +347,9 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Sons of Abraham"
 	
 	trigger = {
-		
-		NOT = { has_dlc = "Sons of Abraham" }
-	
 		is_heretic = no
 		OR = {
 			is_ruler = no
@@ -338,7 +360,7 @@ character_event = {
 		}
 		
 		can_change_religion = yes
-		NOT = { trait = in_hiding }
+		NOT = { is_inaccessible_trigger = yes }
 	}
 	
 	mean_time_to_happen = {
@@ -392,11 +414,10 @@ character_event = {
 	min_age = 15
 	capable_only = yes
 	prisoner = no
+	lacks_dlc = "Sons of Abraham"
 	
 	trigger = {
 		is_ruler = no
-		
-		NOT = { has_dlc = "Sons of Abraham" }
 		
 		is_heretic = yes
 		employer = {
@@ -673,8 +694,13 @@ character_event = {
 	picture = GFX_evt_heretic
 	border = GFX_event_normal_frame_religion
 	
+	min_age = 16
+	only_capable = yes
+	prisoner = no
+	only_men = yes
 	only_playable = yes
 	religion_group = christian
+	war = no
 	
 	trigger = {
 		controls_religion = yes
@@ -683,7 +709,6 @@ character_event = {
 			religion = fraticelli
 		}
 		
-		war = no
 		religion_authority = 0.20
 
 		any_playable_ruler = {
@@ -870,11 +895,15 @@ character_event = {
 	border = GFX_event_normal_frame_religion
 
 	only_playable = yes
+	min_age = 16
+	only_capable = yes
+	prisoner = no
+	only_men = yes
+	religion = orthodox
+	war = no
 	
 	trigger = {
-		religion = orthodox
 		controls_religion = yes
-		war = no
 		religion_authority = 0.20
 
 		any_playable_ruler = {
@@ -1453,8 +1482,13 @@ character_event = {
 	picture = GFX_evt_bishop
 	border = GFX_event_normal_frame_religion
 	
+	min_age = 16
+	only_capable = yes
+	prisoner = no
+	only_men = yes
 	only_playable = yes
 	religion_group = christian
+	war = no
 	
 	trigger = {
 		controls_religion = yes
@@ -1463,7 +1497,6 @@ character_event = {
 			religion = fraticelli
 		}
 	
-		war = no
 		religion_authority = 0.30
 		prestige = 20
 
@@ -1636,8 +1669,12 @@ character_event = {
 	picture = GFX_evt_bishop
 	border = GFX_event_normal_frame_religion
 
-	only_playable = yes
-	
+	min_age = 16
+	only_capable = yes
+	prisoner = no
+	only_men = yes
+	only_playable = yes	
+	war = no
 	religion_group = christian
 	
 	trigger = {
@@ -1647,7 +1684,6 @@ character_event = {
 			religion = fraticelli
 		}
 	
-		war = no
 		any_vassal = {
 			tier = baron
 			is_theocracy = yes
@@ -2290,7 +2326,7 @@ character_event = {
 		}
 		create_random_priest = {
 			random_traits = yes
-			dynasty = random
+			dynasty = none
 			culture = ROOT
 			religion = FROM
 			female = no
@@ -2427,7 +2463,7 @@ letter_event = {
 		}
 		create_random_priest = {
 			random_traits = yes
-			dynasty = random
+			dynasty = none
 			culture = ROOT
 			religion = FROM
 			female = no

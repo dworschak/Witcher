@@ -21,10 +21,15 @@ narrative_event = {
 	min_age = 20
 	capable_only = yes
 	prisoner = no
+	war = no
 	
 	trigger = {
-		war = no
 		in_command = no
+
+		primary_title = { temporary = no }
+
+		NOT = { is_inaccessible_trigger = yes }
+
 		NOT = {
 			has_character_modifier = flaming_gap
 		}
@@ -39,7 +44,6 @@ narrative_event = {
 			has_character_modifier = cattle_gateshell
 			has_character_modifier = sacrifice_gateshell
 		}
-		NOT = { trait = in_hiding }
 	}
 	
 	mean_time_to_happen = {
@@ -78,6 +82,7 @@ narrative_event = {
 					}
 				}
 			}
+			break = yes
 		}
 		if = {
 			limit = {
@@ -125,11 +130,11 @@ narrative_event = {
 	min_age = 20
 	capable_only = yes
 	prisoner = no
+	war = no
 	
 	trigger = {
-		war = no
-		in_command = no
 		has_character_modifier = flaming_gap
+		in_command = no
 	}
 	
 	mean_time_to_happen = {
@@ -188,11 +193,11 @@ narrative_event = {
 	min_age = 20
 	capable_only = yes
 	prisoner = no
+	war = no
 	
 	trigger = {
-		war = no
-		in_command = no
 		has_character_modifier = wailing_gap
+		in_command = no
 	}
 	
 	mean_time_to_happen = {
@@ -245,11 +250,11 @@ narrative_event = {
 	min_age = 20
 	capable_only = yes
 	prisoner = no
+	war = no
 
 	trigger = {
-		war = no
-		in_command = no
 		has_character_modifier = gates_hell
+		in_command = no
 		NOT = {
 			has_character_flag = choose_solution_gh
 		}
@@ -341,7 +346,7 @@ narrative_event = {
 					}
 				}
 			}
-			set_character_flag = human_sacrifice
+			save_event_target_as = human_sacrifice
 		}
 		set_character_flag = choose_solution_gh
 		narrative_event = {
@@ -491,13 +496,10 @@ narrative_event = {
 	
 	option = {
 		name = "EVTOPTA10107"
-		random_child = {
-			limit = {
-				has_character_flag = human_sacrifice
-			}
-			clr_character_flag = human_sacrifice
+		
+		event_target:human_sacrifice = {
 			death = {
-				death_reason = death_execution
+				death_reason = death_murder_fall
 				killer = ROOT
 			}
 		}

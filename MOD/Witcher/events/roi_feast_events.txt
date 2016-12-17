@@ -33,6 +33,7 @@ character_event = {
 			}
 			any_vassal = {
 				limit = {
+					NOT = { is_inaccessible_trigger = yes }
 					prisoner = no
 					war = no
 					in_command = no
@@ -52,6 +53,7 @@ character_event = {
 			}
 			any_vassal = {
 				limit = {
+					NOT = { is_inaccessible_trigger = yes }
 					prisoner = no
 					war = no
 					in_command = no
@@ -88,6 +90,8 @@ letter_event = {
 	desc = EVTDESC_RoI_1001
 	
 	is_triggered_only = yes
+
+	trigger = { NOT = { is_inaccessible_trigger = yes } }
 	
 	option = {
 		name = EVTOPTA_RoI_1001 #Travel to the feast
@@ -99,7 +103,7 @@ letter_event = {
 			}
 			modifier  = {
 				factor = 0.1
-				trait = in_hiding
+				is_inaccessible_trigger = yes
 			}
 			modifier  = {
 				factor = 2
@@ -130,16 +134,6 @@ letter_event = {
 			}
 			hidden_tooltip = { character_event = { id = RoI.1006 } }
 		}
-		if = {
-			limit = { trait = in_hiding	}
-			remove_trait = in_hiding
-			add_character_modifier = {
-				name = went_out_of_hiding_timer
-				duration = 180
-				hidden = yes
-			}
-			hidden_tooltip = { character_event = { id = CM.6400 } } # Notify plotters and family 
-		}
 	}
 	option = {
 		name = EVTOPTB_RoI_1001 #Refuse invitation
@@ -148,7 +142,7 @@ letter_event = {
 			modifier  = {
 				factor = 0
 				opinion = { who = from value = 25 } 
-				NOT = { trait = in_hiding }
+				NOT = { is_inaccessible_trigger = yes }
 			}
 		}
 		FROM = {
@@ -167,6 +161,8 @@ letter_event = {
 	desc = EVTDESC_RoI_1940
 	
 	is_triggered_only = yes
+
+	trigger = { NOT = { is_inaccessible_trigger = yes } }
 	
 	option = {
 		name = EVTOPTA_RoI_1001 #Travel to the feast
@@ -178,7 +174,7 @@ letter_event = {
 			}
 			modifier  = {
 				factor = 0.1
-				trait = in_hiding
+				is_inaccessible_trigger = yes
 			}
 			modifier  = {
 				factor = 2
@@ -208,16 +204,6 @@ letter_event = {
 				has_lover = yes
 			}
 			hidden_tooltip = { character_event = { id = RoI.1006 } }
-		}
-		if = {
-			limit = { trait = in_hiding	}
-			remove_trait = in_hiding
-			add_character_modifier = {
-				name = went_out_of_hiding_timer
-				duration = 180
-				hidden = yes
-			}
-			hidden_tooltip = { character_event = { id = CM.6400 } } # Notify plotters and family
 		}
 	}
 	option = {
@@ -455,19 +441,28 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #d
 		name = EVTOPTD_RoI_1007
 		trigger = {
-			any_lover = { is_female = yes }
+			any_lover = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
+			}
 			has_character_flag = diwali_fine_gift_to_lover
 			is_married = yes
 		}
 		random_lover = {
-			limit = { is_female = yes }
-			opinion = {
-				modifier = opinion_very_grateful
-				who = ROOT
-				years = 1
+			limit = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
 			}
 		}
 		spouse = {
@@ -478,7 +473,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #e
 		name = EVTOPTE_RoI_1007
 		trigger = {
 			any_lover = { is_female = yes }
@@ -494,19 +489,28 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #f
 		name = EVTOPTF_RoI_1007
 		trigger = {
-			any_lover = { is_female = yes }
+			any_lover = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
+			}
 			has_character_flag = diwali_small_gift_to_lover
 			is_married = yes
 		}
 		random_lover = {
-			limit = { is_female = yes }
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 1
+			limit = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
 			}
 		}
 		spouse = {
@@ -517,7 +521,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #g
 		name = EVTOPTG_RoI_1007
 		trigger = {
 			any_lover = { is_female = yes }
@@ -533,7 +537,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = {#h 
 		name = EVTOPTH_RoI_1007
 		trigger = {
 			any_lover = { is_female = yes }
@@ -548,7 +552,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #i
 		name = EVTOPTI_RoI_1007
 		trigger = {
 			spouse = { is_female = no }
@@ -562,14 +566,14 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #j
 		name = EVTOPTJ_RoI_1007
 		trigger = {
 			spouse = { is_female = no }
 			has_character_flag = diwali_small_gift_to_spouse
 		}
 	}
-	option = {
+	option = {#k
 		name = EVTOPTK_RoI_1007
 		trigger = {
 			spouse = { is_female = no }
@@ -583,19 +587,28 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #l
 		name = EVTOPTL_RoI_1007
 		trigger = {
-			any_lover = { is_female = no }
+			any_lover = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
+			}
 			has_character_flag = diwali_fine_gift_to_lover
 			is_married = yes
 		}
 		random_lover = {
-			limit = { is_female = no }
-			opinion = {
-				modifier = opinion_very_grateful
-				who = ROOT
-				years = 1
+			limit = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
 			}
 		}
 		spouse = {
@@ -606,7 +619,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #m
 		name = EVTOPTM_RoI_1007
 		trigger = {
 			any_lover = { is_female = no }
@@ -622,19 +635,28 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #n
 		name = EVTOPTN_RoI_1007
 		trigger = {
-			any_lover = { is_female = no }
+			any_lover = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
+			}
 			has_character_flag = diwali_small_gift_to_lover
 			is_married = yes
 		}
 		random_lover = {
-			limit = { is_female = no }
-			opinion = {
-				modifier = opinion_grateful
-				who = ROOT
-				years = 1
+			limit = {
+				is_female = yes
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
 			}
 		}
 		spouse = {
@@ -645,7 +667,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #o
 		name = EVTOPTO_RoI_1007
 		trigger = {
 			any_lover = { is_female = no }
@@ -661,7 +683,7 @@ character_event = {
 			}
 		}
 	}
-	option = {
+	option = { #p
 		name = EVTOPTP_RoI_1007
 		trigger = {
 			any_lover = { is_female = no }
@@ -960,7 +982,20 @@ character_event = {
 			hidden_tooltip = {
 				random_list = {
 					10 = {
-						add_trait = ill
+						if = {
+							limit = {
+								NOT = {
+									has_dlc = "Reapers"
+								}
+							}
+							add_trait = ill
+						}
+						if = {
+							limit = {
+								has_dlc = "Reapers"
+							}
+							add_symptom_effect = yes
+						}
 						set_character_flag = bad_diwali
 						character_event = { id = 38290 } # Notify
 					}
@@ -1002,7 +1037,7 @@ character_event = {
 				ai = yes
 			}
 			death = {
-				death_reason = death_accident
+				death_reason = death_accident_snakes
 			}
 		}
 	}
