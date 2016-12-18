@@ -129,12 +129,15 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		any_courtier = { NOT = { trait = druid } }
-		NOT = { trait = dryad_race }
+		NOR = {
+			trait = dryad_race
+			has_character_modifier = no_druid_needed_timer
+			any_courtier = { trait = druid }
+		}
 	}
 	
 	mean_time_to_happen = {
-		months = 5000
+		months = 24
 		modifier = { factor = 0.5 religion = druidic }
 	}
 	
@@ -159,6 +162,13 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTBdruid.10
+		hidden_tooltip = { 
+			add_character_modifier = {
+				name = no_druid_needed_timer
+				duration = 365
+				hidden = yes
+			}
+		}
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 0.1 }
@@ -202,11 +212,11 @@ character_event = {
 				any_realm_province = {
 					any_neighbor_province = {
 						owner = {
-							any_courtier = { NOT = { trait = druid } }
 							NOT = { trait = druid }
 							age = 15
 							prisoner = no
 							NOT = { trait = incapable }
+							NOT = { any_courtier = { trait = druid } }
 						}
 					}
 				}
@@ -217,11 +227,12 @@ character_event = {
 				random_neighbor_province = {
 					limit = {
 						owner = {
-							any_courtier = { NOT = { trait = druid } }
 							NOT = { trait = druid }
 							age = 15
 							prisoner = no
 							NOT = { trait = incapable }
+							NOT = { has_character_modifier = no_druid_needed_timer }
+							NOT = { any_courtier = { trait = druid } }
 						}
 					}
 					owner = { character_event = { id = druid.12 } }
@@ -230,7 +241,9 @@ character_event = {
 		}
 	}
 }
-# New liege chooses if he wishes a druid
+# Druid proposes its services to a liege
+# FROM is the druid
+# ROOT is the liege
 character_event = {
 	id = druid.12
 	desc = EVTDESCdruid.12
@@ -250,7 +263,17 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTBdruid.12
-		hidden_tooltip = { character_event = { id = druid.11 } }
+		hidden_tooltip = { 
+			add_character_modifier = {
+				name = no_druid_needed_timer
+				duration = 365
+				hidden = yes
+			}
+			FROM = {
+				# Look for another realm
+				character_event = { id = druid.11 }
+			}
+		}
 		ai_chance = {
 			factor = 1
 		}
