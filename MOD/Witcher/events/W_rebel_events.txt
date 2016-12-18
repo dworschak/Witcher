@@ -108,17 +108,18 @@ province_event = {
 				}
 			}
 		}
+		log = "**(Revolt)** Scoia'tael revolt started in province [This.GetName]."
 		province_event = { id = rebel.10 }
 		clr_province_flag = ongoing_peasant_revolt
 		clr_province_flag = ongoing_religious_revolt
 		clr_province_flag = ongoing_nationalist_revolt
 		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
-			factor = 1000
+			factor = 100
 			modifier = {
-				factor = 0.0005
+				factor = 0.005
 				owner = {
-					NOT = { # If not non-human religion or culture, then make as a bit less common than normal peasant revolt
+					NOR = { # If not non-human religion or culture, then make as a bit less common than normal peasant revolt
 						trait = elf_race
 						trait = dwarf_race
 						trait = gnome_race
@@ -126,7 +127,10 @@ province_event = {
 					}
 				}
 			}
-			modifier = { factor = 10 has_province_modifier = scoiatael_presence }
+			modifier = {
+				factor = 10
+				has_province_modifier = scoiatael_presence
+			}
 		}
 	}
 	option = { # Start nationalist revolt
@@ -149,13 +153,14 @@ province_event = {
 				any_previous_holder = { always = yes } # Must have had a holder in the past
 			}
 		}
+		log = "**(Revolt)** Nationalist revolt started in province [This.GetName]."
 		province_event = { id = TOG.1040 }
 		clr_province_flag = ongoing_peasant_revolt
 		clr_province_flag = ongoing_religious_revolt
 		clr_province_flag = ongoing_nationalist_revolt
 		clr_province_flag = ongoing_scoiatael_revolt
 		ai_chance = {
-			factor = 1000
+			factor = 100
 		}
 	}
 	option = { # Start religious revolt
@@ -179,6 +184,7 @@ province_event = {
 				religion = gnomish
 			}
 		}
+		log = "**(Revolt)** Religious revolt started in province [This.GetName]."
 		province_event = { id = TOG.1060 }
 		clr_province_flag = ongoing_peasant_revolt
 		clr_province_flag = ongoing_religious_revolt
@@ -199,6 +205,7 @@ province_event = {
 				has_province_flag = ongoing_scoiatael_revolt
 			}
 		}
+		log = "**(Revolt)** Peasant revolt started in province [This.GetName]."
 		province_event = { id = TOG.1000 }
 		clr_province_flag = ongoing_peasant_revolt
 		clr_province_flag = ongoing_religious_revolt

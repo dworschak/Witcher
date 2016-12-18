@@ -65,38 +65,73 @@ province_event = {
 	trigger = {
 		NOT = { has_province_modifier = scoiatael_presence }
 		owner = {
-			NOT = {
+			crownlaw_title = { 
+				OR = {
+					has_law = tolerance_0
+					has_law = tolerance_1
+				}
+			}
+			NOR = {
+				culture = wilderness
 				trait = dwarf_race
 				trait = elf_race
 				trait = halfling_race
 				trait = gnome_race
+				trait = dryad_race
 				trait = tolerant
 			}
 		}
 	}
 	
 	mean_time_to_happen = {
-		months = 2000
-		modifier = { factor = 0.75 terrain = forest }
-		modifier = { factor = 0.75 terrain = mountain }
-		modifier = { factor = 0.1 culture = aen_seidhe }
-		modifier = { factor = 0.1 religion = dana_meadbh }
-		modifier = { factor = 0.1 culture = dwarven }
-		modifier = { factor = 0.1 religion = dwarven }
-		modifier = { factor = 0.1 culture = halfling }
-		modifier = { factor = 0.1 religion = halfling }
-		modifier = { factor = 0.1 culture = gnomish }
-		modifier = { factor = 0.1 religion = gnomish }
-		modifier = { factor = 0.1 has_province_modifier = non_human_slaughter }
-		modifier = { factor = 0.2 has_province_modifier = non_human_oppression }
+		months = 4000
+		modifier = { 
+			factor = 0.75
+			OR = { 
+				terrain = forest
+				terrain = mountain
+			}
+		}		
+		modifier = { 
+			factor = 0.2
+			OR = {
+				culture = aen_seidhe
+				culture = dwarven
+				culture = halfling
+				culture = gnomish
+			}
+		}
+		modifier = { 
+			factor = 0.2
+			OR = {
+				religion = dana_meadbh
+				religion = dwarven
+				religion = halfling
+				religion = gnomish
+			}
+		}
 		modifier = {
-			factor = 0.01
+			factor = 0.1
+			owner = {
+				crownlaw_title = { has_law = tolerance_0 }
+			}
+		}
+		modifier = { 
+			factor = 0.2
+			has_province_modifier = non_human_slaughter
+		}
+		modifier = { 
+			factor = 0.5
+			has_province_modifier = non_human_oppression
+		}
+		modifier = {
+			factor = 0.75
 			any_neighbor_province = {
 				owner = { has_character_flag = supported_scoiatael }
 			}
 		}
 		modifier = {
-			factor = 0.2
+			factor = 0.75
 			owner = {
 				top_liege = {
 					any_vassal = {
@@ -105,6 +140,10 @@ province_event = {
 				}
 			}
 		}
+	}
+	
+	immediate = {
+		log = "**(Scoia'tael)** Scoia'tael presence appeared in province [Root.GetName] in [This.TopLiege.PrimaryTitle.GetName]."
 	}
 	
 	option = {
@@ -131,11 +170,19 @@ province_event = {
 	trigger = {
 		NOT = { has_province_modifier = scoiatael_presence }
 		owner = {
+			crownlaw_title = { 
+				OR = {
+					has_law = tolerance_0
+					has_law = tolerance_1
+				}
+			}
 			NOT = {
+				culture = wilderness
 				trait = dwarf_race
 				trait = elf_race
 				trait = halfling_race
 				trait = gnome_race
+				trait = dryad_race
 				trait = tolerant
 			}
 		}
@@ -146,18 +193,65 @@ province_event = {
 	
 	mean_time_to_happen = {
 		months = 2000
-		modifier = { factor = 0.75 terrain = forest }
-		modifier = { factor = 0.75 terrain = mountain }
-		modifier = { factor = 0.1 culture = aen_seidhe }
-		modifier = { factor = 0.1 religion = dana_meadbh }
-		modifier = { factor = 0.1 culture = dwarven }
-		modifier = { factor = 0.1 religion = dwarven }
-		modifier = { factor = 0.1 culture = halfling }
-		modifier = { factor = 0.1 religion = halfling }
-		modifier = { factor = 0.1 culture = gnomish }
-		modifier = { factor = 0.1 religion = gnomish }
-		modifier = { factor = 0.1 has_province_modifier = non_human_slaughter }
-		modifier = { factor = 0.2 has_province_modifier = non_human_oppression }
+		modifier = { 
+			factor = 0.75
+			OR = { 
+				terrain = forest
+				terrain = mountain
+			}
+		}		
+		modifier = { 
+			factor = 0.2
+			OR = {
+				culture = aen_seidhe
+				culture = dwarven
+				culture = halfling
+				culture = gnomish
+			}
+		}
+		modifier = { 
+			factor = 0.2
+			OR = {
+				religion = dana_meadbh
+				religion = dwarven
+				religion = halfling
+				religion = gnomish
+			}
+		}
+		modifier = {
+			factor = 0.1
+			owner = {
+				crownlaw_title = { has_law = tolerance_0 }
+			}
+		}
+		modifier = { 
+			factor = 0.2
+			has_province_modifier = non_human_slaughter
+		}
+		modifier = { 
+			factor = 0.5
+			has_province_modifier = non_human_oppression
+		}
+		modifier = {
+			factor = 0.75
+			any_neighbor_province = {
+				owner = { has_character_flag = supported_scoiatael }
+			}
+		}
+		modifier = {
+			factor = 0.75
+			owner = {
+				top_liege = {
+					any_vassal = {
+						has_character_flag = supported_scoiatael
+					}
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		log = "**(Scoia'tael)** Scoia'tael presence is spreading to neighbour province [Root.GetName] in [This.TopLiege.PrimaryTitle.GetName]."
 	}
 	
 	option = {
@@ -202,17 +296,33 @@ province_event = {
 					has_law = tolerance_0
 				}
 			}
+		}	
+		modifier = { 
+			factor = 0.5 
+			OR = {
+				culture = aen_seidhe
+				culture = dwarven
+				culture = halfling
+				culture = gnomish
+			}
 		}
-		modifier = { factor = 0.5 culture = aen_seidhe }
-		modifier = { factor = 0.5 culture = dwarven }
-		modifier = { factor = 0.5 religion = dana_meadbh }
-		modifier = { factor = 0.5 religion = dwarven }
-		modifier = { factor = 0.5 culture = halfling }
-		modifier = { factor = 0.5 religion = halfling }
-		modifier = { factor = 0.5 culture = gnomish }
-		modifier = { factor = 0.5 religion = gnomish }
-		modifier = { factor = 5 has_province_modifier = non_human_slaughter }
-		modifier = { factor = 2 has_province_modifier = non_human_oppression }
+		modifier = { 
+			factor = 0.5
+			OR = {
+				religion = dana_meadbh
+				religion = dwarven
+				religion = halfling
+				religion = gnomish
+			}
+		}
+		modifier = { 
+			factor = 10
+			has_province_modifier = non_human_slaughter
+		}
+		modifier = { 
+			factor = 5
+			has_province_modifier = non_human_oppression
+		}
 	}
 	
 	option = {
@@ -232,7 +342,7 @@ province_event = {
 }
 
 ##########################################################################
-# Scoia'tael joins independant non-human realm after successful revolt
+# Scoia'tael joins independent non-human realm after successful revolt
 ##########################################################################
 # Hidden - Find if there is suitable realm nearby
 character_event = {

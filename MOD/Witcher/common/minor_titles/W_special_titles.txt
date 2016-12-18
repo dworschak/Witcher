@@ -2,6 +2,9 @@
 # SPECIAL FORCES
 #######################################
 title_blue_stripes_commander = { # Temeria
+	is_high_prio = yes
+	
+	attribute = martial
 	dignity = 10
 	grant_limit = 1
 	realm_in_name = no
@@ -33,8 +36,14 @@ title_blue_stripes_commander = { # Temeria
 	}
 	
 	allowed_to_grant = {
-		location = { county = { de_jure_liege_or_above = e_the_north } }
 		primary_title = { title = k_temeria }
+		crownlaw_title = { 
+			# Tolerant realms don't have Scoia'tael presence
+			OR = {
+				has_law = tolerance_0
+				has_law = tolerance_1
+			}
+		}
 	}
 	
 	gain_effect = { }
@@ -43,6 +52,9 @@ title_blue_stripes_commander = { # Temeria
 	message = no
 }
 title_red_bows_commander = { # Aedirn
+	is_high_prio = yes
+	
+	attribute = martial
 	dignity = 10
 	grant_limit = 1
 	realm_in_name = no
@@ -74,8 +86,14 @@ title_red_bows_commander = { # Aedirn
 	}
 	
 	allowed_to_grant = {
-		location = { county = { de_jure_liege_or_above = e_the_north } }
 		primary_title = { title = k_aedirn }
+		crownlaw_title = { 
+			# Tolerant realms don't have Scoia'tael presence
+			OR = {
+				has_law = tolerance_0
+				has_law = tolerance_1
+			}
+		}
 	}
 	
 	gain_effect = { }
@@ -84,6 +102,9 @@ title_red_bows_commander = { # Aedirn
 	message = no
 }
 title_special_forces_commander = { # Generic
+	is_high_prio = yes
+	
+	attribute = martial
 	dignity = 10
 	grant_limit = 1
 	realm_in_name = no
@@ -115,11 +136,20 @@ title_special_forces_commander = { # Generic
 	}
 	
 	allowed_to_grant = {
-		location = { county = { de_jure_liege_or_above = e_the_north } }
 		tier = king
 		primary_title = {
-			NOT = { title = k_temeria }
-			NOT = { title = k_aedirn }
+			# Uses dedicated title
+			NOR = { 
+				title = k_temeria
+				title = k_aedirn
+			}
+		}
+		crownlaw_title = { 
+			# Tolerant realms don't have Scoia'tael presence
+			OR = {
+				has_law = tolerance_0
+				has_law = tolerance_1
+			}
 		}
 	}
 	
@@ -193,6 +223,7 @@ title_sorceress = {
 	message = no
 }
 title_druid = {
+	attribute = learning
 	dignity = 10
 	grant_limit = 100
 	realm_in_name = no

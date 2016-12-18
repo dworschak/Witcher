@@ -521,23 +521,94 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 36
-		modifier = { factor = 0.5 trait = racist }
-		modifier = { factor = 0.5 trait = diligent }
-		modifier = { factor = 0.8 trait = brave }
-		modifier = { factor = 1.5 trait = craven }
-		modifier = { factor = 2 trait = slothful }
-		modifier = { factor = 5 trait = wounded }
-		modifier = { factor = 6 is_maimed_trigger = yes }
+		months = 24
+		# Martial attribute / counter-insurgency strategy
+		modifier = {
+			factor = 0.8
+			OR = {
+				trait = veteran
+				trait = military_officer
+			}
+		}
+		modifier = { 
+			factor = 1.2
+			NOT = { martial = 2 }
+		}
+		modifier = { 
+			factor = 1.2
+			NOT = { martial = 4 }
+		}
+		modifier = { 
+			factor = 1.2
+			NOT = { martial = 6 }
+		}
+		modifier = { 
+			factor = 0.8
+			martial = 10
+		}
+		modifier = { 
+			factor = 0.8
+			martial = 14
+		}
+		modifier = { 
+			factor = 0.8
+			martial = 18
+		}
+		modifier = { 
+			factor = 0.8
+			martial = 22
+		}
+		# Willpower
+		modifier = { 
+			factor = 0.5
+			trait = racist
+		}
+		modifier = { 
+			factor = 2
+			trait = tolerant
+		}
+		modifier = { 
+			factor = 0.5
+			trait = cruel
+		}
+		modifier = { 
+			factor = 2
+			trait = kind
+		}
+		modifier = { 
+			factor = 0.8 
+			trait = brave
+		}
+		modifier = { 
+			factor = 1.2
+			trait = craven
+		}
+		modifier = { 
+			factor = 0.5
+			trait = diligent
+		}
+		modifier = { 
+			factor = 2 
+			trait = slothful
+		}
+		modifier = { 
+			factor = 3
+			trait = wounded
+		}
+		modifier = { 
+			factor = 6 
+			is_maimed_trigger = yes
+		}
 	}
 	
 	option = {
-		name = OK
+		name = OK	
 		liege = {
 			random_realm_province = {
 				limit = {
 					has_province_modifier = scoiatael_presence
 				}
+				log = "**(Scoia'tael)** Special force commander fights Scoia'tael presence in [Root.GetName] in [This.TopLiege.PrimaryTitle.GetName]."
 				random_list = {
 					85 = {
 						province_event = { id = minor_titles.21 }
