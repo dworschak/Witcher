@@ -1882,9 +1882,10 @@ narrative_event = {
 # Stennis plot against Saskia
 
 ################################################
-# Letho - Secnd assassination
+# Letho - Second assassination
 ################################################
 # Choose assassination target
+# Fired from Letho (155103) character history
 character_event = {
 	id = aok.2000
 	
@@ -1892,111 +1893,121 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = { # Temeria
-		random_independent_ruler = {
-			limit = { has_landed_title = k_temeria }
-			character_event = { id = aok.2001 days = 100 random = 100 }
+		k_temeria = {
+			holder_scope = {
+				character_event = { id = aok.2001 days = 100 random = 100 }
+			}
 		}
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 }
 			modifier = {
 				factor = 0
-				any_independent_ruler = {
-					has_landed_title = k_temeria
-					ai = no
+				k_temeria = {
+					holder_scope = {
+						ai = no
+					}
 				}
 			}
 		}
 	}
 	option = { # Kaedwen
-		random_independent_ruler = {
-			limit = { has_landed_title = k_kaedwen }
-			character_event = { id = aok.2001 days = 100 random = 100 }
+		k_kaedwen = {
+			holder_scope = {
+				character_event = { id = aok.2001 days = 100 random = 100 }
+			}
 		}
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 }
 			modifier = {
 				factor = 0
-				any_independent_ruler = {
-					has_landed_title = k_kaedwen
-					ai = no
+				k_kaedwen = {
+					holder_scope = {
+						ai = no
+					}
 				}
 			}
 		}
 	}
 	option = { # Lyria and Rivia
-		random_independent_ruler = {
-			limit = { has_landed_title = k_lyria_rivia }
-			character_event = { id = aok.2001 days = 100 random = 100 }
+		k_lyria_rivia = {
+			holder_scope = {
+				character_event = { id = aok.2001 days = 100 random = 100 }
+			}
 		}
 		ai_chance = {
 			factor = 1
 			modifier = {
 				factor = 0
-				any_independent_ruler = {
-					has_landed_title = k_lyria_rivia
-					ai = no
+				k_lyria_rivia = {
+					holder_scope = {
+						ai = no
+					}
 				}
 			}
 		}
 	}
 	option = { # Redania
-		random_independent_ruler = {
-			limit = { has_landed_title = k_redania }
-			character_event = { id = aok.2001 days = 100 random = 100 }
+		k_redania = {
+			holder_scope = {
+				character_event = { id = aok.2001 days = 100 random = 100 }
+			}
 		}
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 1.5 }
 			modifier = {
 				factor = 0
-				any_independent_ruler = {
-					has_landed_title = k_redania
-					ai = no
+				k_redania = {
+					holder_scope = {
+						ai = no
+					}
 				}
 			}
 		}
 	}
 	option = { # Kovir and Poviss
-		random_independent_ruler = {
-			limit = { has_landed_title = k_kovir_poviss }
-			character_event = { id = aok.2001 days = 100 random = 100 }
+		k_kovir_poviss = {
+			holder_scope = {
+				character_event = { id = aok.2001 days = 100 random = 100 }
+			}
 		}
 		ai_chance = {
 			factor = 1
 			modifier = {
 				factor = 0
-				any_independent_ruler = {
-					has_landed_title = k_kovir_poviss
-					ai = no
+				k_kovir_poviss = {
+					holder_scope = {
+						ai = no
+					}
 				}
 			}
 		}
 	}
 	option = { # Hengfors League
-		random_independent_ruler = {
-			limit = { has_landed_title = k_hengfors_league }
-			character_event = { id = aok.2001 days = 100 random = 100 }
+		k_hengfors_league = {
+			holder_scope = {
+				character_event = { id = aok.2001 days = 100 random = 100 }
+			}
 		}
 		ai_chance = {
 			factor = 1
 			modifier = {
 				factor = 0
-				any_independent_ruler = {
-					has_landed_title = k_hengfors_league
-					ai = no
+				k_hengfors_league = {
+					holder_scope = {
+						ai = no
+					}
 				}
 			}
 		}
 	}
-	option = { # Cancle assassination
-		random_playable_ruler = {
-			limit = {
-				has_landed_title = e_nilfgaard
-				has_character_flag = aok_emhyr
+	option = { # Cancel assassination
+		e_nilfgaard = {
+			holder_scope = {
+				letter_event = { id = aok.2002 }
 			}
-			letter_event = { id = aok.2002 }
 		}
 		ai_chance = { factor = 0 }
 	}
@@ -2012,14 +2023,12 @@ character_event = {
 		death = {
 			death_reason = death_murder_unknown
 		}
-		random_playable_ruler = {
-			limit = {
-				has_landed_title = e_nilfgaard
-				has_character_flag = aok_emhyr
+		e_nilfgaard = {
+			holder_scope = {
+				letter_event = { id = aok.2003 }
 			}
-			letter_event = { id = aok.2003 }
 		}
-		random_playable_ruler = {
+		any_playable_ruler = {
 			limit = {
 				independent = yes
 				culture_group = northern_group
@@ -2060,7 +2069,7 @@ letter_event = {
 		name = EVTOPTAaok.2003
 	}
 }
-# Assassination successful - Northern lord notification
+# Assassination successful - Northern lords notification
 narrative_event = {
 	id = aok.2004
 	title = EVTNAMEaok.2004
