@@ -188,7 +188,7 @@ character_event = {
 	capable_only = yes
 	
 	mean_time_to_happen = {
-		months = 1
+		months = 4
 	}
 	
 	trigger = {
@@ -216,6 +216,7 @@ character_event = {
 							age = 15
 							prisoner = no
 							NOT = { trait = incapable }
+							NOT = { has_character_modifier = no_druid_needed_timer }
 							NOT = { any_courtier = { trait = druid } }
 						}
 					}
@@ -239,6 +240,13 @@ character_event = {
 				}
 			}
 		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = { # Abort
+		name = OK
 	}
 }
 # Druid proposes its services to a liege
@@ -270,8 +278,8 @@ character_event = {
 				hidden = yes
 			}
 			FROM = {
-				# Look for another realm
-				character_event = { id = druid.11 }
+				# Look for another realm (if any)
+				character_event = { id = druid.11 days = 1 }
 			}
 		}
 		ai_chance = {
