@@ -27,9 +27,8 @@ pogrom = { # Usable against nearby non-human counties, convert province, if have
 	}
 	
 	can_use = {
-		FROM = { NOT = { culture = wilderness } }
-		ROOT = { NOT = { culture = wilderness } }
-		FROM = {
+		FROM = { 
+			NOT = { culture = wilderness }
 			OR = {
 				trait = elf_race
 				trait = dwarf_race
@@ -42,6 +41,7 @@ pogrom = { # Usable against nearby non-human counties, convert province, if have
 			}
 		}
 		ROOT = {
+			NOT = { culture = wilderness }
 			trait = human_race
 		}
 	}
@@ -268,8 +268,7 @@ scoiatael_revolt = {
 	sprite = 24
 	truce_days = 365
 	hostile_against_others = yes
-	is_permanent = yes
-	check_all_titles = yes # if permanent, setting this to true will check against all of someones titles, including vassal held titles
+	is_permanent = no # Only triggered through scripting
 	can_ask_to_join_war = no
 	is_independence = yes
 	
@@ -1521,7 +1520,9 @@ raise_tolerance_law = {
 	major_revolt = yes
 	
 	can_use = {
-		ROOT = { vassal_of = FROM }
+		ROOT = { 
+			vassal_of = FROM
+		}
 	}
 	
 	can_use_title = {
@@ -1820,20 +1821,18 @@ elven_liberation = { # Usable against elven culture province with human top lieg
 	
 	can_use = {
 		ROOT = {
-			NOT = { is_liege_or_above = FROM }
-		}
-	}
-	
-	can_use_title = {
-		tier = count
-		ROOT = {
 			independent = yes
 			OR = {
 				trait = elf_race
 				trait = scoiatael_leader
 			}
+			NOT = { is_liege_or_above = FROM }
 		}
 		FROM = { trait = human_race }
+	}
+	
+	can_use_title = {
+		tier = count
 		OR = {
 			holder_scope = { # Non-human title holder
 				OR = {
@@ -1981,20 +1980,18 @@ dwarven_liberation = { # Usable against dwarven culture province with human top 
 	
 	can_use = {
 		ROOT = {
-			NOT = { is_liege_or_above = FROM }
-		}
-	}
-	
-	can_use_title = {
-		tier = count
-		ROOT = {
 			independent = yes
 			OR = {
 				trait = dwarf_race
 				trait = scoiatael_leader
 			}
+			NOT = { is_liege_or_above = FROM }
 		}
 		FROM = { trait = human_race }
+	}
+	
+	can_use_title = {
+		tier = count
 		OR = {
 			holder_scope = { # Non-human title holder
 				OR = {
@@ -2142,20 +2139,18 @@ gnomish_liberation = { # Usable against gnomish culture province with human top 
 	
 	can_use = {
 		ROOT = {
-			NOT = { is_liege_or_above = FROM }
-		}
-	}
-	
-	can_use_title = {
-		tier = count
-		ROOT = {
 			independent = yes
 			OR = {
 				trait = gnome_race
 				trait = scoiatael_leader
 			}
+			NOT = { is_liege_or_above = FROM }
 		}
 		FROM = { trait = human_race }
+	}
+	
+	can_use_title = {
+		tier = count
 		OR = {
 			holder_scope = { # Non-human title holder
 				OR = {
@@ -2303,20 +2298,18 @@ halfling_liberation = { # Usable against halfling culture province with human to
 	
 	can_use = {
 		ROOT = {
-			NOT = { is_liege_or_above = FROM }
-		}
-	}
-	
-	can_use_title = {
-		tier = count
-		ROOT = {
 			independent = yes
 			OR = {
 				trait = halfling_race
 				trait = scoiatael_leader
 			}
+			NOT = { is_liege_or_above = FROM }
 		}
 		FROM = { trait = human_race }
+	}
+	
+	can_use_title = {
+		tier = count
 		OR = {
 			holder_scope = { # Non-human title holder
 				OR = {
@@ -2642,6 +2635,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	truce_days = 3650
 	hostile_against_others = yes
 	can_ask_to_join_war = no
+	is_permanent = no # Only usable via scripting
 	
 	press_claim = yes
 	
