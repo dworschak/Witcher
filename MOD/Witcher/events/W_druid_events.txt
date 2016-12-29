@@ -139,8 +139,11 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 24
-		modifier = { factor = 0.5 religion = druidic }
+		months = 32
+		modifier = { 
+			factor = 0.5
+			religion = druidic
+		}
 	}
 	
 	option = {
@@ -214,28 +217,46 @@ character_event = {
 				any_realm_province = {
 					any_neighbor_province = {
 						owner = {
-							NOT = { trait = druid }
 							age = 15
 							prisoner = no
-							NOT = { trait = incapable }
-							NOT = { has_character_modifier = no_druid_needed_timer }
-							NOT = { any_courtier = { trait = druid } }
+							NOR = { 
+								trait = druid
+								trait = incapable
+								has_character_modifier = no_druid_needed_timer
+								any_courtier = { trait = druid }
+							}
 						}
 					}
 				}
 			}
 		}
 		top_liege = {
-			any_realm_province = {
+			random_realm_province = {
+				limit = {
+					any_neighbor_province = {
+						owner = {
+							age = 15
+							prisoner = no
+							NOR = { 
+								trait = druid
+								trait = incapable
+								has_character_modifier = no_druid_needed_timer
+								any_courtier = { trait = druid }
+							}
+						}
+					}
+				}
 				random_neighbor_province = {
 					limit = {
 						owner = {
-							NOT = { trait = druid }
 							age = 15
 							prisoner = no
-							NOT = { trait = incapable }
-							NOT = { has_character_modifier = no_druid_needed_timer }
-							NOT = { any_courtier = { trait = druid } }
+							NOR = { 
+								trait = druid
+								trait = incapable
+								has_character_modifier = no_druid_needed_timer
+								any_courtier = { trait = druid }
+							}
 						}
 					}
 					owner = { character_event = { id = druid.12 } }
