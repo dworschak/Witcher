@@ -9,8 +9,9 @@ character_event = {
 	
 	hide_window = yes
 	
+	culture = wilderness
+	
 	trigger = {
-		culture = wilderness
 		OR = {
 			trait = absentminded
 			trait = adept
@@ -235,7 +236,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		days = 1
+		days = 20
 	}
 	
 	option = {
@@ -498,21 +499,23 @@ character_event = {
 	}
 }
 # Hidden - Give non-sorcerer held tower to wilderness 
-character_event = {
+province_event = {
 	id = wilderness.101
 	
 	hide_window = yes
 	
 	trigger = {
-		any_demesne_province = { culture = magic }
-		NOT = { has_landed_title = d_thanedd }
-		NOT = { has_landed_title = d_ban_ard_academy }
-		NOT = { has_landed_title = d_nilfgaard_academy }
-		NOT = { trait = sorcerer }
+		culture = magic
+		owner = {
+			NOT = { trait = sorcerer }
+			NOT = { has_landed_title = d_thanedd }
+			NOT = { has_landed_title = d_ban_ard_academy }
+			NOT = { has_landed_title = d_nilfgaard_academy }
+		}
 	}
 	
 	mean_time_to_happen = {
-		days = 1 
+		days = 20
 	}
 	
 	option = {
@@ -520,12 +523,14 @@ character_event = {
 		d_wilderness = {
 			holder_scope = {
 				ROOT = {
-					any_demesne_title = {
-						limit = {
-							tier = count
-							location = { culture = magic }
+					owner = {
+						any_demesne_title = {
+							limit = {
+								tier = count
+								location = { culture = magic }
+							}
+							gain_title = PREVPREVPREV
 						}
-						gain_title = PREVPREV
 					}
 				}
 				set_defacto_liege = THIS
@@ -539,8 +544,10 @@ character_event = {
 	
 	hide_window = yes
 	
+	culture = magic
+	
 	trigger = {
-		culture = magic
+		
 	}
 	
 	mean_time_to_happen = {

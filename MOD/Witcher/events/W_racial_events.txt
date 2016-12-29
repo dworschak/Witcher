@@ -1,10 +1,10 @@
 namespace = racial
-# TO DO - flavour events for dryad pregnancy
+# TODO - flavour events for dryad pregnancy
 
 ################################################
 # Racial trait assignment
 ################################################
-# Racial trait assignment (normal and on_birth)
+# Racial trait assignment (on_startup, on_birth, but also mtth for generated courtiers)
 character_event = {
 	id = racial.1
 	
@@ -25,7 +25,7 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		days = 1
+		days = 20
 	}
 	
 	option = { # Dryad
@@ -213,7 +213,6 @@ character_event = {
 	picture = GFX_evt_birth
 	
 	hide_from = yes
-	
 	is_triggered_only = yes
 	
 	option = {
@@ -429,12 +428,13 @@ character_event = {
 	desc = EVTDESCracial.10
 	picture = GFX_evt_lover
 	
+	min_age = 40
+	max_age = 200
+	
 	trigger = {
 		NOT = { trait = fertile_nonhuman }
 		NOT = { trait = sorcerer }
 		trait = elf_race
-		age = 40
-		NOT = { age = 200 }
 	}
 	
 	mean_time_to_happen = {
@@ -462,10 +462,11 @@ character_event = {
 	desc = EVTDESCracial.11
 	picture = GFX_evt_lover
 	
+	min_age = 200
+	
 	trigger = {
 		trait = fertile_nonhuman
 		trait = elf_race
-		age = 200
 	}
 	
 	mean_time_to_happen = {
@@ -536,12 +537,11 @@ character_event = {
 			trait = dryad_race
 			trait = halfling_race
 		}
-		age = 50
 		fertility = 0.1
 	}
 	
 	mean_time_to_happen = {
-		days = 1
+		months = 6
 	}
 	
 	option = {
@@ -551,201 +551,95 @@ character_event = {
 }
 
 ################################################
-#Combat trait initialization
+#Combat trait initialization (on_startup)
 ################################################
 character_event = {
 	id = racial.30
 	
+	is_triggered_only = yes
 	hide_window = yes
 	
-	trigger = {
-		ai = no
-		NOT = { has_global_flag = combat_traits_init }
-	}
+	only_capable = yes
+	min_age = 15
 	
-	mean_time_to_happen = {
-		days = 1
+	trigger = {
+		NOT = { has_character_modifier = old_age }
 	}
 	
 	immediate = {
-		any_independent_ruler = {
-			if = {
-				limit = {
-					is_adult = yes
-					NOT = { has_character_modifier = old_age }
-					OR = {
-						trait = witcher
-						trait = duelist
-					}
-					NOT = { trait = incapable }
-					NOT = { trait = poor_warrior }
-					NOT = { trait = trained_warrior }
-					NOT = { trait = skilled_warrior }
-					NOT = { trait = master_warrior }
+		if = {
+			limit = {
+				OR = {
+					trait = witcher
+					trait = duelist
 				}
-				random_list = {
-					20 = { add_trait = trained_warrior }
-					50 = { add_trait = skilled_warrior }
-					30 = { add_trait = master_warrior }
-				}
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
 			}
-			if = {
-				limit = {
-					is_adult = yes
-					NOT = { has_character_modifier = old_age }
-					OR = {
-						trait = brilliant_strategist
-						trait = skilled_tactician
-					}
-					NOT = { trait = witcher }
-					NOT = { trait = duelist }
-					NOT = { trait = incapable }
-					NOT = { trait = poor_warrior }
-					NOT = { trait = trained_warrior }
-					NOT = { trait = skilled_warrior }
-					NOT = { trait = master_warrior }
-				}
-				random_list = {
-					25 = { add_trait = poor_warrior }
-					40 = { add_trait = trained_warrior }
-					30 = { add_trait = skilled_warrior }
-					5 = { add_trait = master_warrior }
-				}
-			}
-			if = {
-				limit = {
-					is_adult = yes
-					NOT = { has_character_modifier = old_age }
-					OR = {
-						trait = misguided_warrior
-						trait = skilled_tactician
-					}
-					NOT = { trait = witcher }
-					NOT = { trait = tough_soldier }
-					NOT = { trait = incapable }
-					NOT = { trait = poor_warrior }
-					NOT = { trait = trained_warrior }
-					NOT = { trait = skilled_warrior }
-					NOT = { trait = master_warrior }
-				}
-				random_list = {
-					15 = { }
-					25 = { add_trait = poor_warrior }
-					40 = { add_trait = trained_warrior }
-					20 = { add_trait = skilled_warrior }
-				}
-			}
-			if = {
-				limit = {
-					is_adult = yes
-					NOT = { has_character_modifier = old_age }
-					is_female = no
-					NOT = { trait = witcher }
-					NOT = { trait = tough_soldier }
-					NOT = { trait = incapable }
-					NOT = { trait = poor_warrior }
-					NOT = { trait = trained_warrior }
-					NOT = { trait = skilled_warrior }
-					NOT = { trait = master_warrior }
-				}
-				random_list = {
-					85 = { }
-					10 = { add_trait = poor_warrior }
-					5 = { add_trait = trained_warrior }
-				}
-			}
-			any_realm_character = {
-				if = {
-					limit = {
-						is_adult = yes
-						NOT = { has_character_modifier = old_age }
-						OR = {
-							trait = witcher
-							trait = duelist
-						}
-						NOT = { trait = incapable }
-						NOT = { trait = poor_warrior }
-						NOT = { trait = trained_warrior }
-						NOT = { trait = skilled_warrior }
-						NOT = { trait = master_warrior }
-					}
-					random_list = {
-						20 = { add_trait = trained_warrior }
-						50 = { add_trait = skilled_warrior }
-						30 = { add_trait = master_warrior }
-					}
-				}
-				if = {
-					limit = {
-						is_adult = yes
-						NOT = { has_character_modifier = old_age }
-						OR = {
-							trait = brilliant_strategist
-							trait = skilled_tactician
-						}
-						NOT = { trait = witcher }
-						NOT = { trait = duelist }
-						NOT = { trait = incapable }
-						NOT = { trait = poor_warrior }
-						NOT = { trait = trained_warrior }
-						NOT = { trait = skilled_warrior }
-						NOT = { trait = master_warrior }
-					}
-					random_list = {
-						25 = { add_trait = poor_warrior }
-						40 = { add_trait = trained_warrior }
-						30 = { add_trait = skilled_warrior }
-						5 = { add_trait = master_warrior }
-					}
-				}
-				if = {
-					limit = {
-						is_adult = yes
-						NOT = { has_character_modifier = old_age }
-						OR = {
-							trait = misguided_warrior
-							trait = skilled_tactician
-						}
-						NOT = { trait = witcher }
-						NOT = { trait = tough_soldier }
-						NOT = { trait = incapable }
-						NOT = { trait = poor_warrior }
-						NOT = { trait = trained_warrior }
-						NOT = { trait = skilled_warrior }
-						NOT = { trait = master_warrior }
-					}
-					random_list = {
-						15 = { }
-						25 = { add_trait = poor_warrior }
-						40 = { add_trait = trained_warrior }
-						20 = { add_trait = skilled_warrior }
-					}
-				}
-				if = {
-					limit = {
-						is_adult = yes
-						NOT = { has_character_modifier = old_age }
-						is_female = no
-						NOT = { trait = witcher }
-						NOT = { trait = tough_soldier }
-						NOT = { trait = incapable }
-						NOT = { trait = poor_warrior }
-						NOT = { trait = trained_warrior }
-						NOT = { trait = skilled_warrior }
-						NOT = { trait = master_warrior }
-					}
-					random_list = {
-						85 = { }
-						10 = { add_trait = poor_warrior }
-						5 = { add_trait = trained_warrior }
-					}
-				}
+			random_list = {
+				20 = { add_trait = trained_warrior }
+				50 = { add_trait = skilled_warrior }
+				30 = { add_trait = master_warrior }
 			}
 		}
-	}
-	
-	option = { 
-		set_global_flag = combat_traits_init
+		if = {
+			limit = {
+				OR = {
+					trait = brilliant_strategist
+					trait = skilled_tactician
+				}
+				NOT = { trait = witcher }
+				NOT = { trait = duelist }
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+			}
+			random_list = {
+				25 = { add_trait = poor_warrior }
+				40 = { add_trait = trained_warrior }
+				30 = { add_trait = skilled_warrior }
+				5 = { add_trait = master_warrior }
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					trait = misguided_warrior
+					trait = skilled_tactician
+				}
+				NOT = { trait = witcher }
+				NOT = { trait = tough_soldier }
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+			}
+			random_list = {
+				15 = { }
+				25 = { add_trait = poor_warrior }
+				40 = { add_trait = trained_warrior }
+				20 = { add_trait = skilled_warrior }
+			}
+		}
+		if = {
+			limit = {
+				is_female = no
+				NOT = { trait = witcher }
+				NOT = { trait = tough_soldier }
+				NOT = { trait = poor_warrior }
+				NOT = { trait = trained_warrior }
+				NOT = { trait = skilled_warrior }
+				NOT = { trait = master_warrior }
+			}
+			random_list = {
+				85 = { }
+				10 = { add_trait = poor_warrior }
+				5 = { add_trait = trained_warrior }
+			}
+		}
 	}
 }
 
