@@ -40,6 +40,7 @@ NDefines.NTechnology.DONT_EXECUTE_TECH_BEFORE = 1200 				-- Set this to your ear
 NDefines.NAI.MARRIAGE_AI_PRESTIGE_VALUE = 1.5						-- Multiplier for how highly AI values prestige when arranging marriages and evaluating marriage offers
 NDefines.NAI.DESIRED_CONSORTS = 1									-- AI will always want at least this many concubines, if they lack sons
 NDefines.NAI.RAID_SPARE_ACCEPTED_RELIGIONS = 0						-- AI will not raid rulers of other religions in the same religion group, unless heresy vs parent religion
+-- Game over screen
 NDefines.NEndGame.DYN1_SCORE = 100000
 NDefines.NEndGame.DYN1_ID = 20000
 NDefines.NEndGame.DYN2_SCORE = 90000
@@ -70,6 +71,7 @@ NDefines.NEndGame.DYN14_SCORE = 2000
 NDefines.NEndGame.DYN14_ID = 2023
 NDefines.NEndGame.DYN15_SCORE = 1000
 NDefines.NEndGame.DYN15_ID = 38
+-- Ruler designer
 NDefines.NRulerDesigner.BASE_AGE = 15
 NDefines.NRulerDesigner.COST_SON = 5.0
 NDefines.NRulerDesigner.COST_LIEGE_OPINION = -0.5
@@ -79,7 +81,6 @@ NDefines.NRulerDesigner.COST_MORALE_OFFENCE = 100.0
 NDefines.NRulerDesigner.COST_MORALE_DEFENCE = 100.0
 NDefines.NRulerDesigner.COST_DEFENCE = 100.0
 NDefines.NRulerDesigner.MAX_AGE = 100
--- Add two layers (p14 and p15) for pre-rendered portraits
-NDefines.NGraphics.NUMBER_OF_PROPERTIES = 16
--- Pruning - should exclude sorcerers and witchers
-NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING = 7
+NDefines.NGraphics.NUMBER_OF_PROPERTIES = 16 -- Add two layers (p14 and p15) for pre-rendered portraits
+NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING = 7 -- Pruning - should exclude sorcerers and witchers
+NDefines.NNomad.ALWAYS_GENERATE_NOMADS = 1 -- If turned on will generate nomads even if they are not playable
