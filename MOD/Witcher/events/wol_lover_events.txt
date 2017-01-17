@@ -195,6 +195,7 @@ character_event = {
 		text = EVTDESC_WOL_1003
 		trigger = {
 			NOT = { has_character_flag = tipped_off_about_spouse_affair }
+			NOT = { has_character_flag = spy_spouse_affair }
 			FROMFROM = {
 				ROOT = {
 					FROM = {
@@ -208,6 +209,7 @@ character_event = {
 		text = EVTDESC_WOL_1003_CR
 		trigger = {
 			NOT = { has_character_flag = tipped_off_about_spouse_affair }
+			NOT = { has_character_flag = spy_spouse_affair }
 			FROMFROM = {
 				ROOT = {
 					FROM = {
@@ -222,6 +224,13 @@ character_event = {
 		text = EVTDESC_WOL_1003_TIP
 		trigger = {
 			has_character_flag = tipped_off_about_spouse_affair
+		}
+	}
+	
+	desc = {
+		text = EVTDESC_WOL_1003_SPY_RESULT
+		trigger = {
+			has_character_flag = spy_spouse_affair
 		}
 	}
 	
@@ -248,8 +257,12 @@ character_event = {
 				trait = honest
 			}
 		}
-		clr_character_flag = tipped_off_about_spouse_affair
-		FROMFROM = { character_event = { id = WoL.1004 days = 2 } }
+		
+		hidden_tooltip = {
+			clr_character_flag = tipped_off_about_spouse_affair
+			clr_character_flag = spy_spouse_affair
+			FROMFROM = { character_event = { id = WoL.1004 days = 2 } }
+		}
 	}
 	
 	option = {
@@ -279,8 +292,11 @@ character_event = {
 				is_lover = FROMFROM
 			}
 		}
-		clr_character_flag = tipped_off_about_spouse_affair
-		FROM = { character_event = { id = WoL.1033 days = 2 } }
+		hidden_tooltip = {
+			clr_character_flag = tipped_off_about_spouse_affair
+			clr_character_flag = spy_spouse_affair
+			FROM = { character_event = { id = WoL.1033 days = 2 } }
+		}
 	}
 	
 	option = {
@@ -293,6 +309,7 @@ character_event = {
 			factor = 100
 		}
 		clr_character_flag = tipped_off_about_spouse_affair
+		clr_character_flag = spy_spouse_affair
 	}
 	
 	option = {
@@ -327,6 +344,7 @@ character_event = {
 		}
 		
 		clr_character_flag = tipped_off_about_spouse_affair
+		clr_character_flag = spy_spouse_affair
 	}
 }
 
@@ -3635,6 +3653,19 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA_WOL_1106
+	}
+}
+
+# Bounce for scope correction
+character_event = {
+	id = WoL.1109
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		FROM = {
+			character_event = { id = WoL.1103 }
+		}
 	}
 }
 

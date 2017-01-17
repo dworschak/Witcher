@@ -31,7 +31,7 @@ targetted_decisions = {
 			always = yes
 		}
 		effect = {
-			character_event = { id = WoL.1103 tooltip = EVTTOOLTIP64046 }
+			FROM = { character_event = { id = WoL.1109 tooltip = EVTTOOLTIP64046 } }
 		}
 		revoke_allowed = {
 			always = no
@@ -80,7 +80,6 @@ targetted_decisions = {
 					NOT = { trait = imbecile }
 					NOT = { trait = chaste }
 					NOT = { trait = shy }
-					NOT = { num_of_lovers = 5 }
 				}
 			}
 		}
@@ -210,22 +209,59 @@ targetted_decisions = {
 			}
 			modifier = {
 				factor = 0
-				num_of_lovers = 3
+				is_female = yes
+				has_character_modifier = lustful_affair_timer
 			}
 			modifier = {
-				factor = 0.2
+				factor = 0.5
+				FROM = {
+					is_female = no
+					num_of_children = 3
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FROM = {
+					is_female = no
+					num_of_children = 6
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					is_female = no
+					num_of_children = 8
+				}
+			}
+			
+			modifier = {
+				factor = 0
+				num_of_lovers = 1
+				NOT = { trait = lustful }
+				NOT = { trait = hedonist }
+				NOT = { trait = seducer }
+				NOT = { trait = seductress }
+				NOT = { has_focus = focus_seduction }
+			}
+			
+			modifier = {
+				factor = 0.25
+				ai = no
+			}
+			
+			modifier = {
+				factor = 0.1
+				is_ruler = no
 				OR = {
-					ai = no
-					OR = {
-						any_spouse = {
-							ai = no
-						}
-						any_consort = {
-							ai = no
-						}
+					any_spouse = {
+						ai = no
+					}
+					any_consort = {
+						ai = no
 					}
 				}
 			}
+			
 			modifier = {
 				factor = 10
 				FROM = {
@@ -239,16 +275,9 @@ targetted_decisions = {
 			}
 			
 			modifier = {
-				factor = 0.25
-				num_of_lovers = 1
-			}
-			modifier = {
-				factor = 0.25
-				num_of_lovers = 2
-			}
-			modifier = {
 				factor = 0
 				OR = {
+					trait = chaste
 					trait = ugly
 					trait = dwarf
 					trait = inbred
@@ -657,6 +686,12 @@ targetted_decisions = {
 				
 				war = no
 				NOT = { has_character_modifier = party_timer }
+				OR = {
+					NOT = { religion_group = muslim }
+					trait = decadent
+					trait = hedonist
+					trait = drunkard
+				}
 			}
 		}
 		effect = {
@@ -727,9 +762,9 @@ targetted_decisions = {
 					is_female = yes
 					OR = {
 						trait = brave
+						
 						is_nomadic = yes
 						culture = dryad
-
 						gender_equality_trigger = yes
 					}
 				}
@@ -754,7 +789,10 @@ targetted_decisions = {
 									religion = FROM
 									trait = excommunicated
 								}
-								
+								AND = {
+									FROM = { religion_group = muslim }
+									trait = decadent
+								}
 							}
 						}
 						has_game_rule = {
@@ -770,7 +808,6 @@ targetted_decisions = {
 							OR = {
 								trait = brave
 								gender_equality_trigger = yes
-
 								is_nomadic = yes
 								culture = dryad
 							}
@@ -780,7 +817,6 @@ targetted_decisions = {
 
 									is_nomadic = yes
 									culture = dryad
-
 								}
 							}
 						}

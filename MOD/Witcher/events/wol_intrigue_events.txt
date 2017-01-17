@@ -394,7 +394,7 @@ character_event = {
 		}
 		
 		random_list = {
-			200 = { # Nothing happens
+			20000 = { # Nothing happens
 				modifier = {
 					factor = 0.75
 					attribute_diff = {
@@ -479,7 +479,7 @@ character_event = {
 					character_event = { id = WoL.2065 } # Time to give up?
 				}
 			}
-			100 = { # Plot uncovered
+			10000 = { # Plot uncovered
 				modifier = {
 					factor = 0
 					FROMFROM = {
@@ -519,7 +519,131 @@ character_event = {
 					}
 				}
 			}
-			10 = { # Treason charges & blackmail. Allows imprisonment or faction prevention/joining.
+			
+			3000 = { # Adultery of spouse or consort uncovered
+				modifier = {
+					factor = 0
+					FROMFROM = {
+						NOT = { is_married = ROOT }
+						NOT = { is_consort = ROOT }
+						NOT = {
+							any_lover = {
+								OR = {
+									is_married = ROOT
+									is_consort = ROOT
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					factor = 0
+					FROMFROM = {
+						OR = {
+							is_married = ROOT
+							is_consort = ROOT
+						}
+						NOT = {
+							any_lover = {
+								NOT = { character = ROOT }
+							}
+						}
+					}
+				}
+				modifier = {
+					factor = 0.05
+					FROMFROM = {
+						OR = {
+							has_character_modifier = wol_court_tomcat
+							has_character_modifier = wol_court_vixen
+						}
+					}
+				}
+				modifier = {
+					factor = 0.05
+					FROMFROM = {
+						any_lover = {
+							NOT = { character = ROOT }
+							OR = {
+								has_character_modifier = wol_court_tomcat
+								has_character_modifier = wol_court_vixen
+								trait = schemer
+								has_character_modifier = wol_schemer_2
+							}
+						}
+					}
+				}
+				modifier = {
+					factor = 0.1
+					FROMFROM = {
+						any_lover = {
+							NOT = { character = ROOT }
+							has_character_modifier = wol_schemer_1
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					FROMFROM = {
+						OR = {
+							AND = {
+								num_of_lovers = 2
+								NOT = { is_lover = ROOT }
+							}
+							num_of_lovers = 3
+						}
+					}
+				}
+				
+				character_event = { id = WoL.2000 days = 1 } # Chance of levelling up Intrigue skills
+				
+				if = {
+					limit = {
+						FROMFROM = {
+							OR = {
+								is_married = ROOT
+								is_consort = ROOT
+							}
+						}
+					}
+					FROMFROM = {
+						save_event_target_as = target_cheating_spouse
+						random_lover = {
+							limit = {
+								NOT = { character = ROOT }
+							}
+							save_event_target_as = target_adulterer
+						}
+					}
+				}
+				
+				if = {
+					limit = {
+						FROMFROM = {
+							NOR = {
+								is_married = ROOT
+								is_consort = ROOT
+							}
+						}
+					}
+					FROMFROM = {
+						save_event_target_as = target_adulterer
+						random_lover = {
+							limit = {
+								OR = {
+									is_married = ROOT
+									is_consort = ROOT
+								}
+							}
+							save_event_target_as = target_cheating_spouse
+						}
+					}
+				}
+				
+				event_target:target_cheating_spouse = { character_event = { id = WoL.2140 } } # Adultery discovered
+			}
+			
+			1000 = { # Treason charges & blackmail. Allows imprisonment or faction prevention/joining.
 				modifier = {
 					factor = 0
 					OR = {
@@ -533,7 +657,7 @@ character_event = {
 				character_event = { id = WoL.2080 }
 			}
 			
-			30 = { # Chance to slander
+			3000 = { # Chance to slander
 				modifier = {
 					factor = 0
 					FROMFROM = { has_character_modifier = vicious_rumors }
@@ -583,7 +707,7 @@ character_event = {
 				
 				character_event = { id = WoL.2100 }
 			}
-			4 = { # Chance to murder the target
+			400 = { # Chance to murder the target
 				modifier = {
 					factor = 0
 					NOT = {
@@ -618,7 +742,7 @@ character_event = {
 				
 				character_event = { id = WoL.2110 }
 			}
-			4 = { # Chance to abduct the target
+			400 = { # Chance to abduct the target
 				modifier = {
 					factor = 0
 					NOT = {
@@ -873,10 +997,12 @@ character_event = {
 					FROMFROMFROM = {
 						OR = {
 							trait = cynical
+						
 							AND = {
 								liege = { religion_group = PREV }
 								NOT = { liege = { religion = PREV } }
 								NOT = { religion_group = pagan_group }
+
 							}
 						}
 					}
@@ -2702,6 +2828,31 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA_WOL_2123
+	}
+}
+
+# Spy discovers cheating spouse or consort - ping the cheating spouse
+character_event = {
+	id = WoL.2140
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		event_target:target_adulterer = { character_event = { id = WoL.2141 } }
+	}
+}
+
+# Spy discovers cheating spouse or consort - ping the adulterer
+character_event = {
+	id = WoL.2141
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		FROMFROM = {
+			set_character_flag = spy_spouse_affair
+			character_event = { id = WoL.1003 }
+		}
 	}
 }
 
