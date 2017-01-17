@@ -1,0 +1,161 @@
+has_better_or_same_rank_trigger = {
+	OR = { 
+		check_variable = { which = rank1 which = FROM }
+		
+		AND = {
+			is_variable_equal = { which = rank1 which = FROM }
+			check_variable = { which = rank2 which = FROM }
+		}
+		
+		AND = {
+			is_variable_equal = { which = rank1 which = FROM }
+			is_variable_equal = { which = rank2 which = FROM }
+			check_variable = { which = kick_rank which = FROM }
+		}
+	}
+}
+
+has_same_rank_trigger = {
+	is_variable_equal = { which = rank1 which = FROM }
+	is_variable_equal = { which = rank2 which = FROM }
+	is_variable_equal = { which = kick_rank which = FROM }
+}
+
+has_same_combination_trigger = {
+	OR = {
+		AND = {
+			has_character_flag = flag_five_of_a_kind
+			FROM = { has_character_flag = flag_five_of_a_kind }
+		}
+		AND = {
+			has_character_flag = flag_four_of_a_kind
+			FROM = { has_character_flag = flag_four_of_a_kind }
+		}
+		AND = {
+			has_character_flag = flag_full_house
+			FROM = { has_character_flag = flag_full_house }
+		}
+		AND = {
+			has_character_flag = flag_six_high_straight
+			FROM = { has_character_flag = flag_six_high_straight }
+		}
+		AND = {
+			has_character_flag = flag_five_high_straight
+			FROM = { has_character_flag = flag_five_high_straight }
+		}
+		AND = {
+			has_character_flag = flag_three_of_a_kind
+			FROM = { has_character_flag = flag_three_of_a_kind }
+		}
+		AND = {
+			has_character_flag = flag_two_pairs
+			FROM = { has_character_flag = flag_two_pairs }
+		}
+		AND = {
+			has_character_flag = flag_one_pair
+			NOT = { has_character_flag = flag_two_pairs } 
+			FROM = { 
+				has_character_flag = flag_one_pair
+				NOT = { has_character_flag = flag_two_pairs }
+			}
+		}
+	}
+}
+
+# Combinations: 
+# flag_five_of_a_kind > flag_four_of_a_kind > flag_full_house > flag_six_high_straight > flag_five_high_straight 
+# flag_five_high_straight > flag_three_of_a_kind > flag_two_pairs > flag_one_pair
+has_better_combination_trigger = {
+	OR = {
+		AND = {
+			has_character_flag = flag_five_of_a_kind
+			FROM = { 
+				NOT = { has_character_flag = flag_five_of_a_kind }
+			}
+		}
+		AND = {
+			has_character_flag = flag_four_of_a_kind
+			FROM = { 
+				NOR = {
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+				}
+			}
+		}
+		AND = {
+			has_character_flag = flag_full_house
+			FROM = { 
+				NOR = {
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+				}
+			}
+		}
+		AND = {
+			has_character_flag = flag_six_high_straight
+			FROM = { 
+				NOR = {
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+				}
+			}
+		}
+		AND = {
+			has_character_flag = flag_five_high_straight
+			FROM = { 
+				NOR = {
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+					has_character_flag = flag_five_high_straight
+				}
+			} 
+		}
+		AND = {
+			has_character_flag = flag_three_of_a_kind
+			FROM = { 
+				NOR = { 
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+					has_character_flag = flag_five_high_straight
+					has_character_flag = flag_three_of_a_kind
+				}
+			}
+		}
+		AND = {
+			has_character_flag = flag_two_pairs
+			FROM = { 
+				NOR = { 
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+					has_character_flag = flag_five_high_straight
+					has_character_flag = flag_three_of_a_kind
+					has_character_flag = flag_two_pairs
+				}
+			}
+		}
+		AND = {
+			has_character_flag = flag_one_pair
+			FROM = { 
+				NOR = { 
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+					has_character_flag = flag_five_high_straight
+					has_character_flag = flag_three_of_a_kind
+					has_character_flag = flag_two_pairs
+					has_character_flag = flag_one_pair
+				}
+			}
+		}
+	}
+}

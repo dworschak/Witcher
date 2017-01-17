@@ -1,0 +1,757 @@
+namespace = dice_poker
+
+##############################
+# Dice poker game
+##############################
+
+# Rules: http://witcher.gamepedia.com/Dice_poker_in_The_Witcher and http://witcher.gamepedia.com/Dice_poker_in_The_Witcher_2
+
+# Variables:
+# die1 -> die5: rolled dice of player/opponent
+# roll : (1,2) on player
+# round : (1,2) on player
+# iDie : index of dice when looping
+# die : the value of current dice when looping
+# numberOf1 -> numberOf6 : number of player/opponent dice with given value
+
+# Character flags:
+# flag_reroll_die1 -> flag_reroll_die5: whether to re-roll the dice in next round
+# flag_five_of_a_kind, etc. : hand combo type
+# flag_lone_six -> flag_lone_one: whether hand has such value not part of the combo 
+
+# Don't use event targets and repat_event not in THIS scope, as it's a complete mess
+
+#-------------------------------
+
+# Targeted decision (player -> opponent) - play_dice_poker
+# | 
+# Propose a game to opponent (opponent) - dice_poker.0
+# | (switch to player)
+# New round [hidden] - dice_poker.1
+# | 
+# Decide (player) - dice_poker.5
+# | (player roll 1)
+# Dice roll result (player) - dice_poker.2
+# | (switch to opponent)
+# Decide (opponent) - dice_poker.5
+# | (opponent roll 1)
+# Dice roll result (opponent) - dice_poker.2
+# | (switch to player)
+# Decide (player) - dice_poker.5
+# | (player roll 2)
+# Dice roll result (player) - dice_poker.2
+# | (switch to opponent)
+# Decide (normal or A.I.) (opponent) - dice_poker.5 or dice_poker.10
+# | (opponent roll 2)
+# Dice roll result (opponent) - dice_poker.2
+# | (switch to player)
+# Determine results [hidden] - dice_poker.4
+# |
+# Show results (player) - dice_poker.
+# | (switch to opponent)
+# Show results (opponent) - dice_poker. or  ?
+
+# -------------------------------------------------
+
+# Propose a dice poker game
+# ROOT is the opponent 
+# FROMFROM is the player
+character_event = {
+	id = dice_poker.0
+	title = dice_poker.0.title
+	desc = dice_poker.0.desc
+	picture = GFX_evt_riots_byzantine
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		log = "New dice poker game between [FromFrom.GetFirstName] and [This.GetFirstName]"
+		
+		set_variable = { which = round value = 1 }
+
+		FROMFROM = {
+			set_variable = { which = round value = 1 }
+		}
+	}
+	
+	option = { # Accept
+		name = OK
+		log = "[This.GetFirstName] accepts the game"
+		FROMFROM = {
+			character_event = { id = dice_poker.1 }
+		}
+		ai_chance = {
+			factor = 1 # AI checks are done in the decision.
+		}
+	}
+	option = { # Decline
+		name = OK
+		log = "[This.GetFirstName] declines the game"
+		FROMFROM = {
+			character_event = { id = dice_poker.9 }
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# New round
+# ROOT is the player
+# FROM is the opponent
+character_event = {
+	id = dice_poker.1
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	immediate = {
+		log = "Round [Root.round.GetValue]"
+		
+		set_variable = { which = roll value = 0 }
+		FROM = {
+			set_variable = { which = roll value = 0 }
+		}
+	}
+	
+	option = { # Player always starts the round
+		name = OK
+		repeat_event = { id = dice_poker.5 }
+	}
+}
+
+# ROOT is the player
+# FROM is the opponent
+character_event = {
+	id = dice_poker.9
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = OK
+	}
+}
+
+# Dice roll result
+# ROOT is the player that has just rolled
+# FROM is the other player
+character_event = {
+	id = dice_poker.2
+	title = dice_poker.2.title
+	picture = GFX_evt_riots_byzantine
+	
+	is_triggered_only = yes
+	
+	desc = {
+		trigger = {
+			FROM = {
+				is_variable_equal = { which = roll value = 0 }
+			}
+		}
+		text = dice_poker.2.desc1
+	}
+	desc = {
+		trigger = {
+			FROM = {
+				check_variable = { which = roll value = 1 } # roll >=1
+			}
+		}
+		# Display both player rolls
+		text = dice_poker.2.desc2
+	}
+
+	option = { # It's the opponent's turn
+		name = dice_poker.2.a
+		
+		trigger = {
+			FROM = {
+				NOT = { is_variable_equal = { which = roll value = 2 } }
+			}
+		}
+
+		hidden_tooltip = {
+			log = "Giving turn to [From.GetFirstName]"
+			FROM = {
+				character_event = { id = dice_poker.5 }
+			}
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = { # Last roll, time for results
+		name = dice_poker.5.d
+		
+		trigger = {
+			is_variable_equal = { which = roll value = 2 }
+			FROM = {
+				is_variable_equal = { which = roll value = 2 }
+			}
+		}
+		
+		hidden_tooltip = {
+			log = "Both players have rolled twice, displaying the results"
+			
+			clr_character_flag = flag_reroll_die1
+			clr_character_flag = flag_reroll_die2
+			clr_character_flag = flag_reroll_die3
+			clr_character_flag = flag_reroll_die4
+			clr_character_flag = flag_reroll_die5
+		
+			FROM = {
+				character_event = { id = dice_poker.4 }
+			}
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Player or opponent needs to decide
+# ROOT is the player to decide
+# FROM is the other player
+character_event = {
+	id = dice_poker.5
+	title = dice_poker.2.title
+	picture = GFX_evt_riots_byzantine
+	
+	is_triggered_only = yes
+	
+	desc = {
+		trigger = {
+			is_variable_equal = { which = roll value = 1 }
+		}
+		text = dice_poker.2.desc0
+	}
+	desc = {
+		trigger = {
+			NOT = { is_variable_equal = { which = roll value = 1 } }
+			FROM = { 
+				is_variable_equal = { which = roll value = 0 }
+			}
+		}
+		text = dice_poker.2.desc1
+	}
+	desc = {
+		trigger = {
+			FROM = {
+				check_variable = { which = roll value = 1 } # roll >= 1
+			}
+		}
+		# Display both player rolls
+		text = dice_poker.2.desc2
+	}
+	
+	immediate = {
+		change_variable = { which = roll value = 1 }
+		
+		log = "[This.GetFirstName] needs to decide"
+		
+		# Re-roll all dice
+		set_character_flag = flag_reroll_die1
+		set_character_flag = flag_reroll_die2
+		set_character_flag = flag_reroll_die3
+		set_character_flag = flag_reroll_die4
+		set_character_flag = flag_reroll_die5
+	}
+	
+	option = { # Roll the dice (roll 1)
+		name = dice_poker.1.a
+		
+		trigger = {
+			is_variable_equal = { which = roll value = 1 }
+		}
+		
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is rolling the dice (1st roll)"
+			repeat_event = { id = dice_poker.100 }
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	option = { # Re-roll all (roll 2) !
+		name = dice_poker.5.a
+		
+		trigger = {
+			is_variable_equal = { which = roll value = 2 }
+		}
+
+		roll_dice_tooltip_effect = yes
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is re-rolling all dice (2nd roll)"
+			repeat_event = { id = dice_poker.100 }
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = { # Select dice to re-roll
+		name = dice_poker.5.b
+		
+		trigger = {
+			is_variable_equal = { which = roll value = 2 }
+		}
+		
+		set_variable = { which = iDie value = 1 }
+		
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is selecting dice to keep"
+			repeat_event = { id = dice_poker.3 }
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = { # Pass
+		name = dice_poker.5.c
+		
+		trigger = {
+			is_variable_equal = { which = roll value = 2 }
+		}
+
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is passing (2nd roll)"
+			repeat_event = { id = dice_poker.2 }
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = { # Quit - TODO for debug
+		name = dice_poker.5.e
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# Select dice to keep
+character_event = {
+	id = dice_poker.3
+	picture = GFX_evt_riots_byzantine
+	title = dice_poker.3.title
+	desc = dice_poker.3.desc
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		# Copy dice<iDice> value into die variable
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 1 } }
+			set_variable = { which = die which = die1 }
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 2 } }
+			set_variable = { which = die which = die2 }
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 3 } }
+			set_variable = { which = die which = die3 }
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 4 } }
+			set_variable = { which = die which = die4 }
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 5 } }
+			set_variable = { which = die which = die5 }
+		}
+	}
+	
+	option = { # Keep the die
+		name = dice_poker.3.a
+		trigger = {
+			NOT = { is_variable_equal = { which = iDie value = 6 } }
+		}
+		log = "Choosing to keep die number [Root.iDie.GetValue]"
+		
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 1 } }
+			clr_character_flag = flag_reroll_die1
+			log = "Will keep die1"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 2 } }
+			clr_character_flag = flag_reroll_die2
+			log = "Will keep die2"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 3 } }
+			clr_character_flag = flag_reroll_die3
+			log = "Will keep die3"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 4 } }
+			clr_character_flag = flag_reroll_die4
+			log = "Will keep die4"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 5 } }
+			clr_character_flag = flag_reroll_die5
+			log = "Will keep die5"
+		}
+		
+		change_variable = { which = iDie value = 1 }
+		
+		hidden_tooltip = {
+			repeat_event = { id = dice_poker.3 }
+		}
+	}
+	
+	option = { # Re-roll the die
+		name = dice_poker.3.b
+		trigger = {
+			NOT = { is_variable_equal = { which = iDie value = 6 } }
+		}
+		log = "Choosing to re-roll die number [Root.iDie.GetValue]"
+		
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 1 } }
+			set_character_flag = flag_reroll_die1
+			log = "Will roll die1"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 2 } }
+			set_character_flag = flag_reroll_die2
+			log = "Will roll die2"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 3 } }
+			set_character_flag = flag_reroll_die3
+			log = "Will roll die3"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 4 } }
+			set_character_flag = flag_reroll_die4
+			log = "Will roll die4"
+		}
+		if = { 
+			limit = { is_variable_equal = { which = iDie value = 5 } }
+			set_character_flag = flag_reroll_die5
+			log = "Will roll die5"
+		}
+		
+		change_variable = { which = iDie value = 1 }
+		
+		hidden_tooltip = {
+			repeat_event = { id = dice_poker.3 }
+		}
+	}
+	
+	option = { # Finished, next roll
+		name = dice_poker.3.c
+		trigger = {
+			is_variable_equal = { which = iDie value = 6 }
+		}
+		
+		roll_dice_tooltip_effect = yes
+		repeat_event = { id = dice_poker.100 }
+	}
+
+	option = { # Back
+		name = dice_poker.3.e
+		trigger = {
+			NOT = { is_variable_equal = { which = iDie value = 1 } }
+		}
+		
+		subtract_variable = { which = iDie value = 1 }
+		hidden_tooltip = {
+			repeat_event = { id = dice_poker.3 }
+		}
+	}
+}
+
+# Results
+# ROOT is the player
+# FROM is the opponent
+character_event = {
+	id = dice_poker.4
+	picture = GFX_evt_riots_byzantine
+	title = dice_poker.4.title
+	desc = dice_poker.4.desc
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		log = "[This.GetFirstName] hand: [This.die1.GetValue] [This.die2.GetValue] [This.die3.GetValue] [This.die4.GetValue] [This.die5.GetValue]"
+		log = "[From.GetFirstName] hand: [From.die1.GetValue] [From.die2.GetValue] [From.die3.GetValue] [From.die4.GetValue] [From.die5.GetValue]"
+		
+		# Count the dice values
+		count_number_of_1_effect = yes
+		count_number_of_2_effect = yes
+		count_number_of_3_effect = yes
+		count_number_of_4_effect = yes
+		count_number_of_5_effect = yes
+		count_number_of_6_effect = yes
+		
+		FROM = {
+			count_number_of_1_effect = yes
+			count_number_of_2_effect = yes
+			count_number_of_3_effect = yes
+			count_number_of_4_effect = yes
+			count_number_of_5_effect = yes
+			count_number_of_6_effect = yes
+		}
+		
+		# Calculate combinations
+		calculate_hand_effect = yes
+		FROM = {
+			 calculate_hand_effect = yes
+		}
+		
+		# Determine the winner
+		clr_character_flag = flag_won
+		clr_character_flag = flag_draw
+		clr_character_flag = flag_lost
+		
+		##Log
+		if = {
+			limit = {
+				has_same_combination_trigger = yes
+			}
+			log = "Round [This.round.GetValue] - [This.GetFirstName] has_same_combination_trigger = yes"
+		}
+		if = {
+			limit = {
+				has_better_combination_trigger = yes
+			}
+			log = "Round [This.round.GetValue] - [This.GetFirstName] has_better_combination_trigger = yes"
+		}
+		if = {
+			limit = {
+				has_better_or_same_rank_trigger = yes
+			}
+			log = "Round [This.round.GetValue] - [This.GetFirstName] has_better_or_same_rank_trigger = yes"
+		}
+		if = {
+			limit = {
+				has_same_rank_trigger = yes
+			}
+			log = "Round [This.round.GetValue] - [This.GetFirstName] has_same_rank_trigger = yes"
+		}
+
+		if = {
+			limit = {
+				has_same_combination_trigger = yes
+				has_same_rank_trigger = yes
+			}
+			set_character_flag = flag_draw
+			log = "Round [This.round.GetValue] - [This.GetFirstName] got a draw - same five dice !"
+		}
+		if = {
+			limit = {
+				has_same_combination_trigger = yes
+				has_better_or_same_rank_trigger = yes
+			}
+			set_character_flag = flag_won
+			log = "Round [This.round.GetValue] - [This.GetFirstName] won with the same combination, but with higher value"
+		}
+		if = {
+			limit = {
+				has_same_combination_trigger = yes
+				FROM = { has_better_or_same_rank_trigger = yes }
+			}
+			set_character_flag = flag_lost
+			log = "Round [This.round.GetValue] - [This.GetFirstName] lost to the same combination, but with higher value"
+		}
+		if = {
+			limit = {
+				has_better_combination_trigger = yes
+			}
+			set_character_flag = flag_won
+			log = "Round [This.round.GetValue] - [This.GetFirstName] won with a better combination"
+		}
+		if = {
+			limit = {
+				NOT = { has_better_combination_trigger = yes }
+				FROM = { has_better_combination_trigger = yes }
+			}
+			set_character_flag = flag_lost
+			log = "Round [This.round.GetValue] - [This.GetFirstName] lost to a better combination"
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.a
+		
+		trigger = {
+			has_character_flag = flag_five_of_a_kind
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.b
+		
+		trigger = {
+			has_character_flag = flag_four_of_a_kind
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.c
+		
+		trigger = {
+			has_character_flag = flag_full_house
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.d
+		
+		trigger = {
+			has_character_flag = flag_six_high_straight
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.e
+		
+		trigger = {
+			has_character_flag = flag_five_high_straight
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.f
+		
+		trigger = {
+			has_character_flag = flag_three_of_a_kind
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.g
+		
+		trigger = {
+			has_character_flag = flag_two_pairs
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.h
+		
+		trigger = {
+			has_character_flag = flag_one_pair
+			NOT = { has_character_flag = flag_two_pairs }
+			has_character_flag = flag_won
+		}
+	}
+	
+	option = {
+		name = dice_poker.4.i
+		
+		trigger = {
+			has_character_flag = flag_won
+			NOT = { has_character_flag = flag_five_of_a_kind }
+			NOT = { has_character_flag = flag_four_of_a_kind }
+			NOT = { has_character_flag = flag_full_house }
+			NOT = { has_character_flag = flag_six_high_straight }
+			NOT = { has_character_flag = flag_five_high_straight }
+			NOT = { has_character_flag = flag_three_of_a_kind }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_one_pair }
+		}
+	}
+	
+	option = { # It's a draw
+		name = dice_poker.4.j
+		
+		trigger = {
+			has_character_flag = flag_draw
+		}
+	}
+	
+	option = { # Player has lost
+		name = dice_poker.4.k
+		
+		trigger = {
+			has_character_flag = flag_lost
+		}
+	}
+	
+	option = { # Quit
+		name = dice_poker.4.l
+	}
+}
+
+
+# Maintenance events
+# Need to use 5 chained ping events to get some randomness (because each new immediate event only shifts the seed by 1)
+character_event = {
+	id = dice_poker.100
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		log = "Ping 1"
+		repeat_event = { id = dice_poker.101 }
+	}
+}
+
+character_event = {
+	id = dice_poker.101
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		log = "Ping 2"
+		repeat_event = { id = dice_poker.102 }
+	}
+}
+
+character_event = {
+	id = dice_poker.102
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		log = "Ping 3"
+		repeat_event = { id = dice_poker.103 }
+	}
+}
+
+character_event = {
+	id = dice_poker.103
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = {
+		log = "Ping 4"
+		repeat_event = { id = dice_poker.104 }
+	}
+}
+
+# Actual dice rolling
+character_event = {
+	id = dice_poker.104
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	option = { # Dice roll result
+		roll_dice_effect = yes
+		repeat_event = { id = dice_poker.2 }
+	}
+}

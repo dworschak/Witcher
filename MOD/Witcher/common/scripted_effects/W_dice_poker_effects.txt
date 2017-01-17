@@ -1,0 +1,658 @@
+
+roll_dice_tooltip_effect = {
+	if = {
+		limit = { has_character_flag = flag_reroll_die1 }
+		custom_tooltip = { text = reroll_die1 }
+	}
+	if = {
+		limit = { has_character_flag = flag_reroll_die2 }
+		custom_tooltip = { text = reroll_die2 }
+	}
+	if = {
+		limit = { has_character_flag = flag_reroll_die3 }
+		custom_tooltip = { text = reroll_die3 }
+	}
+	if = {
+		limit = { has_character_flag = flag_reroll_die4 }
+		custom_tooltip = { text = reroll_die4 }
+	}
+	if = {
+		limit = { has_character_flag = flag_reroll_die5 }
+		custom_tooltip = { text = reroll_die5 }
+	}
+}
+
+roll_dice_effect = {
+	if = {
+		limit = { has_character_flag = flag_reroll_die1 }
+		random_list = {
+			15  = { set_variable = { which = die1 value = 1 } }
+			15  = { set_variable = { which = die1 value = 2 } }
+			15  = { set_variable = { which = die1 value = 3 } }
+			15  = { set_variable = { which = die1 value = 4 } }
+			15  = { set_variable = { which = die1 value = 5 } }
+			15  = { set_variable = { which = die1 value = 6 } }
+		}
+	}
+	
+	if = {
+		limit = { has_character_flag = flag_reroll_die2 }
+		random_list = {
+			15  = { set_variable = { which = die2 value = 1 } }
+			15  = { set_variable = { which = die2 value = 2 } }
+			15  = { set_variable = { which = die2 value = 3 } }
+			15  = { set_variable = { which = die2 value = 4 } }
+			15  = { set_variable = { which = die2 value = 5 } }
+			15  = { set_variable = { which = die2 value = 6 } }
+		}
+	}
+	
+	if = {
+		limit = { has_character_flag = flag_reroll_die3 }
+		random_list = {
+			15  = { set_variable = { which = die3 value = 1 } }
+			15  = { set_variable = { which = die3 value = 2 } }
+			15  = { set_variable = { which = die3 value = 3 } }
+			15  = { set_variable = { which = die3 value = 4 } }
+			15  = { set_variable = { which = die3 value = 5 } }
+			15  = { set_variable = { which = die3 value = 6 } }
+		}
+	}
+	
+	if = {
+		limit = { has_character_flag = flag_reroll_die4 }
+		random_list = {
+			15  = { set_variable = { which = die4 value = 1 } }
+			15  = { set_variable = { which = die4 value = 2 } }
+			15  = { set_variable = { which = die4 value = 3 } }
+			15  = { set_variable = { which = die4 value = 4 } }
+			15  = { set_variable = { which = die4 value = 5 } }
+			15  = { set_variable = { which = die4 value = 6 } }
+		}
+	}
+	
+	if = {
+		limit = { has_character_flag = flag_reroll_die5 }
+		random_list = {
+			15  = { set_variable = { which = die5 value = 1 } }
+			15  = { set_variable = { which = die5 value = 2 } }
+			15  = { set_variable = { which = die5 value = 3 } }
+			15  = { set_variable = { which = die5 value = 4 } }
+			15  = { set_variable = { which = die5 value = 5 } }
+			15  = { set_variable = { which = die5 value = 6 } }
+		}
+	}
+
+	log = "Round [This.round.GetValue], Roll [This.roll.GetValue] - [This.GetFirstName] rolls: [This.die1.GetValue] [This.die2.GetValue] [This.die3.GetValue] [This.die4.GetValue] [This.die5.GetValue]"
+}
+
+
+count_number_of_1_effect = {
+	set_variable = { which = numberOf1 value = 0}
+	if = { 
+		limit = { is_variable_equal = { which = die1 value = 1 } }
+		change_variable = { which = numberOf1 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die2 value = 1 } }
+		change_variable = { which = numberOf1 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die3 value = 1 } }
+		change_variable = { which = numberOf1 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die4 value = 1 } }
+		change_variable = { which = numberOf1 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die5 value = 1 } }
+		change_variable = { which = numberOf1 value = 1}
+	}
+}
+
+count_number_of_2_effect = {
+	set_variable = { which = numberOf2 value = 0}
+	if = { 
+		limit = { is_variable_equal = { which = die1 value = 2 } }
+		change_variable = { which = numberOf2 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die2 value = 2 } }
+		change_variable = { which = numberOf2 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die3 value = 2 } }
+		change_variable = { which = numberOf2 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die4 value = 2 } }
+		change_variable = { which = numberOf2 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die5 value = 2 } }
+		change_variable = { which = numberOf2 value = 1}
+	}
+}
+
+count_number_of_3_effect = {
+	set_variable = { which = numberOf3 value = 0}
+	if = { 
+		limit = { is_variable_equal = { which = die1 value = 3 } }
+		change_variable = { which = numberOf3 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die2 value = 3 } }
+		change_variable = { which = numberOf3 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die3 value = 3 } }
+		change_variable = { which = numberOf3 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die4 value = 3 } }
+		change_variable = { which = numberOf3 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die5 value = 3 } }
+		change_variable = { which = numberOf3 value = 1}
+	}
+}
+
+count_number_of_4_effect = {
+	set_variable = { which = numberOf4 value = 0}
+	if = { 
+		limit = { is_variable_equal = { which = die1 value = 4 } }
+		change_variable = { which = numberOf4 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die2 value = 4 } }
+		change_variable = { which = numberOf4 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die3 value = 4 } }
+		change_variable = { which = numberOf4 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die4 value = 4 } }
+		change_variable = { which = numberOf4 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die5 value = 4 } }
+		change_variable = { which = numberOf4 value = 1}
+	}
+}
+
+count_number_of_5_effect = {
+	set_variable = { which = numberOf5 value = 0}
+	if = { 
+		limit = { is_variable_equal = { which = die1 value = 5 } }
+		change_variable = { which = numberOf5 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die2 value = 5 } }
+		change_variable = { which = numberOf5 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die3 value = 5 } }
+		change_variable = { which = numberOf5 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die4 value = 5 } }
+		change_variable = { which = numberOf5 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die5 value = 5 } }
+		change_variable = { which = numberOf5 value = 1}
+	}
+}
+
+count_number_of_6_effect = {
+	set_variable = { which = numberOf6 value = 0}
+	if = { 
+		limit = { is_variable_equal = { which = die1 value = 6 } }
+		change_variable = { which = numberOf6 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die2 value = 6 } }
+		change_variable = { which = numberOf6 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die3 value = 6 } }
+		change_variable = { which = numberOf6 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die4 value = 6 } }
+		change_variable = { which = numberOf6 value = 1}
+	}
+	if = { 
+		limit = { is_variable_equal = { which = die5 value = 6 } }
+		change_variable = { which = numberOf6 value = 1}
+	}
+}
+
+calculate_hand_effect = {
+	log = "Round [This.round.GetValue] - [This.GetFirstName] - Number of 1: [This.numberOf1.GetValue], Number of 2: [This.numberOf2.GetValue], Number of 3: [This.numberOf3.GetValue], Number of 4: [This.numberOf4.GetValue], Number of 5: [This.numberOf5.GetValue], Number of 6: [This.numberOf6.GetValue]"
+
+	# Reset the hand combo flags
+	clr_character_flag = flag_five_of_a_kind
+	clr_character_flag = flag_four_of_a_kind
+	clr_character_flag = flag_full_house
+	clr_character_flag = flag_six_high_straight
+	clr_character_flag = flag_five_high_straight
+	clr_character_flag = flag_three_of_a_kind
+	clr_character_flag = flag_two_pairs
+	clr_character_flag = flag_one_pair
+	
+	# Reset rank variables
+	# rank1 & rank2 are the rank(s) of the hand
+	# rank3 -> rank8 are the side kicks, when hands are identical
+	set_variable = { which = rank1 value = 0} 
+	set_variable = { which = rank2 value = 0}
+	set_variable = { which = rank3 value = 0}
+	set_variable = { which = rank4 value = 0}
+	set_variable = { which = rank5 value = 0}
+	set_variable = { which = rank6 value = 0}
+	set_variable = { which = rank7 value = 0}
+	set_variable = { which = rank8 value = 0}
+	set_variable = { which = kick_rank value = 0} 
+	
+	# Five-of-a-Kind
+	if = {
+		limit = { is_variable_equal = { which = numberOf1 value = 5 } }
+		set_variable = { which = rank1 value = 1 }
+		set_character_flag = flag_five_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five-of-a-Kind of 1s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf2 value = 5 } }
+		set_variable = { which = rank1 value = 2 }
+		set_character_flag = flag_five_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five-of-a-Kind of 2s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf3 value = 5 } }
+		set_variable = { which = rank1 value = 3 }
+		set_character_flag = flag_five_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five-of-a-Kind of 3s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf4 value = 5 } }
+		set_variable = { which = rank1 value = 4 }
+		set_character_flag = flag_five_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five-of-a-Kind of 4s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf5 value = 5 } }
+		set_variable = { which = rank1 value = 5 }
+		set_character_flag = flag_five_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five-of-a-Kind of 5s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf5 value = 6 } }
+		set_variable = { which = rank1 value = 6 }
+		set_character_flag = flag_five_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five-of-a-Kind of 6s"
+	}
+	
+	# Four-of-a-Kind
+	if = {
+		limit = { is_variable_equal = { which = numberOf1 value = 4 } }
+		set_variable = { which = rank1 value = 1 }
+		set_character_flag = flag_four_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Four-of-a-Kind of 1s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf2 value = 4 } }
+		set_variable = { which = rank1 value = 2 }
+		set_character_flag = flag_four_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Four-of-a-Kind of 2s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf3 value = 4 } }
+		set_variable = { which = rank1 value = 3 }
+		set_character_flag = flag_four_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Four-of-a-Kind of 3s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf4 value = 4 } }
+		set_variable = { which = rank1 value = 4 }
+		set_character_flag = flag_four_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Four-of-a-Kind of 4s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf5 value = 4 } }
+		set_variable = { which = rank1 value = 5 }
+		set_character_flag = flag_four_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Four-of-a-Kind of 5s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf6 value = 4 } }
+		set_variable = { which = rank1 value = 6 }
+		set_character_flag = flag_four_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Four-of-a-Kind of 6s"
+	}
+	
+	# Six High Straight
+	if = {
+		limit = {
+			AND = {
+				is_variable_equal = { which = numberOf2 value = 1 }
+				is_variable_equal = { which = numberOf3 value = 1 }
+				is_variable_equal = { which = numberOf4 value = 1 }
+				is_variable_equal = { which = numberOf5 value = 1 }
+				is_variable_equal = { which = numberOf6 value = 1 }
+			}
+		}
+		set_character_flag = flag_six_high_straight 
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Six High Straight"
+	}
+	
+	# Five High Straight
+	if = {
+		limit = {
+			AND = {
+				is_variable_equal = { which = numberOf1 value = 1 }
+				is_variable_equal = { which = numberOf2 value = 1 }
+				is_variable_equal = { which = numberOf3 value = 1 }
+				is_variable_equal = { which = numberOf4 value = 1 }
+				is_variable_equal = { which = numberOf5 value = 1 }
+			}
+		}
+		set_character_flag = flag_five_high_straight
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Five High Straight"
+	}
+	
+	# Three-of-a-Kind
+	if = {
+		limit = { is_variable_equal = { which = numberOf6 value = 3 } }
+		set_variable = { which = rank1 value = 6 }
+		set_character_flag = flag_three_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Three-of-a-Kind of 6s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf5 value = 3 } }
+		set_variable = { which = rank1 value = 5 }
+		set_character_flag = flag_three_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Three-of-a-Kind of 5s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf4 value = 3 } }
+		set_variable = { which = rank1 value = 4 }
+		set_character_flag = flag_three_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Three-of-a-Kind of 4s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf3 value = 3 } }
+		set_variable = { which = rank1 value = 3 }
+		set_character_flag = flag_three_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Three-of-a-Kind of 3s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf2 value = 3 } }
+		set_variable = { which = rank1 value = 2 }
+		set_character_flag = flag_three_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Three-of-a-Kind of 2s"
+	}
+	if = {
+		limit = { is_variable_equal = { which = numberOf1 value = 3 } }
+		set_variable = { which = rank1 value = 1 }
+		set_character_flag = flag_three_of_a_kind
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a Three-of-a-Kind of 1s"
+	}
+	
+	# Pair(s)
+	# Three-of-a-kind may become Full House
+	# One pair may become Two pairs
+	# Go from 6 to 1, so that ranking is correct in case of two pairs
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf6 value = 2 }
+			has_character_flag = flag_three_of_a_kind
+		}
+		set_character_flag = flag_full_house
+		clr_character_flag = flag_three_of_a_kind
+		set_variable = { which = rank2 value = 6 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 6, making a full house"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf6 value = 2 }
+			has_character_flag = flag_one_pair
+		}
+		set_character_flag = flag_two_pairs
+		clr_character_flag = flag_one_pair
+		set_variable = { which = rank2 value = 6 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 6, making two pairs"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf6 value = 2 } 
+			NOT = { has_character_flag = flag_one_pair }
+		}
+		set_character_flag = flag_one_pair
+		set_variable = { which = rank1 value = 6 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 6"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf5 value = 2 }
+			has_character_flag = flag_three_of_a_kind
+		}
+		set_character_flag = flag_full_house
+		clr_character_flag = flag_three_of_a_kind
+		set_variable = { which = rank2 value = 5 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 5, making a full house"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf5 value = 2 }
+			has_character_flag = flag_one_pair
+		}
+		set_character_flag = flag_two_pairs
+		clr_character_flag = flag_one_pair
+		set_variable = { which = rank2 value = 5 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 5, making two pairs"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf5 value = 2 }
+			NOT = { has_character_flag = flag_one_pair }
+		}
+		set_character_flag = flag_one_pair
+		set_variable = { which = rank1 value = 5 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 5"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf4 value = 2 }
+			has_character_flag = flag_three_of_a_kind
+		}
+		set_character_flag = flag_full_house
+		clr_character_flag = flag_three_of_a_kind
+		set_variable = { which = rank2 value = 4 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 4, making a full house"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf4 value = 2 }
+			has_character_flag = flag_one_pair
+		}
+		set_character_flag = flag_two_pairs
+		clr_character_flag = flag_one_pair
+		set_variable = { which = rank2 value = 4 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 4, making two pairs"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf4 value = 2 }
+			NOT = { has_character_flag = flag_one_pair }
+		}
+		set_character_flag = flag_one_pair
+		set_variable = { which = rank1 value = 4 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 4"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf3 value = 2 }
+			has_character_flag = flag_three_of_a_kind
+		}
+		set_character_flag = flag_full_house
+		clr_character_flag = flag_three_of_a_kind
+		set_variable = { which = rank2 value = 3 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 3, making a full house"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf3 value = 2 }
+			has_character_flag = flag_one_pair
+		}
+		set_character_flag = flag_two_pairs
+		clr_character_flag = flag_one_pair
+		set_variable = { which = rank2 value = 3 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 3, making two pairs"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf3 value = 2 }
+			NOT = { has_character_flag = flag_one_pair }
+		}
+		set_character_flag = flag_one_pair
+		set_variable = { which = rank1 value = 3 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 3"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf2 value = 2 }
+			has_character_flag = flag_three_of_a_kind
+		}
+		set_character_flag = flag_full_house
+		clr_character_flag = flag_three_of_a_kind
+		set_variable = { which = rank2 value = 2 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 2, making a full house"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf2 value = 2 }
+			has_character_flag = flag_one_pair
+		}
+		set_character_flag = flag_two_pairs
+		clr_character_flag = flag_one_pair
+		set_variable = { which = rank2 value = 2 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 2, making two pairs"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf2 value = 2 }
+			NOT = { has_character_flag = flag_one_pair }
+		}
+		set_character_flag = flag_one_pair
+		set_variable = { which = rank1 value = 2 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 2"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf1 value = 2 }
+			has_character_flag = flag_three_of_a_kind
+		}
+		set_character_flag = flag_full_house
+		clr_character_flag = flag_three_of_a_kind
+		set_variable = { which = rank2 value = 1 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 1, making a full house"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf1 value = 2 }
+			has_character_flag = flag_one_pair
+		}
+		set_character_flag = flag_two_pairs
+		clr_character_flag = flag_one_pair
+		set_variable = { which = rank2 value = 1 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 1, making two pairs"
+	}
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf1 value = 2 }
+			NOT = { has_character_flag = flag_one_pair }
+		}
+		set_character_flag = flag_one_pair
+		set_variable = { which = rank1 value = 1 }
+		log = "Round [This.round.GetValue] - [This.GetFirstName] has a pair of 1"
+	}
+
+	# Lone Six
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf6 value = 1 }
+			NOT = { has_character_flag = flag_six_high_straight }
+		}
+		set_variable = { which = rank3 value = 6}
+	}
+	
+	# Lone Five
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf5 value = 1 }
+			NOT = { has_character_flag = flag_six_high_straight }
+			NOT = { has_character_flag = flag_five_high_straight }
+		}
+		set_variable = { which = rank4 value = 5}
+	}
+	
+	# Lone Four
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf4 value = 1 }
+			NOT = { has_character_flag = flag_six_high_straight }
+			NOT = { has_character_flag = flag_five_high_straight }
+		}
+		set_variable = { which = rank5 value = 4}
+	}
+	
+	# Lone Three
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf3 value = 1 }
+			NOT = { has_character_flag = flag_six_high_straight }
+			NOT = { has_character_flag = flag_five_high_straight }
+		}
+		set_variable = { which = rank6 value = 3}
+	}
+	
+	# Lone Two
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf2 value = 1 }
+			NOT = { has_character_flag = flag_six_high_straight }
+			NOT = { has_character_flag = flag_five_high_straight }
+		}
+		set_variable = { which = rank7 value = 2}
+	}
+	
+	# Lone One
+	if = {
+		limit = { 
+			is_variable_equal = { which = numberOf1 value = 1 }
+			NOT = { has_character_flag = flag_five_high_straight }
+		}
+		set_variable = { which = rank8 value = 1}
+	}
+	
+	log = "Round [This.round.GetValue] - [This.GetFirstName] - Ranks : [This.rank1.GetValue] [This.rank2.GetValue] [This.rank3.GetValue] [This.rank4.GetValue] [This.rank5.GetValue] [This.rank6.GetValue] [This.rank7.GetValue] [This.rank8.GetValue]"
+	
+	# Calculate side kicks ranking = rank3 * 100000 + rank4 * 10000 + rank5 * 1000 + rank6 * 100 + rank7 * 10 + rank8
+	multiply_variable = { which = rank3 value = 100000 }
+	multiply_variable = { which = rank4 value = 10000 }
+	multiply_variable = { which = rank5 value = 1000 }
+	multiply_variable = { which = rank6 value = 100 }
+	multiply_variable = { which = rank7 value = 10 }
+	
+	set_variable = { which = kick_rank which = rank3 }
+	change_variable = { which = kick_rank which = rank4 }
+	change_variable = { which = kick_rank which = rank5 }
+	change_variable = { which = kick_rank which = rank6 }
+	change_variable = { which = kick_rank which = rank7 }
+	change_variable = { which = kick_rank which = rank8 }
+	
+	log = "Round [This.round.GetValue] - [This.GetFirstName] - Side kicks rank: [This.kick_rank.GetValue]"
+}
