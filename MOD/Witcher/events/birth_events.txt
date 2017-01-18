@@ -181,7 +181,7 @@ character_event = {
 		FROM = {
 			add_character_modifier = {
 				name = lustful_affair_timer
-				duration = 365
+				duration = 1460
 				hidden = yes
 			}
 			character_event = { id = 451 days = 7 tooltip = EVTTOOLTIP451 }
@@ -510,6 +510,7 @@ character_event = {
 		
 		has_lover = no
 		is_pregnant = no
+		is_ill = no
 		
 		liege = {
 			OR = {
@@ -529,14 +530,24 @@ character_event = {
 			is_married = no
 			trait = lustful
 			trait = deceitful
+			trait = arbitrary
 			spouse = {
-				NOT = { reverse_opinion = { who = ROOT value = 50 } }
+				NOT = { reverse_opinion = { who = ROOT value = 0 } }
+			}
+		}
+		OR = {
+			is_consort = no
+			trait = lustful
+			trait = deceitful
+			trait = arbitrary
+			consort = {
+				NOT = { reverse_opinion = { who = ROOT value = 0 } }
 			}
 		}
 	}
 
 	mean_time_to_happen = {
-		months = 2000
+		months = 4000
 		
 		modifier = {
 			factor = 0.5
@@ -606,6 +617,7 @@ character_event = {
 					is_pregnant = no
 					prisoner = no
 					is_marriage_adult = yes
+					is_ill = no
 					
 					NOT = { is_close_relative = ROOT }
 					OR = {
@@ -634,6 +646,7 @@ character_event = {
 					NOT = { trait = incapable }
 					NOT = { trait = celibate }
 					NOT = { trait = eunuch }
+					NOT = { trait = chaste }
 					
 					OR = {
 						ROOT = {
@@ -665,16 +678,20 @@ character_event = {
 						is_married = no
 						trait = lustful
 						trait = deceitful
+						trait = arbitrary
 						spouse = {
-							NOT = { reverse_opinion = { who = PREV value = 50 } }
+							NOT = { reverse_opinion = { who = PREV value = 0 } }
 						}
 					}
-				}
-				
-				add_character_modifier = {
-					name = lustful_affair_timer
-					duration = 365
-					hidden = yes
+					OR = {
+						is_consort = no
+						trait = lustful
+						trait = deceitful
+						trait = arbitrary
+						consort = {
+							NOT = { reverse_opinion = { who = PREV value = 0 } }
+						}
+					}
 				}
 				
 				character_event = { id = 457 }
@@ -710,6 +727,12 @@ character_event = {
 		}
 		
 		add_lover = FROM
+		
+		add_character_modifier = {
+			name = lustful_affair_timer
+			duration = 2190
+			hidden = yes
+		}
 		
 #		log = "457: [From.GetBestName] tumbles [Root.GetBestName]"
 		
@@ -879,7 +902,7 @@ character_event = {
 			
 			# Wives and Concubines of rulers are watched...
 			modifier = {
-				factor = 30.0
+				factor = 60.0
 				is_female = yes
 				has_polygamy = no
 				NOT = { has_focus = focus_seduction }
@@ -895,7 +918,7 @@ character_event = {
 			
 			# Harems are especially well guarded...
 			modifier = {
-				factor = 100.0
+				factor = 200.0
 				is_female = yes
 				is_married = yes
 				has_polygamy = yes

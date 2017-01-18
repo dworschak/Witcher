@@ -2185,7 +2185,9 @@ character_event = {
 			prisoner = no
 			NOR = {
 				trait = incapable
-				is_main_spouse = ROOT
+				spouse = {
+					character = ROOT
+				}
 				consort = {
 					character = ROOT
 				}
@@ -2217,6 +2219,13 @@ character_event = {
 	option = {
 		name = "EVTOPTA64070" #It's time to end such affairs and settle down
 		any_lover = {
+			limit = {
+				NOT = {
+					spouse = {
+						character = ROOT
+					}
+				}
+			}
 			character_event = {
 				id = 64046
 				tooltip = "EVTTOOLTIP64046" 
@@ -2248,6 +2257,13 @@ character_event = {
 			}
 			10 = {
 				any_lover = {
+					limit = {
+						NOT = {
+							spouse = {
+								character = ROOT
+							}
+						}
+					}
 					character_event = {
 						id = 64046
 						tooltip = "EVTTOOLTIP64046" 
