@@ -1757,6 +1757,10 @@ letter_event = {
 	}	
 }
 
+###############################################################
+#Orthodox flavour: Icons!
+###############################################################
+# character_event = {
 
 ##########################
 ### Proselytize Events ###
@@ -2856,7 +2860,7 @@ character_event = {
 
 # Vassal accepts religious conversion demand. 
 # Fired from 'on_vassal_accepts_religious_conversion'
-# FROMFROM is the demander. FROM is the vassal. ROOT is the character. Fires for the vassal and each of his courtiers and vassals.
+# FROMFROM is the demander. FROM is the target vassal. ROOT is the current character. Fires for the target and each of his/her courtiers and direct vassals (but not for characters below the target's vassals).
 character_event = {
 	id = 39700
 	
@@ -2867,12 +2871,12 @@ character_event = {
 	trigger = {
 		NOT = { religion = FROMFROM }
 		OR = {
+			character = FROM
 			AND = {
 				is_ruler = no
 				NOT = { trait = zealous }
 				religion = FROM # Will not change religion if already different from the vassal's
 			}
-			character = FROM
 		}
 	}
 	

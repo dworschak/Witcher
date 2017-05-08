@@ -29,7 +29,7 @@ character_event = {
 	}
 
 	immediate = {
-		FROM = { save_event_target_as = aspiring_councillor }
+		FROMFROM = { save_event_target_as = aspiring_councillor }
 		ROOT = { save_event_target_as = target_liege }
 	}
 	
@@ -40,21 +40,21 @@ character_event = {
 			modifier = {
 				factor = 3
 				OR = {
-					opinion = { who = FROM value = 75 }
-					is_friend = FROM
+					opinion = { who = FROMFROM value = 75 }
+					is_friend = FROMFROM
 				}
 			}
 			modifier = {
 				factor = 0
-				is_rival = FROM
+				is_rival = FROMFROM
 			}
 		}
 		hidden_tooltip = {
-			FROM = { 
+			FROMFROM = { 
 				set_character_flag = council_membership_requested
 			}
 		}
-		FROM = { 
+		FROMFROM = { 
 			character_event = { id = ZE.6004 days = 1 tooltip = EVTTOOLTIPZE_6004 } 
 		}
 	}
@@ -66,20 +66,20 @@ character_event = {
 			modifier = {
 				factor = 0
 				OR = {
-					opinion = { who = FROM value = 75 }
-					is_friend = FROM
+					opinion = { who = FROMFROM value = 75 }
+					is_friend = FROMFROM
 				}
 			}
 			modifier = {
 				factor = 3
-				is_rival = FROM
+				is_rival = FROMFROM
 			}
 			modifier = {
 				factor = 0
 				diplomacy = 15
 			}
 		}
-		FROM = { 
+		FROMFROM = { 
 			set_character_flag = council_membership_denied
 			opinion = {
 				modifier = opinion_very_disappointed
@@ -100,16 +100,16 @@ character_event = {
 			modifier = {
 				factor = 0
 				OR = {
-					opinion = { who = FROM value = 75 }
-					is_friend = FROM
+					opinion = { who = FROMFROM value = 75 }
+					is_friend = FROMFROM
 				}
 			}
 			modifier = {
 				factor = 3
-				is_rival = FROM
+				is_rival = FROMFROM
 			}
 		}
-		FROM = { 
+		FROMFROM = { 
 			set_character_flag = council_membership_denied
 			opinion = {
 				modifier = opinion_flattered
@@ -678,7 +678,7 @@ character_event = {
 			} 
 			save_event_target_as = requested_province 
 		}
-		FROM = {
+		FROMFROM = {
 			random_child = {
 				limit = {
 					is_female = no
@@ -688,11 +688,10 @@ character_event = {
 					prisoner = no
 					NOR = { 
 						trait = incapable
-						trait = monk
-						trait = eunuch
+						is_ascetic_trigger = yes
 					}
 					liege = {
-						character = ROOT_FROM
+						character = PREVPREV
 					}
 				}
 				save_event_target_as = chosen_son
@@ -709,7 +708,7 @@ character_event = {
 		event_target:chosen_son = {
 			grant_title = event_target:requested_province
 		}
-		FROM = {
+		FROMFROM = {
 			character_event = { id = ZE.6013 }
 		}
 	}
@@ -719,7 +718,7 @@ character_event = {
 		ai_chance = {
 			factor = 80
 		}
-		FROM = {
+		FROMFROM = {
 			character_event = { id = ZE.6014 }
 		}
 	}
@@ -727,7 +726,7 @@ character_event = {
 	option = {
 		trigger = {
 			NOT = {
-				FROM = {
+				FROMFROM = {
 					owes_favor_to = ROOT
 				}
 			}
@@ -739,9 +738,9 @@ character_event = {
 		event_target:chosen_son = {
 			grant_title = event_target:requested_province
 		}
-		add_favor = FROM
+		add_favor = FROMFROM
 		hidden_tooltip = {
-			FROM = {
+			FROMFROM = {
 				character_event = { id = ZE.6015 }
 			}
 		}
@@ -1408,7 +1407,7 @@ character_event = {
 					limit = {
 						has_character_flag = is_chancellor
 					}
-					remove_title = job_marshal
+					remove_title = job_chancellor
 					clr_character_flag = is_chancellor
 				}
 				if = {

@@ -2628,6 +2628,9 @@ character_event = {
 	trigger = {
 		is_inaccessible_trigger = no
 		NOT = {
+			has_character_flag = childhood_was_bullied
+		}
+		NOT = {
 			num_of_friends = 2
 		}
 		NOT = {
@@ -2675,6 +2678,7 @@ character_event = {
 	}
 
 	immediate = {
+		set_character_flag = childhood_was_bullied
 		host = {
 			random_host_courtier = {
 				limit = {
@@ -5182,9 +5186,14 @@ character_event = {
 			war = no
 			is_ruler = yes
 			prisoner = no
-			NOT = {
+			NOR = {
 				liege = {
 					character = ROOT
+				}
+				ROOT = {
+					liege = {
+						character = PREVPREV
+					}
 				}
 			}
 			NOT = { has_character_modifier = in_seclusion }
@@ -5212,9 +5221,14 @@ character_event = {
 				war = no
 				is_ruler = yes
 				prisoner = no
-				NOT = {
+				NOR = {
 					liege = {
 						character = ROOT
+					}
+					ROOT = {
+						liege = {
+							character = PREVPREV
+						}
 					}
 				}
 			}
@@ -5784,7 +5798,7 @@ character_event = {
 			}
 			clr_character_flag = nofriends_friend_rival
 			tooltip = {
-				FROM = { add_rival = FROMFROM }
+				event_target:start_friend = { add_rival = event_target:friends_friend }
 			}
 			opinion = {
 				who = FROM
@@ -6389,6 +6403,7 @@ character_event = {
 			has_character_modifier = friend_diplomacy_timer
 		}
 		any_friend = {
+			is_adult = yes
 			war = no
 			in_command = no
 			prisoner = no
@@ -6452,6 +6467,7 @@ character_event = {
 		name = EVTOPTA100190
 		random_friend = {
 			limit = {
+				is_adult = yes
 				war = no
 				in_command = no
 				prisoner = no
@@ -6743,11 +6759,13 @@ character_event = {
 			trait = brilliant_strategist
 		}
 		any_friend = {
+			is_adult = yes
 			is_inaccessible_trigger = no
 			war = no
 			in_command = no
 			is_female = no
 			prisoner = no
+			is_incapable = no
 			OR = {
 				trait = duelist
 				martial = 11
@@ -6800,10 +6818,12 @@ character_event = {
 		name = EVTOPTA100200
 		random_friend = {
 			limit = {
+				is_adult = yes
 				war = no
 				in_command = no
 				prisoner = no
 				is_female = no
+				is_incapable = no
 				OR = {
 					trait = duelist
 					martial = 11
@@ -9194,6 +9214,7 @@ character_event = {
 				num_of_rivals = 1
 				is_female = no
 				prisoner = no
+				NOT = { martial = 10 }
 				OR = {
 					trait = wounded
 					is_maimed_trigger = yes

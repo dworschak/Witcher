@@ -8038,6 +8038,8 @@ character_event = {
 		}
 		any_courtier = {
 			age = 15
+			prisoner = no
+			NOT = { trait = incapable }
 			OR = {
 				NOT = {
 					trait = content
@@ -8075,6 +8077,8 @@ character_event = {
 		random_courtier = {
 			limit = {
 				age = 15
+				prisoner = no
+				NOT = { trait = incapable }
 				OR = {
 					NOT = {
 						trait = content
@@ -9659,6 +9663,20 @@ character_event = {
 			trait = humble
 		}
 	}
+
+	immediate = {
+		random_child = {
+			limit = {
+				age = 15
+				NOT = {
+					trait = zealous
+				}
+				religion_group = christian
+				opinion = { who = ROOT value = 100 }
+			}
+			save_event_target_as = nonzealous_child
+		}
+	}
 	
 	option = {
 		name = EVTOPTA3470
@@ -9673,6 +9691,8 @@ character_event = {
 			}
 		}
 		spouse = {
+			set_character_flag = show_in_option
+			clr_character_flag = show_in_option
 			character_event = {
 				id = 3471
 				tooltip = EVTTOOLTIP3471
@@ -9682,26 +9702,14 @@ character_event = {
 	option = {
 		name = EVTOPTB3470
 		trigger = {
-			any_child = {
-				age = 14
-				NOT = {
-					trait = zealous
-				}
-				opinion = { who = ROOT value = 100 }
-			}
+			event_target:nonzealous_child = { always = yes }
 		}
-		random_child = {
-			limit = {
-				age = 14
-				NOT = {
-					trait = zealous
-				}
-
-				opinion = { who = ROOT value = 100 }
-			}
+		event_target:nonzealous_child = {
+			set_character_flag = show_in_option
+			clr_character_flag = show_in_option
 			character_event = {
 				id = 3471
-				tooltip = EVTTOOLTIP3471
+				tooltip = EVTTOOLTIPB3471
 			}
 		}
 	}
@@ -12915,7 +12923,7 @@ character_event = {
 		in_command = no
 		NOR = {
 			is_inaccessible_trigger = yes
-			trait = ill
+			is_ill = yes
 			health = 6
 		}
 		any_courtier = {
@@ -13078,13 +13086,7 @@ character_event = {
 				}
 			}
 			20 = {
-				add_trait = ill
-				hidden_tooltip = {
-					character_event = {
-						days = 3
-						id = 38290 #Notify Ill
-					}
-				}
+				give_ill_effect = yes
 				opinion = {
 					modifier = opinion_irritated
 					who = FROM
@@ -13212,13 +13214,7 @@ character_event = {
 				}
 			}
 			20 = {
-				add_trait = ill
-				hidden_tooltip = {
-					character_event = {
-						days = 3
-						id = 38290 #Notify Ill
-					}
-				}
+				give_ill_effect = yes
 			}
 			10 = {
 				change_stewardship = 1

@@ -187,6 +187,7 @@ character_event = {
 			factor = 50
 			modifier = {
 				factor = 0
+				clan = yes
 				OR = {
 					has_blood_oath_with = FROM
 					is_friend = FROM
@@ -194,6 +195,7 @@ character_event = {
 			}
 			modifier = {
 				factor = 2
+				clan = yes
 				OR = {
 					has_feud_with = FROM
 					is_rival = FROM
@@ -314,3 +316,35 @@ character_event = {
 	}
 	
 }
+
+#True cognatic for gender quality rule
+character_event = {
+	id = GR.13
+	hide_window = yes
+
+	ai = no
+	only_playable = yes
+
+	is_triggered_only = yes
+
+	trigger = { 
+		has_game_rule = { name = gender value = all } 
+		is_multiplayer_host_character = yes
+		is_save_game = no
+	}
+
+	immediate = {
+		any_title = {
+			limit = { owner = { is_republic = no } }
+			add_law = {
+				law = true_cognatic_succession
+				cooldown = no
+				opinion_effect = no
+			}
+		}
+	}
+}
+
+
+
+
