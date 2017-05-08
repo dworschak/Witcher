@@ -2,6 +2,8 @@
 
 # Supported types:
 # character, spouse, rivals, friends, liege_titles, vassal_titles, realm_titles, realm_characters, realm_characters_plus, independent_rulers
+# Special: society_plot. When trigger fulfilled, anyone within the society can be invited. ROOT is the plotter. FROM is the target. FROMFROM is the society
+# Note that "player_allow" has the target as ROOT, and the plotter (the player) as FROM!
 
 ###############
 # PLOTS
@@ -289,7 +291,7 @@ plot_gain_vassal_title = {
 		prisoner = no
 		is_patrician = no
 		is_merchant_republic = no
-		age = 15
+		is_adult = yes
 		primary_title = {
 			higher_tier_than = COUNT
 			temporary = no
@@ -303,66 +305,31 @@ plot_gain_vassal_title = {
 		}
 	}
 	
+	target_potential = {
+		# No barony titles
+		higher_tier_than = BARON
+		is_primary_type_title = no
+		is_landless_type_title = no
+		controls_religion = no
+		is_merchant_republic = no
+		mercenary = no
+	}
+	
 	allow = {
-		hidden_tooltip = {
-			holder_scope = { NOT = { culture = wilderness } }
-			NOT = { culture = magic }
-			# No barony titles
-			higher_tier_than = BARON
-			is_primary_type_title = no
-			controls_religion = no
-			is_merchant_republic = no
-			mercenary = no
-			is_recent_grant = no
-			
-			OR = {
-				# Count title outside a Duke's duchy
-				AND = {
-					tier = COUNT
-					holder_scope = {
-						tier = DUKE
-						ROOT = {
-							NOT = { de_jure_liege = PREV }
-						}
-					}
-				}
-				# Duke with no count titles
-				AND = {
-					tier = DUKE
-					holder_scope = {
-						NOT = {
-							any_demesne_title = {
-								tier = COUNT
-								location = {
-									duchy = {
-										title = ROOT
-									}
-								}
-							}
-						}
-						NOT = {
-							any_vassal = {
-								any_demesne_title = {
-									tier = COUNT
-									location = {
-										duchy = {
-											title = ROOT
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				# Count titles in ruler's primary duchy
-				AND = {
+		holder_scope = { NOT = { culture = wilderness } }
+		NOT = { culture = magic }
+		
+		is_recent_grant = no
+		OR = {
+			# Count titles in ruler's primary duchy
+			custom_tooltip = {
+				text = TT_PLOT_GAIN_VASSAL_TITLE_COUNTY_IN_CAPITAL_DUCHY
+				hidden_tooltip = {
 					tier = COUNT
 					location = {
 						duchy = {
 							holder_scope = {
 								character = FROM
-							}
-							FROM = {
 								capital_scope = {
 									duchy = {
 										title = PREVPREVPREV
@@ -372,34 +339,69 @@ plot_gain_vassal_title = {
 						}
 					}
 				}
-				# Count's secondary county
-				AND = {
+			}
+			# Count's secondary county
+			custom_tooltip = {
+				text = TT_PLOT_GAIN_VASSAL_TITLE_COUNT_SECONDARY_COUNTY
+				hidden_tooltip = {
 					tier = COUNT
 					location = {
 						is_capital = no
 					}
 					holder_scope = {
-						lower_tier_than = DUKE
+						lower_real_tier_than = DUKE
 						num_of_count_titles = 2
 					}
 				}
 			}
-			holder_scope = {
-				liege_before_war = {
-					character = FROM
+			# Count title outside a Duke's duchy
+			custom_tooltip = {
+				text = TT_PLOT_GAIN_VASSAL_TITLE_DUKE_COUNTY_OUTSIDE_DUCHY
+				hidden_tooltip = {
+					tier = COUNT
+					holder_scope = {
+						tier = DUKE
+						ROOT = {
+							NOT = { de_jure_liege = PREV }
+						}
+					}
 				}
 			}
-			holder_scope = {
-				NOT = { reverse_has_truce = FROM }
+			# Duke with no count titles
+			custom_tooltip = {
+				text = TT_PLOT_GAIN_VASSAL_TITLE_DUCHY_ALL_DJ_COUNTIES_NOT_DEFACTO
+				hidden_tooltip = {
+					tier = DUKE
+					holder_scope = {
+						ROOT = {
+							NOT = {
+								any_direct_de_jure_vassal_title = {
+									holder_scope = {
+										OR = {
+											character = PREVPREVPREV
+											is_liege_or_above = PREVPREVPREV
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
-		
-		# Only if there is no non-aggression-pact with the vassal
-		FROM = {
-			NOT = {
-				has_non_aggression_pact_with = ROOT
+		holder_scope = {
+			custom_tooltip = { # liege_before_war lacks localisation, among other things
+				text = TT_FROM_IS_LIEGE_BEFORE_WAR
+				hidden_tooltip = {
+					liege_before_war = { # Plot will not invalidate during vassal-liege war
+						character = FROM
+					}
+				}
 			}
+			NOT = { has_non_aggression_pact_with = FROM }
+			NOT = { reverse_has_truce = FROM }
 		}
+		FROM = { in_revolt = no }
 	}
 	
 	chance = {
@@ -595,6 +597,7 @@ plot_gain_vassal_title = {
 				OR = {
 					is_playable = no
 					trait = incapable
+					in_revolt = yes
 				}
 			}
 			holder_scope = {
@@ -633,9 +636,27 @@ plot_gain_vassal_title = {
 
 # Get a character killed
 plot_kill_character = {
-	type = realm_characters_plus # All characters in the same realm, plus rivals and relatives of self, parents, children and spouse
+	type = realm_characters_plus # All characters in the same realm, plus rivals and relatives of self, parents, children and spouse, and quest target
 	intrigue_plot = yes
 	murder_plot = yes
+	society_plot = {
+		ROOT = {
+			society_member_of = the_assassins
+			society_rank >= 2
+		}
+		OR = {
+			FROM = { 
+				NOR = {
+					religion = shiite
+					has_secret_religion = shiite
+				}
+			}
+			ROOT = {
+				has_quest = quest_the_assassins_assassination
+				quest_target = { character = FROM }
+			}
+		}
+	}
 	
 	# Plotter scope
 	potential = {
@@ -870,13 +891,27 @@ plot_kill_character = {
 				any_rival = {
 					character = ROOT
 				}
+				
+				ROOT = { is_murder_quest_target_of_prev_trigger = yes }
 			}
+		}
+	}
+	
+	# ROOT = target FROM = joiner FROMFROM = plotter
+	allow_join = {
+		ROOT = {
+			NOT = { is_child_of = FROM } # Not my own children
 		}
 	}
 	
 	chance = {
 		factor = 2
-		
+
+		modifier = {
+			factor = 50
+			FROM = { has_quest = quest_the_assassins_assassination }
+			is_quest_target_of = FROM
+		}
 		modifier = {
 			factor = 0.01
 			FROM = {
@@ -924,6 +959,9 @@ plot_kill_character = {
 		modifier = {
 			factor = 0
 			their_opinion = { who = FROM value = 25 }
+			NOT = {
+				FROM = { ROOT = { is_murder_quest_target_of_prev_trigger = yes } } #MNM murder missions
+			}
 		}
 		modifier = {
 			factor = 0
@@ -933,6 +971,7 @@ plot_kill_character = {
 					FROM = { trait = envious }
 					FROM = { trait = deceitful }
 					FROM = { trait = ambitious }
+					FROM = { ROOT = { is_murder_quest_target_of_prev_trigger = yes } } #MNM murder missions
 				}
 			}		
 		}
@@ -1005,6 +1044,24 @@ plot_kill_spouse = {
 	type = spouse
 	intrigue_plot = yes
 	murder_plot = yes
+	society_plot = {
+		ROOT = {
+			society_member_of = the_assassins
+			society_rank >= 2
+		}
+		OR = {
+			FROM = { 
+				NOR = {
+					religion = shiite
+					has_secret_religion = shiite
+				}
+			}
+			ROOT = {
+				has_quest = quest_the_assassins_assassination
+				quest_target = { character = FROM }
+			}
+		}
+	}
 	
 	# Plotter scope
 	potential = {
@@ -1174,6 +1231,11 @@ plot_kill_spouse = {
 				}
 			}
 		}
+		modifier = {
+			factor = 50
+			FROM = { has_quest = quest_the_assassins_assassination }
+			is_quest_target_of = FROM
+		}
 	}
 	
 	success = {
@@ -1183,8 +1245,8 @@ plot_kill_spouse = {
 		}
 	}
 	abort = {
-		OR = {
-			is_alive = no
+		is_alive = no
+		FROM = {
 			trait = incapable
 		}
 	}
@@ -1710,8 +1772,8 @@ plot_gain_liege_title = {
 				character = FROM
 			}
 			has_holder = no
+			holder_scope = { is_playable = no }
 		}
-		is_playable = no
 	}
 	abort_effect = {
 		FROM = {
@@ -2159,5 +2221,82 @@ plot_seize_trade_post = {
 	}
 	effect = {
 		seize_trade_post = FROM
+	}
+}
+
+
+###SOCIETIES PLOTS###
+
+###Assassins###
+
+plot_assassins_collect_debt = {
+	type = realm_characters_plus # All characters in the same realm, plus rivals and relatives of self, parents, children and spouse, and quest target
+	intrigue_plot = yes
+	
+	# Plotter scope
+	potential = {
+		prisoner = no
+		is_adult = yes
+		NOT = { trait = incapable }
+		society_member_of = the_assassins
+		has_quest = quest_the_assassins_collect_debt
+	}
+	
+	# Targe scope scope
+	player_allow = {
+		FROM = { has_quest = quest_the_assassins_collect_debt }
+	}
+	
+	#Target scope
+	target_potential = {
+		FROM = {
+			has_quest = quest_the_assassins_collect_debt
+			quest_target = { character = ROOT }
+		}
+	}
+	
+	# Target character scope
+	allow = {
+		custom_tooltip = {
+			text = plot_assassins_collect_debt_allow_tt
+			FROM = {
+				has_quest = quest_the_assassins_collect_debt
+				quest_target = { character = ROOT }
+			}
+		}
+	}
+	
+	chance = {
+		factor = 50
+	}
+	
+	success = { #From is plotter, root is target
+		custom_tooltip = {
+			text = plot_assassins_collect_debt_success
+			FROM = { has_character_flag = collected_debt_success }
+		}
+	}
+
+	#From is plotter, root is target
+	abort = {	
+		OR = {
+			is_alive = no
+			FROM = {
+				OR = {
+					is_alive = no
+					has_character_flag = collected_debt_failure
+				}
+			}
+		}
+	}
+
+	#From is plotter, root is target
+	abort_effect = {
+		FROM = { clr_character_flag = collected_debt_failure }
+	}
+
+	#From is plotter, root is target
+	effect = {
+		FROM = { clr_character_flag = collected_debt_success }
 	}
 }

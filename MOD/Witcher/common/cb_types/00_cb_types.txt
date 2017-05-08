@@ -18,6 +18,7 @@
 # can_use_gui: If otherwise valid, the CB is listed in the Diplo View, but you can't declare war unless 'can_use_gui' is also valid (also shows a trigger tooltip.)
 #
 
+# 0
 claim = {
 	name = CB_NAME_CLAIM
 	war_name = WAR_NAME_CLAIM
@@ -245,6 +246,7 @@ claim = {
 	}
 }
 
+# 1
 other_claim = {
 	name = CB_NAME_CLAIM
 	war_name = WAR_NAME_OTHER_CLAIM
@@ -297,7 +299,7 @@ other_claim = {
 				}
 			}
 		}
-
+        
 		NOT = {
 			any_war = { # when used in title scope, checks all wars for that title
 				attacker = {
@@ -315,7 +317,7 @@ other_claim = {
 					holder_scope = { has_regent = yes }
 					AND = {
 						ROOT = { is_female = no }
-						holder_scope ={ is_female = yes }
+						holder_scope = { is_female = yes }
 					}
 					is_contested = yes # Is already being contested in some form of Claim or Succession War
 				}
@@ -621,7 +623,7 @@ other_claim = {
 	}
 }
 
-
+# 2
 claim_on_liege = {
 	name = CB_NAME_CLAIM
 	war_name = WAR_NAME_CLAIM_LIEGE
@@ -925,6 +927,7 @@ claim_on_liege = {
 }
 
 
+# 3
 claim_on_liege_plot = {
 	name = CB_NAME_CLAIM
 	war_name = WAR_NAME_CLAIM_LIEGE
@@ -1150,6 +1153,8 @@ claim_on_liege_plot = {
 	}
 }
 
+
+# 4
 claim_on_vassal_plot = {
 	name = CB_NAME_CLAIM_VASSAL
 	war_name = WAR_NAME_CLAIM_VASSAL
@@ -1270,6 +1275,7 @@ claim_on_vassal_plot = {
 	}
 }
 
+# 5
 other_claim_on_liege = {
 	name = CB_NAME_CLAIM
 	war_name = WAR_NAME_OTHER_CLAIM
@@ -1511,7 +1517,11 @@ other_claim_on_liege = {
 					}
 				}
 			}
-			ROOT = { abdicate = yes }
+			ROOT = {
+				abdicate = {
+					move = no
+				}
+			}
 		}
 		
 		usurp_title_plus_barony_if_unlanded_and_vassals_no_adj = { target = ROOT type = claim }
@@ -1665,7 +1675,7 @@ other_claim_on_liege = {
 	}
 }
 
-
+# 6
 claim_all = {
 	name = CB_NAME_CLAIM_ALL
 	war_name = WAR_NAME_CLAIM_ALL
@@ -2553,6 +2563,24 @@ invasion = {
 				NOT = { culture = ROOT }
 			}
 			hidden_tooltip = { conquest_culture = ROOT }
+		}
+		
+		if = {
+			limit = { ROOT = { character = 140 } }
+			hidden_tooltip = {
+				add_law = succ_primogeniture
+				ROOT = {
+					any_vassal = {
+						limit = {
+							culture = saxon
+						}
+						opinion = {
+							modifier = opinion_subjugated 
+							who = ROOT
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -3496,6 +3524,18 @@ overthrow_ruler = {
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 50 }
+		}
+		hidden_tooltip = {
+			any_attacker = {
+				limit = { liege = { character = FROM } }
+				prisoner = FROM
+				disband_event_forces = faction_revolters
+				add_character_modifier = {
+					name = faction_council_power_ultimatum_timer
+					hidden = yes
+					duration = 3650
+				}
+			}
 		}
 	}
 
@@ -5259,10 +5299,6 @@ seize_trade_post = {
 			mercenary = no
 		}
 		FROM = {
-			OR = {
-				is_merchant_republic = yes
-				is_patrician = yes
-			}
 			NOT = { is_liege_or_above = ROOT }
 		}
 	}
@@ -5293,10 +5329,6 @@ seize_trade_post = {
 			NOT = { is_liege_or_above = FROM }
 		}
 		FROM = {
-			OR = {
-				is_merchant_republic = yes
-				is_patrician = yes
-			}
 			NOT = { is_liege_or_above = ROOT }
 		}
 	}
@@ -5981,18 +6013,6 @@ dejure_county_claim = {
 			}
 		}
 		
-		OR = {
-			ROOT = {
-				NOT = { same_liege = FROM }
-			}
-			FROM = {
-				any_demesne_title = {
-					NOT = { title = PREVPREV }
-					higher_tier_than = BARON
-				}
-			}
-		}
-
 		NOT = {
 			OR = {
 				ROOT = {
@@ -6138,6 +6158,22 @@ dejure_county_claim = {
 	
 	ai_will_do = {
 		factor = 1
+		
+		modifier = {
+			factor = 0 # AIs will not take the last counties off their liege's direct vassals
+			ROOT = {
+				same_liege = FROM
+			}
+			FROM = {
+				NOT = {
+					any_demesne_title = {
+						tier = count
+						NOT = { title = PREVPREV }
+					}
+				}
+			}
+		}
+		
 		modifier = {
 			factor = 0.5
 			ROOT = { religion = eternal_fire }
@@ -6165,6 +6201,7 @@ dejure_barony_claim = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
 		FROM = {
+			NOT = { is_vassal_or_below = ROOT }
 			OR = {
 				holy_order = no
 				NOT = { religion = ROOT }
@@ -8282,7 +8319,7 @@ nomad_subjugation = {
 	}
 
 	attacker_ai_victory_worth = {
-		factor = 200
+		factor = -1 # always accept
 	}
 	
 	attacker_ai_defeat_worth = {
@@ -8858,41 +8895,8 @@ increase_council_power_war = { # Started from faction
 	}
 
 	on_success_title = {
-		if = {
-			limit = { has_law = law_voting_power_0 }
-			add_law_w_cooldown = law_voting_power_1
-			break = yes
-		}
-		if = {
-			limit = { has_law = war_voting_power_0 }
-			add_law_w_cooldown = war_voting_power_1
-			break = yes
-		}
-		if = {
-			limit = { has_law = revoke_title_voting_power_0 }
-			add_law_w_cooldown = revoke_title_voting_power_1
-			break = yes
-		}
-		if = {
-			limit = { has_law = imprison_voting_power_0 }
-			add_law_w_cooldown = imprison_voting_power_1
-			break = yes
-		}
-		if = {
-			limit = { has_law = grant_title_voting_power_0 }
-			add_law_w_cooldown = grant_title_voting_power_1
-			break = yes
-		}
-		if = {
-			limit = { has_law = banish_voting_power_0 }
-			add_law_w_cooldown = banish_voting_power_1
-			break = yes
-		}
-		if = {
-			limit = { has_law = execution_voting_power_0 }
-			add_law_w_cooldown = execution_voting_power_1
-			break = yes
-		}
+		increase_council_power_effect = yes
+		increase_vassal_freedom_effect = yes
 	}
 
 	on_fail = {
@@ -9317,21 +9321,47 @@ powerful_vassal_takeover_war = { # Started from faction
 	}
 
 	on_success_title = { #This is the target title of the faction
-		if = {
-			limit = { has_law = law_voting_power_0 }
-			add_law_w_cooldown = law_voting_power_1 
-		}
-		if = {
-			limit = { has_law = war_voting_power_0 }
-			add_law_w_cooldown = war_voting_power_1
-		}
+		increase_council_power_effect = yes
+		increase_vassal_freedom_effect = yes
+		increase_vassal_freedom_effect = yes
 		if = {
 			limit = { has_law = succession_voting_power_0 }
 			add_law_w_cooldown = succession_voting_power_1
 		}
-		if = {
-			limit = { NOT =  { has_law = succ_feudal_elective } }
-			add_law_w_cooldown = succ_feudal_elective
+		custom_tooltip = {
+			text = overthrow_text
+			hidden_tooltip = {
+				if = {
+					limit = { 
+						NOT = { has_law = succ_feudal_elective }
+						has_law = law_voting_power_1
+						has_law = banish_voting_power_1
+						has_law = execution_voting_power_1
+						has_law = revoke_title_voting_power_1
+						has_law = grant_title_voting_power_1
+						has_law = imprison_voting_power_1
+						has_law = war_voting_power_1						
+					}
+					add_law_w_cooldown = succ_feudal_elective
+				}
+				if = {
+					limit = {
+						NOT = { has_law = succ_gavelkind }
+						NOT = { has_law = succ_feudal_elective }
+						NAND = {
+							has_law = succ_feudal_elective
+							has_law = law_voting_power_1
+							has_law = banish_voting_power_1
+							has_law = execution_voting_power_1
+							has_law = revoke_title_voting_power_1
+							has_law = grant_title_voting_power_1
+							has_law = imprison_voting_power_1
+							has_law = war_voting_power_1						
+						}
+					}
+					add_law_w_cooldown = succ_gavelkind
+				}
+			}
 		}
 		holder_scope = {
 			clr_character_flag = powerful_vassal_takeover_target
@@ -9355,7 +9385,10 @@ powerful_vassal_takeover_war = { # Started from faction
 						}
 					}
 				}
-				grant_title = PREVPREV
+				usurp_title = {
+					target = PREVPREV
+					type = faction_demand
+				}
 				save_event_target_as = new_title_holder
 				hidden_tooltip = {
 					any_attacker = {
