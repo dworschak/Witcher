@@ -33,6 +33,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -283,6 +284,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -407,6 +409,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -784,6 +787,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -1017,6 +1021,15 @@ plot_decisions = {
 				factor = 0.5 # Slow it down a bit
 			}
 			
+			modifier = { # If liege is already fighting a claimant war, slow it down to avoid war spam
+				factor = 0.05
+				liege = {
+					any_war = {
+						using_cb = claim_on_liege
+					}
+				}
+			}
+			
 			modifier = {
 				factor = 0
 				supported_claimant = {
@@ -1137,9 +1150,6 @@ plot_decisions = {
 					}
 				}
 			}
-			supported_claimant = {
-				is_alive = yes
-			}
 		}
 		
 		effect = {
@@ -1222,6 +1232,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -1233,9 +1244,6 @@ plot_decisions = {
 						has_liege_enforced_peace = no
 					}
 				}
-			}
-			supported_claimant = {
-				is_alive = yes
 			}
 		}
 		
@@ -1321,6 +1329,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					lower_tier_than = DUKE
 					is_occupied = yes
 				}
 			}
@@ -1436,6 +1445,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -1447,9 +1457,6 @@ plot_decisions = {
 						has_liege_enforced_peace = no
 					}
 				}
-			}
-			supported_claimant = {
-				is_alive = yes
 			}
 		}
 		

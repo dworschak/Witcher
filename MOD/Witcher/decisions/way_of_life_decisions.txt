@@ -1,14 +1,15 @@
 # Targetted decisions are possible vs _all_ other characters and shown are in the Diplomacy View, not the Intrigue View. The taker is in the FROM scope.
 #
-# filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/spouse/liege/rivals/all] ('self' MUST be set for decisions targetting only the taker, the other filter types can be set to lessen CPU load)
-# ai_target_filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/spouse/liege/rivals/all] (which characters for which the AI evaluates the decision.)
-#	court: all characters in the AI's host court, including prisoners, and characters currently away (wards, prisoners, etc)
-#	home_court: all characters in the AI's home court, including prisoners, and characters currently away (wards, prisoners, etc)
+# filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/spouse/liege/religious_head/rivals/society/all] ('self' MUST be set for decisions targetting only the taker, the other filter types can be set to lessen CPU load)
+# ai_target_filter = [self/court/home_court/vassals/sub_realm/realm/dynasty/spouse/liege/religious_head/rivals/society/all] (which characters for which the AI evaluates the decision.)
+#	court: all characters in the host court, including prisoners, and characters currently away (wards, prisoners, etc)
+#	home_court: all characters in the home court, including prisoners, and characters currently away (wards, prisoners, etc)
 #	vassals: direct vassal rulers of the AI's employer
 #	sub_realm: all characters below the AI's employer
 #	realm: all characters in the same top realm as the AI
-#	dynasty: all members of the same dynasty
+#	dynasty: all members of the same dynasty (but not yourself)
 #	rivals: your rivals plus any character you have an opinion modifier with 'crime = yes' set (the same set of characters the 'is_foe' trigger evaluates)
+# society: the other members of your society (but not yourself)
 #	all: all living characters (Avoid if possible. VERY CPU-HEAVY!)
 #	
 
@@ -47,9 +48,8 @@ targetted_decisions = {
 		ai_target_filter = realm
 	
 		from_potential = {
-			is_playable = yes
-			is_marriage_adult = yes
 			has_focus = focus_seduction
+			is_marriage_adult = yes
 			NOT = { trait = incapable }
 			prisoner = no
 			NOT = { has_any_opinion_modifier = opinion_seducing }
@@ -166,11 +166,9 @@ targetted_decisions = {
 						limit = {
 							OR = {
 								is_priest = yes
-								trait = monk
-								trait = nun
+								is_ascetic_trigger = yes
 								ROOT = { is_priest = yes }
-								ROOT = { trait = monk }
-								ROOT = { trait = nun }
+								ROOT = { is_ascetic_trigger = yes }
 							}
 						}
 						character_event = { id = WoL.103 days = 1 } # Warning - Priest scandal risk
@@ -334,8 +332,10 @@ targetted_decisions = {
 			ai = no
 			is_marriage_adult = yes
 			has_focus = focus_seduction
-			has_character_flag = seduction_confirmed
-			has_any_opinion_modifier = opinion_seducing
+			OR = {
+				has_character_flag = seduction_confirmed
+				has_any_opinion_modifier = opinion_seducing
+			}
 		}
 		
 		effect = {
@@ -369,8 +369,10 @@ targetted_decisions = {
 			ai = no
 			is_marriage_adult = yes
 			has_focus = focus_seduction
-			has_character_flag = seduction_confirmed
-			has_any_opinion_modifier = opinion_seducing
+			OR = {
+				has_character_flag = seduction_confirmed
+				has_any_opinion_modifier = opinion_seducing
+			}
 		}
 		
 		potential = {
@@ -655,6 +657,7 @@ targetted_decisions = {
 			NOT = { trait = incapable }
 			NOT = { is_inaccessible_trigger = yes }
 			NOT = { had_character_flag = { flag = inviting_guests_to_party_timer days = 90 } }
+			NOT = { has_character_flag = party_host }
 		}
 		potential = {
 			is_adult = yes

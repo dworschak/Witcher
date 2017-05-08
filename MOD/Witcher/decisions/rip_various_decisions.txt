@@ -2,6 +2,8 @@ targeted_decisions = {
 	
 	release_tributary = {
 		
+		ai_target_filter = self
+		
 		from_potential = {
 			ai = no
 		}
@@ -26,6 +28,7 @@ targeted_decisions = {
 	}
 
 	break_non_aggression_pact = {
+		ai_target_filter = self
 		
 		from_potential = {
 			ai = no
@@ -43,7 +46,6 @@ targeted_decisions = {
 			opinion = {
 				who = FROM
 				modifier = broken_non_aggression_pact
-				duration = -1
 			}
 			FROM = { 
 				prestige = -200
@@ -480,23 +482,12 @@ targeted_decisions = {
 		}
 		potential = {
 			liege = { character = FROM }
-			NOR = {
-				is_ruler = yes
-				is_landed = yes
-				has_job_title = yes
-				has_minor_title = title_regent
-				has_minor_title = title_appointed_regent
-				has_minor_title = title_commander
-				has_minor_title = title_court_physician
-				dynasty = FROM
-				is_married = FROM
-				is_consort = FROM
-				is_adult = no
-				is_close_relative = FROM
-				has_character_flag = eternal_life_mystic
-				has_character_flag = immortal_rival
-				trait = horse
-				has_character_modifier = in_seclusion
+			can_be_asked_to_leave_court_trigger = yes
+			NOT = {
+				any_spouse = {
+					liege = { character = FROM }
+					can_be_asked_to_leave_court_trigger = no
+				}
 			}
 		}
 		allow = {
@@ -504,6 +495,15 @@ targeted_decisions = {
 				trait = incapable
 			}
 			prisoner = no
+			NOT = {
+				any_spouse = {
+					liege = { character = FROM }
+					OR = {
+						trait = incapable
+						prisoner = yes
+					}
+				}
+			}
 		}
 		effect = {
 			FROM = { prestige = -5 }
@@ -512,6 +512,15 @@ targeted_decisions = {
 				modifier = opinion_disappointed
 				who = FROM
 				years = 10
+			}
+			
+			any_spouse = {
+				limit = { liege = { character = FROM } }
+				opinion = {
+					modifier = opinion_disappointed
+					who = FROM
+					years = 10
+				}
 			}
 			
 			if = { # Move to a same-religion court
@@ -533,6 +542,12 @@ targeted_decisions = {
 					save_event_target_as = new_court
 				}
 				move_character = event_target:new_court
+				any_spouse = {
+					limit = {
+						liege = { character = FROM }
+					}
+					move_character = event_target:new_court
+				}
 				break = yes
 			}
 			
@@ -553,6 +568,12 @@ targeted_decisions = {
 					save_event_target_as = new_court_secondary
 				}
 				move_character = event_target:new_court_secondary
+				any_spouse = {
+					limit = {
+						liege = { character = FROM }
+					}
+					move_character = event_target:new_court
+				}
 				break = yes
 			}
 		
@@ -569,6 +590,12 @@ targeted_decisions = {
 					save_event_target_as = new_court_backup
 				}
 				move_character = event_target:new_court_backup
+				any_spouse = {
+					limit = {
+						liege = { character = FROM }
+					}
+					move_character = event_target:new_court
+				}
 			}
 			
 		}
@@ -584,6 +611,7 @@ targeted_decisions = {
 		filter = all
 		ai_target_filter = all
 		from_potential = {
+			has_dlc = "Reapers"
 			ai = no
 			#capital has space and no hospital
 			capital_scope = {
@@ -874,25 +902,21 @@ decisions = {
 		is_high_prio = yes
 		potential = {
 			has_dlc = "Reapers"
-			is_playable = yes
-			OR = {
-				is_landed = yes
-				is_patrician = yes
-			}
 			NOR = {
 				is_tribal = yes
 				is_nomadic = yes
 			}
 		}
 		allow = {
+			hidden_tooltip = {
+				OR = {
+					wealth = 25
+					ai = no
+				}
+			}
 			NOR = {
 				has_character_modifier = in_seclusion
-				any_courtier_or_vassal = {
-					has_minor_title = title_court_physician
-					liege = {
-						character = ROOT
-					}
-				}
+				has_assigned_minor_title = title_court_physician
 			}
 			custom_tooltip = {
 				text = 3_year_physician_cooldown
@@ -919,11 +943,6 @@ decisions = {
 		}
 		ai_will_do = {
 			factor = 0.1
-			
-			modifier = {
-				factor = 0
-				NOT = { wealth = 25 }
-			}
 			
 			modifier = {
 				factor = 0
@@ -969,7 +988,6 @@ decisions = {
 		
 		potential = {
 			has_dlc = "Reapers"
-			is_ruler = yes
 			OR = {
 				is_landed = yes
 				is_patrician = yes
@@ -993,29 +1011,15 @@ decisions = {
 					text = epidemic_present_tooltip
 					hidden_tooltip = {
 						OR = {
-							
-							AND = {
-								ai = yes
-								capital_scope = {
-									OR = {
-										disease = tuberculosis
-										disease = typhoid_fever
-										disease = typhus
-										disease = bubonic_plague
-										disease = measles
-										disease = small_pox
-										disease = syphilis
-									}
+							ai = no
+							capital_scope = { has_epidemic = yes }
+						}
+						OR = {
+							capital_scope = {
+								OR = {
+									has_epidemic = yes
 									any_neighbor_province = {
-										OR = {
-											disease = tuberculosis
-											disease = typhoid_fever
-											disease = typhus
-											disease = bubonic_plague
-											disease = measles
-											disease = small_pox
-											disease = syphilis
-										}
+										has_epidemic = yes
 									}
 								}
 							}
@@ -1023,26 +1027,7 @@ decisions = {
 								ai = no
 								top_liege = {
 									any_realm_province = {
-										OR = {
-											disease = tuberculosis
-											disease = typhoid_fever
-											disease = typhus
-											disease = bubonic_plague
-											disease = measles
-											disease = small_pox
-											disease = syphilis
-										}
-										any_neighbor_province = {
-											OR = {
-												disease = tuberculosis
-												disease = typhoid_fever
-												disease = typhus
-												disease = bubonic_plague
-												disease = measles
-												disease = small_pox
-												disease = syphilis
-											}
-										}
+										has_epidemic = yes
 									}
 								}
 							}
@@ -1081,7 +1066,6 @@ decisions = {
 						has_minor_title = title_councilmember_emperor
 					}
 				}
-				cancel_job_action = yes
 				force_host = ROOT
 			}
 			hidden_tooltip = {
@@ -1094,7 +1078,6 @@ decisions = {
 						liege = { character = ROOT }
 						NOT = { character = ROOT }
 					}
-					cancel_job_action = yes
 					add_character_modifier = {
 						name = in_seclusion
 						duration = -1
@@ -1160,12 +1143,8 @@ decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0.1
+			factor = 0.2
 			
-			modifier = {
-				factor = 0
-				capital_scope = { NOT = { has_disease = yes } }
-			}
 			modifier = {
 				factor = 0.01
 				OR = {
@@ -1176,10 +1155,6 @@ decisions = {
 						}
 					}
 				}
-			}
-			modifier = {
-				factor = 0.5
-				age = 65
 			}
 			modifier = {
 				factor = 0.5
@@ -1202,7 +1177,7 @@ decisions = {
 				trait = paranoid
 			}
 			modifier = {
-				factor = 10
+				factor = 50
 				capital_scope = { disease = bubonic_plague }
 			}
 		}
@@ -1279,9 +1254,10 @@ decisions = {
 					}
 				}
 				liege = {
-					save_event_target_as = liege_target
+					ROOT = {
+						force_host = PREV
+					}
 				}
-				force_host = event_target:liege_target
 
 				if = { #Notify employer that councillor is going into seclusion
 					limit = { 
