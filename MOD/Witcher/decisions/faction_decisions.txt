@@ -6,16 +6,6 @@ plot_decisions = {
 		
 		potential = {
 			is_playable = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			leads_faction = faction_succ_seniority
 			OR = {
@@ -33,6 +23,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -131,16 +122,6 @@ plot_decisions = {
 		
 		potential = {
 			is_playable = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			leads_faction = faction_succ_primogeniture
 			OR = {
@@ -255,16 +236,6 @@ plot_decisions = {
 		
 		potential = {
 			is_playable = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			leads_faction = faction_succ_feudal_elective
 			
@@ -283,6 +254,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -380,16 +352,6 @@ plot_decisions = {
 		
 		potential = {
 			is_playable = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			leads_faction = faction_succ_gavelkind
 			OR = {
@@ -407,6 +369,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -754,16 +717,6 @@ plot_decisions = {
 		
 		potential = {
 			is_playable = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			leads_faction = faction_independence
 			OR = {
@@ -784,6 +737,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -877,16 +831,6 @@ plot_decisions = {
 		
 		potential = {
 			is_playable = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			leads_faction = faction_claimant
 			OR = {
@@ -1017,6 +961,15 @@ plot_decisions = {
 				factor = 0.5 # Slow it down a bit
 			}
 			
+			modifier = { # If liege is already fighting a claimant war, slow it down to avoid war spam
+				factor = 0.05
+				liege = {
+					any_war = {
+						using_cb = claim_on_liege
+					}
+				}
+			}
+			
 			modifier = {
 				factor = 0
 				supported_claimant = {
@@ -1137,9 +1090,6 @@ plot_decisions = {
 					}
 				}
 			}
-			supported_claimant = {
-				is_alive = yes
-			}
 		}
 		
 		effect = {
@@ -1222,6 +1172,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -1233,9 +1184,6 @@ plot_decisions = {
 						has_liege_enforced_peace = no
 					}
 				}
-			}
-			supported_claimant = {
-				is_alive = yes
 			}
 		}
 		
@@ -1321,6 +1269,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					lower_tier_than = DUKE
 					is_occupied = yes
 				}
 			}
@@ -1436,6 +1385,7 @@ plot_decisions = {
 			}
 			NOT = {
 				any_realm_title = {
+					NOT = { higher_tier_than = count }
 					is_occupied = yes
 				}
 			}
@@ -1447,9 +1397,6 @@ plot_decisions = {
 						has_liege_enforced_peace = no
 					}
 				}
-			}
-			supported_claimant = {
-				is_alive = yes
 			}
 		}
 		

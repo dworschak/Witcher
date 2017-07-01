@@ -102,7 +102,6 @@ targetted_decisions = {
 
 	dissolve_mercenary_company_feudal = {
 		only_playable = yes
-		filter = dynasty
 		ai_target_filter = dynasty
 		
 		from_potential = {
@@ -130,7 +129,7 @@ targetted_decisions = {
 	change_council_job = {
 		only_rulers = yes
 		filter = realm
-		ai_target_filter = self # Todo: proper ai filter
+		ai_target_filter = self 
 		
 		from_potential = {
 			has_dlc = "Zeus"
@@ -159,8 +158,8 @@ targetted_decisions = {
 	
 	ask_wards_liege_to_allow_culture_religion_swap = {
 		only_playable = yes
-		filter = home_court
-		ai_target_filter = home_court
+		filter = sub_realm
+		ai_target_filter = court
 		
 		from_potential = {
 			is_playable = yes
@@ -170,17 +169,20 @@ targetted_decisions = {
 		potential = {
 			prisoner = no
 			is_adult = no
+			is_landed = no
 			NOR = { 
 				has_character_flag = guardian_asked_to_change_focus
 				has_focus = focus_ch_heritage
 				character = FROM
 			}
-			host = { character = FROM }
-			NOT = { liege = { character = FROM } }
-			OR = {
-				is_landed = no
-				liege = { character = FROM }
+			
+			host = {
+				OR = {
+					character = FROM
+					is_liege_or_above = FROM
+				}
 			}
+			NOT = { liege = { character = FROM } }
 			NOT = {
 				educator = {
 					culture = ROOT
@@ -219,6 +221,19 @@ targetted_decisions = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
+				factor = 0
+				NOT = { host = { character = FROM } }
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					educator = {
+						culture = FROM
+						religion = FROM
+					}
+				}
+			}
+			modifier = {
 				factor = 0.05
 			}
 		}
@@ -226,8 +241,8 @@ targetted_decisions = {
 	
 	change_wards_focus_to_heritage  = {
 		only_playable = yes
-		filter = home_court
-		ai_target_filter = home_court
+		filter = court
+		ai_target_filter = court
 		
 		from_potential = {
 			is_playable = yes
@@ -235,7 +250,6 @@ targetted_decisions = {
 		}
 		
 		potential = {
-			prisoner = no
 			is_adult = no
 			NOR = { 
 				has_character_flag = guardian_asked_to_change_focus
@@ -243,10 +257,14 @@ targetted_decisions = {
 				character = FROM
 			}
 			host = { character = FROM }
-			liege = { character = FROM }
+			OR = {
+				liege = { character = FROM }
+				prisoner = yes
+			}
 			OR = {
 				is_landed = no
-				liege = { character = FROM }
+				is_liege_or_above = FROM
+				prisoner = yes
 			}
 			NOT = {
 				educator = {
@@ -266,7 +284,10 @@ targetted_decisions = {
 			set_character_flag = guardian_asked_to_change_focus
 			if = {
 				limit = {
-					liege = { character = FROM }
+					OR = {
+						liege = { character = FROM }
+						prisoner = yes
+					}
 				}
 				hidden_tooltip = {
 					clear_focus = yes
@@ -347,7 +368,6 @@ targetted_decisions = {
 	
 	change_composition_mercenary_company_feudal = {
 		only_playable = yes
-		filter = dynasty
 		ai_target_filter = dynasty
 		
 		from_potential = {
@@ -378,7 +398,6 @@ targetted_decisions = {
 	
 	send_troops_mercenary_company_feudal = {
 		only_playable = yes
-		filter = dynasty
 		ai_target_filter = dynasty
 		
 		from_potential = {
@@ -427,21 +446,8 @@ targetted_decisions = {
 		}
 		
 		potential = {
-			is_child_of = FROM
-			age = 12
 			is_alive = yes
-			is_landed = no
-			host = { character = FROM }
-			is_adult = no 
-			prisoner = no
 			NOR = {
-				trait = bastard
-				trait = eunuch
-				trait = celibate
-				trait = incapable
-				is_inaccessible_trigger = yes
-				trait = monk
-				trait = nun
 				any_sibling = {
 					AND = {
 						is_alive = yes
@@ -450,56 +456,31 @@ targetted_decisions = {
 				}
 				has_character_flag = introduced_heir
 			}
-			OR = {
-				AND = {
-					is_female = no
-					FROM = { NOT = { has_law = true_cognatic_succession } }
-					NOT = {
-						any_sibling = {
-							AND = {
-								is_older_than = PREV
-								same_sex = PREV
-								is_child_of = FROM
-								NOR = {
-									trait = bastard
-									trait = eunuch
-									trait = celibate
-									trait = incapable
-									is_inaccessible_trigger = yes
-									trait = monk
-									trait = nun
-								}
-							}
-						}
-					}
-				}
-				AND = {
-					FROM = { has_law = true_cognatic_succession }
-					NOT = {
-						any_sibling = {
-							is_older_than = PREV
-							is_child_of = FROM
-							NOR = {
-								trait = bastard
-								trait = eunuch
-								trait = celibate
-								trait = incapable
-								is_inaccessible_trigger = yes
-								trait = monk
-								trait = nun
-							}
-						}
-					}
-				}
-			}
+			is_child_of = FROM
 		}
 		allow = {
-			
+			is_primary_heir = FROM
+			is_adult = no 
+			age = 12
+			is_landed = no
+			host = { character = FROM }
+			prisoner = no
+			NOT = { trait = incapable }
+			NOR = {
+				trait = bastard
+				trait = eunuch
+				trait = celibate
+				trait = incapable
+				is_inaccessible_trigger = yes
+				is_ascetic_trigger = yes
+			}
 		}
 		effect = {
 			custom_tooltip = {
 				text = introduce_heir_custom_tooltip
 				hidden_tooltip = {
+					set_character_flag = introduced_heir
+					save_event_target_as = introduced_heir
 					FROM = { character_event = { id = ZE.22900 } }
 				}
 			}
@@ -508,6 +489,7 @@ targetted_decisions = {
 		revoke_allowed = {
 			always = no
 		}
+		
 		ai_will_do = {
 			factor = 1
 			
@@ -520,8 +502,8 @@ targetted_decisions = {
 	
 	ask_wards_liege_to_allow_faith_focus = {
 		only_playable = yes
-		filter = home_court
-		ai_target_filter = home_court
+		filter = sub_realm
+		ai_target_filter = court
 		
 		from_potential = {
 			is_playable = yes
@@ -531,17 +513,21 @@ targetted_decisions = {
 		potential = {
 			prisoner = no
 			is_adult = no
+			is_landed = no
 			NOR = {
 				has_character_flag = guardian_asked_to_change_focus
 				has_focus = focus_ch_faith
 				character = FROM
 			}
-			host = { character = FROM }
-			NOT = { liege = { character = FROM } }
-			OR = {
-				is_landed = no
-				liege = { character = FROM }
+			
+			host = {
+				OR = {
+					character = FROM
+					is_liege_or_above = FROM
+				}
 			}
+			NOT = { liege = { character = FROM } }
+			
 			NOT = {
 				educator = {
 					religion = ROOT
@@ -579,6 +565,18 @@ targetted_decisions = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
+				factor = 0
+				NOT = { host = { character = FROM } }
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					educator = {
+						religion = FROM
+					}
+				}
+			}
+			modifier = {
 				factor = 0.05
 			}
 		}
@@ -586,8 +584,8 @@ targetted_decisions = {
 	
 	change_wards_focus_to_faith  = {
 		only_playable = yes
-		filter = home_court
-		ai_target_filter = home_court
+		filter = court
+		ai_target_filter = court
 		
 		from_potential = {
 			is_playable = yes
@@ -595,7 +593,6 @@ targetted_decisions = {
 		}
 		
 		potential = {
-			prisoner = no
 			is_adult = no
 			NOR = {
 				has_character_flag = guardian_asked_to_change_focus
@@ -603,10 +600,14 @@ targetted_decisions = {
 				character = FROM
 			}
 			host = { character = FROM }
-			liege = { character = FROM }
+			OR = {
+				liege = { character = FROM }
+				prisoner = yes
+			}
 			OR = {
 				is_landed = no
-				liege = { character = FROM }
+				is_liege_or_above = FROM
+				prisoner = yes
 			}
 			NOT = {
 				educator = {
@@ -625,7 +626,10 @@ targetted_decisions = {
 			set_character_flag = guardian_asked_to_change_focus
 			if = {
 				limit = {
-					liege = { character = FROM }
+					OR = {
+						liege = { character = FROM }
+						prisoner = yes
+					}
 				}
 				hidden_tooltip = {
 					clear_focus = yes

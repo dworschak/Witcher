@@ -22,7 +22,7 @@ targetted_decisions = {
 		allow = {
 			job_mage = { NOT = { has_character_modifier = drained } }
 			NOT = {
-				has_opinion_modifier = { who = FROM modifier = opinion_charmed }
+				has_opinion_modifier = { who = FROM modifier = opinion_spell_charmed }
 			}
 		}
 		
@@ -79,7 +79,7 @@ targetted_decisions = {
 		allow = {
 			FROM = { NOT = { has_character_modifier = drained } }
 			NOT = {
-				has_opinion_modifier = { who = FROM modifier = opinion_charmed }
+				has_opinion_modifier = { who = FROM modifier = opinion_spell_charmed }
 			}
 		}
 		
@@ -117,8 +117,74 @@ targetted_decisions = {
 			modifier = { factor = 2.0 NOT = { opinion = { who = FROM value = -75 } } }
 		}
 	}
+	
+	# Heal oneself via Court Mage
+	have_court_mage_cast_heal_spell_self = {
+		filter = self
+		ai_target_filter = self
+		
+		from_potential = {
+			job_mage = {
+				can_cast_spell_trigger = yes
+			}
+		}
+		
+		potential = {
+			NOT = { culture = wilderness }
+		}
+		
+		allow = {
+			job_mage = { NOT = { has_character_modifier = drained } }
+			OR = {
+				is_ill = yes
+				trait = wounded
+				is_maimed_trigger = yes
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+			}
+		}
+		
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = { 
+				job_mage = { character_event = { id = spell.2 } }
+			}
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0.01 war = yes }
+			
+			# On self
+			modifier = { 
+				factor = 4 
+				NOT = { health = 2 }
+			}
+			modifier = { 
+				factor = 3
+				NOT = { health = 3 }
+			}
+			modifier = { 
+				factor = 2
+				NOT = { health = 4 }
+			}
+			modifier = { 
+				factor = 5
+				OR = {
+					trait = blinded
+					trait = infirm
+				}	
+			}
+		}
+	}
 
-	# Heal character via Court Mage
+	# Heal another character via Court Mage
 	have_court_mage_cast_heal_spell = {
 		filter = sub_realm
 		ai_target_filter = sub_realm
@@ -162,31 +228,6 @@ targetted_decisions = {
 			modifier = { factor = 0.1 }
 			modifier = { factor = 0.01 war = yes }
 			
-			# Health
-			modifier = { 
-				factor = 4 
-				character = FROM # On self
-				NOT = { health = 2 }
-			}
-			modifier = { 
-				factor = 3
-				character = FROM # On self
-				NOT = { health = 3 }
-			}
-			modifier = { 
-				factor = 2
-				character = FROM # On self
-				NOT = { health = 4 }
-			}
-			modifier = { 
-				factor = 5
-				character = FROM # On self
-				OR = {
-					trait = blinded
-					trait = infirm
-				}	
-			}
-			
 			# Traits
 			modifier = { factor = 2.0 FROM = { trait = kind } }
 			modifier = { factor = 2.0 FROM = { trait = gregarious } }
@@ -205,7 +246,72 @@ targetted_decisions = {
 		}
 	}
 	
-	# Heal character
+	# Heal oneself
+	cast_heal_spell_self = {
+		filter = self
+		ai_target_filter = self
+		
+		from_potential = {
+			can_cast_spell_trigger = yes
+		}
+		
+		potential = {
+			NOT = { culture = wilderness }
+		}
+		
+		allow = {
+			FROM = { NOT = { has_character_modifier = drained } }
+			OR = {
+				is_ill = yes
+				trait = wounded
+				is_maimed_trigger = yes
+				trait = infirm
+				trait = blinded
+				trait = eunuch
+			}
+		}
+		
+		effect = {
+			custom_tooltip = { text = spell_heal_tooltip }
+			hidden_tooltip = { 
+				FROM = { character_event = { id = spell.1 } }
+			}
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
+			modifier = { factor = 0.01 war = yes }
+			
+			# On self
+			modifier = { 
+				factor = 4 
+				NOT = { health = 2 }
+			}
+			modifier = { 
+				factor = 3
+				NOT = { health = 3 }
+			}
+			modifier = { 
+				factor = 2
+				NOT = { health = 4 }
+			}
+			modifier = { 
+				factor = 5
+				OR = {
+					trait = blinded
+					trait = infirm
+				}	
+			}
+		}
+	}
+	
+	# Heal another character
 	cast_heal_spell = {
 		filter = sub_realm
 		ai_target_filter = sub_realm
@@ -248,31 +354,6 @@ targetted_decisions = {
 			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
 			modifier = { factor = 0.01 war = yes }
 			
-			# On self
-			modifier = { 
-				factor = 4 
-				character = FROM
-				NOT = { health = 2 }
-			}
-			modifier = { 
-				factor = 3
-				character = FROM
-				NOT = { health = 3 }
-			}
-			modifier = { 
-				factor = 2
-				character = FROM
-				NOT = { health = 4 }
-			}
-			modifier = { 
-				factor = 5
-				character = FROM
-				OR = {
-					trait = blinded
-					trait = infirm
-				}	
-			}
-			
 			# Traits
 			modifier = { factor = 2.0 FROM = { trait = kind } }
 			modifier = { factor = 2.0 FROM = { trait = gregarious } }
@@ -291,7 +372,55 @@ targetted_decisions = {
 		}
 	}
 	
-	# Protect character via Court Mage
+	# Protect oneself via Court Mage
+	have_court_mage_cast_protect_spell_self = {
+		filter = self
+		ai_target_filter = self
+		
+		from_potential = {
+			job_mage = {
+				can_cast_spell_trigger = yes
+			}
+		}
+		
+		potential = {
+			NOT = { culture = wilderness }
+		}
+		
+		allow = {
+			job_mage = { NOT = { has_character_modifier = drained } }
+			NOT = { has_character_modifier = protection_spell }
+		}
+		
+		effect = {
+			custom_tooltip = { text = spell_protection_tooltip }
+			hidden_tooltip = { 
+				job_mage = { character_event = { id = spell.32 } }
+			}
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0.01 war = yes }
+			
+			# On self
+			modifier = { 
+				factor = 2
+				trait = craven
+			}
+			modifier = { 
+				factor = 0.5
+				trait = brave
+			}
+		}
+	}
+	
+	# Protect another character via Court Mage
 	have_court_mage_cast_protect_spell = {
 		filter = sub_realm
 		ai_target_filter = sub_realm
@@ -328,18 +457,6 @@ targetted_decisions = {
 			modifier = { factor = 0.1 }
 			modifier = { factor = 0.01 war = yes }
 			
-			# On self
-			modifier = { 
-				factor = 2
-				character = FROM
-				trait = craven
-			}
-			modifier = { 
-				factor = 0.5
-				character = FROM
-				trait = brave
-			}
-			
 			# Traits
 			modifier = { factor = 2.0 FROM = { trait = kind } }
 			modifier = { factor = 2.0 FROM = { trait = gregarious } }
@@ -358,10 +475,10 @@ targetted_decisions = {
 		}
 	}
 	
-	# Protect character
-	cast_protect_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+	# Protect oneself
+	cast_protect_spell_self = {
+		filter = self
+		ai_target_filter = self
 		
 		from_potential = {
 			can_cast_spell_trigger = yes
@@ -369,7 +486,6 @@ targetted_decisions = {
 		
 		potential = {
 			NOT = { culture = wilderness }
-			is_within_diplo_range = FROM
 		}
 		
 		allow = {
@@ -405,6 +521,44 @@ targetted_decisions = {
 				character = FROM
 				trait = brave
 			}
+		}
+	}
+	
+	# Protect another character
+	cast_protect_spell = {
+		filter = sub_realm
+		ai_target_filter = sub_realm
+		
+		from_potential = {
+			can_cast_spell_trigger = yes
+		}
+		
+		potential = {
+			NOT = { culture = wilderness }
+			is_within_diplo_range = FROM
+		}
+		
+		allow = {
+			FROM = { NOT = { has_character_modifier = drained } }
+			NOT = { has_character_modifier = protection_spell }
+		}
+		
+		effect = {
+			custom_tooltip = { text = spell_protection_tooltip }
+			hidden_tooltip = { 
+				FROM = { character_event = { id = spell.31 } }
+			}
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0.1 }
+			modifier = { factor = 0.01 war = yes }
+			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
 			
 			# Traits
 			modifier = { factor = 2.0 FROM = { trait = kind } }
@@ -427,12 +581,8 @@ targetted_decisions = {
 
 
 decisions = {
-	spell_glamour = { # Toggled
+	spell_glamour = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			can_cast_spell_trigger = yes
 		}
@@ -464,19 +614,18 @@ decisions = {
 			modifier = { factor = 0 war = yes }
 		}
 	}
-	spell_foresight_court_mage = { # Toggled
+	
+	spell_foresight_court_mage = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			job_mage = {
 				can_cast_spell_trigger = yes
 			}
 		}
 		allow = {
-			NOT = { has_character_modifier = drained }
+			job_mage = {
+				NOT = { has_character_modifier = drained }
+			}
 		}
 		effect = {
 			custom_tooltip = { text = spell_foresight_tooltip }
@@ -486,12 +635,9 @@ decisions = {
 			factor = 0
 		}
 	}
-	spell_foresight = { # Toggled
+	
+	spell_foresight = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			can_cast_spell_trigger = yes
 		}
@@ -507,12 +653,8 @@ decisions = {
 		}
 	}
 
-	spell_siege_court_mage = { # Toggled
+	spell_siege_court_mage = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			job_mage = {
 				can_cast_spell_trigger = yes
@@ -549,12 +691,9 @@ decisions = {
 			modifier = { factor = 10 war = yes }
 		}
 	}
-	spell_siege = { # Toggled
+	
+	spell_siege = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			can_cast_spell_trigger = yes
 		}
@@ -580,12 +719,9 @@ decisions = {
 			modifier = { factor = 10 war = yes }
 		}
 	}
-	spell_battle_court_mage = { # Toggled
+	
+	spell_battle_court_mage = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			job_mage = {
 				can_cast_spell_trigger = yes
@@ -721,12 +857,9 @@ decisions = {
 			modifier = { factor = 10 war = yes }
 		}
 	}
-	spell_battle = { # Toggled
+	
+	spell_battle = {
 		potential = {
-			OR = {
-				ai = yes
-				has_character_flag = spell_decisions_open
-			}
 			NOT = { culture = wilderness }
 			can_cast_spell_trigger = yes
 		}

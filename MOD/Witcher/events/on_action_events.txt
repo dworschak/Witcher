@@ -11,7 +11,7 @@ letter_event = {
 
 	is_triggered_only = yes
 
-	desc = "A"
+	#desc = "A"
 }
 
 character_event = {
@@ -19,7 +19,7 @@ character_event = {
 
 	is_triggered_only = yes
 
-	desc = "B"
+	#desc = "B"
 }
 
 # Killer discovered after murder - consequences.
@@ -320,8 +320,7 @@ character_event = {
 						is_ruler = yes
 						is_theocracy = yes
 					}
-					trait = monk
-					trait = nun
+					is_ascetic_trigger = yes
 				}
 			}
 			add_character_modifier = {
@@ -474,7 +473,7 @@ character_event = {
 					any_spouse = {
 						if = {
 							limit = { gender_equality_trigger = no }
-							reverse_opinion = {
+							opinion = {
 								who = PREV
 								modifier = opinion_unfaithful_husband
 								years = 10
@@ -482,7 +481,7 @@ character_event = {
 						}
 						if = {
 							limit = { gender_equality_trigger = yes }
-							reverse_opinion = {
+							opinion = {
 								who = PREV
 								modifier = opinion_unfaithful_husband_crime
 								years = 10
@@ -571,6 +570,7 @@ character_event = {
 	id = 150
 	desc = "EVTDESC150"
 	picture = "GFX_evt_burning_house"
+	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes 
 	
@@ -589,8 +589,9 @@ character_event = {
 
 character_event = {
 	id = 40000
-	desc = "EVTDESC40000"
-	picture = "GFX_evt_burning_house"
+	desc = EVTDESC40000
+	picture = GFX_evt_burning_house
+	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes 
 	
@@ -608,6 +609,7 @@ character_event = {
 	id = 151
 	desc = "EVTDESC151"
 	picture = "GFX_evt_into_the_dungeon"
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes 
 	
@@ -633,6 +635,7 @@ character_event = {
 	id = 40001
 	desc = "EVTDESC40001"
 	picture = "GFX_evt_into_the_dungeon"
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes 
 	
@@ -646,6 +649,7 @@ character_event = {
 	id = 152	
 	desc = "EVTDESC152"
 	picture = GFX_evt_burning_house
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes 
 	
@@ -672,6 +676,7 @@ character_event = {
 	id = 40002
 	desc = "EVTDESC40002"
 	picture = GFX_evt_burning_house
+	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes 
 	
@@ -4262,5 +4267,76 @@ narrative_event = {
 				religion_group = FROM
 			}
 		}
+	}
+}
+
+# ASK_TO_JOIN_AMBITION_INTERACTION_ACCEPT_EVENT =
+diploresponse_event = {
+	id = 535
+
+	is_triggered_only = yes
+	major = no
+	is_friendly = yes
+
+	trigger = {
+		ai = no
+	}
+
+	desc = "EVTDESC535"
+
+	option = {
+		name = "OK"
+	}
+}
+
+# ASK_TO_JOIN_AMBITION_INTERACTION_DECLINE_EVENT =
+diploresponse_event = {
+	id = 536
+
+	is_triggered_only = yes
+	major = no
+
+	trigger = {
+		ai = no
+	}
+
+	desc = "EVTDESC536"
+
+	option = {
+		name = "OK"
+	}
+}
+
+# OFFER_CONSORT_INTERACTION_ACCEPT_EVENT =
+diploresponse_event = {
+	id = 537
+	desc = EVTDESC537
+
+	major = no
+	is_triggered_only = yes
+
+	trigger = {
+		ai = no
+	}
+
+	option = {
+		name = "OK"
+	}
+}
+
+# GIVE_ARTIFACT_INTERACTION_ACCEPT_EVENT =
+diploresponse_event = {
+	id = 538
+	desc = EVTDESC538
+
+	major = no
+	is_triggered_only = yes
+
+	trigger = {
+		ai = no
+	}
+
+	option = {
+		name = "OK"
 	}
 }

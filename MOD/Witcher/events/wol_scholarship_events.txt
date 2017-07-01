@@ -202,7 +202,17 @@ character_event = {
 				NOT = { wealth = 30 }
 			}
 		}
-		wealth = -30
+		if = {
+			limit = { has_character_flag = owns_observatory_equipment }
+			custom_tooltip = {
+				text = CUSTOM_TOOLTIP_OWNS_OBSERVATORY_EQUIPMENT
+			}
+		}
+		if = {
+			limit = { NOT = { has_character_flag = owns_observatory_equipment } }
+			set_character_flag = owns_observatory_equipment
+			wealth = -30
+		}
 		hidden_tooltip = { character_event = { id = WoL.6120 days = 180 } }
 	}
 	option = {
@@ -592,17 +602,22 @@ character_event = {
 			name = annoyed_religious
 			years = -1
 		}
-		any_realm_character = {
-			limit = {
-				OR = {
-					is_priest = yes
-					trait = zealous
+		custom_tooltip = {
+			text = "WOL_6170_OPINION_EFFECT"
+			hidden_effect = {
+				any_realm_character = {
+					limit = {
+						OR = {
+							is_priest = yes
+							trait = zealous
+						}
+					}
+					opinion = {
+						modifier = opinion_heretic
+						who = ROOT
+						years = 5
+					}
 				}
-				}
-			opinion = {
-				modifier = opinion_heretic
-				who = ROOT
-				years = 5
 			}
 		}
 	}
@@ -710,7 +725,17 @@ character_event = {
 				NOT = { wealth = 30 }
 			}
 		}
-		wealth = -30
+		if = {
+			limit = { has_character_flag = owns_observatory_equipment }
+			custom_tooltip = {
+				text = CUSTOM_TOOLTIP_OWNS_OBSERVATORY_EQUIPMENT
+			}
+		}
+		if = {
+			limit = { NOT = { has_character_flag = owns_observatory_equipment } }
+			set_character_flag = owns_observatory_equipment
+			wealth = -30
+		}
 		hidden_tooltip = { character_event = { id = WoL.6320 days = 180 } }
 	}
 	option = {
@@ -918,9 +943,9 @@ narrative_event = {
 		}
 		culture_techpoints = 30
 		wealth = -100
-		add_character_modifier = {
-			name = the_necronomicon
-			duration = -1
+		add_artifact = necronomicon
+		new_artifact = {
+			set_creation_date = 1.1.1
 		}
 		clr_character_flag = do_not_disturb
 		hidden_tooltip = { character_event = { id = WoL.6340 days = 180 } }
@@ -945,10 +970,11 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_character_modifier = the_necronomicon
+		has_artifact = necronomicon
 	}
 
 	immediate = {
+		destroy_artifact = necronomicon
 		current_heir = {
 			character_event = { id = WoL.6336 days = 7 }
 		}
@@ -1011,7 +1037,7 @@ character_event = {
 			}
 		}
 		if = {
-			limit = { has_character_modifier = the_necronomicon }
+			limit = { has_artifact = necronomicon }
 			hidden_tooltip = { character_event = { id = WoL.6350 days = 180 } }
 			break = yes
 		}

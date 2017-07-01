@@ -1221,6 +1221,7 @@ character_event = {
 		NOT = { trait = infirm }
 		NOT = { has_character_flag = do_not_disturb }
 		in_command = no
+		prisoner = no
 	}
 	
 	mean_time_to_happen = {
@@ -1338,9 +1339,12 @@ character_event = {
 	desc = EVTDESC_WOL_11102
 	picture = GFX_evt_emissary
 	border = GFX_event_normal_frame_war
+
+	trigger = {
+		prisoner = no
+	}
 	
-	option = {
-		name = EVTOPTA_WOL_11102
+	immediate = {
 		random_courtier = {
 			limit = {
 				NOT = {
@@ -1354,6 +1358,13 @@ character_event = {
 				is_adult = yes
 				trait = slothful
 			}
+			save_event_target_as = slothful_courtier
+		}
+	}
+	
+	option = {
+		name = EVTOPTA_WOL_11102
+		event_target:slothful_courtier = {
 			random_list = {
 				50 = {
 					remove_trait = slothful

@@ -168,8 +168,7 @@ focus_seduction = {
 		is_adult = yes
 		NOT = { trait = incapable }
 		NOT = { trait = celibate }
-		NOT = { trait = monk }
-		NOT = { trait = nun }
+		NOT = { is_ascetic_trigger = yes }
 		NOT = { trait = eunuch }
 		custom_tooltip = {
 			text = is_not_ascetic
@@ -921,6 +920,12 @@ focus_theology = {
 	# Focuses have no success conditions
 	success = {
 		always = no
+	}
+	creation_effect = {
+		if = {
+			limit = { has_quest = quest_monastic_order_theology_focus }
+			character_event = { id = MNM.4016 }
+		}
 	}
 	
 	abort = {

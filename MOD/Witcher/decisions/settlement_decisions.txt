@@ -377,12 +377,25 @@ settlement_decisions = {
 		
 		from_potential = {
 			is_playable = yes
-			is_nomadic = yes
+			OR = {
+				is_nomadic = yes
+				is_tribal = yes
+			}
 			has_dlc = "Horse Lords"
 		}
 		
 		potential = {
 			NOT = { holding_type = nomad }
+			OR = {
+				NOT = { holding_type = tribal }
+				FROM = { is_tribal = no }
+			}
+			OR = {
+				FROM = { is_nomadic = yes }
+				location = {
+					num_of_settlements = 2
+				}
+			}
 			owner = { character = FROM }
 		}
 		
@@ -538,7 +551,7 @@ settlement_decisions = {
 				hidden_tooltip = {
 					location = {
 						province_event = { id = HL.4810 days = 1 }
-						province_event = { id = HL.4814 days = 4 random = 8 }
+						province_event = { id = HL.4814 days = 2 random = 2 }
 					}
 				}
 				destroy_settlement = THIS
@@ -565,7 +578,10 @@ settlement_decisions = {
 		
 		from_potential = {
 			is_playable = yes
-			is_nomadic = yes
+			OR = {
+				is_nomadic = yes
+				is_tribal = yes
+			}
 			has_dlc = "Horse Lords"
 		}
 		
@@ -573,6 +589,10 @@ settlement_decisions = {
 			has_holding_modifier = recently_burnt_the_land
 			NOT = { has_holding_modifier = stop_burning_land }
 			NOT = { holding_type = nomad }
+			OR = {
+				NOT = { holding_type = tribal }
+				FROM = { is_tribal = no }
+			}
 			owner = { character = FROM }
 		}
 		
@@ -3244,6 +3264,53 @@ settlement_decisions = {
 			}
 			
 			
+		}
+	}
+	
+	# Debug decision to fix holdings with a dead owner
+	fix_holding_with_dead_owner = {
+		
+		from_potential = {
+			is_playable = yes
+			ai = no
+		}
+		potential = {
+			holder_scope = {
+				is_alive = no
+			}
+		}
+		allow = {
+			holder_scope = {
+				is_alive = no
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					location = {
+						holder_scope = {
+							is_alive = yes
+						}
+					}
+				}
+				location = {
+					holder_scope = {
+						ROOT = {
+							grant_title = PREV
+						}
+					}
+				}
+				break = yes
+			}
+			grant_title = FROM
+		}
+		
+		revoke_allowed = {
+			always = no
+		}
+		
+		ai_will_do = {
+			factor = 0
 		}
 	}
 }

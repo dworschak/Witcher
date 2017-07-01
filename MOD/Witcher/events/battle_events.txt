@@ -979,6 +979,8 @@ character_event = {
 	border = GFX_event_normal_frame_war
 	
 	is_triggered_only = yes
+	
+	notification = yes
 
 	trigger = {
 		NOT = { culture = wilderness}
@@ -1108,10 +1110,13 @@ character_event = {
 			trait = has_small_pox
 		}
 	}
+	
+	immediate = {
+		change_martial = 1
+	}
 
 	option = {
 		name = EXCELLENT
-		change_martial = 1
 	}
 }
 
@@ -1819,7 +1824,6 @@ character_event = {
 #On-action battle_won: Soldier Distinguishes himself.
 character_event = {
 	id = 261
-	desc = EVTDESC261
 	picture = GFX_evt_battle
 	border = GFX_event_normal_frame_war
 	
@@ -1853,7 +1857,32 @@ character_event = {
 			save_event_target_as = soldier_target
 		}
 	}
+
+	desc = {
+		trigger = {
+			NOR = {
+				has_character_modifier = good_battle_omen
+				has_character_modifier = bad_battle_omen
+			}
+		}
+		text = EVTDESC261
+	}
 	
+	desc = {
+		trigger = {
+			has_dlc = "Mystics"
+			has_character_modifier = good_battle_omen
+		}
+		text = EVTDESC261_good_battle_omen
+	}
+	desc = {
+		trigger = {
+			has_dlc = "Mystics"
+			has_character_modifier = bad_battle_omen
+		}
+		text = EVTDESC261_bad_battle_omen
+	}
+
 	weight_multiplier = {
 		days = 1
 		modifier = {
@@ -1875,14 +1904,54 @@ character_event = {
 		modifier = {
 			factor = 0.2
 			trait = arbitrary
-		}		
+		}
+		modifier = {
+			factor = 2
+			has_character_modifier = good_battle_omen
+		}
+		modifier = {
+			factor = 0.9
+			has_character_modifier = bad_battle_omen
+		}
 	}
 
 	option = {
 		name = EXCELLENT
 		event_target:soldier_target = {
 			prestige = 50
-		}		
+		}
+		trigger = {
+			NOR = {
+				has_character_modifier = good_battle_omen
+				has_character_modifier = bad_battle_omen
+			}	
+		}
+	}
+	option = {
+		name = 261_OPTA
+
+		event_target:soldier_target = {
+			prestige = 50
+		}
+		upgrade_seer_modifier_effect = yes
+		trigger = {
+			has_dlc = "Mystics"
+			has_character_modifier = good_battle_omen
+		}
+	}
+	option = {
+		name = 261_OPTB
+		event_target:soldier_target = {
+			prestige = 50
+		}
+		downgrade_seer_modifier_effect = yes
+		trigger = {
+			has_dlc = "Mystics"
+			has_character_modifier = bad_battle_omen
+		}
+	}
+	after = {
+		remove_scrying_omen_modifiers_effect = yes
 	}
 }
 

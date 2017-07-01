@@ -3,16 +3,6 @@ decisions = {
 	feast_0 = {
 		only_playable = yes
 		potential = {
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			NOT = { # Only humans
 				culture = aen_seidhe
@@ -49,9 +39,14 @@ decisions = {
 		}
 		allow = {
 			war = no
-			any_demesne_title = {
-				NOT = { higher_tier_than = count }
-				is_occupied = no
+			custom_tooltip = {
+				text = UNOCCUPIED_DEMESNE_TITLE
+				hidden_tooltip = {
+					any_demesne_title = {
+						NOT = { higher_tier_than = count }
+						is_occupied = no
+					}
+				}
 			}
 			prisoner = no
 			NOT = { is_inaccessible_trigger = yes }
@@ -128,16 +123,6 @@ decisions = {
 	summer_fair = {
 		only_playable = yes
 		potential = {
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { # Only humans and dwarfs
 				culture = wilderness
 				culture = aen_seidhe
@@ -164,9 +149,14 @@ decisions = {
 		}
 		allow = {
 			war = no
-			any_demesne_title = {
-				NOT = { higher_tier_than = count }
-				is_occupied = no
+			custom_tooltip = {
+				text = UNOCCUPIED_DEMESNE_TITLE
+				hidden_tooltip = {
+					any_demesne_title = {
+						NOT = { higher_tier_than = count }
+						is_occupied = no
+					}
+				}
 			}
 			scaled_wealth = 0.25
 			prisoner = no
@@ -250,16 +240,6 @@ decisions = {
 		only_playable = yes
 		potential = {
 			is_ruler = yes
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			is_ruler = yes
 			age = 15
@@ -273,9 +253,14 @@ decisions = {
 		}
 		allow = {
 			war = no
-			any_demesne_title = {
-				NOT = { higher_tier_than = count }
-				is_occupied = no
+			custom_tooltip = {
+				text = UNOCCUPIED_DEMESNE_TITLE
+				hidden_tooltip = {
+					any_demesne_title = {
+						NOT = { higher_tier_than = count }
+						is_occupied = no
+					}
+				}
 			}
 			month = 8
 			scaled_wealth = 0.20
@@ -355,19 +340,11 @@ decisions = {
 		}
 	}
 	
+	# hold_tiger_hunt = {
+	
 	commission_runestone = {
 		only_playable = yes
 		potential = {
-			OR = {
-				ai = yes
-				NOT = {
-					has_character_flag = employment_decisions_open
-					has_character_flag = marriage_decisions_open
-					has_character_flag = spell_decisions_open
-					has_character_flag = prisoner_decisions_open
-					has_character_flag = edict_decisions_open
-				}
-			}
 			NOT = { culture = wilderness }
 			has_dlc = "The Old Gods"
 			is_ruler = yes
@@ -408,7 +385,7 @@ decisions = {
 		}
 	}
 
-	# hold_nerge
+	# hold_nerge = {
 	
 	# hold_blot
 	
@@ -418,6 +395,7 @@ decisions = {
 	
 	pick_main_deity = {
 		only_playable = yes
+		is_high_prio = yes
 		potential = {
 			has_dlc = "The Old Gods"
 			is_playable = yes
@@ -534,31 +512,31 @@ decisions = {
 		}
 	}	
 	
-	# hold_uzgavenes
+	# hold_uzgavenes = {
 	
-	# hold_jarilo
+	# hold_jarilo = {
 	
-	# celebrate_passover
+	# celebrate_passover = {
 	
-	# borrow_money_jews
+	# borrow_money_jews = {
 	
-	# repay_money_jews
+	# repay_money_jews = {
 	
 	# become_kshatriya
 	
-	# become_vaishya
+	# become_vaishya = {
 	
-	# hold_diwali_feast_hindu
+	# hold_diwali_feast_hindu = {
 	
-	# hold_diwali_feast_buddhist
+	# hold_diwali_feast_buddhist = {
 	
-	# hold_diwali_feast_jain
+	# hold_diwali_feast_jain = {
 	
-	# hold_diwali_feast_kali_puja
+	# hold_diwali_feast_kali_puja = {
 	
 	# find_guru
 	
-	# hold_zun_feast	
+	# hold_zun_feast = {	
 	
 	# Sky burial
 	sky_burial_decision = {
@@ -571,6 +549,7 @@ decisions = {
 			government = nomadic_government
 		}
 		allow = {
+			is_adult = yes
 			in_command = no
 			prisoner = no
 			NOT = { trait = incapable }

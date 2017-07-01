@@ -37,7 +37,7 @@ character_event = {
 		in_command = yes
 		is_landed = yes
 		NOT = {
-			has_character_modifier = owns_relic
+			has_artifact = finger_of_st_john
 		}
 	}
 	
@@ -47,10 +47,9 @@ character_event = {
 	
 	option = {
 		name = EVTOPTA_SoA_5200
-		add_character_modifier = {
-			name = owns_relic
-			duration = -1
-			inherit = yes
+		add_artifact = finger_of_st_john
+		new_artifact = {
+			set_creation_date = -1.1.1
 		}
 		piety = 10
 	}
@@ -78,7 +77,7 @@ character_event = {
 		has_dlc = "Sons of Abraham"
 		wealth = 20
 		NOT = {
-			has_character_modifier = owns_relic
+			has_artifact = finger_of_st_john
 		}
 	}
 	
@@ -89,10 +88,9 @@ character_event = {
 	option = {
 		name = EVTOPTA_SoA_5201
 		wealth = -10
-		add_character_modifier = {
-			name = owns_relic
-			duration = -1
-			inherit = yes
+		add_artifact = finger_of_st_john
+		new_artifact = {
+			set_creation_date = -1.1.1
 		}
 		piety = 10
 	}
@@ -129,7 +127,7 @@ character_event = {
 	trigger = {
 		has_dlc = "Sons of Abraham"
 		NOT = {
-			has_character_modifier = owns_relic
+			has_artifact = finger_of_st_john
 		}
 	}
 	
@@ -139,10 +137,9 @@ character_event = {
 
 	option = {
 		name = EVTOPTA_SoA_5202
-		add_character_modifier = {
-			name = owns_relic
-			duration = -1
-			inherit = yes
+		add_artifact = finger_of_st_john
+		new_artifact = {
+			set_creation_date = -1.1.1
 		}
 		piety = 10
 	}
@@ -167,7 +164,7 @@ character_event = {
 			trait = slothful
 		}
 		has_dlc = "Sons of Abraham"
-		has_character_modifier = owns_relic
+		has_artifact = finger_of_st_john
 	}
 	
 	mean_time_to_happen = {
@@ -176,7 +173,7 @@ character_event = {
 
 	option = {
 		name = EVTOPTA_SoA_5203
-		remove_character_modifier = owns_relic
+		destroy_artifact = finger_of_st_john
 	}
 }
 
@@ -200,7 +197,7 @@ character_event = {
 				controlled_by = ROOT
 			}
 		}
-		has_character_modifier = owns_relic
+		has_artifact = finger_of_st_john
 	}
 	
 	mean_time_to_happen = {
@@ -209,7 +206,7 @@ character_event = {
 
 	option = {
 		name = EVTOPTA_SoA_5204
-		remove_character_modifier = owns_relic
+		destroy_artifact = finger_of_st_john
 	}
 }
 
@@ -228,7 +225,7 @@ character_event = {
 
 	trigger = {
 		has_dlc = "Sons of Abraham"
-		has_character_modifier = owns_relic
+		has_artifact = finger_of_st_john
 	}
 	
 	mean_time_to_happen = {
@@ -237,7 +234,7 @@ character_event = {
 
 	option = {
 		name = EVTOPTA_SoA_5205
-		remove_character_modifier = owns_relic
+		destroy_artifact = finger_of_st_john
 	}
 	option = {
 		name = EVTOPTB_SoA_5205
@@ -282,7 +279,7 @@ character_event = {
 		NOT = {
 			has_dlc = "Reapers"
 		}
-		has_character_modifier = owns_relic
+		has_artifact = finger_of_st_john
 	}
 	
 	mean_time_to_happen = {
@@ -354,7 +351,7 @@ character_event = {
 		has_dlc = "Sons of Abraham"
 		month = 4
 		NOT = { month = 7 }
-		has_character_modifier = owns_relic
+		has_artifact = finger_of_st_john
 	}
 	
 	mean_time_to_happen = {
@@ -469,7 +466,7 @@ character_event = {
 
 	trigger = {
 		has_dlc = "Sons of Abraham"
-		has_character_modifier = owns_relic
+		has_artifact = finger_of_st_john
 	}
 	
 	mean_time_to_happen = {
@@ -478,7 +475,7 @@ character_event = {
 
 	option = {
 		name = EVTOPTA_SoA_5209
-		remove_character_modifier = owns_relic
+		destroy_artifact = finger_of_st_john
 		piety = 30
 			if = {
 				limit = { NOT = { trait = humble } }
@@ -487,7 +484,7 @@ character_event = {
 	}
 	option = {
 		name = EVTOPTB_SoA_5209
-		remove_character_modifier = owns_relic
+		destroy_artifact = finger_of_st_john
 		piety = 30
 		prestige = 30
 		add_character_modifier = {
@@ -504,6 +501,8 @@ character_event = {
 	}
 }
 
+# Remove relic modifier if no longer Christian
+#character_event = {
 ###########################################
 #                                         #
 # Monks events - ID SoA.5210-SoA.5239     #
@@ -793,8 +792,7 @@ character_event = {
 			age = 13
 			NOT = { age = 15 }
 			NOT = { trait = cynical }
-			NOT = { trait = monk }
-			NOT = { trait = nun }
+			NOT = { is_ascetic_trigger = yes }
 		}
 	}
 
@@ -809,8 +807,7 @@ character_event = {
 				age = 13
 				NOT = { age = 15 }
 				NOT = { trait = cynical }
-				NOT = { trait = monk }
-				NOT = { trait = nun }
+				NOT = { is_ascetic_trigger = yes }
 			}
 			character_event = { id = SoA.5217 }
 		}

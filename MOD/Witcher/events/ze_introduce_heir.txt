@@ -16,69 +16,9 @@ character_event = {
 	
 	is_triggered_only = yes
 	
-	immediate = {
-		random_child = {
-			limit = {
-				age = 12
-				is_alive = yes
-				is_landed = no
-				host = { character = ROOT }
-				is_adult = no
-				prisoner = no
-				NOR = {
-					trait = bastard
-					trait = eunuch
-					trait = celibate
-					trait = incapable
-					is_inaccessible_trigger = yes
-					trait = monk
-					trait = nun
-				}
-				OR = {
-					AND = {
-						is_female = no
-						ROOT = { NOT = { has_law = true_cognatic_succession } }
-						NOT = {
-							any_sibling = {
-								AND = {
-									is_older_than = PREV
-									same_sex = PREV
-									is_child_of = ROOT
-									NOR = {
-										trait = bastard
-										trait = eunuch
-										trait = celibate
-										trait = incapable
-										is_inaccessible_trigger = yes
-										trait = monk
-										trait = nun
-									}
-								}
-							}
-						}
-					}
-					AND = {
-						ROOT = { has_law = true_cognatic_succession }
-						NOT = {
-							any_sibling = {
-								is_older_than = PREV
-								is_child_of = ROOT
-								NOR = {
-									trait = bastard
-									trait = eunuch
-									trait = celibate
-									trait = incapable
-									is_inaccessible_trigger = yes
-									trait = monk
-									trait = nun
-								}
-							}
-						}
-					}
-				}
-			}
-			set_character_flag = introduced_heir
-			save_event_target_as = introduced_heir
+	trigger = {
+		event_target:introduced_heir = {
+			is_alive = yes
 		}
 	}
 	
@@ -445,7 +385,9 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		event_target:introduced_heir = { is_alive = yes }
+		event_target:introduced_heir = { 
+			is_alive = yes
+		}
 		any_vassal = {
 			ai = yes
 			religion = ROOT
@@ -932,7 +874,7 @@ character_event = {
 	}
 	
 	immediate = {
-		any_vassal = {
+		random_vassal = {
 			limit = {
 				is_female = no
 				ai = yes
@@ -942,9 +884,21 @@ character_event = {
 					trait = incapable
 					is_inaccessible_trigger = yes
 				}
+				any_spouse = {
+					is_female = yes
+					ai = yes
+					prisoner = no
+					age = 20
+					is_landed = no
+					NOT = { age = 45 }
+					NOR = {
+						trait = incapable
+						is_inaccessible_trigger = yes
+					}
+				}
 			}
 			save_event_target_as = husband_target
-			any_spouse = {
+			random_spouse = {
 				limit = {
 					is_female = yes
 					ai = yes

@@ -534,8 +534,7 @@ character_event = {
 				FROM = {
 					OR = {
 						is_priest = yes
-						trait = monk
-						trait = nun
+						is_ascetic_trigger = yes
 					}
 				}
 			}
@@ -1049,8 +1048,7 @@ character_event = {
 						is_ruler = yes
 						is_theocracy = yes
 					}
-					trait = monk
-					trait = nun
+					is_ascetic_trigger = yes
 				}
 			}
 			tooltip = {
@@ -1217,8 +1215,7 @@ character_event = {
 			limit = {
 				OR = {
 					is_priest = yes
-					trait = monk
-					trait = nun
+					is_ascetic_trigger = yes
 				}
 			}
 			tooltip = {
@@ -1948,10 +1945,23 @@ character_event = {
 				OR = {
 					has_regent = yes
 					in_command = yes
-					FROMFROM = { trait = on_hajj }
-					FROMFROM = { is_inaccessible_trigger = yes }
-					FROMFROM = { trait = on_pilgrimage }
-					FROMFROM = { in_command = yes }
+					FROMFROM = {
+						OR = {
+							trait = on_hajj
+							trait = on_pilgrimage
+							trait = in_hiding
+							in_command = yes
+							has_character_modifier = in_meditation
+							has_character_modifier = doing_penance
+							AND = {
+								OR = {
+									has_character_modifier = in_seclusion
+									ROOT = { has_character_modifier = in_seclusion }
+								}
+								NOT = { at_location = ROOT }
+							}
+						}
+					}
 				}
 			}
 			repeat_event = { id = WoL.110 days = 20 random = 20 } # Fire again with no scope changes
@@ -2455,9 +2465,15 @@ character_event = {
 			FROMFROMFROM = {
 				OR = {
 					trait = on_hajj
-					is_inaccessible_trigger = yes
 					trait = on_pilgrimage
+					trait = in_hiding
 					in_command = yes
+					has_character_modifier = in_meditation
+					has_character_modifier = doing_penance
+					AND = {
+						has_character_modifier = in_seclusion
+						NOT = { at_location = ROOT }
+					}
 				}
 			}
 		}
@@ -2472,9 +2488,15 @@ character_event = {
 				FROMFROMFROM = {
 					OR = {
 						trait = on_hajj
-						is_inaccessible_trigger = yes
 						trait = on_pilgrimage
+						trait = in_hiding
 						in_command = yes
+						has_character_modifier = in_meditation
+						has_character_modifier = doing_penance
+						AND = {
+							has_character_modifier = in_seclusion
+							NOT = { at_location = ROOT }
+						}
 					}
 				}
 			}
@@ -6272,6 +6294,22 @@ character_event = {
 			character_event = { id = WoL.352 days = 1 tooltip = EVTTOOLTIP_WoL_352_BREATH }
 		}
 	}
+	option = { # Ask about star sign
+		name = EVTOPTE_WOL_351
+		trigger = {
+			society_member_of = hermetics
+		}
+
+		custom_tooltip = { text = because_member_of_society_tt }
+		tooltip_info = yes
+		ai_chance = {
+			factor = 10000
+		}
+		FROM = {
+			set_character_flag = seduction_whats_your_zodiac # nyast
+			character_event = { id = WoL.352 days = 1 tooltip = EVTTOOLTIP_WoL_352_ASTROLOGY }
+		}
+	}
 }
 
 # Target: Confession of love
@@ -6709,6 +6747,115 @@ character_event = {
 		FROM = { character_event = { id = WoL.306 days = 1 tooltip = EVTTOOLTIP_WoL_306_2 } }
 		clr_character_flag = seduction_whisper_breath
 	}
+
+	option = { # Fall for astrology
+		name = {
+			text = EVTOPTA_WOL_352_ASTROLOGY_compatible
+			trigger = {
+				FROM = { is_romantic_zodiac_match_with_root_trigger = yes }
+			}
+		}
+		name = {
+			text = EVTOPTA_WOL_352_ASTROLOGY_mismatch
+			trigger = {
+				FROM = { is_romantic_zodiac_match_with_root_trigger = no }
+			}
+		}
+
+		if = { limit = { FROM = { is_romantic_zodiac_match_with_root_trigger = yes } }
+			custom_tooltip = {
+				text = EVTOPTA_WOL_352_ASTROLOGY_compatible_TT
+			}
+		}
+		if = { limit = { FROM = { is_romantic_zodiac_match_with_root_trigger = no } }
+			custom_tooltip = {
+				text = EVTOPTA_WOL_352_ASTROLOGY_mismatch_TT
+			}
+		}
+
+		trigger = { has_character_flag = seduction_whats_your_zodiac }
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0.25
+				NOT = {
+					personal_opinion = {
+						who = FROM
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				is_close_relative = FROM
+				NOT = { religion = messalian }
+				NOT = { religion = zoroastrian }
+				NOT = {
+					OR = {
+						trait = arbitrary
+						trait = lustful
+						trait = hedonist
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				personal_opinion = {
+					who = FROM
+					value = 40
+				}
+			}
+			modifier = {
+				factor = 2.0
+				personal_opinion = {
+					who = FROM
+					value = 60
+				}
+			}
+			modifier = {
+				factor = 1.25
+				FROM = { has_character_modifier = wol_seducer_1 }
+			}
+			modifier = {
+				factor = 1.5
+				FROM = { has_character_modifier = wol_seducer_2 }
+			}
+			modifier = {
+				factor = 1.5
+				trait = mystic
+			}
+			modifier = {
+				factor = 1.5
+				trait = erudite
+			}
+			modifier = {
+				factor = 1.5
+				trait = scholar
+			}
+			modifier = {
+				factor = 1.5
+				society_member_of = hermetics
+			}
+			modifier = {
+				factor = 1.5
+				FROM = { society_rank >= 3 }
+			}
+			modifier = {
+				factor = 2.0
+				FROM = {
+					OR = {
+						trait = seducer
+						trait = seductress
+					}
+				}
+			}
+		}
+		
+		FROM = { character_event = { id = WoL.306 days = 1 tooltip = EVTTOOLTIP_WoL_306_2 } }
+		clr_character_flag = seduction_whats_your_zodiac
+	}
+	
 	
 	option = { # Spurn
 		name = {
@@ -6726,6 +6873,39 @@ character_event = {
 		name = {
 			text = EVTOPTB_WOL_352_BREATH
 			trigger = { has_character_flag = seduction_whisper_breath }
+		}
+		name = {
+			text = EVTOPTB_WOL_352_ASTROLOGY_compatible
+			trigger = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = yes }
+			}
+		}
+		name = {
+			text = EVTOPTB_WOL_352_ASTROLOGY_mismatch
+			trigger = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = no }
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = yes }
+			}
+			custom_tooltip = {
+				text = EVTOPTB_WOL_352_ASTROLOGY_compatible_TT
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = no }
+			}
+			custom_tooltip = {
+				text = EVTOPTB_WOL_352_ASTROLOGY_mismatch_TT
+			}
 		}
 		
 		ai_chance = {
@@ -6782,6 +6962,7 @@ character_event = {
 		clr_character_flag = seduction_whisper_lewd
 		clr_character_flag = seduction_whisper_poet
 		clr_character_flag = seduction_whisper_breath
+		clr_character_flag = seduction_whats_your_zodiac
 	}
 
 	option = {
@@ -7202,16 +7383,25 @@ character_event = {
 						ai = yes
 						same_sex = PREV
 						is_adult = yes
-						NOT = { character = ROOT }
-						NOT = { character = PREV }
-						NOT = { trait = incapable }
-						NOT = { trait = on_hajj }
-						NOT = { is_inaccessible_trigger = yes }
-						NOT = { trait = on_pilgrimage }
-						NOT = { is_father = PREV }
-						NOT = { is_mother = PREV }
-						NOT = { is_lover = PREV }
-						NOT = { is_rival = PREV }
+						NOR = {
+							character = ROOT
+							character = PREV
+							trait = incapable
+							trait = on_hajj
+							trait = on_pilgrimage
+							trait = in_hiding
+							in_command = yes
+							has_character_modifier = in_meditation
+							has_character_modifier = doing_penance
+							AND = {
+								has_character_modifier = in_seclusion
+								NOT = { at_location = PREV }
+							}
+							is_father = PREV
+							is_mother = PREV
+							is_lover = PREV
+							is_rival = PREV
+						}
 					}
 					character_event = { id = WoL.402 days = 1 }
 					break = yes
@@ -7242,9 +7432,15 @@ character_event = {
 								NOT = { character = ROOT }
 								NOT = { character = PREV }
 								NOT = { trait = incapable }
-								NOT = { trait = on_hajj }
-								NOT = { is_inaccessible_trigger = yes }
-								NOT = { trait = on_pilgrimage }
+								NOR = {
+									trait = on_hajj
+									trait = on_pilgrimage
+									trait = in_hiding
+									in_command = yes
+									has_character_modifier = in_meditation
+									has_character_modifier = doing_penance
+								}
+								
 								at_location = PREV
 								OR = {
 									AND = {
@@ -7455,6 +7651,22 @@ character_event = {
 			character_event = { id = WoL.404 days = 1 tooltip = EVTTOOLTIP_WoL_352_BREATH }
 		}
 	}
+	option = { # Ask about star sign
+		name = EVTOPTE_WOL_351
+		trigger = {
+			society_member_of = hermetics
+		}
+
+		custom_tooltip = { text = because_member_of_society_tt }
+		tooltip_info = yes
+		ai_chance = {
+			factor = 10000
+		}
+		FROMFROMFROM = {
+			set_character_flag = seduction_whats_your_zodiac #
+			character_event = { id = WoL.404 days = 1 tooltip = EVTTOOLTIP_WoL_352_ASTROLOGY }
+		}
+	}
 }
 
 # Seducer: Taking a walk with the target (close relative or same sex)
@@ -7538,6 +7750,22 @@ character_event = {
 		FROMFROM = {
 			set_character_flag = seduction_whisper_breath
 			character_event = { id = WoL.404 days = 1 tooltip = EVTTOOLTIP_WoL_352_BREATH }
+		}
+	}
+	option = { # Ask about star sign
+		name = EVTOPTE_WOL_351
+		trigger = {
+			society_member_of = hermetics
+		}
+
+		custom_tooltip = { text = because_member_of_society_tt }
+		tooltip_info = yes
+		ai_chance = {
+			factor = 10000
+		}
+		FROMFROM = {
+			set_character_flag = seduction_whats_your_zodiac #
+			character_event = { id = WoL.404 days = 1 tooltip = EVTTOOLTIP_WoL_352_ASTROLOGY }
 		}
 	}
 }
@@ -7998,6 +8226,117 @@ character_event = {
 		FROM = { character_event = { id = WoL.405 days = 1 tooltip = EVTTOOLTIP_WoL_405 } }
 		clr_character_flag = seduction_whisper_breath
 	}
+
+	option = { # Fall for astrology
+		name = {
+			text = EVTOPTA_WOL_352_ASTROLOGY_compatible
+			trigger = {
+				FROM = { is_romantic_zodiac_match_with_root_trigger = yes }
+			}
+		}
+
+		name = {
+			text = EVTOPTA_WOL_352_ASTROLOGY_mismatch
+			trigger = {
+				FROM = { is_romantic_zodiac_match_with_root_trigger = no }
+			}
+		}
+
+		if = {
+			limit = { FROM = { is_romantic_zodiac_match_with_root_trigger = yes } }
+			custom_tooltip = {
+				text = EVTOPTA_WOL_352_ASTROLOGY_compatible_TT
+			}
+		}
+		if = {
+			limit = { FROM = { is_romantic_zodiac_match_with_root_trigger = no } }
+			custom_tooltip = {
+				text = EVTOPTA_WOL_352_ASTROLOGY_mismatch_TT
+			}
+		}
+
+		trigger = { has_character_flag = seduction_whats_your_zodiac }
+		
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0.25
+				NOT = {
+					personal_opinion = {
+						who = FROM
+						value = 20
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				is_close_relative = FROM
+				NOT = { religion = messalian }
+				NOT = { religion = zoroastrian }
+				NOT = {
+					OR = {
+						trait = arbitrary
+						trait = lustful
+						trait = hedonist
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				personal_opinion = {
+					who = FROM
+					value = 40
+				}
+			}
+			modifier = {
+				factor = 2.0
+				personal_opinion = {
+					who = FROM
+					value = 60
+				}
+			}
+			modifier = {
+				factor = 1.25
+				FROM = { has_character_modifier = wol_seducer_1 }
+			}
+			modifier = {
+				factor = 1.5
+				FROM = { has_character_modifier = wol_seducer_2 }
+			}
+			modifier = {
+				factor = 1.5
+				trait = mystic
+			}
+			modifier = {
+				factor = 1.5
+				trait = erudite
+			}
+			modifier = {
+				factor = 1.5
+				trait = scholar
+			}
+			modifier = {
+				factor = 1.5
+				society_member_of = hermetics
+			}
+			modifier = {
+				factor = 1.5
+				FROM = { society_rank >= 3 }
+			}
+			modifier = {
+				factor = 2.0
+				FROM = {
+					OR = {
+						trait = seducer
+						trait = seductress
+					}
+				}
+			}
+		}
+		
+		FROM = { character_event = { id = WoL.405 days = 1 tooltip = EVTTOOLTIP_WoL_405 } }
+		clr_character_flag = seduction_whats_your_zodiac
+	}
 	
 	option = { # Spurn
 		name = {
@@ -8016,6 +8355,41 @@ character_event = {
 			text = EVTOPTB_WOL_352_BREATH
 			trigger = { has_character_flag = seduction_whisper_breath }
 		}
+
+		name = {
+			text = EVTOPTB_WOL_352_ASTROLOGY_compatible
+			trigger = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = yes }
+			}
+		}
+		name = {
+			text = EVTOPTB_WOL_352_ASTROLOGY_mismatch
+			trigger = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = no }
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = yes }
+			}
+			custom_tooltip = {
+				text = EVTOPTB_WOL_352_ASTROLOGY_compatible_TT
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = seduction_whats_your_zodiac
+				FROM = { is_romantic_zodiac_match_with_root_trigger = no }
+			}
+			custom_tooltip = {
+				text = EVTOPTB_WOL_352_ASTROLOGY_mismatch_TT
+			}
+		}
+
 		
 		ai_chance = {
 			factor = 100
@@ -9016,6 +9390,23 @@ character_event = {
 			set_character_flag = seduction_outing_note
 			set_character_flag = seduction_whisper_breath
 			character_event = { id = WoL.404 days = 1 tooltip = EVTTOOLTIP_WoL_352_BREATH }
+		}
+	}
+	option = { # Ask about star sign
+		name = EVTOPTE_WOL_351
+		trigger = {
+			society_member_of = hermetics
+		}
+
+		custom_tooltip = { text = because_member_of_society_tt }
+		tooltip_info = yes
+		ai_chance = {
+			factor = 10000
+		}
+		FROM = {
+			set_character_flag = seduction_outing_note
+			set_character_flag = seduction_whats_your_zodiac
+			character_event = { id = WoL.404 days = 1 tooltip = EVTTOOLTIP_WoL_352_ASTROLOGY }
 		}
 	}
 }
@@ -10429,8 +10820,8 @@ character_event = {
 										religion = ROOT
 										culture = ROOT
 										race = PREV
-										mother = PREV
-										father = ROOT
+										genetic_mother = PREV
+										genetic_father = ROOT
 										female = no
 										age = 0
 										trait = bastard
@@ -10446,8 +10837,8 @@ character_event = {
 										religion = ROOT
 										culture = ROOT
 										race = PREV
-										mother = PREV
-										father = ROOT
+										genetic_mother = PREV
+										genetic_father = ROOT
 										female = yes
 										age = 0
 										trait = bastard

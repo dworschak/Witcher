@@ -17,6 +17,9 @@
 # disable_non_aggression_pacts = yes # This temporarily disables all non-aggression pacts between the two characters
 # non_aggression_pact = yes # This gives a temporary non-aggression pact between the two characters
 
+# obedient = yes # The AI will accept all diplomatic interactions from the other character. Also makes the trigger with the same name return true
+# non_interference = yes # The AI will not take hostile action against the other character. Also makes the trigger with the same name return true. Non-interference is considered a subset of "obedient", so any obedient character is automatically non-interfering as well
+
 ##########################################################################
 # HARD - DO NOT REMOVE OR RENAME ANY OF THESE
 ##########################################################################
@@ -509,6 +512,12 @@ sent_gift = {
 	months = 60
 }
 
+# Multiplied by various factors
+gave_artifact = {
+	opinion = 1
+	months = 60
+}
+
 opinion_demanded_conversion = {
 	opinion = -5
 	months = 60
@@ -747,6 +756,11 @@ opinion_lost_ward = {
 
 opinion_betrothal_broken = {
 	opinion = -20
+	months = 120
+}
+
+opinion_given_nice_consort = {
+	opinion = 10
 	months = 120
 }
 
@@ -2535,6 +2549,7 @@ opinion_blinded_close_kin = {
 opinion_loyal_servant = {
 	opinion = 50
 	months = 1200	# For life
+	obedient = yes
 }
 
 opinion_insane_law = {
@@ -2775,9 +2790,10 @@ opinion_driven_from_my_lands = {
 	opinion = -50
 	months = 1200
 }
-###########################################
-# Fake opinions to designate plot targets #
-###########################################
+
+######################################
+# Fake opinions to designate targets #
+######################################
 
 opinion_plot_weaken_fellow_vassal = {
 	opinion = 0
@@ -2802,6 +2818,34 @@ forbidden_raid_target = { # Used in code to exclude eligible migration target.
 	opinion = 0
 	months = 1200
 }
+
+opinion_seducing = {
+	opinion = 0
+}
+
+opinion_spying_on = {
+	opinion = 0
+}
+
+opinion_abducting = {
+	opinion = 0
+}
+
+opinion_breaking_out = {
+	opinion = 0
+}
+
+opinion_interfered_in_war = {
+	opinion = 0
+}
+
+opinion_demanded_succ_law_change = {
+	opinion = 0
+}
+
+########################
+# End of fake opinions #
+########################
 
 opinion_witch = {
 	opinion = -100
@@ -2893,20 +2937,13 @@ opinion_idolater = {
 	opinion = -10
 }
 
-opinion_seducing = {
-	opinion = 0
-}
-
-opinion_spying_on = {
-	opinion = 0
-}
-
-opinion_breaking_out = {
-	opinion = 0
-}
-
-opinion_interfered_in_war = {
-	opinion = 0
+opinion_attempted_abduction = {
+	opinion = -50
+	months = 120
+	prison_reason = yes
+	banish_reason = yes
+	execute_reason = yes
+	revoke_reason = yes
 }
 
 opinion_seducing_concubine = {
@@ -2953,13 +2990,13 @@ opinion_unfaithful_wife = {
 }
 
 opinion_unfaithful_husband = {
-	opinion = -50
+	opinion = -25
 	months = 120
 	stacking = no
 }
 
 opinion_unfaithful_husband_crime = {
-	opinion = -50
+	opinion = -25
 	months = 120
 	stacking = no
 	prison_reason = yes
@@ -3072,6 +3109,18 @@ opinion_charge_illegitimate = {
 	opinion = -50
 	prison_reason = yes
 	revoke_reason = yes
+	months = 24
+}
+opinion_charge_cultist = {
+	opinion = -50
+	prison_reason = yes
+	months = 24
+}
+opinion_charge_dw = {
+	opinion = -50
+	prison_reason = yes
+	revoke_reason = yes
+	execute_reason = yes
 	months = 24
 }
 opinion_charge_traitor = {
@@ -3481,10 +3530,6 @@ opinion_refused_to_end_war = {
 	months = 60
 }
 
-opinion_demanded_succ_law_change = {
-	opinion = 0
-}
-
 opinion_refused_council_position = {
 	opinion = -35
 }
@@ -3551,4 +3596,288 @@ immortal_hate = {
 
 immortal_loyalty = {
 	opinion = 30
+}
+
+opinion_agreed_with_opinion = {
+	opinion = 10
+}
+
+opinion_disagreed_with_opinion = {	
+	opinion = -10
+}
+
+opinion_honorable = {
+	opinion = 15
+}
+
+opinion_lacks_conviction = {
+	opinion = -15
+}
+
+opinion_parental_praise = {
+	opinion = 15
+}
+
+opinion_was_shown_mercy = {
+	opinion = 15
+}
+
+opinion_open_minded = {
+	opinion = 5
+}
+
+opinion_narrow_minded = {
+	opinion = -5
+}
+
+opinion_successful_corruption = {
+	opinion = 75
+}
+
+opinion_failed_corruption = {
+	opinion = -50
+}
+
+opinion_known_corrupter = {
+	opinion = -10
+	stacking = yes
+}
+
+opinion_ignorant = {
+	opinion = -30
+}
+ 
+kind_parent = {
+	opinion = 30
+}
+
+cruel_parent = {
+	opinion = -30
+}
+
+opinion_outraged = {
+	opinion = -25
+}
+
+opinion_thief = {
+	opinion = -30
+	prison_reason = yes # This one gives righteous cause to imprison a character
+}
+
+opinion_useless_moron = {
+	opinion = -30
+}
+
+opinion_found_minor_artifact = {
+	opinion = 10
+}
+
+opinion_found_medium_artifact = {
+	opinion = 15
+}
+
+opinion_found_major_artifact = {
+	opinion = 25
+}
+
+opinion_extremely_disappointed = {
+	opinion = -25
+}
+
+opinion_was_rewarded = {
+	opinion = 20
+}
+
+opinion_unimpressed = {
+	opinion = -15
+}
+
+stole_artifact = {
+	opinion = -75
+}
+
+stole_artifact_penance = {
+	opinion = -15
+}
+
+paid_for_celebration_artifact = {
+	opinion = 15
+}
+
+opinion_nemesis = {
+	opinion = -500
+}
+
+opinion_rejected_society_membership = {
+	opinion = -50
+}
+
+epic_adventure = {
+	opinion = 40
+}
+
+great_adventure = {
+	opinion = 20
+}
+
+nice_adventure = {
+	opinion = 10
+}
+
+opinion_accomplice = {
+	opinion = 20
+}
+
+opinion_gift_from_above = {
+	opinion = 15
+}
+
+opinion_outlawed_society = {
+	opinion = -100
+	revoke_reason = yes
+	prison_reason = yes
+	banish_reason = yes
+	execute_reason = yes
+	divorce_reason = yes
+}
+
+opinion_accused_apostate = {
+	opinion = -100
+	revoke_reason = yes
+	prison_reason = yes
+	banish_reason = yes
+	execute_reason = yes
+	divorce_reason = yes
+}
+
+opinion_stargazing = {
+	opinion = 5
+}
+
+opinion_out_of_touch = {
+	opinion = -35
+}
+
+opinion_out_of_touch_mild = {
+	opinion = -20
+}
+
+opinion_bad_parent = {
+	opinion = -15
+}
+
+opinion_forgot_important_occasion = {
+	opinion = -35
+}
+
+opinion_forgot_important_occasion_mild = {
+	opinion = -20
+}
+
+opinion_academic_grudge = {
+	opinion = -15
+}
+
+opinion_academic_failure = {
+	opinion = -15
+}
+
+opinion_knowledge_theft = {
+	opinion = -20
+}
+
+opinion_grateful_invitation = {
+	opinion = 10
+}
+
+opinion_offended = {
+	opinion = -30
+}
+
+opinion_argued = {
+	opinion = -10
+}
+
+opinion_unreasonable = {
+	opinion = -10
+}
+
+opinion_reasonable = {
+	opinion = 10
+}
+
+opinion_great_minds = {
+	opinion = 20
+}
+
+opinion_debate_participant = {
+	opinion = 5
+}
+
+opinion_debate_winner = {
+	opinion = 15
+}
+
+opinion_scholarly_appreciation = {
+	opinion = 20	
+}
+
+opinion_mediator = {
+	opinion = 15	
+}
+
+opinion_meddler = {
+	opinion = -15	
+}
+
+opinion_love_letters = {
+	opinion = 10
+}
+
+opinion_pen_pal = {
+	opinion = 10
+}
+
+opinion_delighted_parent = {
+	opinion = 10
+}
+
+opinion_poet_love_letters = {
+	opinion = 20
+}
+
+opinion_poet_pen_pal = {
+	opinion = 20
+}
+
+opinion_poet_delighted_parent = {
+	opinion = 20
+}
+
+opinion_threatened_me = {
+	opinion = -25
+}
+
+opinion_apologized = {
+	opinion = 10
+}
+
+opinion_calmed = {
+	opinion = 10
+}
+
+opinion_cheered_up = {
+	opinion = 5
+}
+
+opinion_abducted = {
+	opinion = -50
+}
+
+opinion_spiritual_guidance = {
+	opinion = 5
+}
+
+opinion_teach_virtue = {
+	opinion = 10
 }
