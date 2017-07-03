@@ -19,7 +19,7 @@ namespace = dice_poker
 # flag_five_of_a_kind, etc. : hand combo type
 # flag_lone_six -> flag_lone_one: whether hand has such value not part of the combo 
 
-# Don't use event targets and repat_event not in THIS scope, as it's a complete mess
+# Don't use event targets and repat_event not in THIS scope, as it's a complete mess !
 
 #-------------------------------
 
@@ -47,9 +47,7 @@ namespace = dice_poker
 # | (switch to player)
 # Determine results [hidden] - dice_poker.4
 # |
-# Show results (player) - dice_poker.
-# | (switch to opponent)
-# Show results (opponent) - dice_poker. or  ?
+# Show results (player and opponent) - dice_poker.6
 
 # -------------------------------------------------
 
@@ -60,7 +58,7 @@ character_event = {
 	id = dice_poker.0
 	title = dice_poker.0.title
 	desc = dice_poker.0.desc
-	picture = GFX_evt_riots_byzantine
+	picture = GFX_evt_dice_poker_box
 	
 	is_triggered_only = yes
 	
@@ -75,7 +73,7 @@ character_event = {
 	}
 	
 	option = { # Accept
-		name = OK
+		name = dice_poker.0.a
 		log = "[This.GetFirstName] accepts the game"
 		FROMFROM = {
 			character_event = { id = dice_poker.1 }
@@ -85,7 +83,7 @@ character_event = {
 		}
 	}
 	option = { # Decline
-		name = OK
+		name = dice_poker.0.b
 		log = "[This.GetFirstName] declines the game"
 		FROMFROM = {
 			character_event = { id = dice_poker.9 }
@@ -120,15 +118,18 @@ character_event = {
 	}
 }
 
+# Opponent declines
 # ROOT is the player
 # FROM is the opponent
 character_event = {
 	id = dice_poker.9
+	title = dice_poker.9.title
+	desc = dice_poker.9.desc
 	
 	is_triggered_only = yes
 	
 	option = {
-		name = OK
+		name = dice_poker.9.a
 	}
 }
 
@@ -138,7 +139,7 @@ character_event = {
 character_event = {
 	id = dice_poker.2
 	title = dice_poker.2.title
-	picture = GFX_evt_riots_byzantine
+	picture = GFX_evt_dice_poker_box
 	
 	is_triggered_only = yes
 	
@@ -193,13 +194,6 @@ character_event = {
 		
 		hidden_tooltip = {
 			log = "Both players have rolled twice, displaying the results"
-			
-			clr_character_flag = flag_reroll_die1
-			clr_character_flag = flag_reroll_die2
-			clr_character_flag = flag_reroll_die3
-			clr_character_flag = flag_reroll_die4
-			clr_character_flag = flag_reroll_die5
-		
 			FROM = {
 				character_event = { id = dice_poker.4 }
 			}
@@ -217,7 +211,7 @@ character_event = {
 character_event = {
 	id = dice_poker.5
 	title = dice_poker.2.title
-	picture = GFX_evt_riots_byzantine
+	picture = GFX_evt_dice_poker_box
 	
 	is_triggered_only = yes
 	
@@ -339,7 +333,7 @@ character_event = {
 # Select dice to keep
 character_event = {
 	id = dice_poker.3
-	picture = GFX_evt_riots_byzantine
+	picture = GFX_evt_dice_poker_box
 	title = dice_poker.3.title
 	desc = dice_poker.3.desc
 	
@@ -402,9 +396,8 @@ character_event = {
 			log = "Will keep die5"
 		}
 		
-		change_variable = { which = iDie value = 1 }
-		
 		hidden_tooltip = {
+			change_variable = { which = iDie value = 1 }
 			repeat_event = { id = dice_poker.3 }
 		}
 	}
@@ -441,10 +434,9 @@ character_event = {
 			set_character_flag = flag_reroll_die5
 			log = "Will roll die5"
 		}
-		
-		change_variable = { which = iDie value = 1 }
-		
+
 		hidden_tooltip = {
+			change_variable = { which = iDie value = 1 }
 			repeat_event = { id = dice_poker.3 }
 		}
 	}
@@ -465,23 +457,24 @@ character_event = {
 			NOT = { is_variable_equal = { which = iDie value = 1 } }
 		}
 		
-		subtract_variable = { which = iDie value = 1 }
 		hidden_tooltip = {
+			subtract_variable = { which = iDie value = 1 }
 			repeat_event = { id = dice_poker.3 }
 		}
 	}
 }
 
-# Results
+# Calculate results
 # ROOT is the player
 # FROM is the opponent
 character_event = {
 	id = dice_poker.4
-	picture = GFX_evt_riots_byzantine
+	picture = GFX_evt_dice_poker_box
 	title = dice_poker.4.title
 	desc = dice_poker.4.desc
 	
 	is_triggered_only = yes
+	hide_window = yes
 	
 	immediate = {
 		log = "[This.GetFirstName] hand: [This.die1.GetValue] [This.die2.GetValue] [This.die3.GetValue] [This.die4.GetValue] [This.die5.GetValue]"
@@ -583,6 +576,28 @@ character_event = {
 	}
 	
 	option = {
+		# Results for the player
+		repeat_event = { id = dice_poker.6 }
+		
+		# Result for the opponent
+		FROM = {
+			character_event = { id = dice_poker.6 }
+		}
+	}
+}
+
+# Display results
+# ROOT is the player
+# FROM is the opponent
+character_event = {
+	id = dice_poker.6
+	picture = GFX_evt_dice_poker_box
+	title = dice_poker.4.title
+	desc = dice_poker.4.desc
+	
+	is_triggered_only = yes
+	
+	option = {
 		name = dice_poker.4.a
 		
 		trigger = {
@@ -651,6 +666,7 @@ character_event = {
 		trigger = {
 			has_character_flag = flag_one_pair
 			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 			has_character_flag = flag_won
 		}
 	}
@@ -689,6 +705,10 @@ character_event = {
 	
 	option = { # Quit
 		name = dice_poker.4.l
+	}
+	
+	after = {
+		clear_dice_poker_flags_effect = yes
 	}
 }
 

@@ -231,10 +231,13 @@ count_number_of_6_effect = {
 	}
 }
 
-calculate_hand_effect = {
-	log = "Round [This.round.GetValue] - [This.GetFirstName] - Number of 1: [This.numberOf1.GetValue], Number of 2: [This.numberOf2.GetValue], Number of 3: [This.numberOf3.GetValue], Number of 4: [This.numberOf4.GetValue], Number of 5: [This.numberOf5.GetValue], Number of 6: [This.numberOf6.GetValue]"
-
-	# Reset the hand combo flags
+clear_dice_poker_flags_effect = {
+	clr_character_flag = flag_reroll_die1
+	clr_character_flag = flag_reroll_die2
+	clr_character_flag = flag_reroll_die3
+	clr_character_flag = flag_reroll_die4
+	clr_character_flag = flag_reroll_die5
+	
 	clr_character_flag = flag_five_of_a_kind
 	clr_character_flag = flag_four_of_a_kind
 	clr_character_flag = flag_full_house
@@ -243,6 +246,17 @@ calculate_hand_effect = {
 	clr_character_flag = flag_three_of_a_kind
 	clr_character_flag = flag_two_pairs
 	clr_character_flag = flag_one_pair
+	
+	clr_character_flag = flag_won
+	clr_character_flag = flag_lost
+	clr_character_flag = flag_draw
+}
+
+calculate_hand_effect = {
+	log = "Round [This.round.GetValue] - [This.GetFirstName] - Number of 1: [This.numberOf1.GetValue], Number of 2: [This.numberOf2.GetValue], Number of 3: [This.numberOf3.GetValue], Number of 4: [This.numberOf4.GetValue], Number of 5: [This.numberOf5.GetValue], Number of 6: [This.numberOf6.GetValue]"
+
+	# Reset the hand combo flags
+	clear_dice_poker_flags_effect = yes
 	
 	# Reset rank variables
 	# rank1 & rank2 are the rank(s) of the hand
@@ -429,6 +443,8 @@ calculate_hand_effect = {
 		limit = { 
 			is_variable_equal = { which = numberOf6 value = 2 } 
 			NOT = { has_character_flag = flag_one_pair }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 		}
 		set_character_flag = flag_one_pair
 		set_variable = { which = rank1 value = 6 }
@@ -458,6 +474,8 @@ calculate_hand_effect = {
 		limit = { 
 			is_variable_equal = { which = numberOf5 value = 2 }
 			NOT = { has_character_flag = flag_one_pair }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 		}
 		set_character_flag = flag_one_pair
 		set_variable = { which = rank1 value = 5 }
@@ -487,6 +505,8 @@ calculate_hand_effect = {
 		limit = { 
 			is_variable_equal = { which = numberOf4 value = 2 }
 			NOT = { has_character_flag = flag_one_pair }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 		}
 		set_character_flag = flag_one_pair
 		set_variable = { which = rank1 value = 4 }
@@ -516,6 +536,8 @@ calculate_hand_effect = {
 		limit = { 
 			is_variable_equal = { which = numberOf3 value = 2 }
 			NOT = { has_character_flag = flag_one_pair }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 		}
 		set_character_flag = flag_one_pair
 		set_variable = { which = rank1 value = 3 }
@@ -545,6 +567,8 @@ calculate_hand_effect = {
 		limit = { 
 			is_variable_equal = { which = numberOf2 value = 2 }
 			NOT = { has_character_flag = flag_one_pair }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 		}
 		set_character_flag = flag_one_pair
 		set_variable = { which = rank1 value = 2 }
@@ -574,6 +598,8 @@ calculate_hand_effect = {
 		limit = { 
 			is_variable_equal = { which = numberOf1 value = 2 }
 			NOT = { has_character_flag = flag_one_pair }
+			NOT = { has_character_flag = flag_two_pairs }
+			NOT = { has_character_flag = flag_full_house }
 		}
 		set_character_flag = flag_one_pair
 		set_variable = { which = rank1 value = 1 }
