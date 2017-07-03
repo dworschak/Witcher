@@ -11,7 +11,7 @@ namespace = dice_poker
 # roll : (1,2) on player
 # round : (1,2) on player
 # iDie : index of dice when looping
-# die : the value of current dice when looping
+# die : the value of current dice when looping or rolling
 # numberOf1 -> numberOf6 : number of player/opponent dice with given value
 
 # Character flags:
@@ -294,11 +294,10 @@ character_event = {
 		trigger = {
 			is_variable_equal = { which = roll value = 2 }
 		}
-		
-		set_variable = { which = iDie value = 1 }
-		
+
 		hidden_tooltip = {
 			log = "[This.GetFirstName] is selecting dice to keep"
+			set_variable = { which = iDie value = 1 }
 			repeat_event = { id = dice_poker.3 }
 		}
 		ai_chance = {
@@ -714,7 +713,7 @@ character_event = {
 
 
 # Maintenance events
-# Need to use 5 chained ping events to get some randomness (because each new immediate event only shifts the seed by 1)
+# Need to use 5 chained ping events to get some randomness (otherwise player and opponents rolls are shifted only by 1 die)
 character_event = {
 	id = dice_poker.100
 	
