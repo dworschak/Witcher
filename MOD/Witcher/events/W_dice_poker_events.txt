@@ -4,7 +4,9 @@ namespace = dice_poker
 # Dice poker game
 ##############################
 
-# Rules: http://witcher.gamepedia.com/Dice_poker_in_The_Witcher and http://witcher.gamepedia.com/Dice_poker_in_The_Witcher_2
+# Rules: 
+# http://witcher.gamepedia.com/Dice_poker_in_The_Witcher
+# http://witcher.gamepedia.com/Dice_poker_in_The_Witcher_2
 
 # Variables:
 # die1 -> die5: rolled dice of player/opponent
@@ -130,6 +132,7 @@ character_event = {
 	
 	option = {
 		name = dice_poker.9.a
+		add_character_modifier = { name = no_mood_for_game years = 5 hidden = yes }
 	}
 }
 
@@ -216,27 +219,33 @@ character_event = {
 	is_triggered_only = yes
 	
 	desc = {
+		# First player to roll, no dice roll to display
 		trigger = {
 			is_variable_equal = { which = roll value = 1 }
-		}
-		text = dice_poker.2.desc0
-	}
-	desc = {
-		trigger = {
-			NOT = { is_variable_equal = { which = roll value = 1 } }
 			FROM = { 
 				is_variable_equal = { which = roll value = 0 }
 			}
 		}
-		text = dice_poker.2.desc1
+		text = dice_poker.2.desc0
 	}
 	desc = {
+		# Second player to roll, display opponent dice roll
 		trigger = {
+			is_variable_equal = { which = roll value = 1 }
+			FROM = { 
+				check_variable = { which = roll value = 1 } # roll >= 1
+			}
+		}
+		text = dice_poker.2.desc3
+	}
+	desc = {
+		# 2nd roll, display both player hands
+		trigger = {
+			is_variable_equal = { which = roll value = 2 }
 			FROM = {
 				check_variable = { which = roll value = 1 } # roll >= 1
 			}
 		}
-		# Display both player rolls
 		text = dice_poker.2.desc2
 	}
 	
@@ -539,6 +548,7 @@ character_event = {
 				has_same_rank_trigger = yes
 			}
 			set_character_flag = flag_draw
+			FROM = { set_character_flag = flag_draw }
 			log = "Round [This.round.GetValue] - [This.GetFirstName] got a draw - same five dice !"
 		}
 		if = {
@@ -547,6 +557,7 @@ character_event = {
 				has_better_or_same_rank_trigger = yes
 			}
 			set_character_flag = flag_won
+			FROM = { set_character_flag = flag_lost }
 			log = "Round [This.round.GetValue] - [This.GetFirstName] won with the same combination, but with higher value"
 		}
 		if = {
@@ -555,6 +566,7 @@ character_event = {
 				FROM = { has_better_or_same_rank_trigger = yes }
 			}
 			set_character_flag = flag_lost
+			FROM = { set_character_flag = flag_won }
 			log = "Round [This.round.GetValue] - [This.GetFirstName] lost to the same combination, but with higher value"
 		}
 		if = {
@@ -562,6 +574,7 @@ character_event = {
 				has_better_combination_trigger = yes
 			}
 			set_character_flag = flag_won
+			FROM = { set_character_flag = flag_lost }
 			log = "Round [This.round.GetValue] - [This.GetFirstName] won with a better combination"
 		}
 		if = {
@@ -570,6 +583,7 @@ character_event = {
 				FROM = { has_better_combination_trigger = yes }
 			}
 			set_character_flag = flag_lost
+			FROM = { set_character_flag = flag_won }
 			log = "Round [This.round.GetValue] - [This.GetFirstName] lost to a better combination"
 		}
 	}
@@ -603,6 +617,7 @@ character_event = {
 			has_character_flag = flag_five_of_a_kind
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -612,6 +627,7 @@ character_event = {
 			has_character_flag = flag_four_of_a_kind
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -621,6 +637,7 @@ character_event = {
 			has_character_flag = flag_full_house
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -630,6 +647,7 @@ character_event = {
 			has_character_flag = flag_six_high_straight
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -639,6 +657,7 @@ character_event = {
 			has_character_flag = flag_five_high_straight
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -648,6 +667,7 @@ character_event = {
 			has_character_flag = flag_three_of_a_kind
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -657,6 +677,7 @@ character_event = {
 			has_character_flag = flag_two_pairs
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -668,6 +689,7 @@ character_event = {
 			NOT = { has_character_flag = flag_full_house }
 			has_character_flag = flag_won
 		}
+		won_game_effect = yes
 	}
 	
 	option = {
@@ -684,6 +706,7 @@ character_event = {
 			NOT = { has_character_flag = flag_two_pairs }
 			NOT = { has_character_flag = flag_one_pair }
 		}
+		won_game_effect = yes
 	}
 	
 	option = { # It's a draw
@@ -700,10 +723,7 @@ character_event = {
 		trigger = {
 			has_character_flag = flag_lost
 		}
-	}
-	
-	option = { # Quit
-		name = dice_poker.4.l
+		lost_game_effect = yes
 	}
 	
 	after = {

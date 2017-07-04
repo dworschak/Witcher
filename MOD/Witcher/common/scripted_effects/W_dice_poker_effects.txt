@@ -22,7 +22,30 @@ roll_dice_tooltip_effect = {
 	}
 }
 
+# Note: the random_list need to be duplicated for each die in the effect, otherwise the seed is not shifted.
 roll_dice_effect = {
+	# Some dummy random stuff, otherwise it's not random
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	
 	if = {
 		limit = { has_character_flag = flag_reroll_die1 }
 		random_list = {
@@ -33,6 +56,28 @@ roll_dice_effect = {
 			15  = { set_variable = { which = die1 value = 5 } }
 			15  = { set_variable = { which = die1 value = 6 } }
 		}
+	}
+	
+	# Some dummy random stuff, otherwise it's not random
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
 	}
 	
 	if = {
@@ -47,6 +92,28 @@ roll_dice_effect = {
 		}
 	}
 	
+	# Some dummy random stuff, otherwise it's not random
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	
 	if = {
 		limit = { has_character_flag = flag_reroll_die3 }
 		random_list = {
@@ -59,6 +126,28 @@ roll_dice_effect = {
 		}
 	}
 	
+	# Some dummy random stuff, otherwise it's not random
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	
 	if = {
 		limit = { has_character_flag = flag_reroll_die4 }
 		random_list = {
@@ -69,6 +158,28 @@ roll_dice_effect = {
 			15  = { set_variable = { which = die4 value = 5 } }
 			15  = { set_variable = { which = die4 value = 6 } }
 		}
+	}
+	
+	# Some dummy random stuff, otherwise it's not random
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
+	}
+	random_list = {
+		50  = { set_variable = { which = die value = 0 } }
+		50  = { set_variable = { which = die value = 7 } }
 	}
 	
 	if = {
@@ -681,4 +792,16 @@ calculate_hand_effect = {
 	change_variable = { which = kick_rank which = rank8 }
 	
 	log = "Round [This.round.GetValue] - [This.GetFirstName] - Side kicks rank: [This.kick_rank.GetValue]"
+}
+
+won_game_effect = {
+	opinion = { modifier = won_last_game who = FROM years = 5 }
+	random = {
+		chance = 5
+		add_trait = gambler
+	}
+}
+
+lost_game_effect = {
+	opinion = { modifier = lost_last_game who = FROM years = 5 }
 }

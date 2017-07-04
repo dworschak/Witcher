@@ -2,9 +2,14 @@
 # ROOT is the target
 targetted_decisions = {
 	play_dice_poker = {
-		ai_target_filter = self
+		filter = all
+		ai_target_filter = court
 		from_potential = {
-			ai = no
+			OR = {
+				ai = no
+				trait = gambler
+			}
+			#wealth = 0.5
 		}
 		potential = {
 		}
@@ -14,8 +19,7 @@ targetted_decisions = {
 			NOT = { war_with = FROM }
 			
 			# Bet+raise money
-			wealth = 10
-			FROM = { wealth = 10 }
+			wealth = 0.5
 			
 			# TODO check opponent is a dice poker player, and AI would agree to play (opinion, etc.)
 		}
@@ -27,7 +31,62 @@ targetted_decisions = {
 			always = no
 		}
 		ai_will_do = {
-			factor = 0
+			factor = 1
+
+			modifier = {
+				factor = 0.001
+			}
+			
+			modifier = { # AI only targets human players
+				factor = 0
+				ROOT = {
+					ai = yes
+				}
+			}
+			
+			modifier = { # AI only targets human players
+				factor = 0
+				ROOT = {
+					has_character_modifier = no_mood_for_game
+				}
+			}
+			
+			modifier = { # AI only targets gamblers
+				factor = 0
+				FROM = {
+					NOT = { trait = gambler } 
+				}
+			}
+			
+			# Timer
+			modifier = {
+				factor = 0				
+				OR = {
+					has_opinion_modifier = { who = ROOT modifier = won_last_game }
+					has_opinion_modifier = { who = ROOT modifier = lost_last_game }
+				}
+			}
+			
+			modifier = { # AI will only target gamblers they like
+				factor = 0
+				NOT = {
+					opinion = { who = ROOT value = 50 } 
+				}
+			}
+			
+			modifier = {
+				factor = 5
+				FROM = {
+					wealth = 25
+				}
+			}
+			
+			modifier = {
+				factor = 10
+				FROM = {
+					wealth = 50
+				}
+			}
 		}
 	}
 }
