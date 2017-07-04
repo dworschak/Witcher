@@ -9,9 +9,11 @@ targetted_decisions = {
 				ai = no
 				trait = gambler
 			}
+			NOT = { has_character_flag = flag_playing_game }
 			#wealth = 0.5
 		}
 		potential = {
+			NOT = { has_character_flag = flag_playing_game }
 		}
 		allow = {
 			# Same location - might be too restrictive ?
@@ -19,7 +21,7 @@ targetted_decisions = {
 			NOT = { war_with = FROM }
 			
 			# Bet+raise money
-			wealth = 0.5
+			#wealth = 0.5
 			
 			# TODO check opponent is a dice poker player, and AI would agree to play (opinion, etc.)
 		}
@@ -34,7 +36,7 @@ targetted_decisions = {
 			factor = 1
 
 			modifier = {
-				factor = 0.001
+				factor = 0.01
 			}
 			
 			modifier = { # AI only targets human players
@@ -70,7 +72,7 @@ targetted_decisions = {
 			modifier = { # AI will only target gamblers they like
 				factor = 0
 				NOT = {
-					opinion = { who = ROOT value = 50 } 
+					opinion = { who = ROOT value = 25 } 
 				}
 			}
 			

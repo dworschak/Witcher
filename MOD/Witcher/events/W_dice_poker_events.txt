@@ -77,7 +77,9 @@ character_event = {
 	option = { # Accept
 		name = dice_poker.0.a
 		log = "[This.GetFirstName] accepts the game"
+		set_character_flag = flag_playing_game
 		FROMFROM = {
+			set_character_flag = flag_playing_game
 			character_event = { id = dice_poker.1 }
 		}
 		ai_chance = {
@@ -87,6 +89,15 @@ character_event = {
 	option = { # Decline
 		name = dice_poker.0.b
 		log = "[This.GetFirstName] declines the game"
+		if = {
+			limit = {
+				trait = gambler
+			}
+			random = {
+				chance = 5
+				remove_trait = gambler
+			}
+		}
 		FROMFROM = {
 			character_event = { id = dice_poker.9 }
 		}
@@ -137,6 +148,7 @@ character_event = {
 }
 
 # Dice roll result
+# Calculate combinations for roll 2 results, and roll 1 AI choice / player default option.
 # ROOT is the player that has just rolled
 # FROM is the other player
 character_event = {
@@ -162,6 +174,19 @@ character_event = {
 		}
 		# Display both player rolls
 		text = dice_poker.2.desc2
+	}
+	
+	immediate = {
+		# Count the dice values
+		count_number_of_1_effect = yes
+		count_number_of_2_effect = yes
+		count_number_of_3_effect = yes
+		count_number_of_4_effect = yes
+		count_number_of_5_effect = yes
+		count_number_of_6_effect = yes
+		
+		# Calculate combinations
+		calculate_hand_effect = yes
 	}
 
 	option = { # It's the opponent's turn
@@ -278,6 +303,85 @@ character_event = {
 			factor = 1
 		}
 	}
+	
+	option = { # Keep rank1 (and rank2) dice, re-roll the others
+		name = {
+			text = dice_poker.5.d # rank1
+			trigger = {
+				is_variable_equal = { which = rank2 value = 0 }
+			}
+		}
+		name = {
+			text = dice_poker.5.e # rank1 and rank2
+			trigger = {
+				NOT = { is_variable_equal = { which = rank2 value = 0 } }
+			}
+		}
+		
+		trigger = {
+			OR = {
+				has_character_flag = flag_four_of_a_kind				
+				has_character_flag = flag_three_of_a_kind
+				has_character_flag = flag_two_pairs
+				has_character_flag = flag_one_pair
+			}
+		}
+		
+		if = {
+			limit = {
+				OR = {
+					is_variable_equal = { which = die1 which = rank1 }
+					is_variable_equal = { which = die1 which = rank2 }
+				}
+			}
+			clr_character_flag = flag_reroll_die1
+		}
+		if = {
+			limit = {
+				OR = {
+					is_variable_equal = { which = die2 which = rank1 }
+					is_variable_equal = { which = die2 which = rank2 }
+				}
+			}
+			clr_character_flag = flag_reroll_die2
+		}
+		if = {
+			limit = {
+				OR = {
+					is_variable_equal = { which = die3 which = rank1 }
+					is_variable_equal = { which = die3 which = rank2 }
+				}
+			}
+			clr_character_flag = flag_reroll_die3
+		}
+		if = {
+			limit = {
+				OR = {
+					is_variable_equal = { which = die4 which = rank1 }
+					is_variable_equal = { which = die4 which = rank2 }
+				}
+			}
+			clr_character_flag = flag_reroll_die4
+		}
+		if = {
+			limit = {
+				OR = {
+					is_variable_equal = { which = die5 which = rank1 }
+					is_variable_equal = { which = die5 which = rank2 }
+				}
+			}
+			clr_character_flag = flag_reroll_die5
+		}
+		
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is keeping its best dice"
+			repeat_event = { id = dice_poker.100 }
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
 
 	option = { # Re-roll all (roll 2) !
 		name = dice_poker.5.a
@@ -294,6 +398,20 @@ character_event = {
 		
 		ai_chance = {
 			factor = 1
+			
+			modifier = {
+				factor = 0
+				OR = {
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_four_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+					has_character_flag = flag_five_high_straight				
+					has_character_flag = flag_three_of_a_kind
+					has_character_flag = flag_two_pairs
+					has_character_flag = flag_one_pair
+				}
+			}
 		}
 	}
 	
@@ -326,14 +444,17 @@ character_event = {
 			repeat_event = { id = dice_poker.2 }
 		}
 		ai_chance = {
-			factor = 0
-		}
-	}
-	
-	option = { # Quit - TODO for debug
-		name = dice_poker.5.e
-		ai_chance = {
-			factor = 0
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOR = {
+					has_character_flag = flag_five_of_a_kind
+					has_character_flag = flag_full_house
+					has_character_flag = flag_six_high_straight
+					has_character_flag = flag_five_high_straight
+				}
+			}
 		}
 	}
 }
@@ -472,7 +593,7 @@ character_event = {
 	}
 }
 
-# Calculate results
+# Calculate the winner
 # ROOT is the player
 # FROM is the opponent
 character_event = {
@@ -487,36 +608,12 @@ character_event = {
 	immediate = {
 		log = "[This.GetFirstName] hand: [This.die1.GetValue] [This.die2.GetValue] [This.die3.GetValue] [This.die4.GetValue] [This.die5.GetValue]"
 		log = "[From.GetFirstName] hand: [From.die1.GetValue] [From.die2.GetValue] [From.die3.GetValue] [From.die4.GetValue] [From.die5.GetValue]"
-		
-		# Count the dice values
-		count_number_of_1_effect = yes
-		count_number_of_2_effect = yes
-		count_number_of_3_effect = yes
-		count_number_of_4_effect = yes
-		count_number_of_5_effect = yes
-		count_number_of_6_effect = yes
-		
-		FROM = {
-			count_number_of_1_effect = yes
-			count_number_of_2_effect = yes
-			count_number_of_3_effect = yes
-			count_number_of_4_effect = yes
-			count_number_of_5_effect = yes
-			count_number_of_6_effect = yes
-		}
-		
-		# Calculate combinations
-		calculate_hand_effect = yes
-		FROM = {
-			 calculate_hand_effect = yes
-		}
-		
-		# Determine the winner
+
 		clr_character_flag = flag_won
 		clr_character_flag = flag_draw
 		clr_character_flag = flag_lost
 		
-		##Log
+		## Debug logs
 		if = {
 			limit = {
 				has_same_combination_trigger = yes
@@ -618,6 +715,15 @@ character_event = {
 			has_character_flag = flag_won
 		}
 		won_game_effect = yes
+		if = {
+			limit = {
+				NOT = { trait = lucky }
+			}
+			random = {
+				chance = 20
+				add_trait = lucky
+			}
+		}
 	}
 	
 	option = {
@@ -685,8 +791,6 @@ character_event = {
 		
 		trigger = {
 			has_character_flag = flag_one_pair
-			NOT = { has_character_flag = flag_two_pairs }
-			NOT = { has_character_flag = flag_full_house }
 			has_character_flag = flag_won
 		}
 		won_game_effect = yes
@@ -717,11 +821,101 @@ character_event = {
 		}
 	}
 	
-	option = { # Player has lost
+	option = {
 		name = dice_poker.4.k
 		
 		trigger = {
 			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_five_of_a_kind }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.l
+		
+		trigger = {		
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_four_of_a_kind }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.m
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_full_house }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.n
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_six_high_straight }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.o
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_five_high_straight }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.p
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_three_of_a_kind }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.q
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_two_pairs }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.r
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = { has_character_flag = flag_one_pair }
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.4.s
+		
+		trigger = {
+			has_character_flag = flag_lost
+			FROM = {
+				NOT = { has_character_flag = flag_five_of_a_kind }
+				NOT = { has_character_flag = flag_four_of_a_kind }
+				NOT = { has_character_flag = flag_full_house }
+				NOT = { has_character_flag = flag_six_high_straight }
+				NOT = { has_character_flag = flag_five_high_straight }
+				NOT = { has_character_flag = flag_three_of_a_kind }
+				NOT = { has_character_flag = flag_two_pairs }
+				NOT = { has_character_flag = flag_one_pair }
+			}
 		}
 		lost_game_effect = yes
 	}

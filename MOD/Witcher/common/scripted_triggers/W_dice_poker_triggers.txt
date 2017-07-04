@@ -1,13 +1,17 @@
 has_better_or_same_rank_trigger = {
 	OR = { 
-		check_variable = { which = rank1 which = FROM }
-		
-		AND = {
+		AND = { # rank1 is better
+			check_variable = { which = rank1 which = FROM }
+			NOT = { is_variable_equal = { which = rank1 which = FROM } }
+		}
+
+		AND = { # rank1 is equal, but rank2 is better
 			is_variable_equal = { which = rank1 which = FROM }
 			check_variable = { which = rank2 which = FROM }
+			NOT = { is_variable_equal = { which = rank2 which = FROM } }
 		}
 		
-		AND = {
+		AND = { # rank1 is equal, rank2 is equal, kick_rank is superior or equal
 			is_variable_equal = { which = rank1 which = FROM }
 			is_variable_equal = { which = rank2 which = FROM }
 			check_variable = { which = kick_rank which = FROM }

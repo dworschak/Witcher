@@ -361,6 +361,8 @@ clear_dice_poker_flags_effect = {
 	clr_character_flag = flag_won
 	clr_character_flag = flag_lost
 	clr_character_flag = flag_draw
+	
+	clr_character_flag = flag_playing_game
 }
 
 calculate_hand_effect = {
@@ -796,9 +798,15 @@ calculate_hand_effect = {
 
 won_game_effect = {
 	opinion = { modifier = won_last_game who = FROM years = 5 }
-	random = {
-		chance = 5
-		add_trait = gambler
+	
+	if = {
+		limit = {
+			NOT = { trait = gambler }
+		}
+		random = {
+			chance = 5
+			add_trait = gambler
+		}
 	}
 }
 
