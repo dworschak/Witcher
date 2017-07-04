@@ -16,14 +16,15 @@ targetted_decisions = {
 			NOT = { has_character_flag = flag_playing_game }
 		}
 		allow = {
-			# Same location - might be too restrictive ?
-			at_location = FROM
+			at_location = FROM # Might be too restrictive ?
+			
+			# Conditions for A.I. to accept
+			trait = gambler # Only gamblers play dice poker.
 			NOT = { war_with = FROM }
+			opinion = { who = FROM value = 0 } # Positive opinion
 			
 			# Bet+raise money
 			#wealth = 0.5
-			
-			# TODO check opponent is a dice poker player, and AI would agree to play (opinion, etc.)
 		}
 		effect = {
 			# Propose a game to opponent
