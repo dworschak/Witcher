@@ -363,6 +363,9 @@ clear_dice_poker_flags_effect = {
 	clr_character_flag = flag_draw
 	
 	clr_character_flag = flag_playing_game
+	
+	clr_character_flag = flag_call_bid
+	clr_character_flag = flag_raise_bid
 }
 
 calculate_hand_effect = {
@@ -797,6 +800,27 @@ calculate_hand_effect = {
 }
 
 won_game_effect = {
+	wealth = 1 # Initial bets
+	if = {
+		limit = {
+			OR = {
+				has_character_flag = flag_raise_bid
+				has_character_flag = flag_call_bid
+			}
+		}
+		wealth = 0.5 # Player raise/call money
+	}
+	if = {
+		limit = {
+			FROM = {
+				OR = {
+					has_character_flag = flag_raise_bid
+					has_character_flag = flag_call_bid
+				}
+			}
+		}
+		wealth = 0.5 # Opponent raise/call money
+	}
 	opinion = { modifier = won_last_game who = FROM years = 5 }
 	
 	if = {

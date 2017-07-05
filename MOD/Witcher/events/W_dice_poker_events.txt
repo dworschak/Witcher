@@ -78,6 +78,7 @@ character_event = {
 		name = dice_poker.0.a
 		log = "[This.GetFirstName] accepts the game"
 		set_character_flag = flag_playing_game
+		wealth = -0.5 # Initial bet
 		FROMFROM = {
 			set_character_flag = flag_playing_game
 			character_event = { id = dice_poker.1 }
@@ -98,6 +99,7 @@ character_event = {
 				remove_trait = gambler
 			}
 		}
+		add_character_modifier = { name = no_mood_for_game years = 5 hidden = yes }
 		FROMFROM = {
 			character_event = { id = dice_poker.9 }
 		}
@@ -143,7 +145,7 @@ character_event = {
 	
 	option = {
 		name = dice_poker.9.a
-		add_character_modifier = { name = no_mood_for_game years = 5 hidden = yes }
+		wealth = 0.5 # Give back the initial bet
 	}
 }
 
@@ -196,6 +198,12 @@ character_event = {
 			FROM = {
 				NOT = { is_variable_equal = { which = roll value = 2 } }
 			}
+			NAND = {
+				is_variable_equal = { which = roll value = 1 }
+				FROM = {
+					is_variable_equal = { which = roll value = 1 }
+				}
+			}
 		}
 
 		hidden_tooltip = {
@@ -207,6 +215,24 @@ character_event = {
 		
 		ai_chance = {
 			factor = 1
+		}
+	}
+	
+	option = { # Time to bet before roll 2
+		name = dice_poker.2.c
+		
+		trigger = {
+			is_variable_equal = { which = roll value = 1 }
+			FROM = {
+				is_variable_equal = { which = roll value = 1 }
+			}
+		}
+		
+		hidden_tooltip = {
+			log = "Betting before roll 2"
+			FROM = {
+				character_event = { id = dice_poker.7 }
+			}
 		}
 	}
 	
@@ -455,6 +481,184 @@ character_event = {
 					has_character_flag = flag_five_high_straight
 				}
 			}
+		}
+	}
+}
+
+# Player decides to raise or check
+character_event = {
+	id = dice_poker.7
+	picture = GFX_evt_dice_poker_box
+	desc = dice_poker.2.desc2
+	
+	is_triggered_only = yes
+	
+	option = { # Raise
+		name = dice_poker.7.a
+		set_character_flag = flag_raise_bid
+		wealth = -0.5
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is raising the bid."
+			FROM = { character_event = { id = dice_poker.8 } }
+		}
+		
+		ai_chance = {
+			factor = 1
+			
+			modifier = {
+				factor = 10
+				has_better_combination_trigger = yes
+			}
+			modifier = {
+				factor = 5
+				has_same_combination_trigger = yes
+				has_better_or_same_rank_trigger = yes
+				NOT = { has_same_rank_trigger = yes }
+			}
+		}
+	}
+	option = { # Check
+		name = dice_poker.7.b
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is checking."
+			FROM = { character_event = { id = dice_poker.8 } }
+		}
+		
+		ai_chance = {
+			factor = 2
+		}
+	}
+}
+
+# Opponent decides to call, raise, check or resign
+character_event = {
+	id = dice_poker.8
+	picture = GFX_evt_dice_poker_box
+	desc = dice_poker.2.desc2
+	
+	is_triggered_only = yes
+	
+	option = { # Call
+		name = dice_poker.8.a
+		trigger = {
+			FROM = { has_character_flag = flag_raise_bid }
+		}
+		set_character_flag = flag_call_bid
+		wealth = -0.5
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is calling."
+			FROM = { character_event = { id = dice_poker.5 } }
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = { # Resign
+		name = dice_poker.8.b
+		trigger = {
+			FROM = { has_character_flag = flag_raise_bid }
+		}
+		
+		set_character_flag = flag_lost
+		FROM = { set_character_flag = flag_won }
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is resigning."
+			# Results
+			repeat_event = { id = dice_poker.11 }
+			FROM = { character_event = { id = dice_poker.11 } }
+		}
+		
+		ai_chance = {
+			factor = 0
+		}
+	}
+	
+	option = { # Raise
+		name = dice_poker.8.c
+		trigger = {
+			FROM = { NOT = { has_character_flag = flag_raise_bid } }
+		}
+		set_character_flag = flag_raise_bid
+		wealth = -0.5
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is raising the bid."
+			FROM = { character_event = { id = dice_poker.10 } }
+		}
+		
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				has_better_combination_trigger = yes
+			}
+			modifier = {
+				factor = 5
+				has_same_combination_trigger = yes
+				has_better_or_same_rank_trigger = yes
+				NOT = { has_same_rank_trigger = yes }
+			}
+		}
+	}
+	
+	option = { # Check
+		name = dice_poker.8.d
+		trigger = {
+			FROM = { NOT = { has_character_flag = flag_raise_bid } }
+		}
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is checking."
+			FROM = { character_event = { id = dice_poker.5 } }
+		}
+		
+		ai_chance = {
+			factor = 2
+		}
+	}
+}
+
+# Player decides to call or resign
+character_event = {
+	id = dice_poker.10
+	picture = GFX_evt_dice_poker_box
+	desc = dice_poker.2.desc2
+	
+	is_triggered_only = yes
+	
+	option = { # Call
+		name = dice_poker.10.a
+		trigger = {
+			FROM = { has_character_flag = flag_raise_bid }
+		}
+		set_character_flag = flag_call_bid
+		wealth = -0.5
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is calling."
+			FROM = { character_event = { id = dice_poker.5 } }
+		}
+		
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = { # Resign
+		name = dice_poker.10.b
+		trigger = {
+			FROM = { has_character_flag = flag_raise_bid }
+		}
+		set_character_flag = flag_lost
+		FROM = { set_character_flag = flag_won }
+		hidden_tooltip = {
+			log = "[This.GetFirstName] is resigning."
+			# Results
+			repeat_event = { id = dice_poker.11 }
+			FROM = { character_event = { id = dice_poker.11 } }
+		}
+		
+		ai_chance = {
+			factor = 0
 		}
 	}
 }
@@ -922,6 +1126,48 @@ character_event = {
 	
 	after = {
 		clear_dice_poker_flags_effect = yes
+	}
+}
+
+# One player resigns
+character_event = {
+	id = dice_poker.11
+	picture = GFX_evt_dice_poker_box
+	desc = dice_poker.11.desc
+	title = dice_poker.11.title
+	
+	is_triggered_only = yes
+	
+	desc = {
+		trigger = {
+			has_character_flag = flag_won
+		}
+		text = dice_poker.11.desc1
+	}
+	
+	desc = {
+		trigger = {
+			has_character_flag = flag_lost
+		}
+		text = dice_poker.11.desc2
+	}
+	
+	option = {
+		name = dice_poker.11.a
+		
+		trigger = {
+			has_character_flag = flag_lost
+		}
+		lost_game_effect = yes
+	}
+	
+	option = {
+		name = dice_poker.11.b
+		
+		trigger = {
+			has_character_flag = flag_won
+		}
+		won_game_effect = yes
 	}
 }
 
