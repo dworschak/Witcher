@@ -7,14 +7,26 @@ This page lists some useful information for modders.
 ### Cultures
 
 When adapting vanilla elements (events, portrait, music, etc.), here is a rough association:
-- Temeria ~ French
+- Temeria ~ German
 - Redania ~ Polish
 - Kaedwen ~ Russian
 - Kovir and Powys ~ Netherlands
+- Hengfors League ~ Baltic
 - Kerack ~ Scandinavian
 - Skellige ~ Scandinavian
 - Nilfgaard ~ Holy Roman Empire
-
+- Sodden ~ Lombard
+- Lyria ~ Italian
+- Aedirn ~ Frankish
+- Toussaint ~ French
+- Ebbing ~ Hungrarian
+- Dol Blathanna ~ Welsh
+- Metinna ~ Anglo-Irish
+- Nazair ~ Anglo-Saxon
+- Maetcht ~ Frisian
+- Etolia ~ Latin
+- Cintra ~ Lowland Scots
+- Gesco ~ Spanish
 
 ### Immortality
 
