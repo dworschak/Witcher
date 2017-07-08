@@ -2689,7 +2689,8 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 		ROOT = { has_claim = PREV }
 	}
 	
-	on_success_title = {
+	on_success_title = {  # Attacker wins
+		log = "(AoK) claim_lormark on_success_title"
 		usurp_title_plus_barony_if_unlanded = ROOT
 		
 		if = {
@@ -2730,7 +2731,8 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 		}
 	}
 	
-	on_fail_title = {
+	on_fail_title = { # Attacker white peaces out
+		log = "(AoK) claim_lormark on_fail_title"
 		ROOT = {
 			prestige = -100
 			hidden_tooltip = {
@@ -2752,7 +2754,9 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				narrative_event = { id = aok.1110 }
 			}
 			if = {
-				limit = { most_participating_defender = { has_character_flag = aok_saskia } }
+				limit = { 
+					most_participating_defender = { has_character_flag = aok_saskia }
+				}
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1111 }
@@ -2763,7 +2767,9 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				}
 			}
 			if = {
-				limit = { most_participating_defender = { has_character_flag = aok_stennis } }
+				limit = { 
+					most_participating_defender = { has_character_flag = aok_stennis }
+				}
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1113 }
@@ -2776,7 +2782,8 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 		}
 	}
 	
-	on_reverse_demand = {
+	on_reverse_demand = { # Attacker looses
+		log = "(AoK) claim_lormark on_reverse_demand"
 		ROOT = {
 			prestige = -150
 			transfer_scaled_wealth = {
@@ -2851,6 +2858,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 			}
 			end_war = invalid
 		}
+	}
+	
+	on_invalidation = {
+		log = "(AoK) claim_lormark on_invalidation"
 	}
 	
 	attacker_ai_victory_worth = {
