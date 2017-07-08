@@ -28,6 +28,11 @@ When adapting vanilla elements (events, portrait, music, etc.), here is a rough 
 - Cintra ~ Lowland Scots
 - Gesco ~ Spanish
 
+### Supernatural events
+
+The vanilla game rules supernatural_events is obviously removed, there's lots of supernatural stuff in the witcher world.
+Vanilla events be altered to usually keep the scripts associated to value = unrestricted of the game rule.
+
 ### Immortality
 
 Don't use age checks for old (ex: age = 60), but instead:
@@ -40,7 +45,7 @@ Some races are infertile, so never impregnate without an actual fertility check.
 
 ### Races
 
-Vanilla conditions "race = FROM" cannot be used, because it compares ethnicities/cultures and not fantasy racial traits.
+Vanilla condition "race = FROM" cannot be used, because it compares ethnicities/cultures and not fantasy racial traits.
 Instead use has_same_race_as_from_trigger = yes to know if THIS and FROM have the same racial trait.
 This is useful for racist trait MTTH, that should not apply if has_same_race_as_from_trigger = yes.
 
