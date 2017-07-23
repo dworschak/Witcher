@@ -402,13 +402,6 @@ character_event = {
 			spouse = {
 				remove_spouse = ROOT
 				banish = yes
-				if = {
-					limit = {
-						NOT = { father = { always = yes } }
-						NOT = { mother = { always = yes } }
-					}
-					death = { death_reason = death_natural }
-				}
 			}
 		}
 	}
@@ -643,44 +636,23 @@ character_event = {
 	}
 }
 
+# Human sorcerer portrait age/immortality fix
+# Since sorcerer don't have a dedicated culture, need to use a workaround so they don't age.
+# Change ethnicity to westerngfx2, a copy of westerngfx where oldage = midage
 character_event = {
 	id = racial.31
 	
 	hide_window = yes
+	is_triggered_only = yes
 	
 	trigger = {
-		NOT = { has_character_flag = sorcerer_reportraited }
 		trait = sorcerer
-		age = 50		
-	}
-	
-	mean_time_to_happen = {
-		days = 1
+		trait = human_race # Other immortal races have culturegfx where portraits are duplicated for all ages.
+		age = 50
 	}
 	
 	option = {
 		name = OK
-		trigger = {
-			OR = {
-				graphical_culture = westerngfx
-				graphical_culture = frankishgfx
-				graphical_culture = ugricgfx
-				graphical_culture = germangfx
-			}
-		}
 		set_graphical_culture = western_sorcerer
-		set_character_flag = sorcerer_reportraited
-	}
-	option = {
-		name = OK
-		trigger = {
-			NOT = { 
-				OR = {
-					graphical_culture = westerngfx
-					graphical_culture = frankishgfx
-				} 
-			}
-		}
-		set_character_flag = sorcerer_reportraited
 	}
 }
