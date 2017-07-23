@@ -108,6 +108,9 @@ character_event = {
 		modifier = { factor = 0.1 age = 400 }
 		modifier = { factor = 0.01 trait = incapable }
 	}
+	immediate = {
+		log="(Immortality) Old age culling for [Root.GetBestName] at age [Root.GetAgeYears]."
+	}
 	option = {
 		name = OK
 		trigger = { NOT = { trait = incapable } }
@@ -138,6 +141,9 @@ character_event = {
 		modifier = { factor = 0.4 age = 125 NOT = { age = 150 } }
 		modifier = { factor = 0.1 age = 150 }
 		modifier = { factor = 0.01 trait = incapable }
+	}
+	immediate = {
+		log="(Immortality) Old age culling for [Root.GetBestName] at age [Root.GetAgeYears]."
 	}
 	option = {
 		name = OK
@@ -171,7 +177,9 @@ character_event = {
 		modifier = { factor = 0.1 age = 125 }
 		modifier = { factor = 0.01 trait = incapable }
 	}
-	
+	immediate = {
+		log="(Immortality) Old age culling for [Root.GetBestName] at age [Root.GetAgeYears]."
+	}
 	option = {
 		name = OK
 		trigger = { NOT = { trait = incapable } }
@@ -204,7 +212,9 @@ character_event = {
 		modifier = { factor = 0.1 age = 125 }
 		modifier = { factor = 0.01 trait = incapable }
 	}
-	
+	immediate = {
+		log="(Immortality) Old age culling for [Root.GetBestName] at age [Root.GetAgeYears]."
+	}
 	option = {
 		name = OK
 		trigger = { NOT = { trait = incapable } }
@@ -236,13 +246,15 @@ character_event = {
 		months = 300
 		modifier = { factor = 0.1 has_character_modifier = old_age }
 	}
-	
+	immediate = {
+		log="(Immortality) Old age culling for [Root.GetBestName] at age [Root.GetAgeYears]."
+	}
 	option = {
 		name = OK
 		death = { death_reason = death_trait }
 	}
 }
-# Incpable elf, dryad and sorcerer culling
+# Incapable elf, dryad and sorcerer culling
 character_event = {
 	id = old_age.7
 	
@@ -262,7 +274,9 @@ character_event = {
 		months = 600
 		modifier = { factor = 0.1 has_character_modifier = old_age }
 	}
-	
+	immediate = {
+		log="(Immortality) Old age culling for [Root.GetBestName] at age [Root.GetAgeYears]."
+	}
 	option = {
 		name = OK
 		death = { death_reason = death_trait }
@@ -911,6 +925,106 @@ character_event = {
 			remove_trait = master_warrior
 			add_trait = skilled_warrior
 			set_character_flag = demoted
+		}
+	}
+}
+
+################################################
+# Immortality debugging
+################################################
+
+# Move immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
+# ROOT is the character
+# FROM is the title
+# FROMFROM is the old holder
+character_event = {
+	id = old_age.98
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		FROMFROM = {
+			any_courtier = {
+				immortal = yes
+				prisoner = no
+				is_landed = no
+				NOT = { trait = wilderness }
+			}
+		}
+	}
+	
+	immediate = {
+		log="(Immortality) Preventing pruning at court of [Root.GetBestName] in [Root.Location.GetName]."
+		
+		FROMFROM = {
+			any_courtier = {
+				limit = {
+					immortal = yes
+					prisoner = no
+					is_landed = no
+					NOT = { trait = wilderness }
+				}
+				log="(Immortality) Moving [This.GetBestName] to the court of [Root.GetBestName]"
+				move_character = ROOT
+			}
+		}
+	}
+	
+}
+
+character_event = {
+	id = old_age.99
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		immortal = yes
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				trait = sorcerer
+			}
+			log="(Immortality) The sorcerer [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
+		}
+		if = {
+			limit = {
+				trait = witcher
+			}
+			log="(Immortality) The witcher [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
+		}
+		if = {
+			limit = {
+				trait = elf_race
+			}
+			log="(Immortality) The elf [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
+		}
+		if = {
+			limit = {
+				trait = dwarf_race
+			}
+			log="(Immortality) The dwarf [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
+		}
+		if = {
+			limit = {
+				trait = gnome_race
+			}
+			log="(Immortality) The gnome [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
+		}
+		if = {
+			limit = {
+				trait = dryad_race
+			}
+			log="(Immortality) The dryad [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
+		}
+		if = {
+			limit = {
+				trait = halfling_race
+			}
+			log="(Immortality) The halfling [Root.GetBestName] [Root.GetDeathReason] at age [Root.GetAgeYears] in [Root.Location.GetName]."
 		}
 	}
 }
