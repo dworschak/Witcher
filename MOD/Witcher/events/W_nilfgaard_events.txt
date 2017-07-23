@@ -1002,3 +1002,242 @@ character_event = {
 		name = EVTOPTAnilfgaard.114
 	}
 }
+
+
+################################################
+# CoA of Nilfgaard vassals
+################################################
+
+# Changes should be scripted via title history, when changing the liege.
+# Checks for transfer/creation/usurpation of titles are done by events
+
+# Check Nilfgaard vassal kingdoms
+# [on_war_ended_victory]
+character_event = {
+	id = nilfgaard.150
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		FROM = { 
+			has_landed_title = e_nilfgaard
+		}
+	}
+	
+	immediate = {
+		FROM = {
+			character_event = { id = nilfgaard.151 } # Oneself
+			any_vassal = { # Direct vassals
+				limit = {
+					tier = KING
+				}
+				character_event = { id = nilfgaard.151 }
+			}
+		}
+	}
+}
+
+# Change CoA of a vassal kingdom of Nilfgaard
+# [on_new_holder, on_create_title]
+character_event = {
+	id = nilfgaard.151
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	only_rulers = yes
+	
+	trigger = {
+		OR = { 
+			has_landed_title = e_nilfgaard
+			liege = {
+				has_landed_title = e_nilfgaard
+			}
+		}
+	}
+	
+	immediate = {
+		if = {
+			limit = { has_landed_title = k_aedirn }
+			k_aedirn = { set_coa = k_aedirn_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_angren }
+			k_angren = { set_coa = k_angren_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_ard_glas }
+			k_ard_glas = { set_coa = k_ard_glas_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_brugge }
+			k_brugge = { set_coa = k_brugge_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_cidaris }
+			k_cidaris = { set_coa = k_cidaris_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_cintra }
+			k_cintra = { set_coa = k_cintra_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_dol_blathanna }
+			k_dol_blathanna = { set_coa = k_dol_blathanna_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_ebbing }
+			k_ebbing = { set_coa = k_ebbing_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_etolia }
+			k_etolia = { set_coa = k_etolia_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_gemmera }
+			k_gemmera = { set_coa = k_gemmera_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_geso }
+			k_geso = { set_coa = k_geso_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_hengfors_league }
+			k_hengfors_league = { set_coa = k_hengfors_league_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_jamurlak }
+			k_jamurlak = { set_coa = k_jamurlak_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_kaedwen }
+			k_kaedwen = { set_coa = k_kaedwen_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_kerack }
+			k_kerack = { set_coa = k_kerack_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_lyria_rivia }
+			k_lyria_rivia = { set_coa = k_lyria_rivia_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_maecht }
+			k_maecht = { set_coa = k_maecht_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_mag_turga }
+			k_mag_turga = { set_coa = k_mag_turga_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_mahakam }
+			k_mahakam = { set_coa = k_mahakam_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_metinna }
+			k_metinna = { set_coa = k_metinna_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_nazair }
+			k_nazair = { set_coa = k_nazair_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_novigrad }
+			k_novigrad = { set_coa = k_novigrad_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_pontar }
+			k_pontar = { set_coa = k_pontar_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_redania }
+			k_redania = { set_coa = k_redania_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_skellig }
+			k_skellig = { set_coa = k_skellig_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_sodden }
+			k_sodden = { set_coa = k_sodden_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_temeria }
+			k_temeria = { set_coa = k_temeria_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_toussaint }
+			k_toussaint = { set_coa = k_toussaint_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_verden }
+			k_verden = { set_coa = k_verden_nilfgaard }
+		}
+		if = {
+			limit = { has_landed_title = k_vicovaro }
+			k_vicovaro = { set_coa = k_vicovaro_nilfgaard }
+		}
+	}
+}
+
+# Reset CoA of kingdoms
+# [on_new_holder, on_create_title]
+# Note: this won't fire when granting independence, but will happen for next ruler.
+character_event = {
+	id = nilfgaard.152
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	only_rulers = yes
+	
+	trigger = {
+		higher_tier_than = DUKE
+		NOT = { has_landed_title = e_nilfgaard }
+		liege = {
+			NOT = { has_landed_title = e_nilfgaard }
+		}
+	}
+	
+	immediate = {
+		any_demesne_title = {
+			limit = {
+				tier = KING
+			}
+			reset_coa = THIS
+		}
+	}
+}
+
+# Reset CoA of kingdoms
+# [on_war_ended_victory]
+character_event = {
+	id = nilfgaard.153
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	only_rulers = yes
+	
+	trigger = {
+		FROM = {
+			higher_tier_than = DUKE
+			NOT = { has_landed_title = e_nilfgaard }
+			liege = {
+				NOT = { has_landed_title = e_nilfgaard }
+			}
+		}
+	}
+	
+	immediate = {
+		FROM = {
+			any_demesne_title = {
+				limit = {
+					tier = KING
+				}
+				reset_coa = THIS
+			}
+		}
+	}
+}
