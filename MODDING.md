@@ -4,6 +4,16 @@ This page lists some useful information for modders.
 
 - There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by the mess CD project has created !
 
+### Army sizes
+
+With vanilla default building values, the size of armies is probably scaled down by a factor of 3 to 5 compared to sources:
+- Nilfgaard ~ 150,000
+	- Impera Brigade ~ 5,000
+- Kaedwen ~ 35,000 ?
+- Redania ~ 35,000
+- Temeria ~ 25,000
+- Lyria & Rivia ~ 13,000
+
 ### Cultures
 
 When adapting vanilla elements (events, portrait, music, etc.), here is a rough association:
