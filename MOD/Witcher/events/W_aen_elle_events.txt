@@ -1,0 +1,102 @@
+namespace = wild_hunt
+
+province_event = {
+	id = wild_hunt.1
+	
+	hide_window = yes
+	
+	trigger = {
+		NOT = { has_global_flag = wild_hunt_on_going }
+		port = yes
+		OR = {
+			culture_group = northern_group
+			culture_group = southern_group
+			culture_group = nilfgaardian_group
+		}
+	}
+	
+	mean_time_to_happen = {
+		years = 10
+	}
+	
+	immediate = {
+		set_global_flag = wild_hunt_on_going
+		activate_title = { title = k_wild_hunt status = yes }
+		# TODO Can mercenary companies loot ? If so make k_wild_hunt a mercenary company to avoid unit spawning.
+		k_wild_hunt = {
+			holder_scope = {
+				spawn_unit = {
+					province = ROOT
+					home = ROOT
+					owner = THIS
+					leader = THIS
+					earmark = wild_hunt
+					troops = {
+						knights = { 250 250 }
+					}
+					is_looter = yes
+					can_toggle_looting = no
+					attrition = 0
+					reinforces =  no
+					maintenance = no
+					merge = yes
+				}
+				spawn_unit = {
+					province = ROOT
+					home = ROOT
+					owner = THIS
+					leader = THIS
+					earmark = wild_hunt
+					troops = {
+						knights = { 250 250 }
+					}
+					is_looter = yes
+					can_toggle_looting = no
+					attrition = 0
+					reinforces =  no
+					maintenance = no
+					merge = yes
+				}
+				spawn_unit = {
+					province = ROOT
+					home = ROOT
+					owner = THIS
+					leader = THIS
+					earmark = wild_hunt
+					troops = {
+						knights = { 250 250 }
+					}
+					is_looter = yes
+					can_toggle_looting = no
+					attrition = 0
+					reinforces =  no
+					maintenance = no
+					merge = yes
+				}
+				spawn_fleet = { # Naglfar
+					province = closest
+					owner = THIS
+					earmark = wild_hunt_fleet
+					troops = {
+						galleys = { 20 20 }
+					}
+				}
+				character_event = { id = wild_hunt.2 days = 90 random = 180}
+			}
+		}
+	}
+}
+
+character_event = {
+	id = wild_hunt.2
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		disband_event_forces = wild_hunt
+		disband_event_forces = wild_hunt_fleet
+		activate_title = { title = k_wild_hunt status = no }
+		clr_global_flag = wild_hunt_on_going
+	}
+}
