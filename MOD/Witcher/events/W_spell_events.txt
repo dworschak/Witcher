@@ -43,11 +43,26 @@ character_event = {
 		log = "**(Magic)** [From.GetTitledName] is casting a heal spell on [Root.GetTitledName] by order of [FromFromFrom.GetTitledName]"
 		
 		cure_illness = yes
-		remove_trait = wounded
-		remove_trait = maimed
-		remove_trait = infirm
-		remove_trait = blinded
-		remove_trait = eunuch
+		if = {
+			limit = { trait = wounded }
+			remove_trait = wounded
+		}
+		if = {
+			limit = { trait = maimed }
+			remove_trait = maimed
+		}
+		if = {
+			limit = { trait = blinded }
+			remove_trait = blinded
+		}
+		if = {
+			limit = { trait = infirm }
+			remove_trait = infirm
+		}
+		if = {
+			limit = { trait = eunuch }
+			remove_trait = eunuch
+		}
 		
 		FROM = { 
 			add_character_modifier = { name = drained duration = 180 }
