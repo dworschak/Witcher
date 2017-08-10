@@ -41,7 +41,29 @@ Don't use age checks for old (ex: age = 60), but instead:
 has_character_modifier = old_age
 ````
 
-Some races are infertile, so never impregnate without an actual fertility check.
+This is added via event at:
+- ~50 for humans, who can live up to ~90
+- ~75 for halflings and gnomes, who can live up to ~125
+- ~100 for dwarves, who can live up to ~150
+- ~300 for elves and dryads, who can live up to ~400
+- ~300 for witchers and sorcerers, who can live eternally
+
+The culling is done via defines for non-immortal races, and via event otherwise.
+
+### Fertility
+
+Some races are infertile, so never impregnate via event without an actual fertility check:
+
+- Most races become infertile at 50
+- Elves are fertile between ~50 and ~250, but get a -10%/-20% fertility reduction per each birth
+- Dryads are fertile between ~50 and ~300 (impregnated only via event)
+
+### Adulthood
+
+Age of adulthood is set to 15 instead of 16 via defines:
+
+- Use is_adult instead of age = 15 for ability to rule
+- Use is_marriage_adult instead of age = 15 for ability to marry
 
 ### Races
 

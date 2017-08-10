@@ -1,16 +1,27 @@
 -- These settings override the vanilla common/defines.lua values
+-- Religion
 NDefines.NDiplomacy.DEMAND_RELIGIOUS_CONVERSION_INTERACTION_ENABLED = 0
+NDefines.NAI.RAID_SPARE_ACCEPTED_RELIGIONS = 0						-- AI will not raid rulers of other religions in the same religion group, unless heresy vs parent religion
 NDefines.NDiplomacy.INVITE_TO_COURT_INTERACTION_THRESHOLD_FOR_NO = 25
 NDefines.NDiplomacy.INVITE_TO_COURT_INTERACTION_THRESHOLD_FOR_YES = 75
 NDefines.NCharacter.INBRED_TRAIT_CHANCE_FACTOR = 2.0 				-- Inbreeding: Multiplier to the base chance
-NDefines.NCharacter.PORTRAIT_ADULT_MALE_AGE_THRESHOLD = 15 			-- Male child to adult age portrait switch
-NDefines.NCharacter.PORTRAIT_ADULT_FEMALE_AGE_THRESHOLD = 15		-- Female child to adult age portrait switch
-NDefines.NCharacter.PORTRAIT_MID_AGE_THRESHOLD = 35					-- Middle age switch for character portraits
-NDefines.NCharacter.PORTRAIT_OLD_AGE_THRESHOLD = 55					-- Old age switch for character portraits
+-- Ages - all shifted by 1, to keep Conclave balance
+NDefines.NCharacter.NEED_GUARDIAN_AT_AGE = 5						-- The age at which children should be appointed a mentor/guardian.
+NDefines.NCharacter.CHILDHOOD_FOCUS_ALERT_AGE = 5					-- The childhood focus alert is shown for children this old
+NDefines.NCharacter.AGE_CHILDHOOD_PULSE = 5							-- The childhood pulse events start from this age
+NDefines.NCharacter.AGE_ADOLESCENT = 11 							-- Children are considered to be adolescent from this age.
+NDefines.NCharacter.CHILDHOOD_AUTO_EDUCATION_FOCUS_AGE = 14			-- Children automatically get education focus at this age. 
 NDefines.NCharacter.AGE_OF_ADULTHOOD_MALE = 15						-- Male can rule at this age. 
 NDefines.NCharacter.AGE_OF_ADULTHOOD_FEMALE = 15					-- Female can rule at this age.
 NDefines.NCharacter.AGE_OF_MARRIAGE_MALE = 15						-- Male allowed to marry at this age.
 NDefines.NCharacter.AGE_OF_MARRIAGE_FEMALE = 15						-- Female allowed to marry at this age.
+NDefines.NCharacter.PORTRAIT_ADULT_MALE_AGE_THRESHOLD = 15 			-- Male child to adult age portrait switch
+NDefines.NCharacter.PORTRAIT_ADULT_FEMALE_AGE_THRESHOLD = 15		-- Female child to adult age portrait switch
+NDefines.NCharacter.PORTRAIT_MID_AGE_THRESHOLD = 35					-- Middle age switch for character portraits
+NDefines.NCharacter.PORTRAIT_OLD_AGE_THRESHOLD = 55					-- Old age switch for character portraits
+NDefines.NCharacter.MALE_ATTRACTION_CUTOFF = 70						-- After this age, the sex appeal of traits no longer have any effect
+NDefines.NCharacter.FEMALE_ATTRACTION_CUTOFF = 50					-- After this age, the sex appeal of traits no longer have any effect
+-- Long lives races / immortality
 NDefines.NCharacter.MAX_CHILD_BIRTH_AGE = 300 						-- Female menopause age.
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_0 = 20					-- Natural deaths per decade out of 10000 people: Age 0-9
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_10 = 10				-- Natural deaths per decade out of 10000 people: Age 10-19
@@ -24,22 +35,23 @@ NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_80 = 1100				-- Natural deaths per 
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_90 = 3000				-- Natural deaths per decade out of 10000 people: Age 90-99
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_100 = 9000				-- Natural deaths per decade out of 10000 people: Age 100+
 NDefines.NCharacter.INFANT_DEATH_CHANCE = 0.02						-- Chance of stillbirth / death at birth
-NDefines.NCharacter.EARLY_PORTRAIT_AND_UNIT_BEFORE_YEAR = 1 		-- Before this date, early versions of Units and Portraits will be used if available
-NDefines.NCharacter.LATE_PORTRAIT_AND_UNIT_AFTER_YEAR = 2 			-- After this date, late versions of Units and Portraits will be used if available
-NDefines.NTitle.MAX_REPUBLIC_COUNTIES_IN_REALM = 0.15				-- 10% of a feudal realm is allowed to be under vassal republics (affects title grants)
-NDefines.NTitle.MAX_THEOCRACY_COUNTIES_IN_REALM = 0.15				-- 10% of a feudal realm is allowed to be under vassal theocracies/bishoprics (affects title grants)
+NDefines.NTitle.MAX_REPUBLIC_COUNTIES_IN_REALM = 0.15				-- % of a feudal realm is allowed to be under vassal republics (affects title grants)
+NDefines.NTitle.MAX_THEOCRACY_COUNTIES_IN_REALM = 0.15				-- % of a feudal realm is allowed to be under vassal theocracies/bishoprics (affects title grants)
 NDefines.NEconomy.TRADE_POST_COST_INC_DIST = 0.01					-- The % increase in cost due to distance to closest connected province
 NDefines.NEconomy.PATRICIAN_PRESTIGE_RESPECT_FACTOR = 2.5			-- The effect of Prestige on the Respect value for Doge elections (prestige * factor)
 NDefines.NEconomy.PATRICIAN_AGE_RESPECT_FACTOR = 0.25				-- The effect of Age on the Respect value for Doge elections (age * age * factor)
 NDefines.NEconomy.DOGE_SUCC_RANDOM_FACTOR = 700						-- The random Respect factor on actual Doge succession
+-- Warscore
 NDefines.NMilitary.BATTLE_WARSCORE_WORTH = 120						-- Warscore from battles are multiplied with this value
 NDefines.NMilitary.BATTLE_WARSCORE_DEFENDER_MULTIPLIER = 1.8		-- Defenders wins are multiplied with this value, which also means they get more prestige for a win
 NDefines.NMilitary.REINFORCE_RATE = 0.04							-- Reinforce rate per year
 NDefines.NMilitary.DAYS_UNTIL_HOLDER_GETS_WARSCORE = 180			-- Days until the war score of the title owner starts increasing, if he controls the Holdings
+-- Dates
 NDefines.NTechnology.DONT_EXECUTE_TECH_BEFORE = 1200 				-- Set this to your earliest starting year
+NDefines.NCharacter.EARLY_PORTRAIT_AND_UNIT_BEFORE_YEAR = 950		-- Before this date, early versions of Units and Portraits will be used if available
+NDefines.NCharacter.LATE_PORTRAIT_AND_UNIT_AFTER_YEAR = 1350		-- After this date, late versions of Units and Portraits will be used if available
 NDefines.NAI.MARRIAGE_AI_PRESTIGE_VALUE = 1.5						-- Multiplier for how highly AI values prestige when arranging marriages and evaluating marriage offers
 NDefines.NAI.DESIRED_CONSORTS = 1									-- AI will always want at least this many concubines, if they lack sons
-NDefines.NAI.RAID_SPARE_ACCEPTED_RELIGIONS = 0						-- AI will not raid rulers of other religions in the same religion group, unless heresy vs parent religion
 -- Game over screen
 NDefines.NEndGame.DYN1_SCORE = 100000
 NDefines.NEndGame.DYN1_ID = 20000
