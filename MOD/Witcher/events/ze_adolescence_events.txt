@@ -145,7 +145,7 @@ character_event = {
 # Haughty									#
 #############################################
 
-# Haughty turns into Proud, Arbitrary or Cruel
+# Haughty turns into Proud, Arbitrary, Cruel or Racist
 character_event = {
 	id = ZE.13000
 
@@ -192,6 +192,17 @@ character_event = {
 					}
 				}
 			}
+			10 = {
+				set_character_flag = haughty_to_racist
+				modifier = {
+					factor = 0
+					OR = {
+						trait = tolerant
+						NOT = { trait = human_race }
+					}
+					
+				}
+			}
 		}
 		if = {
 			limit = {
@@ -207,6 +218,10 @@ character_event = {
 					OR = {
 						trait = kind
 						trait = cruel
+					}
+					OR = {
+						trait = tolerant
+						NOT = { trait = human_race }
 					}
 				}
 			}
@@ -249,6 +264,12 @@ character_event = {
 			FROM = { has_character_flag = haughty_to_cruel }
 		}
 	}
+	desc = {
+		text = EVTDESCD_ZE_13001
+		trigger = {
+			FROM = { has_character_flag = haughty_to_racist }
+		}
+	}
 
 	is_triggered_only = yes
 	
@@ -281,6 +302,15 @@ character_event = {
 		add_trait = cruel
 		clr_character_flag = haughty_to_cruel
 	}
+	option = {
+		name = EVTOPTD_ZE_13001
+		trigger = {
+			has_character_flag = haughty_to_racist
+		}
+		remove_trait = haughty
+		add_trait = racist
+		clr_character_flag = haughty_to_racist
+	}
 }
 
 
@@ -305,6 +335,12 @@ character_event = {
 		text = EVTDESCC_ZE_13002
 		trigger = {
 			FROM = { has_character_flag = haughty_to_cruel }
+		}
+	}
+	desc = {
+		text = EVTDESCD_ZE_13002
+		trigger = {
+			FROM = { has_character_flag = haughty_to_racist }
 		}
 	}
 
@@ -334,6 +370,10 @@ character_event = {
 			limit = { FROM = { has_character_flag = haughty_to_cruel } }
 			tooltip = { FROM = { remove_trait = haughty add_trait = cruel } }
 		}
+		if = {
+			limit = { FROM = { has_character_flag = haughty_to_racist } }
+			tooltip = { FROM = { remove_trait = haughty add_trait = racist } }
+		}
 	}
 }
 
@@ -360,6 +400,12 @@ character_event = {
 			FROM = { has_character_flag = haughty_to_cruel }
 		}
 	}
+	desc = {
+		text = EVTDESCD_ZE_13004
+		trigger = {
+			FROM = { has_character_flag = haughty_to_racist }
+		}
+	}
 
 	is_triggered_only = yes
 	
@@ -372,6 +418,7 @@ character_event = {
 		clr_character_flag = haughty_to_proud
 		clr_character_flag = haughty_to_arbitrary
 		clr_character_flag = haughty_to_cruel
+		clr_character_flag = haughty_to_racist
 		if = {
 			limit = {
 				educator = { ai = no }
@@ -405,6 +452,15 @@ character_event = {
 		remove_trait = haughty
 		add_trait = cruel
 		clr_character_flag = haughty_to_cruel
+	}
+	option = {
+		name = EVTOPTE_ZE_13004
+		trigger = {
+			has_character_flag = haughty_to_racist
+		}
+		remove_trait = haughty
+		add_trait = racist
+		clr_character_flag = haughty_to_racist
 	}
 }
 
@@ -461,6 +517,16 @@ character_event = {
 					}
 				}
 			}
+			10 = {
+				set_character_flag = affectionate_to_tolerant
+				modifier = {
+					factor = 0
+					OR  = { 
+						trait = racist
+						NOT = { trait = human_race }
+					}
+				}
+			}
 		}
 		if = {
 			limit = {
@@ -477,6 +543,10 @@ character_event = {
 					OR = {
 						trait = trusting
 						trait = paranoid
+					}
+					OR  = { 
+						trait = racist
+						NOT = { trait = human_race }
 					}
 				}
 			}
@@ -519,6 +589,12 @@ character_event = {
 			FROM = { has_character_flag = affectionate_to_trusting }
 		}
 	}
+	desc = {
+		text = EVTDESCD_ZE_13011
+		trigger = {
+			FROM = { has_character_flag = affectionate_to_tolerant }
+		}
+	}
 
 	is_triggered_only = yes
 	
@@ -551,6 +627,15 @@ character_event = {
 		add_trait = trusting
 		clr_character_flag = affectionate_to_trusting
 	}
+	option = {
+		name = EVTOPTD_ZE_13011
+		trigger = {
+			has_character_flag = affectionate_to_tolerant
+		}
+		remove_trait = affectionate
+		add_trait = tolerant
+		clr_character_flag = affectionate_to_tolerant
+	}
 }
 
 
@@ -575,6 +660,12 @@ character_event = {
 		text = EVTDESCC_ZE_13012
 		trigger = {
 			FROM = { has_character_flag = affectionate_to_trusting }
+		}
+	}
+	desc = {
+		text = EVTDESCD_ZE_13012
+		trigger = {
+			FROM = { has_character_flag = affectionate_to_tolerant }
 		}
 	}
 
@@ -604,6 +695,10 @@ character_event = {
 			limit = { FROM = { has_character_flag = affectionate_to_trusting } }
 			tooltip = { FROM = { remove_trait = affectionate add_trait = trusting } }
 		}
+		if = {
+			limit = { FROM = { has_character_flag = affectionate_to_tolerant } }
+			tooltip = { FROM = { remove_trait = affectionate add_trait = tolerant } }
+		}
 	}
 }
 
@@ -630,6 +725,12 @@ character_event = {
 			FROM = { has_character_flag = affectionate_to_trusting }
 		}
 	}
+	desc = {
+		text = EVTDESCD_ZE_13014
+		trigger = {
+			FROM = { has_character_flag = affectionate_to_tolerant }
+		}
+	}
 
 	is_triggered_only = yes
 	
@@ -642,6 +743,7 @@ character_event = {
 		clr_character_flag = affectionate_to_kind
 		clr_character_flag = affectionate_to_content
 		clr_character_flag = affectionate_to_trusting
+		clr_character_flag = affectionate_to_tolerant
 		if = {
 			limit = {
 				educator = { ai = no }
@@ -675,6 +777,15 @@ character_event = {
 		remove_trait = affectionate
 		add_trait = trusting
 		clr_character_flag = affectionate_to_trusting
+	}
+	option = {
+		name = EVTOPTE_ZE_13014
+		trigger = {
+			has_character_flag = affectionate_to_tolerant
+		}
+		remove_trait = affectionate
+		add_trait = tolerant
+		clr_character_flag = affectionate_to_tolerant
 	}
 }
 
@@ -2183,7 +2294,7 @@ character_event = {
 #############################################
 
 
-# playful turns into gregarious, deceitful or lunatic
+# playful turns into gregarious, deceitful, gambler or lunatic
 character_event = {
 	id = ZE.13070
 
@@ -2233,6 +2344,13 @@ character_event = {
 					trait = genius
 				}
 			}
+			15 = {
+				set_character_flag = playful_to_gambler
+				modifier = {
+					factor = 0
+					trait = reasonable
+				}
+			}
 		}
 		if = {
 			# This combination should not be possible, but just to be sure...
@@ -2240,6 +2358,7 @@ character_event = {
 				trait = gregarious
 				trait = deceitful
 				trait = lunatic
+				trait = reasonable
 			}
 			change_diplomacy = 2
 			remove_trait = playful
@@ -2280,6 +2399,12 @@ character_event = {
 			FROM = { has_character_flag = playful_to_lunatic }
 		}
 	}
+	desc = {
+		text = EVTDESCD_ZE_13071
+		trigger = {
+			FROM = { has_character_flag = playful_to_gambler }
+		}
+	}
 
 	is_triggered_only = yes
 	
@@ -2312,6 +2437,15 @@ character_event = {
 		add_trait = lunatic
 		clr_character_flag = playful_to_lunatic
 	}
+	option = {
+		name = EVTOPTD_ZE_13071
+		trigger = {
+			has_character_flag = playful_to_gambler
+		}
+		remove_trait = playful
+		add_trait = gambler
+		clr_character_flag = playful_to_gambler
+	}
 }
 
 
@@ -2336,6 +2470,12 @@ character_event = {
 		text = EVTDESCC_ZE_13072
 		trigger = {
 			FROM = { has_character_flag = playful_to_lunatic }
+		}
+	}
+	desc = {
+		text = EVTDESCD_ZE_13072
+		trigger = {
+			FROM = { has_character_flag = playful_to_gambler }
 		}
 	}
 
@@ -2365,6 +2505,10 @@ character_event = {
 			limit = { FROM = { has_character_flag = playful_to_lunatic } }
 			tooltip = { FROM = { remove_trait = playful add_trait = lunatic } }
 		}
+		if = {
+			limit = { FROM = { has_character_flag = playful_to_gambler } }
+			tooltip = { FROM = { remove_trait = playful add_trait = gambler } }
+		}
 	}
 }
 
@@ -2391,6 +2535,12 @@ character_event = {
 			FROM = { has_character_flag = playful_to_lunatic }
 		}
 	}
+	desc = {
+		text = EVTDESCD_ZE_13074
+		trigger = {
+			FROM = { has_character_flag = playful_to_gambler }
+		}
+	}
 
 	is_triggered_only = yes
 	
@@ -2403,6 +2553,7 @@ character_event = {
 		clr_character_flag = playful_to_gregarious
 		clr_character_flag = playful_to_deceitful
 		clr_character_flag = playful_to_lunatic
+		clr_character_flag = playful_to_gambler
 		if = {
 			limit = {
 				educator = { ai = no }
@@ -2436,6 +2587,15 @@ character_event = {
 		remove_trait = playful
 		add_trait = lunatic
 		clr_character_flag = playful_to_lunatic
+	}
+	option = {
+		name = EVTOPTE_ZE_13074
+		trigger = {
+			has_character_flag = playful_to_gambler
+		}
+		remove_trait = playful
+		add_trait = gambler
+		clr_character_flag = playful_to_gambler
 	}
 }
 
