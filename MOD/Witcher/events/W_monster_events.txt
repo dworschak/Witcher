@@ -82,11 +82,10 @@ character_event = {
 		FROM = { letter_event = { id = monster.3 days = 5 } }
 	}
 }
-# Send a witcher
+# Witcher does its craft
 letter_event = {
 	id = monster.3
 	desc = EVTDESCmonster.3
-	picture = GFX_evt_market
 	
 	hide_from = yes
 	is_triggered_only = yes
@@ -98,7 +97,11 @@ letter_event = {
 			remove_province_modifier = drowners
 			add_province_modifier = { name = monster_purge duration = 360 hidden = yes }
 		}
-		FROM = { add_character_modifier = { name = recent_witcher_work duration = 180 hidden = yes } }
+		wealth = -10
+		FROM = { 
+			wealth = 10
+			add_character_modifier = { name = recent_witcher_work duration = 180 hidden = yes }
+		}
 	}
 }
 # Hire witcher and send him - asking second time
