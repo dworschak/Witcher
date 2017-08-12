@@ -1,5 +1,11 @@
 namespace = childhood
 
+# childhood.1 -> 29 : Childhood events
+# childhood.30 -> 49: Combat education
+# childhood.100 -> 199: Magic education
+# childhood.200 -> 249: Education (without Conclave)
+# childhood.250 -> 251: Education (Conclave)
+
 ################################################
 # Childhood events from VIET
 ################################################
@@ -3494,3 +3500,726 @@ character_event = {
 		}
 	}
 }
+
+################################################
+# Education (with Conclave)
+################################################
+
+# Polymath education (cf ze_education_trait_events.txt)
+
+character_event = {
+	id = childhood.250
+	picture = GFX_evt_book_carolingian_script
+	border = GFX_event_normal_frame_war
+
+	desc = {
+		text = EVTDESCAchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_1
+		}
+	}
+	desc = {
+		text = EVTDESCBchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_2
+		}
+	}
+	desc = {
+		text = EVTDESCCchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_3
+		}
+	}
+	desc = {
+		text = EVTDESCchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_4
+		}
+	}
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_dlc = "Zeus"
+		has_focus = focus_ed_polymath
+	}
+	
+	immediate = {
+		set_character_flag = is_being_graded
+		educator = { save_event_target_as = education_outcome_educator }
+		clear_focus = yes
+		random_list = {
+			10 = {
+				modifier = {
+					factor = 2
+					has_character_flag = education_effect_imprisoned
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						is_smart_trigger = yes
+						trait = diligent
+					}
+				}
+				modifier = {
+					factor = 2
+					is_dumb_trigger = yes
+				}
+				modifier = {
+					factor = 0.5
+					trait = diligent
+				}
+				modifier = {
+					factor = 2
+					trait = slothful
+				}
+				modifier = {
+					factor = 1.5
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 1.5
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+					}
+				}
+				modifier = {
+					factor = 1.5
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 1.5
+					AND = {
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_character_flag = was_indolent
+						trait = indolent
+					}
+				}
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_character_flag = was_fussy
+						trait = fussy
+					}
+				}
+				modifier = {
+					factor = 1.5
+					OR = {
+						has_character_flag = was_playful
+						trait = playful
+					}
+				}
+				modifier = {
+					factor = 0.1
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						has_character_flag = was_curious
+						trait = curious
+					}
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						has_character_flag = was_conscientious
+						trait = conscientious
+					}
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						has_character_flag = was_willful
+						trait = willful
+					}
+				}
+				set_character_flag = education_outcome_level_1
+			}
+			20 = {
+				modifier = {
+					factor = 0
+					OR = {
+						trait = incapable
+						trait = imbecile
+						trait = inbred
+					}
+				}
+				set_character_flag = education_outcome_level_2
+			}
+			15 = {
+				modifier = {
+					factor = 0.2
+					has_character_flag = education_effect_imprisoned
+				}
+				modifier = {
+					factor = 1.5
+					is_smart_trigger = yes
+				}
+				modifier = {
+					factor = 1.5
+					trait = diligent
+				}
+				modifier = {
+					factor = 0.7
+					trait = slothful
+				}
+				modifier = {
+					factor = 0
+					OR = {
+						trait = incapable
+						trait = imbecile
+						trait = inbred
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.5
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+					}
+				}
+				modifier = {
+					factor = 0.5
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.5
+					AND = {
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.7
+					OR = {
+						has_character_flag = was_indolent
+						trait = indolent
+					}
+				}
+				modifier = {
+					factor = 0.7
+					OR = {
+						has_character_flag = was_fussy
+						trait = fussy
+					}
+				}
+				modifier = {
+					factor = 0.7
+					OR = {
+						has_character_flag = was_playful
+						trait = playful
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_character_flag = was_curious
+						trait = curious
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_character_flag = was_conscientious
+						trait = conscientious
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_character_flag = was_willful
+						trait = willful
+					}
+				}
+				set_character_flag = education_outcome_level_3
+			}
+			10 = {
+				modifier = {
+					factor = 0.2
+					has_character_flag = education_effect_imprisoned
+				}
+				modifier = {
+					factor = 2.5
+					is_smart_trigger = yes
+				}
+				modifier = {
+					factor = 2.5
+					trait = diligent
+				}
+				modifier = {
+					factor = 0.4
+					trait = slothful
+				}
+				modifier = {
+					factor = 0
+					OR = {
+						trait = incapable
+						trait = imbecile
+						trait = inbred
+					}
+				}
+				modifier = {
+					factor = 0.1
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_indolent
+							trait = indolent
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.2
+					AND = {
+						OR = {
+							has_character_flag = was_fussy
+							trait = fussy
+						}
+						OR = {
+							has_character_flag = was_playful
+							trait = playful
+						}
+					}
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						has_character_flag = was_indolent
+						trait = indolent
+					}
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						has_character_flag = was_fussy
+						trait = fussy
+					}
+				}
+				modifier = {
+					factor = 0.5
+					OR = {
+						has_character_flag = was_playful
+						trait = playful
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_curious
+							trait = curious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					AND = {
+						OR = {
+							has_character_flag = was_conscientious
+							trait = conscientious
+						}
+						OR = {
+							has_character_flag = was_willful
+							trait = willful
+						}
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_character_flag = was_curious
+						trait = curious
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_character_flag = was_conscientious
+						trait = conscientious
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_character_flag = was_willful
+						trait = willful
+					}
+				}
+				set_character_flag = education_outcome_level_4
+			}
+		}
+		clr_character_flag = education_effect_imprisoned
+		clr_character_flag = was_willful
+		clr_character_flag = was_brooding
+		clr_character_flag = was_indolent
+		clr_character_flag = was_playful
+		clr_character_flag = was_conscientious
+		clr_character_flag = was_fussy
+		clr_character_flag = was_curious
+		clr_character_flag = was_idolizer
+		clr_character_flag = was_haughty
+		clr_character_flag = was_affectionate
+		clr_character_flag = was_timid
+		clr_character_flag = was_rowdy
+	}
+	
+	option = {
+		name = EVTOPTAchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_1
+		}
+		add_trait = uneducated_buffoon
+		clr_character_flag = education_outcome_level_1
+		clr_character_flag = is_being_graded
+		hidden_tooltip = { event_target:education_outcome_educator = { character_event = { id = childhood.251 } } } # Notify educator
+	}
+	option = {
+		name = EVTOPTBchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_2
+		}
+		add_trait = jack_of_all_trades
+		clr_character_flag = education_outcome_level_2
+		clr_character_flag = is_being_graded
+		hidden_tooltip = { event_target:education_outcome_educator = { character_event = { id = childhood.251 } } } # Notify educator
+	}
+	option = {
+		name = EVTOPTCchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_3
+		}
+		add_trait = well_versed_polymath
+		clr_character_flag = education_outcome_level_3
+		clr_character_flag = is_being_graded
+		hidden_tooltip = { event_target:education_outcome_educator = { character_event = { id = childhood.251 } } } # Notify educator
+	}
+	option = {
+		name = EVTOPTDchildhood.250
+		trigger = {
+			has_character_flag = education_outcome_level_4
+		}
+		add_trait = wise_sage
+		clr_character_flag = education_outcome_level_4
+		clr_character_flag = is_being_graded
+		hidden_tooltip = { event_target:education_outcome_educator = { character_event = { id = childhood.251 } } } # Notify educator
+	}
+}
+
+# Notify educator
+character_event = {
+	id = childhood.251
+	picture = GFX_evt_book_carolingian_script
+	border = GFX_event_normal_frame_war
+
+	desc = {
+		text = EVTDESCAchildhood.251
+		trigger = {
+			FROM = { trait = uneducated_buffoon }
+		}
+	}
+	desc = {
+		text = EVTDESCBchildhood.251
+		trigger = {
+			FROM = { trait = jack_of_all_trades }
+		}
+	}
+	desc = {
+		text = EVTDESCCchildhood.251
+		trigger = {
+			FROM = { trait = well_versed_polymath }
+		}
+	}
+	desc = {
+		text = EVTDESCDchildhood.251
+		trigger = {
+			FROM = { trait = wise_sage }
+		}
+	}
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EVTOPTA_ZE_14110
+		trigger = {
+			FROM = { trait = uneducated_buffoon }
+		}
+		tooltip = { FROM = { add_trait = uneducated_buffoon } }
+	}
+	option = {
+		name = EVTOPTB_ZE_14110
+		trigger = {
+			FROM = { trait = jack_of_all_trades }
+		}
+		tooltip = { FROM = { add_trait = jack_of_all_trades } }
+	}
+	option = {
+		name = EVTOPTC_ZE_14110
+		trigger = {
+			FROM = { trait = well_versed_polymath }
+		}
+		tooltip = { FROM = { add_trait = well_versed_polymath } }
+	}
+	option = {
+		name = EXCELLENT
+		trigger = {
+			FROM = { trait = wise_sage }
+		}
+		tooltip = { FROM = { add_trait = wise_sage } }
+	}
+}
+
