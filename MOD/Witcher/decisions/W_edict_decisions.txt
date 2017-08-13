@@ -12,7 +12,7 @@ decisions = {
 					character = ROOT
 					is_republic = no
 				}
-				NOT = { has_law = crown_authority_3 }
+				NOT = { has_law = crown_authority_4 }
 			}
 		}
 		allow = {
@@ -23,6 +23,10 @@ decisions = {
 			prestige = -100
 			add_character_modifier = { name = edict_timer duration = 7300 } # 20 years
 			crownlaw_title = {
+				if = {
+					limit = { has_law = crown_authority_3 }
+					add_law_w_cooldown = crown_authority_4
+				}
 				if = {
 					limit = { has_law = crown_authority_2 }
 					add_law_w_cooldown = crown_authority_3
@@ -79,6 +83,10 @@ decisions = {
 				if = {
 					limit = { has_law = crown_authority_3 }
 					add_law_w_cooldown = crown_authority_2
+				}
+				if = {
+					limit = { has_law = crown_authority_4 }
+					add_law_w_cooldown = crown_authority_3
 				}
 			}
 		}

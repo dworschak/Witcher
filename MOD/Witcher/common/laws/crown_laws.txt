@@ -3,8 +3,7 @@
 
 de_jure_laws = {
 
-# CROWN AUTHORITY
-
+# CROWN AUTHORITY (renamed CROWN OBLIGATIONS and split out CROWN LEVIES)
 	crown_authority_0 = {
 		show_as_title = yes
 		group = crown_authority
@@ -40,10 +39,12 @@ de_jure_laws = {
 				revoke_law = crown_authority_1
 				revoke_law = crown_authority_2
 				revoke_law = crown_authority_3
+				revoke_law = crown_authority_4
 			}
 			
 #			set_appoint_generals = no
 			set_the_kings_peace = no
+			set_the_kings_full_peace = no
 			set_protected_inheritance = no
 			set_allow_title_revokation = no
 		}
@@ -121,6 +122,7 @@ de_jure_laws = {
 				revoke_law = crown_authority_1
 				revoke_law = crown_authority_2
 				revoke_law = crown_authority_3
+				revoke_law = crown_authority_4
 			}
 			set_allow_title_revokation = no
 			set_the_kings_peace = no
@@ -206,6 +208,7 @@ de_jure_laws = {
 				revoke_law = crown_authority_1
 				revoke_law = crown_authority_2
 				revoke_law = crown_authority_3
+				revoke_law = crown_authority_4
 			}
 #			set_appoint_generals = yes
 			set_the_kings_peace = no
@@ -226,7 +229,10 @@ de_jure_laws = {
 			holder_scope = { 
 				is_republic = no 
 			}
-			has_law = crown_authority_2
+			OR = {
+				has_law = crown_authority_2
+				has_law = crown_authority_4
+			}
 		}
 		potential = {
 			NOT = { has_dlc = "Zeus" }
@@ -295,10 +301,91 @@ de_jure_laws = {
 				revoke_law = crown_authority_1
 				revoke_law = crown_authority_2
 				revoke_law = crown_authority_3
+				revoke_law = crown_authority_4
 			}
 			set_allow_title_revokation = yes
 			set_the_kings_peace = yes
 			set_protected_inheritance = yes
+		}
+	}
+	
+	crown_authority_4 = {
+		show_as_title = yes
+		group = crown_authority
+		
+		feudal_opinion = -20
+		city_opinion = -20
+		temple_opinion = -20
+		
+		allow = {
+			has_law = crown_authority_3
+		}
+		potential = {
+			NOT = { has_dlc = "Zeus" }
+			holder_scope = {
+				is_republic = no
+				is_tribal = no
+				is_nomadic = no
+			}
+		}
+		revoke_allowed = {
+			always = no
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.001
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					NOT = { has_law = crown_authority_3 }
+					NOT = { ruled_years = 20 }
+				}
+			}
+		}
+		
+		ai_will_revoke = {
+			factor = 0
+		}
+		
+		pass_effect = {
+			hidden_tooltip = {
+				if = { 
+					limit = {
+						has_law = crown_authority_3
+					}
+					any_de_jure_vassal = {
+						limit = {
+							OR = {
+								religion = ROOT
+								is_liege_or_above = ROOT
+							}
+						}
+						opinion = {
+							who = ROOT
+							modifier = opinion_increased_authority
+							months = 60
+						}
+					}
+				}
+			}
+		}
+		
+		effect = {
+			hidden_tooltip = {
+				revoke_law = crown_authority_0
+				revoke_law = crown_authority_1
+				revoke_law = crown_authority_2
+				revoke_law = crown_authority_3
+				revoke_law = crown_authority_4
+			}
+#			set_appoint_generals = yes
+#			set_appoint_regents = yes
+			set_the_kings_peace = yes
+			set_the_kings_full_peace = yes
+			set_protected_inheritance = yes
+			set_allow_title_revokation = yes
 		}
 	}
 	
