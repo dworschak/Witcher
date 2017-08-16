@@ -899,12 +899,6 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		ROOT = {
 			prestige = -200
 		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -925,12 +919,6 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
-		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
 		}
 	}
 	
@@ -1057,12 +1045,6 @@ nilfgaard_reconquest = { # Usable by Nilfgaard against Southern kingdoms
 		ROOT = {
 			prestige = -200
 		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -1083,12 +1065,6 @@ nilfgaard_reconquest = { # Usable by Nilfgaard against Southern kingdoms
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
-		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
 		}
 	}
 	
@@ -1669,7 +1645,7 @@ raise_tolerance_law = {
 	defender_ai_defeat_worth = { factor = 100 }
 }
 
-conquest = { # Usable once  against nearby duchies when you take ambition
+conquest = { # Usable once against nearby duchies when you take ambition
 	name = CB_NAME_CONQUEST
 	war_name = WAR_NAME_CONQUEST
 	sprite = 7
@@ -1687,14 +1663,15 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 		ROOT = {
 			has_character_flag = obj_expand_by_conquest_taken
 			NOT = { has_character_flag = obj_expand_by_conquest_succeeded }
-			NOT = { has_character_flag = obj_expand_by_conquest_failed }
-			NOT = { has_character_flag = obj_expand_by_conquest_cb_used }
+			NOT = { has_character_flag = obj_expand_by_conquest_cb_used } # One-time CB
 			NOT = { is_liege_or_above = FROM }
 		}
 	}
 	
 	on_add = {
-		set_character_flag = obj_expand_by_conquest_cb_used
+		ROOT = {
+			set_character_flag = obj_expand_by_conquest_cb_used
+		}
 	}
 	
 	can_use_title = {
@@ -1757,6 +1734,12 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 		}
 	}
 	
+	on_invalidation = {
+		ROOT = {
+			clr_character_flag = obj_expand_by_conquest_cb_used
+		}
+	}
+	
 	on_success = {
 		ROOT = { prestige = 200 }
 		any_attacker = {
@@ -1770,9 +1753,10 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 		FROM = { prestige = -200 }
 		ROOT = {
 			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				limit = { 
+					has_character_flag = obj_expand_by_conquest_taken
+				}
 				set_character_flag = obj_expand_by_conquest_succeeded
-				clr_character_flag = obj_expand_by_conquest_cb_used
 			}
 		}
 	}
@@ -1803,11 +1787,7 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-				clr_character_flag = obj_expand_by_conquest_cb_used
-			}
+			clr_character_flag = obj_expand_by_conquest_cb_used
 		}
 	}
 	
@@ -1826,11 +1806,7 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
 		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-				clr_character_flag = obj_expand_by_conquest_cb_used
-			}
+			clr_character_flag = obj_expand_by_conquest_cb_used
 		}
 	}
 	
@@ -2629,12 +2605,6 @@ reclamation = { # Usable by elven and dwarven empires
 		ROOT = {
 			prestige = -100
 		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -2655,12 +2625,6 @@ reclamation = { # Usable by elven and dwarven empires
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
-		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
 		}
 	}
 	
