@@ -78,3 +78,7 @@ Check for protection spells before killing a character:
 ````
 limit = { NOT = { has_character_modifier = protection_spell } }
 ````
+
+### Misc
+
+When a vanilla event is unsuitable, try to find a lore-equivalent and override the event localization keys, rather than disabling the event entirely.
