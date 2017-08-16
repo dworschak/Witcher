@@ -563,7 +563,8 @@ character_event = {
 ################################################
 # Spawning witcher
 ################################################
-# Count witchers ( on_five_year_pulse)
+# Count witchers [on_yearly_pulse]
+# Note: count doesn't work in %trait% = {} scopes, hence it's a bit convoluted.
 character_event = {
 	id = witcher.300
 	
@@ -645,7 +646,6 @@ character_event = {
 	
 	hide_window = yes
 	
-	min_age = 15
 	capable_only = yes
 	prisoner = no
 	only_rulers = yes
@@ -653,7 +653,6 @@ character_event = {
 	
 	trigger = {
 		any_courtier = { NOT = { trait = witcher } }
-		witcher = { is_alive = yes }
 		NOT = { culture = wilderness }
 	}
 	
