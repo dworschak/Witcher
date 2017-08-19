@@ -4,8 +4,10 @@ targetted_decisions = {
 	
 	# Charm character via Court Mage
 	have_court_mage_cast_charm_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+		only_playable = yes
+		
+		filter = all
+		ai_target_filter = realm
 		
 		from_potential = {
 			job_mage = {
@@ -20,7 +22,9 @@ targetted_decisions = {
 		}
 		
 		allow = {
-			job_mage = { NOT = { has_character_modifier = drained } }
+			FROM = {
+				job_mage = { NOT = { has_character_modifier = drained } }
+			}
 			NOT = {
 				has_opinion_modifier = { who = FROM modifier = opinion_spell_charmed }
 			}
@@ -63,8 +67,8 @@ targetted_decisions = {
 
 	# Charm character
 	cast_charm_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+		filter = all
+		ai_target_filter = realm
 		
 		from_potential = {
 			can_cast_spell_trigger = yes
@@ -120,8 +124,11 @@ targetted_decisions = {
 	
 	# Heal oneself via Court Mage
 	have_court_mage_cast_heal_spell_self = {
+		only_playable = yes
+		
 		filter = self
 		ai_target_filter = self
+		is_high_prio = yes
 
 		potential = {
 			NOT = { culture = wilderness }
@@ -131,15 +138,10 @@ targetted_decisions = {
 		}
 		
 		allow = {
-			job_mage = { NOT = { has_character_modifier = drained } }
-			OR = {
-				is_ill = yes
-				trait = wounded
-				is_maimed_trigger = yes
-				trait = infirm
-				trait = blinded
-				trait = eunuch
+			FROM = { 
+				job_mage = { NOT = { has_character_modifier = drained } }
 			}
+			can_be_healed_by_magic_trigger = yes
 		}
 		
 		effect = {
@@ -183,8 +185,10 @@ targetted_decisions = {
 
 	# Heal another character via Court Mage
 	have_court_mage_cast_heal_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+		only_playable = yes
+		
+		filter = all
+		ai_target_filter = home_court
 		
 		from_potential = {
 			job_mage = {
@@ -198,15 +202,10 @@ targetted_decisions = {
 		}
 		
 		allow = {
-			job_mage = { NOT = { has_character_modifier = drained } }
-			OR = {
-				is_ill = yes
-				trait = wounded
-				is_maimed_trigger = yes
-				trait = infirm
-				trait = blinded
-				trait = eunuch
+			FROM = {
+				job_mage = { NOT = { has_character_modifier = drained } }
 			}
+			can_be_healed_by_magic_trigger = yes
 		}
 		
 		effect = {
@@ -247,6 +246,8 @@ targetted_decisions = {
 	cast_heal_spell_self = {
 		filter = self
 		ai_target_filter = self
+		
+		is_high_prio = yes
 
 		potential = {
 			NOT = { culture = wilderness }
@@ -255,14 +256,7 @@ targetted_decisions = {
 		
 		allow = {
 			FROM = { NOT = { has_character_modifier = drained } }
-			OR = {
-				is_ill = yes
-				trait = wounded
-				is_maimed_trigger = yes
-				trait = infirm
-				trait = blinded
-				trait = eunuch
-			}
+			can_be_healed_by_magic_trigger = yes
 		}
 		
 		effect = {
@@ -307,8 +301,8 @@ targetted_decisions = {
 	
 	# Heal another character
 	cast_heal_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+		filter = all
+		ai_target_filter = court
 		
 		from_potential = {
 			can_cast_spell_trigger = yes
@@ -321,14 +315,7 @@ targetted_decisions = {
 		
 		allow = {
 			FROM = { NOT = { has_character_modifier = drained } }
-			OR = {
-				is_ill = yes
-				trait = wounded
-				is_maimed_trigger = yes
-				trait = infirm
-				trait = blinded
-				trait = eunuch
-			}
+			can_be_healed_by_magic_trigger = yes
 		}
 		
 		effect = {
@@ -399,6 +386,8 @@ targetted_decisions = {
 	
 	# Protect oneself via Court Mage
 	have_court_mage_cast_protect_spell_self = {
+		only_playable = yes
+		
 		filter = self
 		ai_target_filter = self
 		
@@ -410,7 +399,9 @@ targetted_decisions = {
 		}
 		
 		allow = {
-			job_mage = { NOT = { has_character_modifier = drained } }
+			FROM = { 
+				job_mage = { NOT = { has_character_modifier = drained } }
+			}
 			NOT = { has_character_modifier = protection_spell }
 		}
 		
@@ -444,8 +435,10 @@ targetted_decisions = {
 	
 	# Protect another character via Court Mage
 	have_court_mage_cast_protect_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+		only_playable = yes
+		
+		filter = all
+		ai_target_filter = home_court
 		
 		from_potential = {
 			job_mage = {
@@ -459,7 +452,9 @@ targetted_decisions = {
 		}
 		
 		allow = {
-			job_mage = { NOT = { has_character_modifier = drained } }
+			FROM = {
+				job_mage = { NOT = { has_character_modifier = drained } }
+			}
 			NOT = { has_character_modifier = protection_spell }
 		}
 		
@@ -545,8 +540,8 @@ targetted_decisions = {
 	
 	# Protect another character
 	cast_protect_spell = {
-		filter = sub_realm
-		ai_target_filter = sub_realm
+		filter = all
+		ai_target_filter = court
 		
 		from_potential = {
 			can_cast_spell_trigger = yes
@@ -601,6 +596,8 @@ targetted_decisions = {
 
 decisions = {
 	spell_glamour = {
+		is_high_prio = yes
+		
 		potential = {
 			NOT = { culture = wilderness }
 			can_cast_spell_trigger = yes
