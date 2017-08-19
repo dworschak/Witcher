@@ -2604,7 +2604,7 @@ character_event = {
 # Conscientious								#
 #############################################
 
-# conscientious turns into diligent or temperate, chance of additionally getting Stressed
+# conscientious turns into diligent, temperate or reasonable, chance of additionally getting Stressed
 character_event = {
 	id = ZE.13080
 
@@ -2641,6 +2641,17 @@ character_event = {
 					}
 				}
 			}
+			10 = {
+				set_character_flag = conscientious_to_reasonable
+				modifier = {
+					factor = 0
+					OR = {
+						trait = stubborn
+						trait = gambler
+						trait = reasonable
+					}
+				}
+			}
 		}
 		if = {
 			limit = {
@@ -2652,6 +2663,11 @@ character_event = {
 					OR = {
 						trait = gluttonous
 						trait = temperate
+					}
+					OR = {
+						trait = stubborn
+						trait = gambler
+						trait = reasonable
 					}
 				}
 			}
@@ -2686,6 +2702,12 @@ character_event = {
 		text = EVTDESCB_ZE_13081
 		trigger = {
 			FROM = { has_character_flag = conscientious_to_temperate }
+		} 
+	}
+	desc = {
+		text = EVTDESCC_ZE_13081
+		trigger = {
+			FROM = { has_character_flag = conscientious_to_reasonable }
 		} 
 	}
 
@@ -2739,6 +2761,29 @@ character_event = {
 		}
 		clr_character_flag = conscientious_to_temperate
 	}
+	option = {
+		name = EVTOPTC_ZE_13081
+		trigger = {
+			has_character_flag = conscientious_to_reasonable
+		}
+		remove_trait = conscientious
+		add_trait = reasonable
+		if = {
+			limit = {
+				NOT = { trait = stressed }
+			}
+			random = {
+				chance = 20
+				add_trait = stressed
+				hidden_tooltip = {
+					character_event = {
+						id = 38282 #Notify Stressed
+					}
+				}
+			}
+		}
+		clr_character_flag = conscientious_to_reasonable
+	}
 }
 
 
@@ -2757,6 +2802,12 @@ character_event = {
 		text = EVTDESCB_ZE_13082
 		trigger = {
 			FROM = { has_character_flag = conscientious_to_temperate }
+		} 
+	}
+	desc = {
+		text = EVTDESCC_ZE_13082
+		trigger = {
+			FROM = { has_character_flag = conscientious_to_reasonable }
 		} 
 	}
 
@@ -2782,6 +2833,10 @@ character_event = {
 			limit = { FROM = { has_character_flag = conscientious_to_temperate } }
 			tooltip = { FROM = { remove_trait = conscientious add_trait = temperate } }
 		}
+		if = {
+			limit = { FROM = { has_character_flag = conscientious_to_reasonable } }
+			tooltip = { FROM = { remove_trait = conscientious add_trait = reasonable } }
+		}
 	}
 }
 
@@ -2802,6 +2857,12 @@ character_event = {
 			FROM = { has_character_flag = conscientious_to_temperate }
 		} 
 	}
+	desc = {
+		text = EVTDESCC_ZE_13084
+		trigger = {
+			FROM = { has_character_flag = conscientious_to_reasonable }
+		} 
+	}
 
 	is_triggered_only = yes
 	
@@ -2813,6 +2874,7 @@ character_event = {
 		add_trait = just
 		clr_character_flag = conscientious_to_diligent
 		clr_character_flag = conscientious_to_temperate
+		clr_character_flag = conscientious_to_reasonable
 		if = {
 			limit = {
 				educator = { ai = no }
@@ -2837,6 +2899,15 @@ character_event = {
 		remove_trait = conscientious
 		add_trait = temperate
 		clr_character_flag = conscientious_to_temperate
+	}
+	option = {
+		name = EVTOPTD_ZE_13084
+		trigger = {
+			has_character_flag = conscientious_to_reasonable
+		}
+		remove_trait = conscientious
+		add_trait = reasonable
+		clr_character_flag = conscientious_to_reasonable
 	}
 }
 
