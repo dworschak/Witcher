@@ -2476,6 +2476,7 @@ reclamation = { # Usable by elven and dwarven empires
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
+			independent = yes
 			OR = {
 				culture = aen_seidhe
 				culture = dwarven
@@ -2704,6 +2705,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	
 	on_fail_title = { # Attacker white peaces out
 		log = "(AoK) claim_lormark on_fail_title"
+		# Workaround bug causing d_upper_aedirn to be vassalized by k_kaedwen
+		d_upper_aedirn = {
+			set_defacto_liege = THIS
+		}
 		ROOT = {
 			prestige = -100
 			hidden_tooltip = {
@@ -2731,6 +2736,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1111 }
+					character_event = { id = aok.1115 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2744,6 +2750,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1113 }
+					character_event = { id = aok.1115 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2755,6 +2762,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	
 	on_reverse_demand = { # Attacker looses
 		log = "(AoK) claim_lormark on_reverse_demand"
+		# Workaround bug causing d_upper_aedirn to be vassalized by k_kaedwen
+		d_upper_aedirn = {
+			set_defacto_liege = THIS
+		}
 		ROOT = {
 			prestige = -150
 			transfer_scaled_wealth = {
@@ -2786,6 +2797,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1111 }
+					character_event = { id = aok.1115 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2797,6 +2809,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1113 }
+					character_event = { id = aok.1115 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2833,6 +2846,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	
 	on_invalidation = {
 		log = "(AoK) claim_lormark on_invalidation"
+		any_defender = {
+			limit = { has_character_flag = aok_saskia }
+			character_event = { id = aok.1115 days = 1 }
+		}
 	}
 	
 	attacker_ai_victory_worth = {
