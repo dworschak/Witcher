@@ -50,6 +50,10 @@ This is added via event at:
 
 The culling is done via defines for non-immortal races, and via event otherwise.
 
+Court pruning of immortals is mainly controlled via health (NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING). 
+All races that are immortal, but get auto-generated courtiers, need to be subject to pruning to keep game performances acceptable, and should have total health below the limit.
+In addition marriage also prevent pruning, so A.I. should not be helped to marry immortal race courtiers.
+
 ### Fertility
 
 Some races are infertile, so never impregnate via event without an actual fertility check:

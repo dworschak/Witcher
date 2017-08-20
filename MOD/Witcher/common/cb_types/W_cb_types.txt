@@ -320,6 +320,12 @@ scoiatael_revolt = {
 				}
 			}
 		}
+		capital_scope = {
+			remove_province_modifier = scoiatael_presence
+			any_neighbor_province = {
+				remove_province_modifier = scoiatael_presence
+			}
+		}
 	}
 	
 	on_reverse_demand_title = {
@@ -344,6 +350,12 @@ scoiatael_revolt = {
 					name = broken_spirit
 					days = -1
 				}
+			}
+		}
+		capital_scope = {
+			remove_province_modifier = scoiatael_presence
+			any_neighbor_province = {
+				remove_province_modifier = scoiatael_presence
 			}
 		}
 	}
@@ -2473,9 +2485,8 @@ reclamation = { # Usable by elven and dwarven empires
 	allowed_to_target_suzerains = no
 	
 	can_use = {
-		FROM = { NOT = { culture = wilderness } }
-		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
+			NOT = { culture = wilderness }
 			independent = yes
 			OR = {
 				culture = aen_seidhe
@@ -2484,6 +2495,15 @@ reclamation = { # Usable by elven and dwarven empires
 				culture = halfling
 			}
 			NOT = { same_realm = FROM }
+		}
+		FROM = {
+			NOT = { culture = wilderness }
+			NOR = {
+				culture = aen_seidhe
+				culture = dwarven
+				culture = gnomish
+				culture = halfling
+			}
 		}
 	}
 	

@@ -923,7 +923,8 @@ character_event = {
 # Immortality debugging
 ################################################
 
-# Move immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
+# Move important immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
+# Manually prune 80% of the court, to avoid court bloating.
 # ROOT is the character
 # FROM is the title
 # FROMFROM is the old holder
@@ -952,11 +953,23 @@ character_event = {
 				limit = {
 					immortal = yes
 					prisoner = no
-					is_landed = no
+					is_ruler = no
 					NOT = { trait = wilderness_race }
 				}
-				log="(Immortality) Moving [This.GetBestName] to the court of [Root.GetBestName]"
-				move_character = ROOT
+				random_list = {
+					80 = {
+						modifier = {
+							factor = 0
+							NOT = { is_unimportant_trigger = yes } # Keep important characters
+						}
+						log="(Immortality) Pruning [This.GetBestName] as unimportant"
+						death = { death_reason = death_missing } 
+					}
+					20 = {
+						log="(Immortality) Moving [This.GetBestName] to the court of [Root.GetBestName]"
+						move_character = ROOT
+					}
+				}
 			}
 		}
 	}

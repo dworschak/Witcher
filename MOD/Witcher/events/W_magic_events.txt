@@ -12,54 +12,62 @@ character_event = {
 	
 	option = {
 		name = OK
-		if = { 
-			limit = { 
-				OR = {
-					father = {
-						trait = sorcerer
-					}
-					mother = {
-						trait = sorcerer
+		
+		random_list = {
+			1 = {
+				modifier = {
+					factor = 30
+					OR = {
+						father = {
+							trait = sorcerer
+						}
+						mother = {
+							trait = sorcerer
+						}
 					}
 				}
+				modifier = {
+					factor = 4
+					trait = elf_race
+				}
+				modifier = {
+					factor = 3
+					trait = halfelf_race
+				}
+				modifier = {
+					factor = 2
+					trait = human_race
+				}
+				modifier = {
+					factor = 1
+					trait = halfdwarf_race
+				}
+				modifier = {
+					factor = 0.5
+					trait = dwarf_race
+				}
+				modifier = {
+					factor = 0.5
+					trait = halfling_race
+				}
+				modifier = {
+					factor = 1
+					trait = halfhalfling_race
+				}
+				modifier = {
+					factor = 0.5
+					trait = gnome_race
+				}
+				modifier = {
+					factor = 1
+					trait = halfgnome_race
+				}
+
+				set_character_flag = hidden_magic_talent
 			}
-			random = { chance = 30 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = elf_race }
-			random = { chance = 10 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfelf_race }
-			random = { chance = 7 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = human_race }
-			random = { chance = 5 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfdwarf_race }
-			random = { chance = 3 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = dwarf_race }
-			random = { chance = 1 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfling_race }
-			random = { chance = 1 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfhalfling_race }
-			random = { chance = 3 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = gnome_race }
-			random = { chance = 2 set_character_flag = hidden_magic_talent }
-		}
-		if = { 
-			limit = { trait = halfgnome_race }
-			random = { chance = 4 set_character_flag = hidden_magic_talent }
+			99 = {
+				# Nothing
+			}
 		}
 	}
 }
@@ -1968,6 +1976,7 @@ character_event = {
 		ai = yes
 		trait = sorcerer
 		has_job_title = job_mage
+		is_landed = no
 		NOT = { any_demesne_province = { culture = magic } }
 	}
 	
