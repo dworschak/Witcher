@@ -80,13 +80,6 @@ dejure_duchy_claim = { # New1
 				prestige = -1000
 			}
 		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes
-			}
-		}
 	}
 	
 	can_use_title = {
@@ -433,13 +426,6 @@ force_vassalization = { # New2
 				}
 			}
 		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes
-			}
-		}
 	}
 	
 	can_use = {
@@ -572,13 +558,6 @@ great_realm_conflict = { # New3
 		ROOT = {
 			prestige = -3000
 			piety = -1500
-		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes
-			}
 		}
 	}
 	
@@ -834,13 +813,6 @@ ducal_county_conquest = { # New4
 				scaled_wealth = -1.0
 			}
 		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes 
-			}
-		}
 	}
 	
 	can_use = {
@@ -1071,13 +1043,6 @@ hostages_cb = { # New5
 	
 	on_add = {
 		FROM = { character_event = { id = JD.2000 days = 5 } } # Chance to execute captives
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes
-			}
-		}
 	}
 	
 	on_success = {
@@ -1368,13 +1333,6 @@ liberate_religion = { # New6
 		hidden_tooltip = {
 			ROOT = {
 				set_character_flag = used_liberate_opportunity
-			}
-		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes
 			}
 		}
 	}
@@ -2225,13 +2183,6 @@ unjust_conquest = { # New7
 				}
 			}
 		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes
-			}
-		}
 	}
 	
 	can_use = {
@@ -2638,13 +2589,6 @@ tributary_permanent_cb = { # New8
 			set_character_flag = surrender_tributary_permanent_cb
 			character_event = { id = JD.2500 days = 5 tooltip = surrender_tributary_tt }
 		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = {  
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes 
-			}
-		}
 	}
 
 	on_success = {
@@ -2926,13 +2870,6 @@ tributary_nomad_cb = { # New9
 			save_event_target_as = tribute_war_target
 			set_character_flag = surrender_tributary_nomad_cb
 			character_event = { id = JD.2500 days = 5 tooltip = surrender_tributary_tt }
-		}
-		if = {
-			limit = { defender = { is_offmap_governor = offmap_china } }
-			attacker = { 
-				sound_effect = china_angered_emperor
-				detract_grace_super_huge_effect = yes 
-			}
 		}
 	}
 
@@ -3347,23 +3284,7 @@ offmap_submission = {
 							}
 						}
 					}
-					if = { #China with no land calculates what to do with nomad provinces
-						limit = { 
-							is_offmap_governor = yes
-							offmap_power = { is_offmap_tag = offmap_china }
-							offmap_china = { has_offmap_tmp_flag = WP_is_not_on_map }
-							NOT = { wealth = 2500 } #unless already rich from tributes
-						}
-						set_variable = { which = "WP_nomad_provinces" value = 0 }
-						any_realm_province = {
-							limit = { 
-								has_province_modifier = nomad_agitation
-								NOT = { has_settlement_construction = yes }
-							}
-							province_event = { id = JD.60100 } #increase counter for each nomad province
-						}
-						character_event = { id = JD.60101 days = 1 } #calculate gold sent from china for building holdings
-					}
+					
 					if = { #New Empire
 						limit = { has_character_flag = is_rebel_general }
 						set_global_flag = rebel_general_invasion_success
