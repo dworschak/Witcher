@@ -34,6 +34,16 @@ can_cast_spell_trigger = {
 	NOT = { trait = incapable }
 }
 
+can_be_healed_by_magic_trigger = {
+	OR = {
+		is_ill = yes
+		trait = wounded
+		is_maimed_trigger = yes
+		trait = infirm
+		trait = blinded
+		trait = eunuch
+	}
+}
 
 # Education triggers
 
@@ -100,5 +110,25 @@ has_same_race_as_from_trigger = {
 			FROM = { trait = halfgnome_race }
 		}
 	}
-	
+}
+
+# Character should get married
+should_marry_trigger = {
+	is_married = no
+	is_marriage_adult = yes
+	OR = {
+		is_female = no
+		AND = {
+			is_consort = no
+			NOT = { has_character_modifier = old_age }
+		}
+	}
+	NOT = { trait = witcher }
+	NOT = { trait = druid }
+	NOT = { trait = sorcerer }
+	NOT = { trait = adept }
+	NOT = { is_ascetic_trigger = yes }
+	NOT = { trait = celibate }
+	NOT = { trait = incapable }
+	NOT = { trait = eunuch }
 }

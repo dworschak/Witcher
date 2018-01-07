@@ -1,6 +1,6 @@
 # Witcher Kings
 
-> A Crusader Kings 2 mod in the universe of The Witcher
+> A total conversion for Crusader Kings 2 into the universe of The Witcher
 
 For more info, check the [Witcher Kings wiki page](http://www.ckiiwiki.com/Witcher_Kings).
 

@@ -14,8 +14,8 @@ character_event = {
 	min_age = 50
 	
 	trigger = {
+		NOT = { trait = wilderness_race }
 		NOT = { has_character_modifier = old_age }
-		NOT = { culture = wilderness }
 		OR = {
 			AND = {
 				age = 50
@@ -26,6 +26,7 @@ character_event = {
 				NOT = { trait = gnome_race }
 				NOT = { trait = witcher }
 				NOT = { trait = sorcerer }
+				NOT = { trait = dragon_race }
 			}
 			AND = {
 				age = 75
@@ -91,7 +92,6 @@ character_event = {
 	min_age = 300
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		NOT = { trait = sorcerer }
 		OR = {
 			trait = elf_race
@@ -131,7 +131,6 @@ character_event = {
 	min_age = 100
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		trait = dwarf_race
 		has_character_modifier = old_age
 	}
@@ -165,7 +164,6 @@ character_event = {
 	min_age = 75
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		trait = halfling_race
 		has_character_modifier = old_age
 	}
@@ -200,7 +198,6 @@ character_event = {
 	min_age = 75
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		trait = gnome_race
 		has_character_modifier = old_age
 	}
@@ -233,7 +230,6 @@ character_event = {
 	hide_window = yes
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		trait = incapable
 		OR = {
 			trait = dwarf_race
@@ -261,7 +257,6 @@ character_event = {
 	hide_window = yes
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		OR = {
 			trait = elf_race
 			trait = dryad_race
@@ -299,7 +294,6 @@ character_event = {
 	only_rulers = yes
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		war = no
 		in_command = no
 		has_character_modifier = old_age
@@ -435,7 +429,6 @@ character_event = {
 	only_rulers = yes
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		in_command = no
 		has_character_modifier = old_age
 	}
@@ -520,7 +513,6 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		has_character_modifier = old_age
 	}
 	
@@ -620,7 +612,6 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		has_character_modifier = old_age
 	}
 	
@@ -740,7 +731,6 @@ character_event = {
 	only_rulers = yes
 	
 	trigger = {
-		NOT = { culture = wilderness }
 		war = no
 		in_command = no
 		has_character_modifier = old_age
@@ -933,7 +923,8 @@ character_event = {
 # Immortality debugging
 ################################################
 
-# Move immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
+# Move important immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
+# Manually prune 80% of the court, to avoid court bloating.
 # ROOT is the character
 # FROM is the title
 # FROMFROM is the old holder
@@ -949,7 +940,7 @@ character_event = {
 				immortal = yes
 				prisoner = no
 				is_landed = no
-				NOT = { trait = wilderness }
+				NOT = { trait = wilderness_race }
 			}
 		}
 	}
@@ -962,11 +953,23 @@ character_event = {
 				limit = {
 					immortal = yes
 					prisoner = no
-					is_landed = no
-					NOT = { trait = wilderness }
+					is_ruler = no
+					NOT = { trait = wilderness_race }
 				}
-				log="(Immortality) Moving [This.GetBestName] to the court of [Root.GetBestName]"
-				move_character = ROOT
+				random_list = {
+					80 = {
+						modifier = {
+							factor = 0
+							NOT = { is_unimportant_trigger = yes } # Keep important characters
+						}
+						log="(Immortality) Pruning [This.GetBestName] as unimportant"
+						death = { death_reason = death_missing } 
+					}
+					20 = {
+						log="(Immortality) Moving [This.GetBestName] to the court of [Root.GetBestName]"
+						move_character = ROOT
+					}
+				}
 			}
 		}
 	}

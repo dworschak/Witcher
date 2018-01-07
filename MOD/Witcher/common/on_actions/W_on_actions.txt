@@ -27,6 +27,11 @@ on_startup = {
 		crown_laws.1
 		crown_laws.2
 		crown_laws.3
+		
+		# W_wilderness_events
+		wilderness.2 # Give diplomatic immunity
+		
+		meta.2 # Save conversion
 	}
 }
 
@@ -35,6 +40,9 @@ on_yearly_pulse = {
 		#Hobbit Party
 		halflings.7
 		halflings.8
+		
+		# W_witchert_events
+		witcher.300 # Check and spawn witchers
 	}
 	
 	random_events = {
@@ -78,15 +86,6 @@ on_yearly_pulse = {
 		100 = lovers.8 # # Strange sex smell
 		100 = lovers.9 # Viagra?
 		100 = lovers.10 # Sex fart
-		
-		# W_married_life_events
-		100 = married_life.20 # Flowers always work
-		100 = married_life.21 # Take off your boots
-		100 = married_life.22 # Wife joins conversation uninvited
-		100 = married_life.23 # Those glances, those glances...
-		100 = married_life.24 # And a nice way to wrap it up
-		100 = married_life.30 # Unexpected training partner
-		100 = married_life.40 # Horse riding from here to infinity
 		
 		# W_misc_events
 		100 = misc.1 # Sky admiring
@@ -225,9 +224,6 @@ on_five_year_pulse = {
 		# W_magic_events
 		magic.1063 # Create random sorcerer
 		magic.1064 # Create random apprentice
-		
-		# W_witchert_events
-		witcher.300 # Create new random witcher check
 	}
 	random_events = {
 		# W_battle_events
@@ -307,7 +303,7 @@ on_decade_pulse = {
 on_yearly_childhood_pulse = {
 	events = {
 		# W_childhood_events
-		childhood.200 # Need education
+		# childhood.200 # Need education
 	}
 	random_events = {
 		10 = childhood.1 # Character not being fed
@@ -324,11 +320,14 @@ on_yearly_childhood_pulse = {
 		35 = childhood.22 # Stewardship gain
 		35 = childhood.24 # Intrigue gain
 		35 = childhood.26 # Learning gain
+		
+		50 = childhood.100 # Dangers of magic
+		25 = childhood.110 # Places of Power
 		50 = childhood.120 # Magic book
 		
 		# W_magic_events
-		50 = magic.10 # Magic outburst
-		50 = magic.11 # Child notices his talents and inform guardian
+		150 = magic.10 # Magic outburst
+		150 = magic.11 # Child notices his talents and inform guardian
 		
 		# W_personality_events
 		100 = personality.1 # Racist
@@ -435,10 +434,13 @@ on_birth = {
 on_adulthood = {
 	events = {
 		# W_childhood_events
-		childhood.220 # Recieved court education
-		childhood.221 # Recieved steward education
-		childhood.222 # Recieved martial education
-		childhood.223 # Recieved no education
+		# Without Conclave
+		#childhood.220 # Received court education
+		#childhood.221 # Received steward education
+		#childhood.222 # Received martial education
+		#childhood.223 # Received no education
+		# With Conclave
+		childhood.250 # Received polymath education
 		
 		# W_magic_events
 		magic.90 # Become sorcerer
@@ -467,9 +469,6 @@ on_death = {
 	events = {
 		# W_artifact_events
 		artifact.1 # Passing artifacts
-		
-		# W_crown_laws_events
-		crown_laws.30 # Destroy emires with no Imperial Authority on succession
 		
 		# W_druid_events
 		druid.2 # Make temple barony heir nature religion character
@@ -517,51 +516,45 @@ on_create_title = {
 # ROOT is the character, FROM is the title, FROMFROM is the old holder
 on_new_holder = {
 	events = {
-		# W_crown_laws_events
-		crown_laws.10 # Imperial Authority evaluation
-		
 		# W_realm_events
 		realm.51 # Name the new commander of Drakenborg
 		
 		old_age.98 # Prevent immortal courtier pruning
 		
-		# Vassal kingdom CoAs 
-		nilfgaard.151
-		nilfgaard.152
+		# W_nilfgaard_events
+		nilfgaard.1 # Imperial Authority evaluation
+		nilfgaard.151 # Vassal kingdom CoAs
+		nilfgaard.152 # Vassal kingdom CoAs
 	}
 }
 
 # ROOT is the character, FROM is the title, FROMFROM is the old holder
 on_new_holder_inheritance = {
 	events = {
-		# W_crown_laws_events
-		crown_laws.10 # Imperial Authority evaluation
-		
 		# W_realm_events
 		realm.51 # Name the new commander of Drakenborg
 		
 		old_age.98 # Prevent immortal courtier pruning
 		
-		# Vassal kingdom CoAs 
-		nilfgaard.151
-		nilfgaard.152
+		# W_nilfgaard_events
+		nilfgaard.1 # Imperial Authority evaluation
+		nilfgaard.151 # Vassal kingdom CoAs
+		nilfgaard.152 # Vassal kingdom CoAs
 	}
 }
 
 # ROOT is the character, FROM is the title, FROMFROM is the old holder
 on_new_holder_usurpation = {
 	events = {
-		# W_crown_laws_events
-		crown_laws.15 # Imperial Authority reduction because of succession through usurpation
-		
 		# W_realm_events
 		realm.51 # Name the new commander of Drakenborg
 		
 		old_age.98 # Prevent immortal courtier pruning
 		
-		# Vassal kingdom CoAs 
-		nilfgaard.151
-		nilfgaard.152
+		# W_nilfgaard_events
+		nilfgaard.6 # Imperial Authority reduction because of succession through usurpation
+		nilfgaard.151 # Vassal kingdom CoAs
+		nilfgaard.152 # Vassal kingdom CoAs
 	}
 }
 

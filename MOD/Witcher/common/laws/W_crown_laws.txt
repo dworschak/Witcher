@@ -4,7 +4,7 @@
 de_jure_laws = {
 	# IMPERIAL AUTHORITY
 	# Weak
-	imperial_authority_0 = { # Default
+	imperial_authority_0 = {
 		show_as_title = yes
 		group = imperial_authority
 		default = yes
@@ -34,14 +34,16 @@ de_jure_laws = {
 	imperial_authority_1 = { # Unlocks Reconquest CB
 		show_as_title = yes
 		group = imperial_authority
-		default = yes
 		
 		potential = {
 			title = e_nilfgaard
 		}
 		
 		allow = {
-			has_law = imperial_authority_0
+			OR = {
+				has_law = imperial_authority_0
+				has_law = imperial_authority_2
+			}
 		}
 		
 		ai_will_do = {
@@ -65,14 +67,16 @@ de_jure_laws = {
 	imperial_authority_2 = { # Unlocks Reconquest CB, unlocks invasion CB
 		show_as_title = yes
 		group = imperial_authority
-		default = yes
 		
 		potential = {
 			title = e_nilfgaard
 		}
 		
 		allow = {
-			has_law = imperial_authority_1
+			OR = {
+				has_law = imperial_authority_1
+				has_law = imperial_authority_3
+			}
 		}
 		
 		ai_will_do = {
@@ -95,10 +99,9 @@ de_jure_laws = {
 		}
 	}
 	# Absolute
-	imperial_authority_3 = { # Unlocks Reconquest CB, unlocks invasion CB, gives Strong Emeror trait
+	imperial_authority_3 = { # Unlocks Reconquest CB, unlocks invasion CB, gives Strong Emperor trait
 		show_as_title = yes
 		group = imperial_authority
-		default = yes
 		
 		potential = {
 			title = e_nilfgaard
@@ -130,8 +133,9 @@ de_jure_laws = {
 	}
 	
 	# CROWN LEVY
+	# Without Conclave: split from crown_authority_0
 	# Low
-	crown_levy_0 = { # Default
+	crown_levy_0 = {
 		show_as_title = yes
 		group = crown_levy
 		default = yes
@@ -141,7 +145,12 @@ de_jure_laws = {
 		temple_opinion = 5
 		
 		potential = {
-			holder_scope = { is_republic = no }
+			NOT = { has_dlc = "Zeus" }
+			holder_scope = {
+				is_republic = no
+				is_tribal = no
+				is_nomadic = no
+			}
 		}
 		
 		allow = {
@@ -172,7 +181,12 @@ de_jure_laws = {
 		group = crown_levy
 		
 		potential = {
-			holder_scope = { is_republic = no }
+			NOT = { has_dlc = "Zeus" }
+			holder_scope = {
+				is_republic = no
+				is_tribal = no
+				is_nomadic = no
+			}
 		}
 		
 		allow = {
@@ -233,7 +247,12 @@ de_jure_laws = {
 		temple_opinion = -5
 		
 		potential = {
-			holder_scope = { is_republic = no }
+			NOT = { has_dlc = "Zeus" }
+			holder_scope = {
+				is_republic = no
+				is_tribal = no
+				is_nomadic = no
+			}
 		}
 		
 		allow = {
@@ -293,7 +312,12 @@ de_jure_laws = {
 		temple_opinion = -10
 		
 		potential = {
-			holder_scope = { is_republic = no }
+			NOT = { has_dlc = "Zeus" }
+			holder_scope = {
+				is_republic = no
+				is_tribal = no
+				is_nomadic = no
+			}
 		}
 		
 		allow = {
@@ -406,7 +430,7 @@ de_jure_laws = {
 			set_allow_free_infidel_revokation = yes
 			custom_tooltip = { text = tolerance_non_human_opinion_tooltip }
 			custom_tooltip = { text = tolerance_tolerant_opinion_tooltip }
-			custom_tooltip = { text =tolerance_foreigner_opinion_tooltip }
+			custom_tooltip = { text = tolerance_foreigner_opinion_tooltip }
 			# TO DO - event to change all non-human opinions as long as law is active
 		}
 	}
@@ -488,7 +512,7 @@ de_jure_laws = {
 		}
 	}
 	# Tolerant
-	tolerance_2= {
+	tolerance_2 = {
 		show_as_title = yes
 		group = tolerance
 		

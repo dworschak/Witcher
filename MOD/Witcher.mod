@@ -26,4 +26,4 @@ replace_path = "map/statics"
 tags={ "Map" "Complete Overhaul" "Witcher" }
 picture="WitcherKings.jpg"
 
-supported_checksums = { }
+supported_checksums = { PETO }

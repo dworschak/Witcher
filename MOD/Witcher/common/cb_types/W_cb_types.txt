@@ -1,4 +1,4 @@
-# TO DO - uncomment drayd limiter and remove existing one from conqest CB when and if brokilon is split in multiple kingdoms 
+# TO DO - uncomment drayd limiter and remove existing one from conquest CB when and if brokilon is split in multiple kingdoms 
 
 pogrom = { # Usable against nearby non-human counties, convert province, if have a claim grab county of otherwise just loot
 	name = CB_NAME_POGROM
@@ -160,10 +160,7 @@ pogrom = { # Usable against nearby non-human counties, convert province, if have
 		if = {
 			limit = {
 				ROOT = { 
-					OR = {
-						has_strong_claim = PREV
-						has_weak_claim = PREV
-					}
+					has_claim = PREV
 				}
 			}
 			usurp_title_plus_barony_if_unlanded = ROOT
@@ -171,10 +168,7 @@ pogrom = { # Usable against nearby non-human counties, convert province, if have
 		if = {
 			limit = {
 				ROOT = { 
-					NOT = {
-						has_strong_claim = PREV
-						has_weak_claim = PREV
-					}
+					NOT = { has_claim = PREV }
 				}
 			}
 			create_character = {
@@ -326,6 +320,12 @@ scoiatael_revolt = {
 				}
 			}
 		}
+		capital_scope = {
+			remove_province_modifier = scoiatael_presence
+			any_neighbor_province = {
+				remove_province_modifier = scoiatael_presence
+			}
+		}
 	}
 	
 	on_reverse_demand_title = {
@@ -350,6 +350,12 @@ scoiatael_revolt = {
 					name = broken_spirit
 					days = -1
 				}
+			}
+		}
+		capital_scope = {
+			remove_province_modifier = scoiatael_presence
+			any_neighbor_province = {
+				remove_province_modifier = scoiatael_presence
 			}
 		}
 	}
@@ -446,6 +452,10 @@ change_tanistry_succession_law = {
 				if = {
 					limit = { has_law = crown_authority_3 }
 					add_law = crown_authority_2
+				}
+				if = {
+					limit = { has_law = crown_authority_4 }
+					add_law = crown_authority_3
 				}
 			}
 		}
@@ -619,6 +629,10 @@ change_ultimogeniture_succession_law = {
 				if = {
 					limit = { has_law = crown_authority_3 }
 					add_law = crown_authority_2
+				}
+				if = {
+					limit = { has_law = crown_authority_4 }
+					add_law = crown_authority_3
 				}
 			}
 		}
@@ -897,12 +911,6 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		ROOT = {
 			prestige = -200
 		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -923,12 +931,6 @@ nilfgaard_invasion = { # Usable by Nilfgaard against Northern kingdoms
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
-		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
 		}
 	}
 	
@@ -1055,12 +1057,6 @@ nilfgaard_reconquest = { # Usable by Nilfgaard against Southern kingdoms
 		ROOT = {
 			prestige = -200
 		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -1081,12 +1077,6 @@ nilfgaard_reconquest = { # Usable by Nilfgaard against Southern kingdoms
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
-		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
 		}
 	}
 	
@@ -1289,6 +1279,7 @@ lower_crown_obligation_law = {
 			has_law = crown_authority_1
 			has_law = crown_authority_2
 			has_law = crown_authority_3
+			has_law = crown_authority_4
 		}
 	}
 	
@@ -1353,6 +1344,10 @@ lower_crown_obligation_law = {
 		if = {
 			limit = { has_law = crown_authority_3 }
 			add_law_w_cooldown = crown_authority_2
+		}
+		if = {
+			limit = { has_law = crown_authority_4 }
+			add_law_w_cooldown = crown_authority_3
 		}
 	}
 
@@ -1662,7 +1657,7 @@ raise_tolerance_law = {
 	defender_ai_defeat_worth = { factor = 100 }
 }
 
-conquest = { # Usable once  against nearby duchies when you take ambition
+conquest = { # Usable once against nearby duchies when you take ambition
 	name = CB_NAME_CONQUEST
 	war_name = WAR_NAME_CONQUEST
 	sprite = 7
@@ -1680,14 +1675,15 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 		ROOT = {
 			has_character_flag = obj_expand_by_conquest_taken
 			NOT = { has_character_flag = obj_expand_by_conquest_succeeded }
-			NOT = { has_character_flag = obj_expand_by_conquest_failed }
-			NOT = { has_character_flag = obj_expand_by_conquest_cb_used }
+			NOT = { has_character_flag = obj_expand_by_conquest_cb_used } # One-time CB
 			NOT = { is_liege_or_above = FROM }
 		}
 	}
 	
 	on_add = {
-		set_character_flag = obj_expand_by_conquest_cb_used
+		ROOT = {
+			set_character_flag = obj_expand_by_conquest_cb_used
+		}
 	}
 	
 	can_use_title = {
@@ -1750,6 +1746,12 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 		}
 	}
 	
+	on_invalidation = {
+		ROOT = {
+			clr_character_flag = obj_expand_by_conquest_cb_used
+		}
+	}
+	
 	on_success = {
 		ROOT = { prestige = 200 }
 		any_attacker = {
@@ -1763,9 +1765,10 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 		FROM = { prestige = -200 }
 		ROOT = {
 			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
+				limit = { 
+					has_character_flag = obj_expand_by_conquest_taken
+				}
 				set_character_flag = obj_expand_by_conquest_succeeded
-				clr_character_flag = obj_expand_by_conquest_cb_used
 			}
 		}
 	}
@@ -1796,11 +1799,7 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-				clr_character_flag = obj_expand_by_conquest_cb_used
-			}
+			clr_character_flag = obj_expand_by_conquest_cb_used
 		}
 	}
 	
@@ -1819,11 +1818,7 @@ conquest = { # Usable once  against nearby duchies when you take ambition
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
 		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-				clr_character_flag = obj_expand_by_conquest_cb_used
-			}
+			clr_character_flag = obj_expand_by_conquest_cb_used
 		}
 	}
 	
@@ -2490,9 +2485,9 @@ reclamation = { # Usable by elven and dwarven empires
 	allowed_to_target_suzerains = no
 	
 	can_use = {
-		FROM = { NOT = { culture = wilderness } }
-		ROOT = { NOT = { culture = wilderness } }
 		ROOT = {
+			NOT = { culture = wilderness }
+			independent = yes
 			OR = {
 				culture = aen_seidhe
 				culture = dwarven
@@ -2500,6 +2495,15 @@ reclamation = { # Usable by elven and dwarven empires
 				culture = halfling
 			}
 			NOT = { same_realm = FROM }
+		}
+		FROM = {
+			NOT = { culture = wilderness }
+			NOR = {
+				culture = aen_seidhe
+				culture = dwarven
+				culture = gnomish
+				culture = halfling
+			}
 		}
 	}
 	
@@ -2622,12 +2626,6 @@ reclamation = { # Usable by elven and dwarven empires
 		ROOT = {
 			prestige = -100
 		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
-		}
 	}
 	
 	on_reverse_demand = {
@@ -2648,12 +2646,6 @@ reclamation = { # Usable by elven and dwarven empires
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
-		}
-		ROOT = {
-			if = {
-				limit = { has_character_flag = obj_expand_by_conquest_taken }
-				set_character_flag = obj_expand_by_conquest_succeeded
-			}
 		}
 	}
 	
@@ -2733,6 +2725,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	
 	on_fail_title = { # Attacker white peaces out
 		log = "(AoK) claim_lormark on_fail_title"
+		# Workaround bug causing d_upper_aedirn to be vassalized by k_kaedwen
+		d_upper_aedirn = {
+			set_defacto_liege = THIS
+		}
 		ROOT = {
 			prestige = -100
 			hidden_tooltip = {
@@ -2760,6 +2756,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1111 }
+					character_event = { id = aok.1120 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2773,6 +2770,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1113 }
+					character_event = { id = aok.1120 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2784,6 +2782,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	
 	on_reverse_demand = { # Attacker looses
 		log = "(AoK) claim_lormark on_reverse_demand"
+		# Workaround bug causing d_upper_aedirn to be vassalized by k_kaedwen
+		d_upper_aedirn = {
+			set_defacto_liege = THIS
+		}
 		ROOT = {
 			prestige = -150
 			transfer_scaled_wealth = {
@@ -2815,6 +2817,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1111 }
+					character_event = { id = aok.1120 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2826,6 +2829,7 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 				any_defender = {
 					limit = { has_character_flag = aok_saskia }
 					narrative_event = { id = aok.1113 }
+					character_event = { id = aok.1120 days = 1 }
 				}
 				any_defender = {
 					limit = { has_character_flag = aok_stennis }
@@ -2862,6 +2866,10 @@ claim_lormark = { # Special version of normal claim for Assassin of Kings bookma
 	
 	on_invalidation = {
 		log = "(AoK) claim_lormark on_invalidation"
+		any_defender = {
+			limit = { has_character_flag = aok_saskia }
+			character_event = { id = aok.1120 days = 1 }
+		}
 	}
 	
 	attacker_ai_victory_worth = {

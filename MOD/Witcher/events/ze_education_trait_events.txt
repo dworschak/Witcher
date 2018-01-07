@@ -2150,6 +2150,12 @@ character_event = {
 			has_character_flag = education_learning
 		}
 	}
+	desc = {
+		text = EVTDESCF_ZE_14700
+		trigger = {
+			has_character_flag = education_polymath
+		}
+	}
 	
 	trigger = { # Make sure we have no education focus and no education outcome already set
 		has_dlc = "Zeus"
@@ -2160,6 +2166,7 @@ character_event = {
 			has_focus = focus_ed_stewardship
 			has_focus = focus_ed_intrigue
 			has_focus = focus_ed_learning
+			has_focus = focus_ed_polymath
 			trait = naive_appeaser
 			trait = underhanded_rogue
 			trait = charismatic_negotiator
@@ -2180,6 +2187,10 @@ character_event = {
 			trait = martial_cleric
 			trait = scholarly_theologian
 			trait = mastermind_theologian
+			trait = uneducated_buffoon
+			trait = jack_of_all_trades
+			trait = well_versed_polymath
+			trait = wise_sage
 		}
 	}
 
@@ -2200,6 +2211,9 @@ character_event = {
 			}
 			10 = {
 				set_character_flag = education_learning
+			}
+			50 = {
+				set_character_flag = education_polymath
 			}
 		}
 		clr_character_flag = education_effect_imprisoned
@@ -2263,6 +2277,15 @@ character_event = {
 		clr_character_flag = education_learning
 		hidden_tooltip = { event_target:education_outcome_educator = { character_event = { id = ZE.14710 } } } # Notify educator
 	}
+	option = {
+		name = EVTOPTA_ZE_14700
+		trigger = {
+			has_character_flag = education_polymath
+		}
+		add_trait = uneducated_buffoon
+		clr_character_flag = education_polymath
+		hidden_tooltip = { event_target:education_outcome_educator = { character_event = { id = ZE.14710 } } } # Notify educator
+	}
 }
 
 # Notify educator
@@ -2298,6 +2321,12 @@ character_event = {
 		text = EVTDESCE_ZE_14710
 		trigger = {
 			FROM = { trait = detached_priest }
+		}
+	}
+	desc = {
+		text = EVTDESCF_ZE_14710
+		trigger = {
+			FROM = { trait = uneducated_buffoon }
 		}
 	}
 	
@@ -2338,6 +2367,13 @@ character_event = {
 		}
 		tooltip = { FROM = { add_trait = detached_priest } }
 	}
+	option = {
+		name = EVTOPTA_ZE_14710
+		trigger = {
+			FROM = { trait = uneducated_buffoon }
+		}
+		tooltip = { FROM = { add_trait = uneducated_buffoon } }
+	}
 }
 
 #############################################
@@ -2354,7 +2390,7 @@ character_event = {
 	
 	trigger = {
 		is_adult = no
-		age = 12
+		age = 11
 	}
 	
 	immediate = {

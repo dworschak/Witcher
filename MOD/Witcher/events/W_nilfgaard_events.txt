@@ -5,11 +5,13 @@ namespace = nilfgaard
 # Evaluate Imperial Authority on succession
 ################################################
 # Hidden - Imperial Authority evaluation (on_new_holder, on_new_holder_inheritance)
+# ROOT is the new holder
+# FROM is the title
+# FROMFROM is the old holder
 character_event = {
 	id = nilfgaard.1
 	
 	hide_window = yes
-	
 	is_triggered_only = yes
 	
 	trigger = {
@@ -24,10 +26,10 @@ character_event = {
 		character_event = { id = nilfgaard.2 days = 1 }
 		ai_chance = {
 			factor = 10
-			# Increase chance for increase
+
 			modifier = {
 				factor = 0
-				NOT = {
+				NOR = {
 					trait = genius
 					trait = elusive_shadow
 					trait = grey_eminence
@@ -38,7 +40,7 @@ character_event = {
 			}
 			modifier = {
 				factor = 0
-				NOT = {
+				NOR = {
 					martial = 20
 					diplomacy = 20
 					stewardship = 20
@@ -46,7 +48,7 @@ character_event = {
 					learning = 20
 				}
 			}
-			# Increase chance for decrease
+
 			modifier = { factor = 0.5 trait = bastard }
 			modifier = { factor = 0.75 trait = lunatic }
 			modifier = { factor = 0.5 trait = incapable }
@@ -65,11 +67,11 @@ character_event = {
 	option = { # Don't change authority
 		ai_chance = {
 			factor = 2
-			# Increase chance for no change
+			
 			modifier = { factor = 2 trait = ambitious }
 			modifier = { factor = 2 trait = genius }
 			modifier = { factor = 1.5 OR = { trait = quick trait = shrewd } }
-			# Increase chance for decrease
+
 			modifier = { factor = 0.5 trait = bastard }
 			modifier = { factor = 0.75 trait = lunatic }
 			modifier = { factor = 0.5 trait = incapable }
@@ -86,7 +88,7 @@ character_event = {
 		}
 		if = {
 			limit = { has_law = imperial_authority_3 }
-			character_event = { id = nilfgaard.4 days = 1 }
+			character_event = { id = nilfgaard.4 days = 1 } # Give strong emperor trait
 		}
 	}
 	option = { # Decrease authority
@@ -96,7 +98,7 @@ character_event = {
 		character_event = { id = nilfgaard.3 days = 1 }
 		ai_chance = {
 			factor = 1
-			# Increase chance for decrease
+
 			modifier = { factor = 2 trait = bastard }
 			modifier = { factor = 1.5 trait = lunatic }
 			modifier = { factor = 2 trait = incapable }
@@ -110,7 +112,7 @@ character_event = {
 			modifier = { factor = 1.5 is_female = yes }
 			modifier = { factor = 1.5 trait = child_of_consort }
 			modifier = { factor = 2 NOT = { dynasty = FROMFROM } }
-			# Increase chance for increase
+
 			modifier = {
 				factor = 0.1
 				OR = {
@@ -230,6 +232,9 @@ character_event = {
 	}
 }
 # Hidden - Imperial Authority reduction because of succession through usurpation (on_new_holder_usurpation)
+# ROOT is the new holder
+# FROM is the title
+# FROMFROM is the old holder
 character_event = {
 	id = nilfgaard.6
 	
@@ -789,7 +794,12 @@ narrative_event = {
 			limit = { ai = no }
 			FROM = {
 				kingdom = {
-					usurp_title = ROOT
+					best_fit_character_for_title = {
+						title = PREV
+						perspective = ROOT
+						index = 1
+						grant_title = PREV
+					}
 				}
 			}
 		}

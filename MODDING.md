@@ -1,8 +1,8 @@
 This page lists some useful information for modders.
 
-### Tips & tricks
+### General
 
-- There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by the mess CD project has created !
+- There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by this mistake from CD project !
 
 ### Army sizes
 
@@ -17,6 +17,7 @@ With vanilla default building values, the size of armies is probably scaled down
 ### Cultures
 
 When adapting vanilla elements (events, portrait, music, etc.), here is a rough association:
+
 - Temeria ~ German
 - Redania ~ Polish
 - Kaedwen ~ Russian
@@ -38,10 +39,12 @@ When adapting vanilla elements (events, portrait, music, etc.), here is a rough 
 - Cintra ~ Lowland Scots
 - Gesco ~ Spanish
 
-### Supernatural events
+### Events
 
-The vanilla game rules supernatural_events is obviously removed, there's lots of supernatural stuff in the witcher world.
-Vanilla events be altered to usually keep the scripts associated to value = unrestricted of the game rule.
+The vanilla game rules "supernatural_events" is obviously removed, as there is lot of supernatural stuff in the Witcher world.
+Vanilla events should usually be altered to keep the part associated to the value "unrestricted" of the game rule.
+
+When a vanilla event is unsuitable, try to find a lore-equivalent and override the event localization keys, rather than disabling the event entirely - it's cheaper than creating a new event chain !
 
 ### Immortality
 
@@ -51,7 +54,34 @@ Don't use age checks for old (ex: age = 60), but instead:
 has_character_modifier = old_age
 ````
 
-Some races are infertile, so never impregnate without an actual fertility check.
+This is added via event at:
+
+- ~50 for humans, who can live up to ~90
+- ~75 for halflings and gnomes, who can live up to ~125
+- ~100 for dwarves, who can live up to ~150
+- ~300 for elves and dryads, who can live up to ~400
+- ~300 for witchers and sorcerers, who can live eternally
+
+The culling is done via defines for non-immortal races, and via event otherwise.
+
+Court pruning of immortals is mainly controlled via health (NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING). 
+All races that are immortal, but get auto-generated courtiers, need to be subject to pruning to keep game performances acceptable, and should have total health below the limit.
+In addition marriage also prevent pruning, so A.I. should not be helped to marry immortal race courtiers.
+
+### Fertility
+
+Some races are infertile, so never impregnate via event without an actual fertility check:
+
+- Most races become infertile at 50
+- Elves are fertile between ~50 and ~250, but get a -10%/-20% fertility reduction per each birth
+- Dryads are fertile between ~50 and ~300 (impregnated only via event)
+
+### Adulthood
+
+Age of adulthood is set to 15 instead of 16 via defines:
+
+- Use is_adult instead of age = 15 for ability to rule
+- Use is_marriage_adult instead of age = 15 for ability to marry
 
 ### Races
 

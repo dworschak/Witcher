@@ -24,3 +24,134 @@ narrative_event = {
 		name = OK
 	}
 }
+
+# Save conversion for v0.8.0 -> v0.8.1 compatibility
+character_event = {
+	id = meta.2
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		# Immortal characters cancer/bedridden
+		if = {
+			limit = {
+				immortal = yes
+			}
+			remove_disease_flags_effect = yes
+			clear_disease_level_effect = yes
+			cure_illness = yes
+		}
+		
+		# Disabled education
+		remove_character_modifier = court_education
+		remove_character_modifier = martial_education
+		remove_character_modifier = steward_education
+		remove_character_modifier = no_education
+		
+		# Missing laws
+		if = {
+			limit = {
+				has_dlc = "Zeus"
+				OR = {
+					NOT = { tier = baron }
+					holder_scope = { is_patrician = yes }
+				}
+			}
+			primary_title = {
+				add_law = tax_levy_law_feudal_4
+				add_law = tax_levy_law_theocracy_4
+			}
+		}
+		
+		# Removed Dwarven buildings
+		if = {
+			limit = {
+				independent = yes
+			}
+			any_realm_province = {
+				any_province_holding = {
+					if = {
+						limit = {
+							has_building = ca_dwarven_wall_1
+						}
+						add_building = ca_wall_1
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_wall_2
+						}
+						add_building = ca_wall_2
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_wall_3
+						}
+						add_building = ca_wall_3
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_wall_4
+						}
+						add_building = ca_wall_4
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_wall_5
+						}
+						add_building = ca_wall_5
+					}
+					remove_building = ca_dwarven_wall_5
+					remove_building = ca_dwarven_wall_4
+					remove_building = ca_dwarven_wall_3
+					remove_building = ca_dwarven_wall_2
+					remove_building = ca_dwarven_wall_1
+					
+					if = {
+						limit = {
+							has_building = ca_dwarven_keep_1
+						}
+						add_building = ca_keep_1
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_keep_2
+						}
+						add_building = ca_keep_2
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_keep_3
+						}
+						add_building = ca_keep_3
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_keep_4
+						}
+						add_building = ca_keep_4
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_keep_5
+						}
+						add_building = ca_keep_5
+					}
+					if = {
+						limit = {
+							has_building = ca_dwarven_keep_6
+						}
+						add_building = ca_keep_6
+					}
+		
+					remove_building = ca_dwarven_keep_6
+					remove_building = ca_dwarven_keep_5
+					remove_building = ca_dwarven_keep_4
+					remove_building = ca_dwarven_keep_3
+					remove_building = ca_dwarven_keep_2
+					remove_building = ca_dwarven_keep_1
+				}
+			}
+		}
+	}
+}

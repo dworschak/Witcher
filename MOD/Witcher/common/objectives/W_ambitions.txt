@@ -1353,6 +1353,8 @@ obj_seek_fame_glory = { # Prestige 2
 	}
 }
 # Expand by conquest
+# Temporary flags: obj_expand_by_conquest_taken / obj_expand_by_conquest_succeeded
+# Permanent flags: obj_expand_by_conquest_cb_used
 obj_expand_by_conquest = {
 	type = character
 	
@@ -1368,6 +1370,7 @@ obj_expand_by_conquest = {
 		is_landed = yes
 		higher_tier_than = baron
 		NOT = { has_character_flag = obj_expand_by_conquest_taken }
+		NOT = { has_character_flag = obj_expand_by_conquest_cb_used } # Only once !
 		NOT = { trait = incapable }
 		trait = ambitious
 	}
@@ -1392,6 +1395,7 @@ obj_expand_by_conquest = {
 	effect = {
 		prestige = 200
 		clr_character_flag = obj_expand_by_conquest_succeeded
+		clr_character_flag = obj_expand_by_conquest_taken
 	}
 	
 	abort = {
@@ -1402,7 +1406,7 @@ obj_expand_by_conquest = {
 	}
 	
 	abort_effect = {
-		clr_character_flag = obj_expand_by_conquest_failed
+		clr_character_flag = obj_expand_by_conquest_taken
 	}
 }
 # Make a friend
