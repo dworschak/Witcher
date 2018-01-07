@@ -1,12 +1,13 @@
 This page lists some useful information for modders.
 
-### Tips & tricks
+### General
 
-- There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by the mess CD project has created !
+- There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by this mistake from CD project !
 
 ### Cultures
 
 When adapting vanilla elements (events, portrait, music, etc.), here is a rough association:
+
 - Temeria ~ German
 - Redania ~ Polish
 - Kaedwen ~ Russian
@@ -28,10 +29,12 @@ When adapting vanilla elements (events, portrait, music, etc.), here is a rough 
 - Cintra ~ Lowland Scots
 - Gesco ~ Spanish
 
-### Supernatural events
+### Events
 
-The vanilla game rules supernatural_events is obviously removed, there's lots of supernatural stuff in the witcher world.
-Vanilla events be altered to usually keep the scripts associated to value = unrestricted of the game rule.
+The vanilla game rules "supernatural_events" is obviously removed, as there is lot of supernatural stuff in the Witcher world.
+Vanilla events should usually be altered to keep the part associated to the value "unrestricted" of the game rule.
+
+When a vanilla event is unsuitable, try to find a lore-equivalent and override the event localization keys, rather than disabling the event entirely - it's cheaper than creating a new event chain !
 
 ### Immortality
 
@@ -42,6 +45,7 @@ has_character_modifier = old_age
 ````
 
 This is added via event at:
+
 - ~50 for humans, who can live up to ~90
 - ~75 for halflings and gnomes, who can live up to ~125
 - ~100 for dwarves, who can live up to ~150
@@ -82,7 +86,3 @@ Check for protection spells before killing a character:
 ````
 limit = { NOT = { has_character_modifier = protection_spell } }
 ````
-
-### Misc
-
-When a vanilla event is unsuitable, try to find a lore-equivalent and override the event localization keys, rather than disabling the event entirely.
