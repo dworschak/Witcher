@@ -18,6 +18,14 @@
 # can_use_gui: If otherwise valid, the CB is listed in the Diplo View, but you can't declare war unless 'can_use_gui' is also valid (also shows a trigger tooltip.)
 #
 
+# max_defender_occupation_score/max_attacker_occupation_score - Defines how much war score it is possible for the defender/attacker to gain by occupying provinces. Defaults to 100. Make sure the CB has ticking warscore if using this or you could end up with never-ending wars
+# max_defender_battle_score/max_attacker_battle_score - Defines how much score it is possible for the defender/attacker to gain by fighting battles. Defaults to the defines MAX_WARSCORE_FROM_BATTLE_DEFENDERS/MAX_WARSCORE_FROM_BATTLE_ATTACKERS
+# hostages_block_cb	- Defaults to "yes". If set to "no", the defender having close relatives of yours imprisoned does not prevent you from declaring war
+# attacker_unoccupied_warscore = yes - If attacker completely unoccupied, attacker will get ticking warscore. Only works if no title is targetted
+# defender_unoccupied_warscore = yes - If defender completely unoccupied, defender will get ticking warscore. Only works if no title is targetted
+# capturing_attacker_is_complete_victory - Whether capturing the attacker as a prisoner is considered automatic victory for the defender. Defaults to yes. If set to no, capture instead gives CAPTURED_HEIR_WAR_SCORE warscore
+# capturing_defender_is_complete_victory - Whether capturing the defender as a prisoner is considered automatic victory for the attacker. Defaults to yes. If set to no, capture instead gives CAPTURED_HEIR_WAR_SCORE warscore
+
 # 0
 claim = {
 	name = CB_NAME_CLAIM
@@ -28,7 +36,6 @@ claim = {
 	can_ask_to_join_war = no
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 	
 	press_claim = yes
 
@@ -124,8 +131,7 @@ claim = {
 			hidden_tooltip = { conquest_culture = ROOT }
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -146,8 +152,7 @@ claim = {
 				clr_character_flag = claimant_adventurer
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -170,8 +175,7 @@ claim = {
 			}
 			ROOT = { imprison = FROM }
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 150
 		}
 		any_defender = {
@@ -258,7 +262,6 @@ other_claim = {
 	press_claim = yes
 	
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.5
 
@@ -323,6 +326,22 @@ other_claim = {
 				}
 			}
 		}
+		
+		OR = {
+			multiplayer = no
+			FROMFROM = { ai = yes }
+			has_game_rule = {
+				name = multiplayer_third_party_claims
+				value = on
+			}
+			AND = {
+				has_game_rule = {
+					name = multiplayer_third_party_claims
+					value = limited
+				}
+				lower_tier_than = KING
+			}
+		}
 	}
 
 	is_valid_title = {
@@ -347,8 +366,7 @@ other_claim = {
 				}
 			}
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -561,8 +579,7 @@ other_claim = {
 			}
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -581,8 +598,7 @@ other_claim = {
 			prestige = -150
 			imprison = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 150
 		}
 		any_defender = {
@@ -651,7 +667,6 @@ claim_on_liege = {
 	}
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.85
 
@@ -729,8 +744,7 @@ claim_on_liege = {
 	}
 
 	on_success = {
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -858,8 +872,7 @@ claim_on_liege = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -882,8 +895,7 @@ claim_on_liege = {
 			prestige = -150
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -945,7 +957,6 @@ claim_on_liege_plot = {
 	can_ask_to_join_war = no
 	
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.85
 
@@ -1000,8 +1011,7 @@ claim_on_liege_plot = {
 	}
 
 	on_success = {
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -1092,8 +1102,7 @@ claim_on_liege_plot = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -1115,8 +1124,7 @@ claim_on_liege_plot = {
 			prestige = -200
 			imprison = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -1176,7 +1184,6 @@ claim_on_vassal_plot = {
 	can_attack_vassals = yes
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.85
 
@@ -1216,8 +1223,7 @@ claim_on_vassal_plot = {
 			prestige = -100
 			cancel_plot = plot_gain_vassal_title
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -1238,8 +1244,7 @@ claim_on_vassal_plot = {
 			prestige = -200
 			cancel_plot = plot_gain_vassal_title
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -1298,7 +1303,6 @@ other_claim_on_liege = {
 	major_revolt = yes
 	
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.5
 
@@ -1394,14 +1398,14 @@ other_claim_on_liege = {
 		}
 	}
 
+
+
 	on_success = {
-		any_attacker = {
-			limit = { 
-				OR = {
-					character = ROOT 
-					character = PREV
-				}
-			}
+		ROOT = {
+			participation_scaled_prestige = 100
+			hidden_tooltip = {  disband_event_forces = faction_revolters }
+		}
+		PREV = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {  disband_event_forces = faction_revolters }
 		}
@@ -1616,8 +1620,7 @@ other_claim_on_liege = {
 		#	}
 		#}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -1650,8 +1653,7 @@ other_claim_on_liege = {
 		#	}
 		#}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -1698,7 +1700,6 @@ claim_all = {
 	is_claim_all = yes
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -1768,8 +1769,7 @@ claim_all = {
 				}
 			}
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -1782,8 +1782,7 @@ claim_all = {
 		ROOT = {
 			prestige = -150
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 75
 		}
 		any_defender = {
@@ -1812,14 +1811,14 @@ claim_all = {
 				remove_claim = ROOT
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 200
 		}
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
+
 	}
 
 	attacker_ai_victory_worth = {
@@ -1955,8 +1954,7 @@ change_seniority_succession_law = {
 				}
 			}
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -1979,8 +1977,7 @@ change_seniority_succession_law = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -2006,8 +2003,7 @@ change_seniority_succession_law = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -2157,8 +2153,7 @@ change_primogeniture_succession_law = {
 			}
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -2181,8 +2176,7 @@ change_primogeniture_succession_law = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -2209,8 +2203,7 @@ change_primogeniture_succession_law = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -2376,8 +2369,7 @@ change_feudal_elective_succession_law = {
 				}
 			}
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -2400,8 +2392,7 @@ change_feudal_elective_succession_law = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -2427,8 +2418,7 @@ change_feudal_elective_succession_law = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -2479,7 +2469,6 @@ invasion = {
 	can_ask_to_join_war = no
 	
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -2520,8 +2509,7 @@ invasion = {
 		ROOT = {
 			prestige = 200
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 200
 		}
 		any_attacker = {
@@ -2530,9 +2518,14 @@ invasion = {
 		}
 		
 		hidden_tooltip = {
+			FROM = {
+				any_vassal = {
+					set_character_flag = preserve_vassal_structure_@ROOT
+				}
+			}
 			ROOT = {
 				occupy_minors_of_occupied_settlements = FROM
-				gain_all_occupied_titles = FROM			
+				gain_all_occupied_titles = FROM
 				
 				if = {
 					limit = {
@@ -2578,6 +2571,24 @@ invasion = {
 					}
 					FROM = { imprison = ROOT }
 				}
+				if = {
+					limit = {
+						any_independent_ruler = {
+							has_character_flag = preserve_vassal_structure_@ROOT
+						}
+					}
+					any_independent_ruler = {
+						limit = {
+							has_character_flag = preserve_vassal_structure_@ROOT
+						}
+						set_defacto_liege = ROOT
+					}
+				}
+				ROOT = {
+					any_vassal = {
+						clr_character_flag = preserve_vassal_structure_@ROOT
+					}
+				}
 			}
 		}
 		
@@ -2615,8 +2626,7 @@ invasion = {
 		FROM = {
 			prestige = 100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -2635,9 +2645,6 @@ invasion = {
 		}
 		FROM = {
 			prestige = 200
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 200
 		}
 		any_defender = {
@@ -2692,7 +2699,6 @@ tribal_invasion = {
 	check_de_jure_tier = KING # this scans all de jure kingdoms for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use_gui = {
 		ROOT = {
@@ -2715,6 +2721,16 @@ tribal_invasion = {
 			# ROOT = { trait = dryad_race }
 		# }
 		ROOT = {
+			OR = {
+				ai = yes
+				multiplayer = no
+				NOT = {
+					has_game_rule = {
+						name = multiplayer_invasions
+						value = off
+					}
+				}
+			}
 			is_nomadic = no
 			OR = {
 				AND = {
@@ -2740,11 +2756,26 @@ tribal_invasion = {
 		ROOT = {
 			NOT = { same_realm = FROM }
 		}
+		
+		OR = { # This ensures that the AI doesn't declare this type of war against someone who only holds a few counties within the targeted title...
+			ROOT = {
+				ai = no
+			}
+			ROOT = {
+				has_landed_title = e_hakland
+			}
+			FROM = {
+				num_of_realm_counties = {
+					value = 3
+					title = PREV
+				}
+			}
+		}
 	}
 	
 	is_valid_title = {
 		FROM = {
-			any_realm_title = {
+			any_realm_province = {
 				de_jure_liege_or_above = PREVPREV
 			}
 		}
@@ -2753,9 +2784,6 @@ tribal_invasion = {
 	on_success = {
 		ROOT = {
 			prestige = 200
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = 200
 		}
 		any_attacker = {
@@ -2827,9 +2855,6 @@ tribal_invasion = {
 					}
 				}
 			}
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -2865,9 +2890,6 @@ tribal_invasion = {
 					}
 				}
 			}
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 200
 		}
 		any_defender = {
@@ -2902,13 +2924,171 @@ tribal_invasion = {
 }		
 
 #crusade = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
-# Holy War CB
+# Regular Holy War CB
 #religious = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
+
+#excommunicated_ruler = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
+#}
+
 
 bid_for_independence = {
 	name = CB_NAME_INDEPENDENCE
@@ -3063,11 +3243,11 @@ bid_for_independence = {
 				any_demesne_title = {
 					add_pressed_claim = FROM
 				}
+				set_character_flag = ai_flag_never_transfer
 			}
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -3132,9 +3312,6 @@ bid_for_independence = {
 	on_fail = {
 		ROOT = {
 			prestige = -50
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = -50
 		}
 		any_attacker = {
@@ -3147,9 +3324,6 @@ bid_for_independence = {
 		ROOT = {
 			prestige = -100
 			prisoner = FROM
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = -100
 		}
 		any_attacker = {
@@ -3322,8 +3496,7 @@ depose_liege = {
 
 			abdicate_to_most_liked_by = ROOT
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 250
 		}
 		any_attacker = {
@@ -3343,8 +3516,7 @@ depose_liege = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -3502,8 +3674,7 @@ overthrow_ruler = {
 			}
 			abdicate = yes
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 250
 		}
 		any_attacker = {
@@ -3529,8 +3700,7 @@ overthrow_ruler = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -3838,8 +4008,7 @@ change_gavelkind_succession_law = {
 			}
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -3862,8 +4031,7 @@ change_gavelkind_succession_law = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -3889,8 +4057,7 @@ change_gavelkind_succession_law = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -3992,9 +4159,6 @@ lower_crown_authority_law = {
 				who = FROM
 				months = 12
 			}
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -4034,9 +4198,9 @@ lower_crown_authority_law = {
 			prestige = -100
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
+			hidden_tooltip = { disband_event_forces = faction_loyalists }
 		}
 		any_defender = {
 			limit = { NOT = { character = FROM } }
@@ -4053,7 +4217,6 @@ lower_crown_authority_law = {
 				}
 			}
 		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
 
 	on_reverse_demand = {
@@ -4062,9 +4225,9 @@ lower_crown_authority_law = {
 			prisoner = FROM
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
+			hidden_tooltip = { disband_event_forces = faction_loyalists }
 		}
 		any_defender = {
 			limit = { NOT = { character = FROM } }
@@ -4083,7 +4246,6 @@ lower_crown_authority_law = {
 				}
 			}
 		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
 
 	attacker_ai_victory_worth = {
@@ -4166,9 +4328,6 @@ lower_tribal_organization_law = {
 				who = FROM
 				months = 12
 			}
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -4208,9 +4367,9 @@ lower_tribal_organization_law = {
 			prestige = -100
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
+			hidden_tooltip = { disband_event_forces = faction_loyalists }
 		}
 		any_defender = {
 			limit = { NOT = { character = FROM } }
@@ -4227,7 +4386,6 @@ lower_tribal_organization_law = {
 				}
 			}
 		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
 
 	on_reverse_demand = {
@@ -4236,9 +4394,9 @@ lower_tribal_organization_law = {
 			prisoner = FROM
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
+			hidden_tooltip = { disband_event_forces = faction_loyalists }
 		}
 		any_defender = {
 			limit = { NOT = { character = FROM } }
@@ -4257,7 +4415,6 @@ lower_tribal_organization_law = {
 				}
 			}
 		}
-		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
 	}
 
 	attacker_ai_victory_worth = {
@@ -4277,7 +4434,6 @@ lower_tribal_organization_law = {
 	}
 }
 
-
 coastal_republic = {
 	name = CB_NAME_COASTAL_REPUBLIC
 	war_name = WAR_NAME_COASTAL_REPUBLIC
@@ -4290,7 +4446,6 @@ coastal_republic = {
 	allow_distant = yes # AI parameter
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use = {
 		ROOT = {
@@ -4382,8 +4537,7 @@ coastal_republic = {
 			}
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -4396,8 +4550,7 @@ coastal_republic = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -4414,8 +4567,7 @@ coastal_republic = {
 				value = 4.0
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -4453,7 +4605,6 @@ coastal_county_republic = {
 	allow_distant = yes # AI parameter
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use = {
 		ROOT = {
@@ -4586,8 +4737,7 @@ coastal_county_republic = {
 			}
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -4600,8 +4750,7 @@ coastal_county_republic = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -4618,8 +4767,7 @@ coastal_county_republic = {
 				value = 4.0
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -4680,7 +4828,13 @@ weaken_vassal_plot = {
 	}
 
 	on_success = {
+		ROOT = {
+			participation_scaled_prestige = 100
+		}
 		any_attacker = {
+			limit = {
+				NOT = { character = ROOT }
+			}
 			participation_scaled_prestige = 100
 		}
 		FROM = {
@@ -4764,8 +4918,7 @@ weaken_vassal_plot = {
 			prestige = -100
 			cancel_plot = plot_weaken_fellow_vassal
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -4787,8 +4940,7 @@ weaken_vassal_plot = {
 			imprison = FROM
 			cancel_plot = plot_weaken_fellow_vassal
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -4826,7 +4978,113 @@ weaken_vassal_plot = {
 }
 
 #decadence_invasion = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
+#}
 
+#muslim_invasion = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 		
 cb_faction_independence = {
@@ -4908,12 +5166,12 @@ cb_faction_independence = {
 						}
 						add_weak_pressed_claim = FROM
 					}
+					set_character_flag = ai_flag_never_transfer
 				}
 			}		
 		}
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -4995,9 +5253,6 @@ cb_faction_independence = {
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
 			}
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = -50
 		}
 		any_attacker = {
@@ -5027,10 +5282,6 @@ cb_faction_independence = {
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
 			}
-		}
-		
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = -100
 		}
 		
@@ -5086,8 +5337,60 @@ cb_faction_independence = {
 	}
 }
 
-# imperial_reconquest = {
-
+#imperial_reconquest = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
+#}
 
 # Embargo Merchant Republic CB
 embargo_cb = {
@@ -5100,7 +5403,6 @@ embargo_cb = {
 	can_ask_to_join_war = no
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use = {
 		ROOT = {
@@ -5122,9 +5424,12 @@ embargo_cb = {
 					}
 				}
 				AND = {
-					higher_tier_than = DUKE
-					any_realm_lord = {
+					OR = {
 						is_merchant_republic = yes
+						higher_tier_than = DUKE
+					}
+					any_realm_lord = {
+						is_patrician = yes
 						any_trade_post = {
 							owner = {
 								OR = {
@@ -5156,6 +5461,8 @@ embargo_cb = {
 			}
 		}
 	}
+
+
 
 	on_success = {
 		ROOT = {
@@ -5304,11 +5611,11 @@ seize_trade_post = {
 #	check_all_titles = yes
 	check_all_trade_posts = yes
 	can_ask_to_join_war = no
-	ticking_war_score_multiplier = 5.0
+	att_ticking_war_score_multiplier = 5.0
+	def_ticking_war_score_multiplier = 5.0
 	allow_distant = yes
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	can_use = {
 		ROOT = {
@@ -5383,8 +5690,7 @@ seize_trade_post = {
 		
 		seize_trade_post = ROOT
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 50
 		}
 		any_attacker = {
@@ -5397,8 +5703,7 @@ seize_trade_post = {
 		ROOT = {
 			prestige = -50
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 25
 		}
 		any_defender = {
@@ -5415,8 +5720,7 @@ seize_trade_post = {
 				value = 2.0
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -5455,14 +5759,114 @@ seize_trade_post = {
 
 # The Prepared Invasion CB of Norse Heathens
 #viking_invasion = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
-	
-	
 # Pagans can subjugate other pagans
 #pagan_subjugation = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 # The CB used by "Peasant revolter" characters
@@ -5582,6 +5986,62 @@ peasant_revolt = {
 	}
 }
 
+# The CB used by "Heretic revolter" characters
+#heretic_revolt = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
+#}
+
 # The CB used by "Religious revolter" characters
 religious_revolt = {
 	name = CB_NAME_HERETIC_UPRISING
@@ -5592,6 +6052,7 @@ religious_revolt = {
 	attacker_can_call_allies = no
 	defender_can_call_allies = no
 	can_ask_to_join_war = no
+	check_de_jure_tier = DUKE
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -5620,6 +6081,36 @@ religious_revolt = {
 			religion_authority = {
 				modifier = lost_religious_revolt
 			}		
+		}
+	}
+	
+	on_success_title = {
+		ROOT = {
+			vassalize_or_take_under_title = {
+				title = PREV
+				enemy = FROM
+				same_religion = yes # Only vassalize rulers of my religion
+				is_religious = yes
+				type = holy_war
+			}
+		}
+		if = {
+			limit = {
+				controls_religion = no
+				holder_scope = {
+					OR = {
+						character = FROM
+						is_liege_or_above = FROM
+					}
+				}
+			}
+			usurp_title = { target = ROOT type = holy_war }
+		}
+		if = {
+			limit = {
+				has_holder = no
+			}
+			usurp_title = { target = ROOT type = holy_war }
 		}
 	}
 
@@ -5973,20 +6464,225 @@ duchy_adventure = {
 }
 
 #pagan_holy_war = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 # Caliphs can subjugate people of their own religion
 #caliphal_subjugation = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
-#muslim_county_conquest = { 
 
+#muslim_county_conquest = { 
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 # 42
 #pagan_county_conquest = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 # 43
@@ -6002,7 +6698,6 @@ dejure_county_claim = {
 	can_ask_to_join_war = no
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.5
 	can_use = {
@@ -6119,8 +6814,7 @@ dejure_county_claim = {
 				usurp_title_plus_barony_if_unlanded = { target = ROOT type = claim }
 			}
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -6133,8 +6827,7 @@ dejure_county_claim = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -6151,8 +6844,7 @@ dejure_county_claim = {
 				value = 4.0
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -6214,7 +6906,6 @@ dejure_barony_claim = {
 	check_de_jure_tier = COUNT
 	can_ask_to_join_war = no
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.5
 	
@@ -6284,8 +6975,7 @@ dejure_barony_claim = {
 			usurp_title_plus_barony_if_unlanded = { target = event_target:target_taker type = claim }
 		}
 	
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 50
 		}
 		any_attacker = {
@@ -6298,8 +6988,7 @@ dejure_barony_claim = {
 		ROOT = {
 			prestige = -50
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 25
 		}
 		any_defender = {
@@ -6316,8 +7005,7 @@ dejure_barony_claim = {
 				value = 4.0
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -6420,7 +7108,6 @@ other_dejure_county_claim = {
 	can_ask_to_join_war = no
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.3
 	
@@ -6495,9 +7182,6 @@ other_dejure_county_claim = {
 				modifier = pressed_my_claim 
 				who = PREV
 			}
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -6557,8 +7241,7 @@ other_dejure_county_claim = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -6576,8 +7259,7 @@ other_dejure_county_claim = {
 		ROOT = {
 			prestige = -200
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -6614,28 +7296,391 @@ other_dejure_county_claim = {
 	
 # The special CB for the Rise of the Shi'a Caliphate
 #shia_caliphate_rising = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 	
-# depose_antipope = {
-
+#depose_antipope = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
+
 # Faction cb to install antiking
 #cb_install_antiking = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 #buddhist_holy_war = { 
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
+
 # 51: The Indian religions can subjugate each other
 #indian_subjugation = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
+#}
 
+#manifest_destiny_invasion = {
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 # 53: Decadence Usurption
 #cb_decadence_usurption = {
-
+#	
+#	can_use_gui = {
+#		
+#	}
+#
+#	can_use = {
+#		
+#	}
+#
+#	can_use_title = {
+#		
+#	}
+#	
+#	is_valid = {
+#		
+#	}
+#
+#	is_valid_title = {
+#		
+#	}
+#
+#	on_add = {
+#		
+#	}
+#
+#	on_success_title = {
+#	
+#	}
+#
+#	on_fail = {
+#		
+#	}
+#
+#	on_reverse_demand = {
+#		
+#	}
+#
+#	attacker_ai_victory_worth = {
+#		
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#		
+#	}
+#
+#	defender_ai_victory_worth = {
+#		
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#		
+#	}
 #}
 
 # 54
@@ -6647,7 +7692,8 @@ rivalry_cb = {
 	is_permanent = yes
 	can_ask_to_join_war = no
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
+	
+	defender_unoccupied_warscore = yes
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -6674,10 +7720,6 @@ rivalry_cb = {
 	
 	on_success = {
 		any_attacker = {
-			limit = { character = ROOT }
-			participation_scaled_prestige = 250
-		}
-		any_attacker = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { 
 				participation_scaled_prestige = 250
@@ -6685,6 +7727,7 @@ rivalry_cb = {
 		}
 		
 		ROOT = {
+			participation_scaled_prestige = 250
 			if = {
 				limit = {
 					ai = no
@@ -6724,8 +7767,7 @@ rivalry_cb = {
 	}
 
 	on_reverse_demand = {
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 250
 		}
 		any_defender = {
@@ -6784,15 +7826,15 @@ rivalry_cb = {
 tributary_cb = {
 	name = CB_NAME_TRIBUTARY
 	war_name = WAR_NAME_TRIBUTARY
-	sprite = 1
+	sprite = 36
 	truce_days = 365
 	is_permanent = yes
 	hostile_against_others = yes
 	can_ask_to_join_war = no
 	display_on_map = no
-	coalition_threat = no
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
+	
+	defender_unoccupied_warscore = yes
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -6803,7 +7845,12 @@ tributary_cb = {
 
 		ROOT = {
 			mercenary = no
-			is_tributary = no
+			OR = {
+				is_tributary = no
+				is_tributary = {
+					type = offmap
+				}
+			}
 			NOT = { is_vassal_or_below = FROM }
 			NOT = { is_liege_or_above = FROM }
 			NOT = {
@@ -6815,8 +7862,13 @@ tributary_cb = {
 				holy_order = yes
 				religion = FROM
 			}
+			independent = yes
 		}
 		FROM = {
+			higher_tier_than = BARON
+			NOT = {
+				is_offmap_governor = yes
+			}
 			NAND = {
 				holy_order = yes
 				religion = ROOT
@@ -6872,10 +7924,15 @@ tributary_cb = {
 		
 		# The defender is not in any tributary war
 		FROM = {
-			NOT =
-			{
+			NOR = {
 				any_war = {
 					using_cb = tributary_cb
+				}
+				any_war = {
+					using_cb = tributary_permanent_cb
+				}
+				any_war = {
+					using_cb = tributary_nomad_cb
 				}
 			}
 		}
@@ -6889,6 +7946,17 @@ tributary_cb = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		# Chance to surrender early
+		ROOT = { save_event_target_as = tribute_war_suzerain }
+		FROM = {
+			save_event_target_as = tribute_war_target
+			set_character_flag = surrender_tributary_cb
+			character_event = { id = JD.2500 days = 5 tooltip = surrender_tributary_tt }
+		}
+
 	}
 
 	on_success = {
@@ -7170,23 +8238,39 @@ tributary_cb = {
 free_tributary_cb = {
 	name = CB_NAME_FREE_TRIBUTARY
 	war_name = WAR_NAME_FREE_TRIBUTARY
-	sprite = 1
+	sprite = 25
 	truce_days = 365
 	is_permanent = yes
 	hostile_against_others = yes
 	can_ask_to_join_war = no
+	is_independence = yes
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
 		
-		has_dlc = "Horse Lords"
 		is_feudal = no
 		
 		ROOT = {
 			OR = {
 				AND = {
 					is_tributary = yes
+					OR = {
+						AND = {
+							has_dlc = "Horse Lords"
+							OR = {
+								is_tributary = { type = nomadic }
+								is_tributary = { type = default }
+							}
+						}
+						AND = {
+							has_dlc = "Jade Dragon"
+							OR = {
+								is_tributary = { type = permanent }
+								is_tributary = { type = offmap }
+							}
+						}
+					}
 					suzerain = {
 						OR = {
 							character = FROM
@@ -7198,6 +8282,22 @@ free_tributary_cb = {
 				}
 				any_vassal = {
 					is_tributary = yes
+					OR = {
+						AND = {
+							has_dlc = "Horse Lords"
+							OR = {
+								is_tributary = { type = nomadic }
+								is_tributary = { type = default }
+							}
+						}
+						AND = {
+							has_dlc = "Jade Dragon"
+							OR = {
+								is_tributary = { type = permanent }
+								is_tributary = { type = offmap }
+							}
+						}
+					}
 					suzerain = {
 						OR = {
 							character = FROM
@@ -7207,6 +8307,19 @@ free_tributary_cb = {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	can_use_gui = {
+		ROOT = { #Cannot use CB if can take decision to stop paying tribute
+			conditional_tooltip = {
+				trigger = { is_decision_potential = tributary_independence_china }
+				NOT = { is_decision_allowed = tributary_independence_china }
+			}
+			conditional_tooltip = {
+				trigger = { is_decision_potential = tributary_independence_normal }
+				NOT = { is_decision_allowed = tributary_independence_normal }
 			}
 		}
 	}
@@ -7537,8 +8650,7 @@ cb_install_khan = {
 				killer = ROOT
 			}
 		}
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 250
 		}
 		any_attacker = {
@@ -7558,8 +8670,7 @@ cb_install_khan = {
 			prestige = -200
 			prisoner = FROM
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -7612,7 +8723,6 @@ nomad_dispute = {
 	allow_distant = yes
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no	
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -7656,8 +8766,7 @@ nomad_dispute = {
 	on_success_title = {
 		usurp_title_plus_barony_if_unlanded = { target = ROOT type = invasion }
 		
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 100
 			participation_scaled_piety = 50
 		}
@@ -7674,8 +8783,7 @@ nomad_dispute = {
 		ROOT = {
 			prestige = -100
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -7692,8 +8800,7 @@ nomad_dispute = {
 				value = 4.0
 			}
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 			participation_scaled_piety = 50
 		}
@@ -7738,7 +8845,6 @@ cb_liberate_nomad_duchy = {
 	check_de_jure_tier = DUKE # this scans all dejure duchies for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 
 	infamy_modifier = 0.75
 	
@@ -7780,6 +8886,36 @@ cb_liberate_nomad_duchy = {
 				}
 			}
 		}
+		
+		any_de_jure_vassal_title = { # Can only liberate Duchies that are either outside of the Steppe region, or contains a Castle/City/Tribe
+			tier = COUNT
+			OR = {
+				holder_scope = {
+					character = FROM
+				}
+				holder_scope = {
+					any_liege = {
+						character = FROM
+					}
+				}
+			}
+			OR = {
+				location = {
+					NOT = {
+						region = world_steppe
+					}
+				}
+				location = {
+					any_province_holding = {
+						OR = {
+							holding_type = city
+							holding_type = castle
+							holding_type = tribal
+						}
+					}
+				}
+			}
+		}
 	}
 
 	is_valid = {
@@ -7795,8 +8931,7 @@ cb_liberate_nomad_duchy = {
 	}
 	
 	on_success = {
-		any_attacker = {
-			limit = { character = ROOT }
+		ROOT = {
 			participation_scaled_prestige = 200
 			if = {
 				limit = {
@@ -7851,8 +8986,7 @@ cb_liberate_nomad_duchy = {
 			}
 			prestige = -200
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 300
 			if = {
 				limit = {
@@ -8060,7 +9194,6 @@ nomad_subjugation = {
 	is_permanent = yes
 	can_ask_to_join_war = yes
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -8110,6 +9243,16 @@ nomad_subjugation = {
 	
 	can_use = {
 		ROOT = {
+			OR = {
+				ai = yes
+				multiplayer = no
+				NOT = {
+					has_game_rule = {
+						name = multiplayer_invasions
+						value = off
+					}
+				}
+			}
 			is_nomadic = yes
 			NOT = { same_realm = FROM }
 			NOT = { is_liege_or_above = FROM }
@@ -8126,6 +9269,7 @@ nomad_subjugation = {
 		FROM = {
 			in_revolt = no
 			is_nomadic = no # Nomads cannot be subjugated
+			NOT = { is_offmap_governor = yes }
 			NOT = {
 				any_war = {
 					defender = { character = PREVPREV }
@@ -8133,6 +9277,18 @@ nomad_subjugation = {
 						using_cb = nomad_subjugation
 						using_cb = pagan_subjugation
 					}
+				}
+			}
+		}
+		
+		OR = {
+			ROOT = {
+				ai = no
+			}
+			FROM = {
+				any_realm_title = {
+					tier = COUNT
+					count = 5
 				}
 			}
 		}
@@ -8204,9 +9360,6 @@ nomad_subjugation = {
 		}
 		ROOT = {
 			piety = 100
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -8288,9 +9441,6 @@ nomad_subjugation = {
 	on_fail = {
 		FROM = {
 			piety = 50
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -8328,11 +9478,9 @@ nomad_subjugation = {
 		}
 		FROM = {
 			piety = 100
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 100
 		}
+
 		any_defender = {
 			limit = { NOT = { character = FROM } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
@@ -8358,7 +9506,7 @@ nomad_subjugation = {
 	ai_will_do = { 
 		factor = 10
 	}
-} 
+}
 
 # 62:
 nomad_invasion = {
@@ -8373,7 +9521,6 @@ nomad_invasion = {
 	check_de_jure_tier = KING # this scans all de jure kingdoms for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 	
 	can_use_gui = {
 		ROOT = {
@@ -8393,16 +9540,41 @@ nomad_invasion = {
 
 		ROOT = {
 			is_nomadic = yes
+			OR = {
+				ai = yes
+				multiplayer = no
+				NOT = {
+					has_game_rule = {
+						name = multiplayer_invasions
+						value = off
+					}
+				}
+			}
 		}
 		
 		ROOT = {
 			NOT = { same_realm = FROM }
 		}
+		
+		OR = { # This ensures that the AI doesn't declare this type of war against someone who only holds a few counties within the targeted title...
+			ROOT = {
+				ai = no
+			}
+			ROOT = {
+				has_landed_title = e_hakland
+			}
+			FROM = {
+				num_of_realm_counties = {
+					value = 5
+					title = PREV
+				}
+			}
+		}
 	}
 	
 	is_valid_title = {
 		FROM = {
-			any_realm_title = {
+			any_realm_province = {
 				de_jure_liege_or_above = PREVPREV
 			}
 		}
@@ -8516,9 +9688,6 @@ nomad_invasion = {
 					}
 				}
 			}
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -8554,9 +9723,6 @@ nomad_invasion = {
 					}
 				}
 			}
-		}
-		any_defender = {
-			limit = { character = FROM }
 			participation_scaled_prestige = 200
 		}
 		any_defender = {
@@ -8601,7 +9767,6 @@ nomad_expansion = {
 	check_de_jure_tier = DUKE # this scans all de jure duchies for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
 	
 	can_use = {		
 		FROM = { NOT = { culture = wilderness } }
@@ -8734,9 +9899,6 @@ nomad_expansion = {
 					100 = { }
 				}
 			}
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			if = {
 				limit = {
 					uses_decadence = yes
@@ -8788,8 +9950,7 @@ nomad_expansion = {
 			}
 			prestige = -200
 		}
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 300
 			if = {
 				limit = {
@@ -8897,9 +10058,6 @@ increase_council_power_war = { # Started from faction
 				who = FROM
 				months = 12
 			}
-		}
-		any_attacker = {
-			limit = { character = ROOT }
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -8925,8 +10083,7 @@ increase_council_power_war = { # Started from faction
 			prestige = -100
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -8953,8 +10110,7 @@ increase_council_power_war = { # Started from faction
 			prisoner = FROM
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -9004,9 +10160,9 @@ nomad_humiliate_cb = {
 	hostile_against_others = yes
 	can_ask_to_join_war = no
 	display_on_map = no
-	coalition_threat = no
 	allowed_to_target_tributaries = no
-	allowed_to_target_suzerains = no
+	
+	defender_unoccupied_warscore = yes
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -9427,8 +10583,7 @@ powerful_vassal_takeover_war = { # Started from faction
 			prestige = -100
 		}
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -9461,8 +10616,7 @@ powerful_vassal_takeover_war = { # Started from faction
 		}
 
 		
-		any_defender = {
-			limit = { character = FROM }
+		FROM = {
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
