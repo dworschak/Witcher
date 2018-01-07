@@ -336,7 +336,24 @@ character_event = {
 		war = no
 		is_tributary = no
 		is_nomadic = no
+		top_liege = {
+			OR = {
+				AND = {
+					has_dlc = "Conclave"
+					NOT = { has_law = vassal_wars_law_2 }
+				}
+				AND = {
+					NOT = { has_dlc = "Conclave"}
+					NOR = { 
+						has_law = crown_authority_2
+						has_law = crown_authority_3
+						has_law = crown_authority_4
+					}
+				}
+			}
+		}
 		any_dynasty_member = {
+			is_offmap_ruler = no
 			is_landed = no
 			is_incapable = no
 			is_adult = yes
@@ -419,6 +436,7 @@ character_event = {
 	immediate = {
 		random_dynasty_member = {
 			limit = {
+				is_offmap_ruler = no
 				is_landed = no
 				is_liege_or_above = ROOT
 				is_incapable = no

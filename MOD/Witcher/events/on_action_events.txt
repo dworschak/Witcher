@@ -49,15 +49,8 @@ character_event = {
 			}
 		}
 		
-		if = {
-			limit = {
-				NOT = { trait = kinslayer }
-				event_target:target_victim = {
-					dynasty = ROOT
-				}
-			}
-			add_trait = kinslayer
-		}
+		event_target:target_victim = { save_event_target_as = kinslayer_target }
+		add_kinslayer_trait_effect = yes
 		
 		event_target:target_victim = {
 			any_liege = {
@@ -551,6 +544,8 @@ character_event = {
 			if = {
 				limit = {
 					NOT = { has_character_flag = adultery_discovered }
+					is_alive = yes
+					is_dying = no
 				}
 				ROOT = { save_event_target_as = target_adulterer }
 				character_event = { id = 20 }
@@ -713,12 +708,8 @@ character_event = {
 	
 	immediate = {
 		FROM = {
-			if = {
-				limit = { 
-					dynasty = ROOT 
-				}
-				add_trait = kinslayer
-			}
+			ROOT = { save_event_target_as = kinslayer_target }
+			add_kinslayer_trait_effect = yes
 			if = {
 				limit = { 
 					any_spouse = { character = ROOT }
@@ -1884,20 +1875,6 @@ diploresponse_event = {
 	trigger = {
 		ai = no
 	}
-	
-	#immediate = { # TODO
-	#	if = {
-	#		limit = {
-	#			has_dlc = "Zeus"
-	#			new_character = {
-	#				NOT = { has_focus = focus_ch_heritage }
-	#			}
-	#		}
-	#		new_character = {
-	#			set_focus = focus_ch_heritage
-	#		}
-	#	}
-	#}
 
 	option = {
 		name = "OK"
@@ -2794,6 +2771,12 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
+		new_character = {
+			NOR = {
+				has_character_modifier = jd_prince
+				has_character_modifier = jd_princess
+			}
+		}
 		NOT = { 
 			has_character_flag = recieved_royal_marriage_aid_duty
 		}
@@ -4338,5 +4321,139 @@ diploresponse_event = {
 
 	option = {
 		name = "OK"
+	}
+}
+
+character_event = { # Fix adventurers turning Tribal land Feudal
+	id = 539
+	hide_window = yes
+	is_triggered_only = yes
+
+	only_rulers = yes
+	
+	trigger = {
+		ai = yes
+		is_feudal = yes
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					any_realm_province = {
+						any_province_holding = {
+							holding_type = castle
+						}
+					}
+				}
+				any_realm_province = {
+					any_province_holding = {
+						holding_type = tribal
+					}
+				}
+			}
+			set_government_type = tribal_government
+		}
+	}
+}
+
+#Preserve player religion if heir has DLC locked religion
+character_event = {
+	id = 680
+	hide_window = yes
+	is_triggered_only = yes
+	ai = no
+	trigger = {
+		is_nomadic = no
+		player_heir = {
+			OR = {
+				has_unsafe_secret_religion = yes
+				has_unsafe_religion = yes
+			}
+		}
+	}
+	immediate = {
+		player_heir = {
+			if = {
+				limit = { has_unsafe_secret_religion = yes }
+				clear_secret_religion = yes
+			}
+			if = {
+				limit = { has_unsafe_religion = yes }
+				religion = ROOT
+			}
+		}
+	}
+}
+
+# On-action event: Avoided title revokation, declared independence
+character_event = {
+	id = 681
+	desc = "EVTDESC681"
+	picture = "GFX_evt_burning_house"
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = "EVTOPTA150"
+	}
+}
+
+# On-action event: Avoided vassal retraction, declared independence
+character_event = {
+	id = 682
+	desc = "EVTDESC682"
+	picture = "GFX_evt_burning_house"
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = "EVTOPTA150"
+	}
+}
+
+# On-action event: Avoided clan absorb, declared independence
+character_event = {
+	id = 683
+	desc = "EVTDESC683"
+	picture = "GFX_evt_burning_house"
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = "EVTOPTA150"
+	}
+}
+
+# On-action event: Avoided clan split, declared independence
+character_event = {
+	id = 684
+	desc = "EVTDESC684"
+	picture = "GFX_evt_burning_house"
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = "EVTOPTA150"
+	}
+}
+
+# On-action event: Remove in-hiding trait on imprisonment
+character_event = {
+	id = 685
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		trait = in_hiding
+	}
+	
+	immediate = {
+		remove_trait = in_hiding
 	}
 }

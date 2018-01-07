@@ -520,7 +520,7 @@ narrative_event = {
 							trait = kind 
 							trait = charitable 
 						}
-						NAND = {
+						AND = {
 							OR = { 
 								trait = strong 
 								trait = robust 
@@ -552,12 +552,12 @@ narrative_event = {
 				modifier = {
 					factor = 0
 					NAND = {
-							NOT = { religion_group = FROM }
-							OR = {
-								trait = zealous
-								trait = cruel
-							}
+						NOT = { religion_group = FROM }
+						OR = {
+							trait = zealous
+							trait = cruel
 						}
+					}
 				}
 			}
 			10 = {
@@ -592,6 +592,19 @@ narrative_event = {
 					NOT = { trait = paranoid }
 				}
 			}
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_character_flag = option_a
+					has_character_flag = option_b
+					has_character_flag = option_c
+					has_character_flag = option_d
+					has_character_flag = option_e
+					has_character_flag = option_f
+				}
+			}
+			set_character_flag = option_a
 		}
 		chronicle = {
 			entry = CHRONICLE_BORDERING_PLAGUE

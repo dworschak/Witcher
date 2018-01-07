@@ -515,8 +515,8 @@ decisions = {
 								any_title_under = {
 									limit = {
 										tier = KING
-										empire = {
-											has_holder = no
+										NOT = {
+											empire = { has_holder = yes }
 										}
 									}
 									de_jure_liege = PREVPREV
@@ -526,8 +526,8 @@ decisions = {
 										tier = DUKE
 										location = {
 											kingdom = {
-												empire = {
-													has_holder = no
+												NOT = {
+													empire = { has_holder = yes }
 												}
 												
 												NOT = { de_jure_liege_or_above = PREVPREVPREVPREV }
@@ -812,13 +812,29 @@ decisions = {
 					}
 				}
 			}
-			capital_holding = {
-				OR = {
-					AND = {
-						holding_type = tribal
-						has_building = tb_hillfort_4
+			OR = {
+				capital_holding = {
+					OR = {
+						AND = {
+							holding_type = tribal
+							has_building = tb_hillfort_4
+						}
+						holding_type = castle
 					}
-					holding_type = castle
+				}
+				AND = {
+					NOT = { tier = BARON }
+					capital_scope = {
+						any_province_holding = {
+							holding_type = castle
+							holder_scope = {
+								OR = {
+									character = ROOT
+									is_liege_or_above = ROOT
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -842,6 +858,11 @@ decisions = {
 					limit = {
 						tier = baron
 						holding_type = tribal
+						location = {
+							capital_holding = {
+								NOT = { holding_type = castle }
+							}
+						}
 					}
 					convert_to = CASTLE
 					refill_holding_levy = yes

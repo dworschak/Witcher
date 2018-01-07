@@ -871,6 +871,8 @@ character_event = {
 	min_age = 15
 	
 	trigger = {
+		always = no # Intentionally disabled
+	
 		independent = no
 		NOT = { wealth = 100 }
 		liege = {
@@ -1116,6 +1118,7 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	min_age = 15
+	ai = yes
 	
 	trigger = {
 		independent = no
@@ -1179,7 +1182,7 @@ character_event = {
 		liege = {
 			opinion = {
 				who = ROOT
-				years = 2
+				years = 15
 				modifier = requested_land
 			}
 		}
@@ -1866,6 +1869,8 @@ character_event = {
 	border = GFX_event_normal_frame_intrigue
 	
 	is_triggered_only = yes
+
+	immediate = { liege = { save_event_target_as = rightful_liege } }
 	
 	option = {
 		name = EVTOPTA63100 # Become independent
@@ -1880,7 +1885,7 @@ character_event = {
 					is_tribal = yes
 					is_nomadic = yes
 				}
-				new_character = {
+				liege = {
 					is_strong_trigger = yes
 				}
 			}
@@ -1890,7 +1895,7 @@ character_event = {
 					is_tribal = yes
 					is_nomadic = yes
 				}
-				new_character = {
+				liege = {
 					is_weak_trigger = yes
 				}
 			}
@@ -1925,11 +1930,11 @@ character_event = {
 		}
 		set_defacto_liege = THIS
 		reverse_opinion = {
-			who = new
+			who = event_target:rightful_liege
 			modifier = opinion_rightful_vassal
 			months = 60
 		}
-		new_character = {
+		event_target:rightful_liege = {
 			character_event = { id = 63101 days = 4 }
 		}
 	}
@@ -1946,7 +1951,7 @@ character_event = {
 					is_tribal = yes
 					is_nomadic = yes
 				}
-				new_character = {
+				liege = {
 					is_strong_trigger = yes
 				}
 			}
@@ -1956,7 +1961,7 @@ character_event = {
 					is_tribal = yes
 					is_nomadic = yes
 				}
-				new_character = {
+				liege = {
 					is_weak_trigger = yes
 				}
 			}
@@ -1997,11 +2002,11 @@ character_event = {
 			}
 		}
 		reverse_opinion = {
-			who = new
+			who = event_target:rightful_liege
 			modifier = opinion_rightful_vassal
 			months = 60
 		}
-		new_character = {
+		event_target:rightful_liege = {
 			character_event = { id = 63101 days = 4 }
 		}
 	}
@@ -2009,11 +2014,11 @@ character_event = {
 		name = EVTOPTB63100 # Swear fealty to new liege
 		ai_chance = { factor = 50 }
 		reverse_opinion = {
-			who = new
+			who = event_target:rightful_liege
 			modifier = opinion_loyal_vassal
 			months = 60
 		}
-		new_character = {
+		event_target:rightful_liege = {
 			character_event = { id = 63102 days = 4 }
 		}
 	}

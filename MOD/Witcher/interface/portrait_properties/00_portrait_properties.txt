@@ -324,6 +324,14 @@
 				has_minor_title = title_prince
 			}
 		}
+		modifier = {
+			factor = 100
+			is_devout_chinese_buddhist_trigger = yes
+		}
+		modifier = {
+			factor = 0
+			follows_filial_piety_trigger = yes
+		}
 	}
 
 	1 = { # Black Adder
@@ -430,7 +438,7 @@
 		modifier = {
 			factor = 0
 			is_female = no
-			is_ruler = yes
+			higher_tier_than = unlanded
 		}
 		modifier = {
 			factor = 0
@@ -546,6 +554,11 @@
 				has_minor_title = title_prince
 			}
 		}
+		modifier = {
+			factor = 0
+			is_female = yes
+			follows_filial_piety_trigger = yes
+		}
 	}
 	
 	10 = {  # Long Uncouth
@@ -572,6 +585,15 @@
 				has_minor_title = title_prince
 			}
 		}
+		modifier = {
+			factor = 0
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 0
+			is_female = yes
+			follows_filial_piety_trigger = yes
+		}
 	}
 	
 	11 = { # Balding
@@ -582,6 +604,11 @@
 			NOT = {
 				age = 50
 			}
+		}
+		modifier = {
+			factor = 0
+			is_female = yes
+			follows_filial_piety_trigger = yes
 		}
 	}
 	
@@ -604,14 +631,53 @@
 				has_minor_title = title_prince
 			}
 		}
+		modifier = {
+			factor = 0
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 0
+			is_female = yes
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 2
+			filial_piety_maiden_trigger = yes
+		}
 	}
 	
 	13 = { # Mohawk
 		factor = 1
+		modifier = {
+			factor = 0
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 0
+			is_female = yes
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 2
+			filial_piety_maiden_trigger = yes
+		}
 	}
 	
 	14 = { # Mohawk
 		factor = 1
+		modifier = {
+			factor = 0
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 0
+			is_female = yes
+			follows_filial_piety_trigger = yes
+		}
+		modifier = {
+			factor = 2
+			filial_piety_maiden_trigger = yes
+		}
 	}
 	
 	15 = { # Mohawk
@@ -634,6 +700,7 @@
 				trait = peasant_leader
 				trait = heresiarch
 			}
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 		modifier = {
 			factor = 0
@@ -642,6 +709,7 @@
 			NOT = { spouse = { real_tier = king } }
 			NOT = { spouse = { real_tier = emperor } }
 			NOT = { has_minor_title = title_prince }
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 	}
 	
@@ -653,6 +721,7 @@
 				trait = peasant_leader
 				trait = heresiarch
 			}
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 		modifier = {
 			factor = 0
@@ -661,6 +730,7 @@
 			NOT = { spouse = { real_tier = king } }
 			NOT = { spouse = { real_tier = emperor } }
 			NOT = { has_minor_title = title_prince }
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 	}
 	
@@ -672,6 +742,7 @@
 				trait = peasant_leader
 				trait = heresiarch
 			}
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 		modifier = {
 			factor = 0
@@ -680,6 +751,7 @@
 			NOT = { spouse = { real_tier = king } }
 			NOT = { spouse = { real_tier = emperor } }
 			NOT = { has_minor_title = title_prince }
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 	}
 	
@@ -766,6 +838,7 @@
 			NOT = { trait = heresiarch }
 			OR = {
 				is_ruler = yes
+				
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
 				spouse = { real_tier = king }
@@ -786,6 +859,7 @@
 			NOT = { trait = peasant_leader }
 			NOT = { trait = heresiarch }
 			OR = {
+				is_or_was_offmap_power_ruler = yes
 				is_ruler = yes
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
@@ -802,6 +876,7 @@
 			NOT = { trait = peasant_leader }
 			NOT = { trait = heresiarch }
 			OR = {
+				is_or_was_offmap_power_ruler = yes
 				is_ruler = yes
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
@@ -895,6 +970,14 @@
 				}
 			}
 		}
+		modifier = {
+			factor = 0.99
+			chinese_martial_modifier_trigger = yes
+		}
+		modifier = {
+			factor = 100 # This ensures that the reverse order check stays matched
+			has_portrait_property = { layer = 5 index = 10 }
+		}
 	}
 	
 	# Ragged prison clothes
@@ -903,6 +986,45 @@
 		modifier = {
 			factor = 0
 			prisoner = no
+		}
+	}
+	
+	# Chinese Martial Extension 1
+	12 = {
+		factor = 99
+		modifier = {
+			factor = 0
+			chinese_generals_modifier_trigger = no
+		}
+		modifier = {
+			factor = 100 # This ensures that the reverse order check stays matched
+			has_portrait_property = { layer = 5 index = 12 }
+		}
+	}
+	
+	# Chinese Martial Extension 2
+	13 = {
+		factor = 99
+		modifier = {
+			factor = 0
+			chinese_martial_modifier_trigger = no
+		}
+		modifier = {
+			factor = 100 # This ensures that the reverse order check stays matched
+			has_portrait_property = { layer = 5 index = 13 }
+		}
+	}
+	
+	# Chinese Martial Extension 3
+	14 = {
+		factor = 99
+		modifier = {
+			factor = 0
+			chinese_generals_modifier_trigger = no
+		}
+		modifier = {
+			factor = 100 # This ensures that the reverse order check stays matched
+			has_portrait_property = { layer = 5 index = 14 }
 		}
 	}
 }
@@ -917,6 +1039,10 @@
 				graphical_culture = southerngfx
 				graphical_culture = byzantinegfx
 			}
+		}
+		modifier = {
+			factor = 100
+			is_devout_chinese_buddhist_trigger = yes
 		}
 	}
 	1 = {
@@ -987,17 +1113,19 @@
 
 # p5 headgear
 5 = {
-	# Imperial crown/Chaliph turban
+	# Imperial crown/Caliph turban
 	0 = {
 		factor = 100
 		modifier = {
 			factor = 0
 			NOT = { real_tier = emperor }
 			NOT = { spouse = { real_tier = emperor } }
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 		modifier = {
 			factor = 0
 			is_feudal = no
+			NOT = { is_offmap_tag_including_dead = offmap_china }
 		}
 		modifier = {
 			factor = 0
@@ -1084,6 +1212,11 @@
 				trait = peasant_leader
 				trait = heresiarch
 			}
+			NOT = { song_dynasty_futou_trigger = yes }
+		}
+		modifier = {
+			factor = 100
+			song_dynasty_futou_trigger = yes
 		}
 	}
 
@@ -1134,6 +1267,7 @@
 			NOT = { trait = peasant_leader }
 			NOT = { trait = heresiarch }
 			OR = {
+				is_or_was_offmap_power_ruler = yes
 				is_ruler = yes
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
@@ -1165,6 +1299,7 @@
 			NOT = { trait = peasant_leader }
 			NOT = { trait = heresiarch }
 			OR = {
+				is_or_was_offmap_power_ruler = yes
 				is_ruler = yes
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
@@ -1183,6 +1318,7 @@
 			NOT = { trait = heresiarch }
 			OR = {
 				#NOT = { religion = orthodox }
+				is_or_was_offmap_power_ruler = yes
 				is_ruler = yes
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
@@ -1204,6 +1340,7 @@
 			NOT = { trait = peasant_leader }
 			NOT = { trait = heresiarch }
 			OR = {
+				is_or_was_offmap_power_ruler = yes
 				is_ruler = yes
 				has_minor_title = title_prince
 				spouse = { real_tier = emperor }
@@ -1254,67 +1391,7 @@
 		factor = 100
 		modifier = {
 			factor = 0
-			OR = { # witchers and elves are too awesome for armors
-				graphical_culture = elfgfx
-				trait = witcher
-				trait = sorcerer
-			}
-		}
-		modifier = {
-			factor = 0
-			NOT = { has_job_title = job_marshal }
-			NOT = { martial = 12 }
-			NOT = {
-				primary_title = {
-					OR = {
-						mercenary = yes
-						title = d_flaming_rose
-						title = d_white_rose
-					}
-				}
-			}
-		}
-		modifier = {
-			factor = 0
-			trait = elf_race
-		}			
-		modifier = {
-			factor = 0
-			OR = {
-				AND = {
-					is_female = yes
-					OR = {
-						NOT = { has_minor_title = title_commander }
-						NOT = { trait = shieldmaiden }
-					}
-				}
-				real_tier = king
-				real_tier = emperor
-				AND = {
-					real_tier = duke
-					any_demesne_title = {
-						real_tier = baron
-					}
-					NOT = {
-						primary_title = {
-							OR = {
-								mercenary = yes
-								title = d_flaming_rose
-								title = d_white_rose
-							}
-						}
-					}
-				}
-				AND = {
-					OR = {
-						AND = {
-							is_ruler = yes
-							is_theocracy = yes
-						}
-						has_job_title = job_spiritual
-					}
-				}
-			}
+			NOT = { has_portrait_property = { layer = 3 index = 10 } }
 		}
 	}
 
@@ -1348,6 +1425,33 @@
 				NOT = { age = 150 }
 				trait = elf_race
 			}
+		}
+	}
+	
+	# Chinese Martial Extension 1
+	12 = {
+		factor = 100
+		modifier = {
+			factor = 0
+			NOT = { has_portrait_property = { layer = 3 index = 12 } }
+		}
+	}
+	
+	# Chinese Martial Extension 2
+	13 = {
+		factor = 100
+		modifier = {
+			factor = 0
+			NOT = { has_portrait_property = { layer = 3 index = 13 } }
+		}
+	}
+	
+	# Chinese Martial Extension 3
+	14 = {
+		factor = 100
+		modifier = {
+			factor = 0
+			NOT = { has_portrait_property = { layer = 3 index = 14 } }
 		}	
 	}
 }
@@ -2243,8 +2347,99 @@
 	}
 }
 
-# p14 pre-rendered portraits set #1
+# p14 chinese makeup
 14 = {
+	0 = { # blank
+		factor = 100
+		modifier = {
+			factor = 0
+			chinese_makeup_trigger = yes
+		}
+	}
+
+	1 = { # white powder
+		factor = 1
+	}
+	
+	2 = { # rouge a only
+		factor = 1
+	}
+	
+	3 = { # white powder and rouge a
+		factor = 1
+	}
+	
+	4 = { # rouge b only
+		factor = 1
+	}
+
+	5 = { # white powder and rouge b
+		factor = 1
+	}
+}
+
+# p15 chinese makeup 2
+15 = {
+	0 = { # blank
+		factor = 100
+		modifier = {
+			factor = 0
+			chinese_makeup_trigger = yes
+		}
+	}
+
+	1 = { # full lips
+		factor = 1
+	}
+	
+	2 = { # top lip
+		factor = 1
+	}
+	
+	3 = { # 'heart' lips
+		factor = 1
+	}
+}
+
+# p16 chinese empress jewelry
+16 = {
+	0 = { # blank
+		factor = 100
+		modifier = {
+			factor = 0
+			chinese_empress_jewelry_trigger = yes
+		}
+	}
+
+	1 = { # Full face pearls and earrings
+		factor = 1
+	}
+	
+	2 = { # pearl earrings only
+		factor = 1
+	}
+	
+	3 = { # full face pearls and earrings 2
+		factor = 1
+	}
+}
+
+# p17 immortality
+17 = {
+	0 = { # blank
+		factor = 100
+		modifier = {
+			factor = 0
+			immortal = yes
+		}
+	}
+	1 = {
+		factor = 100
+	}
+}
+
+# p18 pre-rendered portraits set #1
+18 = {
 	0 = { # blank
 		factor = 100
 		modifier = {
@@ -2462,8 +2657,8 @@
 	}
 }
 
-# p15 pre-rendered portraits set #2
-15 = {
+# p19 pre-rendered portraits set #2
+19 = {
 	0 = { # blank
 		factor = 100
 		modifier = {

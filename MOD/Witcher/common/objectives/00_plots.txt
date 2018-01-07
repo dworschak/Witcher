@@ -646,12 +646,7 @@ plot_kill_character = {
 			society_rank >= 2
 		}
 		OR = {
-			FROM = { 
-				NOR = {
-					religion = shiite
-					has_secret_religion = shiite
-				}
-			}
+
 			ROOT = {
 				has_quest = quest_the_assassins_assassination
 				quest_target = { character = FROM }
@@ -740,6 +735,7 @@ plot_kill_character = {
 		NOT = { is_child_of = FROM } # Not my own children
 		is_within_diplo_range = FROM
 		NOT = { has_blood_oath_with = FROM }
+		assassination_interaction_trigger = yes
 	}
 	
 	target_potential = {
@@ -1051,12 +1047,7 @@ plot_kill_spouse = {
 			society_rank >= 2
 		}
 		OR = {
-			FROM = { 
-				NOR = {
-					religion = shiite
-					has_secret_religion = shiite
-				}
-			}
+
 			ROOT = {
 				has_quest = quest_the_assassins_assassination
 				quest_target = { character = FROM }
@@ -1088,7 +1079,8 @@ plot_kill_spouse = {
 	# Target allow trigger for when players target a specific character in the GUI
 	player_allow = {
 		NOT = { culture = wilderness }
-		always = yes
+		NOT = { is_lover = FROM }
+		assassination_interaction_trigger = yes
 	}
 	
 	# Target character scope
