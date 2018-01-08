@@ -24,7 +24,7 @@ replace_path = "events"
 replace_path = "decisions"
 replace_path = "map/statics"
 
-tags={ "Map" "Complete Overhaul" "Witcher" }
+tags={ "The Witcher" "Map" "Fantasy" "Total Conversion" "Complete Overhaul" "Rpg" }
 picture="WitcherKings.jpg"
 
 supported_checksums = { PETO }
