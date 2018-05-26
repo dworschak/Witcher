@@ -2828,20 +2828,27 @@ character_event = {
 		religion = event_target:missionary_physician_target
 		prestige = -500
 		piety = 250
-		any_courtier = {
-			limit = { 
-				is_close_relative = ROOT
-				NOT = { trait = zealous }
+		hidden_tooltip = {
+			any_courtier = {
+				limit = { 
+					is_close_relative = ROOT
+					NOT = { trait = zealous }
+					NOT = { has_character_flag = ai_flag_refuse_conversion }
+					NOT = { trait = stubborn }
+				}
+				religion = event_target:missionary_physician_target
 			}
-			religion = event_target:missionary_physician_target
-		}
-		any_spouse = {
-			limit = { 
-				is_consort = no
-				NOT = { trait = zealous }
+			any_spouse = {
+				limit = { 
+					is_consort = no
+					NOT = { trait = zealous }
+					NOT = { has_character_flag = ai_flag_refuse_conversion }
+					NOT = { trait = stubborn }
+				}
+				religion = event_target:missionary_physician_target
 			}
-			religion = event_target:missionary_physician_target
 		}
+		custom_tooltip = { text = EVTOPTB_RIP_4101_TT }
 	}
 	
 	option = {
@@ -4923,6 +4930,7 @@ character_event = {
 	id = RIP.29014
 	border = GFX_event_normal_frame_intrigue
 	desc = EVTDSC_RIP_29014
+	portrait = event_target:rip_dead
 	picture = GFX_evt_bloody_tools
 
 	is_triggered_only = yes
@@ -8325,6 +8333,7 @@ letter_event = {
 			any_war = {
 				limit = {
 					defender = { character = event_target:target_defender }
+					attacker = { character = FROM }
 				}
 				end_war = whitepeace
 			}
@@ -8388,6 +8397,7 @@ letter_event = {
 			any_war = {
 				limit = {
 					defender = { character = event_target:target_defender }
+					attacker = { character = FROM }
 				}
 				end_war = whitepeace
 			}
@@ -8515,6 +8525,7 @@ letter_event = {
 			any_war = {
 				limit = {
 					defender = { character = event_target:target_defender }
+					attacker = { character = FROM }
 				}
 				end_war = whitepeace
 			}
@@ -8584,6 +8595,7 @@ letter_event = {
 		any_war = {
 			limit = {
 				defender = { character = event_target:target_defender }
+				attacker = { character = ROOT }
 			}
 			end_war = whitepeace
 		}
@@ -8879,6 +8891,7 @@ letter_event = {
 			any_war = {
 				limit = {
 					attacker = { character = event_target:target_attacker }
+					defender = { character = FROM }
 				}
 				end_war = success
 			}
@@ -8940,6 +8953,7 @@ letter_event = {
 			any_war = {
 				limit = {
 					attacker = { character = event_target:target_attacker }
+					defender = { character = FROM }
 				}
 				end_war = success
 			}
@@ -9065,6 +9079,7 @@ letter_event = {
 			any_war = {
 				limit = {
 					attacker = { character = event_target:target_attacker }
+					defender = { character = FROM }
 				}
 				end_war = success
 			}
@@ -9132,6 +9147,7 @@ letter_event = {
 		any_war = {
 			limit = {
 				attacker = { character = event_target:target_attacker }
+				defender = { character = FROM }
 			}
 			end_war = success
 		}

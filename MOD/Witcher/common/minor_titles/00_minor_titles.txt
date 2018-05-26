@@ -71,6 +71,7 @@ title_appointed_regent = {
 
 	lose_effect = {
 	}
+	message = yes
 }
 
 title_ruler_consort = {
@@ -757,11 +758,10 @@ title_patrician_heir = {
 		is_female = no
 		is_landed = no
 		dynasty = FROM
-		NOT = { trait = incapable }
 		NOT = { trait = bastard }
-		NOT = { is_ascetic_trigger = yes }
+		NOT = { trait = monk }
 		NOT = { trait = eunuch }
-		NOT = { trait = celibate }
+		is_theocracy = no
 	}
 
 	allowed_to_grant = {
@@ -1546,6 +1546,11 @@ title_hermetics_apprentice = {
 		}
 		character_event = { id = MNM.1413 days = 4500 random = 1000 }  #Some years later, the apprenticeship ends
 
+		opinion = { 
+			modifier = opinion_hermetic_apprentice
+			who = FROM
+			years = 100
+		}
 		FROM = {
 			if = {
 				limit = { has_quest = quest_hermetics_find_apprentice }
@@ -1554,6 +1559,10 @@ title_hermetics_apprentice = {
 		}
 	}
 	lose_effect = {
+		remove_opinion = { 
+			modifier = opinion_hermetic_apprentice
+			who = FROM
+		}
 	}
 	retire_effect = {
 	}

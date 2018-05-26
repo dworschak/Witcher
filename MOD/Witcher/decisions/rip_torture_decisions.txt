@@ -193,9 +193,11 @@ targetted_decisions = {
 			}
 			
 			FROM = {
+				show_scope_change = no
+				remove_opinions_with_prison_reason_effect = yes
 				save_event_target_as = remove_prison_reason_effect_accuser
 				ROOT = { save_event_target_as = remove_prison_reason_effect_accused }
-				hidden_tooltip = { remove_prison_reason_effect = yes }
+				#hidden_tooltip = { remove_prison_reason_effect = yes } #NOTE: OUTDATED. Now uses the "remove_opinions_with_prison_reason_effect" instead.
 
 				if = {
 					limit = {
@@ -464,6 +466,7 @@ targetted_decisions = {
 			}
 			
 			FROM = {
+				show_scope_change = no
 				piety = -50
 				if = {
 					limit = { NOT = { trait = cruel } }
@@ -525,7 +528,9 @@ targetted_decisions = {
 				
 				FROM = { save_event_target_as = remove_prison_reason_effect_accuser }
 				ROOT = { save_event_target_as = remove_prison_reason_effect_accused }
-				hidden_tooltip = { remove_prison_reason_effect = yes }
+				#hidden_tooltip = { remove_prison_reason_effect = yes } #NOTE: OUTDATED. Now uses the "remove_opinions_with_prison_reason_effect" instead.
+				FROM = { remove_opinions_with_prison_reason_effect = yes }
+
 			}
 		}
 		revoke_allowed = {
@@ -633,7 +638,8 @@ targetted_decisions = {
 
 			FROM = { save_event_target_as = remove_prison_reason_effect_accuser }
 			ROOT = { save_event_target_as = remove_prison_reason_effect_accused }
-			hidden_tooltip = { remove_prison_reason_effect = yes }
+			#hidden_tooltip = { remove_prison_reason_effect = yes }
+			hidden_effect = { FROM = { remove_opinions_with_prison_reason_effect = yes } }
 		}
 		revoke_allowed = {
 			always = no
@@ -864,7 +870,8 @@ targetted_decisions = {
 			}
 			FROM = { save_event_target_as = remove_prison_reason_effect_accuser }
 			ROOT = { save_event_target_as = remove_prison_reason_effect_accused }
-			hidden_tooltip = { remove_prison_reason_effect = yes }
+			#hidden_tooltip = { remove_prison_reason_effect = yes }
+			hidden_effect = { FROM = { remove_opinions_with_prison_reason_effect = yes } }
 		}
 		revoke_allowed = {
 			always = no
