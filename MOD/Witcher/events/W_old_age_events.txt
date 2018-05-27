@@ -920,8 +920,38 @@ character_event = {
 }
 
 ################################################
-# Immortality debugging
+# Immortality
 ################################################
+
+# Workaround portrait bug for immortal races [on_adulthood]
+# Since 2.8.2 children with an immortal trait never get their adult portrait.
+character_event = {
+	id = old_age.90
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	trigger = {
+		OR = {
+			trait = elf_race
+			trait = dwarf_race
+			trait = halfling_race
+			trait = gnome_race
+			trait = dryad_race
+		}
+	}
+	
+	option = {
+		name = OK
+		
+		# Temporarily remove the immortal traits, they will be added back by event racial.1
+		remove_trait = elf_race
+		remove_trait = dwarf_race
+		remove_trait = halfling_race
+		remove_trait = gnome_race
+		remove_trait = dryad_race
+	}
+}
 
 # Move important immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
 # Manually prune 80% of the court, to avoid court bloating.
