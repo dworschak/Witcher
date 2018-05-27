@@ -27,7 +27,7 @@ character_event = {
 					}
 				}
 				modifier = {
-					factor = 4
+					factor = 5
 					trait = elf_race
 				}
 				modifier = {
@@ -267,7 +267,7 @@ character_event = {
 ################################################
 # Guardian decision
 ################################################
-# Guardian - Child shows magic talent AI options and groups for player
+# Guardian - Child shows magic talent - AI options and groups for player
 character_event = {
 	id = magic.50
 	desc = EVTDESCmagic.50
@@ -293,38 +293,33 @@ character_event = {
 			ai = no
 		}
 	}
-	option = { # Refuse guardianship
-		name = EVTOPTCmagic.50
-		trigger = {
-			NOT = { dynasty = FROM }
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
-			}
-		}
-		hidden_tooltip = { # Player notification if necessary
-			any_player = {
-				limit = {
-					NOT = { character = ROOT }
-					is_close_relative = FROM
-				}
-				letter_event = { id = magic.80 days = 15 }
-			}
-		} 
-		FROM = { character_event = { id = magic.81 } }
-		ai_chance = {
-			factor = 1
-			modifier = { factor = 500 is_ruler = no }
-			modifier = { factor = 50 tier = baron }
-		}
-	}
+	# FIXME infinite loop with magic.80
+#	option = { # Refuse guardianship
+#		name = EVTOPTCmagic.50
+#		trigger = {
+#			NOT = { dynasty = FROM }
+#		}
+#		hidden_tooltip = { # Remove guardian
+#			FROM = {
+#				remove_guardian = yes
+#			}
+#		}
+#		hidden_tooltip = { # Player notification if necessary
+#			any_player = {
+#				limit = {
+#					NOT = { character = ROOT }
+#					is_close_relative = FROM
+#				}
+#				letter_event = { id = magic.80 days = 15 }
+#			}
+#		} 
+#		FROM = { character_event = { id = magic.81 } }
+#		ai_chance = {
+#			factor = 1
+#			modifier = { factor = 500 is_ruler = no }
+#			modifier = { factor = 50 tier = baron }
+#		}
+#	}
 	option = { # Kill child
 		name = EVTOPTDmagic.50
 		trigger = {
@@ -368,20 +363,14 @@ character_event = {
 				is_female = no
 			}
 		}
+		hidden_tooltip = { # Remove guardian
+			FROM = {
+				remove_guardian = yes
+			}
+		}
 		d_ban_ard_academy = {
 			holder_scope = {
 				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
 			}
 		}
 		FROM = {
@@ -413,20 +402,14 @@ character_event = {
 				is_female = yes
 			}
 		}
+		hidden_tooltip = { # Remove guardian
+			FROM = {
+				remove_guardian = yes
+			}
+		}
 		d_thanedd = {
 			holder_scope = {
 				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
 			}
 		}
 		FROM = {
@@ -453,20 +436,14 @@ character_event = {
 			ai = yes
 			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
+		hidden_tooltip = { # Remove guardian
+			FROM = {
+				remove_guardian = yes
+			}
+		}
 		d_nilfgaard_academy = {
 			holder_scope = {
 				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
 			}
 		}
 		FROM = {
@@ -603,14 +580,8 @@ character_event = {
 			}
 		}
 		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
+			FROM = {
+				remove_guardian = yes
 			}
 		}
 		FROM = {
@@ -636,14 +607,8 @@ character_event = {
 			}
 		}
 		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
+			FROM = {
+				remove_guardian = yes
 			}
 		}
 		FROM = {
@@ -664,14 +629,8 @@ character_event = {
 			}
 		}
 		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
+			FROM = {
+				remove_guardian = yes
 			}
 		}
 		FROM = {
@@ -1049,6 +1008,7 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "(Magic magic.75) Could not find magic teacher for [Root.GetBestName]"
 		FROM = { character_event = { id = magic.50 } }
 	}
 }
@@ -1109,6 +1069,7 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "(Magic magic.80) Guardian refused guardianship of [Root.GetBestName]"
 		FROM = { character_event = { id = magic.50 } }
 	}
 }
