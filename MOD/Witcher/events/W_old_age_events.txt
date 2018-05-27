@@ -953,6 +953,42 @@ character_event = {
 	}
 }
 
+# Manual court pruning of unimportant immortals [on_yearly_pulse]
+character_event = {
+	id = old_age.97
+	
+	is_triggered_only = yes
+	hide_window = yes
+	
+	only_rulers = yes
+	
+	trigger = {
+		any_courtier = {
+			immortal = yes
+			prisoner = no
+			is_landed = no
+			NOT = { trait = wilderness_race }
+			count = 10 # NDefines.NEngine.COURT_PRUNE_SIZE
+		}
+	}
+	
+	immediate = {
+		log="(Immortality) Pruning at court of [Root.GetBestName] in [Root.Location.GetName]."
+		any_courtier = {
+			limit = {	
+				immortal = yes
+				prisoner = no
+				is_ruler = no
+				NOT = { trait = wilderness_race }
+				is_unimportant_trigger = yes
+				age = 40 # NDefines.NEngine.PRUNE_MINIMAL_AGE
+			}
+			log="(Immortality) Pruning [This.GetBestName] as unimportant"
+			death = { death_reason = death_missing }
+		}
+	}
+}
+
 # Move important immortal characters manually to new holder's court, so they do not die of 'natural death' during court pruning.
 # Manually prune 80% of the court, to avoid court bloating.
 # ROOT is the character
