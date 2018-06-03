@@ -1,5 +1,6 @@
 namespace = meta
 
+# Invalid checksum warning [on_chronicle_start]
 narrative_event = {
 	id = meta.1
 	desc = meta.1.desc
@@ -25,7 +26,7 @@ narrative_event = {
 	}
 }
 
-# Save conversion for v0.8.0 -> v0.8.1 compatibility
+# Save conversion [on_startup]
 character_event = {
 	id = meta.2
 	
@@ -33,125 +34,35 @@ character_event = {
 	is_triggered_only = yes
 	
 	immediate = {
-		# Immortal characters cancer/bedridden
-		if = {
-			limit = {
-				immortal = yes
-			}
-			remove_disease_flags_effect = yes
-			clear_disease_level_effect = yes
-			cure_illness = yes
-		}
-		
-		# Disabled education
-		remove_character_modifier = court_education
-		remove_character_modifier = martial_education
-		remove_character_modifier = steward_education
-		remove_character_modifier = no_education
-		
-		# Missing laws
-		if = {
-			limit = {
-				has_dlc = "Zeus"
-				OR = {
-					NOT = { tier = baron }
-					holder_scope = { is_patrician = yes }
-				}
-			}
-			primary_title = {
-				add_law = tax_levy_law_feudal_4
-				add_law = tax_levy_law_theocracy_4
-			}
-		}
-		
-		# Removed Dwarven buildings
-		if = {
-			limit = {
-				independent = yes
-			}
-			any_realm_province = {
-				any_province_holding = {
-					if = {
-						limit = {
-							has_building = ca_dwarven_wall_1
-						}
-						add_building = ca_wall_1
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_wall_2
-						}
-						add_building = ca_wall_2
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_wall_3
-						}
-						add_building = ca_wall_3
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_wall_4
-						}
-						add_building = ca_wall_4
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_wall_5
-						}
-						add_building = ca_wall_5
-					}
-					remove_building = ca_dwarven_wall_5
-					remove_building = ca_dwarven_wall_4
-					remove_building = ca_dwarven_wall_3
-					remove_building = ca_dwarven_wall_2
-					remove_building = ca_dwarven_wall_1
-					
-					if = {
-						limit = {
-							has_building = ca_dwarven_keep_1
-						}
-						add_building = ca_keep_1
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_keep_2
-						}
-						add_building = ca_keep_2
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_keep_3
-						}
-						add_building = ca_keep_3
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_keep_4
-						}
-						add_building = ca_keep_4
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_keep_5
-						}
-						add_building = ca_keep_5
-					}
-					if = {
-						limit = {
-							has_building = ca_dwarven_keep_6
-						}
-						add_building = ca_keep_6
-					}
-		
-					remove_building = ca_dwarven_keep_6
-					remove_building = ca_dwarven_keep_5
-					remove_building = ca_dwarven_keep_4
-					remove_building = ca_dwarven_keep_3
-					remove_building = ca_dwarven_keep_2
-					remove_building = ca_dwarven_keep_1
+	}
+}
+
+# Workaround for barons under generated counts being independent [on_startup]
+# See https://forum.paradoxplaza.com/forum/index.php?threads/mod-problems-independent-baronies-and-frames.1056827
+character_event = {
+	id = meta.3
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	# Note: can't use only_independent = yes, as barons are not only_playable = yes
+	only_rulers = yes
+	
+	trigger = {
+		tier = BARON
+		independent = yes
+	}
+	
+	immediate = {
+		log = "(Startup) Auto-fixing independent barony [Root.PrimaryTitle.GetFullBaseName]."
+		dejure_liege_title = {
+			holder_scope = {
+				ROOT = {
+					set_defacto_liege = PREV
 				}
 			}
 		}
 	}
 }
+
+

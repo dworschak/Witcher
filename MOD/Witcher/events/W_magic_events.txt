@@ -27,7 +27,7 @@ character_event = {
 					}
 				}
 				modifier = {
-					factor = 4
+					factor = 5
 					trait = elf_race
 				}
 				modifier = {
@@ -64,6 +64,7 @@ character_event = {
 				}
 
 				set_character_flag = hidden_magic_talent
+				log = "**(Magic)** A [Root.Culture.GetName] baby is born with hidden magic talents."
 			}
 			99 = {
 				# Nothing
@@ -266,7 +267,7 @@ character_event = {
 ################################################
 # Guardian decision
 ################################################
-# Guardian - Child shows magic talent AI options and groups for player
+# Guardian - Child shows magic talent - AI options and groups for player
 character_event = {
 	id = magic.50
 	desc = EVTDESCmagic.50
@@ -292,38 +293,33 @@ character_event = {
 			ai = no
 		}
 	}
-	option = { # Refuse guardianship
-		name = EVTOPTCmagic.50
-		trigger = {
-			NOT = { dynasty = FROM }
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
-			}
-		}
-		hidden_tooltip = { # Player notification if necessary
-			any_player = {
-				limit = {
-					NOT = { character = ROOT }
-					is_close_relative = FROM
-				}
-				letter_event = { id = magic.80 days = 15 }
-			}
-		} 
-		FROM = { character_event = { id = magic.81 } }
-		ai_chance = {
-			factor = 1
-			modifier = { factor = 500 is_ruler = no }
-			modifier = { factor = 50 tier = baron }
-		}
-	}
+	# FIXME infinite loop with magic.80
+#	option = { # Refuse guardianship
+#		name = EVTOPTCmagic.50
+#		trigger = {
+#			NOT = { dynasty = FROM }
+#		}
+#		hidden_tooltip = { # Remove guardian
+#			FROM = {
+#				remove_guardian = yes
+#			}
+#		}
+#		hidden_tooltip = { # Player notification if necessary
+#			any_player = {
+#				limit = {
+#					NOT = { character = ROOT }
+#					is_close_relative = FROM
+#				}
+#				letter_event = { id = magic.80 days = 15 }
+#			}
+#		} 
+#		FROM = { character_event = { id = magic.81 } }
+#		ai_chance = {
+#			factor = 1
+#			modifier = { factor = 500 is_ruler = no }
+#			modifier = { factor = 50 tier = baron }
+#		}
+#	}
 	option = { # Kill child
 		name = EVTOPTDmagic.50
 		trigger = {
@@ -367,20 +363,14 @@ character_event = {
 				is_female = no
 			}
 		}
+		hidden_tooltip = { # Remove guardian
+			FROM = {
+				remove_guardian = yes
+			}
+		}
 		d_ban_ard_academy = {
 			holder_scope = {
 				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
 			}
 		}
 		FROM = {
@@ -412,20 +402,14 @@ character_event = {
 				is_female = yes
 			}
 		}
+		hidden_tooltip = { # Remove guardian
+			FROM = {
+				remove_guardian = yes
+			}
+		}
 		d_thanedd = {
 			holder_scope = {
 				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
 			}
 		}
 		FROM = {
@@ -452,20 +436,14 @@ character_event = {
 			ai = yes
 			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
+		hidden_tooltip = { # Remove guardian
+			FROM = {
+				remove_guardian = yes
+			}
+		}
 		d_nilfgaard_academy = {
 			holder_scope = {
 				FROM = { move_character = PREV }
-			}
-		}
-		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
 			}
 		}
 		FROM = {
@@ -535,7 +513,7 @@ character_event = {
 		}
 	}
 	option = { # Teach the child magic yourself (AI only)
-	name = EVTOPTJmagic.50
+		name = EVTOPTJmagic.50
 		trigger = {
 			ai = yes
 			trait = sorcerer
@@ -602,14 +580,8 @@ character_event = {
 			}
 		}
 		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
+			FROM = {
+				remove_guardian = yes
 			}
 		}
 		FROM = {
@@ -635,14 +607,8 @@ character_event = {
 			}
 		}
 		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
+			FROM = {
+				remove_guardian = yes
 			}
 		}
 		FROM = {
@@ -663,14 +629,8 @@ character_event = {
 			}
 		}
 		hidden_tooltip = { # Remove guardian
-			d_wilderness = {
-				holder_scope = {
-					create_character = { dynasty = none }
-					new_character = {
-						FROM = { set_guardian = PREV }
-						death = yes
-					}
-				}
+			FROM = {
+				remove_guardian = yes
 			}
 		}
 		FROM = {
@@ -1048,6 +1008,7 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "(Magic magic.75) Could not find magic teacher for [Root.GetBestName]"
 		FROM = { character_event = { id = magic.50 } }
 	}
 }
@@ -1108,6 +1069,7 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "(Magic magic.80) Guardian refused guardianship of [Root.GetBestName]"
 		FROM = { character_event = { id = magic.50 } }
 	}
 }
@@ -1575,6 +1537,7 @@ character_event = {
 	trigger = {
 		trait = sorcerer
 		is_landed = no
+		wealth = 0
 		NOT = { liege = { has_landed_title = d_thanedd } }
 		NOT = { liege = { has_landed_title = d_nilfgaard_academy } }
 		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
@@ -1601,12 +1564,30 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 1200
-		modifier = { factor = 0.05 has_ambition = obj_gain_tower }
-		modifier = { factor = 0.5 wealth = 100 }
-		modifier = { factor = 0.5 wealth = 200 }
-		modifier = { factor = 0.7 trait = ambitious }
-		modifier = { factor = 0.7 trait = shy }
-		modifier = { factor = 0.7 trait = scholar }
+		modifier = { 
+			factor = 0.05 
+			has_ambition = obj_gain_tower
+		}
+		modifier = { 
+			factor = 0.5 
+			wealth = 100
+		}
+		modifier = { 
+			factor = 0.5
+			wealth = 200
+		}
+		modifier = { 
+			factor = 0.7
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.7
+			trait = scholar
+		}
 	}
 	
 	option = {
@@ -1722,6 +1703,7 @@ character_event = {
 		trait = sorcerer
 		is_landed = no
 		liege = { has_landed_title = d_thanedd }
+		wealth = 0
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
@@ -1739,12 +1721,30 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 240
-		modifier = { factor = 10 NOT = { has_ambition = obj_gain_tower } }
-		modifier = { factor = 0.5 wealth = 100 }
-		modifier = { factor = 0.5 wealth = 200 }
-		modifier = { factor = 0.7 trait = ambitious }
-		modifier = { factor = 0.7 trait = shy }
-		modifier = { factor = 0.7 trait = scholar }
+		modifier = { 
+			factor = 10 
+			NOT = { has_ambition = obj_gain_tower }
+		}
+		modifier = { 
+			factor = 0.5
+			wealth = 100
+		}
+		modifier = { 
+			factor = 0.5 
+			wealth = 200
+		}
+		modifier = { 
+			factor = 0.7 
+			trait = ambitious
+		}
+		modifier = { 
+			factor = 0.7 
+			trait = shy
+		}
+		modifier = { 
+			factor = 0.7 
+			trait = scholar
+		}
 	}
 	
 	option = {
@@ -1793,6 +1793,7 @@ character_event = {
 		trait = sorcerer
 		is_landed = no
 		liege = { has_landed_title = d_ban_ard_academy }
+		wealth = 0
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
@@ -1809,12 +1810,30 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 240
-		modifier = { factor = 10 NOT = { has_ambition = obj_gain_tower } }
-		modifier = { factor = 0.5 wealth = 100 }
-		modifier = { factor = 0.5 wealth = 200 }
-		modifier = { factor = 0.7 trait = ambitious }
-		modifier = { factor = 0.7 trait = shy }
-		modifier = { factor = 0.7 trait = scholar }
+		modifier = {
+			factor = 10 
+			NOT = { has_ambition = obj_gain_tower }
+		}
+		modifier = { 
+			factor = 0.5 
+			wealth = 100
+		}
+		modifier = { 
+			factor = 0.5
+			wealth = 200
+		}
+		modifier = { 
+			factor = 0.7
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.7
+			trait = shy
+		}
+		modifier = {
+			factor = 0.7
+			trait = scholar
+		}
 	}
 	
 	option = {
@@ -1861,6 +1880,7 @@ character_event = {
 		trait = sorcerer
 		is_landed = no
 		liege = { has_landed_title = d_nilfgaard_academy }
+		wealth = 0
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
@@ -1877,12 +1897,30 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 240
-		modifier = { factor = 10 NOT = { has_ambition = obj_gain_tower } }
-		modifier = { factor = 0.5 wealth = 100 }
-		modifier = { factor = 0.5 wealth = 200 }
-		modifier = { factor = 0.7 trait = ambitious }
-		modifier = { factor = 0.7 trait = shy }
-		modifier = { factor = 0.7 trait = scholar }
+		modifier = { 
+			factor = 10 
+			NOT = { has_ambition = obj_gain_tower }
+		}
+		modifier = { 
+			factor = 0.5 
+			wealth = 100
+		}
+		modifier = { 
+			factor = 0.5 
+			wealth = 200
+		}
+		modifier = { 
+			factor = 0.7 
+			trait = ambitious
+		}
+		modifier = { 
+			factor = 0.7 
+			trait = shy
+		}
+		modifier = { 
+			factor = 0.7 
+			trait = scholar
+		}
 	}
 	
 	option = {
@@ -1939,7 +1977,7 @@ letter_event = {
 		name = EVTOPTAmagic.1034
 	}
 }
-# AI - Court mage leaves council to tower
+# AI - Court mage with magic tower decides to leave council
 character_event = {
 	id = magic.1040
 	
@@ -1949,14 +1987,28 @@ character_event = {
 		ai = yes
 		trait = sorcerer
 		has_job_title = job_mage
-		any_demesne_province = { culture = magic }
+		any_demesne_province = { terrain = magic_tower }
+		NOT = { opinion = { who = liege value = 0 } }
 	}
 	
 	mean_time_to_happen = {
 		months = 1200
-		modifier = { factor = 100 opinion = { who = liege value = 0 } }
-		modifier = { factor = 0.75 NOT = { opinion = { who = liege value = -25 } } }
-		modifier = { factor = 0.75 NOT = { opinion = { who = liege value = -50 } } }
+		modifier = { 
+			factor = 0.75 
+			NOT = { opinion = { who = liege value = -25 } }
+		}
+		modifier = { 
+			factor = 0.75 
+			NOT = { opinion = { who = liege value = -50 } }
+		}
+		modifier = { 
+			factor = 0.75 
+			NOT = { opinion = { who = liege value = -75 } }
+		}
+		modifier = { 
+			factor = 0.75 
+			NOT = { opinion = { who = liege value = -100 } }
+		}
 	}
 	
 	option = {
@@ -1977,13 +2029,20 @@ character_event = {
 		trait = sorcerer
 		has_job_title = job_mage
 		is_landed = no
-		NOT = { any_demesne_province = { culture = magic } }
+		NOT = { any_demesne_province = { terrain = magic_tower } }
+		NOT = { opinion = { who = liege value = 0 } }
 	}
 	
 	mean_time_to_happen = {
 		months = 1200
-		modifier = { factor = 0 NOT = { opinion = { who = liege value = 0 } } }
-		modifier = { factor = 0.5 NOT = { opinion = { who = liege value = -50 } } }
+		modifier = { 
+			factor = 0.5 
+			NOT = { opinion = { who = liege value = -50 } }
+		}
+		modifier = { 
+			factor = 0.5 
+			NOT = { opinion = { who = liege value = -100 } }
+		}
 	}
 	
 	option = { # Female northern mage
@@ -2057,28 +2116,40 @@ character_event = {
 	trigger = {
 		ai = yes
 		trait = sorcerer
-		any_demesne_province = { culture = magic }
-		NOT = { wealth = 0 }
+		any_demesne_province = { terrain = magic_tower }
+		NOT = { wealth = -25 } # Seems sometimes mages get random event that put them in the red
 		NOT = { has_landed_title = d_thanedd }
 	}
 	
 	mean_time_to_happen = {
 		months = 36
-		modifier = { factor = 0.5 NOT = { wealth = -50 } }
-		modifier = { factor = 0.5 NOT = { wealth = -100 } }
+		modifier = { 
+			factor = 0.5 
+			NOT = { wealth = -50 }
+		}
+		modifier = { 
+			factor = 0.5 
+			NOT = { wealth = -100 }
+		}
 	}
 	
 	option = {
 		name = OK
+		log = "**(Magic tower)** [Root.GetBestName] abandons [Root.PrimaryTitle.GetName] due to lack of funds."
 		d_wilderness = {
 			holder_scope = {
 				ROOT = {
 					random_demesne_title = {
 						limit = { tier = count } 
-						gain_title = PREVPREV
+						grant_title_no_opinion = PREVPREV # no claim
 					}
 				}
-				set_defacto_liege = THIS
+			}
+		}
+		# Move to top liege court
+		top_liege = {
+			ROOT = {
+				move_character = PREV
 			}
 		}
 	}

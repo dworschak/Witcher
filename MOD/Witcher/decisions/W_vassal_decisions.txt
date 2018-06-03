@@ -290,8 +290,8 @@ targetted_decisions = {
 	}
 	
 	confiscate_artifact = {
-		filter = vassals
-		ai_target_filter = vassals
+		filter = home_court
+		ai_target_filter = home_court
 		
 		from_potential = {
 			NOT = { culture = wilderness }
@@ -299,37 +299,22 @@ targetted_decisions = {
 		potential = {
 			prisoner = yes
 			host = { character = FROM }
-			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
-				trait = zefhar_bow
-				trait = ravens_armor
-				trait = nehalenias_mirror
-				trait = seeing_stone
-				trait = choccmah
-				trait = gvevrath
-				trait = kethaar
-				trait = kezath
-				trait = maalkad
-				trait = nehtza
-				trait = oth
-				trait = tipperath
-				trait = veenah
-				trait = yesath
-				trait = purple_living_bone
-				trait = conynhaela
-				trait = purple_living_bone_and_conynhaela
+			
+			any_artifact = {
+				always = yes
 			}
 		}
 		allow = {
 			prisoner = yes
 		}
 		effect = {
-			FROM = { character_event = { id = artifact.100 } }
+			any_artifact = {
+				transfer_artifact = {
+					from = ROOT
+					to = FROM
+				}
+			}
+			opinion = { modifier = opinion_dishonorable who = FROM }
 		}
 		ai_will_do = {
 			factor = 1

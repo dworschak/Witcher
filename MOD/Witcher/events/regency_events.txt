@@ -751,6 +751,7 @@ character_event = {
 	prisoner = no
 	
 	trigger = {
+		has_regent = yes
 		NOT = { has_character_flag = pushed_regent }
 		is_nomadic = no
 	}
@@ -786,11 +787,17 @@ character_event = {
 		random_list = {
 			50 = {
 				random_courtier = {
-					limit = { has_minor_title = title_regent }
+					limit = { 
+						OR = {
+							has_minor_title = title_regent
+							has_minor_title = title_appointed_regent
+						}	
+					}
 					if = {
 						limit = { NOT = { has_character_modifier = protection_spell } }
 						death = {
 							death_reason = death_murder_unknown_fall
+							killer = ROOT
 						}
 					}
 					if = {
@@ -804,8 +811,13 @@ character_event = {
 				}
 			}
 			50 = { 
-				random_courtier = {
-					limit = { has_minor_title = title_regent }
+				random_courtier_or_vassal = {
+					limit = { 
+						OR = { 
+							has_minor_title = title_regent 
+							has_minor_title = title_appointed_regent 
+						} 
+					}
 					add_trait = wounded
 					opinion = {
 						modifier = opinion_mad_as_hell

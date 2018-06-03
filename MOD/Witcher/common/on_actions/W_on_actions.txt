@@ -1,4 +1,4 @@
-# Fires when the game starts (but not from saves) 
+# Fires for the player character when the game starts (but not from saves) 
 # Also works without Charlemagne DLC.
 on_chronicle_start = {
 	events = {
@@ -32,6 +32,7 @@ on_startup = {
 		wilderness.2 # Give diplomatic immunity
 		
 		meta.2 # Save conversion
+		meta.3 # Fix independent baronies
 	}
 }
 
@@ -43,6 +44,8 @@ on_yearly_pulse = {
 		
 		# W_witchert_events
 		witcher.300 # Check and spawn witchers
+		
+		old_age.97 # Prune court for unimportant immortals
 	}
 	
 	random_events = {
@@ -321,9 +324,9 @@ on_yearly_childhood_pulse = {
 		35 = childhood.24 # Intrigue gain
 		35 = childhood.26 # Learning gain
 		
-		50 = childhood.100 # Dangers of magic
-		25 = childhood.110 # Places of Power
-		50 = childhood.120 # Magic book
+		100 = childhood.100 # Dangers of magic
+		50 = childhood.110 # Places of Power
+		100 = childhood.120 # Magic book
 		
 		# W_magic_events
 		150 = magic.10 # Magic outburst
@@ -418,16 +421,16 @@ on_birth = {
 		trait_flavour.303
 		trait_flavour.304
 		trait_flavour.305
-		
-		# W_magic_events
-		magic.1 # Get dormant magic talent
-		
+
 		# W_prisoner_events
 		prisoner.8 # Child is born because of rape
 		
 		# W_racial_events
 		racial.1 # Racial trait assignment
 		racial.12 # Elven fertility reduction per birth
+		
+		# W_magic_events
+		magic.1 # Get dormant magic talent
 	}
 }
 
@@ -446,6 +449,8 @@ on_adulthood = {
 		magic.90 # Become sorcerer
 		magic.93 # Learned to control talent
 		magic.96 # Didn't learn enough
+		
+		old_age.90 # Workaround adult portrait for long lived races
 	}
 }
 
@@ -518,8 +523,6 @@ on_new_holder = {
 	events = {
 		# W_realm_events
 		realm.51 # Name the new commander of Drakenborg
-		
-		old_age.98 # Prevent immortal courtier pruning
 		
 		# W_nilfgaard_events
 		nilfgaard.1 # Imperial Authority evaluation

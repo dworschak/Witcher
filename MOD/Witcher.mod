@@ -20,11 +20,12 @@ replace_path = "common/objectives"
 replace_path = "common/religions"
 replace_path = "common/religious_titles"
 replace_path = "common/trade_routes"
+replace_path = "dlc_metadata/dlc_characters"
 replace_path = "events"
 replace_path = "decisions"
 replace_path = "map/statics"
 
-tags={ "Map" "Complete Overhaul" "Witcher" }
+tags={ "The Witcher" "Map" "Fantasy" "Total Conversion" "Complete Overhaul" "Rpg" }
 picture="WitcherKings.jpg"
 
-supported_checksums = { PETO }
+supported_checksums = { UCRX }

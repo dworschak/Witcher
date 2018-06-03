@@ -15,7 +15,10 @@ narrative_event = {
 	only_playable = yes
 	religion = eternal_fire
 	
-	trigger = {
+	trigger = {		
+		NOT = { has_global_flag = haak_rumors }
+		NOT = { has_global_flag = haak_arrival }
+		controls_religion = yes # Let it happen for the Hierarch - he's always around
 		NOT = {
 			has_game_rule = {
 				name = haak_invasions
@@ -29,6 +32,7 @@ narrative_event = {
 					value = historical
 				}
 				year = 1330
+				NOT = { year = 1380 }
 			}
 			AND = {
 				has_game_rule = {
@@ -37,16 +41,10 @@ narrative_event = {
 				}
 			}
 		}
-		year = 1330
-		
-		controls_religion = yes # Let it happen for the Hierarch - he's always around
-		
-		NOT = { has_global_flag = haak_rumors }
-		NOT = { has_global_flag = haak_arrival }
 	}
 	
 	mean_time_to_happen = {
-		months = 1
+		months = 36
 	}
 	
 	immediate = {
@@ -76,9 +74,27 @@ narrative_event = {
 		}
 		new_character = {
 			e_hakland = {
+				set_title_landless = { title = THIS status = yes }
+				set_title_flag = temporary_landless_title
 				grant_title = PREV
 			}
 			set_defacto_liege = THIS
+			if = {
+				limit = {
+					has_dlc = "Horse Lords"
+				}
+				set_government_type = nomadic_government
+			}
+			if = {
+				limit = {
+					NOT = { has_dlc = "Horse Lords" }
+				}
+				set_government_type = tribal_government
+			}
+			wealth = 5000
+			set_character_flag = horde_invader
+			prestige = 5000
+			character_event = { id = 60515 days = 1 } # Spawn population
 		}
 	}
 	
@@ -101,14 +117,28 @@ narrative_event = {
 	only_independent = yes
 	
 	trigger = {
-		year = 1338 #1345
 		has_landed_title = e_hakland
-		NOT = { year = 1380 }
 		NOT = { has_global_flag = haak_arrival }
+		OR = {
+			AND = {
+				has_game_rule = {
+					name = haak_invasions
+					value = historical
+				}
+				year = 1338 #1345
+				NOT = { year = 1380 }
+			}
+			AND = {
+				has_game_rule = {
+					name = haak_invasions
+					value = random
+				}
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
-		months = 36
+		months = 72
 	}
 	
 	option = {
@@ -117,18 +147,43 @@ narrative_event = {
 			has_landed_title = e_hakland
 		}
 		set_global_flag = haak_arrival
-		368 = { # Mijara
-			kingdom = {
-				ROOT = {
-					war = {
-						casus_belli = tribal_invasion
-						target = PREVPREV # The top liege of the owner of Mijara
-						thirdparty_title = PREV # The de jure kingdom
+
+		if = {
+			limit = {
+				has_dlc = "Horse Lords"
+			}				
+			368 = { # Mijara
+				kingdom = {
+					e_hakland = {
+						holder_scope = {
+							war = {
+								casus_belli = nomad_invasion
+								target = PREVPREVPREV # The top liege of the owner of the province
+								thirdparty_title = PREVPREV # The de jure kingdom
+							}
+						}
 					}
 				}
 			}
 		}
-		wealth = 5000
+		if = {
+			limit = {
+				NOT = { has_dlc = "Horse Lords" }
+			}				
+			368 = { # Mijara
+				kingdom = {
+					e_hakland = {
+						holder_scope = {
+							war = {
+								casus_belli = tribal_invasion
+								target = PREVPREVPREV # The top liege of the owner of the province
+								thirdparty_title = PREVPREV # The de jure kingdom
+							}
+						}
+					}
+				}
+			}
+		}
 		create_character = {
 			random_traits = yes
 			dynasty = random

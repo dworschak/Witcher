@@ -1,1365 +1,6 @@
 namespace = artifact
-# TO DO - events for Raven's Armor, Seeing Stone and Nehalenia's Mirror
-# TO DO - events for Sephirots
-
-################################################
-# Passing artifacts (breaks if more than 3 characters with artifacts die at same time)
-################################################
-# Hidden - Selecting heir for artifacts (on_death)
-character_event = {
-	id = artifact.1
-	
-	is_triggered_only = yes
-	hide_window = yes
-	
-	trigger = {
-		OR = {
-			trait = gwyhyr_sword
-			trait = sihil
-			trait = gveir
-			trait = jaskolka
-			trait = balmur
-			trait = loathen
-			trait = zefhar_bow
-			trait = ravens_armor
-			trait = nehalenias_mirror
-			trait = brinsingamen
-			trait = holy_grail
-			trait = seeing_stone
-			trait = choccmah
-			trait = gvevrath
-			trait = kethaar
-			trait = kezath
-			trait = maalkad
-			trait = nehtza
-			trait = oth
-			trait = tipperath
-			trait = veenah
-			trait = yesath
-			trait = purple_living_bone
-			trait = conynhaela
-			trait = purple_living_bone_and_conynhaela
-		}
-	}
-	
-	immediate = { # Select the best heir and give him a temp cached trait
-		if = { # Dynastic heir
-			limit = {
-				is_patrician = no
-				current_heir = { dynasty = ROOT NOT = { character = ROOT } }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			current_heir = {
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Child
-			limit = {
-				is_patrician = no
-				any_child = { dynasty = ROOT is_alive = yes }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			random_child = {
-				limit = { dynasty = ROOT is_alive = yes }
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Sibling
-			limit = {
-				is_patrician = no
-				any_sibling = { is_alive = yes }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			random_sibling = {
-				limit = { is_alive = yes }
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Close dynasty member
-			limit = {
-				is_patrician = no
-				any_dynasty_member = { is_close_relative = ROOT is_alive = yes }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			random_dynasty_member = {
-				limit = { is_close_relative = ROOT is_alive = yes }
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Dynasty member
-			limit = {
-				is_patrician = no
-				any_dynasty_member = { NOT = { is_close_relative = ROOT } is_alive = yes }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			random_dynasty_member = {
-				limit = { NOT = { is_close_relative = ROOT } is_alive = yes }
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Bastard child
-			limit = {
-				is_patrician = no
-				any_child = { NOT = { dynasty = ROOT } is_alive = yes }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			random_child = {
-				limit = { NOT = { dynasty = ROOT } is_alive = yes }
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Spouse
-			limit = {
-				is_patrician = no
-				spouse = { is_alive = yes }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			any_spouse = {
-				limit = { is_alive = yes }
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Non-dynastic heir
-			limit = {
-				is_patrician = no
-				current_heir = { NOT = { dynasty = ROOT } }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			current_heir = {
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Liege
-			limit = {
-				is_patrician = no
-				liege = { NOT = { character = ROOT } }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			liege = {
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Vassal
-			limit = {
-				is_patrician = no
-				liege = { character = ROOT }
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			random_vassal = {
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-					set_character_flag = artifact_heir_temp_3
-					ROOT = { add_trait = artifact_temp_3 }
-				}
-				if = {
-					limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-					set_character_flag = artifact_heir_temp_2
-					ROOT = { add_trait = artifact_temp_2 }
-				}
-				if = {
-					limit = { NOT = { artifact_heir_temp = { always = yes } } }
-					set_character_flag = artifact_heir_temp_1
-					ROOT = { add_trait = artifact_temp_1 }
-				}
-				add_trait = artifact_heir_temp
-			}
-		}
-		if = { # Family manor heir for republics
-			limit = {
-				is_patrician = yes
-				NOT = {
-					trait = artifact_temp_1
-					trait = artifact_temp_2
-					trait = artifact_temp_3
-				}
-			}
-			family_palace = {
-				current_heir = {
-					if = {
-						limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_2 } }
-						set_character_flag = artifact_heir_temp_3
-						ROOT = { add_trait = artifact_temp_3 }
-					}
-					if = {
-						limit = { artifact_heir_temp = { has_character_flag = artifact_heir_temp_1 } }
-						set_character_flag = artifact_heir_temp_2
-						ROOT = { add_trait = artifact_temp_2 }
-					}
-					if = {
-						limit = { NOT = { artifact_heir_temp = { always = yes } } }
-						set_character_flag = artifact_heir_temp_1
-						ROOT = { add_trait = artifact_temp_1 }
-					}
-					add_trait = artifact_heir_temp
-				}
-			}
-		}
-	}
-	
-	option = { # Character with cached trait gets event
-		name = OK
-		if = {
-			limit = { ai = no }
-			artifact_heir_temp = { character_event = { id = artifact.2 days = 1 } }
-		}
-		if = {
-			limit = { ai = yes }
-			artifact_heir_temp = { character_event = { id = artifact.2 } }
-		}
-	}
-}
-# Heir - Getting artifacts
-character_event = {
-	id = artifact.2
-	desc = EVTDESCartifact.2
-	picture = GFX_evt_death
-	
-	is_triggered_only = yes
-	
-	trigger = {
-		OR = {
-			AND = {
-				FROM = { trait = artifact_temp_1 }
-				has_character_flag = artifact_heir_temp_1
-			}
-			AND = {
-				FROM = { trait = artifact_temp_2 }
-				has_character_flag = artifact_heir_temp_2
-			}
-			AND = {
-				FROM = { trait = artifact_temp_3 }
-				has_character_flag = artifact_heir_temp_3
-			}
-		}
-	}
-	
-	option = {
-		name = EVTOPTAartifact.2
-		# Gwyhyr sword - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = gwyhyr_sword }
-				NOT = { trait = gwyhyr_sword }
-			}
-			FROM = { remove_trait = gwyhyr_sword }
-			add_trait = gwyhyr_sword
-		}
-		if = {
-			limit = {
-				FROM = { trait = gwyhyr_sword }
-				trait = gwyhyr_sword
-			}
-			FROM = { remove_trait = gwyhyr_sword }
-			character_event = { id = artifact.101 tooltip = EVTTOOLTIPartifact.101 }
-		}
-		# Sihil
-		if = {
-			limit = { FROM = { trait = sihil } }
-			FROM = { remove_trait = sihil }
-			add_trait = sihil
-		}
-		# Gveir
-		if = {
-			limit = { FROM = { trait = gveir } }
-			FROM = { remove_trait = gveir }
-			add_trait = gveir
-		}
-		# Jaskolka
-		if = {
-			limit = { FROM = { trait = jaskolka } }
-			FROM = { remove_trait = jaskolka }
-			add_trait = jaskolka
-		}
-		# Balmur
-		if = {
-			limit = { FROM = { trait = balmur } }
-			FROM = { remove_trait = balmur }
-			add_trait = balmur
-		}
-		# Loathen
-		if = {
-			limit = { FROM = { trait = loathen } }
-			FROM = { remove_trait = loathen }
-			add_trait = loathen
-		}
-		# Zefhar bow - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = zefhar_bow }
-				NOT = { trait = zefhar_bow }
-			}
-			FROM = { remove_trait = zefhar_bow }
-			add_trait = zefhar_bow
-		}
-		if = {
-			limit = {
-				FROM = { trait = zefhar_bow }
-				trait = zefhar_bow
-			}
-			FROM = { remove_trait = zefhar_bow }
-			character_event = { id = artifact.108 tooltip = EVTTOOLTIPartifact.108 }
-		}
-		# Raven's armor
-		if = {
-			limit = { FROM = { trait = ravens_armor } }
-			FROM = { remove_trait = ravens_armor }
-			add_trait = ravens_armor
-		}
-		# Nehalenia's Mirror - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = nehalenias_mirror }
-				NOT = { trait = nehalenias_mirror }
-			}
-			FROM = { remove_trait = nehalenias_mirror }
-			add_trait = nehalenias_mirror
-		}
-		if = {
-			limit = {
-				FROM = { trait = nehalenias_mirror }
-				trait = nehalenias_mirror
-			}
-			FROM = { remove_trait = nehalenias_mirror }
-			character_event = { id = artifact.102 tooltip = EVTTOOLTIPartifact.102 }
-		}
-		# Brinsingamen - special, disapear when inherited
-		if = {
-			limit = { FROM = { trait = brinsingamen } }
-			FROM = { remove_trait = brinsingamen }
-			character_event = { id = artifact.1021 }
-		}
-		# Holy Grail - special, disapear when inherited
-		if = {
-			limit = { FROM = { trait = holy_grail } }
-			FROM = { remove_trait = holy_grail }
-		}
-		# Seeing Stone - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = seeing_stone }
-				NOT = { trait = seeing_stone }
-			}
-			FROM = { remove_trait = seeing_stone }
-			add_trait = seeing_stone
-		}
-		if = {
-			limit = {
-				FROM = { trait = seeing_stone }
-				trait = seeing_stone
-			}
-			FROM = { remove_trait = seeing_stone }
-			character_event = { id = artifact.109 tooltip = EVTTOOLTIPartifact.109 }
-		}
-		# Chocc'mah
-		if = {
-			limit = { FROM = { trait = choccmah } }
-			FROM = { remove_trait = choccmah }
-			add_trait = choccmah
-		}
-		# Gve'vrath
-		if = {
-			limit = { FROM = { trait = gvevrath } }
-			FROM = { remove_trait = gvevrath }
-			add_trait = gvevrath
-		}
-		# Keth'aar
-		if = {
-			limit = { FROM = { trait = kethaar } }
-			FROM = { remove_trait = kethaar }
-			add_trait = kethaar
-		}
-		# Kezath
-		if = {
-			limit = { FROM = { trait = kezath } }
-			FROM = { remove_trait = kezath }
-			add_trait = kezath
-		}
-		# Maal'kad
-		if = {
-			limit = { FROM = { trait = maalkad } }
-			FROM = { remove_trait = maalkad }
-			add_trait = maalkad
-		}
-		# Neh'tza
-		if = {
-			limit = { FROM = { trait = nehtza } }
-			FROM = { remove_trait = nehtza }
-			add_trait = nehtza
-		}
-		# 'Oth
-		if = {
-			limit = { FROM = { trait = oth } }
-			FROM = { remove_trait = oth }
-			add_trait = oth
-		}
-		# Tipperath
-		if = {
-			limit = { FROM = { trait = tipperath } }
-			FROM = { remove_trait = tipperath }
-			add_trait = tipperath
-		}
-		# Veen'ah
-		if = {
-			limit = { FROM = { trait = veenah } }
-			FROM = { remove_trait = veenah }
-			add_trait = veenah
-		}
-		# Y'esath
-		if = {
-			limit = { FROM = { trait = yesath } }
-			FROM = { remove_trait = yesath }
-			add_trait = yesath
-		}
-		# Purple Living Bone - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone }
-				NOT = { trait = purple_living_bone }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-			}
-			FROM = { remove_trait = purple_living_bone }
-			add_trait = purple_living_bone
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone }
-				trait = purple_living_bone
-			}
-			FROM = { remove_trait = purple_living_bone }
-			character_event = { id = artifact.103 tooltip = EVTTOOLTIPartifact.103 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone }
-				NOT = { trait = purple_living_bone }
-				trait = purple_living_bone_and_conynhaela
-			}
-			FROM = { remove_trait = purple_living_bone }
-			character_event = { id = artifact.110 tooltip = EVTTOOLTIPartifact.110 }
-		}
-		# Conynhaela - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = conynhaela }
-				NOT = { trait = conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-			}
-			FROM = { remove_trait = conynhaela }
-			add_trait = conynhaela
-		}
-		if = {
-			limit = {
-				FROM = { trait = conynhaela }
-				trait = conynhaela
-			}
-			FROM = { remove_trait = conynhaela }
-			character_event = { id = artifact.105 tooltip = EVTTOOLTIPartifact.105 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = conynhaela }
-				NOT = { trait = conynhaela }
-				trait = purple_living_bone_and_conynhaela
-			}
-			FROM = { remove_trait = conynhaela }
-			character_event = { id = artifact.111 tooltip = EVTTOOLTIPartifact.111 }
-		}
-		# Purple Living Bone and Conynhaela - non-unique, need to cover case when heir already have the trait
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone }
-				NOT = { trait = conynhaela }
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			add_trait = purple_living_bone_and_conynhaela
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				trait = purple_living_bone_and_conynhaela
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			character_event = { id = artifact.107 tooltip = EVTTOOLTIPartifact.107 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				trait = purple_living_bone
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			add_trait = purple_living_bone_and_conynhaela
-			character_event = { id = artifact.104 tooltip = EVTTOOLTIPartifact.104 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				trait = conynhaela
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			add_trait = purple_living_bone_and_conynhaela
-			character_event = { id = artifact.106 tooltip = EVTTOOLTIPartifact.106 }
-		}
-		hidden_tooltip = {
-			remove_trait = artifact_heir_temp
-			clr_character_flag = artifact_heir_temp_1
-			clr_character_flag = artifact_heir_temp_2
-			clr_character_flag = artifact_heir_temp_3
-			FROM = {
-				remove_trait = artifact_temp_1
-				remove_trait = artifact_temp_2
-				remove_trait = artifact_temp_3
-			}
-		}
-	}
-}
-
-################################################
-# Confiscating artifacts from prisoner
-################################################
-# Confiscating artifacts from prisoner
-character_event = {
-	id = artifact.100
-	desc = EVTDESCartifact.100
-	picture = GFX_evt_into_the_dungeon
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAartifact.100
-		FROM = { opinion = { modifier = opinion_dishonorable who = ROOT } }
-		# Gwyhyr sword
-		if = {
-			limit = {
-				FROM = { trait = gwyhyr_sword }
-				NOT = { trait = gwyhyr_sword }
-			}
-			FROM = { remove_trait = gwyhyr_sword }
-			add_trait = gwyhyr_sword
-		}
-		if = {
-			limit = {
-				FROM = { trait = gwyhyr_sword }
-				trait = gwyhyr_sword
-			}
-			FROM = { remove_trait = gwyhyr_sword }
-			character_event = { id = artifact.101 tooltip = EVTTOOLTIPartifact.101 }
-		}
-		# Sihil
-		if = {
-			limit = { FROM = { trait = sihil } }
-			FROM = { remove_trait = sihil }
-			add_trait = sihil
-		}
-		# Gveir
-		if = {
-			limit = { FROM = { trait = gveir } }
-			FROM = { remove_trait = gveir }
-			add_trait = gveir
-		}
-		# Jaskolka
-		if = {
-			limit = { FROM = { trait = jaskolka } }
-			FROM = { remove_trait = jaskolka }
-			add_trait = jaskolka
-		}
-		# Balmur
-		if = {
-			limit = { FROM = { trait = balmur } }
-			FROM = { remove_trait = balmur }
-			add_trait = balmur
-		}
-		# Loathen
-		if = {
-			limit = { FROM = { trait = loathen } }
-			FROM = { remove_trait = loathen }
-			add_trait = loathen
-		}
-		# Zefhar bow
-		if = {
-			limit = {
-				FROM = { trait = zefhar_bow }
-				NOT = { trait = zefhar_bow }
-			}
-			FROM = { remove_trait = zefhar_bow }
-			add_trait = zefhar_bow
-		}
-		if = {
-			limit = {
-				FROM = { trait = zefhar_bow }
-				trait = zefhar_bow
-			}
-			FROM = { remove_trait = zefhar_bow }
-			character_event = { id = artifact.108 tooltip = EVTTOOLTIPartifact.108 }
-		}
-		# Raven's armor
-		if = {
-			limit = { FROM = { trait = ravens_armor } }
-			FROM = { remove_trait = ravens_armor }
-			add_trait = ravens_armor
-		}
-		# Nehalenia's Mirror
-		if = {
-			limit = {
-				FROM = { trait = nehalenias_mirror }
-				NOT = { trait = nehalenias_mirror }
-			}
-			FROM = { remove_trait = nehalenias_mirror }
-			add_trait = nehalenias_mirror
-		}
-		if = {
-			limit = {
-				FROM = { trait = nehalenias_mirror }
-				trait = nehalenias_mirror
-			}
-			FROM = { remove_trait = nehalenias_mirror }
-			character_event = { id = artifact.102 tooltip = EVTTOOLTIPartifact.102 }
-		}
-		# Seeing Stone
-		if = {
-			limit = {
-				FROM = { trait = seeing_stone }
-				NOT = { trait = seeing_stone }
-			}
-			FROM = { remove_trait = seeing_stone }
-			add_trait = seeing_stone
-		}
-		if = {
-			limit = {
-				FROM = { trait = seeing_stone }
-				trait = seeing_stone
-			}
-			FROM = { remove_trait = seeing_stone }
-			character_event = { id = artifact.109 tooltip = EVTTOOLTIPartifact.109 }
-		}
-		# Chocc'mah
-		if = {
-			limit = { FROM = { trait = choccmah } }
-			FROM = { remove_trait = choccmah }
-			add_trait = choccmah
-		}
-		# Gve'vrath
-		if = {
-			limit = { FROM = { trait = gvevrath } }
-			FROM = { remove_trait = gvevrath }
-			add_trait = gvevrath
-		}
-		# Keth'aar
-		if = {
-			limit = { FROM = { trait = kethaar } }
-			FROM = { remove_trait = kethaar }
-			add_trait = kethaar
-		}
-		# Kezath
-		if = {
-			limit = { FROM = { trait = kezath } }
-			FROM = { remove_trait = kezath }
-			add_trait = kezath
-		}
-		# Maal'kad
-		if = {
-			limit = { FROM = { trait = maalkad } }
-			FROM = { remove_trait = maalkad }
-			add_trait = maalkad
-		}
-		# Neh'tza
-		if = {
-			limit = { FROM = { trait = nehtza } }
-			FROM = { remove_trait = nehtza }
-			add_trait = nehtza
-		}
-		# 'Oth
-		if = {
-			limit = { FROM = { trait = oth } }
-			FROM = { remove_trait = oth }
-			add_trait = oth
-		}
-		# Tipperath
-		if = {
-			limit = { FROM = { trait = tipperath } }
-			FROM = { remove_trait = tipperath }
-			add_trait = tipperath
-		}
-		# Veen'ah
-		if = {
-			limit = { FROM = { trait = veenah } }
-			FROM = { remove_trait = veenah }
-			add_trait = veenah
-		}
-		# Y'esath
-		if = {
-			limit = { FROM = { trait = yesath } }
-			FROM = { remove_trait = yesath }
-			add_trait = yesath
-		}
-		# Purple living bone
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone }
-				NOT = { trait = purple_living_bone }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-			}
-			FROM = { remove_trait = purple_living_bone }
-			add_trait = purple_living_bone
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone }
-				trait = purple_living_bone
-			}
-			FROM = { remove_trait = purple_living_bone }
-			character_event = { id = artifact.103 tooltip = EVTTOOLTIPartifact.103 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone }
-				NOT = { trait = purple_living_bone }
-				trait = purple_living_bone_and_conynhaela
-			}
-			FROM = { remove_trait = purple_living_bone }
-			add_trait = purple_living_bone
-			character_event = { id = artifact.110 tooltip = EVTTOOLTIPartifact.110 }
-		}
-		# Conynhaela
-		if = {
-			limit = {
-				FROM = { trait = conynhaela }
-				NOT = { trait = conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-			}
-			FROM = { remove_trait = conynhaela }
-			add_trait = conynhaela
-		}
-		if = {
-			limit = {
-				FROM = { trait = conynhaela }
-				trait = conynhaela
-			}
-			FROM = { remove_trait = conynhaela }
-			character_event = { id = artifact.105 tooltip = EVTTOOLTIPartifact.105 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = conynhaela }
-				NOT = { trait = conynhaela }
-				trait = purple_living_bone_and_conynhaela
-			}
-			FROM = { remove_trait = conynhaela }
-			add_trait = conynhaela
-			character_event = { id = artifact.111 tooltip = EVTTOOLTIPartifact.111 }
-		}
-		# Living Purple Bone and Conynhaela
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone }
-				NOT = { trait = conynhaela }
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			add_trait = purple_living_bone_and_conynhaela
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				trait = purple_living_bone_and_conynhaela
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			character_event = { id = artifact.107 tooltip = EVTTOOLTIPartifact.107 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				trait = purple_living_bone
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			add_trait = purple_living_bone_and_conynhaela
-			character_event = { id = artifact.104 tooltip = EVTTOOLTIPartifact.104 }
-		}
-		if = {
-			limit = {
-				FROM = { trait = purple_living_bone_and_conynhaela }
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				trait = conynhaela
-			}
-			FROM = { remove_trait = purple_living_bone_and_conynhaela }
-			add_trait = purple_living_bone_and_conynhaela
-			character_event = { id = artifact.106 tooltip = EVTTOOLTIPartifact.106 }
-		}
-	}
-	option = {
-		name = EVTOPTBartifact.100
-	}
-}
-
-################################################
-# Duplicate artifacts when inheriting or confiscating them
-################################################
-# Already have Gwyhyr sword
-character_event = {
-	id = artifact.101
-	desc = EVTDESCartifact.101
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.101
-		wealth = 100
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.101
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = gwyhyr_sword }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = gwyhyr_sword }
-				is_close_relative = ROOT
-			}
-			add_trait = gwyhyr_sword
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-		}
-	}
-	option = { # Give it to marshal
-		name = EVTOPTBartifact.101
-		trigger = {
-			job_marshal = { NOT = { trait = gwyhyr_sword } }
-		}
-		job_marshal = {
-			if = {
-				limit = { NOT = { trait = gwyhyr_sword } }
-				add_trait = gwyhyr_sword
-				opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-			}
-		}
-	}
-}
-# Already have Nehalenia's Mirror
-character_event = {
-	id = artifact.102
-	desc = EVTDESCartifact.102
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.102
-		wealth = 100
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.102
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = nehalenias_mirror }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = nehalenias_mirror }
-				is_close_relative = ROOT
-			}
-			add_trait = nehalenias_mirror
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-		}
-	}
-	option = { # Give it to spouse
-		name = EVTOPTBartifact.102
-		trigger = {
-			spouse = { NOT = { trait = nehalenias_mirror } }
-		}
-		spouse = {
-			if = {
-				limit = { NOT = { trait = nehalenias_mirror } }
-				add_trait = nehalenias_mirror
-				opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-			}
-		}
-	}
-}
-# Already have Living Purple Bone
-character_event = {
-	id = artifact.103
-	desc = EVTDESCartifact.103
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.103
-		wealth = 50
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.103
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = purple_living_bone }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = purple_living_bone }
-				is_close_relative = ROOT
-			}
-			add_trait = purple_living_bone
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
-		}
-	}
-}
-# Getting both herbs when already have Living Purple Bone
-character_event = {
-	id = artifact.104
-	desc = EVTDESCartifact.104
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell Living Purple Bone
-		name = EVTOPTAartifact.104
-		wealth = 50
-		remove_trait = purple_living_bone
-	}
-	option = { # Give Living Purple Bone to relative
-		name = EVTOPTBartifact.104
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = purple_living_bone }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = purple_living_bone }
-				is_close_relative = ROOT
-			}
-			add_trait = purple_living_bone
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
-		}
-	}
-}
-# Already have Conynhaela
-character_event = {
-	id = artifact.105
-	desc = EVTDESCartifact.105
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.105
-		wealth = 50
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.105
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = conynhaela }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = conynhaela }
-				is_close_relative = ROOT
-			}
-			add_trait = conynhaela
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
-		}
-	}
-}
-# Getting both herbs when already have Conynhaela
-character_event = {
-	id = artifact.106
-	desc = EVTDESCartifact.106
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell Conynhaela
-		name = EVTOPTAartifact.106
-		wealth = 50
-		remove_trait = conynhaela
-	}
-	option = { # Give Conynhaela to relative
-		name = EVTOPTBartifact.106
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = conynhaela }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = conynhaela }
-				is_close_relative = ROOT
-			}
-			add_trait = conynhaela
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
-		}
-	}
-}
-# Already have Living Purple Bone and Conynhaela
-character_event = {
-	id = artifact.107
-	desc = EVTDESCartifact.107
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.107
-		wealth = 100
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.107
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = purple_living_bone_and_conynhaela }
-				is_close_relative = ROOT
-			}
-			add_trait = purple_living_bone_and_conynhaela
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-		}
-	}
-}
-# Already have Zefhar bow
-character_event = {
-	id = artifact.108
-	desc = EVTDESCartifact.108
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.108
-		wealth = 100
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.108
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = zefhar_bow }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = zefhar_bow }
-				is_close_relative = ROOT
-			}
-			add_trait = zefhar_bow
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-		}
-	}
-	option = { # Give it to marshal
-		name = EVTOPTBartifact.108
-		trigger = {
-			job_marshal = { NOT = { trait = zefhar_bow } }
-		}
-		job_marshal = {
-			if = {
-				limit = { NOT = { trait = zefhar_bow } }
-				add_trait = zefhar_bow
-				opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-			}
-		}
-	}
-}
-# Already have Seeing stone
-character_event = {
-	id = artifact.109
-	desc = EVTDESCartifact.109
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell it
-		name = EVTOPTAartifact.109
-		wealth = 100
-	}
-	option = { # Give it to relative
-		name = EVTOPTBartifact.109
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = seeing_stone }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = seeing_stone }
-				is_close_relative = ROOT
-			}
-			add_trait = seeing_stone
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-		}
-	}
-	option = { # Give it to spymaster
-		name = EVTOPTBartifact.109
-		trigger = {
-			job_spymaster = { NOT = { trait = seeing_stone } }
-		}
-		job_spymaster = {
-			if = {
-				limit = { NOT = { trait = seeing_stone } }
-				add_trait = seeing_stone
-				opinion = { modifier = opinion_very_grateful who = ROOT months = 60 }
-			}
-		}
-	}
-}
-# Getting Living Purple Bone when already have both herbs
-character_event = {
-	id = artifact.110
-	desc = EVTDESCartifact.110
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell Living Purple Bone
-		name = EVTOPTAartifact.110
-		wealth = 50
-		remove_trait = purple_living_bone
-	}
-	option = { # Give Living Purple Bone to relative
-		name = EVTOPTBartifact.110
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = purple_living_bone }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = purple_living_bone }
-				is_close_relative = ROOT
-			}
-			add_trait = purple_living_bone
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
-		}
-	}
-}
-# Getting Conynhaela when already have both herbs
-character_event = {
-	id = artifact.111
-	desc = EVTDESCartifact.111
-	picture = GFX_evt_throne_room
-	
-	is_triggered_only = yes
-	
-	option = { # Sell Conynhaela
-		name = EVTOPTAartifact.111
-		wealth = 50
-		remove_trait = conynhaela
-	}
-	option = { # Give Conynhaela to relative
-		name = EVTOPTBartifact.111
-		trigger = {
-			any_dynasty_member = {
-				NOT = { trait = conynhaela }
-				is_close_relative = ROOT
-			}
-		}
-		random_dynasty_member = {
-			limit = {
-				NOT = { trait = conynhaela }
-				is_close_relative = ROOT
-			}
-			add_trait = conynhaela
-			opinion = { modifier = opinion_very_grateful who = ROOT months = 30 }
-		}
-	}
-}
+# TODO - events for Raven's Armor, Seeing Stone and Nehalenia's Mirror
+# TODO - events for Sephirots
 
 ################################################
 # Gwyhyr swords
@@ -1374,13 +15,13 @@ character_event = {
 	ai = yes
 	
 	trigger = {
-		trait = gwyhyr_sword
+		has_artifact = gwyhyr_sword
 		NOT = { trait = master_warrior }
 		NOT = { trait = skilled_warrior }
 		NOT = { trait = trained_warrior }
 		liege = {
 			wealth = 100
-			NOT = { trait = gwyhyr_sword }
+			NOT = { has_artifact = gwyhyr_sword }
 		}
 	}
 	
@@ -1393,12 +34,12 @@ character_event = {
 			factor = 4
 			liege = {
 				OR = {
-					trait = sihil
-					trait = gveir
-					trait = jaskolka
-					trait = balmur
-					trait = loathen
-					trait = zefhar_bow
+					has_artifact = sihil
+					has_artifact = gveir
+					has_artifact = jaskolka
+					has_artifact = balmur
+					has_artifact = loathen
+					has_artifact = zefhar_bow
 				}
 			}
 		}
@@ -1423,12 +64,19 @@ character_event = {
 	
 	option = { # Buy
 		name = EVTOPTAartifact.1001
+		wealth = -100
 		FROM = {
 			wealth = 100
-			remove_trait = gwyhyr_sword
+			random_artifact = {
+				limit = {
+					artifact_type = gwyhyr_sword
+				}
+				transfer_artifact = {
+					from = FROM
+					to = ROOT
+				}
+			}
 		}
-		wealth = -100
-		add_trait = gwyhyr_sword
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 trait = proud }
@@ -1458,7 +106,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait = gwyhyr_sword }
+		NOT = { has_artifact = gwyhyr_sword }
 		wealth = 150
 	}
 	
@@ -1475,12 +123,12 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
-				trait = zefhar_bow
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
+				has_artifact = zefhar_bow
 			}
 		}
 	}
@@ -1488,7 +136,7 @@ character_event = {
 	option = { # Buy
 		name = EVTOPTAartifact.1002
 		wealth = -150
-		add_trait = gwyhyr_sword
+		add_artifact = gwyhyr_sword
 		hidden_tooltip = {
 			random = {
 				chance = 20
@@ -1526,7 +174,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1003
-		remove_trait = gwyhyr_sword
+		destroy_artifact = gwyhyr_sword
 		if = {
 			limit = { NOT = { trait = trusting} }
 			random = {
@@ -1548,7 +196,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait = gwyhyr_sword }
+		NOT = { has_artifact = gwyhyr_sword }
 	}
 	
 	mean_time_to_happen = {
@@ -1563,19 +211,19 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
-				trait = zefhar_bow
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
+				has_artifact = zefhar_bow
 			}
 		}
 	}
 	
 	option = {
 		name = EVTOPTAartifact.1004
-		add_trait = gwyhyr_sword
+		add_artifact = gwyhyr_sword
 	}
 }
 # Traveling knight with sword
@@ -1589,7 +237,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait = gwyhyr_sword }
+		NOT = { has_artifact = gwyhyr_sword }
 	}
 	
 	mean_time_to_happen = {
@@ -1598,12 +246,12 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
-				trait = zefhar_bow
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
+				has_artifact = zefhar_bow
 			}
 		}
 	}
@@ -1632,7 +280,7 @@ character_event = {
 	option = { # Take with force
 		name = EVTOPTBartifact.1005
 		custom_tooltip = { text = take_sword_by_force }
-		add_trait = gwyhyr_sword
+		add_artifact = gwyhyr_sword
 		if = {
 			limit = { NOT = { trait = greedy } }
 			random = {
@@ -1674,7 +322,7 @@ character_event = {
 	option = { # Perfect
 		name = EVTOPTAartifact.1006
 		wealth = -200
-		add_trait = gwyhyr_sword
+		add_artifact = gwyhyr_sword
 	}
 	option = { # No he asks too much
 		name = EVTOPTBartifact.1006
@@ -1697,28 +345,7 @@ character_event = {
 ################################################
 # Living Purple Bone and Conynhaela
 ################################################
-# If own both herbs make them one trait
-character_event = {
-	id = artifact.1010
-	desc = EVTDESCartifact.1010
-	picture = GFX_evt_library
-	
-	trigger = {
-		trait = purple_living_bone
-		trait = conynhaela
-	}
-	
-	mean_time_to_happen = {
-		days = 20
-	}
-	
-	option = {
-		name = EVTOPTAartifact.1010
-		remove_trait = purple_living_bone
-		remove_trait = conynhaela
-		add_trait = purple_living_bone_and_conynhaela
-	}
-}
+
 # Event when triggering decision to use the herbs
 character_event = {
 	id = artifact.1011
@@ -1741,7 +368,8 @@ character_event = {
 			limit = { trait = infirm }
 			remove_trait = infirm
 		}
-		remove_trait = purple_living_bone_and_conynhaela
+		destroy_artifact = purple_living_bone
+		destroy_artifact = conynhaela
 	}
 }
 # Finding one of the herbs
@@ -1753,9 +381,8 @@ character_event = {
 	only_rulers = yes
 	
 	trigger = {
-		NOT = {trait = purple_living_bone}
-		NOT = {trait = conynhaela}
-		NOT = {trait = purple_living_bone_and_conynhaela}
+		NOT = { has_artifact = purple_living_bone }
+		NOT = { has_artifact = conynhaela }
 		any_demesne_province = { terrain = dryad_forest }
 	}
 	
@@ -1773,15 +400,15 @@ character_event = {
 		random_list = {
 			20 = {
 				if = { 
-					limit = { NOT = { trait = purple_living_bone } }
-					add_trait = purple_living_bone
+					limit = { NOT = { has_artifact = purple_living_bone } }
+					add_artifact = purple_living_bone
 					hidden_tooltip = { character_event = { id = artifact.1013 } }
 				}
 			}
 			20 = {
 				if = { 
-					limit = { NOT = { trait = conynhaela } }
-					add_trait = conynhaela
+					limit = { NOT = { has_artifact = conynhaela } }
+					add_artifact = conynhaela
 					hidden_tooltip = { character_event = { id = artifact.1014 } }
 				}
 			}
@@ -1828,7 +455,7 @@ character_event = {
 	picture = GFX_evt_comet
 	
 	trigger = {
-		NOT = { brinsingamen = { always = yes } }
+		NOT = { has_global_flag = brinsingamen_exists }
 		religion = freya
 		OR = {
 			piety = 1000
@@ -1851,7 +478,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1020
-		add_trait = brinsingamen
+		add_artifact = brinsingamen
+		set_global_flag = brinsingamen_exists
 	}
 }
 # Brinsingamen disappears when heir inherits it
@@ -1873,7 +501,7 @@ character_event = {
 	picture = GFX_evt_comet
 	
 	trigger = {
-		trait = brinsingamen
+		has_artifact = brinsingamen
 		NOT = { religion = freya }
 	}
 	
@@ -1883,7 +511,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1022
-		remove_trait = brinsingamen
+		destroy_artifact = brinsingamen
+		clr_global_flag = brinsingamen_exists
 	}
 }
 
@@ -1901,7 +530,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait = zefhar_bow }
+		NOT = { has_artifact = zefhar_bow }
 		wealth = 150
 	}
 	
@@ -1918,12 +547,12 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
+				has_artifact = gwyhyr_sword
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
 			}
 		}
 	}
@@ -1931,7 +560,7 @@ character_event = {
 	option = { # Buy
 		name = EVTOPTAartifact.1030
 		wealth = -150
-		add_trait = zefhar_bow
+		add_artifact = zefhar_bow
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 trait = charitable }
@@ -1969,7 +598,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1031
-		remove_trait = zefhar_bow
+		destroy_artifact = zefhar_bow
 		if = {
 			limit = { NOT = { trait = trusting} }
 			random = {
@@ -1980,7 +609,7 @@ character_event = {
 		}
 	}
 }
-# A dead poacher in your foest with zephar bow had fallen prey to monsters
+# A dead poacher in your forest with zephar bow had fallen prey to monsters
 character_event = {
 	id = artifact.1032
 	desc = EVTDESCartifact.1032
@@ -1991,7 +620,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait = zefhar_bow }
+		NOT = { has_artifact = zefhar_bow }
 		wealth = 150
 	}
 	
@@ -2006,19 +635,19 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
+				has_artifact = gwyhyr_sword
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
 			}
 		}
 	}
 	
 	option = { # Take the bow
 		name = EVTOPTAartifact.1032
-		add_trait = zefhar_bow
+		add_artifact = zefhar_bow
 		piety = -30
 		ai_chance = {
 			factor = 1
@@ -2052,7 +681,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait = zefhar_bow }
+		NOT = { has_artifact = zefhar_bow }
 		OR = { 
 			trait = elf_race
 			trait = halfelf_race
@@ -2075,19 +704,19 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
+				has_artifact = gwyhyr_sword
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
 			}
 		}
 	}
 	
 	option = { # Take it
 		name = EVTOPTAartifact.1033
-		add_trait = zefhar_bow
+		add_artifact = zefhar_bow
 		ai_chance = {
 			factor = 1
 			modifier = { factor = 2 trait = hunter }
@@ -2121,7 +750,6 @@ character_event = {
 			religion = dana_meadbh
 			age = 250
 			trait = elf_race
-			trait = zefhar_bow
 			trait = hunter
 		}
 		new_character = {
@@ -2132,6 +760,7 @@ character_event = {
 				50 = { add_trait = trained_warrior }
 				50 = { add_trait = skilled_warrior }
 			}
+			add_artifact = zefhar_bow
 		}
 		ai_chance = {
 			factor = 1
@@ -2145,7 +774,7 @@ character_event = {
 ################################################
 # Gveir
 ################################################
-# Rumors about Gveir somwhere in Korath desert
+# Rumors about Gveir somewhere in Korath desert
 character_event = {
 	id = artifact.1040
 	desc = EVTDESCartifact.1040
@@ -2156,7 +785,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { gveir = { always = yes } }
+		NOT = { has_global_flag = gveir_exists }
 		any_demesne_province = {
 			OR = {
 				province_id = 368 # Mijara
@@ -2178,12 +807,12 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = jaskolka
-				trait = balmur
-				trait = loathen
-				trait = zefhar_bow
+				has_artifact = gwyhyr_sword
+				has_artifact = sihil
+				has_artifact = jaskolka
+				has_artifact = balmur
+				has_artifact = loathen
+				has_artifact = zefhar_bow
 			}
 		}
 	}
@@ -2224,11 +853,13 @@ character_event = {
 	
 	option = { # It beautiful sword
 		name = EVTOPTAartifact.1041
-		add_trait = gveir
+		add_artifact = gveir
+		set_global_flag = gveir_exists
 	}
 	option = { # It's even better than tought, there will be extra rewards
 		name = EVTOPTBartifact.1041
-		add_trait = gveir
+		add_artifact = gveir
+		set_global_flag = gveir_exists
 		wealth = -20
 		if = {
 			limit = { NOT = { trait = charitable } }
@@ -2268,8 +899,8 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { balmur = { always = yes } }
-		NOT = {
+		NOT = { has_global_flag = balmur_exists }
+		NOR = {
 			has_global_flag = balmur_sword_in_stone
 			has_global_flag = balmur_sword_from_lake
 		}
@@ -2278,7 +909,7 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 40000
-		modifier = { factor = 2 trait = gwyhyr_sword }
+		modifier = { factor = 2 has_artifact = gwyhyr_sword }
 		modifier = { factor = 0.8 prestige = 200 }
 		modifier = { factor = 0.8 prestige = 400 }
 		modifier = { factor = 0.8 prestige = 600 }
@@ -2289,12 +920,12 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = loathen
-				trait = zefhar_bow
+				has_artifact = gwyhyr_sword
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = loathen
+				has_artifact = zefhar_bow
 			}
 		}
 	}
@@ -2305,7 +936,7 @@ character_event = {
 		character_event = { id = artifact.1051 days = 300 random = 100 }
 	}
 }
-# Sword in stone suddently appears in your courtyard
+# Sword in stone suddenly appears in your courtyard
 character_event = {
 	id = artifact.1051
 	desc = EVTDESCartifact.1051
@@ -2326,13 +957,15 @@ character_event = {
 			hidden_tooltip = {
 				if = {
 					limit = { prestige = 500 }
-					add_trait = balmur
+					add_artifact = balmur
+					set_global_flag = balmur_exists
 				}
 				if = {
 					limit = { NOT = { prestige = 500 } }
 					random_list = {
 						50 = {
-							add_trait = balmur
+							add_artifact = balmur
+							set_global_flag = balmur_exists
 							character_event = { id = artifact.1052 days = 3 }
 						}
 						50 = {
@@ -2351,13 +984,15 @@ character_event = {
 			hidden_tooltip = {
 				if = {
 					limit = { prestige = 500 }
-					add_trait = balmur
+					add_artifact = balmur
+					set_global_flag = balmur_exists
 				}
 				if = {
 					limit = { NOT = { prestige = 500 } }
 					random_list = {
 						80 = {
-							add_trait = balmur
+							add_artifact = balmur
+							set_global_flag = balmur_exists
 							character_event = { id = artifact.1052 }
 						}
 						20 = {
@@ -2387,7 +1022,8 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1052
-		add_trait = balmur
+		add_artifact = balmur
+		set_global_flag = balmur_exists
 	}
 }
 # Didn't pull Balmur from stone
@@ -2402,7 +1038,7 @@ character_event = {
 		name = EVTOPTAartifact.1053
 	}
 }
-# Stone with sword dissapear
+# Stone with sword disappear
 character_event = {
 	id = artifact.1054
 	desc = EVTDESCartifact.1054
@@ -2425,8 +1061,8 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { balmur = { always = yes } }
-		NOT = {
+		NOT = { has_global_flag = balmur_exists }
+		NOR = {
 			has_global_flag = balmur_sword_in_stone
 			has_global_flag = balmur_sword_from_lake
 		}
@@ -2435,7 +1071,7 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 20000
-		modifier = { factor = 2 trait = gwyhyr_sword }
+		modifier = { factor = 2 has_artifact = gwyhyr_sword }
 		modifier = { factor = 0.8 prestige = 750 }
 		modifier = { factor = 0.8 prestige = 875 }
 		modifier = { factor = 0.8 prestige = 1000 }
@@ -2445,12 +1081,12 @@ character_event = {
 		modifier = {
 			factor = 4
 			OR = {
-				trait = gwyhyr_sword
-				trait = sihil
-				trait = gveir
-				trait = jaskolka
-				trait = loathen
-				trait = zefhar_bow
+				has_artifact = gwyhyr_sword
+				has_artifact = sihil
+				has_artifact = gveir
+				has_artifact = jaskolka
+				has_artifact = loathen
+				has_artifact = zefhar_bow
 			}
 		}
 	}
@@ -2472,7 +1108,8 @@ character_event = {
 	option = {
 		name = EVTOPTAartifact.1056
 		clr_global_flag = balmur_sword_from_lake
-		add_trait = balmur
+		add_artifact = balmur
+		set_global_flag = balmur_exists
 	}
 }
 
@@ -2490,7 +1127,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { ravens_armor = { always = yes } }
+		NOT = { has_global_flag = ravens_armor_exists }
 		wealth = 50
 		NOT = { has_global_flag = repairing_ravens_armor }
 		location = { region = world_the_north }
@@ -2531,7 +1168,8 @@ character_event = {
 	option = {
 		name = EVTOPTAartifact.1061
 		clr_global_flag = repairing_ravens_armor
-		add_trait = ravens_armor
+		add_artifact = ravens_armor
+		set_global_flag = ravens_armor_exists
 	}
 }
 # Blacksmith couldn't repair Raven's armor
@@ -2594,7 +1232,8 @@ character_event = {
 	option = {
 		name = EVTOPTAartifact.1063
 		clr_global_flag = repairing_ravens_armor
-		add_trait = ravens_armor
+		add_artifact = ravens_armor
+		set_global_flag = ravens_armor_exists
 	}
 }
 # Second blacksmith couldn't repair Raven's armor
@@ -2625,7 +1264,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait =  nehalenias_mirror }
+		NOT = { has_artifact =  nehalenias_mirror }
 		wealth = 100
 	}
 	
@@ -2642,7 +1281,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1070
-		add_trait = nehalenias_mirror
+		add_artifact = nehalenias_mirror
 		wealth = -100
 	}
 	option = {
@@ -2665,7 +1304,7 @@ character_event = {
 	capable_only = yes
 	
 	trigger = {
-		NOT = { trait =  seeing_stone }
+		NOT = { has_artifact =  seeing_stone }
 		wealth = 100
 	}
 	
@@ -2682,7 +1321,7 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAartifact.1080
-		add_trait = seeing_stone
+		add_artifact = seeing_stone
 		wealth = -100
 	}
 	option = {
@@ -2692,13 +1331,13 @@ character_event = {
 }
 
 ################################################
-# Sephirah - ways to get somewhat similar to how they are goten in game
+# Sephirah - ways to get somewhat similar to how they are gotten in game
 ################################################
 # Chocc'mah - Gotten if alchemist
 # Ghe'vrath, 'Oth, Veen'ah - Gotten if Melitele follower
 # Keth'aar - Gotten if own a city
 # Kezath - Gotten if own a province with swamp terrain
-# Maal'kad - Gotten if ahve monster infestation
+# Maal'kad - Gotten if have monster infestation
 # Neh'tza - Gotten anywhere
 # Tipperath - Gotten if merchant
 # Y'esath - Gotten if own a province with mountain terrain

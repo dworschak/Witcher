@@ -46,6 +46,14 @@ NDefines.NMilitary.BATTLE_WARSCORE_WORTH = 120						-- Warscore from battles are
 NDefines.NMilitary.BATTLE_WARSCORE_DEFENDER_MULTIPLIER = 1.8		-- Defenders wins are multiplied with this value, which also means they get more prestige for a win
 NDefines.NMilitary.REINFORCE_RATE = 0.04							-- Reinforce rate per year
 NDefines.NMilitary.DAYS_UNTIL_HOLDER_GETS_WARSCORE = 180			-- Days until the war score of the title owner starts increasing, if he controls the Holdings
+--Coalitions: prevent wilderness from being able to join
+NDefines.NDiplomacy.START_COALITION_INTERACTION_MONEY = 0
+NDefines.NDiplomacy.START_COALITION_INTERACTION_PIETY = 0
+NDefines.NDiplomacy.START_COALITION_INTERACTION_PRESTIGE = 1
+NDefines.NDiplomacy.START_COALITION_INTERACTION_THRESHOLD_FOR_NO = 0
+NDefines.NDiplomacy.START_COALITION_INTERACTION_THRESHOLD_FOR_YES = 0
+NDefines.NDiplomacy.START_COALITION_INTERACTION_MUST_HAVE_COST = 1	-- Is having prestige/piety >= cost required for this action?
+NDefines.NDiplomacy.START_COALITION_INTERACTION_ENABLED = 1			-- Should this action be used at all?	
 -- Dates
 NDefines.NTechnology.DONT_EXECUTE_TECH_BEFORE = 1200 				-- Set this to your earliest starting year
 NDefines.NCharacter.EARLY_PORTRAIT_AND_UNIT_BEFORE_YEAR = 950		-- Before this date, early versions of Units and Portraits will be used if available
