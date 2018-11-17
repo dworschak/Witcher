@@ -13,6 +13,9 @@ tribal_governments = {
 			theocracy_government
 			theocratic_feudal_government
 		}
+		accepts_liege_governments_culture_and_religion = { 	# Tribals have no opinion penalty towards their liege if of the same culture and religion
+			order_government
+		}
 		vassal_call_to_arms = {
 			tribal_government
 		}
@@ -29,17 +32,14 @@ tribal_governments = {
 				is_feudal = no
 				has_game_started = no
 			}
-			NAND = {
-				controls_religion = yes
-				NOT = {
-					primary_title = {
-						is_landless_type_title = no
-					}
-				}
+			OR = {
+				controls_religion = no
+				has_religion_feature = religion_temporal_head
 			}
 			is_patrician = no
 			mercenary = no
 			holy_order = no
+			NOT = { is_government_potential = order_government }
 		}
 		
 		color = { 92 31 23 }
