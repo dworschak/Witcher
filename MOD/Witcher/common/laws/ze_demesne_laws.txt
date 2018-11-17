@@ -15,10 +15,19 @@ laws = {
 		group = status_of_women
 		allow = {
 			has_law = status_of_women_1
+			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+
+			}
 		}
 		potential = {
 			has_dlc = "Zeus"
+			holy_order = no
 			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+
 				has_game_rule = {
 					name = gender
 					value = historical
@@ -122,10 +131,21 @@ laws = {
 				has_law = status_of_women_0
 				has_law = status_of_women_2
 			}
+			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+				holder_scope = { has_religion_feature = religion_feature_bon }
+				holder_scope = { has_religion_feature = religion_patriarchal }
+			}
 		}
 		potential = {
 			has_dlc = "Zeus"
+			holy_order = no
 			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+				holder_scope = { has_religion_feature = religion_feature_bon }
+				holder_scope = { has_religion_feature = religion_patriarchal }
 				has_game_rule = {
 					name = gender
 					value = historical
@@ -220,10 +240,21 @@ laws = {
 				has_law = status_of_women_1
 				has_law = status_of_women_3
 			}
+			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+				holder_scope = { has_religion_feature = religion_feature_bon }
+				holder_scope = { has_religion_feature = religion_patriarchal }
+			}
 		}
 		potential = {
 			has_dlc = "Zeus"
+			holy_order = no
 			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+				holder_scope = { has_religion_feature = religion_feature_bon }
+				holder_scope = { has_religion_feature = religion_patriarchal }
 				has_game_rule = {
 					name = gender
 					value = historical
@@ -311,10 +342,21 @@ laws = {
 				has_law = status_of_women_2
 				has_law = status_of_women_4
 			}
+			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+				holder_scope = { has_religion_feature = religion_feature_bon }
+				holder_scope = { has_religion_feature = religion_patriarchal }
+			}
 		}
 		potential = {
 			has_dlc = "Zeus"
+			holy_order = no
 			NOR = {
+				holder_scope = { has_religion_feature = religion_matriarchal }
+				holder_scope = { has_religion_feature = religion_equal }
+				holder_scope = { has_religion_feature = religion_feature_bon }
+				holder_scope = { has_religion_feature = religion_patriarchal }
 				has_game_rule = {
 					name = gender
 					value = historical
@@ -402,10 +444,15 @@ laws = {
 		group = status_of_women
 		allow = {
 			has_law = status_of_women_3
+			NOR = {
+				holder_scope = { has_religion_feature = religion_patriarchal }
+			}
 		}
 		potential = {
 			has_dlc = "Zeus"
+			holy_order = no
 			NOR = {
+				holder_scope = { has_religion_feature = religion_patriarchal }
 				has_game_rule = {
 					name = gender
 					value = historical
@@ -564,10 +611,12 @@ laws = {
 		group = revoke_title_law
 		allow = {
 			NOT = { has_law = revoke_title_law_0 }
+			NOT = { holder_scope = { has_religion_feature = religion_cosmopolitan } }
 		}
 		potential = {
 			has_dlc = "Zeus"
 			NOT = { holder_scope = { is_nomadic = yes } }
+			NOT = { holder_scope = { has_religion_feature = religion_cosmopolitan } }
 		}
 		revoke_allowed = { always = no }
 		ai_will_do = {
@@ -600,14 +649,23 @@ laws = {
 		}
 		potential = {
 			has_dlc = "Zeus"
+			NOT = { holder_scope = { is_theocracy = yes } }
+			NOT = { holder_scope = { is_tribal = yes } }
 			NOT = { holder_scope = { is_nomadic = yes } }
+			NOT = { holder_scope = { is_republic = yes } }
+			NOT = { holder_scope = { is_theocracy = yes } }
 		}
 		ai_will_do = { factor = 0 }
 		ai_will_revoke = { factor = 0 }
 		pass_effect = { }
 		effect = {
-			custom_tooltip = {
-				text = TOOLTIP_ze_administration_laws_0
+			if = {
+				limit = {
+					has_law = ze_administration_laws_1 
+				}
+				custom_tooltip = {
+					text = TOOLTIP_ze_administration_laws_0
+				}
 			}
 			if = {
 				limit = { 
@@ -630,11 +688,15 @@ laws = {
 	ze_administration_laws_1 = {
 		group = ze_administration_laws
 		allow = {
-			
+
 		}
 		potential = {
 			has_dlc = "Zeus"
+			NOT = { holder_scope = { is_theocracy = yes } }
+			NOT = { holder_scope = { is_tribal = yes } }
 			NOT = { holder_scope = { is_nomadic = yes } }
+			NOT = { holder_scope = { is_republic = yes } }
+			NOT = { holder_scope = { is_theocracy = yes } }
 		}
 		ai_will_do = {
 			factor = 1
@@ -671,6 +733,7 @@ laws = {
 			hidden_tooltip = {
 				revoke_law = ze_administration_laws_0
 				revoke_law = ze_administration_laws_2
+				#revoke_law = ze_administration_laws_3
 			}
 		}
 	}
@@ -678,7 +741,9 @@ laws = {
 		group = ze_administration_laws
 		allow = {
 			tier = EMPEROR
-			NOT = { has_law = ze_administration_laws_0 }
+			NOT = { 
+				has_law = ze_administration_laws_0
+			}
 			has_law = law_voting_power_0
 			has_law = war_voting_power_0
 			has_law = revoke_title_voting_power_0
@@ -691,7 +756,11 @@ laws = {
 		}
 		potential = {
 			has_dlc = "Zeus"
+			NOT = { holder_scope = { is_theocracy = yes } }
+			NOT = { holder_scope = { is_tribal = yes } }
 			NOT = { holder_scope = { is_nomadic = yes } }
+			NOT = { holder_scope = { is_republic = yes } }
+			NOT = { holder_scope = { is_theocracy = yes } }
 		}
 		ai_will_do = {
 			factor = 10
@@ -721,6 +790,7 @@ laws = {
 			hidden_tooltip = {
 				revoke_law = ze_administration_laws_0
 				revoke_law = ze_administration_laws_1
+				#revoke_law = ze_administration_laws_3
 			}
 		}
 		
