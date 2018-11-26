@@ -38,11 +38,46 @@ character_event = {
 				FROM = {
 					is_dying = no
 				}
+				ROOT = {
+					NOR = {
+						trait = crusader_king
+						trait = crusader_queen
+						has_character_flag = beneficiary_check_potential_player_character
+					}
+				}
 			}
 			chronicle = {
 				entry = CHRONICLE_PLAYER_INHERITANCE_LANDLESS
 				portrait = [Root.GetID]
 				picture = GFX_evt_emissary
+			}
+		}
+		else_if = {
+			limit = {
+				FROM = {
+					is_dying = no
+				}
+				ROOT = {
+					OR = {
+						trait = crusader_king
+						trait = crusader_queen
+					}
+				}
+			}
+			chronicle = {
+				entry = CHRONICLE_BECAME_RULER_OF_CRUSADER_KINGDOM
+				portrait = [Root.GetID]
+				picture = GFX_evt_western_knights_byzantine
+			}
+		}
+		else_if = {
+			limit = {
+				has_character_flag = beneficiary_check_potential_player_character
+			}
+			chronicle = {
+				entry = CHRONICLE_BECAME_LORD_OF_CRUSADER_KINGDOM
+				portrait = [Root.GetID]
+				picture = GFX_evt_western_knights_byzantine
 			}
 		}
 		if = {
@@ -436,7 +471,10 @@ character_event = {
 							religion = PREV
 						}
 					}
-					NOT = { character = FROM }
+					OR = {
+						NOT = { character = FROM }
+						FROM = { uses_new_crusade = yes }
+					}
 				}
 				chronicle = {
 					entry = CHRONICLE_CRUSADE_WON
@@ -445,7 +483,10 @@ character_event = {
 			}
 			FROM = {
 				if = {
-					limit = { ai = no }
+					limit = { 
+						ai = no 
+						uses_new_crusade = no
+					}
 					chronicle = {
 						entry = CHRONICLE_CRUSADE_WON_AND_I_GOT_THE_TITLE
 						portrait = [From.GetID]
