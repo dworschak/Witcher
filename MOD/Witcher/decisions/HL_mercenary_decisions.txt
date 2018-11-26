@@ -20,20 +20,39 @@ targetted_decisions = {
 		only_playable = yes
 		filter = home_court
 		ai_target_filter = home_court
+		ai_check_interval = 36
 		
 		from_potential = {
 			is_playable = yes
-			has_dlc = "Horse Lords"
+			OR = {
+				has_dlc = "Horse Lords"
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_mercenary_traditions
+				}
+			}
 			is_adult = yes
 			prisoner = no
 			NOT = { trait = incapable }
 			OR = {
 				government = nomadic_government
 				has_character_modifier = mercenary_traditions
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_mercenary_traditions
+				}
 			}
 		}
 		potential = {
-			is_female = no
+			OR = {
+				AND = { 
+					is_female = no 
+					FROM = { NOT = { has_religion_feature = religion_matriarchal } }
+				}
+				AND = { 
+					is_female = yes 
+					FROM = { has_religion_feature = religion_matriarchal }
+				}
+				FROM = { primary_title = { has_law = status_of_women_4 } }
+			}
 			mercenary = no
 			dynasty = FROM
 			OR = {
@@ -74,6 +93,9 @@ targetted_decisions = {
 					government = nomadic_government
 				}
 				has_character_modifier = mercenary_traditions
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_mercenary_traditions
+				}
 			}
 		}
 		effect = {
@@ -134,7 +156,7 @@ targetted_decisions = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
-				factor = 0.1
+				factor = 0.5
 			}
 
 			modifier = {
@@ -226,14 +248,17 @@ targetted_decisions = {
 		only_playable = yes
 		filter = dynasty
 		ai_target_filter = dynasty
+		ai_check_interval = 36
 		
 		from_potential = {
 			is_playable = yes
 			is_landed = yes
-			has_dlc = "Horse Lords"
 			OR = {
 				government = nomadic_government
 				has_character_modifier = mercenary_traditions
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_mercenary_traditions
+				}
 			}
 		}
 		potential = {
@@ -275,7 +300,7 @@ targetted_decisions = {
 			factor = 1
 			
 			modifier = {
-				factor = 0.01
+				factor = 0.1
 			}
 
 			modifier = {
@@ -344,11 +369,17 @@ targetted_decisions = {
 decisions = {
 	increase_mercenary_size = {
 		only_playable = yes
+		ai_check_interval = 18
 		potential = {
 			is_playable = yes
 			prisoner = no
 			wealth = 25
-			has_dlc = "Horse Lords"
+			OR = {
+				has_dlc = "Horse Lords"
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_mercenary_traditions
+				}
+			}
 			primary_title = {
 				mercenary = yes
 				adventurer = yes
@@ -357,6 +388,9 @@ decisions = {
 					OR = {
 						government = nomadic_government
 						has_character_modifier = mercenary_traditions
+						any_owned_bloodline = {
+							has_bloodline_flag = bloodline_mercenary_traditions
+						}
 					}
 				}
 			}
@@ -372,7 +406,7 @@ decisions = {
 				band_creator = {
 					if = {
 						limit = { is_alive = yes }
-						character_event = { id = HL.10700 }
+						character_event = { id = 10700 }
 					}
 				}
 			}
@@ -384,7 +418,7 @@ decisions = {
 			factor = 1
 
 			modifier = {
-				factor = 0.025
+				factor = 0.25
 				primary_title = {
 					band_creator = {
 						is_alive = yes
@@ -417,28 +451,13 @@ decisions = {
 				factor = 2
 				wealth = 400
 			}
-
-			modifier = {
-				factor = 3
-				wealth = 800
-			}
-
-			modifier = {
-				factor = 4
-				wealth = 1200
-			}
-
-			modifier = {
-				factor = 5
-				wealth = 1600
-			}
 		}
 	}
 
 	carousing_with_the_men = {
-		only_rulers = yes
+		only_playable = yes
+		ai_check_interval = 10
 		potential = {
-			has_dlc = "Horse Lords"
 			is_ruler = yes
 			has_character_flag = is_mercenary_leader
 			primary_title = {
@@ -449,6 +468,9 @@ decisions = {
 					OR = {
 						government = nomadic_government
 						has_character_modifier = mercenary_traditions
+						any_owned_bloodline = {
+							has_bloodline_flag = bloodline_mercenary_traditions
+						}
 					}
 				}
 			}
@@ -477,7 +499,7 @@ decisions = {
 				}
 
 				band_creator = {
-					character_event = { id = HL.10701 }
+					character_event = { id = 10701 }
 				}
 			}
 		}
@@ -488,7 +510,7 @@ decisions = {
 			factor = 1
 
 			modifier = {
-				factor = 0.015
+				factor = 0.15
 			}
 
 			modifier = {

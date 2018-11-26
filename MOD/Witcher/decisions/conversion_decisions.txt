@@ -5,6 +5,7 @@ targetted_decisions = {
 		
 		filter = self
 		ai_target_filter = self
+		ai = no
 		
 		potential = {
 			NOT = { culture = wilderness }
@@ -82,6 +83,7 @@ targetted_decisions = {
 		
 		filter = liege
 		ai_target_filter = liege
+		ai_check_interval = 60
 		
 		from_potential = {
 			ai = no
@@ -132,6 +134,7 @@ targetted_decisions = {
 		
 		filter = liege
 		ai_target_filter = liege
+		ai_check_interval = 60
 		
 		from_potential = {
 			is_playable = yes
@@ -163,6 +166,7 @@ targetted_decisions = {
 		
 		filter = self
 		ai_target_filter = self
+		ai_check_interval = 60
 		
 		potential = {
 			NOT = { culture = wilderness }
@@ -241,6 +245,7 @@ targetted_decisions = {
 	
 	convert_to_local_culture = { # only humans with human culture capital and halves with either human or their race culture capital
 		only_playable = yes
+		ai_check_interval = 24
 		
 		filter = self
 		ai_target_filter = self
@@ -347,7 +352,7 @@ targetted_decisions = {
 		ai_will_do = {
 			factor = 1
 			modifier = {
-				factor = 0.01
+				factor = 0.25
 			}
 			modifier = {
 				factor = 0
@@ -378,6 +383,7 @@ targetted_decisions = {
 		
 		filter = self
 		ai_target_filter = self
+		ai = no
 		
 		potential = {
 			NOT = { culture = wilderness }
@@ -437,13 +443,13 @@ targetted_decisions = {
 				AND = {
 					prestige = 500
 					capital_scope = {
-						religion_group = ROOT
+						true_religion_group = ROOT
 					}
 				}
 				AND = {
 					prestige = 1000
 					capital_scope = {
-						NOT = { religion_group = ROOT }
+						NOT = { true_religion_group = ROOT }
 					}
 				}
 			}
@@ -452,7 +458,7 @@ targetted_decisions = {
 			if = {
 				limit = {
 					capital_scope = {
-						NOT = { religion_group = ROOT }
+						NOT = { true_religion_group = ROOT }
 					}
 				}
 				prestige = -1000
@@ -460,7 +466,7 @@ targetted_decisions = {
 			if = {
 				limit = {
 					capital_scope = {
-						religion_group = ROOT
+						true_religion_group = ROOT
 					}
 				}
 				prestige = -500
@@ -474,6 +480,12 @@ targetted_decisions = {
 			
 			capital_scope = {
 				reverse_religion = ROOT
+			}
+			custom_tooltip = { text = local_religion_conversion_tooltip }
+			hidden_tooltip = {
+				capital_scope = {
+					reverse_religion = ROOT
+				}
 			}
 			hidden_tooltip = {
 				religion_authority = {
@@ -497,9 +509,9 @@ targetted_decisions = {
 		
 		filter = self
 		ai_target_filter = self
+		ai = no
 		
 		potential = {
-			ai = no
 			is_playable = yes
 			independent = yes
 			controls_religion = no
@@ -583,6 +595,7 @@ targetted_decisions = {
 		only_playable = yes
 		filter = home_court
 		ai_target_filter = home_court
+		ai_check_interval = 60
 	
 		from_potential = {
 			ai = no

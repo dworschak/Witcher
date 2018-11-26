@@ -19,19 +19,11 @@ decisions = {
 				is_nomadic = yes
 			}
 			prisoner = no
-			NOT = {
+			NOR = {
 				has_character_modifier = holding_large_feast
-			}
-			NOT = {
 				has_character_modifier = large_feast_timer
-			}
-			NOT = {
 				has_character_modifier = fabulous_feast
-			}
-			NOT = {
 				has_character_flag = guest_feast_started
-			}
-			NOT = {
 				liege = {
 					has_character_modifier = holding_large_feast
 				}
@@ -124,13 +116,13 @@ decisions = {
 	summer_fair = {
 		only_playable = yes
 		ai_check_interval = 3
+
 		potential = {
 			NOT = { # Only humans and dwarfs
 				culture = wilderness
 				culture = aen_seidhe
 				culture = halfling
 				culture = gnomish
-				culture = dryad
 			}
 			is_playable = yes
 			prisoner = no
@@ -241,10 +233,11 @@ decisions = {
 	hold_grand_hunt = {
 		only_playable = yes
 		ai_check_interval = 2
+
 		potential = {
 			is_ruler = yes
 			NOT = { culture = wilderness }
-			is_ruler = yes
+
 			age = 15
 			is_female = no
 			prisoner = no
@@ -359,6 +352,9 @@ decisions = {
 			}
 			NOT = {	has_character_flag = commissioned_runestone }
 			NOT = { year = 1150 }
+			NOT = {
+				has_alternate_start_parameter = { key = religion_names value = random }
+			}
 		}
 		allow = {
 			wealth = 100
@@ -434,20 +430,28 @@ decisions = {
 				remove_character_modifier = follower_of_morana
 			}
 			if = {
-				limit = { has_character_modifier = follower_of_yemoja }
-				remove_character_modifier = follower_of_yemoja
+				limit = { has_character_modifier = follower_of_ayyur }
+				remove_character_modifier = follower_of_ayyur
 			}
 			if = {
-				limit = { has_character_modifier = follower_of_ekwensu }
-				remove_character_modifier = follower_of_ekwensu
+				limit = { has_character_modifier = follower_of_anansi }
+				remove_character_modifier = follower_of_anansi
 			}
 			if = {
-				limit = { has_character_modifier = follower_of_orunmila }
-				remove_character_modifier = follower_of_orunmila
+				limit = { has_character_modifier = follower_of_dan }
+				remove_character_modifier = follower_of_dan
 			}
 			if = {
-				limit = { has_character_modifier = follower_of_shango }
-				remove_character_modifier = follower_of_shango
+				limit = { has_character_modifier = follower_of_bida }
+				remove_character_modifier = follower_of_bida
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_tsumburbura }
+				remove_character_modifier = follower_of_tsumburbura
+			}
+			if = {
+				limit = { has_character_modifier = follower_of_dongo }
+				remove_character_modifier = follower_of_dongo
 			}
 			if = {
 				limit = { has_character_modifier = follower_of_ukko }
@@ -569,7 +573,7 @@ decisions = {
 		effect = {
 			custom_tooltip = { text = sky_burial_custom_tooltip }
 			hidden_tooltip = {
-				character_event = { id = HL.8005 }
+				character_event = { id = HLF.8005 }
 				clr_character_flag = sky_burial
 				set_character_flag = performed_sky_burial
 			}
@@ -618,6 +622,7 @@ decisions = {
 			}
 		}
 	}
+	
 	destroy_artifact = {
 		only_playable = yes
 		ai = no
@@ -633,11 +638,35 @@ decisions = {
 			FROM = {
 				show_scope_change = no
 				is_indestructible = no 
+				custom_tooltip = { text = tooltip_considering_artifact_donation NOT = { has_artifact_flag = flag_considering_donation } } 
 			}
 		}
 		effect = {
 			FROM = {
 				destroy_artifact = yes
+			}
+		}
+	}
+	rename_artifact = {
+		only_playable = yes
+		ai = no
+		hide_in_decisions_list = yes
+		potential = {
+			has_dlc = "Holy Fury"
+			FROM = {
+				owner = {
+					character = ROOT
+				}
+			}
+		}
+		allow = {
+		}
+		effect = {
+			FROM = {
+				prompt_name = {
+					player = ROOT
+					type = RENAME_ARTIFACT_MESSAGE
+				}
 			}
 		}
 	}
