@@ -715,6 +715,8 @@ narrative_event = {
 			random = {
 				chance = 30
 				add_trait = temperate
+			lose_weight_small_effect = yes
+			weight_trait_check_effect = yes
 				hidden_tooltip = {
 					character_event = {
 						id = 38276 #Notify Temperate
@@ -814,6 +816,7 @@ narrative_event = {
 			}
 			random_consort = {
 				limit = {
+					NOT = { character = ROOT }
 					at_location = ROOT
 					NOT = { trait = incapable }
 				}
@@ -1322,7 +1325,10 @@ character_event = {
 			hidden_tooltip = {
 				if = {
 					limit = {
-						religion = bon
+						OR = { 
+							religion = bon
+							religion = bon_reformed
+						}
 						ROOT = { ai = no }
 					}
 					ROOT = { set_character_flag = achievement_bon_appetit }
@@ -1835,22 +1841,30 @@ character_event = {
 	trigger = {
 		has_character_modifier = wolf_blood
 		has_character_flag = wolf_blood_inherited
-		NOT = { trait = ugly }
+		NOT = { trait = uncouth }
 	}
 	
 	option = {
 		name = EVTOPTA_HL_1620
 		trigger = {
-			NOT = { trait = fair }
+			NOT = { has_fair_trait_trigger = yes }
 		}
-		add_trait = ugly
+		add_trait = uncouth
 	}
 	option = {
 		name = EVTOPTB_HL_1620 # No longer fair I am!
 		trigger = {
-			trait = fair
+			has_fair_trait_trigger = yes
 		}
-		add_trait = ugly
+		if = { 
+			limit = { trait = fair }
+			remove_trait = fair
+		}
+		if = { 
+			limit = { trait = groomed }
+			remove_trait = groomed
+		}
+		add_trait = uncouth
 	}
 }
 
