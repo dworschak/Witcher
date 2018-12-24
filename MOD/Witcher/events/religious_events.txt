@@ -683,7 +683,9 @@ character_event = {
 	}
 }
 
-
+########################################
+# Formation of the Orders
+########################################
 ########################################################################
 #Religious Head does not like it when you have heathens in your employ
 ########################################################################
@@ -865,7 +867,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA39243" 
+		name = "GLORY_TO_HIGHGOD" 
 		prestige = 5
 	}
 }
@@ -1088,7 +1090,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA39262" 
+		name = "GLORY_TO_HIGHGOD" 
 		prestige = 10
 	}
 }
@@ -1103,7 +1105,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA39263" 
+		name = "GLORY_TO_HIGHGOD" 
 		prestige = 5
 	}
 }
@@ -1154,7 +1156,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA39251"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			reverse_opinion = { who = FROM value = 75 }
 		}
@@ -1194,7 +1196,7 @@ character_event = {
 #		clr_character_flag  = ask_for_indulgence	
 	}
 	option = {
-		name = "EVTOPTA39251"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			NOT = { reverse_opinion = { who = FROM value = 75 } }
 			reverse_opinion = { who = FROM value = 0 }
@@ -1236,7 +1238,7 @@ character_event = {
 #		clr_character_flag  = ask_for_indulgence	
 	}
 	option = {
-		name = "EVTOPTA39251"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			NOT = { reverse_opinion = { who = FROM value = 0 } }
 			reverse_opinion = { who = FROM value = -75 }
@@ -1279,7 +1281,7 @@ character_event = {
 #		clr_character_flag  = ask_for_indulgence	
 	}
 	option = {
-		name = "EVTOPTA39251"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			NOT = { reverse_opinion = { who = FROM value = -75 } }
 		}
@@ -1361,7 +1363,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	option = {
-		name = "EVTOPTA39253"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			reverse_opinion = { who = FROM value = 75 }
 		}
@@ -1385,7 +1387,7 @@ character_event = {
 		clr_character_flag  = ask_for_repentance	
 	}
 	option = {
-		name = "EVTOPTA39253"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			NOT = { reverse_opinion = { who = FROM value = 75 } }
 			reverse_opinion = { who = FROM value = 0 }
@@ -1410,7 +1412,7 @@ character_event = {
 		clr_character_flag  = ask_for_repentance	
 	}
 	option = {
-		name = "EVTOPTA39253"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			NOT = { reverse_opinion = { who = FROM value = 0 } }
 			reverse_opinion = { who = FROM value = -75 }
@@ -1435,7 +1437,7 @@ character_event = {
 		clr_character_flag  = ask_for_repentance	
 	}
 	option = {
-		name = "EVTOPTA39253"
+		name = "GLORY_TO_HIGHGOD"
 		trigger = {
 			NOT = { reverse_opinion = { who = FROM value = -75 } }
 		}
@@ -1776,6 +1778,7 @@ character_event = {
 	is_triggered_only = yes
 	trigger = {
 		NOT = { has_character_flag = flag_converting_baptism }
+		NOT = { has_character_modifier = baptism_request_cooldown }
 		OR = {
 			ai = yes
 			FROMs_religion_is_playable_trigger = yes
@@ -1909,7 +1912,10 @@ character_event = {
 			modifier = {
 				factor = 4
 				any_war = {
-					using_cb = crusade
+					OR = {
+						using_cb = crusade
+						using_cb = new_crusade
+					}
 					defender = {
 						character = ROOT
 					}
@@ -2140,7 +2146,10 @@ character_event = {
 			modifier = {
 				factor = 4
 				any_war = {
-					using_cb = crusade
+					OR = {
+						using_cb = crusade
+						using_cb = new_crusade
+					}
 					defender = {
 						character = ROOT
 					}
@@ -2282,7 +2291,10 @@ character_event = {
 						}
 					}
 					NOT  = {
-						using_cb = crusade
+						OR = {
+							using_cb = crusade
+							using_cb = new_crusade
+						}
 						defender = {
 							character = ROOT
 						}
@@ -2300,7 +2312,10 @@ character_event = {
 						}
 					}
 					NOT  = {
-						using_cb = crusade
+						OR = {
+							using_cb = crusade
+							using_cb = new_crusade
+						}
 						defender = {
 							character = ROOT
 						}
@@ -2309,7 +2324,41 @@ character_event = {
 				}
 			}
 		}
+		#### Holy Fury - Mass Baptism clause
+
+		if = {
+			limit = { 
+				has_dlc = "Holy Fury"
+				is_tribal = yes
+				religion_group = pagan_group
+				NOT = { trait = incapable }
+				higher_tier_than = COUNT
+				NOT = { is_reformed_religion = yes }
+				NOT = { has_character_flag = flag_converting_baptism }
+				independent = yes
+				FROM = {
+					liege = { 
+						independent = yes
+						is_tribal = no
+						is_nomadic = no
+						higher_tier_than = DUKE 
+						NOT = { religion = ROOT }
+						NOT = { pays_tribute_to = ROOT }
+						NOT = { has_character_flag = flag_sponsoring_baptism }
+						OR = {
+							NOT = { religion_group = pagan_group }
+							is_reformed_religion = yes
+						}
+					}
+				}
+			}
+			custom_tooltip = { text = send_baptism_request }
+			FROM = { liege = { letter_event = { id = HF.20024 } } }
+			#break = yes
+		}
 		
+		
+	else = {
 		if = {
 			limit = {
 				trait = cynical
@@ -2360,8 +2409,8 @@ character_event = {
 			female = no
 			age = 32
 			attributes = {
-				learning = 20
-				diplomacy = 10
+				learning = 7
+				diplomacy = 5
 			}
 		}
 		new_character = {
@@ -2381,6 +2430,8 @@ character_event = {
 			}
 		}
 		custom_tooltip = { text = preacher_convert }
+		
+		}		
 	}
 	option = {
 		name = EVTOPTB39601

@@ -689,19 +689,17 @@ character_event = {
 			}
 		}
 		event_target:target_greedy_courtier = {			
-			tooltip = {
-				death = {
-					death_reason = death_execution_eaten
-					killer = ROOT
-				}
-			}
-			hidden_effect = {
-				death = { death_reason = death_execution_eaten }
+			death = {
+				death_reason = death_execution_eaten_unknown
+				killer = ROOT
 			}
 			hidden_tooltip = {
 				if = {
 					limit = {
-						religion = bon
+						OR = { 
+							religion = bon 
+							religion = bon_reformed
+						}
 						ROOT = { ai = no }
 					}
 					ROOT = { set_character_flag = achievement_bon_appetit }
@@ -807,6 +805,8 @@ character_event = {
 				}
 			}
 			add_trait = temperate
+			lose_weight_small_effect = yes
+			weight_trait_check_effect = yes
 		}
 		set_character_flag = seclusion_refuse_to_eat_fellow_man
 	}
@@ -2112,7 +2112,7 @@ character_event = {
 				33 = { 
 					set_character_flag = disease_not_serious
 					add_trait = fever
-					character_event = { id = RIP.11003 days = 10 random = 30 }
+					character_event = { id = RIP.11003 days = 5 random = 10 }
 				}
 				33 = { 
 					set_character_flag = lover_is_ill
@@ -2680,12 +2680,49 @@ character_event = {
 						factor = 0
 						is_female = no
 					}
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_silent } }
+					}
 					give_nickname = nick_the_silent
 				}
 				10 = {
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_hollow } }
+					}
+					give_nickname = nick_the_hollow
+				}
+				10 = {
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_recluse } }
+					}
+					give_nickname = nick_the_recluse
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						is_female = yes
+					}
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_bard  } }
+					}
+					give_nickname = nick_the_bard
+				}
+				10 = {
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_troubadour } }
+					}
 					give_nickname = nick_the_troubadour
 				}
 				10 = {
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_fox } }
+					}
 					give_nickname = nick_the_fox
 				}
 				10 = {
@@ -2693,7 +2730,13 @@ character_event = {
 						factor = 0
 						is_female = yes
 					}
+					modifier = {
+						factor = 0.1
+						ROOT = { any_courtier = { has_nickname = nick_the_fox } }
+					}
 					give_nickname = nick_the_handsome
+				}
+				1 = {
 				}
 			}
 
@@ -4130,19 +4173,27 @@ character_event = {
 
 				modifier = {
 				factor = 1.1
-				combat_rating = 1
+					combat_rating = 10
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 2
+					combat_rating = 20
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 3
+					combat_rating = 30
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 4
+					combat_rating = 40
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 50
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 60
 				}
 				modifier = {
 					factor = 1.1
@@ -4235,19 +4286,27 @@ character_event = {
 
 				modifier = {
 					factor = 1.1
-				combat_rating = 1
+					combat_rating = 10
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 2
+					combat_rating = 20
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 3
+					combat_rating = 30
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 4
+					combat_rating = 40
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 50
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 60
 				}
 				modifier = {
 					factor = 1.1
@@ -4359,22 +4418,29 @@ character_event = {
 					factor = 1.1
 					has_lifestyle_martial_trigger = yes
 				}
-
 				modifier = {
 					factor = 1.1
-				combat_rating = 1
+					combat_rating = 10
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 2
+					combat_rating = 20
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 3
+					combat_rating = 30
 				}
 				modifier = {
 					factor = 1.1
-					combat_rating = 4
+					combat_rating = 40
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 50
+				}
+				modifier = {
+					factor = 1.1
+					combat_rating = 60
 				}
 				modifier = {
 					factor = 1.1
@@ -5500,7 +5566,7 @@ character_event = {
 	}
 }
 
-character_event = {
+character_event = { # Fires from on_become_imprisoned_any_reason (if you are In Seclusion)
 	id = RIP.12097
 	hide_window = yes
 
@@ -5515,6 +5581,49 @@ character_event = {
 		clr_character_flag = do_not_disturb
 		remove_character_modifier = in_seclusion
 		set_character_flag = DEBUG_RIP.12097
+		if = {
+			limit = {
+				OR = { # Still has some left over modifiers...
+		            has_character_modifier = tiny_food_shortage
+		            has_character_modifier = minor_food_shortage
+		            has_character_modifier = normal_food_shortage
+		            has_character_modifier = starving_food_shortage
+		        }
+			}
+		    remove_character_modifier = tiny_food_shortage
+		    remove_character_modifier = minor_food_shortage
+		    remove_character_modifier = normal_food_shortage
+		    remove_character_modifier = starving_food_shortage
+		}
+
+		if = {
+			limit = { is_ruler = yes }
+			clr_character_flag = exposed_to_outside
+			clr_character_flag = seclusion_piling_corpses
+			clr_character_flag = seclusion_lazy_seduction
+			clr_character_flag = seclusion_nightmares
+			clr_character_flag = seclusion_gained_friend
+			clr_character_flag = seclusion_child_has_lover
+			clr_character_flag = seclusion_tunnel
+			clr_character_flag = seclusion_food_events
+
+			any_courtier = {
+				limit = {
+					OR = { # Still has some left over modifiers...
+			            has_character_modifier = in_seclusion
+			            has_character_modifier = tiny_food_shortage
+			            has_character_modifier = minor_food_shortage
+			            has_character_modifier = normal_food_shortage
+			            has_character_modifier = starving_food_shortage
+			        }
+				}
+				remove_character_modifier = in_seclusion
+			    remove_character_modifier = tiny_food_shortage
+			    remove_character_modifier = minor_food_shortage
+			    remove_character_modifier = normal_food_shortage
+			    remove_character_modifier = starving_food_shortage
+			}
+		}
 	}
 }
 
