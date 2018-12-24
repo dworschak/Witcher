@@ -29,6 +29,29 @@ job_mage = {
 		opinion = { who = FROM modifier = opinion_fired_from_council }
 	}
 	
+	retire_effect = {
+		if = {
+			limit = { has_character_flag = relic_hunter }
+			character_event = { id = MNM.9034 }
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_character_modifier = old_age
+				}
+				health = 3
+				NOT = {
+					is_sick_or_injured_trigger = yes
+				}
+				can_be_councilmember_king_trigger = yes
+			}
+			
+			FROM = { 
+				opinion = { who = ROOT modifier = opinion_resigned_from_council }
+			}
+		}		
+	}
+	
 	action = action_study_magic
 	
 	lift_fow = yes
@@ -100,7 +123,7 @@ job_chancellor = {
 		if = {
 			limit = {
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				health = 3
 				NOT = {
@@ -314,7 +337,7 @@ job_marshal = {
 		if = {
 			limit = {
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				health = 3
 				NOT = {
@@ -406,7 +429,7 @@ job_treasurer = {
 		if = {
 			limit = {
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				health = 3
 				NOT = {
@@ -498,7 +521,7 @@ job_spymaster = {
 		if = {
 			limit = {
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				health = 3
 				NOT = {
@@ -593,7 +616,7 @@ job_spiritual = {
 		if = {
 			limit = {
 				NOT = {
-					age = 65
+					has_character_modifier = old_age
 				}
 				health = 3
 				NOT = {
