@@ -15,6 +15,8 @@ When adapting vanilla elements (events, portrait, music, etc.), here is a rough 
 - Hengfors League ~ Baltic
 - Kerack ~ Scandinavian
 - Skellige ~ Scandinavian
+- Cidaris ~ Denmark
+- Verden ~ Norway
 - Nilfgaard ~ Holy Roman Empire
 - Sodden ~ Lombard
 - Lyria ~ Italian
