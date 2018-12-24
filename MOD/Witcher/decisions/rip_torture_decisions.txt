@@ -944,14 +944,12 @@ targetted_decisions = {
 				trait = cannibal_trait
 				graphical_culture = beargfx
 				graphical_culture = dragongfx
-				culture = bear
 			}
 			OR = {
 				trait = possessed
 				trait = lunatic
 				graphical_culture = beargfx
 				graphical_culture = dragongfx
-				culture = bear
 			}
 		}
 
@@ -1093,13 +1091,21 @@ targetted_decisions = {
 			FROM = {
 				if = {
 					limit = {
-						NOT = { trait = lunatic }
+						NOR = {
+							trait = lunatic
+							graphical_culture = beargfx
+							graphical_culture = dragongfx
+						}
 					}
 					add_trait = lunatic
 				}
 				if = {
 					limit = {
-						NOT = { has_character_modifier = crazy_cannibal }
+						NOR = {
+							has_character_modifier = crazy_cannibal
+							graphical_culture = beargfx
+							graphical_culture = dragongfx
+						}
 					}
 					add_character_modifier = {
 						name = crazy_cannibal

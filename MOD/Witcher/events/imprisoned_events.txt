@@ -904,10 +904,38 @@ character_event = {
 			limit = { event_target:captured_commander = { prisoner = yes } }
 			add_kinslayer_trait_effect = yes
 
-			add_character_modifier = {
-				name = sacrificed_prisoner
-				duration = 1000
-				stacking = yes
+			if = { # If you already have three instances of this modifier...
+			limit = {
+				has_instances_of_character_modifier = {
+					modifier = sacrificed_prisoner
+					amount = 3
+				}
+			}
+			hidden_effect = { # Do some hidden removal and adding, in order to refresh the final date of the modifier...
+				remove_character_modifier = sacrificed_prisoner #Removes all instances
+					add_character_modifier = {
+						name = sacrificed_prisoner #Add 1st
+						duration = 1000
+						stacking = yes
+					}
+					add_character_modifier = { #Add 2nd
+						name = sacrificed_prisoner
+						duration = 1000
+						stacking = yes
+					}
+				}
+				add_character_modifier = { #Add 3rd
+					name = sacrificed_prisoner
+					duration = 1000
+					stacking = yes
+				}
+			}
+			else = { #If you don't have three instances, just add one...
+				add_character_modifier = {
+					name = sacrificed_prisoner
+					duration = 1000
+					stacking = yes
+				}
 			}
 
 			hidden_effect = {
