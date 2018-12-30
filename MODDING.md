@@ -3,6 +3,17 @@ This page lists some useful information for modders.
 ### General
 
 - There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by this mistake from CD project !
+- In the W3 bookmark, some character history is based on the default pre-set of W2 choices, see http://witcher.wikia.com/wiki/The_Witcher_3_decision_checklist 
+
+### Army sizes
+
+With vanilla default building values, the size of armies is probably scaled down by a factor of 3 to 5 compared to sources:
+- Nilfgaard ~ 150,000
+	- Impera Brigade ~ 5,000
+- Kaedwen ~ 35,000 ?
+- Redania ~ 35,000
+- Temeria ~ 25,000
+- Lyria & Rivia ~ 13,000
 
 ### Cultures
 
