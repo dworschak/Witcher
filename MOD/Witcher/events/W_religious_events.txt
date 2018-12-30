@@ -285,65 +285,6 @@ character_event = {
 	}
 }
 
-################################################
-# Female priests for freya and melitele
-################################################
-# Hidden - Kill landed randomly generated male priests without family
-character_event = {
-	id = religious.20
-	
-	hide_window = yes
-	
-	only_men = yes
-	only_rulers = yes
-	
-	trigger = {
-		NOT = { culture = wilderness}
-		is_theocracy = yes
-		OR = {
-			religion = freya
-			religion = melitele
-		}
-		NOT = { father_even_if_dead = { always = yes } }
-		NOT = { mother_even_if_dead = { always = yes } }
-		NOT = { any_demesne_province = { terrain = magic_tower } }
-	}
-	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
-	option = {
-		name = OK
-		if = {
-			limit = { religion = freya }
-			create_random_priest = {
-				random_traits = yes
-				dynasty = none
-				female = yes
-				religion = freya
-			}
-		}
-		if = {
-			limit = { religion = melitele }
-			create_random_priest = {
-				random_traits = yes
-				dynasty = none
-				female = yes
-				religion = melitele
-			}
-		}
-		new_character = {
-			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
-			}
-		}
-		death = yes
-	}
-}
-
 ##########################################
 # Temple of Melitele in Ellander
 ##########################################
