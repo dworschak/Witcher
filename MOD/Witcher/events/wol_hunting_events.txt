@@ -1619,7 +1619,7 @@ character_event = {
 		if = {
 			limit = { has_character_flag = woods_female_lover }
 			create_character = {
-				random_traits = no
+				random_traits = yes
 				dynasty = NONE
 				religion = ROOT
 				culture = ROOT
@@ -1637,7 +1637,7 @@ character_event = {
 		if = {
 			limit = { has_character_flag = woods_male_lover }
 			create_character = {
-				random_traits = no
+				random_traits = yes
 				dynasty = NONE
 				religion = ROOT
 				culture = ROOT
@@ -1659,6 +1659,11 @@ character_event = {
 				add_trait = homosexual
 			}
 			add_lover = ROOT
+			remove_trait = genius
+			remove_trait = imbecile
+			remove_trait = ugly
+			remove_trait = slow
+			remove_trait = chaste
 		}
 		clr_character_flag = woods_female_lover
 		clr_character_flag = woods_male_lover
@@ -3116,9 +3121,10 @@ character_event = {
 						has_character_modifier = bad_relationship_omen
 					}
 				}
+				set_character_flag = dog_death_omen
+				character_event = { id = MNM.1213 days = 35 random = 30 } # Scrying vision come true
 			}
-			set_character_flag = dog_death_omen
-			character_event = { id = MNM.1213 days = 35 random = 30 } # Scrying vision come true
+			send_new_dog_event_effect = yes # Will only work for certain bloodlines...
 		}
 	}
 }

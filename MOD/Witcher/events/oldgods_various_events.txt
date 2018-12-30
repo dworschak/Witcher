@@ -8,35 +8,61 @@
 # Written by Henrik Eklund
 
 namespace = TOG
+namespace = TGF
 
 ### Berserker Events
 
 # Character becomes a Berserker in battle
+# id = TOG.3000
 
 # Berserker is Maimed in battle
+# id = TOG.3001
 
 # Berserker is Wounded in battle
+# id = TOG.3002
 
 # Berserker is Killed in battle
+# id = TOG.3003
 
 # Berserker kills scores of enemies in battle
+# id = TOG.3004
 
 # Too old to be Berserker
+# id = TOG.3005
 
 # Berserker goes berserk against Courtier
+# id = TOG.3006
 
 # Courtier beaten
+# id = TOG.3007
 
 # Courtier spared
+# id = TOG.3008
 
 # Berserker goes berserk against Courtier (Hidden AI)
+# id = TOG.3009
 
 
 ### Varangian Events
 
 # Varangian Guard Founded (Emperor)
+# id = TOG.3100
 
 # Varangian Guard Founded (Norse)
+# id = TOG.3101
+
+# Varangian Captain gets Varangian trait
+# id = TOG.3105
+
+# Child dies in battle
+
+# Setup: Child returns with loot (Child)
+
+# Child returns with loot
+
+# Setup: Player character dies, ping to new player character (fires from on_death on action)
+
+# Player Varangian guard character returns home (fires from event above)
 
 # Father dies, Son gets Varangian trait
 
@@ -46,9 +72,70 @@ namespace = TOG
 
 # Young Völva Appears
 
+# Old Völva Appears
+
+# Völva Warns About Child (AI Spouse)
+
+# Völva Warns About Child (AI Völva)
+
+# Völva Warns About Child
+
+# Demon Child is Born
+
+# Child acts strange I (AI)
+
+# Child acts strange I
+
+# Child acts strange II (AI)
+
+# Child acts strange II
+
+# Child acts strange III (AI)
+
+# Child acts strange III
+
+# Child kills Courtier I (AI Child)
+
+# Child kills Courtier I (AI Courtier)
+
+#Child kills Courtier I
+
+# Child kills Courtier II (AI Child)
+
+# Child kills Courtier II (AI Courtier)
+
+#Child kills Courtier II
+
+# Child kills Courtier III (AI Child)
+
+# Child kills Courtier III (AI Courtier)
+
+#Child kills Courtier III
+
+# Völva Wants Exorcism (AI Child)
+
+# Völva Wants Exorcism (AI Völva)
+
+# Völva Wants Exorcism
+
+# Exorcism Begins
+
+# Exorcism Begins (AI Child)
+
+# Exorcism Begins (AI Völva)
+
+# Exorcism Completed - Völva Dies
+
+# Exorcism Completed - Child Dies
+
+# Exorcism Completed - Child is Unharmed
+# id = TOG.3258
+
 # Exorcism Completed - Child is Hurt
+# id = TOG.3259
 
 # Child Becomes Adult
+# id = TOG.3260
 
 ### Looting Events
 
@@ -246,11 +333,371 @@ character_event = {
 }
 
 #Viking Trait Gained
+character_event = {
+	id = TGF.3320
+	desc = { 
+		trigger = { 
+			OR = {
+				religion = norse_pagan
+				religion = norse_pagan_reformed
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_viking
+				}
+			}
+		} 
+		text = EVTDESC_TOG_3320
+	}
+	desc = { 
+		trigger = { 
+			NOR = {
+				religion = norse_pagan
+				religion = norse_pagan_reformed
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_viking
+				}
+			}
+		} 
+		text = EVTDESC_TOG_3320_HF
+	}
+	picture = { 
+		trigger = { is_female = no } 
+		picture = GFX_evt_vikings_arriving_oldgods
+	}
+	picture = { 
+		trigger = { is_female = yes } 
+		picture = GFX_evt_norse_tempest
+	}
+	border = GFX_event_normal_frame_war
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			has_dlc = "The Old Gods"
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+			has_religion_feature = religion_feature_norse
+		}
+		NOR = { 
+			trait = viking
+			trait = pirate
+			trait = ravager
+			trait = seaking
+			trait = sea_queen
+		}
+		OR = {
+			religion = freya
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+		}
+		FROM = { always = yes }
+	}
+	
+	option = {
+		name = EVTOPTA_TOG_3320
+		if = {
+			limit = { 
+				OR = {  
+					religion = freya
+				} 
+			}
+			add_trait = viking
+		}
+		if = {
+			limit = { 
+				NOR = {  
+					religion = freya
+				} 
+			}
+			if = {
+				limit = {
+					any_owned_bloodline = {
+						has_bloodline_flag = bloodline_viking
+					}
+				}
+				set_character_flag = acquired_pirate_trait_by_bloodline
+			}
+			add_trait = pirate
+		}
+		hidden_tooltip = {
+			set_variable = { which = viking_raids value = 0 }
+		}
+	}
+}
 
 #Ravager 
+character_event = {
+	id = TGF.3321
+	desc = { 
+		trigger = { 
+			OR = {
+				religion = freya
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_viking
+				}
+			}
+		} 
+		text = TOG.3321.d
+	}
+	desc = { 
+		trigger = { 
+			NOR = {
+				religion = freya
+				any_owned_bloodline = {
+					has_bloodline_flag = bloodline_viking
+				}
+			}
+		} 
+		text = EVTDESC_TOG_3321_HF
+	}
+	picture = { 
+		trigger = { is_female = no } 
+		picture = GFX_evt_vikings_arriving_oldgods
+	}
+	picture = { 
+		trigger = { is_female = yes } 
+		picture = GFX_evt_norse_tempest
+	}
+	border = GFX_event_normal_frame_war
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			has_dlc = "The Old Gods"
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+			has_religion_feature = religion_feature_norse
+		}
+		OR = {
+			trait = viking
+			trait = pirate
+		}
+		NOR = { 
+			trait = ravager
+			trait = seaking
+			trait = sea_queen
+		}
+		OR = {
+			religion = freya
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+		}
+		check_variable = { which = viking_raids value = 50 }
+		FROM = { always = yes }
+	}
+	
+	option = {
+		name = TOG.3321.a
+		if = {
+			limit = { 
+				trait = pirate
+			}
+			remove_trait = pirate
+		}
+		if = {
+			limit = { 
+				trait = viking
+			}
+			remove_trait = viking
+		}
+		add_trait = ravager
+	}
+}
 
 #Sea King
+character_event = {
+	id = TGF.3322
+	desc = TOG.3322.d
+	picture = { 
+		trigger = { is_female = no } 
+		picture = GFX_evt_vikings_arriving_oldgods
+	}
+	picture = { 
+		trigger = { is_female = yes } 
+		picture = GFX_evt_norse_tempest
+	}
+	border = GFX_event_normal_frame_war
+	
+	hide_from = yes
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			has_dlc = "The Old Gods"
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+			has_religion_feature = religion_feature_norse
+		}
+		trait = ravager
+		NOR = { 
+			trait = seaking
+			trait = sea_queen
+		}
+		OR = {
+			religion = freya
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+		}
+		check_variable = { which = viking_raids value = 100 }
+		FROM = { always = yes }
+	}
+	
+	option = {
+		name = TOG.3322.a
+		remove_trait = ravager
+		if = {
+			limit = {
+				is_female = no
+			}
+			add_trait = seaking
+		}
+		if = {
+			limit = {
+				is_female = yes
+			}
+			add_trait = sea_queen
+		}
+	}
+}
+
+character_event = {
+	id = TGF.3323
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	min_age = 16
+	capable_only = yes
+	prisoner = no
+	
+	trigger = {
+		OR = {
+			has_dlc = "The Old Gods"
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+			has_religion_feature = religion_feature_norse
+		}
+		OR = {
+			trait = pirate
+			trait = viking
+			trait = ravager
+			trait = seaking #Top trait, but there's still chance of gaining a Bloodline if variable goes high enough.
+			trait = sea_queen
+		}
+		OR = {
+			religion = norse_pagan
+			religion = norse_pagan_reformed
+			any_owned_bloodline = {
+				has_bloodline_flag = bloodline_viking
+			}
+			AND = {
+				has_religion_feature = religion_adventuring
+				has_religion_feature = religion_seafaring
+			}
+		}
+		FROM = { always = yes }
+	}
+	
+	immediate = {
+		change_variable = { which = viking_raids value = 1 }
+	}
+}
 
 ### Event Contest Winners
 
+# Son of the Buffalo Woman
+
+# Son of the Buffalo Woman
+
+# Peijaiset
+
+
+# Will the real Odin please stand up?
+
+
 ###End contest winner events###
+
+character_event = {
+	id = TOG.3404
+	desc = TOG.3404.d
+	picture = GFX_evt_vikings_arriving_oldgods
+	border = GFX_event_normal_frame_war
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = {
+			capital_scope = {
+				has_province_modifier = loot_prosperity_boost
+			}
+		}
+	}
+	
+	option = {
+		name = EXCELLENT
+		capital_scope = {
+			add_province_modifier = {
+				name = loot_prosperity_boost
+				duration = 1825
+			}
+			hidden_tooltip = {
+				change_variable = { which = prosperity_value value = 12 }
+			}
+		}
+	}
+}
+

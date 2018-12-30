@@ -34,6 +34,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_squeeze_peasants
@@ -137,6 +138,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_squeeze_peasants
@@ -388,6 +390,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_squeeze_peasants
@@ -575,6 +578,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_oversee_construction
@@ -704,6 +708,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_oversee_construction
@@ -926,6 +931,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_settle_tribe
@@ -1015,6 +1021,50 @@ character_event = {
 			factor = 0.75
 			stewardship = 13
 		}
+		modifier = { #Roman Renaissance.
+			factor = 0.5
+			has_global_flag = flag_started_roman_renaissance
+			liege = { culture = roman }
+			location = { county = { culture_group = latin } }
+		}
+		modifier = {
+			factor = 0.75
+			liege = {
+				culture = roman
+	    		any_owned_bloodline = {
+    				has_bloodline_flag = bloodline_faster_roman
+    			}
+			}
+		}
+		modifier = { #Greek culture is more impervious to Romanization.
+			factor = 2
+			liege = { culture = roman }
+			location = { county = { culture = greek } }
+		}
+		modifier = {
+			factor = 0.25
+			location = {
+				county = {
+					OR = {
+						culture = zhangzhung
+						culture = sumpa
+					}
+					owner = {
+						culture = bodpa
+						OR = {
+							any_owned_bloodline = {
+								has_bloodline_flag = bloodline_songtsen_gampo
+							}
+							top_liege = {
+								any_owned_bloodline = {
+									has_bloodline_flag = bloodline_songtsen_gampo
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	option = {
@@ -1068,6 +1118,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_settle_tribe
@@ -1191,6 +1242,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_build_legend
@@ -1198,6 +1250,10 @@ character_event = {
 		NOT = { has_character_modifier = bedridden_illness }
 		NOT = { trait = incapable }
 		liege = {
+			OR = { # The AI pretty much always just let their warriors stand around, getting a prestige hit when they disband
+				war = yes
+				ai = no
+			}
 			is_adult = yes
 			prisoner = no
 			prestige = 10
@@ -1389,6 +1445,7 @@ character_event = {
 	min_age = 16
 	capable_only = yes
 	prisoner = no
+	has_job_title = yes
 	
 	trigger = {
 		has_job_action = action_collect_tribute

@@ -1,31 +1,3 @@
-## normal scopes(including posttitle scopes) ##
-# ROOT = receiver
-# FROM = giver
-# <no scope change> = attacker or receiver
-## title scopes ##
-# ROOT = receiver
-# FROM = giver
-# <no scope change> = thirdparty landed title	
-#
-# the following effects/triggers exists (example execution order: on_success->on_success_title->on_success_posttitle):
-# is_valid, is_valid_title, on_add, on_add_title, on_add_posttitle, on_success, on_success_title, on_success_posttitle, on_fail, on_fail_title, on_fail_posttitle, on_reverse_demand, on_reverse_demand_title, on_reverse_demand_posttitle
-#
-# Added on_attacker_leader_death, on_defender_leader_death and on_thirdparty_death, which all trigger when corresponding character dies
-# These three all have war scopes, which currently has the following scope changes: 
-# attacker, defender, thirdparty(only valid if thirdparty character is involved), thirdparty_title(only valid if thirdparty title is involved)
-#
-# ai_will_do: modifies value AI places on the CB compared to other CBs (default: 1) Note: is in title scope
-# can_use_gui: If otherwise valid, the CB is listed in the Diplo View, but you can't declare war unless 'can_use_gui' is also valid (also shows a trigger tooltip.)
-#
-
-# max_defender_occupation_score/max_attacker_occupation_score - Defines how much war score it is possible for the defender/attacker to gain by occupying provinces. Defaults to 100. Make sure the CB has ticking warscore if using this or you could end up with never-ending wars
-# max_defender_battle_score/max_attacker_battle_score - Defines how much score it is possible for the defender/attacker to gain by fighting battles. Defaults to the defines MAX_WARSCORE_FROM_BATTLE_DEFENDERS/MAX_WARSCORE_FROM_BATTLE_ATTACKERS
-# hostages_block_cb	- Defaults to "yes". If set to "no", the defender having close relatives of yours imprisoned does not prevent you from declaring war
-# attacker_unoccupied_warscore = yes - If attacker completely unoccupied, attacker will get ticking warscore. Only works if no title is targetted
-# defender_unoccupied_warscore = yes - If defender completely unoccupied, defender will get ticking warscore. Only works if no title is targetted
-# capturing_attacker_is_complete_victory - Whether capturing the attacker as a prisoner is considered automatic victory for the defender. Defaults to yes. If set to no, capture instead gives CAPTURED_HEIR_WAR_SCORE warscore
-# capturing_defender_is_complete_victory - Whether capturing the defender as a prisoner is considered automatic victory for the attacker. Defaults to yes. If set to no, capture instead gives CAPTURED_HEIR_WAR_SCORE warscore
-
 # 0
 claim = {
 	name = CB_NAME_CLAIM
@@ -41,16 +13,29 @@ claim = {
 
 	infamy_modifier = 0.85
 	
+	sort_priority = 1000
+	
 	can_use = {	
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
 	}
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use_title = {
-		# OR = {
-			# location = { NOT = { terrain = dryad_forest } }
-			# ROOT = { trait = dryad_race }
-		# }
+		OR = {
+			ROOT = { is_female = no }
+			AND = { 
+				NOT = { ROOT = { religion_group = muslim } }
+				NOT = { ROOT = { has_religion_feature = religion_patriarchal } } 
+			}
+		}
+		OR = {
+			ROOT = { is_female = yes }
+			NOT = { ROOT = { has_religion_feature = religion_matriarchal } } 
+		}
 		OR = {
 			FROM = {
 				has_landed_title = PREV
@@ -82,8 +67,27 @@ claim = {
 					is_pretender = yes # Checks vs ROOT character
 					holder_scope = { has_regent = yes }
 					AND = {
-						ROOT = { OR = { is_female = no has_law = status_of_women_4 } }
-						holder_scope ={ AND = { is_female = yes NOR = { has_law = status_of_women_4 has_game_rule = { name = gender value = all } } } }
+						ROOT = { 
+							OR = { 
+								is_female = no 
+								has_law = status_of_women_4
+								has_religion_feature = religion_matriarchal
+								has_religion_feature = religion_equal
+								has_religion_feature = religion_feature_bon
+							} 
+						}
+						holder_scope = { 
+							AND = { 
+								is_female = yes 
+								NOR = { 
+									has_religion_feature = religion_matriarchal
+									has_religion_feature = religion_equal
+									has_religion_feature = religion_feature_bon
+									has_law = status_of_women_4 
+									has_game_rule = { name = gender value = all } 
+								} 
+							} 
+						}
 					}
 					is_contested = yes # Is already being contested in some form of Claim or Succession War
 				}
@@ -103,8 +107,12 @@ claim = {
 		ROOT = { has_claim = PREV }
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success_title = {
-	
 		hidden_tooltip = {
 			ROOT = {
 				clr_character_flag = claimant_adventurer
@@ -132,6 +140,7 @@ claim = {
 		}
 		
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -140,12 +149,21 @@ claim = {
 		}
 		
 		FROM = {
+			show_scope_change = no
 			prestige = -100
+		}
+
+		hidden_tooltip = {
+			check_war_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
 	on_fail_title = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 			hidden_tooltip = {
 				disband_event_forces = yes
@@ -153,6 +171,7 @@ claim = {
 			}
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -163,6 +182,7 @@ claim = {
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -150
 			transfer_scaled_wealth = {
 				to = FROM
@@ -176,6 +196,7 @@ claim = {
 			ROOT = { imprison = FROM }
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 150
 		}
 		any_defender = {
@@ -185,9 +206,10 @@ claim = {
 	}
 
 	on_reverse_demand_title = {
-		any_claim = {
-			remove_claim = ROOT
-		}
+		#any_claim = { #Does not work.
+			#remove_claim = ROOT
+		#}
+		ROOT = { show_scope_change = no remove_claim = PREV }
 		ROOT = {
 			hidden_tooltip = {
 				disband_event_forces = yes
@@ -264,6 +286,8 @@ other_claim = {
 	allowed_to_target_tributaries = no
 
 	infamy_modifier = 0.5
+	
+	sort_priority = 900
 
 	can_use = {
 		ROOT = {
@@ -275,12 +299,25 @@ other_claim = {
 	}
 	
 
-	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use_title = {
-		# OR = {
-			# location = { NOT = { terrain = dryad_forest } }
-			# ROOT = { trait = dryad_race }
-		# }
+		OR = {
+			ROOT = { is_female = no }
+			AND = {
+				NOT = { ROOT = { has_religion_feature = religion_patriarchal } }
+				NOT = { succ_law_title = { has_law = agnatic_succession } }
+			}
+		}
+		OR = {
+			ROOT = { is_female = yes }
+			AND = {
+				NOT = { ROOT = { has_religion_feature = religion_matriarchal } }
+				NOT = { succ_law_title = { has_law = enatic_succession } }
+			}
+		}
 		OR = {
 			FROM = {
 				has_landed_title = PREV
@@ -356,6 +393,11 @@ other_claim = {
 		ROOT = { has_claim = PREV }
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		hidden_tooltip = {
 			ROOT = {
@@ -367,6 +409,7 @@ other_claim = {
 			}
 		}
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -374,6 +417,7 @@ other_claim = {
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = -100
 		}
 	}
@@ -503,7 +547,6 @@ other_claim = {
 						move_character = ROOT 
 					}
 				}
-			
 				# If we were erroneously vassalized, break free
 				if = {
 					limit = {
@@ -596,19 +639,30 @@ other_claim = {
 			}
 			hidden_tooltip = { conquest_culture = ROOT }
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail_title = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			FROM = {
+				show_scope_change = no
 				prestige = -100
 			}
 		}
 		
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -624,10 +678,12 @@ other_claim = {
 			value = 4.0
 		}
 		ROOT = {
+			show_scope_change = no
 			prestige = -150
 			imprison = FROM
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 150
 		}
 		any_defender = {
@@ -637,9 +693,7 @@ other_claim = {
 	}
 
 	on_reverse_demand_title = {
-		any_claim = {
-			remove_claim = PREV
-		}
+		ROOT = { show_scope_change = no remove_claim = PREV }
 	}
 
 	attacker_ai_victory_worth = {
@@ -678,7 +732,7 @@ claim_on_liege = {
 
 	press_claim = yes
 	can_call_vassals = no
-#	attacker_can_call_allies = no
+	#attacker_can_call_allies = no
 	major_revolt = yes
 	
 	can_use = {
@@ -698,6 +752,12 @@ claim_on_liege = {
 	allowed_to_target_tributaries = no
 
 	infamy_modifier = 0.85
+	
+	sort_priority = 910
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use_title = {
 		OR = {
@@ -768,8 +828,14 @@ claim_on_liege = {
 		}
 		OR = {
 			has_law = succ_feudal_elective
+			has_law = succ_hre_elective
 			ROOT = { has_claim = PREV }
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -895,6 +961,13 @@ claim_on_liege = {
 				}
 			}
 		}
+
+		hidden_tooltip = {
+			check_war_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
@@ -998,6 +1071,10 @@ claim_on_liege_plot = {
 
 	infamy_modifier = 0.85
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use_title = {
 		OR = {
 			FROM = {
@@ -1048,6 +1125,11 @@ claim_on_liege_plot = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		ROOT = {
 			participation_scaled_prestige = 100
@@ -1075,7 +1157,7 @@ claim_on_liege_plot = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -1155,6 +1237,13 @@ claim_on_liege_plot = {
 		}
 		
 		FROM = { hidden_tooltip = { disband_event_forces = faction_loyalists } }
+
+		hidden_tooltip = {
+			check_war_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_reverse_demand = {
@@ -1234,6 +1323,10 @@ claim_on_vassal_plot = {
 
 	infamy_modifier = 0.85
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use_title = {
 		OR = {
 			FROM = {
@@ -1254,6 +1347,11 @@ claim_on_vassal_plot = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		ROOT = {
 			prestige = 50
@@ -1263,6 +1361,13 @@ claim_on_vassal_plot = {
 	on_success_title = {
 		usurp_title_plus_barony_if_unlanded = { target = ROOT type = claim }
 		ROOT = { plot_succeeds = yes }
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
@@ -1346,12 +1451,18 @@ other_claim_on_liege = {
 
 	press_claim = yes
 	can_call_vassals = no
-#	attacker_can_call_allies = no
+	#attacker_can_call_allies = no
 	major_revolt = yes
 	
 	allowed_to_target_tributaries = no
 
 	infamy_modifier = 0.5
+	
+	sort_priority = 850
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use_title = {
 		# OR = {
@@ -1433,6 +1544,7 @@ other_claim_on_liege = {
 		
 		OR = {
 			has_law = succ_feudal_elective
+			has_law = succ_hre_elective
 			ROOT = { has_claim = PREV }
 		}
 	
@@ -1445,7 +1557,10 @@ other_claim_on_liege = {
 		}
 	}
 
-
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
+	}
 
 	on_success = {
 		ROOT = {
@@ -1482,7 +1597,7 @@ other_claim_on_liege = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -1593,6 +1708,13 @@ other_claim_on_liege = {
 				NOT = { culture = ROOT }
 			}
 			hidden_tooltip = { conquest_culture = ROOT }
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -1754,6 +1876,8 @@ claim_all = {
 	is_claim_all = yes
 
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 1100
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -1765,6 +1889,10 @@ claim_all = {
 				value = 2
 			}
 		}
+	}
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
 	}
 	
 	can_use_title = {
@@ -1786,7 +1914,9 @@ claim_all = {
 
 	on_add = {
 		ROOT = {
+			show_scope_change = no
 			any_claim = {
+				show_scope_change = no
 				limit = {
 					holder_scope = {
 						OR = {
@@ -1799,11 +1929,15 @@ claim_all = {
 				press_claim = ROOT
 			}
 		}
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
 		ROOT = {
+			show_scope_change = no
 			any_claim = {
+				show_scope_change = no
 				limit = {
 					holder_scope = {
 						OR = {
@@ -1824,19 +1958,29 @@ claim_all = {
 			}
 		}
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -150
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 75
 		}
 		any_defender = {
@@ -1847,12 +1991,14 @@ claim_all = {
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			transfer_scaled_wealth = {
 				to = FROM
 				value = 4.0
 			}
 			any_claim = {
+				show_scope_change = no
 				limit = {
 					holder_scope = {
 						OR = {
@@ -1862,11 +2008,13 @@ claim_all = {
 					}
 					ROOT = { has_strong_claim = PREV }
 				}
-				remove_claim = ROOT
+				ROOT = { show_scope_change = no remove_claim = PREV }
 			}
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 200
+
 		}
 		any_defender = {
 			limit = { NOT = { character = FROM } }
@@ -1916,6 +2064,10 @@ change_seniority_succession_law = {
 			vassal_of = FROM	
 		}
 	}
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 	
 	is_valid = {
 		FROM = {
@@ -1951,6 +2103,11 @@ change_seniority_succession_law = {
 			is_primary_holder_title = yes
 		}
 	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
+	}
 	
 	on_success = {
 		FROM = {
@@ -1964,7 +2121,7 @@ change_seniority_succession_law = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -2029,9 +2186,11 @@ change_seniority_succession_law = {
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -2054,10 +2213,12 @@ change_seniority_succession_law = {
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			prisoner = FROM
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			hidden_tooltip = { 
 				if = { 
@@ -2122,6 +2283,10 @@ change_primogeniture_succession_law = {
 			vassal_of = FROM	
 		}
 	}
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 	
 	is_valid = {
 		FROM = {
@@ -2158,6 +2323,10 @@ change_primogeniture_succession_law = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
 	
 	on_success = {
 		FROM = {
@@ -2171,7 +2340,7 @@ change_primogeniture_succession_law = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -2217,6 +2386,7 @@ change_primogeniture_succession_law = {
 		}
 		
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -2237,9 +2407,11 @@ change_primogeniture_succession_law = {
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -2263,10 +2435,12 @@ change_primogeniture_succession_law = {
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			prisoner = FROM
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			hidden_tooltip = { 
 				if = { 
@@ -2331,6 +2505,10 @@ change_feudal_elective_succession_law = {
 		}
 	}
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	is_valid = {
 		FROM = {
 			in_revolt = no
@@ -2356,32 +2534,15 @@ change_feudal_elective_succession_law = {
 	}
 
 	is_valid_title = {
-		NOT = {
+		NOR = {
 			has_law = succ_feudal_elective
+			has_law = succ_hre_elective
 		}
 		OR = {
 			tier = emperor
 			tier = king
 			is_primary_holder_title = yes
 		}
-
-#		OR = {
-#			AND = {
-#				tier = emperor
-#				OR = {
-#					ROOT = { tier = king }
-#					ROOT = { tier = duke }
-#				}
-#			}
-#			AND = {
-#				tier = king
-#				ROOT = { tier = duke }
-#			}
-#			AND = {
-#				tier = duke
-#				ROOT = { tier = count }
-#			}
-#		}
 
 	}
 	
@@ -2442,6 +2603,7 @@ change_feudal_elective_succession_law = {
 			}
 		}
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			hidden_tooltip = {
 				disband_event_forces = faction_revolters
@@ -2457,14 +2619,41 @@ change_feudal_elective_succession_law = {
 	}
 	
 	on_success_title = {
-		succession_w_cooldown = feudal_elective
+		if = { 
+			limit = {
+				NOR = { 
+					title = e_hre 
+					has_title_flag = alternate_hre
+				}
+			}
+			add_law_w_cooldown = succ_feudal_elective
+			#succession_w_cooldown = {
+			#	base_type = feudal_elective
+			#	voting_rules = feudal_elective
+			#}
+		}
+		if = { 
+			limit = {
+				OR = { 
+					title = e_hre 
+					has_title_flag = alternate_hre
+				}
+			}
+			add_law_w_cooldown = succ_hre_elective
+			#succession_w_cooldown = {
+			#	base_type = feudal_elective
+			#	voting_rules = hre_feudal_elective
+			#}
+		}
 	}
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -2487,10 +2676,12 @@ change_feudal_elective_succession_law = {
 	
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			prisoner = FROM
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			hidden_tooltip = { 
 				if = { 
@@ -2550,6 +2741,8 @@ invasion = {
 	can_ask_to_join_war = no
 	
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 2000
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -2557,6 +2750,10 @@ invasion = {
 		ROOT = {
 			mercenary = no
 		}
+	}
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
 	}
 	
 	
@@ -2586,11 +2783,18 @@ invasion = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
+	}
+
 	on_success = {
 		ROOT = {
+			show_scope_change = no
 			prestige = 200
 		}
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 200
 		}
 		any_attacker = {
@@ -2630,6 +2834,7 @@ invasion = {
 		}
 		
 		FROM = {
+			show_scope_change = no
 			prestige = -200
 		}
 		ROOT = {
@@ -2683,6 +2888,21 @@ invasion = {
 		
 		if = {
 			limit = { ROOT = { character = 140 } }
+			ROOT = {
+				if = {
+					limit = {
+						has_dlc = "Holy Fury"
+						NOT = {
+							any_owned_bloodline = {
+								has_bloodline_flag = william_the_conqueror_bloodline
+							}
+						}
+					}
+					create_bloodline = {
+						type = william_the_conqueror
+					}
+				}
+			}
 			hidden_tooltip = {
 				add_law = succ_primogeniture
 				ROOT = {
@@ -2698,16 +2918,26 @@ invasion = {
 				}
 			}
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = 100
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -2718,6 +2948,7 @@ invasion = {
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			transfer_scaled_wealth = {
 				to = FROM
@@ -2725,6 +2956,7 @@ invasion = {
 			}
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = 200
 			participation_scaled_prestige = 200
 		}
@@ -2735,9 +2967,7 @@ invasion = {
 	}
 
 	on_reverse_demand_title = {
-		any_claim = {
-			remove_claim = ROOT
-		}
+		ROOT = { show_scope_change = no remove_claim = PREV }
 	}
 
 	on_attacker_leader_death = {
@@ -2767,6 +2997,70 @@ invasion = {
 	defender_ai_defeat_worth = {
 		factor = 100
 	}
+	
+	ai_will_do = { 
+		factor = 1
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
+		
+		modifier = {
+			factor = 0
+			FROM = {
+				is_nomadic = yes
+			}
+			ROOT = {
+				is_nomadic = no
+				NOT = {
+					is_tribal = yes
+				}
+			}
+			NOT = {
+				any_direct_de_jure_vassal_title = {
+					any_direct_de_jure_vassal_title = {
+						OR = {
+							holding_type = castle
+							holding_type = city
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			FROM = {
+				is_nomadic = yes
+			}
+			ROOT = {
+				is_tribal = yes
+			}
+			NOT = {
+				any_direct_de_jure_vassal_title = {
+					any_direct_de_jure_vassal_title = {
+						OR = {
+							holding_type = castle
+							holding_type = city
+							holding_type = tribal
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 tribal_invasion = {
@@ -2780,27 +3074,40 @@ tribal_invasion = {
 	check_de_jure_tier = KING # this scans all de jure kingdoms for the counties which are held by or vassals(or below) of selected character. Only valid if is_permanent = yes
 	
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 2000
 
 	can_use_gui = {
 		ROOT = {
 			prestige = 500
 		}
+		check_if_crusader_trigger = yes
 	}
 	
 	on_add = {
-		ROOT = { prestige = -500 }
+		ROOT = { show_scope_change = no prestige = -500 }
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
+		if = {
+			limit = { 
+				attacker = { 
+					any_owned_bloodline = {
+						has_bloodline_flag = bloodline_great_conquerors
+					} 
+				} 
+			}
+			attacker = {  
+				set_character_flag = flag_declared_bloodline_invasion
+			}
+		}
 	}
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
 	}
-	
+
 	can_use_title = {
-		# OR = {
-			# location = { NOT = { terrain = dryad_forest } }
-			# ROOT = { trait = dryad_race }
-		# }
 		ROOT = {
 			OR = {
 				ai = yes
@@ -2824,11 +3131,30 @@ tribal_invasion = {
 						has_horde_culture = yes
 						has_character_flag = horde_invader
 					}
+					OR = {
+						has_character_flag = horde_invader
+						is_tribal = yes
+						primary_title = {
+							has_law = succ_elective_gavelkind
+						}
+					}
 				}
 				AND = {
 					mercenary = yes
 					NOT = {
 						num_of_titles = 2
+					}
+				}
+				AND = {
+					has_character_flag = is_child_of_destiny
+					any_owned_bloodline = {
+						has_bloodline_flag = founder_invasions
+					}
+				}
+				AND = {
+					NOT = { has_character_flag = flag_declared_bloodline_invasion }
+					any_owned_bloodline = {
+						has_bloodline_flag = bloodline_great_conquerors
 					}
 				}
 			}
@@ -2864,6 +3190,7 @@ tribal_invasion = {
 
 	on_success = {
 		ROOT = {
+			show_scope_change = no
 			prestige = 200
 			participation_scaled_prestige = 200
 		}
@@ -2872,6 +3199,7 @@ tribal_invasion = {
 			hidden_tooltip = { participation_scaled_prestige = 200 }
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = -200
 		}
 		hidden_tooltip = {
@@ -2903,6 +3231,33 @@ tribal_invasion = {
 	}
 	
 	on_success_title = {
+	
+		if = {
+			limit = {
+				ROOT = {
+					OR = {
+						character = 159136
+						character = 159137
+					}
+				}
+			}
+			ROOT = {
+				if = {
+					limit = {
+						has_dlc = "Holy Fury"
+						NOT = {
+							any_owned_bloodline = {
+								has_bloodline_flag = arpad_bloodline
+							}
+						}
+					}
+					create_bloodline = {
+						type = arpad
+					}
+				}
+			}
+		}
+		
 		custom_tooltip = {
 			text = tribal_invasion_succ_tip
 			hidden_tooltip = {
@@ -2916,10 +3271,18 @@ tribal_invasion = {
 				}
 			}
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
 		FROM = {
+			show_scope_change = no
 			prestige = 100
 			
 			hidden_tooltip = {
@@ -2943,12 +3306,14 @@ tribal_invasion = {
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 		}
 	}
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			transfer_scaled_wealth = {
 				to = FROM
@@ -2956,6 +3321,7 @@ tribal_invasion = {
 			}
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = 200
 			hidden_tooltip = {
 				if = {
@@ -3001,61 +3367,133 @@ tribal_invasion = {
 		modifier = {
 			factor = 0.9 # Prefer using CB's without on_add costs
 		}
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
+	
+		modifier = {
+			factor = 0
+			FROM = {
+				is_nomadic = yes
+			}
+			ROOT = {
+				is_nomadic = no
+				NOT = {
+					is_tribal = yes
+				}
+			}
+			NOT = {
+				any_direct_de_jure_vassal_title = {
+					any_direct_de_jure_vassal_title = {
+						OR = {
+							holding_type = castle
+							holding_type = city
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			FROM = {
+				is_nomadic = yes
+			}
+			ROOT = {
+				is_tribal = yes
+			}
+			NOT = {
+				any_direct_de_jure_vassal_title = {
+					any_direct_de_jure_vassal_title = {
+						OR = {
+							holding_type = castle
+							holding_type = city
+							holding_type = tribal
+						}
+					}
+				}
+			}
+		}
 	}
-}		
+}
 
 #crusade = {
 #	
-#	can_use_gui = {
-#		
-#	}
-#
 #	can_use = {
-#		
 #	}
 #
-#	can_use_title = {
-#		
-#	}
-#	
-#	is_valid = {
-#		
-#	}
-#
-#	is_valid_title = {
-#		
-#	}
-#
-#	on_add = {
-#		
-#	}
-#
-#	on_success_title = {
-#	
+#	on_success = {
 #	}
 #
 #	on_fail = {
-#		
 #	}
 #
 #	on_reverse_demand = {
-#		
+#	}
+#	
+#	on_attacker_leader_death = {
 #	}
 #
 #	attacker_ai_victory_worth = {
-#		
 #	}
 #	
 #	attacker_ai_defeat_worth = {
-#		
 #	}
 #
 #	defender_ai_victory_worth = {
-#		
 #	}
 #	
 #	defender_ai_defeat_worth = {
-#		
+#	}
+#
+#	ai_will_do = {
+#	}
+#}
+
+# Crusade using the new crusade system. See crusades.info in the religion folder for documentation
+#new_crusade = {
+#	
+#	can_use = {
+#	}
+#
+#	on_success = {
+#	}
+#
+#	on_fail = {
+#	}
+#
+#	on_reverse_demand = {
+#	}
+#	
+#	on_attacker_leader_death = {
+#	}
+#
+#	attacker_ai_victory_worth = {
+#	}
+#	
+#	attacker_ai_defeat_worth = {
+#	}
+#
+#	defender_ai_victory_worth = {
+#	}
+#	
+#	defender_ai_defeat_worth = {
+#	}
+#
+#	ai_will_do = {
 #	}
 #}
 
@@ -3179,6 +3617,12 @@ bid_for_independence = {
 	
 	is_permanent = yes
 	is_independence = yes
+	
+	sort_priority = 1500
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -3202,7 +3646,7 @@ bid_for_independence = {
 				}
 			}
 		}
-		
+
 		FROM = {
 			NOT = {
 				any_war = {
@@ -3274,6 +3718,11 @@ bid_for_independence = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -3366,7 +3815,7 @@ bid_for_independence = {
 							tier = king
 							tier = emperor
 						}
-		#					is_titular = no
+						#is_titular = no
 						NOT = { has_law = crown_authority_0 }
 					}
 					if = {
@@ -3386,7 +3835,14 @@ bid_for_independence = {
 						add_law = crown_authority_3
 					}
 				}
-			}	
+			}
+		}
+
+		hidden_tooltip = {
+			#check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -3455,6 +3911,10 @@ depose_liege = {
 	can_call_vassals = no
 	major_revolt = no
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -3520,6 +3980,11 @@ depose_liege = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		FROM = {
 			prestige = -500
@@ -3531,7 +3996,7 @@ depose_liege = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -3583,6 +4048,13 @@ depose_liege = {
 		any_attacker = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { participation_scaled_prestige = 250 }
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -3644,6 +4116,10 @@ overthrow_ruler = {
 	major_revolt = yes
 	is_tyranny_cb = yes
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -3678,6 +4154,11 @@ overthrow_ruler = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		ROOT = {
 			primary_title = {
@@ -3698,7 +4179,7 @@ overthrow_ruler = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -3770,6 +4251,13 @@ overthrow_ruler = {
 		any_attacker = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { participation_scaled_prestige = 250 }
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -3859,6 +4347,10 @@ overthrow_ruler_no_calls = {
 	can_call_vassals = no
 	can_ask_to_join_war = no
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -3890,6 +4382,11 @@ overthrow_ruler_no_calls = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
+	}
+
 	on_success = {
 		ROOT = {
 			prestige = 200
@@ -3911,7 +4408,7 @@ overthrow_ruler_no_calls = {
 							tier = king
 							tier = emperor
 						}
-	#					is_titular = no
+						#is_titular = no
 					NOT = { has_law = crown_levy_0 }
 				}
 				if = {
@@ -3955,6 +4452,13 @@ overthrow_ruler_no_calls = {
 				}
 			}
 			abdicate = yes
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -4017,6 +4521,10 @@ change_gavelkind_succession_law = {
 	can_ask_to_join_war = no
 	major_revolt = yes
 	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		ROOT = {
 			vassal_of = FROM	
@@ -4056,6 +4564,11 @@ change_gavelkind_succession_law = {
 			tier = king
 			is_primary_holder_title = yes
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
 	}
 	
 	on_success = {
@@ -4224,6 +4737,10 @@ lower_crown_authority_law = {
 	can_ask_to_join_war = no
 	major_revolt = yes
 	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		ROOT = {
 			vassal_of = FROM
@@ -4267,6 +4784,11 @@ lower_crown_authority_law = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -4401,6 +4923,10 @@ lower_tribal_organization_law = {
 	can_ask_to_join_war = no
 	major_revolt = yes
 	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		ROOT = {
 			vassal_of = FROM
@@ -4445,6 +4971,11 @@ lower_tribal_organization_law = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -4581,6 +5112,12 @@ coastal_republic = {
 	allow_distant = yes # AI parameter
 
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 700
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use = {
 		ROOT = {
@@ -4641,6 +5178,11 @@ coastal_republic = {
 				is_patrician = yes
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success_title = {
@@ -4740,6 +5282,12 @@ coastal_county_republic = {
 	allow_distant = yes # AI parameter
 
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 700
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use = {
 		ROOT = {
@@ -4837,6 +5385,11 @@ coastal_county_republic = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success_title = {
 		if = {
 			limit = {
@@ -4878,6 +5431,13 @@ coastal_county_republic = {
 		any_attacker = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -4940,6 +5500,10 @@ weaken_vassal_plot = {
 	attacker_can_call_allies = no
 	can_ask_to_join_war = no
 
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use_title = {
 		OR = {
 			FROM = {
@@ -4960,6 +5524,11 @@ weaken_vassal_plot = {
 				is_liege_or_above = FROM
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -5234,6 +5803,10 @@ cb_faction_independence = {
 	
 	is_independence = yes
 	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		ROOT = {
 			vassal_of = FROM
@@ -5268,6 +5841,11 @@ cb_faction_independence = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -5374,12 +5952,18 @@ cb_faction_independence = {
 				}
 			}
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
 		ROOT = {
 			prestige = -50
-#			prisoner = FROM
 			add_character_modifier = {
 				name = faction_independence_ultimatum_timer
 				hidden = yes
@@ -5540,13 +6124,19 @@ cb_faction_independence = {
 embargo_cb = {
 	name = CB_NAME_EMBARGO
 	war_name = WAR_NAME_EMBARGO
-	sprite = 11
+	sprite = 19
 	truce_days = 3650
 	
 	is_permanent = yes
 	can_ask_to_join_war = no
 
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 2000
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use = {
 		ROOT = {
@@ -5606,7 +6196,10 @@ embargo_cb = {
 		}
 	}
 
-
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
 
 	on_success = {
 		ROOT = {
@@ -5720,6 +6313,23 @@ embargo_cb = {
 	# ai importance placed on this CB: scope is the targeted title, ROOT is the attacking character, FROM is the defending character
 	ai_will_do = { 
 		factor = 1
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
 		modifier = {
 			factor = 0
 			ROOT = {
@@ -5749,10 +6359,9 @@ embargo_cb = {
 seize_trade_post = {
 	name = CB_NAME_SEIZE_TRADE_POST
 	war_name = WAR_NAME_SEIZE_TRADE_POST
-	sprite = 1
+	sprite = 18
 	truce_days = 1825
 	is_permanent = yes
-#	check_all_titles = yes
 	check_all_trade_posts = yes
 	can_ask_to_join_war = no
 	att_ticking_war_score_multiplier = 5.0
@@ -5760,6 +6369,12 @@ seize_trade_post = {
 	allow_distant = yes
 
 	allowed_to_target_tributaries = no
+	
+	sort_priority = 1900
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use = {
 		ROOT = {
@@ -5830,6 +6445,11 @@ seize_trade_post = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
+	}
+
 	on_success_title = {
 		
 		seize_trade_post = ROOT
@@ -5892,6 +6512,23 @@ seize_trade_post = {
 	# ai importance placed on this CB: scope is the targeted title, ROOT is the attacking character, FROM is the defending character
 	ai_will_do = { 
 		factor = 1
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
 		modifier = {
 			factor = 0.25
 			ROOT = {
@@ -6055,11 +6692,23 @@ peasant_revolt = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success_title = {
 		usurp_title_plus_barony_if_unlanded = { target = ROOT type = revolt }
 		ROOT = { set_defacto_liege = ROOT }
 		FROM = {
 			prestige = -100
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -6209,6 +6858,11 @@ religious_revolt = {
 			NOT = { religion = ROOT }
 		}
 	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
  
 	on_success = {
 		ROOT = {
@@ -6255,6 +6909,13 @@ religious_revolt = {
 				has_holder = no
 			}
 			usurp_title = { target = ROOT type = holy_war }
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
 		}
 	}
 
@@ -6367,6 +7028,11 @@ liberation_revolt = {
 	is_valid_title = {
 		has_holder = no
 	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
 	
 	on_success = {
 		ROOT = {
@@ -6407,6 +7073,13 @@ liberation_revolt = {
 						usurp_title = { target = PREV type = revolt }
 					}
 				}
+			}
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
 			}
 		}
 	}
@@ -6499,6 +7172,11 @@ duchy_adventure = {
 	is_valid = {
 		always = yes
 	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
 	
 	on_success = {
 		ROOT = { 
@@ -6530,6 +7208,13 @@ duchy_adventure = {
 						type = host
 					}
 				}
+			}
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
 			}
 		}
 	}
@@ -6849,6 +7534,12 @@ dejure_county_claim = {
 		ROOT = { NOT = { culture = wilderness } }
 	}
 	
+	sort_priority = 700
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use_title = {
 		tier = count
 		
@@ -6912,6 +7603,11 @@ dejure_county_claim = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success_title = {
 		if = {
 			limit = {
@@ -6965,6 +7661,13 @@ dejure_county_claim = {
 			limit = { NOT = { character = ROOT } }
 			hidden_tooltip = { participation_scaled_prestige = 100 }
 		}
+
+		hidden_tooltip = {
+			check_war_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail_title = {
@@ -7015,6 +7718,23 @@ dejure_county_claim = {
 	
 	ai_will_do = {
 		factor = 1
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
 		
 		modifier = {
 			factor = 0 # AIs will not take the last counties off their liege's direct vassals
@@ -7053,6 +7773,12 @@ dejure_barony_claim = {
 
 	infamy_modifier = 0.5
 	
+	sort_priority = 650
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -7094,6 +7820,11 @@ dejure_barony_claim = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success_title = {
@@ -7255,6 +7986,12 @@ other_dejure_county_claim = {
 
 	infamy_modifier = 0.3
 	
+	sort_priority = 700
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -7320,12 +8057,18 @@ other_dejure_county_claim = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		ROOT = {
 			opinion = {
 				modifier = pressed_my_claim 
 				who = PREV
 			}
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_attacker = {
@@ -7346,6 +8089,7 @@ other_dejure_county_claim = {
 			}
 
 			holder_scope = {
+				show_scope_change = no
 				set_defacto_liege = ROOT
 			}
 		}
@@ -7359,9 +8103,10 @@ other_dejure_county_claim = {
 					}
 				}
 			}
-
+			show_scope_change = no
 			usurp_title_plus_barony_if_unlanded = { target = ROOT type = claim }
 			any_de_jure_vassal_title = { # take all baronies under the one we're fighting for
+				show_scope_change = no
 				limit = {
 					has_holder = yes
 					NOT = {
@@ -7378,14 +8123,23 @@ other_dejure_county_claim = {
 				usurp_title_plus_barony_if_unlanded = { target = ROOT type = claim }
 			}
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
 		prestige = -50
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -7394,16 +8148,18 @@ other_dejure_county_claim = {
 		}
 	}
 
-	on_reverse_demand = {
+	on_reverse_demand = { #Attacker lost
 		prestige = -100
 		transfer_scaled_wealth = {
 			to = FROM
 			value = 4.0
 		}
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 		}
 		any_defender = {
@@ -7839,6 +8595,12 @@ rivalry_cb = {
 	
 	defender_unoccupied_warscore = yes
 	
+	sort_priority = 900
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -7860,6 +8622,11 @@ rivalry_cb = {
 		ROOT = {
 			is_rival = FROM
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
 	}
 	
 	on_success = {
@@ -7980,6 +8747,12 @@ tributary_cb = {
 	
 	defender_unoccupied_warscore = yes
 	
+	sort_priority = 810
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -8096,15 +8869,21 @@ tributary_cb = {
 		# Chance to surrender early
 		ROOT = { save_event_target_as = tribute_war_suzerain }
 		FROM = {
+			show_scope_change = no
 			save_event_target_as = tribute_war_target
 			set_character_flag = surrender_tributary_cb
 			character_event = { id = JD.2500 days = 5 tooltip = surrender_tributary_tt }
 		}
-
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		if = {
+			limit = { defender = { is_offmap_governor = offmap_china } }
+			
+		}
 	}
 
 	on_success = {
 		FROM = {
+			show_scope_change = no
 			save_event_target_as = target_loser
 			prestige = -100
 			custom_tooltip = {
@@ -8120,6 +8899,7 @@ tributary_cb = {
 		}
 
 		ROOT = {
+			show_scope_change = no
 			prestige = 200
 			make_tributary = { who = FROM percentage = 0.4 }
 		}
@@ -8179,15 +8959,18 @@ tributary_cb = {
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = 100
 		}
 	}
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			transfer_scaled_wealth = {
 				to = FROM
@@ -8196,6 +8979,7 @@ tributary_cb = {
 		}
 
 		FROM = {
+			show_scope_change = no
 			prestige = 200
 		}
 	}
@@ -8349,6 +9133,23 @@ tributary_cb = {
 	ai_will_do = {
 		factor = 1
 		
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
 		modifier = {
 			factor = 0.1 # Low prio CB
 		}
@@ -8388,6 +9189,8 @@ free_tributary_cb = {
 	hostile_against_others = yes
 	can_ask_to_join_war = no
 	is_independence = yes
+	
+	sort_priority = 1100
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -8456,6 +9259,7 @@ free_tributary_cb = {
 	}
 
 	can_use_gui = {
+		check_if_crusader_trigger = yes
 		ROOT = { #Cannot use CB if can take decision to stop paying tribute
 			conditional_tooltip = {
 				trigger = { is_decision_potential = tributary_independence_china }
@@ -8497,12 +9301,19 @@ free_tributary_cb = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		FROM = {
+			show_scope_change = no
 			prestige = -100
 		}
 
 		ROOT = {
+			show_scope_change = no
 			prestige = 100
 			if = {
 				limit = {
@@ -8541,15 +9352,18 @@ free_tributary_cb = {
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			prestige = 100
 		}
 	}
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 			transfer_scaled_wealth = {
 				to = FROM
@@ -8558,6 +9372,7 @@ free_tributary_cb = {
 		}
 
 		FROM = {
+			show_scope_change = no
 			prestige = 100
 		}
 	}
@@ -8714,6 +9529,23 @@ free_tributary_cb = {
 		modifier = {
 			factor = 1.5
 		}
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
 
 		modifier = {
 			factor = 4
@@ -8747,6 +9579,10 @@ cb_install_khan = {
 	can_call_vassals = yes
 	attacker_can_call_allies = no
 	major_revolt = yes
+
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
 
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -8783,6 +9619,11 @@ cb_install_khan = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		FROM = {
 			any_demesne_title = {
@@ -8805,16 +9646,19 @@ cb_install_khan = {
 
 	on_fail = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 	}
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			prisoner = FROM
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 50
 			hidden_tooltip = { 
 				if = { 
@@ -8870,13 +9714,18 @@ nomad_dispute = {
 	hostile_against_others = yes
 	is_permanent = yes
 	check_all_titles = yes
-	press_claim = yes
 	can_ask_to_join_war = no
 	
 	allow_distant = yes
 
 	allowed_to_target_tributaries = no
 	
+	sort_priority = 700
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -8916,10 +9765,16 @@ nomad_dispute = {
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success_title = {
 		usurp_title_plus_barony_if_unlanded = { target = ROOT type = invasion }
 		
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			participation_scaled_piety = 50
 		}
@@ -8934,9 +9789,11 @@ nomad_dispute = {
 
 	on_fail_title = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -100
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 50
 		}
 		any_defender = {
@@ -8947,6 +9804,7 @@ nomad_dispute = {
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			prestige = -200
 			transfer_scaled_wealth = {
 				to = FROM
@@ -8954,6 +9812,7 @@ nomad_dispute = {
 			}
 		}
 		FROM = {
+			show_scope_change = no
 			participation_scaled_prestige = 100
 			participation_scaled_piety = 50
 		}
@@ -8984,6 +9843,23 @@ nomad_dispute = {
 	
 	ai_will_do = {
 		factor = 2
+		modifier = { #Focus on Coronation first.
+			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
 	}
 	
 }
@@ -9001,6 +9877,12 @@ cb_liberate_nomad_duchy = {
 
 	infamy_modifier = 0.75
 	
+	sort_priority = 810
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -9082,9 +9964,15 @@ cb_liberate_nomad_duchy = {
 			mercenary = no
 		}
 	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
 	
 	on_success = {
 		ROOT = {
+			show_scope_change = no
 			participation_scaled_prestige = 200
 			if = {
 				limit = {
@@ -9106,10 +9994,12 @@ cb_liberate_nomad_duchy = {
 			}
 		}
 		
-		FROM = { prestige = -200 }
+		FROM = { show_scope_change = no prestige = -200 }
 	}
 
 	on_success_title = {
+		check_holy_order_donation_effect = yes
+
 		custom_tooltip = {
 			text = liberate_nomad_cb_succ_tip
 			hidden_tooltip = {
@@ -9126,13 +10016,15 @@ cb_liberate_nomad_duchy = {
 	}
 
 	on_fail = {
-		ROOT = { 
+		ROOT = {
+			show_scope_change = no
 			prestige = -200
 		}
 	}
 
 	on_reverse_demand = {
 		ROOT = {
+			show_scope_change = no
 			transfer_scaled_wealth = {
 				to = FROM
 				value = 4.0
@@ -9180,14 +10072,53 @@ cb_liberate_nomad_duchy = {
 	
 	ai_will_do = {
 		factor = 1
-		modifier = {
+		modifier = { #Focus on Coronation first.
 			factor = 0.1
+			has_dlc = "Holy Fury"
+			ROOT = {
+				is_feudal = yes
+				OR = {
+					religion = catholic
+					religion = fraticelli
+				}
+				NOR = {
+					trait = crowned_by_priest
+					trait = crowned_by_bishop
+					trait = crowned_by_pope
+					trait = crowned_by_myself
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			ROOT = {
+				NOT = {
+					is_tribal = yes
+				}
+			}
 			NOT = {
 				any_direct_de_jure_vassal_title = {
 					any_direct_de_jure_vassal_title = {
 						OR = {
 							holding_type = castle
 							holding_type = city
+						}
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			ROOT = {
+				is_tribal = yes
+			}
+			NOT = {
+				any_direct_de_jure_vassal_title = {
+					any_direct_de_jure_vassal_title = {
+						OR = {
+							holding_type = castle
+							holding_type = city
+							holding_type = tribal
 						}
 					}
 				}
@@ -9238,6 +10169,11 @@ cb_minor_clan_revolt = {
 				is_liege_or_above = FROM
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success_title = {
@@ -9347,6 +10283,9 @@ nomad_subjugation = {
 	is_permanent = yes
 	can_ask_to_join_war = yes
 	allowed_to_target_tributaries = no
+	defender_unoccupied_warscore = yes
+	
+	sort_priority = 1100
 	
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
@@ -9466,6 +10405,8 @@ nomad_subjugation = {
 				}
 			}
 		}
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -9589,6 +10530,13 @@ nomad_subjugation = {
 				}
 			}
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 	
 	on_fail = {
@@ -9675,6 +10623,8 @@ nomad_invasion = {
 	
 	allowed_to_target_tributaries = no
 	
+	sort_priority = 1000
+	
 	can_use_gui = {
 		ROOT = {
 			prestige = 100
@@ -9685,6 +10635,8 @@ nomad_invasion = {
 	
 	on_add = {
 		ROOT = { prestige = -100 }
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	can_use = {
@@ -9821,6 +10773,13 @@ nomad_invasion = {
 				}
 			}
 		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
+			}
+		}
 	}
 
 	on_fail = {
@@ -9926,6 +10885,8 @@ nomad_expansion = {
 		ROOT = { NOT = { culture = wilderness } }
 	}
 	
+	sort_priority = 800
+	
 	can_use_gui = {
 		ROOT = {
 			prestige = 300
@@ -9945,6 +10906,8 @@ nomad_expansion = {
 	
 	on_add = {
 		ROOT = { prestige = -300 }
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	can_use = {
@@ -10082,9 +11045,15 @@ nomad_expansion = {
 					subjugate_or_take_under_title = {
 						title = PREV
 						enemy = FROM
-#						same_religion = yes # Only vassalize rulers of my religion
 					}
 				}
+			}
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
 			}
 		}
 	}
@@ -10157,6 +11126,10 @@ increase_council_power_war = { # Started from faction
 	can_ask_to_join_war = no
 	major_revolt = yes
 	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -10202,6 +11175,11 @@ increase_council_power_war = { # Started from faction
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+	
 	}
 
 	on_success = {
@@ -10326,6 +11304,12 @@ nomad_humiliate_cb = {
 	
 	defender_unoccupied_warscore = yes
 	
+	sort_priority = 815
+	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -10396,6 +11380,11 @@ nomad_humiliate_cb = {
 				}
 			}
 		}
+	}
+
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
 	}
 
 	on_success = {
@@ -10616,6 +11605,10 @@ powerful_vassal_takeover_war = { # Started from faction
 	can_ask_to_join_war = no
 	major_revolt = yes
 	
+	can_use_gui = {
+		check_if_crusader_trigger = yes
+	}
+
 	can_use = {
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
@@ -10649,6 +11642,11 @@ powerful_vassal_takeover_war = { # Started from faction
 		}
 	}
 
+	on_add = {
+		hidden_tooltip = { fire_haruspicy_event_effect = yes }
+		
+	}
+
 	on_success = {
 		any_attacker = {
 			participation_scaled_prestige = 100
@@ -10667,28 +11665,20 @@ powerful_vassal_takeover_war = { # Started from faction
 			limit = { has_law = succession_voting_power_0 }
 			add_law_w_cooldown = succession_voting_power_1
 		}
-		custom_tooltip = {
-			text = overthrow_text
-			hidden_tooltip = {
-				if = {
-					limit = { 
-						NOT = { has_law = succ_feudal_elective }
-						has_law = law_voting_power_1
-						has_law = banish_voting_power_1
-						has_law = execution_voting_power_1
-						has_law = revoke_title_voting_power_1
-						has_law = grant_title_voting_power_1
-						has_law = imprison_voting_power_1
-						has_law = war_voting_power_1						
-					}
-					add_law_w_cooldown = succ_feudal_elective
-				}
-				if = {
-					limit = {
-						NOT = { has_law = succ_gavelkind }
-						NOT = { has_law = succ_feudal_elective }
-						NAND = {
-							has_law = succ_feudal_elective
+		if = { 
+			limit = { #Should not be changed from Imperial Elective
+				NOT = {	has_law = succ_byzantine_elective }
+			}
+			custom_tooltip = {
+				text = overthrow_text
+				hidden_tooltip = {
+					if = {
+						limit = { 
+							OR = { 
+								title = e_hre
+								has_title_flag = alternate_hre
+							}
+							NOR = { has_law = succ_feudal_elective has_law = succ_hre_elective }
 							has_law = law_voting_power_1
 							has_law = banish_voting_power_1
 							has_law = execution_voting_power_1
@@ -10697,8 +11687,42 @@ powerful_vassal_takeover_war = { # Started from faction
 							has_law = imprison_voting_power_1
 							has_law = war_voting_power_1						
 						}
+						add_law_w_cooldown = succ_hre_elective
 					}
-					add_law_w_cooldown = succ_gavelkind
+					if = {
+						limit = { 
+							NOR = { 
+								title = e_hre 
+								has_title_flag = alternate_hre
+							}
+							NOR = { has_law = succ_feudal_elective has_law = succ_hre_elective }
+							has_law = law_voting_power_1
+							has_law = banish_voting_power_1
+							has_law = execution_voting_power_1
+							has_law = revoke_title_voting_power_1
+							has_law = grant_title_voting_power_1
+							has_law = imprison_voting_power_1
+							has_law = war_voting_power_1						
+						}
+						add_law_w_cooldown = succ_feudal_elective
+					}
+					if = {
+						limit = {
+							NOT = { has_law = succ_gavelkind }
+							NOR = { has_law = succ_feudal_elective has_law = succ_hre_elective }
+							NAND = {
+								has_law = succ_feudal_elective
+								has_law = law_voting_power_1
+								has_law = banish_voting_power_1
+								has_law = execution_voting_power_1
+								has_law = revoke_title_voting_power_1
+								has_law = grant_title_voting_power_1
+								has_law = imprison_voting_power_1
+								has_law = war_voting_power_1						
+							}
+						}
+						add_law_w_cooldown = succ_gavelkind
+					}
 				}
 			}
 		}
@@ -10736,6 +11760,13 @@ powerful_vassal_takeover_war = { # Started from faction
 					}
 				}
 				character_event = { id = 8226 days = 1 }
+			}
+		}
+
+		hidden_tooltip = {
+			check_if_reconquista_finished_effect = yes
+			FROM = {
+				landless_pope_effect = yes
 			}
 		}
 	}
@@ -10831,3 +11862,24 @@ powerful_vassal_takeover_war = { # Started from faction
 		factor = 100
 	}
 }
+
+### Reconquista Wars ###
+# Leon & Asturia #
+
+# Castille & Toledo #
+
+# Aragon & Barcelona #
+
+# Galicia & Porto #
+
+# Beja & Algarve #
+
+# Granada & Sevilla #
+
+# Cordoba & Badajoz #
+
+# Valencia & Murcia #
+
+# Navarra #
+
+# Balearic Islands #

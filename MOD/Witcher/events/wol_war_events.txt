@@ -62,7 +62,7 @@ character_event = {
 		}
 	}
 	
-	option = {
+	option = { #Challenge accepted
 		name = EVTOPTA_WOL_11000
 		ai_chance = {
 			factor = 20
@@ -84,7 +84,7 @@ character_event = {
 			}
 			modifier = {
 				is_female = no
-				FROM = { is_female = yes }
+				FROMFROM = { is_female = yes }
 				top_liege = {
 					is_nomadic = no
 				}
@@ -98,11 +98,7 @@ character_event = {
 				remove_trait = craven
 			}
 		}
-		if = {
-			limit = { religion = jain }
-			piety = -20
-			custom_tooltip = { text = jain_ahimsa_tooltip }
-		}
+		pacifists_lose_piety_effect = yes
 		if = {
 			limit = { 
 				FROMFROM = { 
@@ -122,7 +118,7 @@ character_event = {
 		}
 		clr_character_flag = punish_declining
 	}
-	option = {
+	option = { #No, that sounds dangerous
 		name = EVTOPTB_WOL_11000
 		ai_chance = {
 			factor = 1
@@ -163,7 +159,7 @@ character_event = {
 		hidden_tooltip = {
 			remove_character_modifier = recent_duel_timer
 		}
-		FROMFROM = {
+		FROMFROM = { #attacker
 			hidden_tooltip = {
 				remove_character_modifier = recent_duel_timer
 				opinion = {
@@ -274,7 +270,8 @@ character_event = {
 }
 
 
-# Duel (hidden)
+### NO LONGER IN USE (hence why numbers are off) ###
+# Duel (hidden) 
 character_event = {
 	id = WoL.11005
 	is_triggered_only = yes
@@ -699,6 +696,7 @@ long_character_event = {
 					has_nickname = no
 				}
 				give_nickname = nick_the_ruthless
+				add_blood_splatter_effect = yes
 			}
 		}
 		if = {
@@ -984,6 +982,7 @@ long_character_event = {
 				has_nickname = no
 			}
 			give_nickname = nick_the_beheader
+			add_blood_splatter_effect = yes
 		}
 		event_target:opponent = { save_event_target_as = kinslayer_target }
 		add_kinslayer_trait_effect = yes
@@ -1182,16 +1181,12 @@ character_event = {
 				character_event = { id = WoL.11101 } # running
 			}
 			30 = {
-				modifier = {
-					OR = {
+				trigger = {
+					NOT = { trait = slothful }
+					any_courtier = {
 						trait = slothful
-						NOT = {
-							any_courtier = {
-								trait = slothful
-							}
-						}
+						prisoner = no
 					}
-					factor = 0
 				}
 				character_event = { id = WoL.11102 } # slothful court
 			}
@@ -1301,6 +1296,7 @@ character_event = {
 				ai = yes
 				is_adult = yes
 				trait = slothful
+				prisoner = no
 			}
 			save_event_target_as = slothful_courtier
 		}
@@ -1346,7 +1342,20 @@ character_event = {
 	id = WoL.11103
 	is_triggered_only = yes
 	desc = EVTDESC_WOL_11103
-	picture = GFX_evt_son_asking_father
+	picture = { 
+		trigger = { 
+			has_religion_feature = religion_matriarchal
+		} 
+		picture = GFX_evt_daughter_asking_mother
+	}
+	picture = { 
+		trigger = { 
+			NOT = { 
+				has_religion_feature = religion_matriarchal
+			} 
+		} 
+		picture = GFX_evt_son_asking_father
+	}
 	border = GFX_event_normal_frame_war
 	
 	option = {
@@ -1394,7 +1403,20 @@ character_event = {
 	id = WoL.11104
 	is_triggered_only = yes
 	desc = EVTDESC_WOL_11104
-	picture = GFX_evt_son_asking_father
+	picture = { 
+		trigger = { 
+			has_religion_feature = religion_matriarchal
+		} 
+		picture = GFX_evt_daughter_asking_mother
+	}
+	picture = { 
+		trigger = { 
+			NOT = { 
+				has_religion_feature = religion_matriarchal
+			} 
+		} 
+		picture = GFX_evt_son_asking_father
+	}
 	border = GFX_event_normal_frame_war
 	
 	immediate = {
@@ -1418,6 +1440,7 @@ character_event = {
 	option = {
 		name = EVTOPTA_WOL_11104
 		event_target:portrait_target = {
+			show_scope_change = no
 			mangle_effect = yes
 		}
 		hidden_tooltip = {
@@ -1469,7 +1492,20 @@ character_event = {
 	id = WoL.11107
 	is_triggered_only = yes
 	desc = EVTDESC_WOL_11107
-	picture = GFX_evt_son_asking_father
+	picture = { 
+		trigger = { 
+			has_religion_feature = religion_matriarchal
+		} 
+		picture = GFX_evt_daughter_asking_mother
+	}
+	picture = { 
+		trigger = { 
+			NOT = { 
+				has_religion_feature = religion_matriarchal
+			} 
+		} 
+		picture = GFX_evt_son_asking_father
+	}
 	border = GFX_event_normal_frame_war
 	
 	option = {
@@ -1499,7 +1535,20 @@ character_event = {
 	id = WoL.11109
 	is_triggered_only = yes
 	desc = EVTDESC_WOL_11109
-	picture = GFX_evt_son_asking_father
+	picture = { 
+		trigger = { 
+			has_religion_feature = religion_matriarchal
+		} 
+		picture = GFX_evt_daughter_asking_mother
+	}
+	picture = { 
+		trigger = { 
+			NOT = { 
+				has_religion_feature = religion_matriarchal
+			} 
+		} 
+		picture = GFX_evt_son_asking_father
+	}
 	border = GFX_event_normal_frame_war
 	
 	option = {
@@ -1542,6 +1591,7 @@ character_event = {
 				set_character_flag = sparring_partner
 			}
 			ROOT = {
+				show_scope_change = no
 				add_friend = PREV
 			}
 		}
@@ -3216,6 +3266,8 @@ character_event = {
 	desc = EVTDESC_WOL_11201
 	picture = GFX_evt_melee
 	border = GFX_event_normal_frame_war
+
+	hide_from = yes
 	
 	trigger = {
 		NOT = {
@@ -3261,6 +3313,8 @@ character_event = {
 	desc = EVTDESC_WOL_11202
 	picture = GFX_evt_melee
 	border = GFX_event_normal_frame_war
+
+	hide_from = yes
 	
 	trigger = {
 		has_character_modifier = wol_great_warrior
@@ -3289,6 +3343,8 @@ character_event = {
 	desc = EVTDESC_WOL_11203
 	picture = GFX_evt_melee
 	border = GFX_event_normal_frame_war
+
+	hide_from = yes
 	
 	option = {
 		name = EVTOPTA_WOL_11203
@@ -3303,6 +3359,8 @@ character_event = {
 	desc = EVTDESC_WOL_11204
 	picture = GFX_evt_melee
 	border = GFX_event_normal_frame_war
+
+	hide_from = yes
 	
 	option = {
 		name = EVTOPTA_WOL_11204
@@ -3328,6 +3386,8 @@ character_event = {
 	desc = EVTDESC_WOL_11205
 	picture = GFX_evt_melee
 	border = GFX_event_normal_frame_war
+
+	hide_from = yes
 	
 	option = {
 		name = EVTOPTA_WOL_11205
@@ -3352,6 +3412,9 @@ character_event = {
 	is_triggered_only = yes
 	picture = GFX_evt_melee
 	border = GFX_event_normal_frame_war
+
+	hide_from = yes
+
 	desc = {
 		text = EVTDESCA_WOL_11206
 		trigger = {

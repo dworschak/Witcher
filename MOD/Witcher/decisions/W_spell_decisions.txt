@@ -19,6 +19,9 @@ targetted_decisions = {
 			NOT = { culture = wilderness }
 			is_within_diplo_range = FROM
 			ai = yes # To keep AI from using it against a player
+			job_mage = {
+				NOT = { character = FROM } # Can't charm oneself
+			}
 		}
 		
 		allow = {
@@ -35,10 +38,6 @@ targetted_decisions = {
 			hidden_tooltip = { 
 				job_mage = { character_event = { id = spell.42 } }
 			}
-		}
-		
-		revoke_allowed = {
-			always = no
 		}
 		
 		ai_will_do = {
@@ -94,14 +93,10 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
-			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
+			modifier = { factor = 0.01 FROM = { has_job_title = job_mage } }
 			modifier = { factor = 0.01 war = yes }
 			
 			# Rank
@@ -149,10 +144,6 @@ targetted_decisions = {
 			hidden_tooltip = { 
 				job_mage = { character_event = { id = spell.2 } }
 			}
-		}
-		
-		revoke_allowed = {
-			always = no
 		}
 		
 		ai_will_do = {
@@ -215,10 +206,6 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
@@ -264,10 +251,6 @@ targetted_decisions = {
 			hidden_tooltip = { 
 				FROM = { character_event = { id = spell.1 } }
 			}
-		}
-		
-		revoke_allowed = {
-			always = no
 		}
 		
 		ai_will_do = {
@@ -325,14 +308,10 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
-			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
+			modifier = { factor = 0.01 FROM = { has_job_title = job_mage } }
 			modifier = { factor = 0.01 war = yes }
 			
 			# Target is the liege
@@ -412,10 +391,6 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
@@ -465,10 +440,6 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
@@ -514,15 +485,11 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
 			modifier = { factor = 0.01 war = yes }
-			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
+			modifier = { factor = 0.01 FROM = { has_job_title = job_mage } }
 			
 			# On self
 			modifier = { 
@@ -564,15 +531,11 @@ targetted_decisions = {
 			}
 		}
 		
-		revoke_allowed = {
-			always = no
-		}
-		
 		ai_will_do = {
 			factor = 1
 			modifier = { factor = 0.1 }
 			modifier = { factor = 0.01 war = yes }
-			modifier = { factor = 0.1 FROM = { has_job_title = job_mage } }
+			modifier = { factor = 0.01 FROM = { has_job_title = job_mage } }
 			
 			# Traits
 			modifier = { factor = 2.0 FROM = { trait = kind } }
@@ -605,13 +568,14 @@ decisions = {
 		allow = {
 			NOT = { has_character_modifier = drained }
 			OR = {
-				NOT = { trait = fair }
+				NOT = { has_fair_trait_trigger = yes }
 				trait = harelip
 				trait = hunchback
 				trait = lisp
 				trait = stutter
 				trait = ugly
 				trait = dwarf
+				trait = uncouth
 			}
 		}
 		effect = {

@@ -101,7 +101,6 @@ NDefines.NRulerDesigner.COST_MORALE_OFFENCE = 100.0
 NDefines.NRulerDesigner.COST_MORALE_DEFENCE = 100.0
 NDefines.NRulerDesigner.COST_DEFENCE = 100.0
 NDefines.NRulerDesigner.MAX_AGE = 100
-NDefines.NGraphics.NUMBER_OF_PROPERTIES = 20 -- Add two layers (p18 and p19) for pre-rendered portraits
 NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING = 20 -- If a character has that much health, they won't be pruned
 NDefines.NEngine.COURT_PRUNE_SIZE = 10 -- Courts larger than this will be checked for pruning each month
 NDefines.NEngine.PRUNE_MINIMAL_AGE = 40 -- Minimum age for a courtier to be prunable if considered irrelevant
