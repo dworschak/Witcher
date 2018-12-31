@@ -42,12 +42,30 @@ When adapting vanilla elements (events, portrait, music, etc.), here is a rough 
 - Cintra ~ Lowland Scots
 - Gesco ~ Spanish
 
+
+### Religions
+
+Religion matters a lot less than in vanilla and the demand conversion interaction is disabled.
+
+When adapting vanilla events, possible associations are:
+
+- Eternal Fire ~ Catholic
+- Freya ~ Norse
+
+
 ### Events
 
 The vanilla game rules "supernatural_events" is obviously removed, as there is lot of supernatural stuff in the Witcher world.
 Vanilla events should usually be altered to keep the part associated to the value "unrestricted" of the game rule.
 
 When a vanilla event is unsuitable, try to find a lore-equivalent and override the event localization keys, rather than disabling the event entirely - it's cheaper than creating a new event chain !
+
+For instance:
+
+- "The Confessions of St. Augustine" => "the Good Book of Prophet Lebioda's Wisdom"
+- "from Irland to Cathay" => "from Kovir to Zangwebar"
+- Bubonic plague => Catriona plague
+
 
 ### Immortality
 
@@ -83,10 +101,17 @@ Some races are infertile, so never impregnate via event without an actual fertil
 
 Age of adulthood is set to 15 instead of 16 via defines:
 
-- Use is_adult instead of age = 15 for ability to rule
-- Use is_marriage_adult instead of age = 15 for ability to marry
+- Use `is_adult` instead of `age = 15` for ability to rule
+- Use `is_marriage_adult` instead of `age = 15` for ability to marry
+
+As a consequence, to keep Concalve education event balance:
+
+- Childhood starts at 5 (instead of 6) - `on_yearly_childhood_pulse`
+- Adolescence starts at 11 (instead of 12) - `on_adolescence`
 
 ### Races
+
+Racial traits are assigned at character birth/creation (and on_startup to simplify the history) based on the ethnicity and ethnicity of the parents.
 
 Vanilla condition "race = FROM" cannot be used, because it compares ethnicities/cultures and not fantasy racial traits.
 Instead use has_same_race_as_from_trigger = yes to know if THIS and FROM have the same racial trait.
@@ -94,8 +119,19 @@ This is useful for racist trait MTTH, that should not apply if has_same_race_as_
 
 ### Magic
 
+Ability to cast spell is based on the absence of a character modifier `drained`.
+
 Check for protection spells before killing a character: 
 
 ````
 limit = { NOT = { has_character_modifier = protection_spell } }
 ````
+
+### Wilderness
+
+Counties and baronies cannot stay without an owner, so a fake character represents the wilderness.
+
+All interactions (CBs, decisions, plots, ...) from and toward the wilderness must be blocked by checking `NOT = { culture = wilderness }`
+
+
+
