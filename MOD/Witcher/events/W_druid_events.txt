@@ -537,7 +537,7 @@ character_event = {
 		opinion = { who = FROM modifier = opinion_grateful }
 	}
 }
-# Druid - Remove ill
+# Druid - Remove illness
 character_event = {
 	id = druid.104
 	desc = EVTDESCdruid.104
@@ -546,6 +546,7 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	min_age = 15
+	lacks_dlc = "Reapers"
 	
 	trigger = {
 		trait = druid
@@ -571,11 +572,18 @@ character_event = {
 		name = EVTOPTBdruid.104
 		trigger = {
 			liege = { 
-				any_courtier = { is_ill = yes }
+				any_courtier = { 
+					is_ill = yes
+				}
 			}
 		}
 		liege = {
-			random_courtier = { character_event = { id = druid.105 tooltip = EVTTOOLTIPdruid_cure} }
+			random_courtier = { 
+				limit = {
+					is_ill = yes
+				}
+				character_event = { id = druid.105 tooltip = EVTTOOLTIPdruid_cure}
+			}
 		}
 		ai_chance = { factor = 5 }
 	}
