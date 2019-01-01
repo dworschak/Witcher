@@ -129,7 +129,7 @@ limit = { NOT = { has_character_modifier = protection_spell } }
 
 ### Wilderness
 
-Counties and baronies cannot stay without an owner, so a fake character represents the wilderness.
+Counties and baronies cannot stay without an owner, so a fake character (with ID 1) represents the wilderness.
 
 All interactions (CBs, decisions, plots, ...) from and toward the wilderness must be blocked by checking `NOT = { culture = wilderness }`
 

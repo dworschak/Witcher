@@ -109,6 +109,7 @@ has_pleasant_trait_trigger = {
 		trait = charitable
 		trait = patient
 		trait = kind
+		trait = reasonable
 	}
 }
 
@@ -237,6 +238,9 @@ has_attractive_trait_trigger = {
 		trait = robust
 		trait = strong
 		trait = socializer
+		trait = silver_tongued
+		trait = tall
+		trait = reasonable
 	}
 }
 
@@ -270,6 +274,7 @@ has_unattractive_trait_trigger = {
 		trait = cruel
 		trait = stubborn
 		trait = blinded
+		trait = blind
 		trait = horse
 		trait = one_eyed
 		trait = one_handed
@@ -286,6 +291,9 @@ has_unattractive_trait_trigger = {
 		trait = vomiting
 		trait = diarrhea
 		trait = cough
+		trait = mute
+		trait = deaf
+		trait = deaf
 	}
 }
 
@@ -455,6 +463,7 @@ has_severe_disability_trigger = {
 		trait = mangled
 		trait = inbred
 		trait = blinded
+		trait = blind
 		trait = incapable
 		trait = maimed
 	}
@@ -469,6 +478,8 @@ has_medium_disability_trigger = {
 		trait = hunchback
 		trait = dwarf
 		trait = giant
+		trait = death
+		trait = mute
 	}
 }
 
@@ -1418,6 +1429,8 @@ is_inaccessible_trigger = { #Remember to write this "is_inaccessible_trigger = n
 				has_character_modifier = in_meditation
 				has_character_modifier = doing_penance
 				has_character_modifier = out_traveling
+				
+				culture = wilderness
 			}
 		}
 	}
@@ -1522,6 +1535,7 @@ is_unimportant_trigger = {
 }
 
 sad_example_trigger = {
+	trait = human_race
 	age = 30
 	is_married = no
 	NOT = { num_of_children = 1 }
@@ -2156,109 +2170,11 @@ is_widow_or_widower_trigger = {
 }
 
 FROMs_religion_is_playable_trigger = {
-	NOR = {
-		AND = { #Means you're not allowed to play Muslims
-			FROM = { religion_group = muslim }
-			NOT = { has_dlc = "The Sword of Islam" }
-		}
-		AND = { #Means you're not allowed to play Jewish
-			FROM = { religion_group = jewish_group }
-			NOT = { has_dlc = "Sons of Abraham" }
-		}
-		AND = { #Means you're not allowed to play (most) Pagans
-			FROM = {
-				religion_group = pagan_group
-				NOT = { religion = bon }
-				NOT = { religion = bon_reformed }
-			}
-			NOT = { has_dlc = "The Old Gods" }
-		}
-		AND = { #Means you're not allowed to play the Bön religion (Pagan)
-			FROM = { 
-				OR = { 
-					religion = bon
-					religion = bon_reformed
-				}
-			}
-			NOR = {
-				has_dlc = "The Old Gods"
-				has_dlc = "Jade Dragon"
-			}
-		}
-		AND = { #Means you're not allowed to play the Eastern Religions
-			FROM = { religion_group = indian_group }
-			NOT = { 
-				FROM = { 
-					religion = taoist
-				} 
-			}
-			NOT = {	has_dlc = "Rajas of India" }
-		}
-		AND = { #Means you're not allowed to play the Zoroastrians
-			FROM = { religion_group = zoroastrian_group }
-			NOT = { has_dlc = "The Old Gods" }
-		}
-		AND = { #Means you're not allowed to play the Taoist religion 
-			FROM = { religion = taoist }
-			NOR = { 
-				has_dlc = "Jade Dragon"
-				has_dlc = "Rajas of India"
-			}
-		}
-	}
+	always = yes # Not using vanilla religion groups
 }
 
 ROOTs_religion_is_playable_trigger = { #For targeted decision where FROM is the player
-	NOR = {
-		AND = { #Means you're not allowed to play Muslims
-			ROOT = { religion_group = muslim }
-			NOT = { has_dlc = "The Sword of Islam" }
-		}
-		AND = { #Means you're not allowed to play Jewish
-			ROOT = { religion_group = jewish_group }
-			NOT = { has_dlc = "Sons of Abraham" }
-		}
-		AND = { #Means you're not allowed to play (most) Pagans
-			ROOT = {
-				religion_group = pagan_group
-				NOT = { religion = bon }
-				NOT = { religion = bon_reformed }
-			}
-			NOT = { has_dlc = "The Old Gods" }
-		}
-		AND = { #Means you're not allowed to play the Bön religion (Pagan)
-			ROOT = { 
-				OR = { 
-					religion = bon 
-					religion = bon_reformed
-				} 
-			}
-			NOR = {
-				has_dlc = "The Old Gods"
-				has_dlc = "Jade Dragon"
-			}
-		}
-		AND = { #Means you're not allowed to play the Eastern Religions
-			ROOT = { religion_group = indian_group }
-			NOT = { 
-				ROOT = { 
-					religion = taoist
-				} 
-			}
-			NOT = {	has_dlc = "Rajas of India" }
-		}
-		AND = { #Means you're not allowed to play the Zoroastrians
-			ROOT = { religion_group = zoroastrian_group }
-			NOT = { has_dlc = "The Old Gods" }
-		}
-		AND = { #Means you're not allowed to play the Taoist religion 
-			ROOT = { religion = taoist }
-			NOR = { 
-				has_dlc = "Jade Dragon"
-				has_dlc = "Rajas of India"
-			}
-		}
-	}
+	always = yes # Not using vanilla religion groups
 }
 ###Use the actual is_<family member>_of = scope triggers now
 family_of_root_trigger = { #use is_blood_relative_of_root_trigger for all relatives
@@ -2369,6 +2285,7 @@ interesting_face_trigger = {
 		is_ill = yes
 		trait = disfigured
 		trait = blinded
+		trait = blind
 		trait = one_eyed
 		trait = leper
 		trait = harelip
@@ -2504,6 +2421,11 @@ has_negative_congenital_trigger = {
 		trait = inbred
 		trait = weak
 		trait = imbecile
+		
+		trait = mute
+		trait = deaf
+		trait = blind
+		trait = absentminded
 	}
 }
 
@@ -2539,12 +2461,6 @@ is_ascetic_trigger = {
 		OR = {
 			trait = monk
 			trait = nun
-			trait = muni
-			trait = aryika
-			trait = bhikkhu
-			trait = bhikkhuni
-			trait = sanyasi
-			trait = sanyasini
 		}
 	}
 }
@@ -3056,7 +2972,10 @@ character_knows_prev_trigger = {
 		same_liege = PREV
 		AND = {
 			is_within_diplo_range = PREV
-			PREV = { independent = yes } 
+			PREV = { 
+				independent = yes
+				NOT = { culture = wilderness }
+			} 
 		}
 	}
 }
@@ -4021,6 +3940,7 @@ has_bottom_tier_education_trait_trigger = {
 		trait = indulgent_wastrel
 		trait = amateurish_plotter
 		trait = detached_priest
+		trait = uneducated_buffoon
 	}
 }
 
@@ -4031,6 +3951,7 @@ has_2nd_tier_education_trait_trigger = {
 		trait = thrifty_clerk
 		trait = flamboyant_schemer
 		trait = martial_cleric
+		trait = jack_of_all_trades
 	}
 }
 
@@ -4044,6 +3965,7 @@ has_3rd_tier_education_trait_trigger = {
 				trait = fortune_builder
 				trait = intricate_webweaver
 				trait = scholarly_theologian
+				trait = well_versed_polymath
 			}
 		}
 	}
@@ -4059,6 +3981,7 @@ has_top_tier_education_trait_trigger = {
 				trait = midas_touched
 				trait = brilliant_strategist
 				trait = mastermind_theologian
+				trait = wise_sage
 			}
 		}
 	}
@@ -4980,61 +4903,7 @@ silk_road_trade_post_trigger = {
 	custom_tooltip = {
 		text = silk_road_province_desc
 		hidden_tooltip = {
-			OR = {
-				province_id = 1491
-				province_id = 1498
-				province_id = 1478
-				province_id = 1359
-				province_id = 1365
-				province_id = 1448
-				province_id = 1440
-				province_id = 1439
-				province_id = 678
-				province_id = 764
-				province_id = 802
-				province_id = 596
-				province_id = 667
-				province_id = 693
-				province_id = 649
-				province_id = 646
-				province_id = 641
-				province_id = 630
-				province_id = 1180
-				province_id = 1297
-				province_id = 1127
-				province_id = 1220
-				province_id = 1114
-				province_id = 1221
-				province_id = 1446
-				province_id = 868
-				province_id = 719
-				province_id = 1338
-				province_id = 1369
-				province_id = 858
-				province_id = 903
-				province_id = 1185
-				province_id = 1129
-				province_id = 1318
-				province_id = 1297
-				province_id = 1163
-				province_id = 1154
-				province_id = 1151
-				province_id = 1481
-				province_id = 1115
-				province_id = 1288
-				province_id = 796
-				province_id = 1362
-				province_id = 728
-				province_id = 774
-				province_id = 620
-				province_id = 1794
-				province_id = 775
-				province_id = 775
-				province_id = 633
-				province_id = 664
-				province_id = 644
-				province_id = 1797
-			}
+			always = no
 		}
 	}
 }
@@ -5065,6 +4934,7 @@ using_unimportant_cb = {
 		using_cb = heretic_revolt
 		using_cb = religious_revolt
 		using_cb = liberation_revolt
+		using_cb = scoiatael_revolt
 	}
 }
 
@@ -5087,16 +4957,13 @@ death_no_trace_trigger = {
 proselytize_convert_independent_trigger = {
 	owner = {
 		OR = { 
-			FROM = { NOT = { religion_group = pagan_group } } 
+			#FROM = { NOT = { religion_group = pagan_group } } 
 			FROM = { has_religion_feature = religion_proselytizing }
 		}
 		independent = yes
 		NOT = { religion = FROM }
-		religion_group = pagan_group
-		OR = {
-			NOT = { religion = aztec }
-			year = 1350
-		}
+		#religion_group = pagan_group
+
 		is_reformed_religion = no
 		capital_scope = {
 			province = ROOT
@@ -5123,17 +4990,17 @@ is_toddler_age_trigger = {
 
 is_young_child_age_trigger = {
 	age = 4
- 	NOT = { age = 9 }
+ 	NOT = { age = 8 }
 }
 
 is_child_age_trigger = {
-	age = 9
- 	NOT = { age = 12 }
+	age = 8
+ 	NOT = { age = 11 }
 }
 
 is_adolescent_age_trigger = {
-	age = 12
- 	NOT = { age = 17 }
+	age = 11
+ 	NOT = { age = 16 }
 }
 
 is_teenager_age_trigger = {
@@ -5311,6 +5178,11 @@ has_minor_title_relating_to_martial_trigger = { #WIP - feel free to add to this
 		has_minor_title = title_master_of_the_horse
 		has_minor_title = title_cupbearer
 		has_minor_title = title_commander
+		
+		has_minor_title = title_master_of_the_blade
+		has_minor_title = title_master_of_the_bow
+		has_minor_title = title_captain_of_the_guard
+		has_minor_title = title_court_witcher
 	}
 }
 
@@ -6044,6 +5916,31 @@ lower_educational_trait_trigger = {
 				trait = mastermind_theologian
 			}
 		}
+		AND = {
+			trait = uneducated_buffoon
+			ROOT = {
+				OR = {
+					trait = jack_of_all_trades
+					trait = well_versed_polymath
+					trait = wise_sage
+				}
+			}
+		}
+		AND = {
+			trait = jack_of_all_trades
+			ROOT = {
+				OR = {
+					trait = well_versed_polymath
+					trait = wise_sage
+				}
+			}
+		}
+		AND = {
+			trait = well_versed_polymath
+			ROOT = {
+				trait = wise_sage
+			}
+		}
 	}
 }
 
@@ -6058,25 +5955,12 @@ has_scarred_trait_trigger = {
 this_is_warrior_culture_trigger = { #Not really about culture - Used in AI voting logic.
 	NOT = { pacifist = yes }
 	OR = { 
-		religion_group = muslim
-		religion = norse_pagan
-		religion = tengri_pagan
-		religion = aztec
+		religion = freya
+		religion = dryad
+		religion = yer
 		has_religion_feature = religion_warlike
 		is_tribal = yes
 		is_nomadic = yes
-		AND = { 
-			NOT = { has_dlc = "Holy Fury"}
-			religion = norse_pagan_reformed
-		}
-		AND = { 
-			NOT = { has_dlc = "Holy Fury"}
-			religion = tengri_pagan_reformed
-		}
-		AND = { 
-			NOT = { has_dlc = "Holy Fury"}
-			religion = aztec_reformed
-		}
 	}
 }
 
@@ -6087,26 +5971,19 @@ this_is_diplomatic_culture_trigger = { #Not really about culture - Used in AI vo
 		is_merchant_republic = yes
 	} 
 	OR = { 
-		religion_group = christian
-		religion_group = jewish_group
-		religion_group = zoroastrian_group
-		religion = hellenic_pagan
+		religion_group = northern_religions
+		religion_group = southern_religions
+		religion = dana_meadbh
+		religion = dwarven
+		religion = halfling
+		religion = gnomish
 		has_religion_feature = religion_cosmopolitan
-		AND = { 
-			NOT = { has_dlc = "Holy Fury"}
-			religion = hellenic_pagan_reformed
-		}
 	}
 }
 this_is_spiritual_culture_trigger = { #Not really about culture - Used in AI voting logic.
 	OR = { 
-		religion_group = indian_group
-		religion = bon
+		religion = druidic
 		has_religion_feature = religion_peaceful
-		AND = { 
-			NOT = { has_dlc = "Holy Fury"}
-			religion = bon_reformed
-		}
 	}
 }
 this_is_sea_raider_trigger = {
@@ -6296,6 +6173,9 @@ this_has_lame_nickname_trigger = {
 		has_nickname = nick_the_cheater
 		has_nickname = nick_the_vain
 		has_nickname = nick_the_twitchy
+		
+		has_nickname = nick_the_whore
+		has_nickname = nick_the_noisy
 	}
 }
 this_has_average_nickname_trigger = {
@@ -6782,6 +6662,23 @@ has_at_least_3_traits_in_common_with_prev_trigger = {
 			trait = zealous
 			PREV = { trait = zealous }
 		}
+		
+		AND = {
+			trait = tolerant
+			PREV = { trait = tolerant }
+		}
+		AND = {
+			trait = racist
+			PREV = { trait = racist }
+		}
+		AND = {
+			trait = reasonable
+			PREV = { trait = reasonable }
+		}
+		AND = {
+			trait = gambler
+			PREV = { trait = gambler }
+		}
 	}
 }
 
@@ -6912,6 +6809,19 @@ has_at_least_3_traits_opposite_prev_trigger = {
 		AND = {
 			trait = zealous
 			PREV = { trait = cynical }
+		}
+		
+		AND = {
+			trait = racist
+			PREV = { trait = tolerant }
+		}
+		AND = {
+			trait = tolerant
+			PREV = { trait = racist }
+		}
+		AND = {
+			trait = gambler
+			PREV = { trait = reasonable }
 		}
 	}
 }
@@ -7124,46 +7034,7 @@ has_any_astrology_trait_trigger = {
 }
 
 dlc_religion_check_trigger = {
-	OR = {
-		AND = {
-			religion_group = muslim
-			has_dlc = "The Sword of Islam"
-		}
-		AND = {
-			religion_group = jewish_group
-			has_dlc = "Sons of Abraham"
-		}
-		AND = {
-			religion_group = pagan_group
-			OR = {
-				has_dlc = "The Old Gods"
-				has_dlc = "Holy Fury"
-			}
-		}
-		AND = {
-			OR = {
-				religion = bon
-				religion = bon_reformed
-			}
-			has_dlc = "Jade Dragon"
-		}
-		AND = {
-			religion_group = zoroastrian_group
-			has_dlc = "The Old Gods"
-		}
-		AND = {
-			religion = khurmazta
-			has_dlc = "Jade Dragon"
-		}
-		AND = {
-			religion_group = indian_group
-			has_dlc = "Rajas of India"
-		}
-		AND = {
-			religion = taoist
-			has_dlc = "Jade Dragon"
-		}
-	}
+	always = yes
 }
 
 reconquista_check_trigger = {
@@ -7403,10 +7274,6 @@ can_still_be_commander_byzantine_trigger = {
 				male_can_hold_minor_title_trigger = yes
 				female_can_hold_minor_commander_title_trigger = yes
 			}
-			OR = {
-				NOT = { religion = hindu }
-				trait = kshatriya
-			}
 			is_adult = yes
 		}
 		has_character_flag = special_marshal
@@ -7440,10 +7307,6 @@ can_still_be_commander_byzantine_trigger = {
 								OR = {
 									male_can_hold_minor_title_trigger = yes
 									female_can_hold_minor_commander_title_trigger = yes
-								}
-								OR = {
-									NOT = { religion = hindu }
-									trait = kshatriya
 								}
 								is_adult = yes
 							}
@@ -7499,12 +7362,12 @@ can_still_be_marshal_byzantine_trigger = {
 				trait = horse # So we can have female glitterhoofs! :D
 				OR = {
 					AND = {
-						religion = cathar
-						liege = { religion = cathar }
+						religion = dryad
+						liege = { religion = dryad }
 					}
 					AND = {
-						religion = messalian
-						liege = { religion = messalian }
+						religion = druidic
+						liege = { religion = druidic }
 					}
 				}
 				AND = {
@@ -7538,10 +7401,6 @@ can_still_be_marshal_byzantine_trigger = {
 						value = all
 					}
 				}
-			}
-			OR = {
-				NOT = { religion = hindu }
-				trait = kshatriya
 			}
 			is_adult = yes
 		}
