@@ -3,6 +3,8 @@ This page lists some useful information for modders.
 ### General
 
 - There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by this mistake from CD project !
+For instance the Battle of Brenna is 1268 in the books and 1265 in The Witcher
+
 - In the W3 bookmark, some character history is based on the default pre-set of W2 choices, see http://witcher.wikia.com/wiki/The_Witcher_3_decision_checklist 
 
 ### Army sizes
