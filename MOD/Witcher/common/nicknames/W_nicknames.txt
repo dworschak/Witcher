@@ -19,7 +19,6 @@ nick_raby = { } # Axel Miguel Esparza
 nick_the_white_wolf= { } # Geralt of Rivia
 nick_la_louve= { } # Bienvenu La Louve
 nick_the_uniter = { }
-nick_the_restorer = {}
 nick_the_bloody_baron = { } # Phillip Strenger
 
 # GIVEN BY TRAITS
@@ -35,24 +34,6 @@ nick_the_white = { # Adda Dezmoden
 			trait = kind
 			trait = charitable
 			trait = humble
-		}
-	}
-	chance = {
-		factor = 2
-	}
-}
-
-nick_the_black = { # Dambor the Black
-	allow = {
-		age = 20
-		OR = {
-			trait = cruel
-			trait = wroth
-		}
-		OR = {
-			trait = greedy
-			trait = envious
-			trait = proud
 		}
 	}
 	chance = {
@@ -100,17 +81,6 @@ nick_the_elf = { # Vridank the Elf
 	}
 }
 
-nick_the_wolf = {
-	allow = {
-		age = 20
-		trait = shy
-		trait = brave
-	}
-	chance = {
-		factor = 1
-	}
-}
-
 nick_the_fox = {
 	allow = {
 		age = 20
@@ -127,17 +97,6 @@ nick_the_falcon = {
 		age = 20
 		trait = proud
 		trait = honest
-	}
-	chance = {
-		factor = 1
-	}
-}
-
-nick_the_bear = {
-	allow = {
-		age = 20
-		is_strong_trigger = yes
-		trait = tall
 	}
 	chance = {
 		factor = 1
@@ -191,17 +150,6 @@ nick_the_ox = {
 			trait = slow
 			trait = dull
 		}
-	}
-	chance = {
-		factor = 1
-	}
-}
-
-nick_the_boar = {
-	allow = {
-		age = 20
-		trait = wroth
-		trait = gluttonous
 	}
 	chance = {
 		factor = 1
@@ -344,7 +292,10 @@ nick_the_mountain = {
 	allow = {
 		age = 20
 		is_strong_trigger = yes
-		trait = tall
+		OR = {
+			trait = tall
+			trait = giant
+		}
 		trait = gluttonous
 	}
 	chance = {
@@ -440,16 +391,6 @@ nick_the_magician = {
 	}
 }
 
-nick_the_leper = {
-	allow = {
-		age = 15
-		trait = leper
-	}
-	chance = {
-		factor = 2
-	}
-}
-
 nick_the_poet = {
 	allow = {
 		age = 20
@@ -475,7 +416,7 @@ nick_the_eloquent = {
 	allow = {
 		age = 15
 		diplomacy = 12
-		NOT = {
+		NOR = {
 			trait = lisp
 			trait = stutter
 			trait = possessed
@@ -487,6 +428,7 @@ nick_the_eloquent = {
 		OR = {
 			trait = gregarious
 			trait = poet
+			trait = silver_tongued
 		}
 	}
 	chance = {
@@ -522,11 +464,12 @@ nick_the_prudent = {
 	allow = {
 		age = 20
 		trait = patient
-		NOT = {
+		NOR = {
 			trait = wroth
 			trait = drunkard
 			trait = lunatic
 			trait = brave
+			trait = gambler
 		}
 		OR = {
 			trait = temperate
@@ -649,16 +592,6 @@ nick_the_downcast = {
 	}
 }
 
-nick_the_scholar = {
-	allow = {
-		age = 20
-		trait = scholar
-	}
-	chance = {
-		factor = 1
-	}
-}
-
 nick_the_academic = {
 	allow = {
 		age = 20
@@ -778,7 +711,11 @@ nick_the_short = {
 nick_the_parricide = {
 	allow = {
 		age = 15
-		trait = kinslayer
+		OR = {
+			trait = kinslayer
+			trait = familial_kinslayer
+			trait = dynastic_kinslayer
+		}
 	}
 	chance = {
 		factor = 2
@@ -871,24 +808,14 @@ nick_the_treacherous = {
 	}
 }
 
-nick_the_weak = {
-	allow = {
-		age = 20
-		is_weak_trigger = yes
-		OR = {
-			trait = craven
-			trait = content
-		}
-	}
-	chance = {
-		factor = 1
-	}
-}
-
 nick_the_scarred = {
 	allow = {
 		age = 20
-		trait = scarred
+		OR = {
+			trait = scarred
+			trait = scarred_mid
+			trait = scarred_high
+		}
 	}
 	chance = {
 		factor = 2
@@ -1443,27 +1370,6 @@ nick_the_griffin = {
 	}
 }
 
-nick_the_dragon = {
-	allow = {
-		age = 30
-		ruled_years = 15
-		is_strong_trigger = yes
-		is_weak_trigger = no
-		OR = {
-			trait = grey_eminence
-			trait = intricate_webweaver
-			trait = elusive_shadow
-			trait = charismatic_negotiator
-			trait = brilliant_strategist
-			trait = skilled_tactician
-			trait = wise_sage
-		}
-	}
-	chance = {
-		factor = 2
-	}
-}
-
 nick_the_pheonix = {
 	allow = {
 		has_character_modifier = old_age
@@ -1498,35 +1404,6 @@ nick_the_shrewd = {
 		OR = {
 			trait = diligent
 			trait = cynical
-		}
-	}
-	chance = {
-		factor = 3
-	}
-}
-
-nick_the_tyrant = {
-	allow = {
-		age = 20
-		ruled_years = 15
-		trait = arbitrary
-		OR = {
-			trait = ambitious
-			trait = envious
-			trait = greedy
-		}
-		OR = {
-			trait = wroth
-			trait = cruel
-			trait = paranoid
-		}
-		NOT = {
-			trait = kind
-			trait = charitable
-			trait = content
-		}
-		any_vassal = {
-			has_opinion_modifier = { who = ROOT modifier = opinion_tyrant }
 		}
 	}
 	chance = {
