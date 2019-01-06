@@ -29,4 +29,4 @@ replace_path = "map/statics"
 tags={ "The Witcher" "Map" "Fantasy" "Total Conversion" "Complete Overhaul" "Rpg" }
 picture="WitcherKings.jpg"
 
-supported_checksums = { TTCB }
+supported_checksums = { HLBR }
