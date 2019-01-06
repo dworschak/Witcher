@@ -7,10 +7,13 @@ This page lists the steps to perform a new release of the mod.
 5. Update the supported_checksums in Witcher.mod file, replacing with the new checksum
 6. Copy the modified [MOD/Witcher/Witcher.mod](MOD/Witcher/Witcher.mod) file from git, launch the game again, and verify that the on-startup checksum warning doesn't popup, even when the associated game rule is active.
 7. Commit the changes above
+> git commit -m "Prepare release v0.M.m"
 8. Tag the previous commit:
 > git tag v0.M.m
+and push:
+> git push --tags
 9. On github releases, click "Draft a new release" with name "v0.M.m" and copy/paste the changelog.
-10. Zip [MOD/Witcher/](MOD/Witcher/) and [MOD/Witcher.mod](MOD/Witcher.mod) into Witcher_Kings_0.M.m.zip
+10. Zip [MOD/Witcher/](MOD/Witcher/), [MOD/Witcher_Font/](MOD/Witcher_Font/), [MOD/Witcher.mod](MOD/Witcher.mod) and [MOD/Witcher_Font.mod](MOD/Witcher_Font.mod) into Witcher_Kings_0.M.m.zip
 11. Generate the Windows installer:
 	1. Install [NSIS Unicode 2.46.5](https://code.google.com/p/unsis/downloads/list)
 	2. Right-click [MOD/setup.nsi](MOD/setup.nsi) and select "Compile Unicode NSIS Script"
