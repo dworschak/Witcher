@@ -156,6 +156,7 @@ character_event = {
 							tier = count
 							location = { terrain = magic_tower }
 						}
+						log = "**(Magic tower)** [Root.GetBestName]'s tower [This.GetName] is transfered to Wilderness on death"
 						gain_title = PREVPREV
 					}
 				}
@@ -173,10 +174,13 @@ province_event = {
 	trigger = {
 		terrain = magic_tower
 		owner = {
+			NOT = { has_landed_title = d_wilderness }
 			NOT = { trait = sorcerer }
-			NOT = { has_landed_title = d_thanedd }
-			NOT = { has_landed_title = d_ban_ard_academy }
-			NOT = { has_landed_title = d_nilfgaard_academy }
+			NOR = { 
+				has_landed_title = d_thanedd
+				has_landed_title = d_ban_ard_academy
+				has_landed_title = d_nilfgaard_academy
+			}
 		}
 	}
 	
@@ -186,6 +190,7 @@ province_event = {
 	
 	option = {
 		name = OK
+		log = "**(Magic tower)** [Root.County.Holder.GetBestName] cannot hold [Root.County.GetName], which is transfered to Wilderness"
 		d_wilderness = {
 			holder_scope = {
 				ROOT = {

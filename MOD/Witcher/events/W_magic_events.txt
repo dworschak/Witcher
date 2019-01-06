@@ -1451,14 +1451,14 @@ character_event = {
 	
 	trigger = {
 		trait = sorcerer
-		NOT = {
+		NOR = {
 			has_job_title = job_mage
 			liege = { has_landed_title = d_thanedd }
 			liege = { has_landed_title = d_nilfgaard_academy }
 			liege = { has_landed_title = d_ban_ard_academy }
 			any_ward = { trait = magic_talent }
 		}
-		is_landed = no
+		is_landed = no # Mage towers
 		NOT = {
 			trait = elf_race
 			liege = { trait = elf_race }
@@ -1536,11 +1536,15 @@ character_event = {
 	
 	trigger = {
 		trait = sorcerer
-		is_landed = no
+		is_landed = no # Mage tower
 		wealth = 0
-		NOT = { liege = { has_landed_title = d_thanedd } }
-		NOT = { liege = { has_landed_title = d_nilfgaard_academy } }
-		NOT = { liege = { has_landed_title = d_ban_ard_academy } }
+		liege = { 
+			NOR = {
+				has_landed_title = d_thanedd
+				has_landed_title = d_nilfgaard_academy
+				has_landed_title = d_ban_ard_academy
+			}
+		}
 		d_wilderness = {
 			holder_scope = {
 				any_demesne_title = {
@@ -1563,9 +1567,9 @@ character_event = {
 	}
 	
 	mean_time_to_happen = {
-		months = 1200
+		months = 120
 		modifier = { 
-			factor = 0.05 
+			factor = 0.1
 			has_ambition = obj_gain_tower
 		}
 		modifier = { 
@@ -1586,12 +1590,23 @@ character_event = {
 		}
 		modifier = {
 			factor = 0.7
-			trait = scholar
+			OR = {
+				trait = scholar
+				trait = mystic
+			}
+		}
+		modifier = {
+			factor = 0.7
+			OR = {
+				trait = administrator
+				trait = architect
+			}
 		}
 	}
 	
 	option = {
 		name = OK
+		log = "**(Magic tower)** [Root.GetBestName] moves into an empty tower under [Root.TopLiege.PrimaryTitle.GetName]"
 		liege = {
 			d_wilderness = {
 				holder_scope = {
@@ -1749,6 +1764,7 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "**(Magic tower)** [Root.GetBestName] from Thanedd moves into an empty tower"
 		d_wilderness = {
 			holder_scope = {
 				random_demesne_title = {
@@ -1838,10 +1854,12 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "**(Magic tower)** [Root.GetBestName] from Ban Ard moves into an empty tower"
 		d_wilderness = {
 			holder_scope = {
 				random_demesne_title = {
 					limit = {
+						tier = count
 						region = world_the_north
 						dejure_liege_title = {
 							holder_scope = {
@@ -1849,12 +1867,12 @@ character_event = {
 							}
 						}
 					}
-					duchy = {
+					grant_title_no_opinion = ROOT
+					dejure_liege_title = {
 						holder_scope = {
 							ROOT = { set_defacto_liege = PREV }
 						}
 					}
-					gain_title = ROOT
 				}
 			}
 		}
@@ -1925,23 +1943,25 @@ character_event = {
 	
 	option = {
 		name = OK
+		log = "**(Magic tower)** [Root.GetBestName] from Nilfgaard academy moves into an empty tower"
 		d_wilderness = {
 			holder_scope = {
 				random_demesne_title = {
 					limit = {
-						region = world_the_north
+						tier = count
+						region = world_the_south
 						dejure_liege_title = {
 							holder_scope = {
 								always = yes
 							}
 						}
 					}
-					duchy = {
+					grant_title_no_opinion = ROOT
+					dejure_liege_title = {
 						holder_scope = {
 							ROOT = { set_defacto_liege = PREV }
 						}
 					}
-					gain_title = ROOT
 				}
 			}
 		}
