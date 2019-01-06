@@ -140,8 +140,8 @@ obj_gain_tower = {
 		}
 		modifier = { factor = 2 wealth = 100 }
 		modifier = { factor = 5 wealth = 500 }
-		modifier = { factor = 0.1 NOT = { yearly_income = 5 } }
-		modifier = { factor = 0.5 NOT = { yearly_income = 10 } }
+		modifier = { factor = 0.5 NOT = { yearly_income = 5 } }
+		modifier = { factor = 0.8 NOT = { yearly_income = 10 } }
 	}
 	 
 	success = {
@@ -181,7 +181,15 @@ obj_cure_infertility = {
 	}
 	 
 	chance = {
-		factor = 50
+		factor = 10
+		modifier = { factor = 5 trait = ambitious }
+		modifier = { factor = 2 trait = mystic }
+		modifier = { factor = 2 trait = scholar }
+		modifier = { factor = 2 trait = erudite }
+		modifier = { factor = 0.01 trait = content }
+		modifier = { factor = 0.01 trait = homosexual }
+		modifier = { factor = 0.01 trait = celibate }
+		modifier = { factor = 0.01 trait = chaste }
 	}
 	 
 	success = {
@@ -1410,6 +1418,9 @@ obj_expand_by_conquest = {
 		is_adult = yes
 		is_playable = yes
 		is_landed = yes
+		any_demesne_province = { 
+			NOT = { terrain = magic_tower } # Can't expand from mage towers
+		}
 		higher_tier_than = baron
 		NOT = { has_character_flag = obj_expand_by_conquest_taken }
 		NOT = { has_character_flag = obj_expand_by_conquest_cb_used } # Only once !
