@@ -478,7 +478,7 @@ has_medium_disability_trigger = {
 		trait = hunchback
 		trait = dwarf
 		trait = giant
-		trait = death
+		trait = deaf
 		trait = mute
 	}
 }
@@ -1720,7 +1720,7 @@ block_general_event_trigger = {
 
 gender_equality_trigger = {
 	OR = {
-		religion = dryad
+		religion = dryad_religion
 		religion = druidic
 		has_religion_feature = religion_equal
 		AND = {
@@ -3419,14 +3419,7 @@ has_vodouns_prerequisites = {
 
 has_bacchants_prerequisites = {
 	has_common_devilworship_prerequisites = yes
-	OR = { 
-		religion_openly_hellenic_or_reformed_trigger = yes
-		culture = roman #Historically fashionable thrill for bored patricians.
-		AND = { 
-			has_global_flag = flag_started_roman_renaissance
-			top_liege = { has_landed_title = e_roman_empire } #Historically a plague for the Empire.
-		} 
-	} 
+	always = no 
 }
 same_society_rank_as_prev_trigger = {
 	OR = {
@@ -5956,7 +5949,7 @@ this_is_warrior_culture_trigger = { #Not really about culture - Used in AI votin
 	NOT = { pacifist = yes }
 	OR = { 
 		religion = freya
-		religion = dryad
+		religion = dryad_religion
 		religion = yer
 		has_religion_feature = religion_warlike
 		is_tribal = yes
@@ -5974,9 +5967,9 @@ this_is_diplomatic_culture_trigger = { #Not really about culture - Used in AI vo
 		religion_group = northern_religions
 		religion_group = southern_religions
 		religion = dana_meadbh
-		religion = dwarven
-		religion = halfling
-		religion = gnomish
+		religion = dwarven_religion
+		religion = halfling_religion
+		religion = gnomish_religion
 		has_religion_feature = religion_cosmopolitan
 	}
 }
@@ -7362,8 +7355,8 @@ can_still_be_marshal_byzantine_trigger = {
 				trait = horse # So we can have female glitterhoofs! :D
 				OR = {
 					AND = {
-						religion = dryad
-						liege = { religion = dryad }
+						religion = dryad_religion
+						liege = { religion = dryad_religion }
 					}
 					AND = {
 						religion = druidic
