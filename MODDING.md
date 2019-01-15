@@ -135,5 +135,7 @@ Counties and baronies cannot stay without an owner, so a fake character (with ID
 
 All interactions (CBs, decisions, plots, ...) from and toward the wilderness must be blocked by checking `NOT = { culture = wilderness }`
 
+Watch out for any usage of `random_independent_ruler`, in particular if combined with `unsafe_war` or `reverse_unsafe_war`.
+
 
 

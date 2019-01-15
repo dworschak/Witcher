@@ -16,6 +16,7 @@ character_event = {
 	immediate = {
 		any_realm_province = {
 			limit = {
+				NOT = { culture = magic } # Mage towers
 				any_province_holding = { #empty provinces (including provinces with ONLY a temple) do not prosper
 					OR = {
 						holding_type = city
@@ -311,6 +312,14 @@ character_event = { #when sieged prosperity progress is wiped, with a major chan
 	
 	is_triggered_only = yes	
 	
+	trigger = {
+		FROM = {
+			location = {
+				NOT = { culture = magic } # Mage towers
+			}			
+		}
+	}
+	
 	immediate = {
 		FROM = {
 			location = {
@@ -353,7 +362,11 @@ character_event = { #when looted prosperity progress is wiped, with a minor chan
 	is_triggered_only = yes	
 	
 	trigger = {
-		FROM = { always = yes }
+		FROM = {
+			location = {
+				NOT = { culture = magic } # Mage towers
+			}	
+		}
 	}
 	
 	immediate = {
@@ -396,6 +409,10 @@ province_event = { #when epidemic appears prosperity progress is reduced based o
 	hide_window = yes
 	
 	is_triggered_only = yes	
+	
+	trigger = {
+		NOT = { culture = magic } # Mage towers
+	}
 	
 	immediate = {
 		if = {
