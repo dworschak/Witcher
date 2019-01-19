@@ -64,3 +64,113 @@ targetted_decisions = {
 		ai_will_do = { factor = 1 }
 	}
 }
+
+settlement_decisions = { 
+	
+	give_tower_to_mage = {
+		only_playable = yes
+		ai_check_interval = 800
+		filter = all
+		ai_target_filter = owned
+		#diplomacy_icon = GFX_diplo_decision_icon
+
+		third_party = FROM
+		third_party_filter = court
+		show_third_party_potential = yes
+		
+		from_potential = {
+			is_ruler = yes
+		}
+		
+		third_party_potential = {
+			FROMFROM = {
+				trait = sorcerer
+			}
+		}
+		third_party_allow = {
+			FROMFROM = {
+				is_adult = yes
+				is_landed = no
+			}
+		}
+		
+		potential = {
+			holder_scope = {
+				character = 1
+			}
+			location = {
+				terrain = magic_tower
+			}
+		}
+
+		allow = {
+			dejure_liege_title = {
+				de_jure_liege_or_above = FROM
+			}
+		}
+		effect = {
+			FROMFROM = {
+				gain_title = ROOT
+				#set_defacto_liege = FROM
+			}
+			FROM = {
+				set_defacto_vassal = FROMFROM
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}
+
+title_decisions = { 
+	
+	give_tower_to_mage2 = {
+		only_playable = yes
+		ai_check_interval = 800
+		filter = all
+		ai_target_filter = capital
+		#diplomacy_icon = GFX_diplo_decision_icon
+
+		third_party = FROM
+		third_party_filter = court
+		show_third_party_potential = yes
+		
+		third_party_potential = {
+			FROMFROM = {
+				trait = sorcerer
+			}
+		}
+		third_party_allow = {
+			FROMFROM = {
+				is_adult = yes
+				is_landed = no
+			}
+		}
+		
+		potential = {
+			holder_scope = {
+				character = 1
+			}
+			location  = {
+				terrain = magic_tower
+			}
+		}
+
+		allow = {
+			de_jure_liege_or_above = FROM
+		}
+		effect = {
+			FROMFROM = {
+				gain_title = ROOT
+				#set_defacto_liege = FROM
+			}
+			FROM = {
+				set_defacto_vassal = FROMFROM
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

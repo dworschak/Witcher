@@ -129,9 +129,15 @@ Check for protection spells before killing a character:
 limit = { NOT = { has_character_modifier = protection_spell } }
 ````
 
+### Mage towers
+
+Use `terrain = magic_tower``to check if a province is a magic tower.
+
+These province should remain with `magic` culture in order to use a special holding picture, so culture conversion events must be disabled for these.
+
 ### Wilderness
 
-Counties and baronies cannot stay without an owner, so a fake character (with ID 1) represents the wilderness.
+Counties and baronies cannot stay without an owner, so a fake immortal character (character ID 1 / dynasty ID 30001) represents the wilderness.
 
 All interactions (CBs, decisions, plots, ...) from and toward the wilderness must be blocked by checking `NOT = { culture = wilderness }`
 
