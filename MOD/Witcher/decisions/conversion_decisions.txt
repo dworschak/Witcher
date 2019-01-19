@@ -1,6 +1,6 @@
 targetted_decisions = {
 	
-	convert_to_liege_religion = { # only those with same race as liege or halves
+	convert_to_liege_religion = {
 		only_playable = yes
 		
 		filter = self
@@ -16,28 +16,47 @@ targetted_decisions = {
 				religion_group = ROOT
 			}
 			controls_religion = no
+			# only those with same race as liege or halves
 			OR = {
 				AND = { 
-					OR = { trait = elf_race trait = halfelf_race }
+					OR = { 
+						trait = elf_race
+						trait = halfelf_race
+					}
 					liege = { trait = elf_race }
 				}
 				AND = { 
-					OR = { trait = dwarf_race trait = halfdwarf_race }
+					OR = { 
+						trait = dwarf_race
+						trait = halfdwarf_race
+					}
 					liege = { trait = dwarf_race }
 				}
 				AND = { 
-					OR = { trait = halfling_race trait = halfhalfling_race }
+					OR = { 
+						trait = halfling_race
+						trait = halfhalfling_race
+					}
 					liege = { trait = halfling_race }
 				}
 				AND = { 
-					OR = { trait = gnome_race trait = halfgnome_race }
+					OR = { 
+						trait = gnome_race
+						trait = halfgnome_race
+					}
 				}
 				AND = { 
 					trait = dryad_race
 					liege = { trait = dryad_race }
 				}
 				AND = { 
-					OR = { trait = human_race trait = halfelf_race trait = halfdwarf_race trait = halfhalfling_race trait = halfgnome_race }
+					OR = { 
+						trait = human_race 
+						trait = halfelf_race 
+						trait = halfdwarf_race 
+						trait = halfhalfling_race 
+						trait = halfgnome_race
+					}
 					liege = { trait = human_race }
 				}
 			}
@@ -161,7 +180,7 @@ targetted_decisions = {
 		}
 	}
 	
-	convert_to_liege_culture = { # only those with same race as liege or halves
+	convert_to_liege_culture = {
 		only_playable = yes
 		
 		filter = self
@@ -175,21 +194,34 @@ targetted_decisions = {
 				NOT = { character = ROOT }
 				NOT = { culture = ROOT }
 			}
+			# only those with same race as liege or halves
 			OR = {
 				AND = { 
-					OR = { trait = elf_race trait = halfelf_race }
+					OR = { 
+						trait = elf_race
+						trait = halfelf_race
+					}
 					liege = { trait = elf_race }
 				}
 				AND = { 
-					OR = { trait = dwarf_race trait = halfdwarf_race }
+					OR = { 
+						trait = dwarf_race
+						trait = halfdwarf_race
+					}
 					liege = { trait = dwarf_race }
 				}
 				AND = { 
-					trait = halfhalfling_race
+					OR = {
+						trait = halfling_race
+						trait = halfhalfling_race
+					}
 					liege = { trait = halfling_race }
 				}
 				AND = { 
-					OR = { trait = gnome_race trait = halfgnome_race }
+					OR = {
+						trait = gnome_race
+						trait = halfgnome_race
+					}
 					liege = { trait = gnome_race }
 				}
 				AND = { 
@@ -197,7 +229,13 @@ targetted_decisions = {
 					liege = { trait = dryad_race }
 				}
 				AND = { 
-					OR = { trait = human_race trait = halfelf_race trait = halfdwarf_race trait = halfgnome_race }
+					OR = { 
+						trait = human_race 
+						trait = halfelf_race 
+						trait = halfdwarf_race
+						trait = halfgnome_race
+						trait = halfhalfling_race
+					}
 					liege = { trait = human_race }
 				}
 			}
@@ -243,7 +281,7 @@ targetted_decisions = {
 		}
 	}
 	
-	convert_to_local_culture = { # only humans with human culture capital and halves with either human or their race culture capital
+	convert_to_local_culture = { 
 		only_playable = yes
 		ai_check_interval = 24
 		
@@ -266,6 +304,7 @@ targetted_decisions = {
 			holy_order = no
 			mercenary = no
 			has_dlc = "Rajas of India"
+			# only humans with human culture capital and halves with either human or their race culture capital
 			OR = {
 				AND = {
 					trait = human_race
@@ -378,7 +417,7 @@ targetted_decisions = {
 		}
 	}
 	
-	convert_to_local_religion = { # only humans with human religion capital and halves with either human or their race religion capital
+	convert_to_local_religion = {
 		only_playable = yes
 		
 		filter = self
@@ -402,6 +441,7 @@ targetted_decisions = {
 			controls_religion = no
 			holy_order = no
 			has_dlc = "Rajas of India"
+			# only humans with human religion capital and halves with either human or their race religion capital
 			OR = {
 				AND = {
 					trait = human_race
@@ -429,6 +469,28 @@ targetted_decisions = {
 					capital_scope = {
 						OR = {
 							religion = dwarven_religion
+							religion_group = northern_religions
+							religion_group = southern_religions
+							religion_group = eastern_religions
+						}
+					}
+				}
+				AND = {
+					trait = halfgnome_race
+					capital_scope = {
+						OR = {
+							religion = gnomish_religion
+							religion_group = northern_religions
+							religion_group = southern_religions
+							religion_group = eastern_religions
+						}
+					}
+				}
+				AND = {
+					trait = halfhalfling_race
+					capital_scope = {
+						OR = {
+							religion = halfling_religion
 							religion_group = northern_religions
 							religion_group = southern_religions
 							religion_group = eastern_religions
@@ -500,6 +562,13 @@ targetted_decisions = {
 			factor = 1
 			modifier = {
 				factor = 0.0001
+			}
+			
+			modifier = {
+				factor = 0
+				capital_scope = {
+					religion = druidic # Only via special events
+				}
 			}
 		}
 	}

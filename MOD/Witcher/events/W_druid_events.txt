@@ -132,17 +132,29 @@ character_event = {
 	
 	trigger = {
 		NOR = {
-			trait = dryad_race
+			religion = dryad_religion
 			has_character_modifier = no_druid_needed_timer
 			any_courtier = { trait = druid }
 		}
 	}
 	
 	mean_time_to_happen = {
-		months = 32
+		months = 128
+		modifier = { 
+			factor = 0.1
+			religion = druidic
+		}
 		modifier = { 
 			factor = 0.5
-			religion = druidic
+			any_realm_province = {
+				religion = druidic
+			}
+		}
+		modifier = { 
+			factor = 0.5
+			any_realm_title = {
+				is_holy_site = druidic
+			}
 		}
 	}
 	
@@ -193,7 +205,7 @@ character_event = {
 	capable_only = yes
 	
 	mean_time_to_happen = {
-		months = 4
+		months = 12
 	}
 	
 	trigger = {
@@ -224,6 +236,7 @@ character_event = {
 								trait = incapable
 								has_character_modifier = no_druid_needed_timer
 								any_courtier = { trait = druid }
+								religion = dryad_religion
 							}
 						}
 					}
@@ -242,6 +255,7 @@ character_event = {
 								trait = incapable
 								has_character_modifier = no_druid_needed_timer
 								any_courtier = { trait = druid }
+								religion = dryad_religion
 							}
 						}
 					}
@@ -256,6 +270,7 @@ character_event = {
 								trait = incapable
 								has_character_modifier = no_druid_needed_timer
 								any_courtier = { trait = druid }
+								religion = dryad_religion
 							}
 						}
 					}
@@ -328,7 +343,7 @@ character_event = {
 	trigger = {
 		is_landed = no
 		in_command = no
-		NOT = { 
+		NOR = { 
 			trait = druid 
 			has_character_modifier = old_age
 		}
@@ -351,15 +366,42 @@ character_event = {
 	
 	mean_time_to_happen = {
 		months = 240
-		modifier = { factor = 0.75 trait = celibate }
-		modifier = { factor = 0.75 trait = chaste }
-		modifier = { factor = 0.75 trait = kind }
-		modifier = { factor = 2 trait = lustful }
-		modifier = { factor = 2 is_married = yes }
-		modifier = { factor = 2 trait = hedonist }
-		modifier = { factor = 3 trait = ambitious }
-		modifier = { factor = 0.5 trait = content }
-		modifier = { factor = 5 is_primary_heir = yes }
+		modifier = {
+			factor = 0.75
+			trait = celibate
+		}
+		modifier = {
+			factor = 0.75
+			trait = chaste
+		}
+		modifier = {
+			factor = 0.9
+			trait = kind
+		}
+		modifier = {
+			factor = 2
+			trait = lustful
+		}
+		modifier = { 
+			factor = 5
+			is_married = yes
+		}
+		modifier = { 
+			factor = 2
+			trait = hedonist
+		}
+		modifier = { 
+			factor = 3
+			trait = ambitious
+		}
+		modifier = {
+			factor = 0.8
+			trait = content
+		}
+		modifier = {
+			factor = 10
+			is_primary_heir = yes
+		}
 	}
 	
 	option = {
@@ -377,10 +419,16 @@ character_event = {
 	
 	option = {
 		name = EVTOPTAdruid.21
-		FROM = { opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT } }
+		
+		FROM = { 
+			opinion = { modifier = opinion_very_disappointed years = 1 who = ROOT }
+		}
+		
+		ai_chance = { factor = 10 }
 	}
 	option = {
 		name = EVTOPTBdruid.21
+		
 		top_liege = {
 			random_realm_lord = {
 				limit = {
@@ -390,11 +438,13 @@ character_event = {
 				}
 				FROM = {
 					move_character = PREV
-					character_event = { id = druid.22 days = 5475 random = 1825 }
+					character_event = { id = druid.22 days = 3650 random = 1460 }
 				}
 			}
 		}
 		piety = 50
+		
+		ai_chance = { factor = 1 }
 	}
 }
 # Son - Become druid notification
@@ -1463,6 +1513,8 @@ character_event = {
 	
 	is_triggered_only = yes
 	
+	only_playable = yes
+	
 	trigger = {
 		any_courtier = { trait = druid }
 	}
@@ -1475,6 +1527,7 @@ character_event = {
 		modifier = { factor = 0.7 trait = proud }
 		modifier = { factor = 1.5 trait = kind }
 		modifier = { factor = 0.7 trait = wroth }
+		modifier = { factor = 2 trait = gregarious }
 	}
 	
 	option = {
@@ -1531,9 +1584,48 @@ character_event = {
 		religion_authority = { modifier = ruler_converted_from }
 		religion = druidic
 		hidden_tooltip = { religion_authority = { modifier = ruler_converted_to } }
+		
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trait = trusting
+			}
+			modifier = {
+				factor = 2
+				trait = gardener
+			}
+			modifier = {
+				factor = 2
+				trait = scholar
+			}
+			modifier = {
+				factor = 5
+				trait = mystic
+			}
+			modifier = {
+				factor = 5
+				trait = lunatic
+			}
+		}
 	}
 	option = {
 		name = EVTOPTBdruid.205
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 2
+				trait = cruel
+			}
+			modifier = {
+				factor = 2
+				trait = envious
+			}
+			modifier = {
+				factor = 2
+				trait = greedy
+			}
+		}
 	}
 }
 # A ruler converted by druid - Piss off the appropriate vassals
