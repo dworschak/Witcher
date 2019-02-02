@@ -33,53 +33,15 @@ settlement_decisions = {
 		}
 		
 		effect = {
-			clear_delayed_event = { id = landless.1 } 
 			ROOT = {
 				location = {
 					save_event_target_as = target_province
 				}
 			}
 			FROM = {
+				clear_delayed_event = { id = landless.1 }
 				add_trait = travelling
 				character_event = { id = landless.1 days = 10 }
-			}
-		}
-	}
-	
-	move_to_holding = {
-		ai = no
-		filter = all
-		ai_target_filter = self
-		
-		from_potential = {
-			is_landed = no
-		}
-		
-		potential = {
-			
-		}
-		
-		allow = {
-		}
-		
-		effect = {
-			FROM = {
-				location = {
-					remove_province_modifier = prosperity_modifier_3
-				}
-			}
-			ROOT = {
-				location = {
-					add_province_modifier = { name = prosperity_modifier_3 duration = -1} 
-				}
-			}
-			holder_scope = {
-				FROM = {
-					set_defacto_liege = PREV
-					
-					# move_character = PREV
-					force_host = PREV # Move the location in UI
-				}
 			}
 		}
 	}
