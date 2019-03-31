@@ -95,7 +95,8 @@ In addition marriage also prevent pruning, so A.I. should not be helped to marry
 
 Some races are infertile, so never impregnate via event without an actual fertility check:
 
-- Most races become infertile at 50
+- Humans become infertile at 45
+- Most other races become infertile at 50
 - Elves are fertile between ~50 and ~250, but get a -10%/-20% fertility reduction per each birth
 - Dryads are fertile between ~50 and ~300 (impregnated only via event)
 
@@ -131,7 +132,7 @@ limit = { NOT = { has_character_modifier = protection_spell } }
 
 ### Mage towers
 
-Use `terrain = magic_tower``to check if a province is a magic tower.
+Use `terrain = magic_tower` to check if a province is a magic tower.
 
 These province should remain with `magic` culture in order to use a special holding picture, so culture conversion events must be disabled for these.
 

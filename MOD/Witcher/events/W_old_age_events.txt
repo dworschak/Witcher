@@ -37,7 +37,7 @@ character_event = {
 			}
 			AND = {
 				age = 100
-					trait = dwarf_race
+				trait = dwarf_race
 			}
 			AND = {
 				age = 300
@@ -277,6 +277,53 @@ character_event = {
 		death = { death_reason = death_trait }
 	}
 }
+
+# [on_five_year_pulse] Menopause hidden modifier
+# In vanilla this is handled via NDefines.NCharacter.MAX_CHILD_BIRTH_AGE = 45
+character_event = {
+	id = old_age.8
+	
+	hide_window = yes
+	is_triggered_only = yes
+	
+	min_age = 45
+	only_women = yes
+	
+	trigger = {
+		NOT = { has_character_modifier = menopause }
+		OR = {
+			AND = {
+				OR = {
+					trait = human_race
+					trait = halfelf_race
+					trait = halfdwarf_race
+					trait = halfhalfling_race
+					trait = halfgnome_race
+				}
+				age = 45
+			}
+			AND = {
+				trait = dwarf_race
+				age = 50
+			}
+			AND = {
+				trait = halfling_race
+				age = 50
+			}
+			AND = {
+				trait = gnome_race
+				age = 50
+			}
+		}
+	}
+	
+	option = {
+		name = OK
+		add_character_modifier = { name = menopause duration = -1 hidden = yes }
+	}
+}
+
+
 ################################################
 # Old age flavor events from VIET
 ################################################
