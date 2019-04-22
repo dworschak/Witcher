@@ -11,7 +11,7 @@ province_event = {
 	picture = GFX_evt_culture_change
 	
 	trigger = {
-		NOT = { culture = magic } # Mage towers
+		NOT = { terrain = magic_tower }
 		owner = {
 			top_liege = {
 				culture = PREV
@@ -202,6 +202,23 @@ province_event = {
 			liege = { culture = roman }
 			location = { county = { culture = greek } }
 		}
+		# Effect of wonder upgrades
+		modifier = {
+			factor = 0.75
+			owner = {
+				top_liege = {
+					any_realm_wonder_upgrade = {
+						has_wonder_upgrade_flag = culture_conversion_faster
+						is_active = yes
+						wonder = {
+							original_wonder_owner = {
+								culture_group = PREVPREVPREV
+							}
+						}
+					}
+				}
+			} 
+		}
 	}
 
 	option = {
@@ -242,7 +259,7 @@ character_event = {
 			}
 		}
 		capital_scope = {
-			NOT = { culture = magic } # Mage towers
+			NOT = { terrain = magic_tower }
 			NOT = { culture = ROOT }
 		}
 		top_liege = {

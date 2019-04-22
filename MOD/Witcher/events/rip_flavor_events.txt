@@ -2599,6 +2599,7 @@ character_event = {
 		set_character_flag = tribal_physician
 		random_independent_ruler = {
 			limit = {
+				NOT = { culture = wilderness }
 				ai = yes
 				is_adult = yes
 				is_feudal = yes
@@ -3977,9 +3978,18 @@ character_event = {
 
 	trigger = {
 		OR = {
-			any_lover = { is_alive = yes }
-			any_friend = { is_alive = yes }
-			any_rival = { is_alive = yes }
+			any_lover = {
+				is_alive = yes
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+			}
+			any_friend = {
+				is_alive = yes
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+			}
+			any_rival = {
+				is_alive = yes
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+			}
 		}
 		NOR = {
 			death_no_trace_trigger = yes
@@ -3993,25 +4003,34 @@ character_event = {
 		spouse = { save_event_target_as = rip_widow }
 
 		random_child = { 
-			limit = { is_adult = yes }
+			limit = {
+				is_adult = yes
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+			}
 			save_event_target_as = rip_child
 		}
 
 		#Lover event
 		random_lover = {
-			limit = { block_general_event_trigger = no NOT = { has_character_modifier = grief_timer } }
+			limit = {
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+				NOT = { has_character_modifier = grief_timer }
+			}
 			character_event = { id = RIP.29001 days = 20 } 
 		}
 
 		#Friend event
 		random_friend = {
-			limit = { block_general_event_trigger = no NOT = { has_character_modifier = grief_timer } }
+			limit = {
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+				NOT = { has_character_modifier = grief_timer }
+			}
 			save_event_target_as = rip_friend_1
 
 			ROOT = { 
 				random_friend = {
 					limit = { 
-						block_general_event_trigger = no 
+						NOT = { is_inaccessible_or_incapable_trigger = yes }
 						NOR = {
 							is_rival = event_target:rip_friend_1
 							character = event_target:rip_friend_1
@@ -4055,13 +4074,16 @@ character_event = {
 
 		#Rival event
 		random_rival = {
-			limit = { block_general_event_trigger = no NOT = { has_character_modifier = grief_timer } }
+			limit = {
+				NOT = { is_inaccessible_or_incapable_trigger = yes }
+				NOT = { has_character_modifier = grief_timer }
+			}
 			save_event_target_as = rip_enemy_1
 
 			liege = {
 				any_courtier = {
 					limit = { 
-						block_general_event_trigger = no 
+						NOT = { is_inaccessible_or_incapable_trigger = yes }
 						NOR = {
 							is_rival = event_target:rip_enemy_1
 							character = event_target:rip_enemy_1
@@ -4076,7 +4098,7 @@ character_event = {
 			ROOT = { 
 				random_rival = {
 					limit = { 
-						block_general_event_trigger = no 
+						NOT = { is_inaccessible_or_incapable_trigger = yes }
 						NOR = {
 							is_rival = event_target:rip_enemy_1
 							character = event_target:rip_enemy_1
@@ -4088,7 +4110,7 @@ character_event = {
 				}
 				random_child = {
 					limit = { 
-						block_general_event_trigger = no 
+						NOT = { is_inaccessible_or_incapable_trigger = yes }
 						NOR = {
 							is_rival = event_target:rip_enemy_1
 							character = event_target:rip_enemy_1
@@ -4100,7 +4122,7 @@ character_event = {
 				}
 				random_friend = {
 					limit = { 
-						block_general_event_trigger = no 
+						NOT = { is_inaccessible_or_incapable_trigger = yes }
 						NOR = {
 							is_rival = event_target:rip_enemy_1
 							character = event_target:rip_enemy_1

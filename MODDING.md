@@ -1,11 +1,13 @@
 This page lists some useful information for modders.
 
-### General
+### History
 
 - There is a 3 year discrepancy in the timeline between the dates from the books (used in the mod) and the video games (used in the wikis). Don't get confused by this mistake from CD project !
 For instance the Battle of Brenna is 1268 in the books and 1265 in The Witcher
 
-- In the W3 bookmark, some character history is based on the default pre-set of W2 choices, see http://witcher.wikia.com/wiki/The_Witcher_3_decision_checklist 
+- In the W3 bookmark, some character history is based on the default pre-set of W2 choices, see http://witcher.wikia.com/wiki/The_Witcher_3_decision_checklist
+
+- Characters from the book have `add_trait=canon`, while characters from the video game have `add_trait=semi_canon`.
 
 ### Army sizes
 
@@ -57,8 +59,8 @@ When adapting vanilla events, possible associations are:
 
 ### Events
 
-The vanilla game rules "supernatural_events" is obviously removed, as there is lot of supernatural stuff in the Witcher world.
-Vanilla events should usually be altered to keep the part associated to the value "unrestricted" of the game rule.
+The vanilla game rules `supernatural_events` is obviously removed, as there is lot of supernatural stuff in the Witcher world.
+Vanilla events should usually be altered to keep the part associated to the value `unrestricted` of the game rule.
 
 When a vanilla event is unsuitable, try to find a lore-equivalent and override the event localization keys, rather than disabling the event entirely - it's cheaper than creating a new event chain !
 
@@ -71,7 +73,7 @@ For instance:
 
 ### Immortality
 
-Don't use age checks for old (ex: age = 60), but instead:
+Don't use age checks for old (ex: `age = 60`), but instead:
 
 ````
 has_character_modifier = old_age
@@ -87,15 +89,19 @@ This is added via event at:
 
 The culling is done via defines for non-immortal races, and via event otherwise.
 
-Court pruning of immortals is mainly controlled via health (NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING). 
+Court pruning of immortals is mainly controlled via health (`NDefines.NEngine.HEALTH_IMMUNITY_TO_PRUNING`). 
 All races that are immortal, but get auto-generated courtiers, need to be subject to pruning to keep game performances acceptable, and should have total health below the limit.
 In addition marriage also prevent pruning, so A.I. should not be helped to marry immortal race courtiers.
 
 ### Fertility
 
-Some races are infertile, so never impregnate via event without an actual fertility check:
+Some races are infertile, so never impregnate via event without an actual fertility check (`fertility = 0`).
 
-- Most races become infertile at 50
+In addition races have different menaupause age, so it is not handled via `NDefines.NCharacter.MAX_CHILD_BIRTH_AGE`, 
+but via a hidden character modifier `menopause`:
+
+- Humans become infertile at 45
+- Most other races become infertile at 50
 - Elves are fertile between ~50 and ~250, but get a -10%/-20% fertility reduction per each birth
 - Dryads are fertile between ~50 and ~300 (impregnated only via event)
 
@@ -113,11 +119,11 @@ As a consequence, to keep Concalve education event balance:
 
 ### Races
 
-Racial traits are assigned at character birth/creation (and on_startup to simplify the history) based on the ethnicity and ethnicity of the parents.
+Racial traits are assigned at character birth/creation (and `on_startup` to simplify the history) based on their ethnicity and the ethnicity of their parents.
 
-Vanilla condition "race = FROM" cannot be used, because it compares ethnicities/cultures and not fantasy racial traits.
-Instead use has_same_race_as_from_trigger = yes to know if THIS and FROM have the same racial trait.
-This is useful for racist trait MTTH, that should not apply if has_same_race_as_from_trigger = yes.
+Vanilla condition `race = FROM` cannot be used, because it compares ethnicities/cultures and not fantasy racial traits.
+Instead use `has_same_race_as_from_trigger = yes` to know if THIS and FROM have the same racial trait.
+This is useful for racist trait MTTH, that should not apply if `has_same_race_as_from_trigger = yes`.
 
 ### Magic
 
@@ -129,11 +135,19 @@ Check for protection spells before killing a character:
 limit = { NOT = { has_character_modifier = protection_spell } }
 ````
 
+### Mage towers
+
+Use `terrain = magic_tower` to check if a province is a magic tower.
+
+These province should remain with `magic` culture in order to use a special holding picture, so culture conversion events must be disabled for these.
+
 ### Wilderness
 
-Counties and baronies cannot stay without an owner, so a fake character (with ID 1) represents the wilderness.
+Counties and baronies cannot stay without an owner, so a fake immortal character (character ID 1 / dynasty ID 30001) represents the wilderness.
 
 All interactions (CBs, decisions, plots, ...) from and toward the wilderness must be blocked by checking `NOT = { culture = wilderness }`
+
+Watch out for any usage of `random_independent_ruler`, in particular if combined with `unsafe_war` or `reverse_unsafe_war`.
 
 
 

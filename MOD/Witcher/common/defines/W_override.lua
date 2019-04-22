@@ -19,10 +19,10 @@ NDefines.NCharacter.PORTRAIT_ADULT_MALE_AGE_THRESHOLD = 15 			-- Male child to a
 NDefines.NCharacter.PORTRAIT_ADULT_FEMALE_AGE_THRESHOLD = 15		-- Female child to adult age portrait switch
 NDefines.NCharacter.PORTRAIT_MID_AGE_THRESHOLD = 35					-- Middle age switch for character portraits
 NDefines.NCharacter.PORTRAIT_OLD_AGE_THRESHOLD = 55					-- Old age switch for character portraits
-NDefines.NCharacter.MALE_ATTRACTION_CUTOFF = 70						-- After this age, the sex appeal of traits no longer have any effect
-NDefines.NCharacter.FEMALE_ATTRACTION_CUTOFF = 50					-- After this age, the sex appeal of traits no longer have any effect
+NDefines.NCharacter.MALE_ATTRACTION_CUTOFF = 1000					-- After this age, the sex appeal of traits no longer have any effect
+NDefines.NCharacter.FEMALE_ATTRACTION_CUTOFF = 1000					-- After this age, the sex appeal of traits no longer have any effect
 -- Long lives races / immortality
-NDefines.NCharacter.MAX_CHILD_BIRTH_AGE = 300 						-- Female menopause age.
+NDefines.NCharacter.MAX_CHILD_BIRTH_AGE = 300 						-- Female menopause age. Handled via modifier.
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_0 = 20					-- Natural deaths per decade out of 10000 people: Age 0-9
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_10 = 10				-- Natural deaths per decade out of 10000 people: Age 10-19
 NDefines.NCharacter.NATURAL_DEATH_CHANCE_AGE_20 = 10				-- Natural deaths per decade out of 10000 people: Age 20-29

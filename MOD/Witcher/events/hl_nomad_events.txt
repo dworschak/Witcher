@@ -756,6 +756,7 @@ character_event = {
 	}
 }
 
+# Warning: causes issues with temple only holdings (druids and Thanedd) !
 character_event = {
 	id = HL.4999
 	hide_window = yes
@@ -772,11 +773,12 @@ character_event = {
 		FROM = {
 			tier = COUNT
 			location = {
+				NOT = { terrain = magic_tower }
 				NOR = {
 					has_province_modifier = incredibly_poor
 					any_province_holding = { holding_type = tribal }
 					any_province_holding = { holding_type = castle }
-					#any_province_holding = { holding_type = temple }
+					#any_province_holding = { holding_type = temple } 
 					any_province_holding = { holding_type = city }
 					has_settlement_construction = yes
 				}

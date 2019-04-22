@@ -59,7 +59,7 @@ character_event = {
 		remove_trait = fertile_sorcerer
 		remove_trait = hafiz
 		remove_trait = hajjaj
-		remove_trait = heresiarch
+		#remove_trait = heresiarch
 		remove_trait = homosexual
 		remove_trait = is_fat
 		remove_trait = is_malnourished
@@ -74,7 +74,7 @@ character_event = {
 		remove_trait = nun
 		remove_trait = on_hajj
 		remove_trait = on_pilgrimage
-		remove_trait = peasant_leader
+		#remove_trait = peasant_leader
 		remove_trait = pilgrim
 		remove_trait = poet
 		remove_trait = poor_warrior
@@ -85,7 +85,7 @@ character_event = {
 		remove_trait = saoshyant_descendant
 		remove_trait = sayyid
 		remove_trait = scarred
-		remove_trait = scoiatael_leader
+		#remove_trait = scoiatael_leader
 		remove_trait = skilled_warrior
 		remove_trait = sorcerer
 		remove_trait = source
@@ -126,6 +126,29 @@ character_event = {
 		prestige = -100
 		piety = -100
 		clear_wealth = yes
+	}
+}
+
+# Remove Wilderness courtiers in other courts
+character_event = {
+	id = wilderness.3
+	
+	culture = wilderness
+	
+	trigger = {
+		is_ruler = no
+		host = {
+			NOT = { character = 1 }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	immediate = {
+		log = "**(Wilderness)** Killing [Root.GetBestName]([This.GetID]) that is not in wilderness court"
+		death = { death_reason = death_missing } 
 	}
 }
 
@@ -190,7 +213,7 @@ province_event = {
 	
 	option = {
 		name = OK
-		log = "**(Magic tower)** [Root.County.Holder.GetBestName] cannot hold [Root.County.GetName], which is transfered to Wilderness"
+		log = "**(Magic tower)** [Root.County.Holder.GetBestName]([This.GetID]) cannot hold [Root.County.GetName], which is transfered to Wilderness"
 		d_wilderness = {
 			holder_scope = {
 				ROOT = {
@@ -260,7 +283,9 @@ character_event = {
 	option = { # to liege's culture
 		name = OK
 		trigger = {
-			liege = { NOT = { culture = magic } }
+			liege = { 
+				NOT = { culture = magic }
+			}
 		}
 		liege = { reverse_culture = ROOT }
 		ai_chance = { factor = 10 }
