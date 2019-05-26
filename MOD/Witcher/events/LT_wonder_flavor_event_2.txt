@@ -2,7 +2,7 @@
 #                                         #
 # Wonder Flavor Events          	      #             
 #                                         #
-# ID LT.60000-                            #
+# ID LT.60000-60999                       #
 #                                         #
 ###########################################
 
@@ -30,7 +30,12 @@ character_event = {
 			wonder_age = 50
 			num_of_wonder_upgrades = 2
 		}
-		FROMFROMFROM = { NOT = { has_province_flag = had_event_LT_60001 } }
+		FROMFROMFROM = {
+			NOR = {
+				has_province_flag = had_event_LT_60001
+				num_of_max_settlements = 7
+			}
+		}
 	}
 	
 	immediate = {
@@ -259,8 +264,12 @@ character_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_realm_wonder = {
+		FROM = {
 			has_wonder_upgrade = upgrade_traps
+		}
+		any_courtier = {
+			prisoner = no
+			count = 2
 		}
 	}
 	
@@ -276,6 +285,9 @@ character_event = {
 			save_event_target_as = target_wonder
 		}
 		random_courtier = {
+			limit = {
+				prisoner = no
+			}
 			score_value = { #Select someone that matters more!
                 value = 2
                 beloved_target_selection_score = yes
@@ -284,6 +296,7 @@ character_event = {
 		}
 		random_courtier = {
 			limit = {
+				prisoner = no
 				NOT = {
 					character = event_target:target_courtier
 				}
@@ -354,6 +367,7 @@ letter_event = {
 			has_wonder = yes
 			liege = {
 				always = yes
+				NOT = { character = root }
 			}
 		}
 	}
@@ -507,10 +521,12 @@ character_event = {
 					count = 1
 				}
 			}
-			any_artifact = {
-				count < 15 #Doesn't already have a shitton of herbs
-				is_ingredient_herb_trigger = yes
-				has_artifact_flag = ingredient
+			NOT = {
+				any_artifact = {
+					count = 15  #Doesn't already have a shitton of herbs
+					is_ingredient_herb_trigger = yes
+					has_artifact_flag = ingredient
+				}
 			}
 		}
 	}
