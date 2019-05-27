@@ -55,7 +55,7 @@ When adapting vanilla events, possible associations are:
 
 - Eternal Fire ~ Catholic
 - Freya ~ Norse
-
+- Yer ~ Tengri
 
 ### Events
 
