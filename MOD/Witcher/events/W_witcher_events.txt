@@ -570,83 +570,7 @@ character_event = {
 ################################################
 # Spawning witcher
 ################################################
-# Count witchers [on_yearly_pulse]
-# Note: count doesn't work in %trait% = {} scopes, hence it's a bit convoluted.
-character_event = {
-	id = witcher.300
-	
-	hide_window = yes
-	is_triggered_only = yes
-	
-	trigger = {
-		has_landed_title = k_eternal_fire
-	}
-	
-	immediate = {
-		witcher = {
-			limit = {
-				is_alive = yes
-			}
-			set_character_flag = witcher_count_1
-		}
-		witcher = {
-			limit = {
-				is_alive = yes
-				NOT = { has_character_flag = witcher_count_1 }
-			}
-			set_character_flag = witcher_count_2
-		}
-		witcher = {
-			limit = {
-				is_alive = yes
-				NOT = { has_character_flag = witcher_count_1 }
-				NOT = { has_character_flag = witcher_count_2 }
-			}
-			set_character_flag = witcher_count_3
-		}
-		witcher = {
-			limit = {
-				is_alive = yes
-				NOT = { has_character_flag = witcher_count_1 }
-				NOT = { has_character_flag = witcher_count_2 }
-				NOT = { has_character_flag = witcher_count_3 }
-			}
-			set_character_flag = witcher_count_4
-		}
-		witcher = {
-			limit = {
-				is_alive = yes
-				NOT = { has_character_flag = witcher_count_1 }
-				NOT = { has_character_flag = witcher_count_2 }
-				NOT = { has_character_flag = witcher_count_3 }
-				NOT = { has_character_flag = witcher_count_4 }
-			}
-			set_character_flag = witcher_count_5
-		}
-		witcher = {
-			limit = {
-				is_alive = yes
-				NOT = { has_character_flag = witcher_count_1 }
-				NOT = { has_character_flag = witcher_count_2 }
-				NOT = { has_character_flag = witcher_count_3 }
-				NOT = { has_character_flag = witcher_count_4 }
-				NOT = { has_character_flag = witcher_count_5 }
-			}
-			set_character_flag = witcher_count_6
-		}
-		set_global_flag = create_random_witcher
-	}
-	
-	option = {
-		name = OK
-		witcher = { limit = { has_character_flag = witcher_count_1 } clr_character_flag = witcher_count_1 }
-		witcher = { limit = { has_character_flag = witcher_count_2 } clr_character_flag = witcher_count_2 }
-		witcher = { limit = { has_character_flag = witcher_count_3 } clr_character_flag = witcher_count_3 }
-		witcher = { limit = { has_character_flag = witcher_count_4 } clr_character_flag = witcher_count_4 }
-		witcher = { limit = { has_character_flag = witcher_count_5 } clr_character_flag = witcher_count_5 }
-		witcher = { limit = { has_character_flag = witcher_count_6 } clr_character_flag = witcher_count_6 clr_global_flag = create_random_witcher }
-	}
-}
+
 # Ruler - create witcher
 character_event = {
 	id = witcher.301
@@ -656,9 +580,11 @@ character_event = {
 	capable_only = yes
 	prisoner = no
 	only_rulers = yes
-	has_global_flag = create_random_witcher
 	
 	trigger = {
+		witcher_order = {
+			num_of_society_members < 5
+		}
 		any_courtier = { NOT = { trait = witcher } }
 		NOT = { culture = wilderness }
 	}
@@ -701,9 +627,10 @@ character_event = {
 			remove_trait = clubfooted
 			remove_trait = hunchback
 			remove_trait = inbred
+			
+			join_society = witcher_order
 			character_event = { id = witcher.302 }
 		}
-		clr_global_flag = create_random_witcher
 	}
 }
 # Ping witcher
