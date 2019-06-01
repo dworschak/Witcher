@@ -3356,31 +3356,7 @@ has_assassins_prerequisites = {
 }
 
 has_common_devilworship_prerequisites = {
-	age = 15
-	custom_tooltip = {
-		text = must_be_a_sinner_tooltip
-		hidden_tooltip = {
-			OR = {
-				has_impious_trait_trigger = yes
-				has_vice_trigger = yes
-				trait = drunkard
-				trait = possessed
-				trait = lunatic
-			}
-		}
-	}
-}
-
-has_satanists_prerequisites = {
-	#has_common_devilworship_prerequisites = yes
 	is_adult = yes
-	OR = {
-		religion = melitele
-		religion = kreve
-		religion = lebioda
-		religion = eternal_fire
-		religion = solar
-	}
 	OR = {
 		trait = possessed
 		trait = lunatic
@@ -3406,9 +3382,23 @@ has_satanists_prerequisites = {
 	}
 }
 
+has_satanists_prerequisites = {
+	has_common_devilworship_prerequisites = yes
+	OR = {
+		religion = melitele
+		religion = kreve
+		religion = lebioda
+		religion = eternal_fire
+		religion = solar
+	}
+}
+
 has_trollcrafters_prerequisites = {
 	has_common_devilworship_prerequisites = yes
-	religion_openly_norse_or_reformed_trigger = yes
+	OR = {
+		religion = freya
+		religion = druidic
+	}
 }
 
 has_cult_of_kali_prerequisites = {
@@ -3429,7 +3419,9 @@ has_cold_ones_prerequisites = {
 
 has_plaguebringers_prerequisites = {
 	has_common_devilworship_prerequisites = yes
-	religion_openly_tengri_or_reformed_trigger = yes
+	OR = {
+		religion = yer
+	}
 }
 
 has_vodouns_prerequisites = {
