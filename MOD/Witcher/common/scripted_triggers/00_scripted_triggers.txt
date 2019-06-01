@@ -3356,7 +3356,7 @@ has_assassins_prerequisites = {
 }
 
 has_common_devilworship_prerequisites = {
-	age = 16
+	age = 15
 	custom_tooltip = {
 		text = must_be_a_sinner_tooltip
 		hidden_tooltip = {
@@ -3372,14 +3372,37 @@ has_common_devilworship_prerequisites = {
 }
 
 has_satanists_prerequisites = {
-	has_common_devilworship_prerequisites = yes
+	#has_common_devilworship_prerequisites = yes
+	is_adult = yes
 	OR = {
-		religion_group = christian
-		religion_group = muslim
-		religion_group = zoroastrian_group
-		religion_group = jewish_group
-		religion = zun_pagan
-		religion = zun_pagan_reformed
+		religion = melitele
+		religion = kreve
+		religion = lebioda
+		religion = eternal_fire
+		religion = solar
+	}
+	OR = {
+		trait = possessed
+		trait = lunatic
+		# Cruelty
+		trait = cruel
+		trait = cannibal_trait
+		trait = impaler
+		is_any_kinslayer_trigger = yes
+		any_kill_list_character = {
+		 	count = 5
+		}
+		# Close to death
+		trait = duelist
+		trait = veteran
+		trait = physician
+		# Tragedy
+		any_child_even_if_dead = {
+			is_alive = no
+		}
+		any_spouse_even_if_dead = {
+			is_alive = no
+		}
 	}
 }
 
