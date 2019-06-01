@@ -1,8 +1,6 @@
 namespace = conversion
-# TODO - add rare culture change events with simpler conditions than curent ones
-# TODO - add rare religion change events with simpler conditions than curent ones
-# TODO - spider cultist charcater converts others in court
-# TODO - spider cultist charcater converts the province
+# TODO - add rare culture change events with simpler conditions than current ones
+# TODO - add rare religion change events with simpler conditions than current ones
 # TODO - religion conversion events to and from Old Solar religion
 
 ################################################
@@ -909,90 +907,5 @@ province_event = {
 	option = {
 		name = EVTOPTAconversion.250
 		religion = druidic
-	}
-}
-# Ruler ousts Spider religion from province
-province_event = {
-	id = conversion.260
-	desc = EVTDESCconversion.260
-	picture = GFX_evt_stone_church
-	
-	trigger = {
-		religion = spider
-		owner = {
-			NOT = { religion = spider }
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 1400
-	}
-
-	option = {
-		name = EVTOPTAconversion.260
-		owner = {
-			reverse_religion = ROOT
-		}
-	}
-}
-# Ruler becomes a follower of Spider religion
-character_event = {
-	id = conversion.270
-	desc = EVTDESCconversion.270
-	picture = GFX_evt_stone_church
-	
-	only_rulers = yes
-	min_age = 15
-	capable_only = yes
-	prisoner = no
-	
-	trigger = {
-		NOT = { religion = spider }
-		OR = {
-			trait = lunatic
-			trait = kinslayer
-			trait = impaler
-			AND = {
-				trait = cruel
-				trait = deceitful
-			}
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 1600
-	}
-
-	option = { # Change religion
-		name = EVTOPTAconversion.270
-		any_vassal = {
-			limit = {
-				religion = ROOT
-				age = 15
-			}
-			opinion = { who = ROOT modifier = opinion_adopted_foreign_beliefs years = 10 }
-			hidden_tooltip = { character_event = { id = conversion.271 } }
-		}
-		religion_authority = { modifier = ruler_converted_from }
-		religion = spider
-		hidden_tooltip = { religion_authority = { modifier = ruler_converted_to } }
-		ai_chance = { factor = 1 }
-	}
-	option = { # Don't change religion
-		name = EVTOPTBconversion.270
-		ai_chance = { factor = 2 }
-	}
-}
-# Ruler becomes a follower of Spider religion - Piss off the appropriate vassals
-character_event = {
-	id = conversion.271
-	desc = EVTDESCconversion.271
-	picture = GFX_evt_scandal
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = EVTOPTAconversion.271
-		tooltip = { opinion = { who = FROM modifier = opinion_adopted_foreign_beliefs years = 10 } }
 	}
 }
