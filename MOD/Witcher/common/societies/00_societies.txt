@@ -13,7 +13,6 @@ hermetics = {
 	
 	active = {
 		has_dlc = "Mystics"
-		always = no
 	}
 	indestructible = yes
 	
@@ -37,7 +36,7 @@ hermetics = {
 			is_tribal = yes
 		}
 		hidden_trigger = { mercenary = no }
-		age = 16
+		is_adult = yes
 		hidden_trigger = {
 			NOT = { has_character_flag = society_join_block }
 		}
@@ -49,7 +48,8 @@ hermetics = {
 
 	show_society = {
 		OR = {
-			#society_member_of = hermetics
+			always = yes
+			society_member_of = hermetics
 		}
 	}
 	
@@ -106,7 +106,7 @@ hermetics = {
 			church_opinion = -10
 		}
 		decisions = {
-			choose_hermetic_art # Enables you to pick/change your lifestyle trait
+			#choose_hermetic_art # Enables you to pick/change your lifestyle trait
 			hermetics_write_magnum_opus # Write an enciphered book of lore (artifact)
 		}
 	}
@@ -121,9 +121,17 @@ hermetics = {
     		name = learning
     		value = 0.5
     	}
+    	has_trait = {
+			value = 3
+			trait = alchemist
+		}
 		has_trait = {
 			value = 2
 			trait = diligent
+		}
+		has_trait = {
+			value = 1
+			trait = physician
 		}
 		has_trait = {
 			value = 1
@@ -174,8 +182,16 @@ hermetics = {
 		value = 10
 
 		modifier = {
+			factor = 3
+			trait = alchemist
+		}
+		modifier = {
 			factor = 2
 			trait = diligent
+		}
+		modifier = {
+			factor = 1.5
+			trait = physician
 		}
 		modifier = {
 			factor = 1.5
@@ -209,18 +225,24 @@ hermetics = {
 			factor = 1.5
 			trait = just
 		}
+		modifier = {
+			factor = 1.5
+			trait = reasonable
+		}
 	}
 	
 	startup_populate = {
 	    trigger = {
 			ai = yes
 	    	controls_religion = no
-			age = 16
+			is_adult = yes
 			is_in_society = no
 			is_dumb_trigger = no
 			OR = {
 				NOT = { is_priest = yes }
 				OR = {
+					trait = alchemist
+					trait = physician
 					trait = mystic
 					trait = scholar
 					trait = cynical
@@ -231,6 +253,8 @@ hermetics = {
 					is_landed = yes
 					OR = { 
 						learning = 14
+						trait = alchemist
+						trait = physician
 						trait = scholar
 						trait = faqih
 						trait = erudite
@@ -241,6 +265,8 @@ hermetics = {
 				AND = {
 					learning = 18
 					OR = {
+						trait = alchemist
+						trait = physician
 						trait = scholar
 						trait = faqih
 						trait = erudite
@@ -2113,7 +2139,7 @@ the_plaguebringers = {
 				value = none
 			}
 		}
-		age = 15
+		is_adult = yes
 		OR = {
 			religion = yer
 			society_member_of = the_plaguebringers
