@@ -2,7 +2,7 @@ This page lists the steps to perform a new release of the mod.
 
 1. Update [MOD/Witcher/changelog.txt](MOD/Witcher/changelog.txt) with release version and date, compatible vanilla version, list of features & bugfixes.
 2. Check that [MOD/Witcher/credits.txt](MOD/Witcher/credits.txt) is up-to-date.
-3. Launch the game with vanilla only and verify the checksum matches (otherwise verify game files integrity in Steam)
+3. Launch the game with vanilla only and verify the in-game checksum matches the one from the launcher (otherwise verify game files integrity in Steam).
 4. Launch the game with vanilla + Witcher Kings mod (and no other mod) and note down the checksum.
 5. Update the supported_checksums in Witcher.mod file, replacing with the new checksum
 6. Copy the modified [MOD/Witcher/Witcher.mod](MOD/Witcher/Witcher.mod) file from git, launch the game again, and verify that the on-startup checksum warning doesn't popup, even when the associated game rule is active.
