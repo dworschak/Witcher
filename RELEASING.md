@@ -21,6 +21,6 @@ and push:
 	4. Rename Witcher_Kings.exe into Witcher_Kings_0.M.m.exe
 12. Zip the .exe into Witcher_Kings_0.M.m.exe.zip, as the forum doesn't allow .exe extensions
 13. Upload manual zip install and Windows installer
-14. Update the [Wiki page](http://www.ckiiwiki.com/Witcher_Kings) with new version and features
+14. Update the [Wiki page](https://ck2.paradoxwikis.com/Witcher_Kings) with new version and features
 15. Advertise the release ([/r/CrusaderKings](https://www.reddit.com/r/CrusaderKings), Moddb news article, ...). For major releases consider also x-posting to [r/witcher/](https://www.reddit.com/r/witcher/).
 16. Relax :-)

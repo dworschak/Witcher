@@ -2,14 +2,14 @@
 
 > A total conversion for Crusader Kings 2 into the universe of The Witcher
 
-For more info, check the [Witcher Kings wiki page](http://www.ckiiwiki.com/Witcher_Kings).
+For more info, check the [Witcher Kings wiki page](https://ck2.paradoxwikis.com/Witcher_Kings).
 
 
 ### Developers
 
 Check the information in the [modding guide](./MODDING.md).
 
-Use the [Validator](http://www.ckiiwiki.com/The_Validator) extensively !
+Use the [Validator](https://ck2.paradoxwikis.com/The_Validator) extensively !
 
 To run the mod from a Git local repository:
 - Clone the repository to Git default location (for instance C:\Users\username\git\)
