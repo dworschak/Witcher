@@ -9067,6 +9067,7 @@ add_trait_for_prevs_secret_religion_society_effect = {
 
 flip_to_secret_religion_effect = {
 	convert_to_secret_religion = yes
+	abdicate_holy_order_if_religion_changes_effect = yes
 }
 
 add_prevs_secret_religion_trait_effect = {
@@ -26544,6 +26545,25 @@ assign_random_nickname_effect = {
 		}
 		10 = {
 			give_nickname = nick_the_twitchy
+		}
+	}
+}
+
+abdicate_holy_order_if_religion_changes_effect = {
+	#Cycle through all Holy Orders and update them 
+	d_white_rose = {
+		if = {
+			limit = {
+				religion = kreve
+				is_title_active = d_white_rose
+				owner = { 
+					ai = yes
+					holy_order = yes 
+					NOT = { religion = kreve } 
+				}
+			}
+			log = "[k_teutonic_state.owner.GetTitledFirstName] was found to be unfit to lead the [d_white_rose.GetName] due to religious conflict! Title is kreve, but owner is not. \n
+			ROOT = [Root.GetTitledFirstName] FROM = [From.GetTitledFirstName] PREV = [Prev.GetTitledFirstName]"
 		}
 	}
 }
