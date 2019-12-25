@@ -1088,7 +1088,7 @@ character_event = {
 	trigger = {
 		trait = magic_talent
 		has_character_flag = learning_from_magic_teacher
-		check_variable = { which = learning_magic value = 2 } 
+		check_variable = { which = learning_magic value = 2 }
 	}
 	
 	option = {
@@ -1199,14 +1199,18 @@ character_event = {
 	
 	trigger = {
 		trait = magic_talent
-		has_character_flag = learning_from_sorcerer
-		NOT = { check_variable = { which = learning_magic value = 1 } }
+		OR = {
+			AND = {
+				has_character_flag = learning_from_magic_teacher
+				NOT = { check_variable = { which = learning_magic value = 1 } }
+			}
+			NOT = { has_character_flag = learning_from_magic_teacher }
+		}
 	}
 	
 	option = {
 		name = EVTOPTAmagic.96
 		clr_character_flag = learning_from_magic_teacher
-		clr_character_flag = learning_from_druid
 		hidden_tooltip = {
 			guardian = { character_event = { id = magic.97 } }
 		}
