@@ -1,0 +1,43 @@
+succession_laws = {
+	
+	# Upon succession only the Kingdom title is transferred. 
+	# Any duchy or county goes to the clan successor (designated heir).
+	succ_skellige = {
+		oldest_child_opinion = -15
+		child_opinion = -5
+		dynasty_opinion = -5
+		vassal_opinion = 10
+	
+		potential = {
+			title = k_skellig
+			
+			holder_scope = {
+				culture = skellige
+			}
+
+			rebel = no
+			
+			OR = {
+				holder_scope = { is_feudal = yes }
+				holder_scope = { is_tribal = yes }
+			}
+			is_primary_type_title = no
+		}
+		allow = {
+			holder_scope = {
+				show_scope_change = no
+				in_revolt = no
+			}
+		}
+		effect = {
+			succession = {
+				base_type = feudal_elective
+				voting_rules = skellige_rules
+			}
+			elective_voting_rules = skellige_rules
+		}
+		revoke_allowed = {
+			always = no
+		}			
+	}
+}
