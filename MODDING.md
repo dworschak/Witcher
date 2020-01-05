@@ -93,6 +93,9 @@ Court pruning of immortals is mainly controlled via health (`NDefines.NEngine.HE
 All races that are immortal, but get auto-generated courtiers, need to be subject to pruning to keep game performances acceptable, and should have total health below the limit.
 In addition marriage also prevent pruning, so A.I. should not be helped to marry immortal race courtiers.
 
+There is an overflow when the age is above 255 and portraits are rendered, causing child portrait to be displayed instead of adult at startup.
+So for any character that can be 256 years old at any bookmark, history command `immortal_age` must also be used.
+
 ### Fertility
 
 Some races are infertile, so never impregnate via event without an actual fertility check (`fertility = 0`).
