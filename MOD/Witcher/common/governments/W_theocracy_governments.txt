@@ -9,7 +9,12 @@ theocracy_governments = {
 		title_prefix = "temple_"
 		
 		potential = {
-			has_landed_title = d_wilderness
+			NOT = { 
+				has_landed_title = d_thanedd 
+				has_landed_title = d_ban_ard_academy
+				has_landed_title = d_nilfgaard_magic_academy
+			}
+			trait = wilderness_race
 		}
 		
 		color = { 0 0 0 }
@@ -38,5 +43,88 @@ theocracy_governments = {
 		
 		court_size_modifier = -100
 	}
-	
+
+    magic_academy_government = {
+		
+        frame_suffix = "_theocracy"
+        title_prefix = "temple_"
+		
+        potential = {
+			OR = {
+				has_landed_title = d_thanedd
+				has_landed_title = d_ban_ard_academy
+				has_landed_title = d_nilfgaard_magic_academy
+			}
+			holy_order = no
+			is_patrician = no
+			trait = sorcerer
+		}
+        OR = {
+            is_female = yes
+            religion_allows_female_temple_holders = yes
+        }
+        OR = {
+            is_female = yes
+            religion_allows_male_temple_holders = yes
+        }
+        
+        color = { 246 214 255 }
+		
+        can_create_kingdoms = no
+        have_gender_laws = no
+        can_be_granted_kingdoms_and_empires_by_other_government = no
+		can_inherit = no
+
+        can_build_tribal = no
+        
+        capital_move_delay = 600
+    }
+
+    magic_tower_government = {
+		
+        frame_suffix = "_theocracy"
+        title_prefix = "temple_"
+		
+        potential = {
+			OR = {
+                has_landed_title = c_tor_corsydd
+                has_landed_title = c_tor_irion
+                has_landed_title = c_tor_cigfrain
+                has_landed_title = c_tor_istredd
+                has_landed_title = c_tor_tango
+                has_landed_title = c_tor_maen
+                has_landed_title = c_ty_yennefer
+                has_landed_title = c_tor_siriol
+                has_landed_title = c_tor_melyn
+                has_landed_title = c_tor_byd
+                has_landed_title = c_tor_lledrith
+                has_landed_title = c_tor_zireael
+                has_landed_title = c_tor_llew
+                has_landed_title = c_tor_xarthisius
+                has_landed_title = c_tor_gvalchca
+                has_landed_title = c_tor_aenye
+			}
+			holy_order = no
+			is_patrician = no
+            trait = sorcerer
+		}
+        OR = {
+            is_female = yes
+            religion_allows_female_temple_holders = yes
+        }
+        OR = {
+            is_female = yes
+            religion_allows_male_temple_holders = yes
+        }
+        
+        color = { 246 214 255 }
+        
+        can_create_kingdoms = no
+        have_gender_laws = no
+        can_be_granted_kingdoms_and_empires_by_other_government = no
+
+        can_build_tribal = no
+        
+        capital_move_delay = 600
+    }	
 }

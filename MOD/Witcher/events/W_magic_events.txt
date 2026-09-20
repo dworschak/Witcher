@@ -441,7 +441,7 @@ character_event = {
 				remove_guardian = yes
 			}
 		}
-		d_nilfgaard_academy = {
+		d_nilfgaard_magic_academy = {
 			holder_scope = {
 				FROM = { move_character = PREV }
 			}
@@ -623,7 +623,7 @@ character_event = {
 		trigger = {
 			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
-		d_nilfgaard_academy = {
+		d_nilfgaard_magic_academy = {
 			holder_scope = {
 				FROM = { move_character = PREV }
 			}
@@ -1360,7 +1360,7 @@ character_event = {
 			is_female = yes
 			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
 		}
-		d_nilfgaard_academy = {
+		d_nilfgaard_magic_academy = {
 			holder_scope = {
 				FROM = {
 					remove_trait = magic_talent
@@ -1458,7 +1458,7 @@ character_event = {
 		NOR = {
 			has_job_title = job_mage
 			liege = { has_landed_title = d_thanedd }
-			liege = { has_landed_title = d_nilfgaard_academy }
+			liege = { has_landed_title = d_nilfgaard_magic_academy }
 			liege = { has_landed_title = d_ban_ard_academy }
 			any_ward = { trait = magic_talent }
 		}
@@ -1508,7 +1508,7 @@ character_event = {
 		trigger = {
 			location = { county = { de_jure_liege_or_above = e_nilfgaard } }
 		}
-		d_nilfgaard_academy = {
+		d_nilfgaard_magic_academy = {
 			holder_scope = {
 				ROOT = { move_character = PREV }
 			}
@@ -1545,7 +1545,7 @@ character_event = {
 		liege = { 
 			NOR = {
 				has_landed_title = d_thanedd
-				has_landed_title = d_nilfgaard_academy
+				has_landed_title = d_nilfgaard_magic_academy
 				has_landed_title = d_ban_ard_academy
 			}
 		}
@@ -1901,7 +1901,7 @@ character_event = {
 	trigger = {
 		trait = sorcerer
 		is_landed = no
-		liege = { has_landed_title = d_nilfgaard_academy }
+		liege = { has_landed_title = d_nilfgaard_magic_academy }
 		wealth = 0
 		d_wilderness = {
 			holder_scope = {
@@ -2104,12 +2104,13 @@ character_event = {
 	option = { # Nilfgaard mage
 		name = OK
 		trigger = {
+			location = { region = world_the_south }
 			top_liege = { primary_title = { title = e_nilfgaard } }
 		}
 		liege = { letter_event = { id = magic.1023 } }
 		remove_title = job_mage
 		liege = { opinion = { who = ROOT modifier = opinion_left_council } }
-		d_nilfgaard_academy = {
+		d_nilfgaard_magic_academy = {
 			holder_scope = {
 				ROOT = { move_character = PREV }
 			}
@@ -2209,15 +2210,8 @@ character_event = {
 				age = 150
 			}
 			ROOT = {
-				random_independent_ruler = {
-					limit = { dynasty = 1 }
-					set_character_flag = wilderness_used_to_save_dynasty
-					dynasty = PREVPREV
-				}
 				PREV = { dynasty = ROOT }
-				abdicate_to = PREV
 			}
-			character_event = { id = magic.1065 }
 		}
 		ai_chance = { factor = 100 }
 	}
@@ -2234,15 +2228,8 @@ character_event = {
 				trait = sorcerer
 			}
 			ROOT = {
-				random_independent_ruler = {
-					limit = { dynasty = 1 }
-					set_character_flag = wilderness_used_to_save_dynasty
-					dynasty = PREVPREV
-				}
-				PREV = { dynasty = ROOT }
 				abdicate_to = PREV
 			}
-			character_event = { id = magic.1065 }
 		}
 		ai_chance = { factor = 10 }
 	}
@@ -2273,15 +2260,8 @@ character_event = {
 			remove_trait = dull
 			remove_trait = imbecile
 			ROOT = {
-				random_independent_ruler = {
-					limit = { dynasty = 1 }
-					set_character_flag = wilderness_used_to_save_dynasty
-					dynasty = PREVPREV
-				}
-				PREV = { dynasty = ROOT }
 				abdicate_to = PREV
 			}
-			character_event = { id = magic.1065 }
 		}
 		ai_chance = { factor = 1 }
 	}
@@ -2314,9 +2294,7 @@ character_event = {
 				age = 150
 			}
 			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
+				abdicate_to = PREV
 			}
 		}
 		ai_chance = { factor = 100 }
@@ -2337,9 +2315,7 @@ character_event = {
 				age = 50
 			}
 			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
+				abdicate_to = PREV
 			}
 		}
 		ai_chance = { factor = 10 }
@@ -2349,6 +2325,7 @@ character_event = {
 		create_character = {
 			random_traits = yes
 			dynasty = random
+			is_female = no
 			age = 50
 			trait = sorcerer
 		}
@@ -2371,9 +2348,7 @@ character_event = {
 			remove_trait = dull
 			remove_trait = imbecile
 			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
+				abdicate_to = PREV
 			}
 		}
 		ai_chance = { factor = 1 }
@@ -2388,7 +2363,7 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		has_landed_title = d_nilfgaard_academy
+		has_landed_title = d_nilfgaard_magic_academy
 	}
 	
 	option = { # Old sorcerer from academy
@@ -2405,9 +2380,7 @@ character_event = {
 				age = 150
 			}
 			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
+				abdicate_to = PREV
 			}
 		}
 		ai_chance = { factor = 100 }
@@ -2426,9 +2399,7 @@ character_event = {
 				age = 50
 			}
 			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
+				abdicate_to = PREV
 			}
 		}
 		ai_chance = { factor = 10 }
@@ -2459,15 +2430,13 @@ character_event = {
 			remove_trait = dull
 			remove_trait = imbecile
 			ROOT = {
-				any_demesne_title = {
-					gain_title = PREVPREV
-				}
+				abdicate_to = PREV
 			}
 		}
 		ai_chance = { factor = 1 }
 	}
 }
-# Create random sorcerer (on_five_year_pulse)
+# Create random sorcerer (on_five_year_pulse) #Aretuza
 character_event = {
 	id = magic.1063
 	
@@ -2476,54 +2445,9 @@ character_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		OR = {
-			has_landed_title = d_ban_ard_academy
-			has_landed_title = d_thanedd
-			has_landed_title = d_nilfgaard_academy
-		}
+		has_landed_title = d_thanedd
 	}
 	
-	option = { # Ban Ard
-		name = OK
-		create_character = {
-			random_traits = yes
-			dynasty = random
-			age = 30
-			trait = sorcerer
-		}
-		new_character = {
-			random_list = {
-				20 = { culture = temerian }
-				20 = { culture = redanian }
-				20 = { culture = kaedweni }
-				20 = { culture = koviri }
-				10 = { culture = lyrian }
-				10 = { culture = aedirnian }
-			}
-			random_list = {
-				30 = { religion = melitele }
-				30 = { religion = kreve }
-				30 = { religion = lebioda }
-				10 = { religion = eternal_fire }
-			}
-			remove_trait = slow
-			remove_trait = dull
-			remove_trait = imbecile
-		}
-		ai_chance = {
-			factor = 1
-			modifier = {
-				factor = 10
-				d_ban_ard_academy = {
-					holder_scope = {
-						any_courtier = {
-							NOT = { trait = sorcerer }
-						}
-					}
-				}
-			}
-		}
-	}
 	option = { # Aretuza
 		name = OK
 		create_character = {
@@ -2566,7 +2490,20 @@ character_event = {
 			}
 		}
 	}
-	option = { # Nilfgaard
+}
+# Create random sorcerer (on_five_year_pulse) #Ban Ard
+character_event = {
+	id = magic.1064
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_landed_title = d_ban_ard_academy
+	}
+	
+	option = { # Ban Ard
 		name = OK
 		create_character = {
 			random_traits = yes
@@ -2576,17 +2513,18 @@ character_event = {
 		}
 		new_character = {
 			random_list = {
-				50 = { culture = nilfgaardian }
-				10 = { culture = vicovarian }
-				10 = { culture = ebbing }
-				10 = { culture = etolian }
-				10 = { culture = gemmeran }
-				10 = { culture = maechts }
+				20 = { culture = temerian }
+				20 = { culture = redanian }
+				20 = { culture = kaedweni }
+				20 = { culture = koviri }
+				10 = { culture = lyrian }
+				10 = { culture = aedirnian }
 			}
 			random_list = {
-				70 = { religion = solar }
-				20 = { religion = melitele }
-				10 = { religion = kreve }
+				30 = { religion = melitele }
+				30 = { religion = kreve }
+				30 = { religion = lebioda }
+				10 = { religion = eternal_fire }
 			}
 			remove_trait = slow
 			remove_trait = dull
@@ -2594,12 +2532,72 @@ character_event = {
 		}
 		ai_chance = {
 			factor = 1
+			modifier = {
+				factor = 10
+				d_ban_ard_academy = {
+					holder_scope = {
+						any_courtier = {
+							NOT = { trait = sorcerer }
+						}
+					}
+				}
+			}
 		}
 	}
 }
-# Create random adept (on_five_year_pulse)
+# Create random sorcerer (on_five_year_pulse) #Nilfgaard
 character_event = {
-	id = magic.1064
+	id = magic.1065
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_landed_title = d_nilfgaard_magic_academy
+	}
+	
+	create_character = {
+		random_traits = yes
+		dynasty = random
+		age = 30
+		trait = sorcerer
+	}
+	new_character = {
+		random_list = {
+			50 = { culture = nilfgaardian }
+			10 = { culture = vicovarian }
+			10 = { culture = ebbing }
+			10 = { culture = etolian }
+			10 = { culture = gemmeran }
+			10 = { culture = maechts }
+		}
+		random_list = {
+			70 = { religion = solar }
+			20 = { religion = melitele }
+			10 = { religion = kreve }
+		}
+		remove_trait = slow
+		remove_trait = dull
+		remove_trait = imbecile
+	}
+	ai_chance = {
+		factor = 1
+		modifier = {
+			factor = 10
+			d_nilfgaard_magic_academy = {
+				holder_scope = {
+					any_courtier = {
+						NOT = { trait = sorcerer }
+					}
+				}
+			}
+		}
+	}
+}
+# Create random adept (on_five_year_pulse) #Aretuza
+character_event = {
+	id = magic.1066
 	
 	hide_window = yes
 	
@@ -2607,16 +2605,16 @@ character_event = {
 	
 	trigger = {
 		OR = {
-			has_landed_title = d_ban_ard_academy
 			has_landed_title = d_thanedd
 		}
 	}
 	
-	option = { # Ban Ard
+	option = { # Aretuza
 		name = OK
 		create_character = {
 			random_traits = yes
 			dynasty = random
+			female = yes
 			age = 15
 			trait = adept
 		}
@@ -2643,7 +2641,7 @@ character_event = {
 			factor = 1
 			modifier = {
 				factor = 10
-				d_ban_ard_academy = {
+				d_thanedd = {
 					holder_scope = {
 						any_courtier = {
 							NOT = { trait = adept }
@@ -2653,12 +2651,27 @@ character_event = {
 			}
 		}
 	}
-	option = { # Aretuza
+}
+# Create random adept (on_five_year_pulse) #Ban Ard
+character_event = {
+	id = magic.1067
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			has_landed_title = d_ban_ard_academy
+		}
+	}
+	
+	option = { # Ban Ard
 		name = OK
 		create_character = {
 			random_traits = yes
 			dynasty = random
-			female = yes
+			female = no
 			age = 15
 			trait = adept
 		}
@@ -2685,7 +2698,7 @@ character_event = {
 			factor = 1
 			modifier = {
 				factor = 10
-				d_thanedd = {
+				d_ban_ard_academy = {
 					holder_scope = {
 						any_courtier = {
 							NOT = { trait = adept }
@@ -2698,7 +2711,7 @@ character_event = {
 }
 # Reset headmasters dynasty
 character_event = {
-	id = magic.1065
+	id = magic.1068
 	
 	hide_window = yes
 	is_triggered_only = yes

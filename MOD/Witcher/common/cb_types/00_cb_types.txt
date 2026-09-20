@@ -18,6 +18,8 @@ claim = {
 	can_use = {	
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
+		FROM = { NOT = { has_landed_title = d_thanedd } }
+		ROOT = { NOT = { has_landed_title = d_thanedd } }
 	}
 	
 	can_use_gui = {
@@ -7530,6 +7532,7 @@ dejure_county_claim = {
 
 	infamy_modifier = 0.5
 	can_use = {
+		FROM = { NOT = { has_landed_title = d_thanedd } }
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
 	}
@@ -7542,7 +7545,7 @@ dejure_county_claim = {
 
 	can_use_title = {
 		tier = count
-		
+
 		OR = {
 			FROM = {
 				has_landed_title = PREV
@@ -7797,8 +7800,23 @@ dejure_barony_claim = {
 	}
 
 	can_use = {
+		FROM = { NOT = { has_landed_title = d_thanedd } }
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
+		FROM = {
+			NOT = {
+				b_akademi
+				b_nilfgaard_magic_academy
+				b_aretuza
+			} 
+		}
+		ROOT = {
+			NOT = {
+				b_akademi
+				b_nilfgaard_magic_academy
+				b_aretuza
+			} 
+		}
 		FROM = {
 			NOT = { is_vassal_or_below = ROOT }
 			OR = {
@@ -8010,8 +8028,14 @@ other_dejure_county_claim = {
 	}
 
 	can_use = {
+		FROM = { NOT = { has_landed_title = d_thanedd } }
 		FROM = { NOT = { culture = wilderness } }
 		ROOT = { NOT = { culture = wilderness } }
+		ROOT = {
+			NOT = {
+				c_thanedd
+			} 
+		}
 		NOT = {
 			character = ROOT
 		}
