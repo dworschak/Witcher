@@ -1,0 +1,51 @@
+decisions = {
+	enter_novigrad = {
+		is_high_prio = yes
+        diplomacy_icon = GFX_enter_novigrad
+        
+		potential = {
+			independent = yes
+			religion = eternal_fire
+            has_character_flag = tnw_radovid_fire
+            k_eternal_fire = { 
+                de_facto_liege = THIS 
+            }
+		}
+		
+        allow = {
+            piety = 500
+        }
+
+		effect = {
+			piety = -500
+			set_global_flag = radovid_enter_novigrad
+			k_eternal_fire = {
+				holder_scope = {
+					join_defender_wars = ROOT
+				}
+			}
+
+			spawn_unit = {
+				province = k_eternal_fire
+				home = 412
+				owner = THIS
+				troops = {
+					light_infantry = {700 700}
+					heavy_infantry = {500 500}
+					pikemen = {120 120}
+					archers = {200 200}
+					light_cavalry = {300 300}
+					knights = {30 30}
+				}
+				disband_on_peace = yes
+			}
+			ROOT = {
+				long_character_event = { id = tnw.203 days = 0}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1000
+		}
+	}
+}
