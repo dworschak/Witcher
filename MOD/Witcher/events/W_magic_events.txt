@@ -2560,44 +2560,49 @@ character_event = {
 	trigger = {
 		has_landed_title = d_nilfgaard_magic_academy
 	}
-	
-	create_character = {
-		random_traits = yes
-		dynasty = random
-		age = 30
-		trait = sorcerer
-	}
-	new_character = {
-		random_list = {
-			50 = { culture = nilfgaardian }
-			10 = { culture = vicovarian }
-			10 = { culture = ebbing }
-			10 = { culture = etolian }
-			10 = { culture = gemmeran }
-			10 = { culture = maechts }
+
+	option = { # Ban Ard
+		name = OK
+		create_character = {
+			random_traits = yes
+			dynasty = random
+			age = 30
+			trait = sorcerer
 		}
-		random_list = {
-			70 = { religion = solar }
-			20 = { religion = melitele }
-			10 = { religion = kreve }
+		new_character = {
+			random_list = {
+				50 = { culture = nilfgaardian }
+				10 = { culture = vicovarian }
+				10 = { culture = ebbing }
+				10 = { culture = etolian }
+				10 = { culture = gemmeran }
+				10 = { culture = maechts }
+			}
+			random_list = {
+				70 = { religion = solar }
+				20 = { religion = melitele }
+				10 = { religion = kreve }
+			}
+			remove_trait = slow
+			remove_trait = dull
+			remove_trait = imbecile
 		}
-		remove_trait = slow
-		remove_trait = dull
-		remove_trait = imbecile
-	}
-	ai_chance = {
-		factor = 1
-		modifier = {
-			factor = 10
-			d_nilfgaard_magic_academy = {
-				holder_scope = {
-					any_courtier = {
-						NOT = { trait = sorcerer }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 10
+				d_nilfgaard_magic_academy = {
+					holder_scope = {
+						any_courtier = {
+							NOT = { trait = sorcerer }
+						}
 					}
 				}
 			}
 		}
 	}
+
+	
 }
 # Create random adept (on_five_year_pulse) #Aretuza
 character_event = {
