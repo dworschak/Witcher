@@ -742,26 +742,8 @@ succession_laws = {
 						}
 					}
 				}
-				OR = {
-					has_law = succession_voting_power_1
-					OR = { 
-						has_law = succ_feudal_elective # Keep it even if you revoke Full Council Authority
-						has_law = succ_hre_elective
-					} 
-					ROOT = {
-						has_title_flag = alternate_hre
-					}
-				}
 				is_merchant_republic = no
 				is_patrician = no
-					has_law = succession_voting_power_1
-					OR = { 
-						has_law = succ_feudal_elective # Keep it even if you revoke Full Council Authority
-						has_law = succ_hre_elective
-					} 
-					ROOT = {
-						has_title_flag = alternate_hre
-					}
 				OR = {
 					independent = yes
 					NOT = {
@@ -1328,6 +1310,13 @@ succession_laws = {
 	}
 	succ_papal_succession = {
 		potential = {
+			NOR = {
+				culture = wilderness
+				culture = magic
+				has_landed_title = d_ban_ard_academy
+				has_landed_title = d_nilfgaard_magic_academy
+				has_landed_title = d_thanedd
+			}
 			title = k_eternal_fire
 		}
 		
@@ -1444,7 +1433,7 @@ succession_laws = {
 		potential = {
 			OR = {
 				holder_scope = {
-					OR = {
+					NOR = {
 						culture = wilderness
 						culture = magic
 						has_landed_title = d_ban_ard_academy
