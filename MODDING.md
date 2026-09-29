@@ -96,6 +96,60 @@ In addition marriage also prevent pruning, so A.I. should not be helped to marry
 There is an overflow when the age is above 255 and portraits are rendered, causing child portrait to be displayed instead of adult at startup.
 So for any character that can be 256 years old at any bookmark, history command `immortal_age` must also be used.
 
+Events balanced for a human lifetime have to be modified to scale to non-human lifetimes:
+
+weight_multiplier:
+
+```
+modifier = {
+	factor = 0.66
+	OR = {
+		trait = halfling_race
+		trait = gnome_race
+	}
+}
+modifier = {
+	factor = 0.5
+	trait = dwarf_race
+}
+modifier = {
+	factor = 0.15
+	OR = {
+		trait = elf_race
+		trait = dryad_race
+		trait = dragon_race
+		trait = witcher
+		trait = sorcerer
+	}
+}
+```
+
+mean_time_to_happen:
+
+```
+modifier = {
+	factor = 1.5
+	OR = {
+		trait = halfling_race
+		trait = gnome_race
+	}
+}
+modifier = {
+	factor = 2
+	trait = dwarf_race
+}
+modifier = {
+	factor = 6
+	OR = {
+		trait = elf_race
+		trait = dryad_race
+		trait = dragon_race
+		trait = witcher
+		trait = sorcerer
+	}
+}
+```
+
 ### Fertility
 
 Some races are infertile, so never impregnate via event without an actual fertility check (`fertility = 0`).
