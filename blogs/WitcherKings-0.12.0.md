@@ -12,7 +12,7 @@ Here are the modders that have contributed to this release:
 * Romulien (integration)
 * ajjr1996 (history, balancing and lots of testing)
 * Forestf90 (TW3 narrative events)
-* AureliusRexRegum (magical governement)
+* AureliusRexRegum (magical government)
 * Jackzee (history)
 * sorianext (history)
 
@@ -45,7 +45,7 @@ The first branch focuses on diplomacy and impacts the future of Temeria as an in
 
 ![](0.12.0/temerian-aid.jpg)
 
-The second branch focuses on religion and fanatism:
+The second branch focuses on religion and fanaticism:
 
 ![](0.12.0/witcher-hunts.jpg)
 
